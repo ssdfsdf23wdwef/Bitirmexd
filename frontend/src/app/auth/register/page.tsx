@@ -28,7 +28,7 @@ export default function RegisterPage() {
     const checkBackendStatus = async () => {
       try {
         const apiBaseUrl =
-          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
         console.log(
           `🌐 [RegisterPage] Backend kontrolü yapılıyor: ${apiBaseUrl}/health`,
         );

@@ -183,7 +183,7 @@ export default function ProfilePage() {
       
       // Backend'e profil resmi yükleme isteği gönder
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL || ''}/users/profile-image`, 
+        `${process.env.NEXT_PUBLIC_API_URL || ''}/users/profile-image`, 
         formData,
         {
           headers: {

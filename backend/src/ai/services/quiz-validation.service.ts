@@ -462,22 +462,26 @@ export class QuizValidationService {
     );
 
     // Detaylı log ekle
-    console.log(`[DEBUG] Ham yanıt içeriği (ilk 100 karakter): ${text.substring(0, 100)}...`);
+    console.log(
+      `[DEBUG] Ham yanıt içeriği (ilk 100 karakter): ${text.substring(0, 100)}...`,
+    );
 
     // 1. Önce duplicate markdown kod bloklarını ve yanıt başlıklarını temizleyelim
     // 1.1 Ham Çıktı: gibi başlıkları temizle
     let cleanText = text.replace(/^.*?Ham Çıktı:.*?$/m, '');
-    
+
     // 1.2 Birden fazla ```json arka arkaya olan durumlarda düzelt
     cleanText = cleanText.replace(/```json\s*```json/g, '```json');
-    
+
     // 1.3 Standart markdown kod bloklarını temizle
     cleanText = cleanText.replace(/```json\s*|\s*```/g, '');
-    
+
     console.log(
       `[DEBUG] Markdown temizleme sonrası metin uzunluğu: ${cleanText.length}`,
     );
-    console.log(`[DEBUG] Temizlenmiş metin (ilk 100 karakter): ${cleanText.substring(0, 100)}...`);
+    console.log(
+      `[DEBUG] Temizlenmiş metin (ilk 100 karakter): ${cleanText.substring(0, 100)}...`,
+    );
 
     // 2. İlk { ve son } karakterlerini bul (tam JSON yapısını kapsayan)
     const firstBrace = cleanText.indexOf('{');
@@ -693,7 +697,9 @@ export class QuizValidationService {
     // Sınav oluşturma hatasını detaylı loglama
     this.logger.logExamError(
       metadata.userId || 'anonymous',
-      new Error('AI yanıtı işlenirken hata oluştu, fallback sorular kullanılıyor'),
+      new Error(
+        'AI yanıtı işlenirken hata oluştu, fallback sorular kullanılıyor',
+      ),
       {
         traceId,
         rawResponseLength: text?.length || 0,
@@ -709,7 +715,7 @@ export class QuizValidationService {
 
     // Örnek içeriklerin tespit edilip edilmediğini kontrol et
     const containsExamples = this.detectExampleContent(text);
-    
+
     if (containsExamples) {
       // Örnek içerik tespitini loglama
       this.logger.logExamProcess(
@@ -744,7 +750,7 @@ export class QuizValidationService {
 
     // Fallback sorularını oluştur
     const fallbackQuestions = this.createFallbackQuestions(metadata);
-    
+
     this.logger.info(
       `[${traceId}] ${fallbackQuestions.length} adet fallback soru başarıyla oluşturuldu.`,
       'QuizValidationService.createFallbackData',
@@ -1565,52 +1571,62 @@ export class QuizValidationService {
     try {
       // Geçerli bir obje mi kontrol et
       if (!data || typeof data !== 'object') {
-        console.log(`[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri geçerli bir obje değil`);
+        console.log(
+          `[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri geçerli bir obje değil`,
+        );
         return null;
       }
-      
+
       // QuizResponseSchema ile doğrulama denemeden önce format kontrolü
       const questions = data.questions || (Array.isArray(data) ? data : null);
-      
+
       if (!questions || !Array.isArray(questions) || questions.length === 0) {
         console.log(`[QUIZ_DEBUG] [${traceId}] Geçerli soru dizisi bulunamadı`);
         return null;
       }
-      
+
       // AI model yanıtının doğru formatta olup olmadığını kontrol et
       let needsFormatConversion = false;
-      
+
       // Örnek bir soru alıp formatını kontrol et
       const sampleQuestion = questions[0];
-      
+
       // Options format kontrolü
-      if (Array.isArray(sampleQuestion.options) && 
-          sampleQuestion.options.length > 0 && 
-          typeof sampleQuestion.options[0] === 'string') {
-        
-        console.log(`[QUIZ_DEBUG] [${traceId}] Eski format tespit edildi: options bir string dizisi, dönüştürme gerekli`);
+      if (
+        Array.isArray(sampleQuestion.options) &&
+        sampleQuestion.options.length > 0 &&
+        typeof sampleQuestion.options[0] === 'string'
+      ) {
+        console.log(
+          `[QUIZ_DEBUG] [${traceId}] Eski format tespit edildi: options bir string dizisi, dönüştürme gerekli`,
+        );
         needsFormatConversion = true;
       }
-      
+
       // CorrectAnswer format kontrolü
-      if (sampleQuestion.correctAnswer && 
-          typeof sampleQuestion.correctAnswer === 'string' && 
-          !sampleQuestion.correctAnswerId) {
-        
-        console.log(`[QUIZ_DEBUG] [${traceId}] Eski format tespit edildi: correctAnswer bir string, correctAnswerId yok`);
+      if (
+        sampleQuestion.correctAnswer &&
+        typeof sampleQuestion.correctAnswer === 'string' &&
+        !sampleQuestion.correctAnswerId
+      ) {
+        console.log(
+          `[QUIZ_DEBUG] [${traceId}] Eski format tespit edildi: correctAnswer bir string, correctAnswerId yok`,
+        );
         needsFormatConversion = true;
       }
-      
+
       // Format dönüşümü gerekiyorsa hemen dön, transformAndValidateQuestions metodunda dönüşüm yapılacak
       if (needsFormatConversion) {
-        console.log(`[QUIZ_DEBUG] [${traceId}] Format dönüşümü gerekiyor, saf Zod doğrulaması atlatılıyor`);
+        console.log(
+          `[QUIZ_DEBUG] [${traceId}] Format dönüşümü gerekiyor, saf Zod doğrulaması atlatılıyor`,
+        );
         return { questions: questions }; // İşlenmiş olarak dön, dönüşüm sonraki adımda yapılacak
       }
-      
+
       // Dönüşüm gerekmiyorsa, normal Zod doğrulaması yap
       const response = data.questions ? data : { questions: data };
       const result = QuizResponseSchema.safeParse(response);
-      
+
       if (result.success) {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] Sıkı şema doğrulaması (QuizResponseSchema) başarılı!`,
@@ -1619,10 +1635,10 @@ export class QuizValidationService {
       } else {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] Zod doğrulama hataları:`,
-          JSON.stringify(result.error.format())
+          JSON.stringify(result.error.format()),
         );
       }
-      
+
       return null;
     } catch (e) {
       console.log(
@@ -1664,15 +1680,19 @@ export class QuizValidationService {
       console.log(
         `[QUIZ_DEBUG] [${traceId}] Zod şeması ile doğrulama yapılıyor...`,
       );
-      
+
       // Önce QuizResponseSchema ile doğrulamayı deneyelim (daha katı şema)
-      const fullValidationResult = this.tryQuizResponseValidation(parsedJson, traceId);
+      const fullValidationResult = this.tryQuizResponseValidation(
+        parsedJson,
+        traceId,
+      );
       if (fullValidationResult) {
         return fullValidationResult;
       }
-      
+
       // Alternatif olarak, birleşik şema ile deneyelim
-      const validationResult = QuizGenerationResponseSchema.safeParse(parsedJson);
+      const validationResult =
+        QuizGenerationResponseSchema.safeParse(parsedJson);
 
       if (validationResult.success) {
         // Validasyon başarılı - veriyi döndür
@@ -1703,7 +1723,7 @@ export class QuizValidationService {
         `[QUIZ_DEBUG] [${traceId}] Hata detayları:`,
         JSON.stringify(validationError.errors, null, 2),
       );
-      
+
       this.logger.error(
         `[${traceId}] AI yanıtı Zod doğrulamasından geçemedi: ${validationError.message}`,
         'QuizValidationService.validateQuizResponseSchema',
@@ -1981,82 +2001,150 @@ export class QuizValidationService {
 
     // Soru dizisi kontrolü
     if (!validatedData?.questions || !Array.isArray(validatedData.questions)) {
-      this.logger.error('Doğrulanmış veride soru dizisi bulunamadı', 'QuizValidationService');
-      throw new BadRequestException('Doğrulanmış veride soru dizisi bulunamadı');
-    }
-    
-    // Boş soru dizisi kontrolü
-    if (validatedData.questions.length === 0) {
-      this.logger.error('AI yanıtı boş soru dizisi döndürdü - Geçersiz yanıt', 'QuizValidationService');
+      this.logger.error(
+        'Doğrulanmış veride soru dizisi bulunamadı',
+        'QuizValidationService',
+      );
       throw new BadRequestException(
-        'AI modeli belirlenen konular için soru oluşturamadı. Bu durum geçici olabilir. Lütfen farklı alt konularla tekrar deneyin, konu sayısını azaltın veya birkaç dakika sonra tekrar deneyin.'
+        'Doğrulanmış veride soru dizisi bulunamadı',
       );
     }
-    
+
+    // Boş soru dizisi kontrolü
+    if (validatedData.questions.length === 0) {
+      this.logger.error(
+        'AI yanıtı boş soru dizisi döndürdü - Geçersiz yanıt',
+        'QuizValidationService',
+      );
+      throw new BadRequestException(
+        'AI modeli belirlenen konular için soru oluşturamadı. Bu durum geçici olabilir. Lütfen farklı alt konularla tekrar deneyin, konu sayısını azaltın veya birkaç dakika sonra tekrar deneyin.',
+      );
+    }
+
     // AI modelinden gelen veriyi dönüştür (format uyumsuzluklarını ele al)
     try {
-      console.log(`[QUIZ_DEBUG] [${traceId}] AI model yanıtı format dönüşümü başlatılıyor...`);
-      
+      console.log(
+        `[QUIZ_DEBUG] [${traceId}] AI model yanıtı format dönüşümü başlatılıyor...`,
+      );
+
       // Her soru için AI modeli tarafından döndürülen formatı uyumlu hale getir
       for (let i = 0; i < validatedData.questions.length; i++) {
         const question = validatedData.questions[i];
-        
+
         // 1. Format kontrolü: options bir dizi string mi?
-        if (Array.isArray(question.options) && 
-            question.options.length > 0 && 
-            typeof question.options[0] === 'string') {
-          
-          console.log(`[QUIZ_DEBUG] [${traceId}] Soru ${i+1}: options string dizisi olarak tespit edildi, dönüştürülüyor...`);
-          
-          // Eğer doğru cevap tam metin olarak verilmişse
-          if (question.correctAnswer && typeof question.correctAnswer === 'string') {
-            // Önce seçenekleri id ve text formatına dönüştür
-            const transformedOptions = question.options.map((optionText, index) => ({
+        if (
+          Array.isArray(question.options) &&
+          question.options.length > 0 &&
+          typeof question.options[0] === 'string'
+        ) {
+          // Seçenekleri id/text objesine dönüştür
+          const transformedOptions = question.options.map(
+            (optionText, index) => ({
               id: `option_${index + 1}`,
-              text: optionText
-            }));
-            
-            // Doğru cevabın id'sini bul
-            const correctOption = transformedOptions.find(option => option.text === question.correctAnswer);
-            let correctAnswerId = correctOption ? correctOption.id : transformedOptions[0].id;
-            
-            if (!correctOption) {
-              console.log(`[QUIZ_DEBUG] [${traceId}] UYARI: Soru ${i+1} için doğru cevap seçeneklerde bulunamadı! İlk seçenek kullanılacak.`);
+              text: optionText,
+            }),
+          );
+          question.options = transformedOptions;
+
+          // correctAnswerId üretimi
+          if (
+            question.correctAnswerId &&
+            typeof question.correctAnswerId === 'string'
+          ) {
+            // Eğer AI'dan correctAnswerId geldiyse, onu kullan
+            // Ancak options objesine dönüştüğü için, id'nin yeni id ile eşleştiğinden emin ol
+            const exists = transformedOptions.some(
+              (opt) => opt.id === question.correctAnswerId,
+            );
+            if (
+              !exists &&
+              question.correctAnswer &&
+              typeof question.correctAnswer === 'string'
+            ) {
+              // Eğer eski id yoksa, correctAnswer ile bul
+              const correctOption = transformedOptions.find(
+                (opt) => opt.text === question.correctAnswer,
+              );
+              question.correctAnswerId = correctOption
+                ? correctOption.id
+                : transformedOptions[0].id;
             }
-            
-            // Soru nesnesini güncelle
-            question.options = transformedOptions;
-            question.correctAnswerId = correctAnswerId;
-            
-            // Artık gerekli olmayan correctAnswer alanını sil
-            delete question.correctAnswer;
-            
-            console.log(`[QUIZ_DEBUG] [${traceId}] Soru ${i+1} başarıyla dönüştürüldü.`);
+          } else if (
+            question.correctAnswer &&
+            typeof question.correctAnswer === 'string'
+          ) {
+            // Sadece correctAnswer varsa, id'yi bul
+            const correctOption = transformedOptions.find(
+              (opt) => opt.text === question.correctAnswer,
+            );
+            question.correctAnswerId = correctOption
+              ? correctOption.id
+              : transformedOptions[0].id;
           } else {
-            console.log(`[QUIZ_DEBUG] [${traceId}] UYARI: Soru ${i+1} için correctAnswer alanı bulunamadı veya doğru formatta değil.`);
+            // Hiçbiri yoksa, ilk seçeneği doğru kabul et (fallback)
+            question.correctAnswerId = transformedOptions[0].id;
           }
+          // correctAnswer alanını sil
+          if ('correctAnswer' in question) delete question.correctAnswer;
+        } else if (
+          Array.isArray(question.options) &&
+          question.options.length > 0 &&
+          typeof question.options[0] === 'object'
+        ) {
+          // Eğer options zaten id/text objesi ise
+          if (
+            question.correctAnswerId &&
+            typeof question.correctAnswerId === 'string'
+          ) {
+            // Zaten mevcut, ek bir işlem gerekmez
+          } else if (
+            question.correctAnswer &&
+            typeof question.correctAnswer === 'string'
+          ) {
+            // Doğru cevabın id'sini bul
+            const correctOption = question.options.find(
+              (option) => option.text === question.correctAnswer,
+            );
+            question.correctAnswerId = correctOption
+              ? correctOption.id
+              : question.options[0].id;
+          } else {
+            // Hiçbiri yoksa, ilk seçeneği doğru kabul et (fallback)
+            question.correctAnswerId = question.options[0].id;
+          }
+          // correctAnswer alanını sil
+          if ('correctAnswer' in question) delete question.correctAnswer;
         }
-        
+
         // 2. Zorluk seviyesi çevirisi
         if (question.difficulty && typeof question.difficulty === 'string') {
-          question.difficulty = this.translateDifficultyToEnglish(question.difficulty);
+          question.difficulty = this.translateDifficultyToEnglish(
+            question.difficulty,
+          );
         }
-        
+
         // 3. Eğer normalizedSubTopicName yoksa, subTopicName'den oluştur
         if (question.subTopicName && !question.normalizedSubTopicName) {
-          question.normalizedSubTopicName = this.normalizationService.normalizeSubTopicName(question.subTopicName);
+          question.normalizedSubTopicName =
+            this.normalizationService.normalizeSubTopicName(
+              question.subTopicName,
+            );
         }
       }
-      
-      console.log(`[QUIZ_DEBUG] [${traceId}] Toplam ${validatedData.questions.length} soru başarıyla dönüştürüldü.`);
+
+      console.log(
+        `[QUIZ_DEBUG] [${traceId}] Toplam ${validatedData.questions.length} soru başarıyla dönüştürüldü.`,
+      );
     } catch (error) {
       this.logger.error(
         `[${traceId}] Soru formatı dönüştürme hatası: ${error.message}`,
         'QuizValidationService.transformAndValidateQuestions',
         undefined,
-        error
+        error,
       );
-      console.log(`[QUIZ_DEBUG] [${traceId}] Format dönüştürme hatası: ${error.message}`);
+      console.log(
+        `[QUIZ_DEBUG] [${traceId}] Format dönüştürme hatası: ${error.message}`,
+      );
     }
 
     if (

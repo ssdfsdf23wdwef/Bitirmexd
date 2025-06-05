@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-01T19:30:31.910Z
-Trace ID: quiz-1748806217512-9wwdf
-Yanıt Uzunluğu: 8774 karakter
+Tarih: 2025-06-05T21:29:59.824Z
+Trace ID: quiz-1749158983104-g09vu
+Yanıt Uzunluğu: 8900 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 8774 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Eksaskala bilgisayar sistemlerinde karşılaşılan temel yazılım zorluklarından biri, geleneksel sistemlerin hangi özelliğinin yetersiz kalmasıdır?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Veri depolama kapasitesi",
-        "Ölçeklenebilirlik",
-        "Enerji verimliliği",
-        "Giriş/Çıkış hızı"
+        "Ağ arayüzlerini devre dışı bırakmak",
+        "Ağ arayüzlerini görüntülemek ve yapılandırmak",
+        "DNS sunucularına sorgu göndermek",
+        "Ağ bağlantısının hızını test etmek"
       ],
-      "correctAnswer": "Ölçeklenebilirlik",
-      "explanation": "Geleneksel sistemler, eksaskala sistemlerdeki milyonlarca çekirdeği verimli bir şekilde yönetmekte yetersiz kalır. Bu durum, ölçeklenebilirlik sorununu ortaya çıkarır. Diğer seçenekler eksaskala sistemlerde önemli olsa da, ölçeklenebilirlik doğrudan belirtilen bir zorluktur.",
-      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
-      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
-      "difficulty": "medium"
+      "correctAnswer": "Ağ arayüzlerini görüntülemek ve yapılandırmak",
+      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Belirli bir arayüzün IP adresini görüntülemek veya arayüzleri listelemek gibi işlemleri gerçekleştirebilirsiniz. Diğer seçenekler farklı komutlarla (örneğin, 'nslookup' DNS sorguları için) gerçekleştirilir.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme",
+      "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi eksaskala çağında yazılım geliştirme zorluklarına çözüm olarak geliştirilen yaklaşımlardan biri değildir?",
+      "questionText": "'ip addr show' komutu hangi amaçla kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Hafif işletim sistemleri",
-        "Veri yönetimi ve depolama çözümleri",
-        "Uygulamalar için yazılımlar",
-        "Merkezi işlem birimi optimizasyonu"
+        "Yönlendirme tablosunu görüntülemek",
+        "Ağ arayüzlerini listelemek",
+        "Ağ bağlantısını test etmek",
+        "DNS sunucusuna sorgu göndermek"
       ],
-      "correctAnswer": "Merkezi işlem birimi optimizasyonu",
-      "explanation": "Hafif işletim sistemleri, veri yönetimi ve depolama çözümleri ve uygulamalar için yazılımlar, eksaskala sistemlerde karşılaşılan zorluklara çözüm olarak geliştirilmiştir. Ancak, merkezi işlem birimi optimizasyonu doğrudan bu çözümler arasında sayılmaz.",
-      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
-      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
+      "correctAnswer": "Ağ arayüzlerini listelemek",
+      "explanation": "'ip addr show' komutu, sistemdeki ağ arayüzlerini listelemek için kullanılır. Bu komut, 'ifconfig' komutuna alternatif olarak daha modern bir yaklaşımla ağ yapılandırmasını yönetmeyi sağlar.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme",
       "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "Eksaskala sistemlerde milyonlarca çekirdeği verimli bir şekilde yönetememe durumu, aşağıdaki zorluklardan hangisinin temel nedenidir?",
+      "questionText": "Aşağıdaki komutlardan hangisi, 'eth0' adlı ağ arayüzüne 192.168.1.10 IP adresini atamak için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Güç tüketimi",
-        "Hata toleransı",
-        "Ölçeklenebilirlik",
-        "Veri depolama"
+        "ifconfig eth0 192.168.1.10",
+        "ip addr add 192.168.1.10/24 dev eth0",
+        "netstat eth0 192.168.1.10",
+        "ping eth0 192.168.1.10"
       ],
-      "correctAnswer": "Ölçeklenebilirlik",
-      "explanation": "Milyonlarca çekirdeği verimli yönetememe durumu, ölçeklenebilirlik zorluğunun temel nedenidir. Eksaskala sistemlerin bu kadar çok sayıda işlem birimini etkin bir şekilde kullanabilmesi gerekmektedir.",
-      "subTopicName": "Ölçeklenebilirlik Zorlukları",
-      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
+      "correctAnswer": "ip addr add 192.168.1.10/24 dev eth0",
+      "explanation": "'ip addr add 192.168.1.10/24 dev eth0' komutu, 'eth0' arayüzüne 192.168.1.10 IP adresini atar. 'ifconfig eth0 192.168.1.10' da kullanılabilir ancak 'ip' komutu daha güncel bir alternatiftir. 'netstat' ve 'ping' komutları farklı amaçlara hizmet eder.",
+      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
+      "normalizedSubTopicName": "ag_arayuzu_yapilandirmasi_ifconfigiip",
       "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde ölçeklenebilirlik zorluklarının üstesinden gelmek için kullanılan bir yaklaşım değildir?",
+      "questionText": "Bir ağ arayüzünü devre dışı bırakmak için hangi 'ip' komutu kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Dağıtık mimariler",
-        "Paralel programlama",
-        "Tek çekirdek performansı artırma",
-        "Hafif işletim sistemleri"
+        "sudo ip link set eth0 up",
+        "sudo ip link set eth0 down",
+        "ip addr show eth0",
+        "sudo ip link delete eth0"
       ],
-      "correctAnswer": "Tek çekirdek performansı artırma",
-      "explanation": "Dağıtık mimariler, paralel programlama ve hafif işletim sistemleri, eksaskala sistemlerde ölçeklenebilirlik sorunlarını çözmek için kullanılır. Tek çekirdek performansını artırmak, ölçeklenebilirlik yerine bireysel işlemci performansına odaklanır.",
-      "subTopicName": "Ölçeklenebilirlik Zorlukları",
-      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "'sudo ip link set eth0 down' komutu, 'eth0' adlı ağ arayüzünü devre dışı bırakır. 'up' komutu ise arayüzü etkinleştirir. 'ip addr show' arayüz bilgilerini gösterir, 'ip link delete' ise arayüzü siler.",
+      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
+      "normalizedSubTopicName": "ag_arayuzu_yapilandirmasi_ifconfigiip",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Büyük eksaskala sistemlerde donanım arızalarının sık görülmesi durumunda, sistemlerin hangi özelliğe sahip olması kritik öneme sahiptir?",
+      "questionText": "Aşağıdaki 'ping' komutlarından hangisi, hedef cihaza sadece 4 adet ICMP Echo isteği gönderecek şekilde ayarlanmıştır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Yüksek işlem hızı",
-        "Gelişmiş grafik yetenekleri",
-        "Hata toleransı",
-        "Büyük bellek kapasitesi"
+        "ping 10.112.0.1",
+        "ping -c 4 10.112.0.1",
+        "ping -t 4 10.112.0.1",
+        "ping -n 4 10.112.0.1"
       ],
-      "correctAnswer": "Hata toleransı",
-      "explanation": "Büyük sistemlerde donanım arızaları sık görüldüğü için, sistemlerin hata toleransına sahip olması kritik öneme sahiptir. Hata toleransı, sistemlerin hatalara rağmen çalışmaya devam edebilme yeteneğidir.",
-      "subTopicName": "Hata Toleransı Gereksinimleri",
-      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
-      "difficulty": "medium"
+      "correctAnswer": "ping -c 4 10.112.0.1",
+      "explanation": "'ping -c 4 10.112.0.1' komutu, belirtilen IP adresine (10.112.0.1) sadece 4 adet ICMP Echo isteği gönderir. '-c' parametresi, gönderilecek ping sayısını belirtir.",
+      "subTopicName": "Ağ Bağlantısı Testi Ping",
+      "normalizedSubTopicName": "ag_baglantisi_testi_ping",
+      "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "Eksaskala sistemlerde hata toleransını artırmak için hangi yaklaşım benimsenmez?",
+      "questionText": "'ping' komutu ile bir hedefe erişilememesi durumunda, bu durumun olası nedenleri arasında aşağıdakilerden hangisi yer almaz?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "Yedekleme sistemleri",
-        "Hata düzeltme kodları",
-        "Sürekli sistem güncellemeleri",
-        "Arızalı bileşenlerin izolasyonu"
+        "Hedef cihazın kapalı olması",
+        "Ağ bağlantısında bir sorun olması",
+        "Hedef cihazın güvenlik duvarının ICMP isteklerini engellemesi",
+        "DNS sunucusunun doğru yapılandırılmamış olması"
       ],
-      "correctAnswer": "Sürekli sistem güncellemeleri",
-      "explanation": "Yedekleme sistemleri, hata düzeltme kodları ve arızalı bileşenlerin izolasyonu, hata toleransını artırmak için kullanılan yöntemlerdir. Sürekli sistem güncellemeleri sistem güvenliğini ve performansını artırsa da, doğrudan hata toleransı mekanizması değildir.",
-      "subTopicName": "Hata Toleransı Gereksinimleri",
-      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
+      "correctAnswer": "DNS sunucusunun doğru yapılandırılmamış olması",
+      "explanation": "DNS sunucusunun doğru yapılandırılmamış olması, alan adlarının IP adreslerine çevrilememesine neden olur. Ancak, 'ping' komutu IP adresleri üzerinden çalıştığı için, DNS sorunu doğrudan 'ping' başarısızlığına neden olmaz. Diğer seçenekler ('Hedef cihazın kapalı olması', 'Ağ bağlantısında bir sorun olması', 'Hedef cihazın güvenlik duvarının ICMP isteklerini engellemesi') 'ping' komutunun başarısız olmasına neden olabilir.",
+      "subTopicName": "Ağ Bağlantısı Testi Ping",
+      "normalizedSubTopicName": "ag_baglantisi_testi_ping",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Hafif çekirdek yapılarının temel amacı nedir?",
+      "questionText": "'netstat -tuln' komutu ne işe yarar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Gereksiz özellikleri barındırmak",
-        "Yüksek enerji tüketimi sağlamak",
-        "Temel işletim sistemi fonksiyonlarını yerine getirmek",
-        "Karmaşık sistem yönetimini kolaylaştırmak"
+        "Ağ istatistiklerini görüntüleme",
+        "Mevcut TCP bağlantılarını listeleme",
+        "Belirli bir portu dinleyen süreçleri listeleme",
+        "Yönlendirme tablosunu görüntüleme"
       ],
-      "correctAnswer": "Temel işletim sistemi fonksiyonlarını yerine getirmek",
-      "explanation": "Hafif çekirdek yapıları, yalnızca temel işletim sistemi fonksiyonlarını yerine getiren yapılardır. Bu sayede küçük, hızlı ve verimli olmaları sağlanır.",
-      "subTopicName": "Hafif Çekirdek Yapısı",
-      "normalizedSubTopicName": "hafif_cekirdek_yapisi",
+      "correctAnswer": "Belirli bir portu dinleyen süreçleri listeleme",
+      "explanation": "'netstat -tuln' komutu, belirli bir portu dinleyen süreçleri listeler. '-t' TCP bağlantılarını, '-u' UDP bağlantılarını, '-l' dinleyen soketleri ve '-n' sayısal adresleri gösterir.",
+      "subTopicName": "Ağ İ Statistiklerini Görüntüleme Netstat Ss",
+      "normalizedSubTopicName": "ag_i_statistiklerini_goruntuleme_netstat_ss",
       "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Aşağıdakilerden hangisi hafif çekirdek yapılarının özelliklerinden biri değildir?",
+      "questionText": "Aşağıdakilerden hangisi 'ss' komutunun 'netstat' komutuna göre avantajlarından biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "Küçük ve hızlı olmaları",
-        "Gereksiz özellikleri barındırmamaları",
-        "İhtiyaca göre modüler olarak genişletilebilmeleri",
-        "Yüksek gecikme sağlamaları"
+        "Daha hızlı ve verimli olması",
+        "Daha fazla soket bilgisi sağlaması",
+        "Daha modern bir araç olması",
+        "Daha eski sistemlerde de sorunsuz çalışması"
       ],
-      "correctAnswer": "Yüksek gecikme sağlamaları",
-      "explanation": "Hafif çekirdek yapıları düşük gecikme sağlar, yüksek değil. Bu, gerçek zamanlı ve yüksek performanslı hesaplamalar için ideal olmalarını sağlar.",
-      "subTopicName": "Hafif Çekirdek Yapısı",
-      "normalizedSubTopicName": "hafif_cekirdek_yapisi",
+      "correctAnswer": "Daha eski sistemlerde de sorunsuz çalışması",
+      "explanation": "'ss' komutu, 'netstat' komutuna göre daha modern, hızlı ve verimlidir. Ancak, 'netstat' daha eski sistemlerde de bulunabilirken, 'ss' daha yeni sistemlerde yaygındır. Bu nedenle, 'Daha eski sistemlerde de sorunsuz çalışması' 'ss' komutunun bir avantajı değildir.",
+      "subTopicName": "Ağ İ Statistiklerini Görüntüleme Netstat Ss",
+      "normalizedSubTopicName": "ag_i_statistiklerini_goruntuleme_netstat_ss",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Hafif işletim sistemlerinde hata oluştuğunda sistemin geri kalanının korunmasını sağlamak için hangi mekanizma kullanılır?",
+      "questionText": "'nslookup google.com' komutu ne yapar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Merkezi işlem birimi yeniden başlatma",
-        "İzole çalışma",
-        "Veri yedekleme",
-        "Güç kaynağı optimizasyonu"
+        "google.com adresine ping gönderir",
+        "google.com'un IP adresini DNS sunucusundan sorgular",
+        "google.com üzerindeki açık portları tarar",
+        "google.com'a giden ağ yolunu izler"
       ],
-      "correctAnswer": "İzole çalışma",
-      "explanation": "Hafif işletim sistemlerinde hata oluştuğunda sistemin geri kalanı korunarak izole çalışma sağlanır. Bu, hatanın yayılmasını önler ve sistem kararlılığını korur.",
-      "subTopicName": "Hata Toleransı Mekanizmaları",
-      "normalizedSubTopicName": "hata_toleransi_mekanizmalari",
-      "difficulty": "medium"
+      "correctAnswer": "google.com'un IP adresini DNS sunucusundan sorgular",
+      "explanation": "'nslookup google.com' komutu, DNS sunucusu üzerinden google.com alan adının IP adresini sorgular. Bu, bir alan adının hangi IP adresine karşılık geldiğini öğrenmek için kullanılır.",
+      "subTopicName": "Dns Sorgulama Nslookup Dig",
+      "normalizedSubTopicName": "dns_sorgulama_nslookup_dig",
+      "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi hafif işletim sistemlerinde kullanılan bir hata toleransı mekanizması değildir?",
+      "questionText": "'dig google.com MX' komutu hangi bilgiyi sağlar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Otomatik hata yönetimi",
-        "Sistem kilitlemelerinde otomatik yeniden başlatma",
-        "Arızalanan bileşenlerin sistem çalışırken değiştirilebilmesi",
-        "Manuel sistem onarımı"
+        "google.com'un A kayıtlarını",
+        "google.com'un NS kayıtlarını",
+        "google.com'un MX kayıtlarını",
+        "google.com'un TXT kayıtlarını"
       ],
-      "correctAnswer": "Manuel sistem onarımı",
-      "explanation": "Otomatik hata yönetimi, sistem kilitlemelerinde otomatik yeniden başlatma ve arızalanan bileşenlerin sistem çalışırken değiştirilebilmesi, hafif işletim sistemlerinde kullanılan hata toleransı mekanizmalarıdır. Manuel sistem onarımı, otomatik mekanizmaların aksine manuel müdahale gerektirir.",
-      "subTopicName": "Hata Toleransı Mekanizmaları",
-      "normalizedSubTopicName": "hata_toleransi_mekanizmalari",
+      "correctAnswer": "google.com'un MX kayıtlarını",
+      "explanation": "'dig google.com MX' komutu, google.com alan adının MX (Mail Exchange) kayıtlarını sorgular. MX kayıtları, e-posta sunucularının hangi sunucular üzerinden e-posta alıp göndereceğini belirtir.",
+      "subTopicName": "Dns Sorgulama Nslookup Dig",
+      "normalizedSubTopicName": "dns_sorgulama_nslookup_dig",
       "difficulty": "medium"
     }
   ]

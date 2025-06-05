@@ -24,7 +24,7 @@ import quizService from "@/services/quiz.service";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Quiz } from "@/types";
-
+import ErrorService from "@/services/error.service";
 
 
 interface ExamCreationWizardProps {
@@ -998,9 +998,10 @@ export default function ExamCreationWizard({
           setErrorMessage("Sınav oluşturuldu ancak ID alınamadı.");
         }
       } catch (error) {
-    
-        
-   
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("Sınav oluşturulurken hata:", message);
+        toast.error("Sınav oluşturulurken bir hata oluştu.");
+        setErrorMessage(`Sınav oluşturulurken bir hata oluştu: ${message}`);
       }
     } catch (error) {
       setErrorMessage(`Beklenmeyen hata: ${error instanceof Error ? error.message : String(error)}`);

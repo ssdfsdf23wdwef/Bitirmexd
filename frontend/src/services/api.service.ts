@@ -5,8 +5,7 @@ import { FlowCategory, FlowTrackerService } from "./flow-tracker.service";
 import { getLogger, getFlowTracker } from "../lib/logger.utils";
 import { LoggerService } from "./logger.service";
 
-let API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-
+let API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 // Hata ayıklama için API URL logla
 console.log("🔍 API URL (başlangıç):", API_URL);
 
@@ -72,7 +71,7 @@ export const checkApiAvailability = async (
         logger.info(
           `Önceki başarılı API port\'u kullanıldı: ${lastSuccessPort}`,
           'checkApiAvailability',
-          // __filename, // Removed __filename
+  
         );
         API_URL = lastSuccessAPI;
         axiosInstance.defaults.baseURL = lastSuccessAPI;
@@ -88,7 +87,6 @@ export const checkApiAvailability = async (
       logger.info(
         `API deneniyor: ${currentAPI} (deneme ${attempt + 1}/${maxRetries})`,
         'checkApiAvailability',
-        // __filename, // Removed __filename
       );
       try {
         const startTime = performance.now();
@@ -101,7 +99,6 @@ export const checkApiAvailability = async (
           logger.info(
             `API bağlantısı başarılı: ${currentAPI}, ${Math.round(endTime - startTime)}ms`,
             'checkApiAvailability',
-            // __filename, // Removed __filename
           );
           API_URL = currentAPI;
           axiosInstance.defaults.baseURL = currentAPI;
@@ -112,14 +109,12 @@ export const checkApiAvailability = async (
           logger.warn(
             `API yanıt verdi fakat durum kodu: ${response.status}`,
             'checkApiAvailability',
-            // __filename, // Removed __filename
           );
         }
       } catch (error) {
         logger.warn(
           `Deneme ${attempt+1}/${maxRetries}: API bağlantı hatası: ${currentAPI}, ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`,
           'checkApiAvailability',
-          // __filename, // Removed __filename
         );
       }
     }
@@ -133,7 +128,6 @@ export const checkApiAvailability = async (
     logger.info(
       `Alternatif portlar deneniyor: ${portsToTry.map(p => p.port).join(', ')}`,
       'checkApiAvailability',
-      // __filename, // Removed __filename
     );
     for (const successfulPort of portsToTry) {
         if (successfulPort.testUrl === API_URL) continue; 
@@ -143,7 +137,6 @@ export const checkApiAvailability = async (
                 logger.info(
                     `Çalışan API URL\'i bulundu: ${successfulPort.testUrl}`,
                     'checkApiAvailability',
-                    // __filename, // Removed __filename
                 );
                 API_URL = successfulPort.testUrl;
                 axiosInstance.defaults.baseURL = API_URL;
@@ -152,6 +145,7 @@ export const checkApiAvailability = async (
                 return API_URL;
             }
         } catch (error) {
+          console.error('API kontrol hatası:', error);
         }
     }
   }
@@ -545,7 +539,6 @@ class ApiService {
     this.logger.info(
       'ApiService başlatıldı',
       'ApiService.constructor',
-      __filename,
       0
     );
     
@@ -571,7 +564,6 @@ class ApiService {
     this.logger.debug(
       `GET ${endpoint} isteği başlatılıyor`,
       'ApiService.get',
-      __filename,
       0
     );
     
@@ -598,7 +590,6 @@ class ApiService {
       this.logger.debug(
         `GET ${endpoint} isteği tamamlandı (${Math.round(endTime - startTime)}ms)`,
         'ApiService.get',
-        __filename,
         0
       );
       
@@ -636,7 +627,6 @@ class ApiService {
       this.logger.debug(
         `POST isteği başlatıldı: ${endpoint}`,
         'ApiService.post',
-        __filename,
         410,
         { dataKeys: typeof data === 'object' ? Object.keys(data) : 'array' }
       );
@@ -682,7 +672,7 @@ class ApiService {
       this.logger.debug(
         `POST isteği tamamlandı: ${endpoint}`,
         'ApiService.post',
-        __filename,
+      
         420,
         { status: response.status }
       );
@@ -742,7 +732,7 @@ class ApiService {
       this.logger.debug(
         `PUT isteği başlatıldı: ${endpoint}`,
         'ApiService.put',
-        __filename,
+      
         447,
         { dataKeys: typeof data === 'object' ? Object.keys(data) : 'array' }
       );
@@ -754,7 +744,7 @@ class ApiService {
       this.logger.debug(
         `PUT isteği tamamlandı: ${endpoint}`,
         'ApiService.put',
-        __filename,
+     
         457,
         { status: response.status }
       );
@@ -780,7 +770,7 @@ class ApiService {
       this.logger.debug(
         `DELETE isteği başlatıldı: ${endpoint}`,
         'ApiService.delete',
-        __filename,
+   
         478
       );
       
@@ -791,7 +781,7 @@ class ApiService {
       this.logger.debug(
         `DELETE isteği tamamlandı: ${endpoint}`,
         'ApiService.delete',
-        __filename,
+       
         487,
         { status: response.status }
       );
@@ -813,7 +803,7 @@ class ApiService {
     this.logger.error(
       `API hatası: ${context}`,
       'ApiService.handleError',
-      __filename,
+    
       508,
       { error: this.formatError(error) }
     );
@@ -830,7 +820,7 @@ class ApiService {
         this.logger.warn(
           `Yetkilendirme hatası: ${status}`,
           'ApiService.handleError',
-          __filename,
+     
           521,
           { endpoint: error.config?.url }
         );

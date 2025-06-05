@@ -119,9 +119,90 @@ export default function TopicSelectionScreen({
   const router = useRouter();
   const { isDarkMode } = useTheme();
 
-  const [currentCourseId, setCurrentCourseId] = useState(
-    selectedCourseId || ""
-  );
+  const [currentCourseId, setCurrentCourseId] = useState(selectedCourseId || "");
+
+  // --- YENİ: Seçili topic id'lerini local state'te de tutalım ---
+  const [selectedTopicIds, setSelectedTopicIds] = useState<string[]>(initialSelectedTopicIds || []);
+
+  // --- YENİ: Seçim değişimini hem localde hem parent'ta güncelle ---
+  const handleTopicSelectionChange = useCallback((ids: string[]) => {
+    setSelectedTopicIds(ids);
+    onTopicSelectionChange(ids);
+  }, [onTopicSelectionChange]);
+
+  // --- YENİ: İlk yüklemede ve detectedTopics değiştiğinde seçimleri güncelle ---
+  useEffect(() => {
+    if (isLoading) return;
+
+    const existingTopicIds = new Set(existingTopics.map((t) => t.id));
+    let baseTopicsRaw: TopicData[] = [];
+
+    if (quizType === "quick") {
+      baseTopicsRaw = [...detectedTopics];
+    } else if (personalizedQuizType === "newTopicFocused") {
+      baseTopicsRaw = [...detectedTopics];
+    } else if (personalizedQuizType === "learningObjectiveFocused") {
+      const uniqueDetected = detectedTopics.filter((t) => !existingTopicIds.has(t.id));
+      baseTopicsRaw = [...existingTopics, ...uniqueDetected];
+    } else if (personalizedQuizType === "weakTopicFocused") {
+      baseTopicsRaw = existingTopics.filter(
+        (topic) => topic.status === "failed" || topic.status === "medium",
+      );
+    } else if (personalizedQuizType === "comprehensive") {
+      const uniqueDetected = detectedTopics.filter((t) => !existingTopicIds.has(t.id));
+      baseTopicsRaw = [...uniqueDetected, ...existingTopics];
+    }
+
+    // --- YENİ: Seçili id'leri belirle ---
+    let initialSelectionIds: string[] = [];
+    if (onInitialLoad) {
+      if (initialSelectedTopicIds && initialSelectedTopicIds.length > 0) {
+        initialSelectionIds = initialSelectedTopicIds;
+      } else {
+        if (personalizedQuizType !== 'weakTopicFocused') {
+          initialSelectionIds = baseTopicsRaw.map(t => t.id);
+        } else {
+          initialSelectionIds = [];
+        }
+      }
+      setOnInitialLoad(false);
+    } else {
+      // Eğer parent bir state tutuyorsa, onunla senkronize ol
+      initialSelectionIds = selectedTopicIds.length > 0 ? selectedTopicIds : baseTopicsRaw.map(t => t.id);
+    }
+
+    // --- YENİ: filteredTopics'i oluştur ve seçimleri uygula ---
+    const finalTopicsWithSelection = baseTopicsRaw.map(topic => ({
+      ...topic,
+      isSelected: initialSelectionIds.includes(topic.id),
+    }));
+    setFilteredTopics(finalTopicsWithSelection);
+    // --- YENİ: Seçim değişimini parent'a bildir ---
+    handleTopicSelectionChange(initialSelectionIds);
+  }, [detectedTopics, existingTopics, quizType, personalizedQuizType, isLoading, initialSelectedTopicIds, onInitialLoad, setOnInitialLoad, selectedTopicIds, handleTopicSelectionChange]);
+
+  // --- YENİ: Seçimi güncelleyen fonksiyonlar ---
+  const handleToggleAll = useCallback((selectAll: boolean) => {
+    const updatedTopics = filteredTopics.map(topic => ({
+      ...topic,
+      isSelected: selectAll
+    }));
+    setFilteredTopics(updatedTopics);
+    const selectedIds = selectAll ? updatedTopics.map(t => t.id) : [];
+    handleTopicSelectionChange(selectedIds);
+  }, [filteredTopics, handleTopicSelectionChange]);
+
+  const handleTopicToggle = useCallback((id: string) => {
+    const updatedTopics = filteredTopics.map(topic => {
+      if (topic.id === id) {
+        return { ...topic, isSelected: !topic.isSelected };
+      }
+      return topic;
+    });
+    setFilteredTopics(updatedTopics);
+    const selectedIds = updatedTopics.filter(t => t.isSelected).map(t => t.id);
+    handleTopicSelectionChange(selectedIds);
+  }, [filteredTopics, handleTopicSelectionChange]);
 
   const handleCourseChange = useCallback(
     (courseId: string) => {
@@ -137,113 +218,6 @@ export default function TopicSelectionScreen({
     },
     [],
   );
-
-  useEffect(() => {
-    if (isLoading) {
-      // Yükleme sırasında konuları temizleyebilir veya bir yükleme göstergesi gösterebilirsiniz.
-      // setFilteredTopics([]); // İsteğe bağlı: yüklenirken listeyi temizle
-      return;
-    }
-
-    const existingTopicIds = new Set(existingTopics.map((t) => t.id));
-    let baseTopicsRaw: TopicData[] = [];
-
-    if (quizType === "quick") {
-      baseTopicsRaw = [...detectedTopics];
-    } else if (personalizedQuizType === "newTopicFocused") {
-      baseTopicsRaw = [...detectedTopics];
-    } else if (personalizedQuizType === "learningObjectiveFocused") {
-      const uniqueDetected = detectedTopics.filter(
-        (t) => !existingTopicIds.has(t.id),
-      );
-      baseTopicsRaw = [...existingTopics, ...uniqueDetected];
-    } else if (personalizedQuizType === "weakTopicFocused") {
-      baseTopicsRaw = existingTopics.filter(
-        (topic) => topic.status === "failed" || topic.status === "medium",
-      );
-    } else if (personalizedQuizType === "comprehensive") {
-      const uniqueDetected = detectedTopics.filter(
-        (t) => !existingTopicIds.has(t.id),
-      );
-      baseTopicsRaw = [...uniqueDetected, ...existingTopics];
-    }
-
-    let finalTopicsWithSelection: TopicData[];
-
-    if (onInitialLoad) {
-      let initialSelectionIds: string[];
-      if (initialSelectedTopicIds && initialSelectedTopicIds.length > 0) {
-        initialSelectionIds = initialSelectedTopicIds;
-      } else {
-        if (personalizedQuizType !== 'weakTopicFocused') {
-            initialSelectionIds = baseTopicsRaw.map(t => t.id);
-        } else {
-            initialSelectionIds = []; // Zayıf konu odaklıysa başlangıçta hiçbirini seçme (veya özel bir mantık)
-        }
-      }
-      
-      finalTopicsWithSelection = baseTopicsRaw.map(topic => ({
-        ...topic,
-        isSelected: initialSelectionIds.includes(topic.id),
-      }));
-      
-      // Sonsuz döngüyü önlemek için useEffect'in dışında bir kez çağıralım
-      setTimeout(() => {
-        onTopicSelectionChange(initialSelectionIds);
-      }, 0);
-      setOnInitialLoad(false);
-    } else {
-      // Başlangıç yüklemesi değilse (örn: detectedTopics değişti),
-      // orijinal kod tüm konuları tekrar seçili yapıyordu. Bu davranışı koruyoruz.
-      // İstenirse, mevcut seçimler korunabilir.
-      finalTopicsWithSelection = baseTopicsRaw.map(topic => ({
-        ...topic,
-        isSelected: true, // Orijinal davranış: bağımlılıklar değişince tümünü seç
-      }));
-      
-      // Sonsuz döngüyü önlemek için useEffect'in dışında bir kez çağıralım
-      const selectedIds = finalTopicsWithSelection.filter(t => t.isSelected).map(t => t.id);
-      setTimeout(() => {
-        onTopicSelectionChange(selectedIds);
-      }, 0);
-    }
-    
-    setFilteredTopics(finalTopicsWithSelection);
-
-  }, [
-    detectedTopics,
-    existingTopics,
-    quizType,
-    personalizedQuizType,
-    isLoading,
-    initialSelectedTopicIds,
-    onInitialLoad,
-    setOnInitialLoad,
-    onTopicSelectionChange,
-  ]);
-
-
-  const handleToggleAll = useCallback((selectAll: boolean) => {
-    const updatedTopics = filteredTopics.map(topic => ({
-      ...topic,
-      isSelected: selectAll
-    }));
-    setFilteredTopics(updatedTopics);
-    const selectedIds = selectAll ? updatedTopics.map(t => t.id) : [];
-    onTopicSelectionChange(selectedIds);
-  }, [filteredTopics, onTopicSelectionChange]);
-
-  const handleTopicToggle = useCallback((id: string) => {
-    const updatedTopics = filteredTopics.map(topic => {
-      if (topic.id === id) {
-        return { ...topic, isSelected: !topic.isSelected };
-      }
-      return topic;
-    });
-    setFilteredTopics(updatedTopics);
-    const selectedIds = updatedTopics.filter(t => t.isSelected).map(t => t.id);
-    onTopicSelectionChange(selectedIds);
-  }, [filteredTopics, onTopicSelectionChange]);
 
   const topicCounts = useMemo(
     () => ({
@@ -561,11 +535,11 @@ function TopicCard({ topic, onToggle, statusInfo }: TopicCardProps) {
         <div
           className={`rounded-md min-w-5 w-5 h-5 flex items-center justify-center transition-all duration-200 ${
             topic.isSelected
-              ? (isDarkMode ? 'bg-white/20 text-white border border-white/30' : 'bg-white/30 text-white border border-white/40')
+              ? 'bg-green-500 text-white border border-green-600' // Seçiliyse yeşil kutu ve beyaz ikon
               : (isDarkMode ? 'bg-gray-700 border-gray-500' : 'bg-gray-100 border-gray-300')
           }`}
         >
-          {topic.isSelected && <FiCheck className={`w-3 h-3 ${isDarkMode ? 'text-white' : 'text-white'}`} />}
+          {topic.isSelected && <FiCheck className="w-3 h-3 text-white" />}
         </div>
 
         <div className="flex-1 min-w-0"> {/* Added flex-1 min-w-0 */}
