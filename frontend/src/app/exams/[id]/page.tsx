@@ -1123,6 +1123,9 @@ export default function ExamPage() {
     );
   };
 
+  // Tüm sorular cevaplandı mı?
+  const allAnswered = quiz && quiz.questions.every(q => userAnswers[q.id] !== undefined && userAnswers[q.id] !== "");
+
   // Yükleme durumu
   if (loading) {
     return (
@@ -1183,30 +1186,23 @@ export default function ExamPage() {
     return (
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <motion.h1
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-bold text-primary"
-          >
-            {quiz.title}
-          </motion.h1>
-
-          <div className="flex items-center space-x-4">
-            {/* Timer */}
-            {remainingTime !== null && (
-              <div
-                className={`flex items-center px-4 py-2 rounded-lg ${remainingTime < 60 ? "bg-state-errorBg text-state-error" : "bg-state-infoBg text-state-info"}`}
-              >
-                <Clock size={18} className="mr-2" />
-                <span className="font-semibold">
-                  {formatTime(remainingTime)}
-                </span>
+        <div className={`sticky top-0 z-10 py-2 px-4 rounded-lg mb-3 flex items-center ${isDarkMode ? 'bg-gray-800/80 backdrop-blur-md shadow-lg border border-gray-700/50' : 'bg-white/90 backdrop-blur-md shadow-md border border-gray-200/50'}`}>
+          <Link href="/exams" className={`mr-3 p-2 rounded-full transition-all duration-200 ${isDarkMode ? 'bg-gray-700/70 hover:bg-gray-600/70 text-gray-300 hover:text-white' : 'bg-gray-100/70 hover:bg-gray-200/70 text-gray-600 hover:text-gray-800'}`}>
+            <ChevronLeft size={20} />
+          </Link>
+          <h1 className={`text-xl font-medium ${isDarkMode ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500'}`}>Sınav</h1>
+          
+          {/* Timer gösterimi */}
+          {remainingTime !== null && (
+            <div className="ml-auto flex items-center">
+              <div className={`flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all ${remainingTime < 60 
+                ? (isDarkMode ? 'bg-red-900/40 text-red-300 border border-red-700/50' : 'bg-red-100 text-red-700 border border-red-200/70') 
+                : (isDarkMode ? 'bg-blue-900/30 text-blue-300 border border-blue-700/40' : 'bg-blue-50 text-blue-700 border border-blue-200/70')}`}>
+                <Clock size={14} className={`mr-1.5 ${remainingTime < 60 ? (isDarkMode ? 'text-red-400' : 'text-red-500') : ''}`} />
+                <span className={`font-mono ${remainingTime < 60 ? 'font-bold' : ''}`}>{formatTime(remainingTime)}</span>
               </div>
-            )}
-
-           
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Progress and question stats */}
@@ -1241,23 +1237,32 @@ export default function ExamPage() {
         
         {/* Submit section at bottom */}
         <div className="sticky bottom-6 flex justify-center mt-8 pb-4">
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className={`px-8 py-3 rounded-lg font-semibold transition-colors duration-150 flex items-center shadow-lg ${isSubmitting
-              ? "bg-interactive-disabled text-disabled cursor-not-allowed"
-              : "bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-90 text-inverse"
-              }`}
-          >
-            {isSubmitting ? (
-              <>
-                <div className="w-5 h-5 border-2 border-text-inverse border-t-transparent rounded-full animate-spin mr-2"></div>
-                Gönderiliyor...
-              </>
-            ) : (
-              "Sınavı Tamamla ve Gönder"
-            )}
-          </button>
+          {allAnswered ? (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className={`
+                px-10 py-4 rounded-xl font-bold text-lg shadow-2xl transition-all duration-200 flex items-center
+                bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white
+                ${isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:scale-105"}
+                ring-2 ring-brand-primary/30 hover:ring-4
+              `}
+              style={{ minWidth: 280 }}
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                  Gönderiliyor...
+                </>
+              ) : (
+                "Sınavı Tamamla ve Gönder"
+              )}
+            </button>
+          ) : (
+            <div className="px-8 py-3 rounded-lg bg-yellow-100 text-yellow-800 font-semibold shadow text-center animate-pulse">
+              Tüm soruları cevaplamadan sınavı tamamlayamazsınız.
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1266,26 +1271,6 @@ export default function ExamPage() {
   return (
     <div className={`min-h-screen pt-20 relative z-0 selection:bg-blue-500/30 ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-200' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800'}`}>
       <div className="container mx-auto px-4 py-4 md:py-8">
-        {/* Sayfa başlığı ve geri butonu */}
-        <div className={`sticky top-[72px] z-10 py-3 px-4 rounded-lg mb-6 flex items-center ${isDarkMode ? 'bg-gray-800/80 backdrop-blur-md shadow-lg border border-gray-700/50' : 'bg-white/90 backdrop-blur-md shadow-md border border-gray-200/50'}`}>
-          <Link href="/exams" className={`mr-3 p-2 rounded-full transition-all duration-200 ${isDarkMode ? 'bg-gray-700/70 hover:bg-gray-600/70 text-gray-300 hover:text-white' : 'bg-gray-100/70 hover:bg-gray-200/70 text-gray-600 hover:text-gray-800'}`}>
-            <ChevronLeft size={20} />
-          </Link>
-          <h1 className={`text-xl font-medium ${isDarkMode ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500'}`}>Sınav</h1>
-          
-          {/* Timer gösterimi */}
-          {remainingTime !== null && (
-            <div className="ml-auto flex items-center">
-              <div className={`flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all ${remainingTime < 60 
-                ? (isDarkMode ? 'bg-red-900/40 text-red-300 border border-red-700/50' : 'bg-red-100 text-red-700 border border-red-200/70') 
-                : (isDarkMode ? 'bg-blue-900/30 text-blue-300 border border-blue-700/40' : 'bg-blue-50 text-blue-700 border border-blue-200/70')}`}>
-                <Clock size={14} className={`mr-1.5 ${remainingTime < 60 ? (isDarkMode ? 'text-red-400' : 'text-red-500') : ''}`} />
-                <span className={`font-mono ${remainingTime < 60 ? 'font-bold' : ''}`}>{formatTime(remainingTime)}</span>
-              </div>
-            </div>
-          )}
-        </div>
-        
         {renderExam()}
       </div>
     </div>

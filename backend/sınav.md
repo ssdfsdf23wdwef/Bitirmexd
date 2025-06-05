@@ -1,10 +1,10 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-05T21:29:43.119Z
+## Tarih: 2025-06-05T22:41:11.583Z
 
-## Trace ID: quiz-1749158983104-g09vu
+## Trace ID: quiz-1749163271559-a8hfv
 
-## Alt Konular (8 adet):
+## Alt Konular (7 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
@@ -13,8 +13,8 @@
 1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
 2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
 3. **Ağ Bağlantısı Testi Ping** (2 soru)
-4. **Ağ İ Statistiklerini Görüntüleme Netstat Ss** (2 soru)
-5. **Dns Sorgulama Nslookup Dig** (2 soru)
+4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
+5. **Alan Adı İp Adresi Sorgulama Nslookup Dig** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,8 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ağ Yolu İ Zleme Traceroute Mtr
-2. Yönlendirme Tablosunu Yönetme Route
-3. Ağ İ Stekleri Ve Dosya İ Ndirme Curl Wget
+1. Web Sunucusuna İstek Gönderme Curl
+2. Ağ Üzerinden Dosya İndirme Wget
 
 ```
 
@@ -53,8 +52,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
 2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
 3. **Ağ Bağlantısı Testi Ping** (2 soru)
-4. **Ağ İ Statistiklerini Görüntüleme Netstat Ss** (2 soru)
-5. **Dns Sorgulama Nslookup Dig** (2 soru)
+4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
+5. **Alan Adı İp Adresi Sorgulama Nslookup Dig** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,9 +61,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ağ Yolu İ Zleme Traceroute Mtr
-2. Yönlendirme Tablosunu Yönetme Route
-3. Ağ İ Stekleri Ve Dosya İ Ndirme Curl Wget
+1. Web Sunucusuna İstek Gönderme Curl
+2. Ağ Üzerinden Dosya İndirme Wget
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -345,39 +343,39 @@ Hedefe mtr ile izleme
   - Ağ Yönetimi Ve İ Zleme: 2 soru
   - Ağ Arayüzü Yapılandırması İfconfiğiip: 2 soru
   - Ağ Bağlantısı Testi Ping: 2 soru
-  - Ağ İ Statistiklerini Görüntüleme Netstat Ss: 2 soru
-  - Dns Sorgulama Nslookup Dig: 2 soru
+  - Ağ Bağlantılarını Görüntüleme Netstat Ss: 2 soru
+  - Alan Adı İp Adresi Sorgulama Nslookup Dig: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
 #### Ağ Yönetimi Ve İ Zleme:
 - Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
-- Seçenekler: Ağ arayüzlerini devre dışı bırakmak | Ağ arayüzlerini görüntülemek ve yapılandırmak | DNS sunucularına sorgu göndermek | Ağ bağlantısının hızını test etmek
-- Doğru Cevap: Ağ arayüzlerini görüntülemek ve yapılandırmak
+- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ bağlantılarının istatistiklerini görüntülemek | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
+- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
 - Zorluk: easy
 
 #### Ağ Arayüzü Yapılandırması İfconfiğiip:
-- Soru: Aşağıdaki komutlardan hangisi, 'eth0' adlı ağ arayüzüne 192.168.1.10 IP adresini atamak için kullanılır?
-- Seçenekler: ifconfig eth0 192.168.1.10 | ip addr add 192.168.1.10/24 dev eth0 | netstat eth0 192.168.1.10 | ping eth0 192.168.1.10
-- Doğru Cevap: ip addr add 192.168.1.10/24 dev eth0
+- Soru: Aşağıdaki komutlardan hangisi 'eth0' arayüzüne 192.168.1.10 IP adresini atamak için kullanılır?
+- Seçenekler: ip addr add 192.168.1.10/24 dev eth0 | ip link set eth0 up | ifconfig eth0 192.168.1.10 netmask 255.255.255.0 | route add default gw 192.168.1.1
+- Doğru Cevap: ifconfig eth0 192.168.1.10 netmask 255.255.255.0
 - Zorluk: medium
 
 #### Ağ Bağlantısı Testi Ping:
-- Soru: Aşağıdaki 'ping' komutlarından hangisi, hedef cihaza sadece 4 adet ICMP Echo isteği gönderecek şekilde ayarlanmıştır?
-- Seçenekler: ping 10.112.0.1 | ping -c 4 10.112.0.1 | ping -t 4 10.112.0.1 | ping -n 4 10.112.0.1
-- Doğru Cevap: ping -c 4 10.112.0.1
+- Soru: Aşağıdakilerden hangisi 'ping' komutunun temel işlevidir?
+- Seçenekler: Bir ağdaki hedefe ICMP Echo istekleri göndermek | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ bağlantılarının istatistiklerini görüntülemek | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
+- Doğru Cevap: Bir ağdaki hedefe ICMP Echo istekleri göndermek
 - Zorluk: easy
 
-#### Ağ İ Statistiklerini Görüntüleme Netstat Ss:
-- Soru: 'netstat -tuln' komutu ne işe yarar?
-- Seçenekler: Ağ istatistiklerini görüntüleme | Mevcut TCP bağlantılarını listeleme | Belirli bir portu dinleyen süreçleri listeleme | Yönlendirme tablosunu görüntüleme
-- Doğru Cevap: Belirli bir portu dinleyen süreçleri listeleme
-- Zorluk: medium
+#### Ağ Bağlantılarını Görüntüleme Netstat Ss:
+- Soru: Aşağıdakilerden hangisi 'netstat' komutunun temel işlevlerinden biridir?
+- Seçenekler: Ağ bağlantıları ve istatistikleri hakkında bilgi vermek | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ arayüzlerini yapılandırmak | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
+- Doğru Cevap: Ağ bağlantıları ve istatistikleri hakkında bilgi vermek
+- Zorluk: easy
 
-#### Dns Sorgulama Nslookup Dig:
-- Soru: 'nslookup google.com' komutu ne yapar?
-- Seçenekler: google.com adresine ping gönderir | google.com'un IP adresini DNS sunucusundan sorgular | google.com üzerindeki açık portları tarar | google.com'a giden ağ yolunu izler
-- Doğru Cevap: google.com'un IP adresini DNS sunucusundan sorgular
+#### Alan Adı İp Adresi Sorgulama Nslookup Dig:
+- Soru: Aşağıdakilerden hangisi 'nslookup' komutunun temel işlevidir?
+- Seçenekler: DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak | Ağ bağlantılarını ve istatistikleri hakkında bilgi vermek | Ağ arayüzlerini yapılandırmak | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
+- Doğru Cevap: DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak
 - Zorluk: easy
 

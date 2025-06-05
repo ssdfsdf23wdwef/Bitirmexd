@@ -1335,11 +1335,7 @@ export default function ExamCreationWizard({
       !!documentTextContent,
     );
     
-    // Kullanıcıya işlemin başladığını bildiren tost mesajı göster
-    toast.loading("Sınav oluşturuluyor... Lütfen bekleyin", {
-      duration: 10000, // 10 saniye sonra otomatik kapanır
-      id: "quiz-generation-toast"
-    });
+ 
     
     // Hızlı bir son kontrol yapalım - belge yüklendiyse ama alt konu yoksa
     if (uploadedDocumentId && (!selectedTopics || selectedTopics.length === 0)) {

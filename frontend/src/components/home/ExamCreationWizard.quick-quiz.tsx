@@ -25,6 +25,7 @@ import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Quiz } from "@/types";
 import ErrorService from "@/services/error.service";
+import FullScreenLoader from "@/components/ui/FullScreenLoader";
 
 
 interface ExamCreationWizardProps {
@@ -159,6 +160,9 @@ export default function ExamCreationWizard({
           }
         })
         .catch(error => {
+          console.error('Konu tespiti hatası:', error);
+          setTopicDetectionStatus('error');
+          setErrorMessage('Konu tespiti sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
         });
     }
     
@@ -248,6 +252,8 @@ export default function ExamCreationWizard({
 
   // Dosya yükleme hatası
   const handleFileUploadError = (errorMsg: string) => {
+    console.error('Dosya yükleme hatası:', errorMsg);
+    setErrorMessage(errorMsg);
     setUploadStatus("error");
   };
 
@@ -332,13 +338,7 @@ export default function ExamCreationWizard({
   };
 
   // Konu seçimini değiştir
-  const handleTopicToggle = (topicId: string) => {
-    setSelectedTopicIds((prev) =>
-      prev.includes(topicId)
-        ? prev.filter((id) => id !== topicId)
-        : [...prev, topicId],
-    );
-  };
+
 
   // Konu seçimlerini değiştirme fonksiyonu - topicSelectionScreen için
   const handleTopicSelectionChange = (selectedTopicIds: string[]) => {
@@ -472,7 +472,9 @@ export default function ExamCreationWizard({
 
   // Bir önceki adıma dön
   const prevStep = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const pathname = usePathname();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const searchParams = useSearchParams();
     
     if (currentStep > 1) {
@@ -793,12 +795,6 @@ export default function ExamCreationWizard({
             };
             setSelectedTopics([subTopicItem]);
             
-            setPreferences(prev => ({
-              ...prev,
-              topicIds: [defaultTopicId],
-              subTopicIds: [defaultTopicId]
-            }));
-            
               setCurrentStep(2);
           }
         } catch (error: unknown) {
@@ -832,25 +828,8 @@ export default function ExamCreationWizard({
     if (isSubmitting) return;
       setIsSubmitting(true);
       setErrorMessage(null);
-    console.log(
-      "[ECW handleFinalSubmit] Başlatıldı. Seçili konular:",
-      JSON.stringify(selectedTopics),
-      "Tercihler:",
-      JSON.stringify(preferences),
-      "Dosya:",
-      selectedFile?.name,
-      "Belge ID:",
-      uploadedDocumentId,
-      "Metin İçeriği Var Mı:",
-      !!documentTextContent,
-    );
-    
-    // Kullanıcıya işlemin başladığını bildiren tost mesajı göster
-    toast.loading("Sınav oluşturuluyor... Lütfen bekleyin", {
-      duration: 10000, // 10 saniye sonra otomatik kapanır
-      id: "quiz-generation-toast"
-    });
-    
+   
+ 
     // Hızlı bir son kontrol yapalım - belge yüklendiyse ama alt konu yoksa
     if (uploadedDocumentId && (!selectedTopics || selectedTopics.length === 0)) {
       console.log("[ECW handleFinalSubmit] Belge yüklendi fakat alt konu seçilmedi - otomatik konu oluşturuluyor");
@@ -1254,183 +1233,186 @@ export default function ExamCreationWizard({
 
   // Render
   return (
-    <div className="w-full h-full bg-background">
-      <ExamCreationProgress 
-        currentStep={currentStep} 
-        totalSteps={totalSteps} 
-        quizType={quizType}
-        onStepClick={handleStepClick}
-      >
+    <>
+      {isSubmitting && <FullScreenLoader text="Sınav Yükleniyor..." />}
+      <div className="w-full h-full bg-background">
+        <ExamCreationProgress 
+          currentStep={currentStep} 
+          totalSteps={totalSteps} 
+          quizType={quizType}
+          onStepClick={handleStepClick}
+        >
 
-        <AnimatePresence mode="wait">
-          {/* Adım 1: Belge Yükleme */}
-          {currentStep === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} mb-4`}>
-                1. Belge Yükleme
-              </h3>
+          <AnimatePresence mode="wait">
+            {/* Adım 1: Belge Yükleme */}
+            {currentStep === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} mb-4`}>
+                  1. Belge Yükleme
+                </h3>
 
-              <DocumentUploader
-                onFileUpload={handleFileUploadComplete}
-                onError={handleFileUploadError}
-                maxSize={40} // MB cinsinden
-                allowedFileTypes={[".pdf", ".docx", ".doc", ".txt"]}
-                className="mb-4"
-              />
-              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-2`}>
-                Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
-              </p>
-              {quizType === "personalized" && (
-                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
+                <DocumentUploader
+                  onFileUpload={handleFileUploadComplete}
+                  onError={handleFileUploadError}
+                  maxSize={40} // MB cinsinden
+                  allowedFileTypes={[".pdf", ".docx", ".doc", ".txt"]}
+                  className="mb-4"
+                />
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-2`}>
+                  Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
                 </p>
-              )}
-              
-              {/* Konu tespiti yüklenme durumu - modern glass effect */}
-              {topicDetectionStatus === "loading" && (
-                <div className={`mt-6 p-5 backdrop-blur-sm ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/80 border-gray-100'} border rounded-xl shadow-sm relative overflow-hidden`}>
-                  {/* Animated gradient background */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-blue-900/20 to-indigo-900/20' : 'from-blue-50 to-indigo-50'} -z-10 animate-pulse`}></div>
-                  
-                  <div className="flex items-center justify-center">
-                    <div className={`flex items-center justify-center h-8 w-8 rounded-full ${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'} mr-3`}>
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 dark:border-blue-400 border-b-transparent"></div>
+                {quizType === "personalized" && (
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
+                  </p>
+                )}
+                
+                {/* Konu tespiti yüklenme durumu - modern glass effect */}
+                {topicDetectionStatus === "loading" && (
+                  <div className={`mt-6 p-5 backdrop-blur-sm ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/80 border-gray-100'} border rounded-xl shadow-sm relative overflow-hidden`}>
+                    {/* Animated gradient background */}
+                    <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-blue-900/20 to-indigo-900/20' : 'from-blue-50 to-indigo-50'} -z-10 animate-pulse`}></div>
+                    
+                    <div className="flex items-center justify-center">
+                      <div className={`flex items-center justify-center h-8 w-8 rounded-full ${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'} mr-3`}>
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 dark:border-blue-400 border-b-transparent"></div>
+                      </div>
+                      <p className={`${isDarkMode ? 'text-blue-300' : 'text-blue-700'} text-sm font-medium`}>
+                        Belge içeriği analiz ediliyor ve konular tespit ediliyor...
+                      </p>
                     </div>
-                    <p className={`${isDarkMode ? 'text-blue-300' : 'text-blue-700'} text-sm font-medium`}>
-                      Belge içeriği analiz ediliyor ve konular tespit ediliyor...
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-3 text-center`}>
+                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir. Lütfen bekleyin.
                     </p>
                   </div>
-                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-3 text-center`}>
-                    Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir. Lütfen bekleyin.
-                  </p>
-                </div>
-              )}
-            </motion.div>
-          )}
+                )}
+              </motion.div>
+            )}
 
-          {/* Adım 2: Kişiselleştirilmiş Sınav Alt Türü veya Konu Seçimi */}
-          {currentStep === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              {quizType === "personalized" && (
-                <>
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 dark:from-blue-300 dark:to-indigo-400">
-                      2. Sınav Odağı ve Konu Seçimi
-                    </h3>
-                    <div className="h-0.5 w-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4 opacity-80"></div>
-                  </div>
-                  
+            {/* Adım 2: Kişiselleştirilmiş Sınav Alt Türü veya Konu Seçimi */}
+            {currentStep === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                {quizType === "personalized" && (
+                  <>
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 dark:from-blue-300 dark:to-indigo-400">
+                        2. Sınav Odağı ve Konu Seçimi
+                      </h3>
+                      <div className="h-0.5 w-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4 opacity-80"></div>
+                    </div>
+                    
+                 
+                  </>
+                )}
+
+                {/* Konu Seçimi - Hem hızlı sınav hem de kişiselleştirilmiş sınav için */}
+                <div className={quizType === "personalized" ? "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700" : ""}>
                
-                </>
-              )}
 
-              {/* Konu Seçimi - Hem hızlı sınav hem de kişiselleştirilmiş sınav için */}
-              <div className={quizType === "personalized" ? "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700" : ""}>
-             
-
-            
-                   
-                    {/* AI Konu Tespiti ve Seçim Ekranı */}
-                    <TopicSelectionScreen
-                      detectedTopics={detectedTopics}
-                      existingTopics={courseTopics} 
-                      availableCourses={courses}
-                      selectedCourseId={selectedCourseId}
-                      quizType={quizType}
-                      isLoading={topicDetectionStatus === "loading"}
-                      error={undefined}
-                      onTopicsSelected={(selectedTopics, courseId) => {
-                      
-                        handleTopicSelectionChange(selectedTopics);
-                        
-                        // topicId ve courseId parametrelerini birleştir
-                        handleTopicsDetected(selectedTopics, courseId);
-                      }}
-                      onCourseChange={handleCourseChangeForTopicSelection}
-                      onCancel={handleTopicDetectionCancel}
-                      initialSelectedTopicIds={selectedTopicIds}
-                      onTopicSelectionChange={handleTopicSelectionChange}
-                      onInitialLoad={onInitialLoad}
-                      setOnInitialLoad={setOnInitialLoad}
-                    />
               
-
+                     
+                      {/* AI Konu Tespiti ve Seçim Ekranı */}
+                      <TopicSelectionScreen
+                        detectedTopics={detectedTopics}
+                        existingTopics={courseTopics} 
+                        availableCourses={courses}
+                        selectedCourseId={selectedCourseId}
+                        quizType={quizType}
+                        isLoading={topicDetectionStatus === "loading"}
+                        error={undefined}
+                        onTopicsSelected={(selectedTopics, courseId) => {
+                        
+                          handleTopicSelectionChange(selectedTopics);
+                          
+                          // topicId ve courseId parametrelerini birleştir
+                          handleTopicsDetected(selectedTopics, courseId);
+                        }}
+                        onCourseChange={handleCourseChangeForTopicSelection}
+                        onCancel={handleTopicDetectionCancel}
+                        initialSelectedTopicIds={selectedTopicIds}
+                        onTopicSelectionChange={handleTopicSelectionChange}
+                        onInitialLoad={onInitialLoad}
+                        setOnInitialLoad={setOnInitialLoad}
+                      />
                 
-              </div>
-            </motion.div>
-          )}
 
-          {/* Adım 3: Tercihler */}
-          {currentStep === 3 && (
-            <motion.div
-              key="step3"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              
+                </div>
+              </motion.div>
+            )}
+
+            {/* Adım 3: Tercihler */}
+            {currentStep === 3 && (
+              <motion.div
+                key="step3"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                {renderPreferencesStep()}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Navigation Buttons with modern styling */}
+          <div className="flex justify-between mt-6">
+            {/* Back button with subtle glass effect */}
+            <button
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              className={`px-5 py-2.5 rounded-xl flex items-center text-sm font-medium transition-all duration-300 backdrop-blur-sm relative ${currentStep === 1
+                ? `${isDarkMode ? 'text-gray-600' : 'text-gray-400'} cursor-not-allowed opacity-50`
+                : `${isDarkMode ? 'text-gray-300 bg-gray-800/30 hover:text-blue-400 hover:bg-gray-800/50' : 'text-gray-700 bg-white/50 hover:text-blue-600 hover:bg-white/80'} shadow-sm hover:shadow`}`}
             >
-              {renderPreferencesStep()}
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${isDarkMode ? 'from-gray-800 to-gray-900' : 'from-gray-100 to-gray-50'} opacity-0 ${currentStep !== 1 ? "group-hover:opacity-10" : ""} -z-10`}></div>
+              <FiArrowLeft className="mr-2" size={16} /> Geri
+            </button>
 
-        {/* Navigation Buttons with modern styling */}
-        <div className="flex justify-between mt-6">
-          {/* Back button with subtle glass effect */}
-          <button
-            onClick={prevStep}
-            disabled={currentStep === 1}
-            className={`px-5 py-2.5 rounded-xl flex items-center text-sm font-medium transition-all duration-300 backdrop-blur-sm relative ${currentStep === 1
-              ? `${isDarkMode ? 'text-gray-600' : 'text-gray-400'} cursor-not-allowed opacity-50`
-              : `${isDarkMode ? 'text-gray-300 bg-gray-800/30 hover:text-blue-400 hover:bg-gray-800/50' : 'text-gray-700 bg-white/50 hover:text-blue-600 hover:bg-white/80'} shadow-sm hover:shadow`}`}
-          >
-            <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${isDarkMode ? 'from-gray-800 to-gray-900' : 'from-gray-100 to-gray-50'} opacity-0 ${currentStep !== 1 ? "group-hover:opacity-10" : ""} -z-10`}></div>
-            <FiArrowLeft className="mr-2" size={16} /> Geri
-          </button>
-
-          {/* Next/Submit button with gradient */}
-          <button
-            onClick={nextStep}
-            className={`px-6 py-2.5 text-white font-medium rounded-xl text-sm flex items-center transition-all duration-300 shadow-sm hover:shadow relative overflow-hidden ${(currentStep === 1 && uploadStatus !== "success") || topicDetectionStatus === "loading" || quizCreationLoading
-              ? "opacity-70 cursor-not-allowed bg-indigo-500"
-              : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700"}`}
-            disabled={
-              (currentStep === 1 && uploadStatus !== "success") || // İlk adımda yükleme bitmeden ilerlemeyi engelle
-              topicDetectionStatus === "loading" || // Konu tespiti devam ederken ilerlemeyi engelle
-              quizCreationLoading // Sınav oluşturma devam ederken butonu devre dışı bırak
-            }
-          >
-            {/* Subtle animated glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-            
-            <span className="relative z-10 flex items-center">
-              {currentStep === totalSteps 
-                ? quizCreationLoading 
-                  ? "Sınav Oluşturuluyor..."
-                  : "Sınavı Oluştur" 
-                : "Devam Et"
-              }{" "}
-              {topicDetectionStatus === "loading" || quizCreationLoading ? (
-                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
-              ) : (
-                <FiArrowRight className="ml-2" size={16} />
-              )}
-            </span>
-          </button>
-        </div>
-      </ExamCreationProgress>
-    </div>
+            {/* Next/Submit button with gradient */}
+            <button
+              onClick={nextStep}
+              className={`px-6 py-2.5 text-white font-medium rounded-xl text-sm flex items-center transition-all duration-300 shadow-sm hover:shadow relative overflow-hidden ${(currentStep === 1 && uploadStatus !== "success") || topicDetectionStatus === "loading" || quizCreationLoading
+                ? "opacity-70 cursor-not-allowed bg-indigo-500"
+                : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700"}`}
+              disabled={
+                (currentStep === 1 && uploadStatus !== "success") || // İlk adımda yükleme bitmeden ilerlemeyi engelle
+                topicDetectionStatus === "loading" || // Konu tespiti devam ederken ilerlemeyi engelle
+                quizCreationLoading // Sınav oluşturma devam ederken butonu devre dışı bırak
+              }
+            >
+              {/* Subtle animated glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+              
+              <span className="relative z-10 flex items-center">
+                {currentStep === totalSteps 
+                  ? quizCreationLoading 
+                    ? "Sınav Oluşturuluyor..."
+                    : "Sınavı Oluştur" 
+                  : "Devam Et"
+                }{" "}
+                {topicDetectionStatus === "loading" || quizCreationLoading ? (
+                  <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
+                ) : (
+                  <FiArrowRight className="ml-2" size={16} />
+                )}
+              </span>
+            </button>
+          </div>
+        </ExamCreationProgress>
+      </div>
+    </>
   );
 }
