@@ -997,11 +997,12 @@ export default function ExamCreationWizard({
         } else {
           setErrorMessage("Sınav oluşturuldu ancak ID alınamadı.");
         }
-      } catch (error) {
-    
-        
-   
-      }
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          console.error("Sınav oluşturulurken hata:", message);
+          toast.error("Sınav oluşturulurken bir hata oluştu.");
+          setErrorMessage(`Sınav oluşturulurken bir hata oluştu: ${message}`);
+        }
     } catch (error) {
       setErrorMessage(`Beklenmeyen hata: ${error instanceof Error ? error.message : String(error)}`);
 
