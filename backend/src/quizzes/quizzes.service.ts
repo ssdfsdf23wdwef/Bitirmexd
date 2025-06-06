@@ -2790,68 +2790,13 @@ export class QuizzesService {
           : null,
       } as Quiz;
 
-      // KRİTİK DÜZELTME: Hızlı sınavı hemen veritabanına kaydet
-      // Bu sayede submit ve get işlemleri çalışabilir
-      try {
-        // Firestore'a uygun format hazırlama
-        const firestore_safe_quiz = {
-          userId: quiz.userId,
-          quizType: String(quiz.quizType),
-          personalizedQuizType: quiz.personalizedQuizType || null,
-          courseId: quiz.courseId || null,
-          questions: quiz.questions.map(q => ({
-            id: String(q.id),
-            questionText: String(q.questionText || ''),
-            options: Array.isArray(q.options) ? q.options.map(opt => String(opt)) : [],
-            correctAnswer: String(q.correctAnswer || ''),
-            explanation: String(q.explanation || ''),
-            subTopic: String(q.subTopic || ''),
-            normalizedSubTopic: String(q.normalizedSubTopic || ''),
-            difficulty: String(q.difficulty || 'medium')
-          })),
-          timestamp: quiz.timestamp,
-          selectedSubTopics: Array.isArray(quiz.selectedSubTopics) ? 
-            quiz.selectedSubTopics.map(st => String(st)) : [],
-          score: Number(quiz.score || 0),
-          correctCount: Number(quiz.correctCount || 0),
-          totalQuestions: Number(quiz.totalQuestions || 0),
-          elapsedTime: Number(quiz.elapsedTime || 0),
-          userAnswers: quiz.userAnswers || {},
-          preferences: {
-            questionCount: Number(quiz.preferences?.questionCount || questionCount),
-            difficulty: String(quiz.preferences?.difficulty || difficulty),
-            timeLimit: quiz.preferences?.timeLimit || null,
-            prioritizeWeakAndMediumTopics: Boolean(quiz.preferences?.prioritizeWeakAndMediumTopics || false)
-          },
-          sourceDocument: quiz.sourceDocument ? {
-            documentId: String(quiz.sourceDocument.documentId || ''),
-            fileName: String(quiz.sourceDocument.fileName || ''),
-            uploadDate: quiz.sourceDocument.uploadDate || quiz.timestamp
-          } : null
-        };
-
-        // Quiz'i Firestore'a kaydet
-        await this.firebaseService.firestore
-          .collection(FIRESTORE_COLLECTIONS.QUIZZES)
-          .doc(quiz.id)
-          .set(firestore_safe_quiz);
-
-        this.logger.info(
-          `Hızlı sınav başarıyla veritabanına kaydedildi: ID=${quizId}`,
-          'QuizzesService.createQuickQuiz',
-          __filename,
-          undefined,
-          { quizId, userId, questionCount: questions.length }
-        );
-
-      } catch (saveError) {
-        this.logger.error(
-          `Hızlı sınav veritabanına kaydedilirken hata oluştu: ${saveError instanceof Error ? saveError.message : 'Bilinmeyen hata'}`,
-          'QuizzesService.createQuickQuiz',
-          __filename
-        );
-        throw new BadRequestException('Sınav oluşturuldu ancak kaydedilemedi. Lütfen tekrar deneyin.');
-      }
+      this.logger.info(
+        `Hızlı sınav oluşturuldu (henüz kaydedilmedi): ID=${quizId}`,
+        'QuizzesService.createQuickQuiz',
+        __filename,
+        undefined,
+        { quizId, userId, questionCount: questions.length }
+      );
 
       return quiz;
     } catch (error) {

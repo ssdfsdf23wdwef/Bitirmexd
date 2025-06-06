@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-06T04:07:47.956Z
+## Tarih: 2025-06-06T04:13:04.690Z
 
-## Trace ID: quiz-1749182867944-r3xfe
+## Trace ID: quiz-1749183184657-62slc
 
-## Alt Konular (10 adet):
+## Alt Konular (9 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme Komutları** (2 soru)
-2. **Arayüz Yapılandırması** (2 soru)
-3. **Ağ Arayüzü Yönetimi** (2 soru)
-4. **Ağ Bağlantısı Testi** (2 soru)
-5. **Ağ Bağlantılarını Görüntüleme** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme Araçları** (2 soru)
+2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
+3. **İp Komutu İle Ağ Yönetimi** (2 soru)
+4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
+5. **Netstat İle Bağlantı Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,11 +22,10 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Socket İ Statistikleri
-2. Yol Takibi
-3. Dns Sorgulama
-4. Ağ İ Stekleri Gönderme
-5. Dosya İ Ndirme
+1. Ss İle Soket İ Statistikleri
+2. Traceroute İle Yol Takibi
+3. Nslookup İle Dns Sorgulama
+4. Diğiile Detaylı Dns Bilgisi
 
 ```
 
@@ -52,11 +51,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme Komutları** (2 soru)
-2. **Arayüz Yapılandırması** (2 soru)
-3. **Ağ Arayüzü Yönetimi** (2 soru)
-4. **Ağ Bağlantısı Testi** (2 soru)
-5. **Ağ Bağlantılarını Görüntüleme** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme Araçları** (2 soru)
+2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
+3. **İp Komutu İle Ağ Yönetimi** (2 soru)
+4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
+5. **Netstat İle Bağlantı Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -64,11 +63,10 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Socket İ Statistikleri
-2. Yol Takibi
-3. Dns Sorgulama
-4. Ağ İ Stekleri Gönderme
-5. Dosya İ Ndirme
+1. Ss İle Soket İ Statistikleri
+2. Traceroute İle Yol Takibi
+3. Nslookup İle Dns Sorgulama
+4. Diğiile Detaylı Dns Bilgisi
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -346,42 +344,42 @@ Hedefe mtr ile izleme
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Ağ Yönetimi Ve İ Zleme Komutları: 2 soru
-  - Arayüz Yapılandırması: 2 soru
-  - Ağ Arayüzü Yönetimi: 2 soru
-  - Ağ Bağlantısı Testi: 2 soru
-  - Ağ Bağlantılarını Görüntüleme: 2 soru
+  - Ağ Yönetimi Ve İ Zleme Araçları: 2 soru
+  - İfconfiğiile Arayüz Yapılandırması: 2 soru
+  - İp Komutu İle Ağ Yönetimi: 2 soru
+  - Pinğiile Ağ Bağlantısı Testi: 2 soru
+  - Netstat İle Bağlantı Görüntüleme: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Ağ Yönetimi Ve İ Zleme Komutları:
-- Soru: Aşağıdakilerden hangisi Linux'ta ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılan bir komuttur?
-- Seçenekler: ping | netstat | ifconfig | traceroute
-- Doğru Cevap: ifconfig
+#### Ağ Yönetimi Ve İ Zleme Araçları:
+- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel işlevlerinden biridir?
+- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adı sorgulamak | Ağ bağlantısının durumunu izlemek | Web sunucularına HTTP istekleri göndermek
+- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
 - Zorluk: easy
 
-#### Arayüz Yapılandırması:
-- Soru: Aşağıdaki komutlardan hangisi bir ağ arayüzünü etkinleştirmek için kullanılır?
-- Seçenekler: sudo ip link set eth0 down | sudo ip link show eth0 | sudo ip link set eth0 up | sudo ip addr show
-- Doğru Cevap: sudo ip link set eth0 up
+#### İfconfiğiile Arayüz Yapılandırması:
+- Soru: Aşağıdakilerden hangisi 'ifconfig' komutu ile bir arayüzü yapılandırmak için kullanılan parametrelerden biri değildir?
+- Seçenekler: ip addr | netmask | broadcast | gateway
+- Doğru Cevap: ip addr
+- Zorluk: medium
+
+#### İp Komutu İle Ağ Yönetimi:
+- Soru: 'ip addr show' komutu hangi amaçla kullanılır?
+- Seçenekler: Ağ arayüzlerini listelemek | Bir IP adresine ping göndermek | Ağ bağlantılarını görüntülemek | Yönlendirme tablosunu görüntülemek
+- Doğru Cevap: Ağ arayüzlerini listelemek
 - Zorluk: easy
 
-#### Ağ Arayüzü Yönetimi:
-- Soru: Ağ arayüzlerini listelemek için kullanılan 'ip' komutu hangisidir?
-- Seçenekler: ip link set | ip addr show | ip link show | ip addr set
-- Doğru Cevap: ip addr show
+#### Pinğiile Ağ Bağlantısı Testi:
+- Soru: 'ping 10.112.0.1' komutu ne işe yarar?
+- Seçenekler: 10.112.0.1 IP adresine ping gönderme | Ağ arayüzlerini listeleme | Mevcut ağ bağlantılarını listeleme | DNS sunucusunu sorgulama
+- Doğru Cevap: 10.112.0.1 IP adresine ping gönderme
 - Zorluk: easy
 
-#### Ağ Bağlantısı Testi:
-- Soru: Aşağıdaki komutlardan hangisi, bir ağdaki bir hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır?
-- Seçenekler: netstat | traceroute | ping | nslookup
-- Doğru Cevap: ping
-- Zorluk: easy
-
-#### Ağ Bağlantılarını Görüntüleme:
-- Soru: Aşağıdaki komutlardan hangisi mevcut ağ bağlantılarını listelemek için kullanılır?
-- Seçenekler: ping | traceroute | netstat | nslookup
-- Doğru Cevap: netstat
-- Zorluk: easy
+#### Netstat İle Bağlantı Görüntüleme:
+- Soru: 'netstat -tuln' komutu ne işe yarar?
+- Seçenekler: Belirli bir portu dinleyen süreçleri listeler | Ağ istatistiklerini görüntüler | Mevcut bağlantıları listeler | Yönlendirme tablosunu görüntüler
+- Doğru Cevap: Belirli bir portu dinleyen süreçleri listeler
+- Zorluk: medium
 

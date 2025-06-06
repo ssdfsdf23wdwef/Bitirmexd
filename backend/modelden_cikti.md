@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-06T04:08:00.546Z
-Trace ID: quiz-1749182867944-r3xfe
-Yanıt Uzunluğu: 6900 karakter
+Tarih: 2025-06-06T04:13:19.015Z
+Trace ID: quiz-1749183184657-62slc
+Yanıt Uzunluğu: 7898 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 6900 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi Linux'ta ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılan bir komuttur?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel işlevlerinden biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "ping",
-        "netstat",
-        "ifconfig",
-        "traceroute"
+        "Ağ arayüzlerini listelemek ve yapılandırmak",
+        "DNS sunucusu üzerinden alan adı sorgulamak",
+        "Ağ bağlantısının durumunu izlemek",
+        "Web sunucularına HTTP istekleri göndermek"
       ],
-      "correctAnswer": "ifconfig",
-      "explanation": "ifconfig (Interface Configuration) komutu, Linux'ta ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Diğer seçenekler farklı ağ işlemlerini gerçekleştirir.",
-      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
-      "normalizedSubTopicName": "ag_yonetimi_ve_izleme_komutlari",
+      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
+      "explanation": "'ifconfig' (Interface Configuration) komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Metinde belirtildiği gibi, 'ifconfig' komutu ağ arayüzlerini listeleme ve belirli bir arayüzün IP adresini görüntüleme gibi işlevlere sahiptir.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Araçları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme_araclari",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Hangi komut, belirli bir ağ arayüzünün IP adresini görüntülemek için kullanılabilir?",
+      "questionText": "'ifconfig eth0' komutu ile hangi işlem gerçekleştirilir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "ping eth0",
-        "netstat -i",
-        "ifconfig eth0",
-        "traceroute eth0"
+        "Tüm ağ arayüzlerini listeler",
+        "eth0 arayüzünün IP adresini görüntüler",
+        "Ağ istatistiklerini görüntüler",
+        "Mevcut bağlantıları listeler"
       ],
-      "correctAnswer": "ifconfig eth0",
-      "explanation": "ifconfig eth0 komutu, eth0 arayüzünün IP adresini ve diğer yapılandırma detaylarını gösterir. Diğer seçenekler farklı ağ bilgilerini sağlar.",
-      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
-      "normalizedSubTopicName": "ag_yonetimi_ve_izleme_komutlari",
+      "correctAnswer": "eth0 arayüzünün IP adresini görüntüler",
+      "explanation": "Metinde belirtildiği gibi, 'ifconfig eth0' komutu belirli bir arayüzün (bu örnekte eth0) IP adresini görüntülemek için kullanılır.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Araçları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme_araclari",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzünü etkinleştirmek için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "sudo ip link set eth0 down",
-        "sudo ip link show eth0",
-        "sudo ip link set eth0 up",
-        "sudo ip addr show"
-      ],
-      "correctAnswer": "sudo ip link set eth0 up",
-      "explanation": "sudo ip link set eth0 up komutu, eth0 ağ arayüzünü etkinleştirir. 'down' seçeneği arayüzü devre dışı bırakır.",
-      "subTopicName": "Arayüz Yapılandırması",
-      "normalizedSubTopicName": "arayuz_yapilandirmasi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzünü devre dışı bırakmak için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "sudo ip link set eth0 up",
-        "sudo ip link show eth0",
-        "sudo ip link set eth0 down",
-        "sudo ip addr show"
-      ],
-      "correctAnswer": "sudo ip link set eth0 down",
-      "explanation": "sudo ip link set eth0 down komutu, eth0 ağ arayüzünü devre dışı bırakır. 'up' seçeneği arayüzü etkinleştirir.",
-      "subTopicName": "Arayüz Yapılandırması",
-      "normalizedSubTopicName": "arayuz_yapilandirmasi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q5",
-      "questionText": "Ağ arayüzlerini listelemek için kullanılan 'ip' komutu hangisidir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "ip link set",
-        "ip addr show",
-        "ip link show",
-        "ip addr set"
-      ],
-      "correctAnswer": "ip addr show",
-      "explanation": "ip addr show komutu, sistemdeki tüm ağ arayüzlerini ve bunlara ait IP adreslerini listeler.",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q6",
-      "questionText": "'ip' komutu ile bir arayüzün durumunu (up/down) değiştirmek için hangi alt komut kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutu ile bir arayüzü yapılandırmak için kullanılan parametrelerden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
         "ip addr",
-        "ip route",
-        "ip link",
-        "ip netns"
+        "netmask",
+        "broadcast",
+        "gateway"
       ],
-      "correctAnswer": "ip link",
-      "explanation": "ip link komutu, ağ arayüzlerinin özelliklerini değiştirmek ve durumlarını kontrol etmek için kullanılır (up/down).",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
+      "correctAnswer": "ip addr",
+      "explanation": "Metinde 'ifconfig' komutu ile ilgili örneklerde 'netmask', 'broadcast' ve 'gateway' gibi parametrelerin kullanımına dair doğrudan bir bilgi bulunmamaktadır. Ancak 'ip addr' komutu 'ip' komutu ile ağ arayüzlerini listelemek için kullanılır, 'ifconfig' ile değil.",
+      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
+      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q4",
+      "questionText": "'ifconfig' komutunun kullanım amacı nedir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Ağ arayüzlerini yapılandırmak ve görüntülemek",
+        "DNS sunucularını sorgulamak",
+        "Ağdaki paket kaybını tespit etmek",
+        "Sistemdeki disk kullanımını izlemek"
+      ],
+      "correctAnswer": "Ağ arayüzlerini yapılandırmak ve görüntülemek",
+      "explanation": "'ifconfig' komutu, ağ arayüzlerini yapılandırmak ve görüntülemek için kullanılır. Bu, komutun temel işlevidir ve metinde açıkça belirtilmiştir.",
+      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
+      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q5",
+      "questionText": "'ip addr show' komutu hangi amaçla kullanılır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Ağ arayüzlerini listelemek",
+        "Bir IP adresine ping göndermek",
+        "Ağ bağlantılarını görüntülemek",
+        "Yönlendirme tablosunu görüntülemek"
+      ],
+      "correctAnswer": "Ağ arayüzlerini listelemek",
+      "explanation": "Metinde belirtildiği gibi, 'ip addr show' komutu ağ arayüzlerini listelemek için kullanılır.",
+      "subTopicName": "İp Komutu İle Ağ Yönetimi",
+      "normalizedSubTopicName": "ip_komutu_ile_ag_yonetimi",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q6",
+      "questionText": "Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü devre dışı bırakır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "applying",
+      "options": [
+        "sudo ip link set eth0 up",
+        "sudo ip link set eth0 down",
+        "ip addr show",
+        "sudo ip link show eth0"
+      ],
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "Metinde belirtildiği gibi, 'sudo ip link set eth0 down' komutu 'eth0' arayüzünü devre dışı bırakmak için kullanılır.",
+      "subTopicName": "İp Komutu İle Ağ Yönetimi",
+      "normalizedSubTopicName": "ip_komutu_ile_ag_yonetimi",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdaki komutlardan hangisi, bir ağdaki bir hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır?",
+      "questionText": "'ping 10.112.0.1' komutu ne işe yarar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "netstat",
-        "traceroute",
-        "ping",
-        "nslookup"
+        "10.112.0.1 IP adresine ping gönderme",
+        "Ağ arayüzlerini listeleme",
+        "Mevcut ağ bağlantılarını listeleme",
+        "DNS sunucusunu sorgulama"
       ],
-      "correctAnswer": "ping",
-      "explanation": "ping komutu, bir ağdaki bir hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır.",
-      "subTopicName": "Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "ag_baglantisi_testi",
+      "correctAnswer": "10.112.0.1 IP adresine ping gönderme",
+      "explanation": "Metinde belirtildiği gibi, 'ping 10.112.0.1' komutu belirtilen IP adresine ping göndermek için kullanılır.",
+      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "ping komutunda '-c' parametresi neyi ifade eder?",
+      "questionText": "'ping -c 4 10.112.0.1' komutunun işlevi nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Hedefin IP adresini",
-        "Gönderilecek ping sayısını",
-        "Paket boyutunu",
-        "Zaman aşımı süresini"
+        "10.112.0.1 adresine 4 adet ping gönderme",
+        "10.112.0.1 adresinden 4 adet ping alma",
+        "Ağdaki tüm cihazlara ping gönderme",
+        "Sadece yerel ağa ping gönderme"
       ],
-      "correctAnswer": "Gönderilecek ping sayısını",
-      "explanation": "ping komutunda '-c' parametresi, hedefe gönderilecek ping sayısını belirtir. Örneğin, 'ping -c 4 10.112.0.1' komutu hedefe 4 adet ping gönderir.",
-      "subTopicName": "Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "ag_baglantisi_testi",
+      "correctAnswer": "10.112.0.1 adresine 4 adet ping gönderme",
+      "explanation": "Metinde belirtildiği gibi, 'ping -c 4 10.112.0.1' komutu belirli sayıda (bu durumda 4) ping gönderme işlemini gerçekleştirir.",
+      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Aşağıdaki komutlardan hangisi mevcut ağ bağlantılarını listelemek için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "ping",
-        "traceroute",
-        "netstat",
-        "nslookup"
-      ],
-      "correctAnswer": "netstat",
-      "explanation": "netstat komutu, mevcut ağ bağlantılarını ve istatistiklerini listelemek için kullanılır.",
-      "subTopicName": "Ağ Bağlantılarını Görüntüleme",
-      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q10",
-      "questionText": "netstat komutunda '-tuln' parametreleri neyi ifade eder?",
+      "questionText": "'netstat -tuln' komutu ne işe yarar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Tüm arayüzleri listeler",
-        "Sadece TCP bağlantılarını gösterir",
         "Belirli bir portu dinleyen süreçleri listeler",
-        "Ağ istatistiklerini gösterir"
+        "Ağ istatistiklerini görüntüler",
+        "Mevcut bağlantıları listeler",
+        "Yönlendirme tablosunu görüntüler"
       ],
       "correctAnswer": "Belirli bir portu dinleyen süreçleri listeler",
-      "explanation": "netstat -tuln komutu, belirli bir portu dinleyen TCP ve UDP bağlantılarını listeler. 't' TCP, 'u' UDP, 'l' dinleyen soketler ve 'n' sayısal adresler anlamına gelir.",
-      "subTopicName": "Ağ Bağlantılarını Görüntüleme",
-      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme",
+      "explanation": "Metinde belirtildiği gibi, 'netstat -tuln' komutu belirli bir portu dinleyen süreçleri listelemek için kullanılır.",
+      "subTopicName": "Netstat İle Bağlantı Görüntüleme",
+      "normalizedSubTopicName": "netstat_ile_baglanti_goruntuleme",
       "difficulty": "medium"
+    },
+    {
+      "id": "q10",
+      "questionText": "Aşağıdakilerden hangisi 'netstat' komutunun temel işlevlerinden biridir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Ağ bağlantıları ve istatistikleri hakkında bilgi vermek",
+        "DNS sunucusu üzerinden alan adı sorgulamak",
+        "Ağdaki paket kaybını tespit etmek",
+        "Web sunucularına HTTP istekleri göndermek"
+      ],
+      "correctAnswer": "Ağ bağlantıları ve istatistikleri hakkında bilgi vermek",
+      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Metinde belirtildiği gibi, mevcut bağlantıları listeleme ve ağ istatistiklerini görüntüleme gibi işlevlere sahiptir.",
+      "subTopicName": "Netstat İle Bağlantı Görüntüleme",
+      "normalizedSubTopicName": "netstat_ile_baglanti_goruntuleme",
+      "difficulty": "easy"
     }
   ]
 }
