@@ -796,10 +796,58 @@ export class QuizzesService {
     dto: SubmitQuizDto,
     userId: string,
   ): Promise<{ quiz: Quiz; analysis: AnalysisResult }> {
-    // Analyze quiz results first
+    // Debug logging helper
+    const submitDebugLog = (message: string, data?: any) => {
+      const timestamp = new Date().toISOString();
+      const logEntry = `[${timestamp}] [SUBMIT_QUIZ_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
+      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+    };
+
+    submitDebugLog('=== SUBMIT QUIZ START ===', {
+      userId,
+      quizId: dto.quizId,
+      quizType: dto.quizType,
+      courseId: dto.courseId,
+      questionsCount: dto.questions?.length || 0,
+      userAnswersKeys: Object.keys(dto.userAnswers || {}),
+      originalUserAnswers: dto.userAnswers,
+    });
+
+    // Transform userAnswers to ensure they are strings for analysis and Firestore compatibility
+    // Frontend sends objects like {id: "option_1", text: "Answer text"}, we need just the text
+    submitDebugLog('🔄 TRANSFORMING USER ANSWERS');
+    const transformedUserAnswers: Record<string, string> = {};
+    for (const [questionId, answer] of Object.entries(dto.userAnswers)) {
+      submitDebugLog(`🔍 PROCESSING ANSWER FOR QUESTION: ${questionId}`, {
+        questionId,
+        originalAnswer: answer,
+        answerType: typeof answer,
+      });
+
+      if (typeof answer === 'string') {
+        transformedUserAnswers[questionId] = answer;
+        submitDebugLog(`✅ STRING ANSWER: ${answer}`);
+      } else if (answer && typeof answer === 'object' && 'text' in answer) {
+        const textValue = String((answer as any).text);
+        transformedUserAnswers[questionId] = textValue;
+        submitDebugLog(`✅ OBJECT ANSWER CONVERTED: ${textValue}`, { originalObject: answer });
+      } else {
+        const stringValue = String(answer || '');
+        transformedUserAnswers[questionId] = stringValue;
+        submitDebugLog(`⚠️ FALLBACK CONVERSION: ${stringValue}`, { originalValue: answer });
+      }
+    }
+
+    submitDebugLog('📊 TRANSFORMATION COMPLETE', {
+      originalCount: Object.keys(dto.userAnswers).length,
+      transformedCount: Object.keys(transformedUserAnswers).length,
+      transformedUserAnswers,
+    });
+    
+    // Analyze quiz results using transformed string answers
     const analysisResult = this.quizAnalysisService.analyzeQuizResults(
       dto.questions,
-      dto.userAnswers,
+      transformedUserAnswers,
     );
 
     // Access the analysis properties correctly from the result's analysisResult property
@@ -822,52 +870,326 @@ export class QuizzesService {
       analysis.recommendations = this.generateImprovementSuggestions(analysis);
     }
 
-    // Use the toPlainObject methods to create a Firestore-safe version of the data
-    const dtoPlaindData = dto.toPlainObject();
+    // Create a Firestore-safe version of the data by deeply transforming nested objects
+    const firestore_safe_questions = dto.questions.map(q => ({
+      id: q.id,
+      questionText: q.questionText,
+      options: Array.isArray(q.options) 
+        ? q.options.map(opt => 
+            typeof opt === 'string' 
+              ? opt 
+              : (opt && typeof opt === 'object' && 'text' in opt) 
+                ? String((opt as any).text)
+                : String(opt || '')
+          )
+        : [],
+      correctAnswer: q.correctAnswer,
+      explanation: q.explanation || '',
+      subTopic: q.subTopic || '',
+      normalizedSubTopic: q.normalizedSubTopic || '',
+      difficulty: q.difficulty || 'medium'
+    }));
+
+    const firestore_safe_selectedSubTopics = Array.isArray(dto.selectedSubTopics)
+      ? dto.selectedSubTopics.map(st => 
+          typeof st === 'string' 
+            ? st 
+            : (st && typeof st === 'object') 
+              ? {
+                  subTopic: String((st as any).subTopic || ''),
+                  normalizedSubTopic: String((st as any).normalizedSubTopic || ''),
+                  selected: Boolean((st as any).selected)
+                }
+              : String(st || '')
+        )
+      : [];
+
+    const firestore_safe_preferences = dto.preferences ? {
+      questionCount: Number(dto.preferences.questionCount || 10),
+      difficulty: String(dto.preferences.difficulty || 'medium'),
+      timeLimit: dto.preferences.timeLimit ? Number(dto.preferences.timeLimit) : null,
+      prioritizeWeakAndMediumTopics: dto.preferences.prioritizeWeakAndMediumTopics ? Boolean(dto.preferences.prioritizeWeakAndMediumTopics) : null
+    } : null;
+
+    const firestore_safe_sourceDocument = dto.sourceDocument ? {
+      fileName: String(dto.sourceDocument.fileName || ''),
+      storagePath: String(dto.sourceDocument.storagePath || ''),
+      documentId: dto.sourceDocument.documentId || null
+    } : null;
+
+    // Transform complexityData to be Firestore-safe
+    const firestore_safe_complexityData = complexityData ? {
+      difficultyDistribution: complexityData.difficultyDistribution ? 
+        this.firebaseService.toPlainObject(complexityData.difficultyDistribution) : null,
+      averageComplexity: complexityData.averageComplexity ? 
+        Number(complexityData.averageComplexity) : null,
+      complexityLevel: complexityData.complexityLevel ? 
+        String(complexityData.complexityLevel) : null
+    } : null;
     
     const quizDataToSave = {
       userId,
-      quizType: dtoPlaindData.quizType,
-      personalizedQuizType: dtoPlaindData.personalizedQuizType || null,
-      courseId: dtoPlaindData.courseId || null, // Use null instead of undefined for Firestore compatibility
-      sourceDocument: dtoPlaindData.sourceDocument,
-      selectedSubTopics: dtoPlaindData.selectedSubTopics,
-      preferences: dtoPlaindData.preferences, 
-      questions: dtoPlaindData.questions,
-      userAnswers: dtoPlaindData.userAnswers,
-      score: analysis.overallScore,
+      quizType: String(dto.quizType),
+      personalizedQuizType: dto.personalizedQuizType ? String(dto.personalizedQuizType) : null,
+      courseId: dto.courseId ? String(dto.courseId) : null,
+      sourceDocument: firestore_safe_sourceDocument,
+      selectedSubTopics: firestore_safe_selectedSubTopics,
+      preferences: firestore_safe_preferences, 
+      questions: firestore_safe_questions,
+      userAnswers: transformedUserAnswers, // Use transformed string-only userAnswers
+      score: Number(analysis.overallScore),
       correctCount:
-        (analysisResult as any).correctCount ||
+        Number((analysisResult as any).correctCount ||
         (analysisResult as any).totalCorrect ||
-        0,
+        0),
       totalQuestions:
-        (analysisResult as any).totalQuestions || dto.questions.length,
-      elapsedTime: dtoPlaindData.elapsedTime,
+        Number((analysisResult as any).totalQuestions || dto.questions.length),
+      elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
       analysisResult: this.firebaseService.toPlainObject(analysis), // Use utility for analysis object
       timestamp: new Date(),
-      complexityData, // Eklenen komplekslik verisi
+      complexityData: firestore_safe_complexityData, // Use Firestore-safe complexity data
     };
 
-    // Save the quiz to Firestore
-    const savedQuizRef = await this.firebaseService.firestore
-      .collection(FIRESTORE_COLLECTIONS.QUIZZES)
-      .add(quizDataToSave);
+    // TRANSACTION-BASED SUBMİT: Veri tutarlılığı için transaction kullan
+    let savedQuizId: string;
+    
+    try {
+      // Firestore transaction içinde quiz operations yap
+      savedQuizId = await this.firebaseService.firestore.runTransaction(async (transaction) => {
+        // 1. Quiz verisini Firestore'dan al (eğer quiz ID varsa)
+        let existingQuiz: any = null;
+        if (dto.quizId) {
+          this.logger.info(
+            `Transaction içinde mevcut quiz alınıyor: ${dto.quizId}`,
+            'QuizzesService.submitQuiz',
+            __filename,
+            undefined,
+            { quizId: dto.quizId, userId: userId }
+          );
+          
+          const quizRef = this.firebaseService.firestore
+            .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+            .doc(dto.quizId);
+          
+          const quizDoc = await transaction.get(quizRef);
+          
+          if (quizDoc.exists) {
+            existingQuiz = quizDoc.data() as any;
+            this.logger.info(
+              `Mevcut quiz bulundu ve güncellenecek: ${dto.quizId}`,
+              'QuizzesService.submitQuiz',
+              __filename,
+              undefined,
+              { quizId: dto.quizId, existingQuizType: existingQuiz?.quizType }
+            );
+            
+            // Mevcut quiz'i güncelleyerek submit verisini ekle
+            transaction.update(quizRef, {
+              ...quizDataToSave,
+              timestamp: new Date(), // Submit zamanını güncelle
+              score: Number(analysis.overallScore),
+              correctCount: Number((analysisResult as any).correctCount || 0),
+              elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
+              userAnswers: transformedUserAnswers,
+              analysisResult: this.firebaseService.toPlainObject(analysis)
+            });
+            
+            return dto.quizId;
+          } else {
+            this.logger.warn(
+              `Quiz ID sağlandı ancak bulunamadı: ${dto.quizId}, yeni quiz oluşturuluyor`,
+              'QuizzesService.submitQuiz',
+              __filename,
+              undefined,
+              { quizId: dto.quizId, userId: userId }
+            );
+          }
+        }
+        
+        // 2. Yeni quiz oluştur (ID yoksa veya bulunamazsa)
+        const newQuizRef = this.firebaseService.firestore
+          .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+          .doc(); // Yeni ID oluştur
+        
+        transaction.set(newQuizRef, quizDataToSave);          this.logger.info(
+            `Transaction içinde yeni quiz oluşturuldu: ${newQuizRef.id}`,
+            'QuizzesService.submitQuiz',
+            __filename,
+            undefined,
+            { 
+              newQuizId: newQuizRef.id, 
+              userId: userId,
+              quizType: dto.quizType 
+            }
+          );
+        
+        return newQuizRef.id;
+      });
+      
+      this.logger.info(
+        `Quiz transaction başarıyla tamamlandı: ${savedQuizId}`,
+        'QuizzesService.submitQuiz',
+        __filename,
+        undefined,
+        { quizId: savedQuizId, userId: userId }
+      );
+      
+    } catch (transactionError) {
+      this.logger.error(
+        `Quiz transaction hatası: ${transactionError instanceof Error ? transactionError.message : String(transactionError)}`,
+        'QuizzesService.submitQuiz',
+        __filename,
+        undefined,
+        transactionError instanceof Error ? transactionError : new Error(String(transactionError)),
+        { userId: userId, quizType: dto.quizType }
+      );
+      throw new Error(`Quiz submission transaction failed: ${transactionError instanceof Error ? transactionError.message : String(transactionError)}`);
+    }
 
-    const savedQuizId = savedQuizRef.id;
+    // 3. Quiz submission'ı ayrı subcollection'a kaydet
+    try {
+      // Validate userId is not undefined
+      if (!userId) {
+        throw new Error('userId is required for quiz submission');
+      }
+      
+      const submissionId = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const submissionData = {
+        submissionId,
+        userId: String(userId),
+        quizId: savedQuizId,
+        userAnswers: transformedUserAnswers,
+        score: Number(analysis.overallScore),
+        correctCount: Number((analysisResult as any).correctCount || 0),
+        totalQuestions: dto.questions.length,
+        elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
+        submissionTimestamp: new Date(),
+        analysisResult: this.firebaseService.toPlainObject(analysis)
+      };
+
+      // Quiz'in submission subcollection'ına kaydet
+      await this.firebaseService.firestore
+        .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+        .doc(savedQuizId)
+        .collection('submissions')
+        .doc(submissionId)
+        .set(submissionData);
+
+      // User'ın quiz submissions koleksiyonuna özet kaydet
+      await this.firebaseService.firestore
+        .collection('users')
+        .doc(userId)
+        .collection('quizSubmissions')
+        .doc(submissionId)
+        .set({
+          submissionId,
+          quizId: savedQuizId,
+          quizType: dto.quizType,
+          score: Number(analysis.overallScore),
+          submissionTimestamp: new Date(),
+          courseId: dto.courseId || null
+        });
+
+      this.logger.info(
+        `Quiz submission subcollections başarıyla oluşturuldu`,
+        'QuizzesService.submitQuiz',
+        __filename,
+        undefined,
+        { 
+          quizId: savedQuizId, 
+          submissionId, 
+          userId: userId,
+          score: analysis.overallScore 
+        }
+      );
+
+    } catch (subcollectionError) {
+      this.logger.error(
+        `Submission subcollection kaydetme hatası: ${subcollectionError instanceof Error ? subcollectionError.message : String(subcollectionError)}`,
+        'QuizzesService.submitQuiz',
+        __filename,
+        undefined,
+        subcollectionError instanceof Error ? subcollectionError : new Error(String(subcollectionError)),
+        { quizId: savedQuizId, userId: userId }
+      );
+      // Subcollection hatası ana işlemi durdurmasın ama log et
+    }
+
+    // Debug logging helper for quiz submission
+    const failedQuestionsDebugLog = (message: string, data?: any) => {
+      const timestamp = new Date().toISOString();
+      const logEntry = `[${timestamp}] [QUIZ_SUBMISSION_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
+      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+    };
+
+    failedQuestionsDebugLog('=== QUIZ SUBMISSION - FAILED QUESTIONS PROCESSING START ===', {
+      savedQuizId,
+      userId,
+      courseId: dto.courseId,
+      totalQuestions: dto.questions.length,
+      transformedUserAnswersKeys: Object.keys(transformedUserAnswers),
+    });
 
     // Save failed questions if there are any
+    failedQuestionsDebugLog('🔍 FILTERING FAILED QUESTIONS');
+    
     const failedQuestions = dto.questions.filter((q, index) => {
-      const userAnswer = dto.userAnswers[index];
-      return userAnswer !== q.correctAnswer;
+      const userAnswer = transformedUserAnswers[q.id];
+      const isIncorrect = userAnswer !== q.correctAnswer;
+      
+      failedQuestionsDebugLog(`📝 QUESTION ${index + 1} ANALYSIS`, {
+        questionIndex: index,
+        questionId: q.id,
+        questionText: q.questionText?.substring(0, 50) + '...',
+        userAnswer,
+        correctAnswer: q.correctAnswer,
+        isIncorrect,
+        fullQuestion: q,
+      });
+      
+      return isIncorrect;
+    });
+
+    failedQuestionsDebugLog('📊 FAILED QUESTIONS FILTER RESULTS', {
+      totalQuestions: dto.questions.length,
+      failedQuestionsCount: failedQuestions.length,
+      failedQuestionIds: failedQuestions.map(q => q.id),
+      failedQuestions: failedQuestions.map(q => ({
+        id: q.id,
+        questionText: q.questionText?.substring(0, 50) + '...',
+        userAnswer: transformedUserAnswers[q.id],
+        correctAnswer: q.correctAnswer,
+      }))
     });
 
     if (failedQuestions.length > 0) {
-      await this.saveFailedQuestions(
+      failedQuestionsDebugLog('🚀 CALLING saveFailedQuestions METHOD', {
         savedQuizId,
         userId,
-        dto.courseId || null,
-        failedQuestions,
-      );
+        courseId: dto.courseId || null,
+        failedQuestionsCount: failedQuestions.length,
+      });
+      
+      try {
+        await this.saveFailedQuestions(
+          savedQuizId,
+          userId,
+          dto.courseId || null,
+          failedQuestions,
+          transformedUserAnswers,
+        );
+        failedQuestionsDebugLog('✅ saveFailedQuestions COMPLETED SUCCESSFULLY');
+      } catch (saveFailedError) {
+        failedQuestionsDebugLog('💥 saveFailedQuestions ERROR', {
+          error: saveFailedError.message,
+          stack: saveFailedError.stack,
+          failedQuestions,
+          transformedUserAnswers,
+        });
+        throw saveFailedError;
+      }
+    } else {
+      failedQuestionsDebugLog('✅ NO FAILED QUESTIONS TO SAVE');
     }
 
     // Update learning targets status if this was a personalized quiz
@@ -1037,7 +1359,7 @@ export class QuizzesService {
       questions: quizDataToSave.questions,
       analysisResult: quizDataToSave.analysisResult,
       sourceDocument: quizDataToSave.sourceDocument,
-      selectedSubTopics: quizDataToSave.selectedSubTopics as any, // TODO: Define string[] or similar
+      selectedSubTopics: quizDataToSave.selectedSubTopics as any, 
     };
 
     return { quiz: returnedQuiz, analysis };
@@ -1536,27 +1858,164 @@ export class QuizzesService {
     userId: string,
     courseId: string | null,
     failedQuestions: any[],
+    userAnswers: Record<string, string>,
   ) {
-    if (!failedQuestions || failedQuestions.length === 0) return;
+    const saveFailedDebugLog = (message: string, data?: any) => {
+      const timestamp = new Date().toISOString();
+      const logEntry = `[${timestamp}] [SAVE_FAILED_QUESTIONS_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
+      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+    };
 
-    const failedQuestionRecords = failedQuestions.map((q) => ({
-      userId,
+    saveFailedDebugLog('=== SAVE FAILED QUESTIONS START ===', {
       quizId,
+      userId,
       courseId,
-      questionId: q.questionId,
-      questionText: q.questionText,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-      userAnswer: q.userAnswer,
-      subTopic: q.subTopicName,
-      normalizedSubTopic: q.normalizedSubTopicName,
-      difficulty: q.difficulty,
-    }));
+      failedQuestionsCount: failedQuestions?.length || 0,
+      userAnswersKeys: Object.keys(userAnswers || {}),
+    });
 
-    // Save them in batch
-    await this.firebaseService.firestore
-      .collection(FIRESTORE_COLLECTIONS.FAILED_QUESTIONS)
-      .add(failedQuestionRecords);
+    if (!failedQuestions || failedQuestions.length === 0) {
+      saveFailedDebugLog('❌ NO FAILED QUESTIONS TO SAVE - RETURNING EARLY');
+      return;
+    }
+
+    saveFailedDebugLog('📝 PROCESSING FAILED QUESTIONS', {
+      failedQuestions: failedQuestions.map((q, index) => ({
+        index,
+        id: q.id,
+        questionId: q.questionId,
+        questionText: q.questionText?.substring(0, 50) + '...',
+        hasOptions: Array.isArray(q.options),
+        optionsCount: q.options?.length,
+        correctAnswer: q.correctAnswer,
+        subTopic: q.subTopic,
+        subTopicName: q.subTopicName,
+        normalizedSubTopic: q.normalizedSubTopic,
+        normalizedSubTopicName: q.normalizedSubTopicName,
+        difficulty: q.difficulty,
+      }))
+    });
+
+    const failedQuestionRecords = failedQuestions.map((q, index) => {
+      saveFailedDebugLog(`🔍 PROCESSING QUESTION ${index + 1}/${failedQuestions.length}`, {
+        questionIndex: index,
+        originalQuestion: {
+          id: q.id,
+          questionId: q.questionId,
+          questionText: q.questionText,
+          options: q.options,
+          correctAnswer: q.correctAnswer,
+          subTopic: q.subTopic,
+          subTopicName: q.subTopicName,
+          normalizedSubTopic: q.normalizedSubTopic,
+          normalizedSubTopicName: q.normalizedSubTopicName,
+          difficulty: q.difficulty,
+        }
+      });
+
+      const questionId = q.id || q.questionId;
+      const userAnswer = userAnswers[q.id] || userAnswers[questionId] || '';
+      
+      saveFailedDebugLog(`📊 EXTRACTED DATA FOR QUESTION ${index + 1}`, {
+        extractedQuestionId: questionId,
+        extractedUserAnswer: userAnswer,
+        userAnswersForThisId: {
+          byId: userAnswers[q.id],
+          byQuestionId: userAnswers[questionId],
+        }
+      });
+
+      // Fix options field to prevent nested arrays in Firestore
+      let processedOptions = [];
+      if (Array.isArray(q.options)) {
+        processedOptions = q.options.map(option => {
+          if (typeof option === 'string') {
+            return option;
+          } else if (typeof option === 'object' && option !== null) {
+            // If option is an object with text property, extract text
+            return option.text || option.id || String(option);
+          }
+          return String(option);
+        });
+      }
+
+      const record = {
+        userId,
+        quizId,
+        courseId,
+        questionId: questionId,
+        questionText: q.questionText || '',
+        options: processedOptions, // Now guaranteed to be string array
+        correctAnswer: q.correctAnswer || '',
+        userAnswer: userAnswer,
+        subTopic: q.subTopic || q.subTopicName || '',
+        normalizedSubTopic: q.normalizedSubTopic || q.normalizedSubTopicName || '',
+        difficulty: q.difficulty || 'medium',
+        failedTimestamp: new Date(),
+      };
+
+      saveFailedDebugLog(`✅ CREATED RECORD FOR QUESTION ${index + 1}`, { record });
+
+      // Validate critical fields
+      if (!record.questionId) {
+        saveFailedDebugLog(`🚨 CRITICAL ERROR: questionId is undefined for question ${index + 1}`, {
+          originalQ: q,
+          record,
+          possibleIds: { qId: q.id, qQuestionId: q.questionId }
+        });
+      }
+
+      return record;
+    });
+
+    saveFailedDebugLog('📦 ALL RECORDS CREATED', {
+      recordsCount: failedQuestionRecords.length,
+      records: failedQuestionRecords,
+    });
+
+    try {
+      saveFailedDebugLog('🚀 STARTING FIRESTORE BATCH OPERATION');
+      
+      const batch = this.firebaseService.firestore.batch();
+      const collectionRef = this.firebaseService.firestore.collection(FIRESTORE_COLLECTIONS.FAILED_QUESTIONS);
+      
+      failedQuestionRecords.forEach((record, index) => {
+        saveFailedDebugLog(`📝 ADDING RECORD ${index + 1} TO BATCH`, { record });
+        
+        // Final validation before adding to batch
+        const invalidFields: string[] = [];
+        if (record.questionId === undefined || record.questionId === null) invalidFields.push('questionId');
+        if (!record.userId) invalidFields.push('userId');
+        if (!record.quizId) invalidFields.push('quizId');
+        
+        if (invalidFields.length > 0) {
+          saveFailedDebugLog(`🚨 INVALID RECORD DETECTED - WILL CAUSE FIRESTORE ERROR`, {
+            recordIndex: index,
+            invalidFields,
+            record
+          });
+        }
+        
+        const docRef = collectionRef.doc();
+        batch.set(docRef, record);
+        
+        saveFailedDebugLog(`✅ RECORD ${index + 1} ADDED TO BATCH WITH DOC ID: ${docRef.id}`);
+      });
+      
+      saveFailedDebugLog('💾 COMMITTING BATCH TO FIRESTORE');
+      await batch.commit();
+      saveFailedDebugLog('🎉 BATCH COMMITTED SUCCESSFULLY');
+      
+    } catch (batchError) {
+      saveFailedDebugLog('💥 FIRESTORE BATCH ERROR', {
+        error: batchError.message,
+        stack: batchError.stack,
+        failedQuestionRecords,
+      });
+      throw batchError;
+    }
+
+    saveFailedDebugLog('=== SAVE FAILED QUESTIONS END ===');
   }
 
   /**
@@ -2331,16 +2790,68 @@ export class QuizzesService {
           : null,
       } as Quiz;
 
-      // NOT: Sınav sadece kullanıcı tamamladığında veritabanına kaydedilecek
-      // Submit işlemi sırasında kaydedilir, burada kaydetmiyoruz
+      // KRİTİK DÜZELTME: Hızlı sınavı hemen veritabanına kaydet
+      // Bu sayede submit ve get işlemleri çalışabilir
+      try {
+        // Firestore'a uygun format hazırlama
+        const firestore_safe_quiz = {
+          userId: quiz.userId,
+          quizType: String(quiz.quizType),
+          personalizedQuizType: quiz.personalizedQuizType || null,
+          courseId: quiz.courseId || null,
+          questions: quiz.questions.map(q => ({
+            id: String(q.id),
+            questionText: String(q.questionText || ''),
+            options: Array.isArray(q.options) ? q.options.map(opt => String(opt)) : [],
+            correctAnswer: String(q.correctAnswer || ''),
+            explanation: String(q.explanation || ''),
+            subTopic: String(q.subTopic || ''),
+            normalizedSubTopic: String(q.normalizedSubTopic || ''),
+            difficulty: String(q.difficulty || 'medium')
+          })),
+          timestamp: quiz.timestamp,
+          selectedSubTopics: Array.isArray(quiz.selectedSubTopics) ? 
+            quiz.selectedSubTopics.map(st => String(st)) : [],
+          score: Number(quiz.score || 0),
+          correctCount: Number(quiz.correctCount || 0),
+          totalQuestions: Number(quiz.totalQuestions || 0),
+          elapsedTime: Number(quiz.elapsedTime || 0),
+          userAnswers: quiz.userAnswers || {},
+          preferences: {
+            questionCount: Number(quiz.preferences?.questionCount || questionCount),
+            difficulty: String(quiz.preferences?.difficulty || difficulty),
+            timeLimit: quiz.preferences?.timeLimit || null,
+            prioritizeWeakAndMediumTopics: Boolean(quiz.preferences?.prioritizeWeakAndMediumTopics || false)
+          },
+          sourceDocument: quiz.sourceDocument ? {
+            documentId: String(quiz.sourceDocument.documentId || ''),
+            fileName: String(quiz.sourceDocument.fileName || ''),
+            uploadDate: quiz.sourceDocument.uploadDate || quiz.timestamp
+          } : null
+        };
 
-      this.logger.info(
-        `Hızlı sınav oluşturuldu (henüz kaydedilmedi): ID=${quizId}`,
-        'QuizzesService.createQuickQuiz',
-        __filename,
-        undefined,
-        { quizId, userId, questionCount: questions.length },
-      );
+        // Quiz'i Firestore'a kaydet
+        await this.firebaseService.firestore
+          .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+          .doc(quiz.id)
+          .set(firestore_safe_quiz);
+
+        this.logger.info(
+          `Hızlı sınav başarıyla veritabanına kaydedildi: ID=${quizId}`,
+          'QuizzesService.createQuickQuiz',
+          __filename,
+          undefined,
+          { quizId, userId, questionCount: questions.length }
+        );
+
+      } catch (saveError) {
+        this.logger.error(
+          `Hızlı sınav veritabanına kaydedilirken hata oluştu: ${saveError instanceof Error ? saveError.message : 'Bilinmeyen hata'}`,
+          'QuizzesService.createQuickQuiz',
+          __filename
+        );
+        throw new BadRequestException('Sınav oluşturuldu ancak kaydedilemedi. Lütfen tekrar deneyin.');
+      }
 
       return quiz;
     } catch (error) {

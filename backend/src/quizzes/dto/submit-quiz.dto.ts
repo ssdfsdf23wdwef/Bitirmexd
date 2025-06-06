@@ -171,6 +171,15 @@ class QuizPreferencesDto {
 
 export class SubmitQuizDto {
   @ApiProperty({
+    description: 'Quiz ID (mevcut quiz güncellemesi için - opsiyonel)',
+    example: 'quiz_1628847892_abc123',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  quizId?: string;
+
+  @ApiProperty({
     description: 'Sınav tipi',
     example: 'quick',
     enum: ['quick', 'personalized', 'review'],

@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-06T01:28:47.354Z
-Trace ID: quiz-1749173311845-cp38h
-Yanıt Uzunluğu: 9410 karakter
+Tarih: 2025-06-06T04:08:00.546Z
+Trace ID: quiz-1749182867944-r3xfe
+Yanıt Uzunluğu: 6900 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 9410 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreçleri nasıldır?",
+      "questionText": "Aşağıdakilerden hangisi Linux'ta ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılan bir komuttur?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Donanım ve yazılım eş zamanlı olarak geliştirilir ve entegre edilir.",
-        "Donanım ve yazılım ayrı ayrı geliştirilir ve sonrasında entegre edilir.",
-        "Önce yazılım geliştirilir, sonra donanıma uyarlanır.",
-        "Donanım ve yazılım geliştirme süreçleri tamamen bağımsızdır ve entegrasyon gerektirmez."
+        "ping",
+        "netstat",
+        "ifconfig",
+        "traceroute"
       ],
-      "correctAnswer": "Donanım ve yazılım ayrı ayrı geliştirilir ve sonrasında entegre edilir.",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirilir ve entegrasyon son aşamada yapılır. Bu yaklaşımda iletişim optimize edilmez ve değişiklikler zor olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
-      "subTopicName": "Geleneksel Sistem Tasarımı",
-      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
-      "difficulty": "medium"
+      "correctAnswer": "ifconfig",
+      "explanation": "ifconfig (Interface Configuration) komutu, Linux'ta ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Diğer seçenekler farklı ağ işlemlerini gerçekleştirir.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_izleme_komutlari",
+      "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Geleneksel sistem tasarımında, donanım ve yazılımın ayrı ayrı geliştirilmesinin temel dezavantajı nedir?",
+      "questionText": "Hangi komut, belirli bir ağ arayüzünün IP adresini görüntülemek için kullanılabilir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Geliştirme maliyetlerinin düşmesi.",
-        "İletişim optimizasyonunun sağlanması.",
-        "Entegrasyon sürecinde verimlilik kayıplarının yaşanabilmesi.",
-        "Yeni teknolojilere hızlı uyum sağlanabilmesi."
+        "ping eth0",
+        "netstat -i",
+        "ifconfig eth0",
+        "traceroute eth0"
       ],
-      "correctAnswer": "Entegrasyon sürecinde verimlilik kayıplarının yaşanabilmesi.",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılımın ayrı ayrı geliştirilmesi, entegrasyon sırasında verimlilik kayıplarına yol açabilir. Ayrıca, iletişim optimize edilmez ve değişiklikler zor olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
-      "subTopicName": "Geleneksel Sistem Tasarımı",
-      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
+      "correctAnswer": "ifconfig eth0",
+      "explanation": "ifconfig eth0 komutu, eth0 arayüzünün IP adresini ve diğer yapılandırma detaylarını gösterir. Diğer seçenekler farklı ağ bilgilerini sağlar.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_izleme_komutlari",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdakilerden hangisi donanım ve yazılım ayrımının belirgin olduğu geleneksel sistem tasarımının bir özelliğidir?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzünü etkinleştirmek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Her iki bileşenin birbirine bağımlı çalışması",
-        "İletişimin optimize edilmiş olması",
-        "Her iki bileşenin bağımsız çalışabilmesi",
-        "Değişikliklerin kolay ve hızlı bir şekilde yapılabilmesi"
+        "sudo ip link set eth0 down",
+        "sudo ip link show eth0",
+        "sudo ip link set eth0 up",
+        "sudo ip addr show"
       ],
-      "correctAnswer": "Her iki bileşenin bağımsız çalışabilmesi",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki bileşenin bağımsız çalışmasını sağlar. Ancak bu durum, iletişimde optimizasyon eksikliğine ve değişikliklerin zorlu olmasına neden olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
-      "subTopicName": "Donanım Ve Yazılım Ayrımı",
-      "normalizedSubTopicName": "donanim_ve_yazilim_ayrimi",
+      "correctAnswer": "sudo ip link set eth0 up",
+      "explanation": "sudo ip link set eth0 up komutu, eth0 ağ arayüzünü etkinleştirir. 'down' seçeneği arayüzü devre dışı bırakır.",
+      "subTopicName": "Arayüz Yapılandırması",
+      "normalizedSubTopicName": "arayuz_yapilandirmasi",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım arasındaki ayrımın olmaması durumunda ortaya çıkabilecek en büyük sorun nedir?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzünü devre dışı bırakmak için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Maliyetlerin düşmesi",
-        "Geliştirme sürecinin hızlanması",
-        "Uyumsuzlukların ortaya çıkması",
-        "Verimliliğin artması"
+        "sudo ip link set eth0 up",
+        "sudo ip link show eth0",
+        "sudo ip link set eth0 down",
+        "sudo ip addr show"
       ],
-      "correctAnswer": "Uyumsuzlukların ortaya çıkması",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için uyumsuzluklar ortaya çıkabilir. Bu durum, sistem genelinde verimlilik kaybına yol açar ve entegrasyon sürecini uzatır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
-      "subTopicName": "Donanım Ve Yazılım Ayrımı",
-      "normalizedSubTopicName": "donanim_ve_yazilim_ayrimi",
-      "difficulty": "medium"
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "sudo ip link set eth0 down komutu, eth0 ağ arayüzünü devre dışı bırakır. 'up' seçeneği arayüzü etkinleştirir.",
+      "subTopicName": "Arayüz Yapılandırması",
+      "normalizedSubTopicName": "arayuz_yapilandirmasi",
+      "difficulty": "easy"
     },
     {
       "id": "q5",
-      "questionText": "Geleneksel sistem tasarımında entegrasyon sürecindeki temel zorluk nedir?",
+      "questionText": "Ağ arayüzlerini listelemek için kullanılan 'ip' komutu hangisidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Donanım ve yazılımın uyumlu bir şekilde çalışmasının sağlanamaması",
-        "Geliştirme ekipleri arasındaki iletişimin kolaylığı",
-        "Yeni teknolojilere hızlı adaptasyonun sağlanması",
-        "Maliyetlerin düşürülmesi"
+        "ip link set",
+        "ip addr show",
+        "ip link show",
+        "ip addr set"
       ],
-      "correctAnswer": "Donanım ve yazılımın uyumlu bir şekilde çalışmasının sağlanamaması",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için, entegrasyon aşamasında uyumsuzluklar yaşanabilir. Bu durum, entegrasyon sürecini uzatır ve maliyeti artırır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
-      "subTopicName": "Entegrasyon Zorlukları",
-      "normalizedSubTopicName": "entegrasyon_zorluklari",
-      "difficulty": "medium"
+      "correctAnswer": "ip addr show",
+      "explanation": "ip addr show komutu, sistemdeki tüm ağ arayüzlerini ve bunlara ait IP adreslerini listeler.",
+      "subTopicName": "Ağ Arayüzü Yönetimi",
+      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
+      "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "Aşağıdakilerden hangisi geleneksel sistem tasarımında entegrasyon zorluklarının bir sonucu değildir?",
+      "questionText": "'ip' komutu ile bir arayüzün durumunu (up/down) değiştirmek için hangi alt komut kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım ve yazılım uyumsuzluğu",
-        "Entegrasyon sürecinin uzaması",
-        "Maliyetin artması",
-        "Yeni teknolojilere hızlı uyum"
+        "ip addr",
+        "ip route",
+        "ip link",
+        "ip netns"
       ],
-      "correctAnswer": "Yeni teknolojilere hızlı uyum",
-      "explanation": "Geleneksel sistem tasarımı, yeni teknolojilere hızlı uyum sağlamakta zorlanır. Donanım ve yazılım uyumsuzluğu, entegrasyon sürecinin uzaması ve maliyetin artması ise entegrasyon zorluklarının sonuçlarıdır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
-      "subTopicName": "Entegrasyon Zorlukları",
-      "normalizedSubTopicName": "entegrasyon_zorluklari",
+      "correctAnswer": "ip link",
+      "explanation": "ip link komutu, ağ arayüzlerinin özelliklerini değiştirmek ve durumlarını kontrol etmek için kullanılır (up/down).",
+      "subTopicName": "Ağ Arayüzü Yönetimi",
+      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Eş zamanlı tasarım yaklaşımının (Co-Design) temel amacı nedir?",
+      "questionText": "Aşağıdaki komutlardan hangisi, bir ağdaki bir hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sadece donanım maliyetlerini düşürmek",
-        "Yazılım geliştirme sürecini hızlandırmak",
-        "Donanım ve yazılım bileşenlerini ayrı ayrı optimize etmek",
-        "Donanım ve yazılım bileşenlerini eş zamanlı ve birlikte tasarlamak"
+        "netstat",
+        "traceroute",
+        "ping",
+        "nslookup"
       ],
-      "correctAnswer": "Donanım ve yazılım bileşenlerini eş zamanlı ve birlikte tasarlamak",
-      "explanation": "Co-Design, donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve birlikte tasarlanması yaklaşımıdır. Bu yaklaşım, yüksek performans ve enerji verimliliği sağlamayı amaçlar. (Bkz: Ortak Tasarım (Co-Design))",
-      "subTopicName": "Eş Zamanlı Tasarım Yaklaşımı",
-      "normalizedSubTopicName": "es_zamanli_tasarim_yaklasimi",
-      "difficulty": "medium"
+      "correctAnswer": "ping",
+      "explanation": "ping komutu, bir ağdaki bir hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır.",
+      "subTopicName": "Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "ag_baglantisi_testi",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Co-design yaklaşımında, geleneksel sistem tasarımından farklı olarak hangi süreç eş zamanlı olarak yürütülür?",
+      "questionText": "ping komutunda '-c' parametresi neyi ifade eder?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım üretimi",
-        "Yazılım test süreçleri",
-        "Donanım ve yazılım tasarımı",
-        "Sistem entegrasyonu"
+        "Hedefin IP adresini",
+        "Gönderilecek ping sayısını",
+        "Paket boyutunu",
+        "Zaman aşımı süresini"
       ],
-      "correctAnswer": "Donanım ve yazılım tasarımı",
-      "explanation": "Co-design yaklaşımında donanım ve yazılım bileşenlerinin tasarımı eş zamanlı olarak yürütülür. Geleneksel sistemlerde donanım önceden tasarlanır, yazılım sonradan uyarlanır. (Bkz: Ortak Tasarım (Co-Design))",
-      "subTopicName": "Eş Zamanlı Tasarım Yaklaşımı",
-      "normalizedSubTopicName": "es_zamanli_tasarim_yaklasimi",
+      "correctAnswer": "Gönderilecek ping sayısını",
+      "explanation": "ping komutunda '-c' parametresi, hedefe gönderilecek ping sayısını belirtir. Örneğin, 'ping -c 4 10.112.0.1' komutu hedefe 4 adet ping gönderir.",
+      "subTopicName": "Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "ag_baglantisi_testi",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Co-design yaklaşımının önemi özellikle hangi tür sistemlerde daha belirgindir?",
+      "questionText": "Aşağıdaki komutlardan hangisi mevcut ağ bağlantılarını listelemek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Basit gömülü sistemler",
-        "Küçük ölçekli yazılım projeleri",
-        "Karmaşık eksaskala sistemler ve süper bilgisayarlar",
-        "Tek kullanıcılı masaüstü uygulamaları"
+        "ping",
+        "traceroute",
+        "netstat",
+        "nslookup"
       ],
-      "correctAnswer": "Karmaşık eksaskala sistemler ve süper bilgisayarlar",
-      "explanation": "Co-design, özellikle eksaskala sistemler ve süper bilgisayarlar gibi karmaşık yapılarda yüksek performans ve enerji verimliliği için zorunludur. (Bkz: Ortak Tasarım (Co-Design))",
-      "subTopicName": "Co Designın Önemi",
-      "normalizedSubTopicName": "co_designin_onemi",
-      "difficulty": "medium"
+      "correctAnswer": "netstat",
+      "explanation": "netstat komutu, mevcut ağ bağlantılarını ve istatistiklerini listelemek için kullanılır.",
+      "subTopicName": "Ağ Bağlantılarını Görüntüleme",
+      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme",
+      "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi Co-design yaklaşımının temel faydalarından biridir?",
+      "questionText": "netstat komutunda '-tuln' parametreleri neyi ifade eder?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım ve yazılım uyumsuzluğunun artması",
-        "Entegrasyon sürecinin uzaması ve maliyetin artması",
-        "Donanım ve yazılımın ayrı ayrı optimize edilmesi",
-        "Sistem genelinde verimliliğin sağlanması"
+        "Tüm arayüzleri listeler",
+        "Sadece TCP bağlantılarını gösterir",
+        "Belirli bir portu dinleyen süreçleri listeler",
+        "Ağ istatistiklerini gösterir"
       ],
-      "correctAnswer": "Sistem genelinde verimliliğin sağlanması",
-      "explanation": "Co-design yaklaşımında donanım ve yazılım ortak optimize edilir, bu da sistem genelinde verimlilik sağlar. Ayrıca, donanım ve yazılım uyumsuzluğu yok denecek kadar azdır ve entegrasyon süreci kısa ve maliyeti azdır. (Bkz: Ortak Tasarımın (Co-Design) Artıları)",
-      "subTopicName": "Co Designın Önemi",
-      "normalizedSubTopicName": "co_designin_onemi",
+      "correctAnswer": "Belirli bir portu dinleyen süreçleri listeler",
+      "explanation": "netstat -tuln komutu, belirli bir portu dinleyen TCP ve UDP bağlantılarını listeler. 't' TCP, 'u' UDP, 'l' dinleyen soketler ve 'n' sayısal adresler anlamına gelir.",
+      "subTopicName": "Ağ Bağlantılarını Görüntüleme",
+      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme",
       "difficulty": "medium"
     }
   ]
