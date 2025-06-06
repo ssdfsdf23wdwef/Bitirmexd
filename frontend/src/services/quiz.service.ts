@@ -31,6 +31,64 @@ class QuizApiService {
   private readonly failedQuestionsPath = API_ENDPOINTS.FAILED_QUESTIONS;
   private readonly apiService = apiService;
   
+  /**
+   * Sınavı localStorage'a kaydeder, id olmadan önce veya backend'e göndermeden önce
+   * Bu sayede, sınav daha sonra localStorage'dan çağrılabilir
+   */
+  public storeQuizInStorage(quiz: Quiz): void {
+    if (!quiz || !quiz.id) {
+      console.error('[QuizApiService.storeQuizInStorage] Geçersiz quiz nesnesi. ID bulunamadı.');
+      return;
+    }
+    
+    try {
+      // Sorularda correctAnswerId alanını ekle (backend validasyonu için)
+      const enhancedQuiz = { ...quiz };
+      
+      if (Array.isArray(enhancedQuiz.questions)) {
+        enhancedQuiz.questions = enhancedQuiz.questions.map(q => {
+          // Her soruda correctAnswerId alanı olduğundan emin ol
+          const question = { ...q } as any; // Tip hatası için any kullanıyoruz
+          if (!question.correctAnswerId && question.correctAnswer && Array.isArray(question.options)) {
+            // correctAnswerId değeri, doğru cevabın seçenekler dizisindeki indeksidir
+            const index = question.options.findIndex((opt: string) => opt === question.correctAnswer);
+            if (index !== -1) {
+              question.correctAnswerId = index.toString();
+              console.log(`[QuizApiService.storeQuizInStorage] ✅ correctAnswerId eklendi: ${question.id}, index=${index}`);
+            } else {
+              console.warn(`[QuizApiService.storeQuizInStorage] ⚠️ correctAnswer seçenekler arasında bulunamadı: ${question.id}`);
+              // Eğer doğru cevap seçenekler arasında bulunamazsa, 0 indexi varsayılan olarak kullan
+              question.correctAnswerId = "0";
+            }
+          }
+          return question;
+        });
+      }
+      
+      localStorage.setItem(`quiz_${quiz.id}`, JSON.stringify(enhancedQuiz));
+      console.log(`[QuizApiService.storeQuizInStorage] ✅ Quiz başarıyla localStorage'a kaydedildi: ID=${quiz.id}`);
+    } catch (error) {
+      console.error('[QuizApiService.storeQuizInStorage] Quiz localStorage\'a kaydedilemedi:', error);
+    }
+  }
+  
+  /**
+   * LocalStorage'dan sınav verilerini getirir
+   */
+  public getQuizFromLocalStorage(quizId: string): Quiz | null {
+    if (!quizId) return null;
+    
+    try {
+      const storedQuiz = localStorage.getItem(`quiz_${quizId}`);
+      if (!storedQuiz) return null;
+      
+      return JSON.parse(storedQuiz) as Quiz;
+    } catch (error) {
+      console.error(`[QuizApiService.getQuizFromLocalStorage] Quiz okuma hatası: ${error}`);
+      return null;
+    }
+  }
+  
   private getResponseData(response: unknown): unknown {
     console.log("[QuizApiService.getResponseData] Yanıt yapısı inceleniyor:", response);
     console.log("[QuizApiService.getResponseData] Yanıt tipi:", typeof response);
@@ -489,6 +547,8 @@ class QuizApiService {
           console.log("[QuizApiService.generateQuiz] API yanıtı içinde data nesnesi bulundu:", responseData.data);
           try {
             const mappedQuiz = this.mapResponseToQuiz(responseData.data as unknown as QuizResponseDto);
+            // Quiz'i localStorage'a kaydet (correctAnswerId eklemesi için)
+            this.storeQuizInStorage(mappedQuiz);
             return mappedQuiz;
           } catch (dataMapError) {
             console.error("[QuizApiService.generateQuiz] Data nesnesi dönüştürme hatası:", dataMapError);
@@ -542,6 +602,10 @@ class QuizApiService {
         console.log("[QuizApiService.generateQuiz] Standart yanıt işleniyor. ID:", responseData.id);
         const mappedQuiz = this.mapResponseToQuiz(responseData as unknown as QuizResponseDto);
         console.log("[QuizApiService.generateQuiz] Quiz başarıyla oluşturuldu:", mappedQuiz.id);
+        
+        // Quiz'i localStorage'a kaydet (correctAnswerId eklemesi için)
+        this.storeQuizInStorage(mappedQuiz);
+        
         return mappedQuiz;
       } catch (mapError) {
         // Eşleme hatası oluşursa loglayıp fallback dönün

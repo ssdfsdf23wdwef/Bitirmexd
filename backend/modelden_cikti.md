@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-05T22:41:27.892Z
-Trace ID: quiz-1749163271559-a8hfv
-Yanıt Uzunluğu: 8862 karakter
+Tarih: 2025-06-06T00:10:43.706Z
+Trace ID: quiz-1749168630145-4e4u8
+Yanıt Uzunluğu: 8957 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 8862 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
+      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayar sistemlerinde karşılaşılan yazılım zorluklarından biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ arayüzlerini listelemek ve yapılandırmak",
-        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
-        "Ağ bağlantılarının istatistiklerini görüntülemek",
-        "Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek"
+        "Ölçeklenebilirlik",
+        "Hata toleransı",
+        "Kaynak yönetimi",
+        "Veri şifreleme"
       ],
-      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
-      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Örneğin, 'ifconfig' komutu ağ arayüzlerini listelerken, 'ifconfig eth0' belirli bir arayüzün IP adresini gösterir. Diğer seçenekler farklı komutların işlevleridir.",
-      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
-      "normalizedSubTopicName": "ağ_yönetimi_ve_i_zleme",
-      "difficulty": "easy"
+      "correctAnswer": "Veri şifreleme",
+      "explanation": "Eksaskala çağında yazılım zorlukları arasında ölçeklenebilirlik, hata toleransı, kaynak yönetimi ve veri hareketi yer alırken, veri şifreleme doğrudan belirtilmemiştir. Bu nedenle doğru cevap 'Veri şifreleme'dir. Sunu 4'e bakınız.",
+      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
+      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
+      "difficulty": "medium"
     },
     {
       "id": "q2",
-      "questionText": "'ip addr show' komutu hangi amaçla kullanılır?",
+      "questionText": "Eksaskala bilgisayar sistemlerinde geleneksel yazılımların ve işletim sistemlerinin karşılaştığı temel zorluk nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ arayüzlerini listelemek",
-        "Ağ arayüzünü etkinleştirmek",
-        "Ağ arayüzünü devre dışı bırakmak",
-        "Yönlendirme tablosunu görüntülemek"
+        "Düşük enerji tüketimi",
+        "Yüksek güvenlik açıkları",
+        "Milyonlarca çekirdeği verimli yönetememe",
+        "Kolay programlanabilirlik"
       ],
-      "correctAnswer": "Ağ arayüzlerini listelemek",
-      "explanation": "'ip addr show' komutu, ağ arayüzlerini listelemek için kullanılır. 'sudo ip link set eth0 up' komutu arayüzü etkinleştirir, 'sudo ip link set eth0 down' komutu ise arayüzü devre dışı bırakır. 'route -n' komutu yönlendirme tablosunu gösterir.",
-      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
-      "normalizedSubTopicName": "ağ_yönetimi_ve_i_zleme",
-      "difficulty": "easy"
+      "correctAnswer": "Milyonlarca çekirdeği verimli yönetememe",
+      "explanation": "Geleneksel sistemler, eksaskala sistemlerin gerektirdiği milyonlarca çekirdeği verimli bir şekilde yönetmekte zorlanırlar. Bu durum, ölçeklenebilirlik sorunlarına yol açar. Sunu 4'e bakınız.",
+      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
+      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
+      "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdaki komutlardan hangisi 'eth0' arayüzüne 192.168.1.10 IP adresini atamak için kullanılır?",
+      "questionText": "Eksaskala sistemlerde ölçeklenebilirlik zorluklarının temel nedeni nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "ip addr add 192.168.1.10/24 dev eth0",
-        "ip link set eth0 up",
-        "ifconfig eth0 192.168.1.10 netmask 255.255.255.0",
-        "route add default gw 192.168.1.1"
+        "Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi",
+        "Yüksek enerji tüketimi",
+        "Veri depolama kapasitesinin yetersizliği",
+        "Programlama dillerinin uyumsuzluğu"
       ],
-      "correctAnswer": "ifconfig eth0 192.168.1.10 netmask 255.255.255.0",
-      "explanation": "'ifconfig eth0 192.168.1.10 netmask 255.255.255.0' komutu, 'eth0' arayüzüne 192.168.1.10 IP adresini ve 255.255.255.0 alt ağ maskesini atar. 'ip addr add' komutu da kullanılabilir ancak daha modern bir yaklaşımdır. Diğer seçenekler farklı ağ yapılandırma işlemlerini ifade eder.",
-      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
-      "normalizedSubTopicName": "ağ_arayüzü_yapılandırması_ifconfiğiip",
+      "correctAnswer": "Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi",
+      "explanation": "Ölçeklenebilirlik zorluklarının temel nedeni, geleneksel sistemlerin milyonlarca çekirdeği verimli bir şekilde yönetememesidir. Bu durum, eksaskala sistemlerde performans sorunlarına yol açar. Sunu 4'e bakınız.",
+      "subTopicName": "Ölçeklenebilirlik Zorlukları",
+      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
       "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "Bir ağ arayüzünü devre dışı bırakmak için hangi komut kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde ölçeklenebilirlik sorunlarını çözmek için kullanılan bir yaklaşım değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "sudo ip link set eth0 up",
-        "sudo ip link set eth0 down",
-        "ifconfig eth0 down",
-        "ifconfig eth0 up"
+        "Hafif işletim sistemleri kullanmak",
+        "Paralel programlama tekniklerini geliştirmek",
+        "Veri sıkıştırma algoritmalarını kullanmak",
+        "Geleneksel işletim sistemlerini optimize etmek"
       ],
-      "correctAnswer": "sudo ip link set eth0 down",
-      "explanation": "'sudo ip link set eth0 down' komutu, belirtilen 'eth0' ağ arayüzünü devre dışı bırakır. 'up' parametresi ise arayüzü etkinleştirir.",
-      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
-      "normalizedSubTopicName": "ağ_arayüzü_yapılandırması_ifconfiğiip",
+      "correctAnswer": "Veri sıkıştırma algoritmalarını kullanmak",
+      "explanation": "Veri sıkıştırma algoritmaları, veri depolama ve transferi için kullanılır, ancak doğrudan ölçeklenebilirlik sorunlarını çözmek için kullanılan bir yaklaşım değildir. Sunu 4'e bakınız.",
+      "subTopicName": "Ölçeklenebilirlik Zorlukları",
+      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Aşağıdakilerden hangisi 'ping' komutunun temel işlevidir?",
+      "questionText": "Eksaskala sistemlerde hata toleransı gereksinimlerinin artmasının temel nedeni nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Bir ağdaki hedefe ICMP Echo istekleri göndermek",
-        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
-        "Ağ bağlantılarının istatistiklerini görüntülemek",
-        "Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek"
+        "Büyük sistemlerde donanım arızalarının daha sık görülmesi",
+        "Yazılım hatalarının artması",
+        "Siber saldırıların artması",
+        "Enerji kesintilerinin sıklaşması"
       ],
-      "correctAnswer": "Bir ağdaki hedefe ICMP Echo istekleri göndermek",
-      "explanation": "'ping' komutu, bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri göndererek ağ bağlantısını test eder. Diğer seçenekler farklı komutların işlevleridir.",
-      "subTopicName": "Ağ Bağlantısı Testi Ping",
-      "normalizedSubTopicName": "ağ_bağlantısı_testi_ping",
-      "difficulty": "easy"
+      "correctAnswer": "Büyük sistemlerde donanım arızalarının daha sık görülmesi",
+      "explanation": "Eksaskala sistemlerde donanım arızaları daha sık görüldüğü için hata toleransı gereksinimleri artar. Bu durum, sistemlerin dayanıklılığını sağlamak için önemlidir. Sunu 4'e bakınız.",
+      "subTopicName": "Hata Toleransı Gereksinimleri",
+      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
+      "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "'ping -c 4 10.112.0.1' komutu ne anlama gelir?",
+      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde hata toleransını artırmak için kullanılan bir yöntem değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "10.112.0.1 adresine 4 adet ping isteği gönderme",
-        "10.112.0.1 adresinden 4 adet cevap bekleme",
-        "10.112.0.1 adresine sürekli ping gönderme",
-        "10.112.0.1 adresine 4 saniye boyunca ping gönderme"
+        "Yedekleme sistemleri kullanmak",
+        "Hata tespit ve onarım mekanizmaları geliştirmek",
+        "Sistem kaynaklarını artırmak",
+        "Arızalı bileşenleri sistem çalışırken değiştirebilmek"
       ],
-      "correctAnswer": "10.112.0.1 adresine 4 adet ping isteği gönderme",
-      "explanation": "'ping -c 4 10.112.0.1' komutu, 10.112.0.1 IP adresine 4 adet ICMP Echo isteği gönderir. '-c' parametresi gönderilecek ping sayısını belirtir.",
-      "subTopicName": "Ağ Bağlantısı Testi Ping",
-      "normalizedSubTopicName": "ağ_bağlantısı_testi_ping",
-      "difficulty": "easy"
+      "correctAnswer": "Sistem kaynaklarını artırmak",
+      "explanation": "Sistem kaynaklarını artırmak genel performansı iyileştirebilir, ancak doğrudan hata toleransını artırmak için kullanılan bir yöntem değildir. Hata toleransı için yedekleme, hata tespit ve onarım mekanizmaları daha önemlidir. Sunu 4'e bakınız.",
+      "subTopicName": "Hata Toleransı Gereksinimleri",
+      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
+      "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdakilerden hangisi 'netstat' komutunun temel işlevlerinden biridir?",
+      "questionText": "Eksaskala sistemlerde büyük veri setlerinin hızlı taşınması ve depolanması neden önemlidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ bağlantıları ve istatistikleri hakkında bilgi vermek",
-        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
-        "Ağ arayüzlerini yapılandırmak",
-        "Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek"
+        "Veri analiz süreçlerini hızlandırmak için",
+        "Enerji tüketimini azaltmak için",
+        "Maliyetleri düşürmek için",
+        "Güvenliği artırmak için"
       ],
-      "correctAnswer": "Ağ bağlantıları ve istatistikleri hakkında bilgi vermek",
-      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Mevcut bağlantıları listeler, belirli bir portu dinleyen süreçleri gösterir ve ağ istatistiklerini görüntüler. Diğer seçenekler farklı komutların işlevleridir.",
-      "subTopicName": "Ağ Bağlantılarını Görüntüleme Netstat Ss",
-      "normalizedSubTopicName": "ağ_bağlantılarını_görüntüleme_netstat_ss",
-      "difficulty": "easy"
+      "correctAnswer": "Veri analiz süreçlerini hızlandırmak için",
+      "explanation": "Büyük veri setlerinin hızlı taşınması ve depolanması, veri analiz süreçlerini hızlandırarak daha hızlı sonuçlar elde edilmesini sağlar. Sunu 4'e bakınız.",
+      "subTopicName": "Veri Hareketi Ve Depolama",
+      "normalizedSubTopicName": "veri_hareketi_ve_depolama",
+      "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "'ss -tuln' komutu ne işe yarar?",
+      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde veri hareketi ve depolama zorluklarını azaltmak için kullanılan bir çözüm değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Belirli bir portu dinleyen bağlantıları listeler",
-        "Mevcut TCP bağlantılarını listeler",
-        "Dinleyen soketleri listeler",
-        "Ağ istatistiklerini görüntüler"
+        "Akıllı veri yönlendirme",
+        "Önbellekleme teknikleri",
+        "Veri sıkıştırma",
+        "Veri şifreleme"
       ],
-      "correctAnswer": "Belirli bir portu dinleyen bağlantıları listeler",
-      "explanation": "'ss -tuln' komutu, belirli bir portu dinleyen bağlantıları listeler. 'ss' komutu 'netstat' komutunun modern bir alternatifi olarak kabul edilir.",
-      "subTopicName": "Ağ Bağlantılarını Görüntüleme Netstat Ss",
-      "normalizedSubTopicName": "ağ_bağlantılarını_görüntüleme_netstat_ss",
+      "correctAnswer": "Veri şifreleme",
+      "explanation": "Veri şifreleme, veri güvenliğini sağlamak için kullanılır, ancak doğrudan veri hareketi ve depolama zorluklarını azaltmak için kullanılan bir çözüm değildir. Sunu 4'e bakınız.",
+      "subTopicName": "Veri Hareketi Ve Depolama",
+      "normalizedSubTopicName": "veri_hareketi_ve_depolama",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Aşağıdakilerden hangisi 'nslookup' komutunun temel işlevidir?",
+      "questionText": "Hafif çekirdek (Lightweight kernel) yapılarının temel amacı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak",
-        "Ağ bağlantılarını ve istatistikleri hakkında bilgi vermek",
-        "Ağ arayüzlerini yapılandırmak",
-        "Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek"
+        "Gereksiz özellikleri barındırarak sistemi daha kararlı hale getirmek",
+        "Sistem kaynaklarını daha fazla tüketerek performansı artırmak",
+        "Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek",
+        "Geleneksel işletim sistemlerinin tüm özelliklerini taşımak"
       ],
-      "correctAnswer": "DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak",
-      "explanation": "'nslookup' komutu, DNS sunucusu üzerinden bir alan adının IP adresini sorgular. Diğer seçenekler farklı komutların işlevleridir.",
-      "subTopicName": "Alan Adı İp Adresi Sorgulama Nslookup Dig",
-      "normalizedSubTopicName": "alan_adı_ip_adresi_sorgulama_nslookup_dig",
-      "difficulty": "easy"
+      "correctAnswer": "Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek",
+      "explanation": "Hafif çekirdekler, yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmeyi amaçlar. Bu sayede sistem daha hızlı ve verimli çalışır. Sunu 4'e bakınız.",
+      "subTopicName": "Hafif Çekirdek Lightweight Kernel",
+      "normalizedSubTopicName": "hafif_cekirdek_lightweight_kernel",
+      "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "'dig google.com MX' komutu ne anlama gelir?",
+      "questionText": "Aşağıdakilerden hangisi hafif çekirdek yapılarının özelliklerinden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "google.com alan adının MX kayıtlarını sorgulama",
-        "google.com alan adı için DNS sorgusu yapma",
-        "google.com alan adının IP adresini sorgulama",
-        "google.com alan adına ping gönderme"
+        "Küçük ve hızlı olmaları",
+        "Gereksiz özellikleri barındırmamaları",
+        "İhtiyaca göre modüler olarak genişletilebilmeleri",
+        "Yüksek enerji tüketimine sahip olmaları"
       ],
-      "correctAnswer": "google.com alan adının MX kayıtlarını sorgulama",
-      "explanation": "'dig google.com MX' komutu, google.com alan adının MX (Mail Exchange) kayıtlarını sorgular. MX kayıtları, e-posta sunucularının adreslerini belirtir.",
-      "subTopicName": "Alan Adı İp Adresi Sorgulama Nslookup Dig",
-      "normalizedSubTopicName": "alan_adı_ip_adresi_sorgulama_nslookup_dig",
+      "correctAnswer": "Yüksek enerji tüketimine sahip olmaları",
+      "explanation": "Hafif çekirdekler, düşük enerji tüketimine sahip olmalarıyla bilinirler. Yüksek enerji tüketimi, geleneksel işletim sistemlerinin bir özelliğidir. Sunu 4'e bakınız.",
+      "subTopicName": "Hafif Çekirdek Lightweight Kernel",
+      "normalizedSubTopicName": "hafif_cekirdek_lightweight_kernel",
       "difficulty": "medium"
     }
   ]

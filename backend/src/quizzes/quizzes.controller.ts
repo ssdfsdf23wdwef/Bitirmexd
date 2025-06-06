@@ -75,14 +75,6 @@ export class QuizzesController {
 
       const quizzes = await this.quizzesService.findAll();
 
-      this.logger.info(
-        `${quizzes.length} adet sınav getirildi`,
-        'QuizzesController.findAll',
-        __filename,
-        52,
-        { quizzesCount: quizzes.length },
-      );
-
       return quizzes.map((quiz: Quiz) => quiz as unknown as QuizSummary);
     } catch (error) {
       this.logger.logError(error, 'QuizzesController.findAll', {

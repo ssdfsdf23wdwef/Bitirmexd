@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-05T22:41:11.583Z
+## Tarih: 2025-06-06T00:10:30.156Z
 
-## Trace ID: quiz-1749163271559-a8hfv
+## Trace ID: quiz-1749168630145-4e4u8
 
-## Alt Konular (7 adet):
+## Alt Konular (10 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
-2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
-3. **Ağ Bağlantısı Testi Ping** (2 soru)
-4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
-5. **Alan Adı İp Adresi Sorgulama Nslookup Dig** (2 soru)
+1. **Eksaskala Çağında Yazılım Zorlukları** (2 soru)
+2. **Ölçeklenebilirlik Zorlukları** (2 soru)
+3. **Hata Toleransı Gereksinimleri** (2 soru)
+4. **Veri Hareketi Ve Depolama** (2 soru)
+5. **Hafif Çekirdek Lightweight Kernel** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,11 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Web Sunucusuna İstek Gönderme Curl
-2. Ağ Üzerinden Dosya İndirme Wget
+1. Dinamik Kaynak Yönetimi
+2. Hata Toleransı Mekanizmaları
+3. Akıllı Veri Yönlendirme
+4. Önbellekleme Teknikleri
+5. Paralel Programlama Paradigmaları
 
 ```
 
@@ -49,11 +52,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
-2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
-3. **Ağ Bağlantısı Testi Ping** (2 soru)
-4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
-5. **Alan Adı İp Adresi Sorgulama Nslookup Dig** (2 soru)
+1. **Eksaskala Çağında Yazılım Zorlukları** (2 soru)
+2. **Ölçeklenebilirlik Zorlukları** (2 soru)
+3. **Hata Toleransı Gereksinimleri** (2 soru)
+4. **Veri Hareketi Ve Depolama** (2 soru)
+5. **Hafif Çekirdek Lightweight Kernel** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,111 +64,162 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Web Sunucusuna İstek Gönderme Curl
-2. Ağ Üzerinden Dosya İndirme Wget
+1. Dinamik Kaynak Yönetimi
+2. Hata Toleransı Mekanizmaları
+3. Akıllı Veri Yönlendirme
+4. Önbellekleme Teknikleri
+5. Paralel Programlama Paradigmaları
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
+Bilgisayar Mühendisliği Bölümü
+Bahar –2025(ÖÖ.,İÖ.)
+MBM7-452 -Eksaskala Bilgisayar Sistemleri
+(Sunu 4)
+Dr. Öğr. Üyesi Esra Çelik
 
-BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
-BAHAR DÖNEMİ 2025
-Öğretim Üyesi: Dr. Bilal USANMAZ
-bilal@atauni.edu.tr
+Günün Sorusu
+Eksaskala çağında oluşabilecek yazılım
+zorlukları neler olabilir?
 
+Eksaskala Çağında Yazılım Zorlukları
+•Eksaskala bilgisayar sistemlerinde en sık görülen yazılım zolukları,
+•geleneksel yazılım ve işletim sistemleri için büyük zorluklar oluşturur.
+•Örneğin:
+•Ölçeklenebilirlik: Geleneksel sistemler milyonlarca çekirdeği verimli yönetemez.
+•Hata Toleransı: Büyük sistemlerde donanım arızaları sık görülür, dayanıklı
+yazılım gerekir.
+•Kaynak Yönetimi: Dinamik ve verimli kaynak kullanımı şarttır.
+•Veri Hareketi:Büyük veri setlerinin hızlı taşınması ve depolanması gereklidir.
+•Programlama:Paralel işlem için özel yazılım ve diller gereklidir.
 
+Eksaskala Çağında Yazılım Zorlukları
+•Eksaskaladaki zorluklara çözüm olarak:
+•Hafif işletim sistemleri
+•Veri yönetimi ve depolama çözümleri
+•Uygulamalar için yazılımlar
+•geliştirilmiştir.
+
+Peki nedir bu
+yapılar?
 
-3.Hafta
+Hafif İşletim Sistemleri
+•Geleneksel işletim sistemleri:
+•Milyonlarca çekirdeği verimli yönetemez.
+•Büyük sistemlerdekidonanım hatalarınıtolere edemez.
+•CPU, GPUve TPU için optimize edilmemiştir.
+•Güç tüketimini dinamik olarak ayarlanmaz.
+•Hafif çekirdek tasarımlarına kıyasla gereksiz yük oluşturur.
+•İş yüklerine göre esnek kaynak tahsisi yapamaz.
+•Büyük veri setlerinin hızlı işlenmesini sağlayacak optimizasyonlardan
+yoksundur.
+•Geleneksel işletim sistemleri, eksaskala bilgisayar sistemlerinin gereksinimlerini
+karşılayamadığı için yeni nesil ölçeklenebilir ve uyarlanabilir hafif işletim sistemleri
+gereklidir.
 
+Hafif İşletim Sistemleri
+•Hafif işletim sistemleri, geleneksel işletim sistemlerine kıyasla:
+•daha az kaynak tüketen,
+•minimum düzeyde hizmet sunan ve
+•yalnızca belirli görevleri (kritik görevleri) yerine getirmek için optimize edilmiş
+sistemlerdir.
+•Eksaskala sistemlerde hafif işletim sistemleri:
+•Performans kayıplarını azaltır.
+•Gereksiz arka plan işlemlerini ortadan kaldırır.
+•Daha iyi bellek yönetimi sağlar.
+•Daha hızlı işlem gerçekleştirir.
+•TOSS (Tri-Lab Operating System Stack),eksaskala bilgisayar sistemleri için
+tasarlanmış hafif ve yüksek performanslı bir işletim sistemi türüdür.
+
+Hafif işletim
+sistemlerinin bu
+şekilde performans
+göstermesini
+sağlayan nedir?
 
-Temel Linux Komutları-3
+Hafif İşletim Sistemleri
+•Hafif çekirdek (Lightweight kernel),
+•hafif işletim sisteminin en temel bileşeni olup,
+•yalnızca temel işletim sistemi fonksiyonlarınıyerine getiren
+yapılardır.
+•Hafif çekirdek yapıları:
+•Küçük ve hızlıdır.
+•Gereksiz özellikleri barındırmaz.
+•İhtiyaca göre modülerolarak genişletilebilir.
+•Milyonlarca çekirdeği verimli şekilde yönetir.
+•Düşük gecikmesağlar.
+•Gerçek zamanlı ve yüksek performanslı hesaplamalar için idealdir.
+Programlar
+Donanım
+İşletim Sistemi
+Kullanıcılar
 
-Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
-duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
+
+Hafif işletim sistemlerinde ne
+gibi hatalar oluşur ve
+çözümler neler olabilir?
 
-3. Ağ yönetimi ve izleme
-●
-ifconfig
-(İnterface Configuration)
-Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
-Örnek: ifconfig (Ağ arayüzlerini listeleme)
-Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
-●
-ip
-(Ağ yapılandırması)
-Örnek: ip addr show Ağ arayüzlerini listeleme
-Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
-Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
-●
-ping
-(Ağ Bağlantısını Test Etme)
-Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
-Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
-Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
-●
-netstat
-(Ağ Bağlantılarını Görüntüleme)
-Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
-Örnek: netstat Mevcut bağlantıları listeleme
+Hafif İşletim Sistemlerinde Hata Toleransı
+•Hafif işletim sistemlerinde:
+•Hata oluştuğunda sistemin geri kalanı korunarak izole çalışma sağlanır.
+•Hatalar erkenden algılanarak düzeltilmesi için otomatik hata yönetimi uygulanır.
+•Sistem kilitlendiğinde, otomatik olarak yeniden başlatma sağlanır.
+•Arızalanan bileşenler sistem çalışırken değiştirilebilir.
+•Sistem hataları kayıt altına alınarak analiz edilir ve tekrar oluşmasını önleyici
+önlemleralınır.
+•Dağıtık sistemlerde bir düğüm hatalandığında, diğerleri devreye girerek işleyişi
+devam ettirir.
+•Kritik işlemler hata durumunda kesintiye uğramadan devam eder.
 
+
+Hafif işletim sistemlerinde
+dinamik kaynak yönetimi
+nasıl olabilir?
 
-Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
-Örnek: netstat -i Ağ istatistiklerini görüntüleme
-●
-ss
-(Socket Statistiği)
-ss
-komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
-netstat
-komutunun
-modern bir alternatifi olarak kabul edilir.
-Örnek: ss -t Mevcut TCP bağlantılarını listeleme
-Örnek: ss -l Dinleyen soketleri listeleme
-Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
+Hafif İşletim Sistemlerinde Dinamik Kaynak Yönetimi
+•Hafif işletim sistemlerinde milyonlarca işlem birimi arasında dinamik kaynak yönetim
+için:
+•İşlemciler arasında iş yükü dengelenerek performans artırılır.
+•Değişken iş yüklerine göre kaynaklar otomatik olarak artırılır veya azaltılır.
+•Anlık ihtiyaçlara göre kaynak kullanımı optimize edilir.
+•Hata durumlarında sistem kesintisiz çalışmaya devam edecek şekilde kaynaklar
+yeniden düzenlenir.
+•Dağıtık mimaride bileşenler arasında hızlı veri akışı sağlanır.
+•Boşta kalan kaynaklar düşük güç modunaalınarak enerji tasarrufu yapılır.
+•Farklı uygulama türlerine göre en uygun kaynak yönetimi stratejisi seçilir.
 
-●
-traceroute
-(Yol Takibi)
-Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
-Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
-●
-nslookup
-(DNS Sorgulama)
-DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
-Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
-●
-dig
-(Domain Information Groper)
-dig
-, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
-Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
-Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
-●
-route
-(Yönlendirme Tablosu)
-Ağ yönlendirme tablosunu yönetmek için kullanılır.
-Örnek: route -n Yönlendirme tablosunu görüntüleme
-●
-curl
-(Ağ İstekleri)
-Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
+Veri Yönetimi ve Depolama Çözümleri
+•Eksaskala sistemlerinde yüksek kapasiteli depolama sistemlerinde:
+•Akıllı tahmin algoritmalarıyla veriye hızlı erişim sağlanır.
+•Veri kaybını önlemek için yedekleme, hata tespiti ve onarımyapılır.
+•Enerji dostu donanım ve yazılımla güç tüketimi azaltılır.
+•Veri aktarım darboğazlarını azaltmak için akıllı veri yönlendirme ve
+önbellekleme teknikleri kullanılır.
+
+Akıllı veri yönlendirme ve
+önbellekleme
+tekniklerinin avantajları
+neler olabilir?
 
+Veri Yönetimi ve Depolama Çözümleri
+•Akıllı veri yönlendirme ve önbellekleme teknikleri ile:
+•İçeriği kullanıcılara yakın sunuculardan sunar, ağ tıkanıklığını
+azaltır.
+•Ağ trafiğini dinamik yönlendirir, en uygun veri yollarını seçer.
+•Popüler veriler RAM'de saklanarak disk erişimi azaltılır.
+•Gelecekteki veri ihtiyaçları önceden tahmin edilip önbelleğe alınır
+ve veri aktarımı hızlanır.
 
-Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
-●
-wget
-(Dosya İndirme)
-Ağ üzerinden dosya indirmek için kullanılan komut.
-wget
-https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
-020/07/Akademik-Takvim_2024_2025_17052024.pdf
-●
-mtr
-(Ping ve Traceroute Kombinasyonu)
-Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
-Örnek: mtr google.com
-Hedefe mtr ile izleme
-
+Uygulamalar İçin Yazılımlar
+•Eksaskala bilgisayar sistemlerinde uygulamalar için yazılımlar :
+•MPI, OpenMP ve CUDA, gibi geniş ölçekli paralel programlama paradigmaları
+sunar.
+•Dögü açma/kapama, vektörleştirme ve işlemciye özel optimizasyonlarsağlar.
+•Verimli veri hareketi, önbellekleme stratejileri ile bellek erişimini optimize eder.
+•Profiling, izleme ve hata ayıklama ile kod optimizasyonu desteği sunar.
+•Heterojen kaynaklar arasında hesaplama iş yüklerini dengeler.
+•Yapay zeka tabanlı analiz araçlarıyla veri odaklı kararlar alır.
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -340,42 +394,42 @@ Hedefe mtr ile izleme
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Ağ Yönetimi Ve İ Zleme: 2 soru
-  - Ağ Arayüzü Yapılandırması İfconfiğiip: 2 soru
-  - Ağ Bağlantısı Testi Ping: 2 soru
-  - Ağ Bağlantılarını Görüntüleme Netstat Ss: 2 soru
-  - Alan Adı İp Adresi Sorgulama Nslookup Dig: 2 soru
+  - Eksaskala Çağında Yazılım Zorlukları: 2 soru
+  - Ölçeklenebilirlik Zorlukları: 2 soru
+  - Hata Toleransı Gereksinimleri: 2 soru
+  - Veri Hareketi Ve Depolama: 2 soru
+  - Hafif Çekirdek Lightweight Kernel: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Ağ Yönetimi Ve İ Zleme:
-- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
-- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ bağlantılarının istatistiklerini görüntülemek | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
-- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
-- Zorluk: easy
-
-#### Ağ Arayüzü Yapılandırması İfconfiğiip:
-- Soru: Aşağıdaki komutlardan hangisi 'eth0' arayüzüne 192.168.1.10 IP adresini atamak için kullanılır?
-- Seçenekler: ip addr add 192.168.1.10/24 dev eth0 | ip link set eth0 up | ifconfig eth0 192.168.1.10 netmask 255.255.255.0 | route add default gw 192.168.1.1
-- Doğru Cevap: ifconfig eth0 192.168.1.10 netmask 255.255.255.0
+#### Eksaskala Çağında Yazılım Zorlukları:
+- Soru: Aşağıdakilerden hangisi eksaskala bilgisayar sistemlerinde karşılaşılan yazılım zorluklarından biri değildir?
+- Seçenekler: Ölçeklenebilirlik | Hata toleransı | Kaynak yönetimi | Veri şifreleme
+- Doğru Cevap: Veri şifreleme
 - Zorluk: medium
 
-#### Ağ Bağlantısı Testi Ping:
-- Soru: Aşağıdakilerden hangisi 'ping' komutunun temel işlevidir?
-- Seçenekler: Bir ağdaki hedefe ICMP Echo istekleri göndermek | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ bağlantılarının istatistiklerini görüntülemek | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
-- Doğru Cevap: Bir ağdaki hedefe ICMP Echo istekleri göndermek
-- Zorluk: easy
+#### Ölçeklenebilirlik Zorlukları:
+- Soru: Eksaskala sistemlerde ölçeklenebilirlik zorluklarının temel nedeni nedir?
+- Seçenekler: Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi | Yüksek enerji tüketimi | Veri depolama kapasitesinin yetersizliği | Programlama dillerinin uyumsuzluğu
+- Doğru Cevap: Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi
+- Zorluk: medium
 
-#### Ağ Bağlantılarını Görüntüleme Netstat Ss:
-- Soru: Aşağıdakilerden hangisi 'netstat' komutunun temel işlevlerinden biridir?
-- Seçenekler: Ağ bağlantıları ve istatistikleri hakkında bilgi vermek | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ arayüzlerini yapılandırmak | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
-- Doğru Cevap: Ağ bağlantıları ve istatistikleri hakkında bilgi vermek
-- Zorluk: easy
+#### Hata Toleransı Gereksinimleri:
+- Soru: Eksaskala sistemlerde hata toleransı gereksinimlerinin artmasının temel nedeni nedir?
+- Seçenekler: Büyük sistemlerde donanım arızalarının daha sık görülmesi | Yazılım hatalarının artması | Siber saldırıların artması | Enerji kesintilerinin sıklaşması
+- Doğru Cevap: Büyük sistemlerde donanım arızalarının daha sık görülmesi
+- Zorluk: medium
 
-#### Alan Adı İp Adresi Sorgulama Nslookup Dig:
-- Soru: Aşağıdakilerden hangisi 'nslookup' komutunun temel işlevidir?
-- Seçenekler: DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak | Ağ bağlantılarını ve istatistikleri hakkında bilgi vermek | Ağ arayüzlerini yapılandırmak | Bir hedefe giden yolun hangi ağ cihazları üzerinden geçtiğini göstermek
-- Doğru Cevap: DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak
-- Zorluk: easy
+#### Veri Hareketi Ve Depolama:
+- Soru: Eksaskala sistemlerde büyük veri setlerinin hızlı taşınması ve depolanması neden önemlidir?
+- Seçenekler: Veri analiz süreçlerini hızlandırmak için | Enerji tüketimini azaltmak için | Maliyetleri düşürmek için | Güvenliği artırmak için
+- Doğru Cevap: Veri analiz süreçlerini hızlandırmak için
+- Zorluk: medium
+
+#### Hafif Çekirdek Lightweight Kernel:
+- Soru: Hafif çekirdek (Lightweight kernel) yapılarının temel amacı nedir?
+- Seçenekler: Gereksiz özellikleri barındırarak sistemi daha kararlı hale getirmek | Sistem kaynaklarını daha fazla tüketerek performansı artırmak | Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek | Geleneksel işletim sistemlerinin tüm özelliklerini taşımak
+- Doğru Cevap: Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek
+- Zorluk: medium
 

@@ -1386,7 +1386,7 @@ export class QuizzesService {
             const targets = await this.learningTargetsService.findByCourse(courseId, userId);
             const normalizedSubTopic = this.normalizationService.normalizeSubTopicName(subTopic);
             
-            // Normalize edilmiş ada göre hedefi buluyoruz
+            // Normalize edilmiş ada göre hedefi bulıyorz
             const target = targets.find(t => 
               this.normalizationService.normalizeSubTopicName(t.subTopicName) === normalizedSubTopic);
             
@@ -2134,7 +2134,7 @@ export class QuizzesService {
         } catch (docError) {
           this.logger.logError(docError, 'QuizzesService.createQuickQuiz', {
             documentId,
-            userId,
+                       userId,
             additionalInfo: 'Belge metni alınırken hata oluştu',
           });
 
@@ -2297,7 +2297,7 @@ export class QuizzesService {
         );
       }
 
-      // Yeni quiz nesnesi oluştur
+      // Yeni quiz nesnesi oluştur - veritabanına kaydetmeden
       const timestamp = new Date();
       const quiz = {
         id: quizId,
@@ -2329,32 +2329,18 @@ export class QuizzesService {
           : null,
       } as Quiz;
 
-      // Firestore'a kaydet
-      try {
-        await this.firebaseService.firestore
-          .collection(FIRESTORE_COLLECTIONS.QUIZZES)
-          .doc(quizId)
-          .set(quiz);
+      // NOT: Sınav sadece kullanıcı tamamladığında veritabanına kaydedilecek
+      // Submit işlemi sırasında kaydedilir, burada kaydetmiyoruz
 
-        this.logger.info(
-          `Hızlı sınav oluşturuldu: ID=${quizId}`,
-          'QuizzesService.createQuickQuiz',
-          __filename,
-          undefined,
-          { quizId, userId, questionCount: questions.length },
-        );
+      this.logger.info(
+        `Hızlı sınav oluşturuldu (henüz kaydedilmedi): ID=${quizId}`,
+        'QuizzesService.createQuickQuiz',
+        __filename,
+        undefined,
+        { quizId, userId, questionCount: questions.length },
+      );
 
-        return quiz;
-      } catch (firestoreError) {
-        this.logger.error(
-          `Veritabanı kayıt hatası (quizId: ${quizId}, userId: ${userId}): ${firestoreError instanceof Error ? firestoreError.message : 'Bilinmeyen hata'}`,
-          'QuizzesService.createQuickQuiz',
-          __filename,
-        );
-        throw new BadRequestException(
-          'Sınav veritabanına kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
-        );
-      }
+      return quiz;
     } catch (error) {
       this.logger.error(
         `Hızlı sınav oluşturma genel hatası (userId: ${userId}): ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`,
@@ -2452,31 +2438,48 @@ export class QuizzesService {
         { questionsCount: questions.length },
       );
 
-      // 5. Oluşturulan soruları veritabanına kaydet
-      const createParams: CreateQuizParams = {
+      // 5. Quiz nesnesini oluştur ama veritabanına kaydetme
+      const quizId = this.firebaseService.firestore.collection('quizzes').doc().id;
+      const timestamp = new Date();
+
+      // Quiz nesnesini oluştur ancak veritabanına kaydetme - kullanıcı sınavı tamamlayana kadar veritabanına kaydedilmeyecek
+      const quiz = {
+        id: quizId,
         userId,
         quizType: 'personalized',
         personalizedQuizType, // Eklenen parametre
         courseId,
-        sourceDocument:
-          documentId && documentText
-            ? {
-                documentId,
-                text: documentText.substring(0, 500) + '...', // Özet olarak sadece ilk 500 karakter
-              }
-            : undefined,
-        subTopics: subTopics.map((topic) => ({ subTopicName: topic })),
+        timestamp,
+        questions, // Soruları doğrudan ekle
+        selectedSubTopics: subTopics.map(topic => ({ subTopic: topic })),
+        completed: false,
+        score: 0,
+        correctCount: 0,
+        totalQuestions: questions.length,
+        elapsedTime: 0,
+        userAnswers: {} as Record<string, string>,
         preferences: {
           questionCount,
           difficulty,
           prioritizeWeakAndMediumTopics: true,
         },
-      };
+        sourceDocument:
+          documentId && documentText
+            ? {
+                documentId,
+                fileName: `Döküman #${documentId}`,
+                text: documentText.substring(0, 500) + '...', // Özet olarak sadece ilk 500 karakter
+              }
+            : undefined,
+      } as Quiz;
 
-      const savedQuiz = await this.createQuiz(createParams);
-
-      // 6. Soruları quiz ile ilişkilendir
-      await this.updateQuizWithQuestions(savedQuiz.id, questions);
+      this.logger.info(
+        `[${traceId}] Kişiselleştirilmiş sınav oluşturuldu (henüz kaydedilmedi): ID=${quizId}`,
+        'QuizzesService.createPersonalizedQuiz',
+        __filename,
+        undefined,
+        { quizId, userId, questionCount: questions.length },
+      );
 
       // 7. Eğer yeni konulara odaklı bir sınav ise, bu konuları öğrenme hedefi olarak kaydet
       if (personalizedQuizType === 'newTopicFocused' && subTopics.length > 0) {
@@ -2528,10 +2531,11 @@ export class QuizzesService {
         'QuizzesService.createPersonalizedQuiz',
         __filename,
         undefined,
-        { quizId: savedQuiz.id, questionsCount: questions.length, duration },
+        { quizId: quizId, questionsCount: questions.length, duration },
       );
 
-      return this.findOne(savedQuiz.id, userId);
+      // Quiz nesnesini döndür (veritabanından değil, direkt oluşturulan nesneyi)
+      return quiz;
     } catch (error) {
       this.logger.error(
         `[${traceId}] Kişiselleştirilmiş sınav oluşturulurken hata: ${error.message}`,
@@ -2814,4 +2818,5 @@ export class QuizzesService {
       });
     }
   }
+
 }

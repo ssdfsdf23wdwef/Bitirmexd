@@ -33,6 +33,19 @@ const storeQuizResultsInStorage = (quizId: string, resultsToStore: Quiz) => {
   }
 };
 
+// Quiz nesnesini localStorage'a kaydetmek için fonksiyon
+const storeQuizInStorage = (quizId: string, quizData: Quiz) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(`quiz_${quizId}`, JSON.stringify(quizData));
+      console.log(`[DEBUG] ✅ Sınav localStorage'a kaydedildi: ID=${quizId}`);
+    } catch (error) {
+      console.error(`[DEBUG] Sınav localStorage'a kaydedilemedi:`, error);
+    }
+  }
+};
+
+
 export default function ExamPage() {
   const router = useRouter();
   const params = useParams();
@@ -44,8 +57,7 @@ export default function ExamPage() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const { isDarkMode, theme } = useTheme();
+  const [showResults, setShowResults] = useState(false);  const { isDarkMode, theme } = useTheme();
 
   // Sınav verilerini yükle
   useEffect(() => {
@@ -67,8 +79,25 @@ export default function ExamPage() {
           return;
         }
         
-        const quizData = await quizService.getQuizById(quizId);
-        console.log("[DEBUG] quizService.getQuizById'den gelen quizData:", JSON.stringify(quizData, null, 2));
+        // Önce local storage'da sınavı ara (yeni değişiklikte sınavlar veritabanına kaydedilmeden önce local'de tutulabilir)
+        let quizData = null;
+        if (typeof window !== 'undefined') {
+          const localQuizData = localStorage.getItem(`quiz_${quizId}`);
+          if (localQuizData) {
+            try {
+              quizData = JSON.parse(localQuizData);
+              console.log(`[DEBUG] ✅ Sınav localStorage'dan yüklendi: ${quizId}`);
+            } catch (parseError) {
+              console.error(`[DEBUG] localStorage parse hatası:`, parseError);
+            }
+          }
+        }
+        
+        // Local'de yoksa API'den getir
+        if (!quizData) {
+          quizData = await quizService.getQuizById(quizId);
+          console.log("[DEBUG] quizService.getQuizById'den gelen quizData:", JSON.stringify(quizData, null, 2));
+        }
         
         if (!quizData || !quizData.id) {
           throw new Error('Sınav verileri eksik veya boş');
@@ -80,7 +109,6 @@ export default function ExamPage() {
         if (quizData.questions && Array.isArray(quizData.questions)) {
           quizData.questions = quizData.questions.map(q => {
             const processedQ = ensureQuestionSubTopics(q);
-            // console.log(`[DEBUG] Soru işlendi: ${q.id} -> subTopic: ${processedQ.subTopic}, normalized: ${processedQ.normalizedSubTopic}`);
             return processedQ;
           });
           console.log(`[DEBUG] ✅ Soru alt konu bilgileri kontrol edildi ve tamamlandı. İşlenmiş sorular:`, JSON.stringify(quizData.questions, null, 2));
@@ -1275,4 +1303,4 @@ export default function ExamPage() {
       </div>
     </div>
   );
-}
+};
