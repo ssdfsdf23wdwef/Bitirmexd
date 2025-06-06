@@ -53,7 +53,7 @@ export interface LearningTarget {
 export interface Quiz {
   id: string;
   userId: string;
-  courseId?: string;
+  courseId?: string | null | undefined;
   quizType: string;
   personalizedQuizType: string | null;
   sourceDocument?: any;

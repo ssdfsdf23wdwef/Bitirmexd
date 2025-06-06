@@ -70,12 +70,12 @@ export class QuizAnalysisService {
       }
 
       // Group results by topic
-      const normalizedSubTopicName = question.normalizedSubTopicName;
+      const normalizedSubTopicName = question.normalizedSubTopicName || question.subTopicName || 'unknown_topic';
       if (!topicResults[normalizedSubTopicName]) {
         topicResults[normalizedSubTopicName] = {
           correct: 0,
           total: 0,
-          subTopicName: question.subTopicName,
+          subTopicName: question.subTopicName || 'Unknown Topic',
           normalizedSubTopicName,
           questions: [],
         };

@@ -822,17 +822,19 @@ export class QuizzesService {
       analysis.recommendations = this.generateImprovementSuggestions(analysis);
     }
 
-    // Prepare data to save in Firestore
+    // Use the toPlainObject methods to create a Firestore-safe version of the data
+    const dtoPlaindData = dto.toPlainObject();
+    
     const quizDataToSave = {
       userId,
-      quizType: dto.quizType,
-      personalizedQuizType: dto.personalizedQuizType || null,
-      courseId: dto.courseId || undefined, // Ensure not null for Quiz interface compatibility
-      sourceDocument: dto.sourceDocument,
-      selectedSubTopics: dto.selectedSubTopics,
-      preferences: dto.preferences,
-      questions: dto.questions, // Store questions with the quiz
-      userAnswers: dto.userAnswers,
+      quizType: dtoPlaindData.quizType,
+      personalizedQuizType: dtoPlaindData.personalizedQuizType || null,
+      courseId: dtoPlaindData.courseId || null, // Use null instead of undefined for Firestore compatibility
+      sourceDocument: dtoPlaindData.sourceDocument,
+      selectedSubTopics: dtoPlaindData.selectedSubTopics,
+      preferences: dtoPlaindData.preferences, 
+      questions: dtoPlaindData.questions,
+      userAnswers: dtoPlaindData.userAnswers,
       score: analysis.overallScore,
       correctCount:
         (analysisResult as any).correctCount ||
@@ -840,8 +842,8 @@ export class QuizzesService {
         0,
       totalQuestions:
         (analysisResult as any).totalQuestions || dto.questions.length,
-      elapsedTime: dto.elapsedTime,
-      analysisResult: analysis, // Store the properly typed analysis
+      elapsedTime: dtoPlaindData.elapsedTime,
+      analysisResult: this.firebaseService.toPlainObject(analysis), // Use utility for analysis object
       timestamp: new Date(),
       complexityData, // Eklenen komplekslik verisi
     };
@@ -1024,7 +1026,7 @@ export class QuizzesService {
       userId: quizDataToSave.userId,
       quizType: quizDataToSave.quizType,
       personalizedQuizType: quizDataToSave.personalizedQuizType || null,
-      courseId: quizDataToSave.courseId,
+      courseId: quizDataToSave.courseId, // This should now be compatible
       score: quizDataToSave.score,
       correctCount: quizDataToSave.correctCount,
       totalQuestions: quizDataToSave.totalQuestions,
@@ -2679,7 +2681,7 @@ export class QuizzesService {
         userId: params.userId,
         quizType: params.quizType,
         personalizedQuizType: params.personalizedQuizType || null,
-        courseId: params.courseId || undefined,
+        courseId: params.courseId || undefined, // Reverted to undefined, will update Quiz interface
         questions: params.questions,
         timestamp,
         selectedSubTopics: params.selectedSubTopics,
@@ -2741,7 +2743,7 @@ export class QuizzesService {
         }
       );
 
-      // Alt konuları LearningTargetsService createBatch metodunun beklediği formata çevir
+      // Alt konuları LearningTargetsService'in beklediği formata çevir
       const topicsForLearningTargets = selectedTopics.map((topic, index) => {
         this.logger.logExamProcess(
           `Topic mapping debug - Index ${index}:`,

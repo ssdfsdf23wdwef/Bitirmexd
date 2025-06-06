@@ -154,6 +154,19 @@ class QuizPreferencesDto {
   @IsOptional()
   @IsBoolean()
   prioritizeWeakAndMediumTopics?: boolean | null;
+
+  /**
+   * Converts this DTO to a plain JavaScript object for Firestore compatibility
+   * @returns Plain JavaScript object without prototype
+   */
+  toPlain(): Record<string, any> {
+    return {
+      questionCount: this.questionCount,
+      difficulty: this.difficulty,
+      timeLimit: this.timeLimit,
+      prioritizeWeakAndMediumTopics: this.prioritizeWeakAndMediumTopics,
+    };
+  }
 }
 
 export class SubmitQuizDto {
@@ -256,4 +269,40 @@ export class SubmitQuizDto {
   @Min(0)
   @IsOptional()
   elapsedTime?: number | null;
+
+  /**
+   * Converts this DTO to a plain JavaScript object for Firestore compatibility
+   * @returns Plain JavaScript object without prototype
+   */
+  toPlainObject(): Record<string, any> {
+    const plainObj = { ...this } as Record<string, any>;
+
+    // Handle nested DTO objects
+    if (this.preferences) {
+      plainObj.preferences = this.preferences instanceof QuizPreferencesDto 
+        ? this.preferences.toPlain() 
+        : this.preferences;
+    }
+    
+    // Handle arrays of objects
+    if (Array.isArray(this.questions)) {
+      plainObj.questions = this.questions.map(q => ({ ...q }));
+    }
+    
+    if (Array.isArray(this.selectedSubTopics)) {
+      plainObj.selectedSubTopics = this.selectedSubTopics.map(st => ({ ...st }));
+    }
+    
+    // Handle sourceDocument
+    if (this.sourceDocument) {
+      plainObj.sourceDocument = { ...this.sourceDocument };
+    }
+    
+    // Handle userAnswers
+    if (this.userAnswers) {
+      plainObj.userAnswers = { ...this.userAnswers };
+    }
+    
+    return plainObj;
+  }
 }

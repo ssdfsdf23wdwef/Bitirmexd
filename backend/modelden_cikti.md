@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-06T00:10:43.706Z
-Trace ID: quiz-1749168630145-4e4u8
-Yanıt Uzunluğu: 8957 karakter
+Tarih: 2025-06-06T01:28:47.354Z
+Trace ID: quiz-1749173311845-cp38h
+Yanıt Uzunluğu: 9410 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 8957 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayar sistemlerinde karşılaşılan yazılım zorluklarından biri değildir?",
+      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreçleri nasıldır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ölçeklenebilirlik",
-        "Hata toleransı",
-        "Kaynak yönetimi",
-        "Veri şifreleme"
+        "Donanım ve yazılım eş zamanlı olarak geliştirilir ve entegre edilir.",
+        "Donanım ve yazılım ayrı ayrı geliştirilir ve sonrasında entegre edilir.",
+        "Önce yazılım geliştirilir, sonra donanıma uyarlanır.",
+        "Donanım ve yazılım geliştirme süreçleri tamamen bağımsızdır ve entegrasyon gerektirmez."
       ],
-      "correctAnswer": "Veri şifreleme",
-      "explanation": "Eksaskala çağında yazılım zorlukları arasında ölçeklenebilirlik, hata toleransı, kaynak yönetimi ve veri hareketi yer alırken, veri şifreleme doğrudan belirtilmemiştir. Bu nedenle doğru cevap 'Veri şifreleme'dir. Sunu 4'e bakınız.",
-      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
-      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
+      "correctAnswer": "Donanım ve yazılım ayrı ayrı geliştirilir ve sonrasında entegre edilir.",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirilir ve entegrasyon son aşamada yapılır. Bu yaklaşımda iletişim optimize edilmez ve değişiklikler zor olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
+      "subTopicName": "Geleneksel Sistem Tasarımı",
+      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
       "difficulty": "medium"
     },
     {
       "id": "q2",
-      "questionText": "Eksaskala bilgisayar sistemlerinde geleneksel yazılımların ve işletim sistemlerinin karşılaştığı temel zorluk nedir?",
+      "questionText": "Geleneksel sistem tasarımında, donanım ve yazılımın ayrı ayrı geliştirilmesinin temel dezavantajı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Düşük enerji tüketimi",
-        "Yüksek güvenlik açıkları",
-        "Milyonlarca çekirdeği verimli yönetememe",
-        "Kolay programlanabilirlik"
+        "Geliştirme maliyetlerinin düşmesi.",
+        "İletişim optimizasyonunun sağlanması.",
+        "Entegrasyon sürecinde verimlilik kayıplarının yaşanabilmesi.",
+        "Yeni teknolojilere hızlı uyum sağlanabilmesi."
       ],
-      "correctAnswer": "Milyonlarca çekirdeği verimli yönetememe",
-      "explanation": "Geleneksel sistemler, eksaskala sistemlerin gerektirdiği milyonlarca çekirdeği verimli bir şekilde yönetmekte zorlanırlar. Bu durum, ölçeklenebilirlik sorunlarına yol açar. Sunu 4'e bakınız.",
-      "subTopicName": "Eksaskala Çağında Yazılım Zorlukları",
-      "normalizedSubTopicName": "eksaskala_caginda_yazilim_zorluklari",
+      "correctAnswer": "Entegrasyon sürecinde verimlilik kayıplarının yaşanabilmesi.",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılımın ayrı ayrı geliştirilmesi, entegrasyon sırasında verimlilik kayıplarına yol açabilir. Ayrıca, iletişim optimize edilmez ve değişiklikler zor olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
+      "subTopicName": "Geleneksel Sistem Tasarımı",
+      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Eksaskala sistemlerde ölçeklenebilirlik zorluklarının temel nedeni nedir?",
+      "questionText": "Aşağıdakilerden hangisi donanım ve yazılım ayrımının belirgin olduğu geleneksel sistem tasarımının bir özelliğidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi",
-        "Yüksek enerji tüketimi",
-        "Veri depolama kapasitesinin yetersizliği",
-        "Programlama dillerinin uyumsuzluğu"
+        "Her iki bileşenin birbirine bağımlı çalışması",
+        "İletişimin optimize edilmiş olması",
+        "Her iki bileşenin bağımsız çalışabilmesi",
+        "Değişikliklerin kolay ve hızlı bir şekilde yapılabilmesi"
       ],
-      "correctAnswer": "Geleneksel sistemlerin milyonlarca çekirdeği verimli yönetememesi",
-      "explanation": "Ölçeklenebilirlik zorluklarının temel nedeni, geleneksel sistemlerin milyonlarca çekirdeği verimli bir şekilde yönetememesidir. Bu durum, eksaskala sistemlerde performans sorunlarına yol açar. Sunu 4'e bakınız.",
-      "subTopicName": "Ölçeklenebilirlik Zorlukları",
-      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
-      "difficulty": "medium"
+      "correctAnswer": "Her iki bileşenin bağımsız çalışabilmesi",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki bileşenin bağımsız çalışmasını sağlar. Ancak bu durum, iletişimde optimizasyon eksikliğine ve değişikliklerin zorlu olmasına neden olabilir. (Bkz: Geleneksel Sistem Tasarımı)",
+      "subTopicName": "Donanım Ve Yazılım Ayrımı",
+      "normalizedSubTopicName": "donanim_ve_yazilim_ayrimi",
+      "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde ölçeklenebilirlik sorunlarını çözmek için kullanılan bir yaklaşım değildir?",
+      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım arasındaki ayrımın olmaması durumunda ortaya çıkabilecek en büyük sorun nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Hafif işletim sistemleri kullanmak",
-        "Paralel programlama tekniklerini geliştirmek",
-        "Veri sıkıştırma algoritmalarını kullanmak",
-        "Geleneksel işletim sistemlerini optimize etmek"
+        "Maliyetlerin düşmesi",
+        "Geliştirme sürecinin hızlanması",
+        "Uyumsuzlukların ortaya çıkması",
+        "Verimliliğin artması"
       ],
-      "correctAnswer": "Veri sıkıştırma algoritmalarını kullanmak",
-      "explanation": "Veri sıkıştırma algoritmaları, veri depolama ve transferi için kullanılır, ancak doğrudan ölçeklenebilirlik sorunlarını çözmek için kullanılan bir yaklaşım değildir. Sunu 4'e bakınız.",
-      "subTopicName": "Ölçeklenebilirlik Zorlukları",
-      "normalizedSubTopicName": "olceklenebilirlik_zorluklari",
+      "correctAnswer": "Uyumsuzlukların ortaya çıkması",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için uyumsuzluklar ortaya çıkabilir. Bu durum, sistem genelinde verimlilik kaybına yol açar ve entegrasyon sürecini uzatır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
+      "subTopicName": "Donanım Ve Yazılım Ayrımı",
+      "normalizedSubTopicName": "donanim_ve_yazilim_ayrimi",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Eksaskala sistemlerde hata toleransı gereksinimlerinin artmasının temel nedeni nedir?",
+      "questionText": "Geleneksel sistem tasarımında entegrasyon sürecindeki temel zorluk nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Büyük sistemlerde donanım arızalarının daha sık görülmesi",
-        "Yazılım hatalarının artması",
-        "Siber saldırıların artması",
-        "Enerji kesintilerinin sıklaşması"
+        "Donanım ve yazılımın uyumlu bir şekilde çalışmasının sağlanamaması",
+        "Geliştirme ekipleri arasındaki iletişimin kolaylığı",
+        "Yeni teknolojilere hızlı adaptasyonun sağlanması",
+        "Maliyetlerin düşürülmesi"
       ],
-      "correctAnswer": "Büyük sistemlerde donanım arızalarının daha sık görülmesi",
-      "explanation": "Eksaskala sistemlerde donanım arızaları daha sık görüldüğü için hata toleransı gereksinimleri artar. Bu durum, sistemlerin dayanıklılığını sağlamak için önemlidir. Sunu 4'e bakınız.",
-      "subTopicName": "Hata Toleransı Gereksinimleri",
-      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
+      "correctAnswer": "Donanım ve yazılımın uyumlu bir şekilde çalışmasının sağlanamaması",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için, entegrasyon aşamasında uyumsuzluklar yaşanabilir. Bu durum, entegrasyon sürecini uzatır ve maliyeti artırır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
+      "subTopicName": "Entegrasyon Zorlukları",
+      "normalizedSubTopicName": "entegrasyon_zorluklari",
       "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde hata toleransını artırmak için kullanılan bir yöntem değildir?",
+      "questionText": "Aşağıdakilerden hangisi geleneksel sistem tasarımında entegrasyon zorluklarının bir sonucu değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Yedekleme sistemleri kullanmak",
-        "Hata tespit ve onarım mekanizmaları geliştirmek",
-        "Sistem kaynaklarını artırmak",
-        "Arızalı bileşenleri sistem çalışırken değiştirebilmek"
+        "Donanım ve yazılım uyumsuzluğu",
+        "Entegrasyon sürecinin uzaması",
+        "Maliyetin artması",
+        "Yeni teknolojilere hızlı uyum"
       ],
-      "correctAnswer": "Sistem kaynaklarını artırmak",
-      "explanation": "Sistem kaynaklarını artırmak genel performansı iyileştirebilir, ancak doğrudan hata toleransını artırmak için kullanılan bir yöntem değildir. Hata toleransı için yedekleme, hata tespit ve onarım mekanizmaları daha önemlidir. Sunu 4'e bakınız.",
-      "subTopicName": "Hata Toleransı Gereksinimleri",
-      "normalizedSubTopicName": "hata_toleransi_gereksinimleri",
+      "correctAnswer": "Yeni teknolojilere hızlı uyum",
+      "explanation": "Geleneksel sistem tasarımı, yeni teknolojilere hızlı uyum sağlamakta zorlanır. Donanım ve yazılım uyumsuzluğu, entegrasyon sürecinin uzaması ve maliyetin artması ise entegrasyon zorluklarının sonuçlarıdır. (Bkz: Geleneksel Sistem Tasarımı Eksikleri)",
+      "subTopicName": "Entegrasyon Zorlukları",
+      "normalizedSubTopicName": "entegrasyon_zorluklari",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Eksaskala sistemlerde büyük veri setlerinin hızlı taşınması ve depolanması neden önemlidir?",
+      "questionText": "Eş zamanlı tasarım yaklaşımının (Co-Design) temel amacı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Veri analiz süreçlerini hızlandırmak için",
-        "Enerji tüketimini azaltmak için",
-        "Maliyetleri düşürmek için",
-        "Güvenliği artırmak için"
+        "Sadece donanım maliyetlerini düşürmek",
+        "Yazılım geliştirme sürecini hızlandırmak",
+        "Donanım ve yazılım bileşenlerini ayrı ayrı optimize etmek",
+        "Donanım ve yazılım bileşenlerini eş zamanlı ve birlikte tasarlamak"
       ],
-      "correctAnswer": "Veri analiz süreçlerini hızlandırmak için",
-      "explanation": "Büyük veri setlerinin hızlı taşınması ve depolanması, veri analiz süreçlerini hızlandırarak daha hızlı sonuçlar elde edilmesini sağlar. Sunu 4'e bakınız.",
-      "subTopicName": "Veri Hareketi Ve Depolama",
-      "normalizedSubTopicName": "veri_hareketi_ve_depolama",
+      "correctAnswer": "Donanım ve yazılım bileşenlerini eş zamanlı ve birlikte tasarlamak",
+      "explanation": "Co-Design, donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve birlikte tasarlanması yaklaşımıdır. Bu yaklaşım, yüksek performans ve enerji verimliliği sağlamayı amaçlar. (Bkz: Ortak Tasarım (Co-Design))",
+      "subTopicName": "Eş Zamanlı Tasarım Yaklaşımı",
+      "normalizedSubTopicName": "es_zamanli_tasarim_yaklasimi",
       "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Aşağıdakilerden hangisi eksaskala sistemlerde veri hareketi ve depolama zorluklarını azaltmak için kullanılan bir çözüm değildir?",
+      "questionText": "Co-design yaklaşımında, geleneksel sistem tasarımından farklı olarak hangi süreç eş zamanlı olarak yürütülür?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Akıllı veri yönlendirme",
-        "Önbellekleme teknikleri",
-        "Veri sıkıştırma",
-        "Veri şifreleme"
+        "Donanım üretimi",
+        "Yazılım test süreçleri",
+        "Donanım ve yazılım tasarımı",
+        "Sistem entegrasyonu"
       ],
-      "correctAnswer": "Veri şifreleme",
-      "explanation": "Veri şifreleme, veri güvenliğini sağlamak için kullanılır, ancak doğrudan veri hareketi ve depolama zorluklarını azaltmak için kullanılan bir çözüm değildir. Sunu 4'e bakınız.",
-      "subTopicName": "Veri Hareketi Ve Depolama",
-      "normalizedSubTopicName": "veri_hareketi_ve_depolama",
+      "correctAnswer": "Donanım ve yazılım tasarımı",
+      "explanation": "Co-design yaklaşımında donanım ve yazılım bileşenlerinin tasarımı eş zamanlı olarak yürütülür. Geleneksel sistemlerde donanım önceden tasarlanır, yazılım sonradan uyarlanır. (Bkz: Ortak Tasarım (Co-Design))",
+      "subTopicName": "Eş Zamanlı Tasarım Yaklaşımı",
+      "normalizedSubTopicName": "es_zamanli_tasarim_yaklasimi",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Hafif çekirdek (Lightweight kernel) yapılarının temel amacı nedir?",
+      "questionText": "Co-design yaklaşımının önemi özellikle hangi tür sistemlerde daha belirgindir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Gereksiz özellikleri barındırarak sistemi daha kararlı hale getirmek",
-        "Sistem kaynaklarını daha fazla tüketerek performansı artırmak",
-        "Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek",
-        "Geleneksel işletim sistemlerinin tüm özelliklerini taşımak"
+        "Basit gömülü sistemler",
+        "Küçük ölçekli yazılım projeleri",
+        "Karmaşık eksaskala sistemler ve süper bilgisayarlar",
+        "Tek kullanıcılı masaüstü uygulamaları"
       ],
-      "correctAnswer": "Yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmek",
-      "explanation": "Hafif çekirdekler, yalnızca temel işletim sistemi fonksiyonlarını yerine getirerek performansı optimize etmeyi amaçlar. Bu sayede sistem daha hızlı ve verimli çalışır. Sunu 4'e bakınız.",
-      "subTopicName": "Hafif Çekirdek Lightweight Kernel",
-      "normalizedSubTopicName": "hafif_cekirdek_lightweight_kernel",
+      "correctAnswer": "Karmaşık eksaskala sistemler ve süper bilgisayarlar",
+      "explanation": "Co-design, özellikle eksaskala sistemler ve süper bilgisayarlar gibi karmaşık yapılarda yüksek performans ve enerji verimliliği için zorunludur. (Bkz: Ortak Tasarım (Co-Design))",
+      "subTopicName": "Co Designın Önemi",
+      "normalizedSubTopicName": "co_designin_onemi",
       "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi hafif çekirdek yapılarının özelliklerinden biri değildir?",
+      "questionText": "Aşağıdakilerden hangisi Co-design yaklaşımının temel faydalarından biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Küçük ve hızlı olmaları",
-        "Gereksiz özellikleri barındırmamaları",
-        "İhtiyaca göre modüler olarak genişletilebilmeleri",
-        "Yüksek enerji tüketimine sahip olmaları"
+        "Donanım ve yazılım uyumsuzluğunun artması",
+        "Entegrasyon sürecinin uzaması ve maliyetin artması",
+        "Donanım ve yazılımın ayrı ayrı optimize edilmesi",
+        "Sistem genelinde verimliliğin sağlanması"
       ],
-      "correctAnswer": "Yüksek enerji tüketimine sahip olmaları",
-      "explanation": "Hafif çekirdekler, düşük enerji tüketimine sahip olmalarıyla bilinirler. Yüksek enerji tüketimi, geleneksel işletim sistemlerinin bir özelliğidir. Sunu 4'e bakınız.",
-      "subTopicName": "Hafif Çekirdek Lightweight Kernel",
-      "normalizedSubTopicName": "hafif_cekirdek_lightweight_kernel",
+      "correctAnswer": "Sistem genelinde verimliliğin sağlanması",
+      "explanation": "Co-design yaklaşımında donanım ve yazılım ortak optimize edilir, bu da sistem genelinde verimlilik sağlar. Ayrıca, donanım ve yazılım uyumsuzluğu yok denecek kadar azdır ve entegrasyon süreci kısa ve maliyeti azdır. (Bkz: Ortak Tasarımın (Co-Design) Artıları)",
+      "subTopicName": "Co Designın Önemi",
+      "normalizedSubTopicName": "co_designin_onemi",
       "difficulty": "medium"
     }
   ]

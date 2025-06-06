@@ -839,3 +839,15 @@ Details: {"reason":"AxiosError: Request failed with status code 401\n    at sett
 ------------------------------------------------------------
 [2025-06-06T00:31:34.849Z] [info] [LogSetup] Frontend log sistemi başlatıldı
 ------------------------------------------------------------
+[2025-06-06T01:29:00.913Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-06T01:29:00.909Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-06T01:30:54.063Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-06T01:30:54.059Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-06T01:33:39.018Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-06T01:33:39.007Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------

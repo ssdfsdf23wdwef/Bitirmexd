@@ -5,6 +5,7 @@ import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import * as path from 'path';
+import { toPlainObject } from '../common/utils/firestore.utils';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
@@ -824,5 +825,16 @@ export class FirebaseService implements OnModuleInit {
       this.logger.error(`Error in findAll: ${error.message}`, error.stack);
       throw error;
     }
+  }
+
+  /**
+   * Convert any object (including DTOs with prototypes) to a plain JavaScript object
+   * that can be safely stored in Firestore
+   * @param obj The object to convert
+   * @returns A plain JavaScript object without prototypes
+   */
+  toPlainObject(obj: any): any {
+    // Use the utility function from firestore.utils.ts
+    return toPlainObject(obj);
   }
 }

@@ -69,11 +69,14 @@ export interface QuizPreferences {
   personalizedQuizType?: 'weakTopicFocused' | 'newTopicFocused' | 'comprehensive';
 }
 
+// Option türü - string veya {id,text} formatında olabilir
+export type QuestionOption = string | { id: string; text: string };
+
 export interface Question {
   id: string;
   questionText: string;
-  options: string[];
-  correctAnswer: string;
+  options: QuestionOption[];
+  correctAnswer: string | QuestionOption;
   explanation?: string;
   
   // Alt konu bilgileri - AI yanıtından gelen alanlar

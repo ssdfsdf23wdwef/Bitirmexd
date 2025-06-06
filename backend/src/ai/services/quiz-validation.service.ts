@@ -2284,18 +2284,34 @@ export class QuizValidationService {
           `[QUIZ_DEBUG] [${traceId}] #${i + 1} - Zorluk seviyesi: orijinal="${q_input.difficulty || 'tanımsız'}", çevrilen="${translatedDifficulty}"`,
         );
 
+        // Seçenekleri ve doğru cevabı belirle
+        const options = q_input.options || ['A', 'B', 'C', 'D'].map((o) => `Seçenek ${o}`);
+        const correctAnswerId = q_input.correctAnswerId || 
+          (q_input.options && q_input.options.length > 0 ? q_input.options[0].id : 'option_1');
+        
+        // correctAnswer'ı belirle - options array'inden correctAnswerId'ye göre
+        let correctAnswer: string;
+        if (Array.isArray(options) && options.length > 0) {
+          if (typeof options[0] === 'string') {
+            // Eski format: options string array
+            correctAnswer = q_input.correctAnswer || options[0];
+          } else {
+            // Yeni format: options objesi {id, text}
+            const correctOption = options.find((opt: any) => opt.id === correctAnswerId);
+            correctAnswer = correctOption ? correctOption.text : (options[0]?.text || options[0]);
+          }
+        } else {
+          correctAnswer = q_input.correctAnswer || 'Doğru cevap eksik';
+        }
+
         // QuizQuestion nesnesi oluştur
         const questionData = {
           id: q_input.id || `q_${Date.now()}_${i}`,
           questionText:
             q_input.questionText || q_input.question || 'Soru metni eksik',
-          options:
-            q_input.options || ['A', 'B', 'C', 'D'].map((o) => `Seçenek ${o}`),
-          correctAnswer:
-            q_input.correctAnswer ||
-            q_input.correct ||
-            q_input.answer ||
-            'Cevap eksik',
+          options: options,
+          correctAnswerId: correctAnswerId,
+          correctAnswer: correctAnswer,
           explanation: q_input.explanation || q_input.reason || 'Açıklama yok',
           subTopicName: subTopicNameFromInput,
           normalizedSubTopicName: normalizedSubTopicName,
@@ -2309,7 +2325,7 @@ export class QuizValidationService {
           id: questionData.id,
           questionText: questionData.questionText?.substring(0, 50) + '...',
           optionsCount: questionData.options?.length || 0,
-          correctAnswer: questionData.correctAnswer,
+          correctAnswerId: questionData.correctAnswerId,
           subTopic: questionData.subTopicName,
           normalized: questionData.normalizedSubTopicName,
           difficulty: questionData.difficulty,

@@ -52,7 +52,7 @@ export default function ExamPage() {
   const [quiz, setQuiz] = useState<Quiz>();
   const [loading, setLoading] = useState(true);
   // Removed currentQuestionIndex as we're now showing all questions at once
-  const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
+  const [userAnswers, setUserAnswers] = useState<Record<string, any>>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(new Set());
   const [isCompleted, setIsCompleted] = useState(false);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
@@ -300,6 +300,30 @@ export default function ExamPage() {
     
     console.log(`[DEBUG] ensureQuestionSubTopics - Sonuç - ID: ${updatedQuestion.id}, subTopic: "${updatedQuestion.subTopic}", normalizedSubTopic: "${updatedQuestion.normalizedSubTopic}"`);
     return updatedQuestion;
+  };
+
+  /**
+   * Seçenek karşılaştırmak için yardımcı fonksiyon
+   * String veya { id, text } formatındaki seçeneklerin eşitliğini kontrol eder
+   */
+  const optionsEqual = (option1: any, option2: any): boolean => {
+    if (option1 === option2) return true;
+    
+    if (typeof option1 === 'object' && typeof option2 === 'object' && 
+        option1 !== null && option2 !== null && 
+        'id' in option1 && 'id' in option2) {
+      return option1.id === option2.id;
+    }
+    
+    if (typeof option1 === 'object' && option1 !== null && 'text' in option1 && option2 === option1.text) {
+      return true;
+    }
+    
+    if (typeof option2 === 'object' && option2 !== null && 'text' in option2 && option1 === option2.text) {
+      return true;
+    }
+    
+    return false;
   };
 
   /**
@@ -951,7 +975,7 @@ export default function ExamPage() {
               key={optionIndex}
               className={`py-2.5 px-4 rounded-lg cursor-pointer transition-all duration-200 ease-in-out
                         flex items-center
-                        ${userAnswers[processedQuestion.id] === option
+                        ${optionsEqual(userAnswers[processedQuestion.id], option)
                             ? (isDarkMode ? "bg-blue-900/30 border border-blue-700/50" : "bg-blue-50 border border-blue-200")
                             : (isDarkMode ? "hover:bg-gray-700/80 border border-gray-700/50" : "hover:bg-gray-50 border border-gray-200/60")
                         }`}
@@ -963,15 +987,15 @@ export default function ExamPage() {
               }}
             >
               <span className={`mr-3 flex-shrink-0 w-5 h-5 rounded-full border flex items-center justify-center
-                              ${userAnswers[processedQuestion.id] === option 
+                              ${optionsEqual(userAnswers[processedQuestion.id], option) 
                                 ? (isDarkMode ? 'border-blue-500 bg-blue-500' : 'border-blue-500 bg-blue-500') 
                                 : (isDarkMode ? 'border-gray-600' : 'border-gray-300')}`}>
-                {userAnswers[processedQuestion.id] === option && <CheckCircle size={12} className="text-white" />}
+                {optionsEqual(userAnswers[processedQuestion.id], option) && <CheckCircle size={12} className="text-white" />}
               </span>
-              <span className={`${userAnswers[processedQuestion.id] === option 
+              <span className={`${optionsEqual(userAnswers[processedQuestion.id], option) 
                 ? (isDarkMode ? 'text-blue-300 font-medium' : 'text-blue-700 font-medium') 
                 : (isDarkMode ? 'text-gray-300' : 'text-gray-700')}`}>
-                {option}
+                {typeof option === 'object' && option !== null && 'text' in option ? option.text : option}
               </span>
             </div>
           ))}

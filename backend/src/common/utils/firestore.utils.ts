@@ -490,3 +490,66 @@ export async function getAllDocuments<T = any>(
     throw error;
   }
 }
+
+/**
+ * Converts any object (including DTOs with prototypes) to a plain JavaScript object
+ * that can be safely stored in Firestore.
+ *
+ * @param obj The object to convert
+ * @returns A plain JavaScript object without prototypes
+ */
+export const toPlainObject = (obj: any): any => {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+
+  // Handle arrays
+  if (Array.isArray(obj)) {
+    return obj.map((item) => toPlainObject(item));
+  }
+
+  // Handle Date objects
+  if (obj instanceof Date) {
+    return obj; // Firestore handles Date objects properly
+  }
+
+  // Handle plain objects and objects with prototypes
+  if (typeof obj === 'object') {
+    const plainObject: Record<string, any> = {};
+
+    // Get all own properties (including non-enumerable ones if needed)
+    Object.getOwnPropertyNames(obj).forEach((key) => {
+      // Skip methods and functions
+      if (typeof obj[key] !== 'function') {
+        plainObject[key] = toPlainObject(obj[key]);
+      }
+    });
+
+    return plainObject;
+  }
+
+  // For primitive values (string, number, boolean)
+  return obj;
+};
+
+/**
+ * Helper function to ensure an object is safe for Firestore
+ * Converts class instances and objects with prototypes to plain objects
+ *
+ * @param data The data to make safe for Firestore
+ * @returns Object safe for storing in Firestore
+ */
+export const ensureFirestoreSafe = <T>(data: T): T => {
+  try {
+    // Use JSON stringify/parse as a quick way to convert to plain objects
+    // This effectively removes all prototypes but maintains the structure
+    return JSON.parse(JSON.stringify(data));
+  } catch (error) {
+    // If that fails, use the more detailed toPlainObject function
+    logger.warn(
+      `JSON.stringify failed, using toPlainObject: ${error.message}`,
+      'firestore.utils.ensureFirestoreSafe',
+    );
+    return toPlainObject(data);
+  }
+};
