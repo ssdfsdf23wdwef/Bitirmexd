@@ -208,11 +208,7 @@ const TOKEN_CACHE = {
   waitingPromise: null as Promise<string | null> | null, // Devam eden token isteği
 };
 
-/**
- * Kimlik doğrulama token'ını alma fonksiyonu
- * Firebase kullanıcısından ID token alır veya önbellekten döndürür
- * @returns Firebase ID Token
- */
+
 const getAuthToken = async (): Promise<string | null> => {
   const now = Date.now();
 
@@ -236,8 +232,8 @@ const getAuthToken = async (): Promise<string | null> => {
     console.log(
       "🚫 Token istekleri çok sık yapılıyor, önbellekteki token kullanılıyor",
     );
-    // Önbellekteki token varsa kullan, yoksa localStorage'dan oku
-    return TOKEN_CACHE.token || localStorage.getItem("auth_token");
+    // Sadece önbellekteki Firebase ID token'ı kullan, localStorage session token'ı kullanma
+    return TOKEN_CACHE.token;
   }
 
   // Token yenileme işlemi başlat
@@ -249,12 +245,13 @@ const getAuthToken = async (): Promise<string | null> => {
     try {
       const currentUser = auth.currentUser;
       if (!currentUser) {
-        // Kullanıcı yoksa localStorage'dan token'ı dene
-        TOKEN_CACHE.token = localStorage.getItem("auth_token");
-        return TOKEN_CACHE.token;
+        // Kullanıcı yoksa null döndür - localStorage session token'ı kullanma
+        console.log("🚫 Firebase kullanıcısı bulunamadı, token alınamıyor");
+        TOKEN_CACHE.token = null;
+        return null;
       }
 
-      // Firebase'den token al
+      // Firebase'den ID token al
       const token = await currentUser.getIdToken(true);
 
       // Token'ı önbelleğe kaydet
@@ -265,11 +262,11 @@ const getAuthToken = async (): Promise<string | null> => {
 
       return token;
     } catch (error) {
-      console.error("Token alma hatası:", error);
+      console.error("Firebase ID token alma hatası:", error);
 
-      // Hata durumunda localStorage'dan token'ı dene
-      TOKEN_CACHE.token = localStorage.getItem("auth_token");
-      return TOKEN_CACHE.token;
+      // Hata durumunda null döndür - localStorage session token'ı kullanma
+      TOKEN_CACHE.token = null;
+      return null;
     } finally {
       // Token yenileme işlemini sonlandır
       TOKEN_CACHE.isRefreshing = false;
