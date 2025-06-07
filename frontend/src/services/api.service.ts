@@ -564,7 +564,7 @@ class ApiService {
     this.logger.debug(
       `GET ${endpoint} isteği başlatılıyor`,
       'ApiService.get',
-      0
+    
     );
     
     this.flowTracker.trackStep(FlowCategory.API, `GET ${endpoint} isteği başlatılıyor`, 'ApiService.get');
@@ -590,7 +590,7 @@ class ApiService {
       this.logger.debug(
         `GET ${endpoint} isteği tamamlandı (${Math.round(endTime - startTime)}ms)`,
         'ApiService.get',
-        0
+        
       );
       
       this.flowTracker.trackStep(FlowCategory.API, `GET ${endpoint} isteği tamamlandı`, 'ApiService.get');

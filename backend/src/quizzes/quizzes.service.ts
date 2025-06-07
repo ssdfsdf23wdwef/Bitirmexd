@@ -95,6 +95,48 @@ export class QuizzesService {
   }
 
   /**
+   * Find all quizzes in the system (for admin purposes or general listing)
+   */
+  @LogMethod({ trackParams: true })
+  async findAll(): Promise<Quiz[]> {
+    try {
+      this.flowTracker.trackStep(
+        'Tüm sınavlar getiriliyor',
+        'QuizzesService',
+      );
+
+      const snapshot = await this.firebaseService.firestore
+        .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+        .orderBy('timestamp', 'desc')
+        .get();
+
+      // Firebase sonuçlarını Quiz tipine dönüştürüyoruz
+      const quizzes = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        } as unknown as Quiz;
+      });
+
+      this.logger.info(
+        `Toplam ${quizzes.length} adet sınav getirildi`,
+        'QuizzesService.findAll',
+        __filename,
+        undefined,
+        { quizzesCount: quizzes.length },
+      );
+
+      return quizzes;
+    } catch (error) {
+      this.logger.logError(error, 'QuizzesService.findAll', {
+        additionalInfo: 'Tüm sınavlar getirilirken hata oluştu',
+      });
+      throw error;
+    }
+  }
+
+  /**
    * Find all quizzes for a user
    */
   @LogMethod({ trackParams: true })

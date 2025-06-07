@@ -66,14 +66,14 @@ export class QuizzesController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Kimlik doğrulama hatası - yetkilendirme gerekli',
   })
-  async findAll(): Promise<QuizSummary[]> {
+  async findAll(@User() user: { uid: string }): Promise<QuizSummary[]> {
     try {
       this.flowTracker.trackStep(
         'Kullanıcının tüm sınavları getiriliyor',
         'QuizzesController',
       );
 
-      const quizzes = await this.quizzesService.findAll();
+      const quizzes = await this.quizzesService.findAllForUser(user.uid);
 
       return quizzes.map((quiz: Quiz) => quiz as unknown as QuizSummary);
     } catch (error) {

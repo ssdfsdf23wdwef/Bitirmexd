@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-06T04:13:04.690Z
+## Tarih: 2025-06-06T04:42:50.081Z
 
-## Trace ID: quiz-1749183184657-62slc
+## Trace ID: quiz-1749184970062-uhl5g
 
-## Alt Konular (9 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme Araçları** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Ağ Yönetimi** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Netstat İle Bağlantı Görüntüleme** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Kullanıcı Yetkilendirmesi** (2 soru)
+5. **Virt İnstallıkomutu Kullanımı** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,10 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ss İle Soket İ Statistikleri
-2. Traceroute İle Yol Takibi
-3. Nslookup İle Dns Sorgulama
-4. Diğiile Detaylı Dns Bilgisi
+1. Sanal Makine Listeleme Ve Görüntüleme
+2. Sanal Makine Durum Değişiklikleri
+3. Sanal Makine Silme İ Şlemi
 
 ```
 
@@ -51,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Yönetimi Ve İ Zleme Araçları** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Ağ Yönetimi** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Netstat İle Bağlantı Görüntüleme** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Kullanıcı Yetkilendirmesi** (2 soru)
+5. **Virt İnstallıkomutu Kullanımı** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -63,10 +62,9 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ss İle Soket İ Statistikleri
-2. Traceroute İle Yol Takibi
-3. Nslookup İle Dns Sorgulama
-4. Diğiile Detaylı Dns Bilgisi
+1. Sanal Makine Listeleme Ve Görüntüleme
+2. Sanal Makine Durum Değişiklikleri
+3. Sanal Makine Silme İ Şlemi
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -79,96 +77,98 @@ bilal@atauni.edu.tr
 
 
 
-3.Hafta
+5.Hafta
 
 
-Temel Linux Komutları-3
+KVM (Tip-1 Hypervisor Kurulumu)
 
-Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
-duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
+Aşağıdaki adresten ubuntu imajını indirilir
+https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
+İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
 
-3. Ağ yönetimi ve izleme
-●
-ifconfig
-(İnterface Configuration)
-Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
-Örnek: ifconfig (Ağ arayüzlerini listeleme)
-Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
-●
-ip
-(Ağ yapılandırması)
-Örnek: ip addr show Ağ arayüzlerini listeleme
-Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
-Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
-●
-ping
-(Ağ Bağlantısını Test Etme)
-Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
-Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
-Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
-●
-netstat
-(Ağ Bağlantılarını Görüntüleme)
-Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
-Örnek: netstat Mevcut bağlantıları listeleme
+İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
+için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
+scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
+
+Kvm kurulumu
+sudo apt update
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo systemctl enable --now libvirtd
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
+
+Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
+sudo nano /etc/libvirt/qemu.conf
+Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya ctrl+x ile kayıt edilerek çıkılır
+
+Komut satırında aşağıdaki komut verilir
+sudo systemctl restart libvirtd.service
 
 
-Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
-Örnek: netstat -i Ağ istatistiklerini görüntüleme
-●
-ss
-(Socket Statistiği)
-ss
-komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
-netstat
-komutunun
-modern bir alternatifi olarak kabul edilir.
-Örnek: ss -t Mevcut TCP bağlantılarını listeleme
-Örnek: ss -l Dinleyen soketleri listeleme
-Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
-
-●
-traceroute
-(Yol Takibi)
-Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
-Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
-●
-nslookup
-(DNS Sorgulama)
-DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
-Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
-●
-dig
-(Domain Information Groper)
-dig
-, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
-Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
-Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
-●
-route
-(Yönlendirme Tablosu)
-Ağ yönlendirme tablosunu yönetmek için kullanılır.
-Örnek: route -n Yönlendirme tablosunu görüntüleme
-●
-curl
-(Ağ İstekleri)
-Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
 
 
-Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
-●
-wget
-(Dosya İndirme)
-Ağ üzerinden dosya indirmek için kullanılan komut.
-wget
-https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
-020/07/Akademik-Takvim_2024_2025_17052024.pdf
-●
-mtr
-(Ping ve Traceroute Kombinasyonu)
-Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
-Örnek: mtr google.com
-Hedefe mtr ile izleme
+
+
+
+
+VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
+
+sudo virt-install --name=testVM \
+--os-variant=ubuntu22.04 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/var/lib/libvirt/images/testVM.img,size=30 \
+--graphics spice \
+--cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
+--network bridge:virbr0
+
+
+Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
+kısmıdır.
+
+
+
+
+
+
+
+
+
+Sanal Makinelerin Yönetilmesi
+- Kurulu olan sanal makineleri ve durumlarını listeleyin
+
+virsh list --all
+- Çalışır durumda (running) olan sanal makineyi görüntüleyin
+
+virt-viewer testVM
+- Tüm sanal makineleri grafik arayüzden yönetin.
+virt-manager
+
+- Shut-down durumundaki bir sanal makineyi başlatma
+virsh start testVM
+- Bir sanal makineyi restart yapma
+virsh reboot testVM
+
+- Bir sanal makineyi kapatma
+virsh shutdown testVM
+
+- Bir sanal makineyi pause yapma
+virsh suspend testVM
+
+- Bir sanal makineyi unpause yapma
+virsh resume testVM
+
+- Bir sanal makineyi silme
+Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
+edilmelidir sonrada undefine yapılmalıdır.
+virsh destroy testVM
+virsh undefine testVM
+
+
 
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
@@ -344,42 +344,42 @@ Hedefe mtr ile izleme
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Ağ Yönetimi Ve İ Zleme Araçları: 2 soru
-  - İfconfiğiile Arayüz Yapılandırması: 2 soru
-  - İp Komutu İle Ağ Yönetimi: 2 soru
-  - Pinğiile Ağ Bağlantısı Testi: 2 soru
-  - Netstat İle Bağlantı Görüntüleme: 2 soru
+  - Kvm Hypervisor Kurulumu: 2 soru
+  - Gerekli Paketlerin Kurulumu: 2 soru
+  - Libvirtd Servisini Yapılandırma: 2 soru
+  - Kullanıcı Yetkilendirmesi: 2 soru
+  - Virt İnstallıkomutu Kullanımı: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Ağ Yönetimi Ve İ Zleme Araçları:
-- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel işlevlerinden biridir?
-- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adı sorgulamak | Ağ bağlantısının durumunu izlemek | Web sunucularına HTTP istekleri göndermek
-- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
+#### Kvm Hypervisor Kurulumu:
+- Soru: KVM hypervisor kurulumu için gerekli paketlerden biri aşağıdakilerden hangisidir?
+- Seçenekler: qemu-kvm | docker | virtualbox | vmware
+- Doğru Cevap: qemu-kvm
 - Zorluk: easy
 
-#### İfconfiğiile Arayüz Yapılandırması:
-- Soru: Aşağıdakilerden hangisi 'ifconfig' komutu ile bir arayüzü yapılandırmak için kullanılan parametrelerden biri değildir?
-- Seçenekler: ip addr | netmask | broadcast | gateway
-- Doğru Cevap: ip addr
-- Zorluk: medium
-
-#### İp Komutu İle Ağ Yönetimi:
-- Soru: 'ip addr show' komutu hangi amaçla kullanılır?
-- Seçenekler: Ağ arayüzlerini listelemek | Bir IP adresine ping göndermek | Ağ bağlantılarını görüntülemek | Yönlendirme tablosunu görüntülemek
-- Doğru Cevap: Ağ arayüzlerini listelemek
+#### Gerekli Paketlerin Kurulumu:
+- Soru: KVM kurulumu için gerekli paketlerin kurulumunda kullanılan komut aşağıdakilerden hangisidir?
+- Seçenekler: sudo apt update | sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils | sudo systemctl enable --now libvirtd | sudo usermod -aG kvm $USER
+- Doğru Cevap: sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
 - Zorluk: easy
 
-#### Pinğiile Ağ Bağlantısı Testi:
-- Soru: 'ping 10.112.0.1' komutu ne işe yarar?
-- Seçenekler: 10.112.0.1 IP adresine ping gönderme | Ağ arayüzlerini listeleme | Mevcut ağ bağlantılarını listeleme | DNS sunucusunu sorgulama
-- Doğru Cevap: 10.112.0.1 IP adresine ping gönderme
+#### Libvirtd Servisini Yapılandırma:
+- Soru: Libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?
+- Seçenekler: sudo systemctl start libvirtd | sudo systemctl enable libvirtd | sudo systemctl restart libvirtd | sudo systemctl status libvirtd
+- Doğru Cevap: sudo systemctl enable libvirtd
 - Zorluk: easy
 
-#### Netstat İle Bağlantı Görüntüleme:
-- Soru: 'netstat -tuln' komutu ne işe yarar?
-- Seçenekler: Belirli bir portu dinleyen süreçleri listeler | Ağ istatistiklerini görüntüler | Mevcut bağlantıları listeler | Yönlendirme tablosunu görüntüler
-- Doğru Cevap: Belirli bir portu dinleyen süreçleri listeler
+#### Kullanıcı Yetkilendirmesi:
+- Soru: Kullanıcının KVM sanal makinelerini yönetebilmesi için hangi gruplara eklenmesi gerekir?
+- Seçenekler: kvm ve libvirt | root ve admin | qemu ve kvm | libvirt ve qemu
+- Doğru Cevap: kvm ve libvirt
+- Zorluk: easy
+
+#### Virt İnstallıkomutu Kullanımı:
+- Soru: `virt-install` komutunda kullanılan `--disk path=/var/lib/libvirt/images/testVM.img,size=30` parametresi neyi ifade eder?
+- Seçenekler: Sanal makinenin adını | Sanal makineye ayrılan RAM miktarını | Sanal makine diskinin konumunu ve boyutunu | Sanal makine için kullanılacak işletim sistemi varyantını
+- Doğru Cevap: Sanal makine diskinin konumunu ve boyutunu
 - Zorluk: medium
 
