@@ -4,15 +4,12 @@ import React, { ReactNode, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { getLogger, trackFlow } from '@/lib/logger.utils';
 import { FlowCategory } from '@/constants/logging.constants';
+
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { Toaster } from 'react-hot-toast';
-import { setupGlobalErrorHandling } from '@/lib/logger.utils';
 import MainLayout from "@/components/layout/MainLayout";
 import ClientAnalytics from "@/components/analytics/ClientAnalytics";
-
-// Loglayıcıyı al (providers.tsx'te başlatıldı)
-const logger = getLogger();
 
 interface ClientLayoutProps {
   children: ReactNode;
@@ -20,8 +17,8 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const pathname = usePathname();
+  const logger = getLogger();
 
-  // Sayfa değişimlerini izle
   useEffect(() => {
     // Sayfa değişimini logla
     logger.info(`Sayfa değişti: ${pathname}`, 'Navigation');

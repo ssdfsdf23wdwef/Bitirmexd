@@ -15,7 +15,6 @@ export default function ClientLogSetup({ children }: { children: React.ReactNode
       const logger = configureLogging();
       console.log('Frontend log sistemi başlatıldı');
       
-      // Başlangıç logları
       logger?.info('Uygulama başlatıldı', 'ClientLogSetup');
       
       // Global hata yakalayıcıları ekle

@@ -35,20 +35,82 @@ const QUIZ_TYPE_INFO = {
 };
 
 // Yardımcı fonksiyonlar
-const formatDate = (dateValue: string | Date) => {
-  // Date'i string'e dönüştürme
-  const date = typeof dateValue === 'string' ? new Date(dateValue) : dateValue;
-  return date.toLocaleDateString("tr-TR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+// quiz.timestamp'in 'any' olabileceğini varsayarak daha genel bir tip kullanalım.
+const formatDate = (dateValue: any): string => {
+  console.log('Original dateValue:', dateValue); // Hata ayıklama için log
+  if (dateValue === null || typeof dateValue === 'undefined') {
+    return "Tarih Yok (null/undefined)";
+  }
+
+  let potentialDate: Date | undefined;
+
+  // 1. If it's an object with a toDate method (like Firebase Timestamp)
+  if (typeof dateValue === 'object' && dateValue !== null && typeof dateValue.toDate === 'function') {
+    try {
+      potentialDate = dateValue.toDate();
+    } catch (e) {
+      return "Hata: toDate() çağrılamadı";
+    }
+  }
+  // 2. If it's already a Date object
+  else if (dateValue instanceof Date) {
+    potentialDate = dateValue;
+  }
+  // 3. If it's a string or a number (potential timestamp or date string)
+  else if (typeof dateValue === 'string' || typeof dateValue === 'number') {
+    // Ensure not an empty string before passing to new Date()
+    if (dateValue === '') {
+      return "Tarih Yok (boş string)";
+    }
+    potentialDate = new Date(dateValue);
+  }
+  // 4. If none of the above, it's an unsupported type for direct conversion
+  else {
+    return `Desteklenmeyen Veri Tipi: ${typeof dateValue}`;
+  }
+
+  // 5. Validate the potentialDate
+  if (!(potentialDate instanceof Date)) {
+    // This means conversion failed or toDate() didn't return a Date
+    return "Hata: Geçerli Date nesnesine dönüştürülemedi";
+  }
+
+  // 6. Check if getTime method exists and is a function
+  if (typeof potentialDate.getTime !== 'function') {
+    return "Hata: Date nesnesinde getTime metodu yok/fonksiyon değil";
+  }
+
+  // 7. Check if the date is valid (getTime() should return a number)
+  let timeValue;
+  try {
+    timeValue = potentialDate.getTime();
+  } catch (e) {
+    return "Hata: getTime() çağrılırken hata oluştu";
+  }
+
+  if (isNaN(timeValue)) {
+    return "Geçersiz Tarih Değeri (NaN)";
+  }
+
+  // All checks passed, format the date
+  console.log('Processing potentialDate:', potentialDate, 'typeof getTime:', typeof potentialDate?.getTime); // Hata ayıklama için log
+  try {
+    return potentialDate.toLocaleDateString("tr-TR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  } catch (e) {
+    // console.error("Error in toLocaleDateString: ", e, potentialDate);
+    return "Hata: toLocaleDateString çağrılırken hata oluştu";
+  }
 };
 
 // Sınav başlığı üretici yardımcı fonksiyon
-const getQuizTitle = (quiz: Quiz) =>
-  quiz.sourceDocument?.fileName ||
-  `${QUIZ_TYPE_INFO[quiz.quizType]?.label || "Sınav"} - ${formatDate(quiz.timestamp)}`;
+function getQuizTitle(quiz: Quiz) {
+  return quiz.sourceDocument?.fileName ||
+    `${QUIZ_TYPE_INFO[quiz.quizType]?.label || "Sınav"} - ${formatDate(quiz.timestamp)}`;
+}
 
 // Sınav kartı bileşeni
 const ExamItem = ({ quiz, index }: { quiz: Quiz; index: number }) => {
