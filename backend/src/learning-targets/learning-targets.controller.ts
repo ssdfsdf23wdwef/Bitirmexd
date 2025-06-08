@@ -364,17 +364,47 @@ export class LearningTargetsController {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in propose new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Operation ID: ${operationId}`);
+      console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      console.error(`Error Code: ${error.code || 'N/A'}`);
+      console.error(`HTTP Status: ${error.status || 'N/A'}`);
+      
+      // Enhanced stack trace with context
+      if (error.stack) {
+        console.error(`\n📍 Full Stack Trace:`);
+        console.error(error.stack.split('\n').map((line, index) => 
+          `  ${index === 0 ? '→' : ' '} ${line}`
+        ).join('\n'));
+      }
+      
+      // Log request context for debugging
+      console.error(`\n🔍 Request Context:`);
+      console.error(`  User ID: ${req.user.uid}`);
+      console.error(`  Context Text Length: ${dto.contextText?.length || 0}`);
+      console.error(`  Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      
       console.groupEnd();
       
+      // Enhanced logger with more context
       this.logger.error(
         `Yeni konular tespit edilirken hata: ${error.message}`,
         'LearningTargetsController.proposeNewTopics',
         __filename,
         undefined,
         error,
+        {
+          operationId,
+          userId: req.user.uid,
+          contextTextLength: dto.contextText?.length || 0,
+          existingTopicsCount: dto.existingTopicTexts?.length || 0,
+          errorDuration: errorDuration.toFixed(2),
+          errorType: error.constructor.name,
+          errorCode: error.code,
+          httpStatus: error.status
+        }
       );
       throw error;
     }
@@ -450,17 +480,47 @@ export class LearningTargetsController {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in confirm new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Operation ID: ${operationId}`);
+      console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      console.error(`Error Code: ${error.code || 'N/A'}`);
+      console.error(`HTTP Status: ${error.status || 'N/A'}`);
+      
+      // Enhanced stack trace with context
+      if (error.stack) {
+        console.error(`\n📍 Full Stack Trace:`);
+        console.error(error.stack.split('\n').map((line, index) => 
+          `  ${index === 0 ? '→' : ' '} ${line}`
+        ).join('\n'));
+      }
+      
+      // Log request context for debugging
+      console.error(`\n🔍 Request Context:`);
+      console.error(`  User ID: ${req.user.uid}`);
+      console.error(`  Course ID: ${dto.courseId}`);
+      console.error(`  Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
+      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      
       console.groupEnd();
       
+      // Enhanced logger with more context
       this.logger.error(
         `Yeni öğrenme hedefleri oluşturulurken hata: ${error.message}`,
         'LearningTargetsController.confirmNewTopics',
         __filename,
         undefined,
         error,
+        {
+          operationId,
+          userId: req.user.uid,
+          courseId: dto.courseId,
+          selectedTopicsCount: dto.selectedTopics?.length || 0,
+          errorDuration: errorDuration.toFixed(2),
+          errorType: error.constructor.name,
+          errorCode: error.code,
+          httpStatus: error.status
+        }
       );
       throw error;
     }
@@ -1195,20 +1255,45 @@ export class LearningTargetsController {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in detect new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Operation ID: ${operationId}`);
+      console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      console.error(`Error Code: ${error.code || 'N/A'}`);
+      console.error(`HTTP Status: ${error.status || 'N/A'}`);
+      
+      // Enhanced stack trace with context
+      if (error.stack) {
+        console.error(`\n📍 Full Stack Trace:`);
+        console.error(error.stack.split('\n').map((line, index) => 
+          `  ${index === 0 ? '→' : ' '} ${line}`
+        ).join('\n'));
+      }
+      
+      // Log request context for debugging
+      console.error(`\n🔍 Request Context:`);
+      console.error(`  User ID: ${userId}`);
+      console.error(`  Course ID: ${courseId}`);
+      console.error(`  Context Text Length: ${detectNewTopicsDto.contextText?.length || 0}`);
+      console.error(`  Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`);
+      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      
       console.groupEnd();
       
+      // Enhanced logger with more context
       this.logger.logError(
         error,
         'LearningTargetsController.detectNewTopics',
         {
+          operationId,
           userId,
           courseId,
           lessonContextLength: detectNewTopicsDto.contextText?.length,
-          existingTopicNamesCount:
-            detectNewTopicsDto.existingTopicTexts?.length,
+          existingTopicNamesCount: detectNewTopicsDto.existingTopicTexts?.length,
+          errorDuration: errorDuration.toFixed(2),
+          errorType: error.constructor.name,
+          errorCode: error.code,
+          httpStatus: error.status,
           additionalInfo: 'Yeni konu tespiti sırasında hata oluştu',
         },
       );
@@ -1319,17 +1404,41 @@ export class LearningTargetsController {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in batch update learning targets after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Operation ID: ${operationId}`);
+      console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      console.error(`Error Code: ${error.code || 'N/A'}`);
+      console.error(`HTTP Status: ${error.status || 'N/A'}`);
+      
+      // Enhanced stack trace with context
+      if (error.stack) {
+        console.error(`\n📍 Full Stack Trace:`);
+        console.error(error.stack.split('\n').map((line, index) => 
+          `  ${index === 0 ? '→' : ' '} ${line}`
+        ).join('\n'));
+      }
+      
+      // Log request context for debugging
+      console.error(`\n🔍 Request Context:`);
+      console.error(`  User ID: ${req.user?.uid || 'unknown'}`);
+      console.error(`  Targets Count: ${batchUpdateDto.targets?.length || 0}`);
+      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      
       console.groupEnd();
       
+      // Enhanced logger with more context
       this.logger.logError(
         error,
         'LearningTargetsController.batchUpdateLearningTargets',
         {
+          operationId,
           userId: req.user?.uid || 'unknown',
           targetCount: batchUpdateDto.targets?.length || 0,
+          errorDuration: errorDuration.toFixed(2),
+          errorType: error.constructor.name,
+          errorCode: error.code,
+          httpStatus: error.status,
           additionalInfo: 'Batch öğrenme hedefi güncellemesi sırasında hata oluştu',
         },
       );

@@ -371,12 +371,43 @@ export class LearningTargetsService {
         { targetId, userId }
       );
     } catch (error) {
+      // Enhanced Error Context Logging  
+      console.error(`\n❌ ERROR in deleteLearningTarget:`);
+      console.group(`🚨 Service Error Details - Method: deleteLearningTarget`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  🎯 Target ID: ${targetId}`);
+      console.error(`  🗑️ Operation: Delete Learning Target`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
+      
       this.logger.error(
         `Öğrenme hedefi silinirken hata: ${error.message}`,
         'LearningTargetsService.deleteLearningTarget',
         __filename,
         undefined,
-        error
+        {
+          ...error,
+          targetId,
+          userId,
+          operation: 'delete'
+        }
       );
       throw error;
     }
@@ -475,9 +506,33 @@ export class LearningTargetsService {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in propose new topics service after ${errorDuration.toFixed(2)}ms:`);
-      console.error(`Error Name: ${error.name}`);
-      console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      
+      // Enhanced Error Context Logging
+      console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`⏱️ Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
+      console.error(`  📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+      console.error(`  🏫 Course ID: ${dto.courseId || 'Not provided'}`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
       console.groupEnd();
       
       this.logger.error(
@@ -485,7 +540,15 @@ export class LearningTargetsService {
         'LearningTargetsService.proposeNewTopics',
         __filename,
         undefined,
-        error,
+        {
+          ...error,
+          operationId,
+          userId,
+          duration: errorDuration,
+          contextLength: dto.contextText?.length || 0,
+          existingTopicsCount: dto.existingTopicTexts?.length || 0,
+          courseId: dto.courseId
+        },
       );
       throw error;
     }
@@ -619,9 +682,33 @@ export class LearningTargetsService {
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in confirm and save topics service after ${errorDuration.toFixed(2)}ms:`);
-      console.error(`Error Name: ${error.name}`);
-      console.error(`Error Message: ${error.message}`);
-      console.error(`Error Stack:`, error.stack);
+      
+      // Enhanced Error Context Logging
+      console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`⏱️ Operation Duration: ${errorDuration.toFixed(2)}ms`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  🏫 Course ID: ${dto.courseId || 'Not provided'}`);
+      console.error(`  📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
+      console.error(`  🎯 Target Topics: ${dto.selectedTopics?.map(t => t.name).join(', ') || 'None'}`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
       console.groupEnd();
       
       this.logger.error(
@@ -629,7 +716,15 @@ export class LearningTargetsService {
         'LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets',
         __filename,
         undefined,
-        error,
+        {
+          ...error,
+          operationId,
+          userId,
+          duration: errorDuration,
+          courseId: dto.courseId,
+          selectedTopicsCount: dto.selectedTopics?.length || 0,
+          targetTopics: dto.selectedTopics?.map(t => t.name) || []
+        },
       );
       throw error;
     }
@@ -692,12 +787,43 @@ export class LearningTargetsService {
 
       return targets;
     } catch (error) {
+      // Enhanced Error Context Logging  
+      console.error(`\n❌ ERROR in findAllLearningTargetsByUserId:`);
+      console.group(`🚨 Service Error Details - Method: findAllLearningTargetsByUserId`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  🏫 Course ID: ${courseId || 'All courses'}`);
+      console.error(`  🔍 Query Type: ${courseId ? 'Course-specific' : 'User-wide'}`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
+      
       this.logger.error(
         `Öğrenme hedefleri getirilirken hata: ${error.message}`,
         'LearningTargetsService.findAllLearningTargetsByUserId',
         __filename,
         undefined,
-        error,
+        {
+          ...error,
+          userId,
+          courseId,
+          queryType: courseId ? 'course-specific' : 'user-wide'
+        },
       );
       throw error;
     }
@@ -979,12 +1105,45 @@ export class LearningTargetsService {
         updatedAt: null as any, // Will be set by Firestore
       } as LearningTarget;
     } catch (error) {
+      // Enhanced Error Context Logging  
+      console.error(`\n❌ ERROR in updateLearningTarget:`);
+      console.group(`🚨 Service Error Details - Method: updateLearningTarget`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  🎯 Target ID: ${targetId}`);
+      console.error(`  📝 Update Fields: ${Object.keys(dto).join(', ')}`);
+      console.error(`  🔧 Update Data: ${JSON.stringify(dto, null, 2)}`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
+      
       this.logger.error(
         `Öğrenme hedefi güncellenirken hata: ${error.message}`,
         'LearningTargetsService.updateLearningTarget',
         __filename,
         undefined,
-        error,
+        {
+          ...error,
+          targetId,
+          userId,
+          updateFields: Object.keys(dto),
+          updateData: dto
+        },
       );
       throw error;
     }
@@ -2013,7 +2172,33 @@ export class LearningTargetsService {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       
       console.error(`❌ Batch Update Error after ${totalDuration.toFixed(2)}ms:`, errorMessage);
-      console.error(`📊 Error Details:`, error);
+      
+      // Enhanced Error Context Logging
+      console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
+      console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
+      console.error(`⏱️ Operation Duration: ${totalDuration.toFixed(2)}ms`);
+      console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
+      console.error(`📛 Error Name: ${error.name || 'N/A'}`);
+      console.error(`💬 Error Message: ${error.message || 'No message'}`);
+      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
+      
+      // Operation Context
+      console.error(`\n📋 Operation Context:`);
+      console.error(`  👤 User ID: ${userId}`);
+      console.error(`  📊 Total Targets Count: ${targets.length}`);
+      console.error(`  🎯 Target SubTopics: ${targets.map(t => t.subTopic).slice(0, 5).join(', ')}${targets.length > 5 ? '...' : ''}`);
+      console.error(`  📈 Processing Progress: Unknown (interrupted)`);
+      
+      // Enhanced Stack Trace
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        const stackLines = error.stack.split('\n');
+        stackLines.forEach((line, index) => {
+          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+        });
+      }
+      
+      console.groupEnd();
       console.groupEnd();
       
       this.logger.error(
@@ -2021,7 +2206,14 @@ export class LearningTargetsService {
         'LearningTargetsService.batchUpdate',
         __filename,
         undefined,
-        error,
+        {
+          ...error,
+          operationId,
+          userId,
+          duration: totalDuration,
+          totalTargets: targets.length,
+          targetSubTopics: targets.map(t => t.subTopic)
+        },
       );
       throw error;
     }
