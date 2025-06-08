@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T16:04:52.807Z
-Trace ID: quiz-1749398681885-c3h34
-Yanıt Uzunluğu: 6993 karakter
+Tarih: 2025-06-08T16:39:56.670Z
+Trace ID: quiz-1749400781950-oe1we
+Yanıt Uzunluğu: 10148 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 6993 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi süperbilgisayarların performansını değerlendiren temel listelerden biri değildir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "TOP500",
-        "HPCG",
-        "Green500",
-        "Blue500"
-      ],
-      "correctAnswer": "Blue500",
-      "explanation": "Süperbilgisayarların performansını değerlendiren üç temel liste TOP500, HPCG ve Green500'dür. Blue500 diye bir liste bulunmamaktadır. Bkz: Sunu 6, sayfa 2.",
-      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
-      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q2",
-      "questionText": "Hangi liste, süperbilgisayarları enerji verimliliğini temel alarak sıralar?",
+      "questionText": "Aşağıdakilerden hangisi, eksaskala sistemlerin yüksek hesaplama gücünden yararlanmak için tasarımcılara köprü görevi gören temel unsurlardan biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "TOP500",
-        "HPCG",
-        "Green500",
-        "LINPACK"
+        "Donanım optimizasyonları",
+        "Programlama modelleri ve araçları",
+        "Veri depolama çözümleri",
+        "Ağ iletişim protokolleri"
       ],
-      "correctAnswer": "Green500",
-      "explanation": "Green500, süperbilgisayarları enerji verimliliğini temel alarak sıralayan listedir. Bu liste, çevreci yaklaşıma odaklanır ve verimli, sürdürülebilir HPC sistemlerini teşvik eder. Bkz: Sunu 6, sayfa 7.",
-      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
-      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
+      "correctAnswer": "Programlama modelleri ve araçları",
+      "explanation": "Programlama modelleri ve araçları, tasarımcılara eksaskala sistemlerin yüksek hesaplama gücünü kullanabilmeleri için bir köprü görevi görür. Diğer seçenekler eksaskala sistemlerin önemli bileşenleri olsa da, tasarımcıların bu sistemlerin gücünden yararlanmasında doğrudan bir köprü görevi görmezler.",
+      "subTopicName": "Programlama Modelleri Ve Araçları",
+      "normalizedSubTopicName": "programlama_modelleri_ve_araclari",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q2",
+      "questionText": "Eksaskala bilgisayar sistemlerinde programlamada kullanılan en temel modeller ve araçlar arasında aşağıdakilerden hangisi yer almaz?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Paralel Programlama Paradigmaları",
+        "Derleyici Optimizasyonları",
+        "Performans Profilleme ve Hata Ayıklama",
+        "Veri Şifreleme Algoritmaları"
+      ],
+      "correctAnswer": "Veri Şifreleme Algoritmaları",
+      "explanation": "Veri şifreleme algoritmaları eksaskala sistemlerde güvenliğin sağlanması için önemli olsa da, programlama modelleri ve araçları arasında yer almaz. Metinde belirtilen temel modeller ve araçlar şunlardır: Paralel Programlama Paradigmaları, Derleyici Optimizasyonları ve Performans Profilleme ve Hata Ayıklama.",
+      "subTopicName": "Programlama Modelleri Ve Araçları",
+      "normalizedSubTopicName": "programlama_modelleri_ve_araclari",
       "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdakilerden hangisi HPCG listesinin odak noktasıdır?",
+      "questionText": "Paralel programlama paradigması nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ham hesaplama gücü",
-        "Bellek, iletişim ve gerçekçi yük",
-        "Enerji verimliliği",
-        "Floating-point işlem performansı"
+        "Bir işlemin sıralı bir şekilde yürütülmesini sağlayan yazılımlardır.",
+        "Bir işlemin küçük parçalara bölünerek aynı anda birden fazla işlemcide yürütülmesini sağlayan yazılımlardır.",
+        "Verilerin şifrelenerek güvenli bir şekilde saklanmasını sağlayan yazılımlardır.",
+        "Programların kaynak koddan makine koduna dönüştürülmesini sağlayan yazılımlardır."
       ],
-      "correctAnswer": "Bellek, iletişim ve gerçekçi yük",
-      "explanation": "HPCG listesinin odak noktası bellek, iletişim ve gerçekçi yük performansıdır. Bu liste, gerçek dünya uygulamalarındaki performansı ölçmeyi amaçlar. Bkz: Sunu 6, sayfa 8.",
-      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
-      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
+      "correctAnswer": "Bir işlemin küçük parçalara bölünerek aynı anda birden fazla işlemcide yürütülmesini sağlayan yazılımlardır.",
+      "explanation": "Paralel programlama paradigması, bir işlemin küçük parçalara bölünerek aynı anda birden fazla işlemcide yürütülmesini sağlayan yazılımlardır. Bu yaklaşım, büyük ölçekli hesaplamalarda performansı maksimize etmek için kritik bir bileşendir.",
+      "subTopicName": "Paralel Programlama Paradigmaları",
+      "normalizedSubTopicName": "paralel_programlama_paradigmalari",
       "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "Hangi liste, gerçek dünya uygulamalarına daha yakın bir performans değerlendirmesi sunar?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "TOP500",
-        "HPCG",
-        "Green500",
-        "LINPACK"
-      ],
-      "correctAnswer": "HPCG",
-      "explanation": "HPCG, gerçek dünya uygulamalarına (mühendislik hesaplamaları vb.) daha yakın bir performans değerlendirmesi sunar. TOP500'ün eksik kaldığı noktaları tamamlamak için alternatif olarak geliştirilmiştir. Bkz: Sunu 6, sayfa 5.",
-      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
-      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q5",
-      "questionText": "Green500 listesinde sıralama ölçütü olarak hangi oran dikkate alınır?",
+      "questionText": "Aşağıdakilerden hangisi, eksaskala sistemlerde kullanılan başlıca paralel programlama paradigmalarından biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "FLOPS",
-        "LINPACK",
-        "FLOPS/Watt",
-        "HPCG"
+        "Paylaşımlı Bellek Paradigması",
+        "Dağıtık Bellek Paradigması",
+        "Hibrit Paralel Programlama",
+        "Nesne Yönelimli Programlama"
       ],
-      "correctAnswer": "FLOPS/Watt",
-      "explanation": "Green500 listesinde sıralama ölçütü olarak FLOPS/Watt oranına bakılır. Yani, 1 watt enerji başına ne kadar işlem yapıldığı değerlendirilir. Bkz: Sunu 6, sayfa 7.",
-      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
-      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
+      "correctAnswer": "Nesne Yönelimli Programlama",
+      "explanation": "Metinde belirtilen başlıca paralel programlama paradigmaları şunlardır: Paylaşımlı Bellek Paradigması, Dağıtık Bellek Paradigması ve Hibrit Paralel Programlama. Nesne Yönelimli Programlama ise bir programlama yaklaşımıdır, bir paralel programlama paradigması değildir.",
+      "subTopicName": "Paralel Programlama Paradigmaları",
+      "normalizedSubTopicName": "paralel_programlama_paradigmalari",
       "difficulty": "easy"
     },
     {
+      "id": "q5",
+      "questionText": "OpenMP'nin temel amacı nedir ve hangi bellek mimarisiyle daha uyumludur?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Dağıtık bellekli sistemlerde mesajlaşmayı kolaylaştırmak.",
+        "Çok çekirdekli işlemciler ve paylaşımlı bellek mimarilerinde paralel uygulamalar geliştirmek.",
+        "Veri şifreleme algoritmalarını hızlandırmak.",
+        "Tek çekirdekli işlemcilerde performansı artırmak."
+      ],
+      "correctAnswer": "Çok çekirdekli işlemciler ve paylaşımlı bellek mimarilerinde paralel uygulamalar geliştirmek.",
+      "explanation": "OpenMP (Open Multi-Processing), çok çekirdekli işlemciler ve paylaşımlı bellek mimarileri ile paralel uygulamalar geliştirmek için kullanılır. Mevcut koda direktifler ekleyerek uygulama geliştirmeyi kolaylaştırır ve düşük iletişim gecikmesi avantajı sunar.",
+      "subTopicName": "Paylaşımlı Bellek Paradigması",
+      "normalizedSubTopicName": "paylasimli_bellek_paradigmasi",
+      "difficulty": "medium"
+    },
+    {
       "id": "q6",
-      "questionText": "TOP500 listesi ilk olarak hangi yılda yayınlanmıştır?",
+      "questionText": "Paylaşımlı bellek paradigmasında, OpenMP kullanılarak paralellik nasıl sağlanır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "1983",
-        "1993",
-        "2003",
-        "2013"
+        "İşlemler arasında mesajlaşma yoluyla.",
+        "Derleyici direktifleri kullanılarak.",
+        "Veri kopyalama teknikleri ile.",
+        "Sanal makine teknolojileri ile."
       ],
-      "correctAnswer": "1993",
-      "explanation": "TOP500 listesi, 1993'ten bu yana yılda iki kez (Haziran ve Kasım aylarında) yayımlanmaktadır. Bkz: Sunu 6, sayfa 3.",
-      "subTopicName": "Top500 Listesi",
-      "normalizedSubTopicName": "top500_listesi",
+      "correctAnswer": "Derleyici direktifleri kullanılarak.",
+      "explanation": "OpenMP'de paralellik sağlamak için derleyici direktifleri kullanılır. Örneğin, #pragma omp parallel direktifi, paralel bir bölge başlatır ve derleyici, kapsanan görevleri paralel çalıştırmak için kod üretir. #pragma omp for direktifi, for-döngülerinin paralelleştirilmesi için kullanılır.",
+      "subTopicName": "Paylaşımlı Bellek Paradigması",
+      "normalizedSubTopicName": "paylasimli_bellek_paradigmasi",
       "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "TOP500 listesi hangi aralıklarla yayınlanmaktadır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Yılda bir kez",
-        "Yılda iki kez",
-        "Üç ayda bir",
-        "Altı ayda bir"
-      ],
-      "correctAnswer": "Yılda iki kez",
-      "explanation": "TOP500 listesi, 1993'ten bu yana yılda iki kez (Haziran ve Kasım aylarında) yayımlanmaktadır. Bkz: Sunu 6, sayfa 3.",
-      "subTopicName": "Top500 Listesi",
-      "normalizedSubTopicName": "top500_listesi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q8",
-      "questionText": "TOP500 listesinde sıralama ölçütü olarak hangi test kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "HPCG testi",
-        "LINPACK testi",
-        "Green500 testi",
-        "Konjugat Gradyan yöntemi"
-      ],
-      "correctAnswer": "LINPACK testi",
-      "explanation": "TOP500 listesinde sıralama ölçütü olarak LINPACK testi kullanılır. Bu test, süperbilgisayarın ne kadar hızlı işlem yapabildiğini, yani sistemin floating-point işlemleri (FLOPS) performansını ölçer. Bkz: Sunu 6, sayfa 4.",
-      "subTopicName": "Top500 Listesi",
-      "normalizedSubTopicName": "top500_listesi",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q9",
-      "questionText": "LINPACK testinin temel amacı nedir?",
+      "questionText": "Dağıtık bellek paradigmasında veri değişimi nasıl sağlanır ve bu paradigmada yaygın olarak kullanılan araç hangisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Bellek kullanımını ölçmek",
-        "Veri aktarım hızını ölçmek",
-        "Sistemin floating-point işlem (FLOPS) performansını ölçmek",
-        "Enerji verimliliğini ölçmek"
+        "Ortak bir bellek alanı üzerinden, OpenMP ile.",
+        "Mesajlaşma ile, MPI ile.",
+        "Paylaşımlı değişkenler aracılığıyla, CUDA ile.",
+        "Veri kopyalama teknikleri ile, OpenCL ile."
       ],
-      "correctAnswer": "Sistemin floating-point işlem (FLOPS) performansını ölçmek",
-      "explanation": "LINPACK testi, süperbilgisayarın ne kadar hızlı işlem yapabildiğini, yani sistemin floating-point işlemleri (FLOPS) performansını ölçer. Bkz: Sunu 6, sayfa 4.",
-      "subTopicName": "Top500 Listesi",
-      "normalizedSubTopicName": "top500_listesi",
+      "correctAnswer": "Mesajlaşma ile, MPI ile.",
+      "explanation": "Dağıtık bellek paradigmasında her işlemci kendi düğümünün belleğine erişir ve veri değişimi mesajlaşma ile sağlanır. Bu paradigmada yaygın olarak kullanılan araç MPI'dır (Message Passing Interface).",
+      "subTopicName": "Dağıtık Bellek Paradigması",
+      "normalizedSubTopicName": "dagitik_bellek_paradigmasi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q8",
+      "questionText": "MPI (Message Passing Interface) ne için kullanılır ve eksaskala sistemlerde hangi işlevi yerine getirir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Paylaşımlı bellek mimarilerinde paralel uygulamalar geliştirmek için kullanılır.",
+        "Dağıtık bellekli ortamlarda paralel uygulamalar geliştirmek için kullanılır ve bağımsız işlemciler arasında veri alışverişi ve paralel görev koordinasyonu sağlar.",
+        "Veri tabanı işlemlerini hızlandırmak için kullanılır.",
+        "Grafik işleme birimlerinde (GPU) paralel hesaplama yapmak için kullanılır."
+      ],
+      "correctAnswer": "Dağıtık bellekli ortamlarda paralel uygulamalar geliştirmek için kullanılır ve bağımsız işlemciler arasında veri alışverişi ve paralel görev koordinasyonu sağlar.",
+      "explanation": "Message Passing Interface (MPI), dağıtık bellekli ortamlarda paralel uygulamalar geliştirmek için kullanılır. Eksaskala sistemlerde bağımsız işlemciler arasında veri alışverişi ve paralel görev koordinasyonu sağlanır.",
+      "subTopicName": "Dağıtık Bellek Paradigması",
+      "normalizedSubTopicName": "dagitik_bellek_paradigmasi",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q9",
+      "questionText": "Derleyici optimizasyonlarının temel amacı nedir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Kaynak kodun daha okunabilir hale getirilmesi.",
+        "Kaynak kodun yüksek verimli makine koduna dönüştürülmesi.",
+        "Programın daha az bellek kullanmasının sağlanması.",
+        "Programın daha güvenli hale getirilmesi."
+      ],
+      "correctAnswer": "Kaynak kodun yüksek verimli makine koduna dönüştürülmesi.",
+      "explanation": "Derleyici optimizasyonlarının temel amacı, kaynak kodun yüksek verimli makine koduna dönüştürülmesidir. Eksaskala sistemlerde amaç, hesaplama verimliliğini artırmak ve bellek erişim gecikmesini azaltmaktır.",
+      "subTopicName": "Derleyici Optimizasyonları",
+      "normalizedSubTopicName": "derleyici_optimizasyonlari",
       "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Kasım 2024 TOP500 listesinde ilk sırada hangi süperbilgisayar yer almaktadır?",
+      "questionText": "Aşağıdakilerden hangisi derleyici optimizasyonu ile performans iyileştirmesinde kullanılan tekniklerden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Fugaku",
-        "JEDI",
-        "ElCapitan",
-        "Hiçbiri"
+        "Döngü Açma (Loop Unrolling)",
+        "Döngü Birleştirme (Loop Fusion)",
+        "Döngü Vektörleştirme (Loop Vectorization)",
+        "Veri Şifreleme (Data Encryption)"
       ],
-      "correctAnswer": "ElCapitan",
-      "explanation": "Kasım 2024 TOP500 listesinde ElCapitan ilk sırada yer almaktadır. Bkz: Sunu 6, sayfa 4.",
-      "subTopicName": "Top500 Listesi",
-      "normalizedSubTopicName": "top500_listesi",
+      "correctAnswer": "Veri Şifreleme (Data Encryption)",
+      "explanation": "Metinde belirtilen derleyici optimizasyonu teknikleri şunlardır: döngü açma, döngü birleştirme ve döngü vektörleştirme. Veri şifreleme ise bir güvenlik tekniğidir, derleyici optimizasyonu ile ilgili değildir.",
+      "subTopicName": "Derleyici Optimizasyonları",
+      "normalizedSubTopicName": "derleyici_optimizasyonlari",
       "difficulty": "easy"
     }
   ]

@@ -199,8 +199,14 @@ export default function ExamPage() {
       };
     }
     
-    // Derin kopya oluştur (orijinal nesneyi değiştirmemek için)
+    // Backend'den gelen subTopicName/normalizedSubTopicName alanlarını subTopic/normalizedSubTopic olarak eşle
     const updatedQuestion = JSON.parse(JSON.stringify(question)) as Question;
+    if (updatedQuestion.subTopicName && !updatedQuestion.subTopic) {
+      updatedQuestion.subTopic = updatedQuestion.subTopicName;
+    }
+    if (updatedQuestion.normalizedSubTopicName && !updatedQuestion.normalizedSubTopic) {
+      updatedQuestion.normalizedSubTopic = updatedQuestion.normalizedSubTopicName;
+    }
     
     // ID kontrolü - ID yoksa oluştur
     if (!updatedQuestion.id) {

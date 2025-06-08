@@ -32,6 +32,7 @@ import { LearningTarget } from "@/types/learningTarget.type";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ApiError } from "@/services/error.service"; 
 import { Quiz } from "@/types";
+import { downloadExamAsMarkdown } from "@/lib/examFileUtils";
 
 interface ExamCreationWizardProps {
   quizType: "quick" | "personalized"; // Dışarıdan gelen sınav türü
@@ -1336,6 +1337,24 @@ export default function ExamCreationWizard({
 
   // Final gönderim işleyicisi
   const handleFinalSubmit = async () => {
+    // Sınav verisini markdown olarak indir (backend'e göndermeden önce)
+    try {
+      const examData = {
+        quizType,
+        personalizedQuizType,
+        preferences,
+        selectedTopics,
+        selectedTopicIds,
+        selectedSubTopicIds,
+        selectedCourseId,
+        documentTextContent,
+        uploadedDocumentId,
+        // Gerekirse başka önemli state'ler de eklenebilir
+      };
+      downloadExamAsMarkdown(examData, "giden_sinav.md");
+    } catch (err) {
+      console.error("Sınav verisi markdown indirme sırasında hata:", err);
+    }
     // 1. Sınav analizini simüle et (örnek mock analiz)
     // Gerçek uygulamada quiz.analysisResult.performanceBySubTopic kullanılacak
     const mockAnalysis: Record<string, { status: LearningTarget["status"], scorePercent: number }> = {};
@@ -1354,13 +1373,9 @@ export default function ExamCreationWizard({
     setLearningTargets(updatedTargets);
     console.log('[ECW handleFinalSubmit] Sınav sonrası öğrenme hedefleri güncellendi:', updatedTargets);
     // 3. Backend'e batch gönderim (GERÇEK API)
-    try {
-      await learningTargetService.createBatchLearningTargets(selectedCourseId, updatedTargets.map(({id, courseId, userId, ...rest}) => rest));
-      toast.success('Öğrenme hedefleri başarıyla backend ile senkronize edildi!');
-    } catch (err) {
-      console.error('[ECW handleFinalSubmit] Öğrenme hedefleri backend gönderim hatası:', err);
-      toast.error('Öğrenme hedefleri kaydedilemedi!');
-    }
+    // Backend'e öğrenme hedefi gönderme devre dışı bırakıldı (frontend-only çalışma)
+    console.log('[MOCK] Backend\'e öğrenme hedefi gönderilmiyor. targets:', updatedTargets);
+    toast('Backend devre dışı: Öğrenme hedefleri sadece localde güncellendi.', { icon: 'ℹ️' });
 
     if (isSubmitting) return;
     setIsSubmitting(true);
