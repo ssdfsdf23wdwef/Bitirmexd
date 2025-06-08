@@ -498,9 +498,33 @@ export default function ExamPage() {
         // API hatası olsa da devam ediyoruz - lokalde hesaplanmış sonuçlarla
       }
 
-      console.log(`🔜 Sonuç sayfasına yönlendiriliyor: /exams/${preparedQuiz.id}/results`);
-      // Sonuç sayfasına yönlendir
+      console.log(`[EXAM_PAGE_DEBUG] handleSubmit: localStorage'a YAZMA BAŞLIYOR. Quiz ID: ${preparedQuiz.id}`);
+      try {
+        // validatedUserAnswers içindeki her cevabı sadece string olarak kaydet
+        const userAnswersDataStringOnly = Object.fromEntries(
+          Object.entries(validatedUserAnswers).map(([qid, answerObj]) => [qid, typeof answerObj === 'object' && answerObj !== null && 'text' in answerObj ? answerObj.text : answerObj])
+        );
+        const dataForResultsPage = {
+          quizData: preparedQuiz,
+          userAnswersData: userAnswersDataStringOnly,
+        };
+        const storageKey = `examCompletionData_${preparedQuiz.id}`;
+        const stringifiedData = JSON.stringify(dataForResultsPage);
+        console.log(`[EXAM_PAGE_DEBUG] handleSubmit: localStorage'a YAZILACAK ANAHTAR: ${storageKey}`);
+        console.log(`[EXAM_PAGE_DEBUG] handleSubmit: localStorage'a YAZILACAK VERİ (stringified):`, stringifiedData);
+        localStorage.setItem(storageKey, stringifiedData);
+        console.log(`[EXAM_PAGE_DEBUG] handleSubmit: localStorage.setItem ÇAĞRILDI.`);
+        const verifier = localStorage.getItem(storageKey);
+        console.log(`[EXAM_PAGE_DEBUG] handleSubmit: localStorage'dan DOĞRULAMA AMAÇLI OKUNAN VERİ:`, verifier ? 'VERİ VAR' : 'VERİ YOK (NULL)');
+        console.log(`[EXAM_PAGE_DEBUG] ✅ Veri localStorage'a kaydedildi ve doğrulandı. Anahtar: ${storageKey}`);
+      } catch (storageError) {
+        console.error("❌ localStorage'a yazılırken hata oluştu:", storageError);
+        ErrorService.showToast("Sonuçlar geçici olarak saklanamadı, ancak yönlendirme devam ediyor.", "warning", "Geçici Depolama Hatası");
+      }
+
+      console.log(`[EXAM_PAGE_DEBUG] handleSubmit: Yönlendirme BAŞLIYOR: /exams/${preparedQuiz.id}/results`);
       router.push(`/exams/${preparedQuiz.id}/results`);
+      console.log(`[EXAM_PAGE_DEBUG] handleSubmit: router.push ÇAĞRILDI.`);
     } catch (error) {
       setIsSubmitting(false);
       setIsCompleted(false);

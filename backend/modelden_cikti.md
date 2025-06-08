@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-07T23:52:05.341Z
-Trace ID: quiz-1749340313017-502wn
-Yanıt Uzunluğu: 8472 karakter
+Tarih: 2025-06-08T00:38:40.116Z
+Trace ID: quiz-1749343106184-f8nle
+Yanıt Uzunluğu: 9546 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,171 +11,173 @@ Yanıt Uzunluğu: 8472 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
+      "questionText": "Konteynerizasyonun temel amacı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ arayüzlerini listelemek ve yapılandırmak",
-        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
-        "Web sunucularına HTTP istekleri göndermek",
-        "Ağ bağlantısının durumunu izlemek"
+        "Uygulamaları sanal makinelerde çalıştırmak",
+        "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+        "İşletim sistemini güncellemek",
+        "Donanım kaynaklarını optimize etmek"
       ],
-      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
-      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Metinde 'Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
+      "correctAnswer": "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+      "explanation": "Konteynerizasyon, bir uygulamanın kodunu, çalışması için gereken tüm bağımlılıklarla birlikte paketleyerek farklı altyapılarda tutarlı bir şekilde çalışmasını sağlamayı amaçlar. Bu, uygulamanın işletim sisteminden bağımsız olarak çalışabilmesini sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "'ifconfig eth0' komutu hangi bilgiyi görüntülemek için kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi konteynerizasyonun temel özelliklerinden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "eth0 arayüzünün IP adresini",
-        "Mevcut TCP bağlantılarını",
-        "Bir hedefe doğru giden yolu",
-        "Ağ istatistiklerini"
+        "İzolasyon",
+        "Taşınabilirlik",
+        "Doğrudan donanım erişimi",
+        "Verimlilik"
       ],
-      "correctAnswer": "eth0 arayüzünün IP adresini",
-      "explanation": "'ifconfig eth0' komutu, belirtilen eth0 arayüzünün IP adresini görüntülemek için kullanılır. Metinde 'ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
-      "difficulty": "easy"
+      "correctAnswer": "Doğrudan donanım erişimi",
+      "explanation": "Konteynerler, işletim sistemi seviyesinde sanallaştırma sağladığı için doğrudan donanıma erişmezler. Bunun yerine, paylaşılan işletim sistemi üzerinde izole edilmiş bir ortamda çalışırlar. Diğer seçenekler (izolasyon, taşınabilirlik, verimlilik) konteynerizasyonun temel özelliklerindendir. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
+      "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdakilerden hangisi 'ip' komutunun bir ağ arayüzünü etkinleştirmek için kullanılan doğru söz dizimidir?",
+      "questionText": "Konteynerleştirme sürecinde, bir uygulama ve onun bağımlılıkları hangi birim içinde paketlenir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "remembering",
       "options": [
-        "sudo ip link set eth0 up",
-        "ip addr show eth0",
-        "sudo ip link set eth0 down",
-        "ip config eth0 enable"
+        "Sanal Makine",
+        "Konteyner İmajı",
+        "Çekirdek (Kernel)",
+        "Sürücü (Driver)"
       ],
-      "correctAnswer": "sudo ip link set eth0 up",
-      "explanation": "'sudo ip link set eth0 up' komutu, eth0 ağ arayüzünü etkinleştirmek için doğru söz dizimidir. Metinde 'sudo ip link set eth0 up Ağ arayüzünü etkinleştirme' ifadesi yer almaktadır. Diğer seçenekler farklı amaçlara hizmet eder.",
-      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
-      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
-      "difficulty": "medium"
+      "correctAnswer": "Konteyner İmajı",
+      "explanation": "Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını konteyner imajı adı verilen standart bir birimde paketler. Bu imaj, uygulamanın farklı ortamlarda tutarlı bir şekilde çalışmasını sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
+      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
+      "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "'ip addr show' komutu ne işe yarar?",
+      "questionText": "Aşağıdakilerden hangisi, uygulama ve bağımlılıkların paketlenmesinin temel faydalarından biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ arayüzlerini listeler",
-        "Ağ arayüzünü devre dışı bırakır",
-        "Belirli sayıda ping gönderir",
-        "Mevcut bağlantıları listeler"
+        "Uygulama bağımlılıklarının tutarlı bir şekilde yönetilmesi",
+        "Farklı ortamlarda uyumluluk sorunlarının azaltılması",
+        "Geliştirme ve dağıtım süreçlerinin hızlandırılması",
+        "Donanım maliyetlerinin artırılması"
       ],
-      "correctAnswer": "Ağ arayüzlerini listeler",
-      "explanation": "'ip addr show' komutu ağ arayüzlerini listelemek için kullanılır. Metinde 'ip addr show Ağ arayüzlerini listeleme' ifadesi yer almaktadır. Diğer seçenekler farklı komutların işlevlerini belirtir.",
-      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
-      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q5",
-      "questionText": "Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü devre dışı bırakır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
-      "options": [
-        "sudo ip link set eth0 down",
-        "sudo ip link set eth0 up",
-        "ip addr show",
-        "ip route add default via 192.168.1.1"
-      ],
-      "correctAnswer": "sudo ip link set eth0 down",
-      "explanation": "'sudo ip link set eth0 down' komutu 'eth0' arayüzünü devre dışı bırakır. Metinde 'sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma' ifadesi yer almaktadır. Diğer seçenekler farklı işlevlere sahiptir.",
-      "subTopicName": "İp Komutu İle Ağ Yapılandırması",
-      "normalizedSubTopicName": "ip_komutu_ile_ag_yapilandirmasi",
+      "correctAnswer": "Donanım maliyetlerinin artırılması",
+      "explanation": "Uygulama ve bağımlılıkların paketlenmesi, donanım maliyetlerini artırmaz; aksine, kaynakların daha verimli kullanılmasını sağlayarak potansiyel olarak maliyetleri düşürebilir. Diğer seçenekler (bağımlılık yönetimi, uyumluluk, hızlandırma) paketlemenin faydalarıdır. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
+      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
       "difficulty": "medium"
     },
     {
-      "id": "q6",
-      "questionText": "'ip' komutu ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
-      "questionType": "true_false",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Doğru",
-        "Yanlış"
-      ],
-      "correctAnswer": "Doğru",
-      "explanation": "'ip' komutu, ağ yapılandırması için kullanılır ve arayüzleri etkinleştirmek veya devre dışı bırakmak gibi işlemleri gerçekleştirebilir. Metinde 'ip (Ağ yapılandırması)' ifadesi yer almaktadır.",
-      "subTopicName": "İp Komutu İle Ağ Yapılandırması",
-      "normalizedSubTopicName": "ip_komutu_ile_ag_yapilandirmasi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q7",
-      "questionText": "'ping 10.112.0.1' komutu ne yapar?",
+      "id": "q5",
+      "questionText": "Konteynerler, aynı işletim sistemi üzerinde nasıl çalışır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "10.112.0.1 IP adresine ping gönderir",
-        "Mevcut bağlantıları listeler",
-        "Ağ arayüzlerini listeler",
-        "DNS sunucusuna sorgu gönderir"
+        "Farklı işletim sistemleri kullanarak",
+        "İzole edilmiş kullanıcı alanlarında",
+        "Doğrudan donanım üzerinde",
+        "Sanal makineler aracılığıyla"
       ],
-      "correctAnswer": "10.112.0.1 IP adresine ping gönderir",
-      "explanation": "'ping 10.112.0.1' komutu, belirtilen IP adresine ICMP Echo istekleri göndererek ağ bağlantısını test eder. Metinde 'ping 10.112.0.1 Bir IP adresine ping gönderme' ifadesi yer almaktadır. Diğer seçenekler farklı komutların işlevlerini belirtir.",
-      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
+      "correctAnswer": "İzole edilmiş kullanıcı alanlarında",
+      "explanation": "Konteynerler, aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanlarında çalışır. Bu izolasyon, her konteynerin kendi bağımlılıklarına ve yapılandırmasına sahip olmasını sağlar ve diğer konteynerleri etkilemesini önler. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "İ Zole Ortamda Çalıştırma",
+      "normalizedSubTopicName": "izole_ortamda_çalıştırma",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q6",
+      "questionText": "İzole ortamda çalıştırmanın temel avantajı nedir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Kaynak kullanımını azaltmak",
+        "Uygulamalar arası bağımlılığı artırmak",
+        "Güvenlik açıklarını azaltmak",
+        "Uygulamaların birbirini etkilemesini önlemek"
+      ],
+      "correctAnswer": "Uygulamaların birbirini etkilemesini önlemek",
+      "explanation": "İzole ortamda çalıştırmanın temel avantajı, uygulamaların birbirini etkilemesini önlemektir. Bu, bir uygulamadaki bir hatanın veya güvenlik açığının diğer uygulamaları etkilemesini engeller ve sistem genelinde daha güvenli bir ortam sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
+      "subTopicName": "İ Zole Ortamda Çalıştırma",
+      "normalizedSubTopicName": "izole_ortamda_çalıştırma",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q7",
+      "questionText": "Konteynerlerin taşınabilirliği ne anlama gelir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Sadece belirli işletim sistemlerinde çalışabilme",
+        "Farklı altyapılarda ve ortamlarda kolayca çalışabilme",
+        "Sadece bulut ortamlarında çalışabilme",
+        "Sadece geliştirme ortamlarında çalışabilme"
+      ],
+      "correctAnswer": "Farklı altyapılarda ve ortamlarda kolayca çalışabilme",
+      "explanation": "Konteynerlerin taşınabilirliği, onların farklı altyapılarda (Linux, Windows, macOS) ve ortamlarda (bulut, şirket içi) kolayca çalışabilmesi anlamına gelir. Bu, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlara kolayca dağıtmasını sağlar. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
+      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
+      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "'ping -c 4 10.112.0.1' komutunun işlevi nedir?",
+      "questionText": "Konteynerlerin uyumluluğu hangi sorunu çözer?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "10.112.0.1 adresine 4 adet ping gönderir",
-        "10.112.0.1 adresine sürekli ping gönderir",
-        "Sadece ağ arayüzlerini listeler",
-        "Sadece mevcut bağlantıları listeler"
+        "Farklı işletim sistemleri arasındaki uyumsuzlukları",
+        "Donanım kaynaklarının yetersizliğini",
+        "Ağ bağlantı sorunlarını",
+        "Güvenlik açıklarını"
       ],
-      "correctAnswer": "10.112.0.1 adresine 4 adet ping gönderir",
-      "explanation": "'ping -c 4 10.112.0.1' komutu, 10.112.0.1 adresine 4 adet ping gönderir. '-c 4' parametresi gönderilecek ping sayısını belirtir. Metinde 'ping -c 4 10.112.0.1 Belirli sayıda ping gönderme' ifadesi yer almaktadır.",
-      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
-      "difficulty": "easy"
+      "correctAnswer": "Farklı işletim sistemleri arasındaki uyumsuzlukları",
+      "explanation": "Konteynerlerin uyumluluğu, farklı işletim sistemleri arasındaki uyumsuzlukları çözerek uygulamaların farklı ortamlarda sorunsuz bir şekilde çalışmasını sağlar. Bu, geliştirme, test ve dağıtım süreçlerini kolaylaştırır. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
+      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
+      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
+      "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "'netstat' komutu ne için kullanılır?",
+      "questionText": "Konteynerlerin hızı ve verimliliği neyi ifade eder?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağ bağlantılarını ve istatistiklerini görüntülemek",
-        "Bir hedefe giden yolu izlemek",
-        "DNS sunucusuna sorgu göndermek",
-        "Web sunucularına istek göndermek"
+        "Sadece daha hızlı başlatılmalarını",
+        "Sanal makinelere göre daha fazla kaynak tüketmelerini",
+        "Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini",
+        "Sadece daha az depolama alanı kullanmalarını"
       ],
-      "correctAnswer": "Ağ bağlantılarını ve istatistiklerini görüntülemek",
-      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Metinde 'netstat (Ağ Bağlantılarını Görüntüleme) Ağ bağlantıları ve istatistikleri hakkında bilgi verir.' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
-      "subTopicName": "Netstat İle Ağ Bağlantılarını Görüntüleme",
-      "normalizedSubTopicName": "netstat_ile_ag_baglantilarini_goruntuleme",
+      "correctAnswer": "Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini",
+      "explanation": "Konteynerlerin hızı ve verimliliği, sanal makinelere kıyasla daha hızlı başlatılmalarını ve daha az işletim sistemi kaynağı tüketmelerini ifade eder. Bu, daha fazla uygulamanın aynı altyapıda çalıştırılabilmesi anlamına gelir. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "'netstat -tuln' komutu ne işe yarar?",
+      "questionText": "Konteynerlerin hız ve verimliliğinin temel nedeni nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Belirli bir portu dinleyen süreçleri listeler",
-        "Mevcut TCP bağlantılarını listeler",
-        "Ağ istatistiklerini görüntüler",
-        "Yönlendirme tablosunu görüntüler"
+        "Tam bir işletim sistemi içermeleri",
+        "Sanal makine kullanmaları",
+        "İşletim sistemi çekirdeğini paylaşmaları",
+        "Daha fazla donanım kaynağına ihtiyaç duymaları"
       ],
-      "correctAnswer": "Belirli bir portu dinleyen süreçleri listeler",
-      "explanation": "'netstat -tuln' komutu, belirli bir portu dinleyen süreçleri listeler. Metinde 'netstat -tuln Belirli bir portu dinleyen süreçleri listeleme' ifadesi yer almaktadır. Diğer seçenekler farklı 'netstat' parametrelerinin işlevlerini belirtir.",
-      "subTopicName": "Netstat İle Ağ Bağlantılarını Görüntüleme",
-      "normalizedSubTopicName": "netstat_ile_ag_baglantilarini_goruntuleme",
-      "difficulty": "easy"
+      "correctAnswer": "İşletim sistemi çekirdeğini paylaşmaları",
+      "explanation": "Konteynerlerin hız ve verimliliğinin temel nedeni, sanal makineler gibi tam bir işletim sistemi içermemeleri ve işletim sistemi çekirdeğini paylaşmalarıdır. Bu, daha az kaynak tüketimi ve daha hızlı başlatma süreleri sağlar. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
+      "difficulty": "medium"
     }
   ]
 }

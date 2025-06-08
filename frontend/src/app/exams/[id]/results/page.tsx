@@ -2,291 +2,340 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { BarChart3, CheckCircle, XCircle, Percent, ListChecks, HelpCircle } from 'lucide-react';
+import { BarChart3, CheckCircle, XCircle, ListChecks, HelpCircle, Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/context/ThemeProvider'; // Tema sağlayıcısını import et
 
 // Projenizdeki Question ve Quiz tiplerine benzer basit tipler
 interface Question {
   id: string;
   questionText: string;
   options: string[];
-  correctAnswer: string; // veya number (indeks) olabilir, mock data için string tutalım
+  correctAnswer: string;
   subTopic: string;
-  userAnswer?: string; // Kullanıcının cevabı
-  isCorrect?: boolean; // Kullanıcının cevabı doğru mu?
+  userAnswer?: string;
+  isCorrect?: boolean;
 }
 
 interface QuizResult {
   quizTitle: string;
   questions: Question[];
-  overallScore: number; // Yüzde olarak
+  overallScore: number;
   subTopicStats: Array<{ subTopic: string; score: number; totalQuestions: number; correctQuestions: number }>;
 }
 
-// Mock Sınav Verileri ve Kullanıcı Cevapları
-const MOCK_QUIZ_ID = "mock-sinav-123";
-
-const MOCK_QUESTIONS: Question[] = [
-  {
-    id: "q1",
-    questionText: "React'te state yönetimi için kullanılan popüler kütüphane hangisidir?",
-    options: ["Vuex", "Redux", "NgRx", "MobX"],
-    correctAnswer: "Redux",
-    subTopic: "React State Yönetimi",
-  },
-  {
-    id: "q2",
-    questionText: "Bir JavaScript fonksiyonunun 'this' değerini sabitlemek için hangi yöntem kullanılır?",
-    options: [".bind()", ".apply()", ".call()", "Hepsi"],
-    correctAnswer: "Hepsi",
-    subTopic: "JavaScript Temelleri",
-  },
-  {
-    id: "q3",
-    questionText: "CSS'te 'flexbox' ne için kullanılır?",
-    options: [
-      "Animasyonlar oluşturmak için",
-      "Sayfa düzenlerini esnek bir şekilde oluşturmak için",
-      "Veritabanı sorguları için",
-      "API istekleri göndermek için",
-    ],
-    correctAnswer: "Sayfa düzenlerini esnek bir şekilde oluşturmak için",
-    subTopic: "CSS Flexbox",
-  },
-  {
-    id: "q4",
-    questionText: "Next.js'te dinamik route'lar nasıl oluşturulur?",
-    options: [
-      "Klasör adını [parametre] şeklinde kullanarak",
-      "next.config.js dosyasında tanımlayarak",
-      "Sadece query parametreleri ile",
-      "Route.dynamic() fonksiyonu ile",
-    ],
-    correctAnswer: "Klasör adını [parametre] şeklinde kullanarak",
-    subTopic: "Next.js Yönlendirme",
-  },
-  {
-    id: "q5",
-    questionText: "TypeScript'te 'interface' ne işe yarar?",
-    options: [
-      "Bir sınıfın örneğini oluşturur",
-      "Kod bloklarını tanımlar",
-      "Bir nesnenin şeklini (yapısını) tanımlar",
-      "Asenkron işlemleri yönetir",
-    ],
-    correctAnswer: "Bir nesnenin şeklini (yapısını) tanımlar",
-    subTopic: "TypeScript Temelleri",
-  },
-  {
-    id: "q6",
-    questionText: "React'te bir bileşenin yeniden render edilmesini tetikleyen nedir?",
-    options: [
-      "Sadece props değiştiğinde",
-      "Sadece state değiştiğinde",
-      "Props veya state değiştiğinde",
-      "Hiçbiri",
-    ],
-    correctAnswer: "Props veya state değiştiğinde",
-    subTopic: "React State Yönetimi",
-  },
-];
-
-// Mock Kullanıcı Cevapları (soru ID'sine göre)
-const MOCK_USER_ANSWERS: Record<string, string> = {
-  q1: "Redux", // Doğru
-  q2: ".bind()", // Yanlış
-  q3: "Sayfa düzenlerini esnek bir şekilde oluşturmak için", // Doğru
-  q4: "next.config.js dosyasında tanımlayarak", // Yanlış
-  q5: "Bir nesnenin şeklini (yapısını) tanımlar", // Doğru
-  q6: "Props veya state değiştiğinde", // Doğru
-};
-
-const calculateResults = (questions: Question[], userAnswers: Record<string, string>): QuizResult => {
+const calculateResults = (questions: Question[], userAnswers: Record<string, string>, quizTitle: string): QuizResult => {
+  console.log('[RESULTS_PAGE_TRACE] calculateResults() ÇAĞRILDI. Parametreler:', {questions, userAnswers, quizTitle});
   let correctCount = 0;
   const processedQuestions: Question[] = questions.map(q => {
     const userAnswer = userAnswers[q.id];
     const isCorrect = userAnswer === q.correctAnswer;
-    if (isCorrect) {
-      correctCount++;
-    }
+    console.log(`[RESULTS_PAGE_TRACE] Soru: ${q.id} | Kullanıcı Cevabı: ${userAnswer} | Doğru Cevap: ${q.correctAnswer} | isCorrect: ${isCorrect}`);
+    if (isCorrect) correctCount++;
     return { ...q, userAnswer, isCorrect };
   });
-
   const overallScore = (correctCount / questions.length) * 100;
-
+  console.log(`[RESULTS_PAGE_TRACE] Toplam Doğru: ${correctCount} / ${questions.length} | Skor: ${overallScore}`);
   const subTopicStatsMap: Map<string, { correct: number; total: number }> = new Map();
   processedQuestions.forEach(q => {
     const stat = subTopicStatsMap.get(q.subTopic) || { correct: 0, total: 0 };
     stat.total++;
-    if (q.isCorrect) {
-      stat.correct++;
-    }
+    if (q.isCorrect) stat.correct++;
     subTopicStatsMap.set(q.subTopic, stat);
+    console.log(`[RESULTS_PAGE_TRACE] Alt Konu: ${q.subTopic} | Doğru: ${stat.correct} | Toplam: ${stat.total}`);
   });
-
   const subTopicStats = Array.from(subTopicStatsMap.entries()).map(([subTopic, data]) => ({
     subTopic,
     score: (data.correct / data.total) * 100,
     totalQuestions: data.total,
     correctQuestions: data.correct,
   }));
-
-  return {
-    quizTitle: "Örnek Sınav Sonuçları",
-    questions: processedQuestions,
-    overallScore,
-    subTopicStats,
-  };
+  console.log('[RESULTS_PAGE_TRACE] subTopicStats:', subTopicStats);
+  const result = { quizTitle, questions: processedQuestions, overallScore, subTopicStats };
+  console.log('[RESULTS_PAGE_TRACE] calculateResults() DÖNDÜRÜLEN SONUÇ:', result);
+  return result;
 };
 
 export default function ExamResultsPage() {
   const params = useParams();
+  const { theme, setTheme, isDarkMode } = useTheme(); // Temayı al
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // const quizId = params.id as string; // Gerçek senaryoda bu ID kullanılacak
+  const [dataError, setDataError] = useState<string | null>(null);
+  const dataLoadedRef = React.useRef(false); // Bir defalık veri yükleme koruması
 
   useEffect(() => {
-    // Simulating data fetching or processing
-    // Gerçek senaryoda, quizId kullanılarak localStorage'dan veya API'den sınav sonuçları alınır.
-    // Şimdilik mock verileri doğrudan işliyoruz.
-    console.log("Sınav Sonuç Sayfası Yüklendi. Sınav ID (mock):", MOCK_QUIZ_ID);
-    const results = calculateResults(MOCK_QUESTIONS, MOCK_USER_ANSWERS);
-    setQuizResult(results);
-    setLoading(false);
-  }, []);
+    console.log(`[RESULTS_PAGE_TRACE] useEffect BAŞLADI. params.id=`, params.id, '| quizResult exists:', !!quizResult, '| dataLoadedRef.current:', dataLoadedRef.current);
+    if (dataLoadedRef.current) {
+      console.log('[RESULTS_PAGE_TRACE] dataLoadedRef.current=true olduğu için veri tekrar yüklenmeyecek. useEffect çıkıyor.');
+      return;
+    }
+    if (quizResult) {
+      dataLoadedRef.current = true;
+      console.log('[RESULTS_PAGE_TRACE] quizResult yüklendi, dataLoadedRef.current=true olarak ayarlandı. useEffect çıkıyor.');
+      return;
+    }
+    console.log("[RESULTS_PAGE_TRACE] Sonuçlar henüz yüklenmemiş, yükleme işlemi başlatılıyor. State'ler:", { loading, dataError, quizResult });
+    setLoading(true);
+    setDataError(null);
+    let storedDataString: string | null = null;
+    let storageKeyUsed: string = '';
+    try {
+      const currentQuizId = Array.isArray(params.id) ? params.id[0] : params.id as string;
+      console.log(`[RESULTS_PAGE_TRACE] useEffect: quizId oluşturuldu: ${currentQuizId}`);
+      if (!currentQuizId) {
+        console.error("[RESULTS_PAGE_ERROR] Sınav ID bulunamadı. params:", params);
+        setDataError("Sınav ID bulunamadı.");
+        dataLoadedRef.current = true;
+        console.log('[RESULTS_PAGE_STATE] Hata durumunda dataLoadedRef.current=true olarak ayarlandı.');
+        return;
+      }
+      storageKeyUsed = `examCompletionData_${currentQuizId}`;
+      console.log(`[RESULTS_PAGE_TRACE] 🔑 localStorage'dan okunacak anahtar: ${storageKeyUsed}`);
+      console.log(`[RESULTS_PAGE_TRACE] localStorage.getItem(${storageKeyUsed}) ÇAĞRILIYOR.`);
+      storedDataString = localStorage.getItem(storageKeyUsed);
+      console.log(`[RESULTS_PAGE_TRACE] 📄 localStorage'dan okunan veri (string):`, storedDataString);
+      if (!storedDataString) {
+        console.log(`[RESULTS_PAGE_DEBUG] setDataError('Sınav sonuç verileri bulunamadı...') çağrılıyor. Anahtar: ${storageKeyUsed}`);
+        console.error(`[RESULTS_PAGE_ERROR] Sınav sonuç verileri bulunamadı. storageKeyUsed: ${storageKeyUsed}`);
+        setDataError('Sınav sonuç verileri bulunamadı...');
+        dataLoadedRef.current = true;
+        console.log('[RESULTS_PAGE_STATE] Hata durumunda dataLoadedRef.current=true olarak ayarlandı.');
+        return;
+      }
+
+      console.log("[RESULTS_PAGE_DEBUG] JSON.parse ÇAĞRILIYOR.");
+      let parsedData = null;
+      try {
+        parsedData = JSON.parse(storedDataString);
+        console.log("[RESULTS_PAGE_TRACE] 📦 localStorage'dan parse edilen veri:", parsedData);
+      } catch(parseErr) {
+        console.error('[RESULTS_PAGE_ERROR] JSON.parse HATASI:', parseErr, '| Okunan veri:', storedDataString);
+        setDataError('Sınav sonuç verisi okunurken parse hatası oluştu.');
+        localStorage.removeItem(storageKeyUsed);
+        dataLoadedRef.current = true;
+        return;
+      }
+
+      const { quizData: parsedQuizData, userAnswersData: parsedUserAnswersData } = parsedData;
+
+      if (!parsedQuizData || !parsedQuizData.questions || !parsedUserAnswersData) {
+        console.error("[RESULTS_PAGE_ERROR] Alınan sınav verileri eksik veya bozuk. Veri:", parsedData);
+        setDataError("Alınan sınav verileri eksik veya bozuk.");
+        localStorage.removeItem(storageKeyUsed);
+        console.log(`[RESULTS_PAGE_TRACE] localStorage.removeItem(${storageKeyUsed}) ÇAĞRILDI (bozuk veri).`);
+        dataLoadedRef.current = true;
+        console.log('[RESULTS_PAGE_STATE] Hata durumunda dataLoadedRef.current=true olarak ayarlandı.');
+        return;
+      }
+
+      console.log("[RESULTS_PAGE_DEBUG] calculateResults ÇAĞRILIYOR.");
+      const results = calculateResults(parsedQuizData.questions, parsedUserAnswersData, parsedQuizData.title || "Sınav Sonuçları");
+      console.log('[RESULTS_PAGE_STATE] setQuizResult() ÇAĞRILIYOR. Sonuçlar:', results);
+      setQuizResult(results);
+      console.log('[RESULTS_PAGE_STATE] quizResult state güncellendi:', results);
+      console.log("[RESULTS_PAGE_TRACE] Veri başarıyla işlendi.");
+    } catch (error) {
+      console.error("[RESULTS_PAGE_ERROR] Sınav sonuçları yüklenirken hata oluştu:", error, '| storageKeyUsed:', storageKeyUsed, '| storedDataString:', storedDataString);
+      if (error instanceof Error) {
+        console.error('[RESULTS_PAGE_ERROR] Stack Trace:', error.stack);
+      }
+      setDataError(`Sınav sonuçları yüklenirken bir hata oluştu: ${error instanceof Error ? error.message : String(error)}`);
+      if (storageKeyUsed && storedDataString) {
+        localStorage.removeItem(storageKeyUsed);
+        console.log(`[RESULTS_PAGE_TRACE] localStorage.removeItem(${storageKeyUsed}) ÇAĞRILDI (hata sonrası temizlik).`);
+      }
+    } finally {
+      console.log(`[RESULTS_PAGE_TRACE] FINALLY BLOĞU: loading state (önceki) =`, loading);
+      setLoading(false);
+      console.log("[RESULTS_PAGE_TRACE] setLoading(false) çağrıldı (finally bloğu).");
+      console.log("[RESULTS_PAGE_TRACE] useEffect BİTTİ (finally bloğu sonrası). Son State'ler:", { loading, dataError, quizResult });
+    }
+  }, [params.id, calculateResults]); // Bağımlılıklar sadeleştirildi
+
+  // localStorage'dan veriyi silmek için ayrı bir effect
+  useEffect(() => {
+    if (!quizResult) return;
+    // quizResult yüklendiyse, ilgili anahtarı sil
+    const currentQuizId = Array.isArray(params.id) ? params.id[0] : params.id as string;
+    if (!currentQuizId) return;
+    const storageKeyUsed = `examCompletionData_${currentQuizId}`;
+    localStorage.removeItem(storageKeyUsed);
+    console.log(`[RESULTS_PAGE_TRACE] [CLEANUP_EFFECT] localStorage.removeItem(${storageKeyUsed}) ÇAĞRILDI (quizResult yüklendiği için).`);
+  }, [quizResult, params.id]); // Bağımlılıklar sadeleştirildi
+
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? 'light' : 'dark');
+  };
+
+  if (dataError) {
+    return (
+      <div className={`flex flex-col justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <p className={`text-xl text-red-500 dark:text-red-400 px-4 text-center`}>{dataError}</p>
+        {/* İsteğe bağlı: Geri dön veya sınav listesine git butonu eklenebilir */}
+        {/* Örnek: <Link href="/exams"><a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Sınav Listesine Dön</a></Link> */}
+      </div>
+    );
+  }
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-xl text-gray-700 dark:text-gray-300">Sonuçlar yükleniyor...</p>
+      <div className={`flex justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Sonuçlar yükleniyor...</p>
       </div>
     );
   }
 
   if (!quizResult) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-xl text-red-500">Sınav sonuçları bulunamadı.</p>
+      <div className={`flex justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <p className="text-xl text-red-500 dark:text-red-400">Sınav sonuçları bulunamadı.</p>
       </div>
     );
   }
 
+  const getScoreColor = (score: number) => {
+    if (score >= 70) return isDarkMode ? 'text-green-400' : 'text-green-600';
+    if (score >= 40) return isDarkMode ? 'text-yellow-400' : 'text-yellow-500';
+    return isDarkMode ? 'text-red-400' : 'text-red-500';
+  };
+
+  const getProgressBarBgColor = (score: number) => {
+    if (score >= 70) return isDarkMode ? 'bg-green-500' : 'bg-green-600';
+    if (score >= 40) return isDarkMode ? 'bg-yellow-500' : 'bg-yellow-500';
+    return isDarkMode ? 'bg-red-500' : 'bg-red-600';
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-sky-100 dark:from-slate-800 dark:to-sky-900 p-4 sm:p-6 md:p-8 text-gray-800 dark:text-gray-200">
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-6 sm:p-8">
-        <header className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-sky-600 dark:text-sky-400 mb-2">{quizResult.quizTitle}</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">Sınav performansınızın detaylı analizi.</p>
+    <div className={`min-h-screen p-4 sm:p-6 md:p-8 transition-colors duration-300 ${isDarkMode ? 'bg-slate-900 text-gray-200' : 'bg-gradient-to-br from-slate-50 to-sky-100 text-gray-800'}`}>
+      <div className={`max-w-4xl mx-auto ${isDarkMode ? 'bg-slate-800' : 'bg-white'} shadow-2xl rounded-xl p-6 sm:p-8 transition-colors duration-300`}>
+        <header className="mb-10 relative">
+          <div className="text-center">
+            <h1 className={`text-4xl font-extrabold mb-2 ${isDarkMode ? 'text-sky-400' : 'text-sky-600'}`}>{quizResult.quizTitle}</h1>
+            <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Sınav performansınızın detaylı analizi.</p>
+          </div>
+          <button 
+            onClick={toggleTheme}
+            className={`absolute top-0 right-0 p-2 rounded-full transition-colors duration-300 ${isDarkMode ? 'bg-slate-700 hover:bg-slate-600 text-yellow-400' : 'bg-sky-100 hover:bg-sky-200 text-sky-600'}`}
+            aria-label="Toggle theme"
+          >
+            {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+          </button>
         </header>
 
         {/* 1. Sınavın Genel Sonuçları */}
-        <section className="mb-10 p-6 bg-sky-50 dark:bg-sky-900/50 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-sky-700 dark:text-sky-300 mb-4 flex items-center">
+        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-sky-50'}`}>
+          <h2 className={`text-2xl font-semibold mb-5 flex items-center ${isDarkMode ? 'text-sky-300' : 'text-sky-700'}`}>
             <BarChart3 className="mr-3 h-7 w-7" /> Genel Başarı
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
-            <div className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow">
-              <p className="text-4xl font-bold text-green-500 dark:text-green-400">{quizResult.overallScore.toFixed(1)}%</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Genel Puan</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
+            <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+              <p className={`text-5xl font-bold ${getScoreColor(quizResult.overallScore)}`}>{quizResult.overallScore.toFixed(1)}%</p>
+              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Genel Puan</p>
             </div>
-            <div className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow">
-              <p className="text-4xl font-bold text-blue-500 dark:text-blue-400">
-                {quizResult.questions.filter(q => q.isCorrect).length} / {quizResult.questions.length}
+            <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+              <p className={`text-5xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                {quizResult.questions.filter(q => q.isCorrect).length} <span className="text-3xl">/</span> {quizResult.questions.length}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Doğru / Toplam Soru</p>
+              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Doğru / Toplam Soru</p>
             </div>
           </div>
         </section>
 
         {/* 2. Alt Konular Bazında İstatistikler */}
-        <section className="mb-10 p-6 bg-indigo-50 dark:bg-indigo-900/50 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-6 flex items-center">
-            <ListChecks className="mr-3 h-7 w-7" /> Alt Konu Başarıları
+        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-indigo-50'}`}>
+          <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>
+            <ListChecks className="mr-2 h-5 w-5" /> Alt Konu Başarıları
           </h2>
           {quizResult.subTopicStats.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               {quizResult.subTopicStats.map((stat, index) => (
-                <li key={index} className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow hover:shadow-lg transition-shadow">
-                  <div className="flex justify-between items-center mb-1">
-                    <h3 className="text-lg font-medium text-indigo-600 dark:text-indigo-400">{stat.subTopic}</h3>
-                    <span className={`text-xl font-bold ${stat.score >= 70 ? 'text-green-500' : stat.score >= 40 ? 'text-yellow-500' : 'text-red-500'}`}>
+                <li key={index} className={`p-2.5 rounded-md shadow-sm hover:shadow-md transition-all duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <h3 className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-600'}`}>{stat.subTopic}</h3>
+                    <span className={`text-base font-bold ${getScoreColor(stat.score)}`}>
                       {stat.score.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-1">
+                  <div className={`w-full rounded-full h-2 mb-1 transition-colors duration-300 ${isDarkMode ? 'bg-slate-600' : 'bg-gray-200'}`}>
                     <div
-                      className={`h-2.5 rounded-full ${stat.score >= 70 ? 'bg-green-500' : stat.score >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      className={`h-2 rounded-full transition-all duration-500 ease-out ${getProgressBarBgColor(stat.score)}`}
                       style={{ width: `${stat.score}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 text-right">
+                  <p className={`text-xs text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>
                     {stat.correctQuestions} / {stat.totalQuestions} doğru
                   </p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-gray-600 dark:text-gray-400 italic">Alt konu istatistiği bulunmamaktadır.</p>
+            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-300'} italic`}>Alt konu istatistiği bulunmamaktadır.</p>
           )}
         </section>
 
         {/* 3. Her Soru Sonucu */}
-        <section className="p-6 bg-teal-50 dark:bg-teal-900/50 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-teal-700 dark:text-teal-300 mb-6 flex items-center">
+        <section className={`p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-teal-50'}`}>
+          <h2 className={`text-2xl font-semibold mb-6 flex items-center ${isDarkMode ? 'text-teal-300' : 'text-teal-700'}`}>
             <HelpCircle className="mr-3 h-7 w-7" /> Soru Detayları
           </h2>
           <ul className="space-y-6">
             {quizResult.questions.map((q, index) => (
-              <li key={q.id} className="p-5 bg-white dark:bg-gray-700 rounded-lg shadow hover:shadow-lg transition-shadow border-l-4 ${q.isCorrect ? 'border-green-500' : 'border-red-500'}">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
-                    Soru {index + 1}: {q.questionText}
-                  </h3>
+              <li key={q.id} 
+                  className={`p-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 ${isDarkMode ? 'bg-slate-800' : 'bg-white'} ${q.isCorrect ? (isDarkMode ? 'border-green-500' : 'border-green-600') : (isDarkMode ? 'border-red-500' : 'border-red-600')}`}>
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className={`text-lg font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Soru {index + 1}: {q.questionText}</h3>
                   {q.isCorrect ? (
-                    <CheckCircle className="h-8 w-8 text-green-500 flex-shrink-0 ml-4" />
+                    <CheckCircle className={`h-8 w-8 flex-shrink-0 ml-4 ${isDarkMode ? 'text-green-400' : 'text-green-500'}`} />
                   ) : (
-                    <XCircle className="h-8 w-8 text-red-500 flex-shrink-0 ml-4" />
+                    <XCircle className={`h-8 w-8 flex-shrink-0 ml-4 ${isDarkMode ? 'text-red-400' : 'text-red-500'}`} />
                   )}
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Alt Konu: {q.subTopic}</p>
-                <div className="space-y-1 text-sm">
-                  <p><strong>Seçenekler:</strong></p>
-                  <ul className="list-disc list-inside pl-4">
-                    {q.options.map((option, i) => (
-                      <li key={i} className={`${option === q.correctAnswer ? 'text-green-600 dark:text-green-400 font-semibold' : ''} ${option === q.userAnswer && option !== q.correctAnswer ? 'text-red-600 dark:text-red-400 line-through' : ''}`}>
-                        {option}
-                        {option === q.correctAnswer && <span className="ml-2 text-xs">(Doğru Cevap)</span>}
-                        {option === q.userAnswer && option !== q.correctAnswer && <span className="ml-2 text-xs">(Sizin Cevabınız)</span>}
-                        {option === q.userAnswer && option === q.correctAnswer && <span className="ml-2 text-xs">(Sizin Cevabınız - Doğru)</span>}
-                      </li>
-                    ))}
+                <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Alt Konu: {q.subTopic}</p>
+                <div className="space-y-2 text-sm">
+                  <p className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Seçenekler:</p>
+                  <ul className="list-disc list-inside pl-4 space-y-1">
+                    {q.options.map((option, i) => {
+                      const optionText = typeof option === 'object' && option !== null && 'text' in option ? option.text : option;
+                      const correctAnswerText = typeof q.correctAnswer === 'object' && q.correctAnswer !== null && 'text' in q.correctAnswer ? q.correctAnswer.text : q.correctAnswer;
+                      const userAnswerText = typeof q.userAnswer === 'object' && q.userAnswer !== null && 'text' in q.userAnswer ? q.userAnswer.text : q.userAnswer;
+                      return (
+                        <li key={i} className={`
+                          ${optionText === correctAnswerText ? (isDarkMode ? 'text-green-400 font-bold' : 'text-green-600 font-bold') : ''}
+                          ${optionText === userAnswerText && optionText !== correctAnswerText ? (isDarkMode ? 'text-red-400 line-through' : 'text-red-500 line-through') : ''}
+                          ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}
+                        `}>
+                          {optionText}
+                          {optionText === correctAnswerText && <span className="ml-2 text-xs">(Doğru Cevap)</span>}
+                          {optionText === userAnswerText && optionText !== correctAnswerText && <span className="ml-2 text-xs">(Sizin Cevabınız)</span>}
+                          {optionText === userAnswerText && optionText === correctAnswerText && <span className="ml-2 text-xs">(Sizin Cevabınız - Doğru)</span>}
+                        </li>
+                      );
+                    })}
                   </ul>
-                  {!q.isCorrect && (
-                     <p className="mt-2"><strong>Doğru Cevap:</strong> <span className="text-green-600 dark:text-green-400 font-semibold">{q.correctAnswer}</span></p>
-                  )}
-                  {q.userAnswer && (
-                    <p className="mt-1">
-                      <strong>Sizin Cevabınız:</strong> 
-                      <span className={q.isCorrect ? 'text-green-600 dark:text-green-400 font-semibold' : 'text-red-600 dark:text-red-400 font-semibold'}>
-                        {' '}{q.userAnswer}
-                      </span>
-                    </p>
-                  )}
-                  {!q.userAnswer && (
-                     <p className="mt-1 text-yellow-600 dark:text-yellow-400">Bu soru cevaplanmamış.</p>
-                  )}
                 </div>
+                {!q.isCorrect && q.userAnswer && (
+                  <p className="mt-3"><strong>Doğru Cevap:</strong> <span className={`${isDarkMode ? 'text-green-400' : 'text-green-600'} font-semibold`}>
+                    {typeof q.correctAnswer === 'object' && q.correctAnswer !== null && 'text' in q.correctAnswer ? q.correctAnswer.text : q.correctAnswer}
+                  </span></p>
+                )}
+                {q.userAnswer && (
+                  <p className="mt-2">
+                    <strong>Sizin Cevabınız:</strong>
+                    <span className={`${q.isCorrect ? (isDarkMode ? 'text-green-400' : 'text-green-600') : (isDarkMode ? 'text-red-400' : 'text-red-500')} font-semibold`}>
+                      {' '}{typeof q.userAnswer === 'object' && q.userAnswer !== null && 'text' in q.userAnswer ? q.userAnswer.text : q.userAnswer}
+                    </span>
+                  </p>
+                )}
               </li>
             ))}
           </ul>
         </section>
 
-        <footer className="mt-12 text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+        <footer className="mt-12 pt-8 border-t text-center ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}">
+          <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
             Sınavınızı tamamladığınız için teşekkür ederiz.
           </p>
-          {/* İsteğe bağlı olarak ana sayfaya veya sınav listesine dönüş linki eklenebilir */}
-          {/* <Link href="/exams" className="text-sky-600 hover:underline">Diğer Sınavlara Göz At</Link> */}
+          {/* <Link href="/exams" className={`${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-600 hover:text-sky-700'} underline mt-2 inline-block`}>Diğer Sınavlara Göz At</Link> */}
         </footer>
       </div>
     </div>

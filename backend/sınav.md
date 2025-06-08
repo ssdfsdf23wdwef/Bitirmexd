@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-07T23:51:53.035Z
+## Tarih: 2025-06-08T00:38:26.197Z
 
-## Trace ID: quiz-1749340313017-502wn
+## Trace ID: quiz-1749343106184-f8nle
 
-## Alt Konular (10 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Arayüzü Yönetimi** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Ağ Yapılandırması** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Netstat İle Ağ Bağlantılarını Görüntüleme** (2 soru)
+1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
+2. **Uygulama Ve Bağımlılık Paketleme** (2 soru)
+3. **İ Zole Ortamda Çalıştırma** (2 soru)
+4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,11 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ss İle Soket İ Statistiklerini Görüntüleme
-2. Traceroute İle Yol Takibi
-3. Nslookup İle Dns Sorgulama
-4. Diğiile Dns Bilgisi Edinme
-5. Curl İle Ağ İ Stekleri Gönderme
+1. Ölçeklenebilirlik Ve Yönetim
+2. Yazılım Geliştirme Ve Test
+3. Devops Ve Sürekli Entegrasyon
 
 ```
 
@@ -52,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Arayüzü Yönetimi** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Ağ Yapılandırması** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Netstat İle Ağ Bağlantılarını Görüntüleme** (2 soru)
+1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
+2. **Uygulama Ve Bağımlılık Paketleme** (2 soru)
+3. **İ Zole Ortamda Çalıştırma** (2 soru)
+4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -64,11 +62,9 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ss İle Soket İ Statistiklerini Görüntüleme
-2. Traceroute İle Yol Takibi
-3. Nslookup İle Dns Sorgulama
-4. Diğiile Dns Bilgisi Edinme
-5. Curl İle Ağ İ Stekleri Gönderme
+1. Ölçeklenebilirlik Ve Yönetim
+2. Yazılım Geliştirme Ve Test
+3. Devops Ve Sürekli Entegrasyon
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -81,96 +77,104 @@ bilal@atauni.edu.tr
 
 
 
-3.Hafta
+6.Hafta
 
 
-Temel Linux Komutları-3
 
-Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
-duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
-
-3. Ağ yönetimi ve izleme
-●
-ifconfig
-(İnterface Configuration)
-Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
-Örnek: ifconfig (Ağ arayüzlerini listeleme)
-Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
-●
-ip
-(Ağ yapılandırması)
-Örnek: ip addr show Ağ arayüzlerini listeleme
-Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
-Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
-●
-ping
-(Ağ Bağlantısını Test Etme)
-Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
-Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
-Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
-●
-netstat
-(Ağ Bağlantılarını Görüntüleme)
-Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
-Örnek: netstat Mevcut bağlantıları listeleme
+Şekil: VM ve konteyner mimarileri
 
 
-Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
-Örnek: netstat -i Ağ istatistiklerini görüntüleme
-●
-ss
-(Socket Statistiği)
-ss
-komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
-netstat
-komutunun
-modern bir alternatifi olarak kabul edilir.
-Örnek: ss -t Mevcut TCP bağlantılarını listeleme
-Örnek: ss -l Dinleyen soketleri listeleme
-Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
-
-●
-traceroute
-(Yol Takibi)
-Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
-Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
-●
-nslookup
-(DNS Sorgulama)
-DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
-Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
-●
-dig
-(Domain Information Groper)
-dig
-, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
-Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
-Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
-●
-route
-(Yönlendirme Tablosu)
-Ağ yönlendirme tablosunu yönetmek için kullanılır.
-Örnek: route -n Yönlendirme tablosunu görüntüleme
-●
-curl
-(Ağ İstekleri)
-Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
+Şekil: Nvidia konteyner örnek gösterimi
 
 
-Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
-●
-wget
-(Dosya İndirme)
-Ağ üzerinden dosya indirmek için kullanılan komut.
-wget
-https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
-020/07/Akademik-Takvim_2024_2025_17052024.pdf
-●
-mtr
-(Ping ve Traceroute Kombinasyonu)
-Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
-Örnek: mtr google.com
-Hedefe mtr ile izleme
+
+
+Konteynerizasyon nedir?
+
+Konteynerleştirme, bir uygulamanın kodunu herhangi bir altyapıda çalıştırmak için ihtiyaç
+duyduğu tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir.
+Geleneksel olarak bilgisayarınızda herhangi bir uygulamayı çalıştırmak için makinenin işletim
+sistemiyle eşleşen sürümünün yüklenmesi gerekmektedir. Örneğin, bir yazılım paketinin
+Windows sürümünü bir Windows makinesine yüklemeniz gerekiyordu. Ancak
+konteynerleştirmeyle her tür cihaz ve işletim sisteminde çalışan tek bir yazılım paketi veya
+konteyner oluşturabilir[1].
+
+Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve
+aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir
+sanallaştırma türüdür[3].
+
+Yazılım mühendisliğinde konteynerleştirme, yazılım uygulamalarının türü veya satıcısı ne olursa
+olsun herhangi bir bulut veya bulut dışı ortamda konteyner adı verilen yalıtılmış kullanıcı
+alanlarında çalışabilmesi için işletim sistemi düzeyinde sanallaştırma veya birden fazla ağ
+kaynağı üzerinden uygulama düzeyinde sanallaştırmadır[4].
+
+Konteynerleştirme, yazılım kodunun kütüphaneler, framework ler ve diğer bağımlılıklar gibi
+gerekli tüm bileşenlerle birlikte paketlenmesidir[5].
+
+
+Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını (kütüphaneler, çerçeveler vb.)
+konteyner adı verilen standart bir birime paketleyen bir yazılım dağıtım yöntemidir. Bu
+konteyner, uygulamayı izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapı
+üzerinde tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik,
+konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
+
+
+
+
+
+
+
+
+
+
+Konteyner teknolojisi, son yıllarda yazılım geliştirme ve dağıtımı için oldukça popüler hale
+gelmiştir. Bu popülerliğin arkasında yatan birçok neden var:
+1. Taşınabilirlik: Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir
+konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği
+anlamına gelir. Bu taşınabilirlik, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda
+kolayca dağıtmalarını ve çalıştırmalarını sağlar.
+2. Hız: Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve
+durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve
+dağıtılmasına yardımcı olur.
+3. Verimlilik: Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde
+kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına
+gelir.
+4. Ölçeklenebilirlik: Konteynerler, otomatik olarak ölçeklendirilebilir. Bu, uygulamanızın trafik
+yükü arttıkça veya azaldıkça otomatik olarak daha fazla veya daha az konteyner başlatarak veya
+durdurarak kaynaklarınızı optimize edebileceğiniz anlamına gelir.
+5. Güvenlik: Konteynerler, her uygulama için ayrı bir izolasyon katmanı sağlayarak güvenliği
+artırır. Bu, bir uygulamadaki bir güvenlik açıklığının diğer uygulamaları etkilemesini önler.
+6. Kolay Yönetim: Konteynerler, Docker gibi araçlarla kolayca yönetilebilir. Bu, birden fazla
+konteynerden oluşan karmaşık uygulamaları bile kolayca yönetmenize ve izlemenize yardımcı
+olur.
+
+Konteyner Teknolojisinin Kullanım Alanları:
+Konteyner teknolojisi, çeşitli alanlarda kullanılmaktadır:
+● Yazılım Geliştirme: Konteynerler, geliştiricilerin uygulamaları yerel ortamlarında test
+etmelerini ve dağıtmadan önce hata ayıklamalarını sağlar.
+● DevOps: Konteynerler, CI/CD (Sürekli Entegrasyon/Sürekli Dağıtım) süreçlerini
+otomatikleştirmeye ve hızlandırmaya yardımcı olur.
+● Mikroservisler: Konteynerler, mikroservis mimarisini uygulamak için idealdir.
+● Bulut Bilişim: Konteynerler, bulut ortamında uygulamaları dağıtmak ve yönetmek için
+idealdir.
+
+
+Uygulama
+01_konteyner_kurulumu.txt
+02_konteyner_calistirma.txt
+
+
+
+
+Kaynaklar:
+
+https://aws.amazon.com/what-is/containerization/
+https://www.ibm.com/topics/containerization
+https://www.checkpoint.com/cyber-hub/cloud-security/what-is-container-security/what-is-cont
+ainerization/
+https://en.wikipedia.org/wiki/Containerization_(computing)
+https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
+
 
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
@@ -346,42 +350,42 @@ Hedefe mtr ile izleme
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Ağ Arayüzü Yönetimi: 2 soru
-  - İfconfiğiile Arayüz Yapılandırması: 2 soru
-  - İp Komutu İle Ağ Yapılandırması: 2 soru
-  - Pinğiile Ağ Bağlantısı Testi: 2 soru
-  - Netstat İle Ağ Bağlantılarını Görüntüleme: 2 soru
+  - Konteynerizasyonun Tanımı Ve İ Şlevi: 2 soru
+  - Uygulama Ve Bağımlılık Paketleme: 2 soru
+  - İ Zole Ortamda Çalıştırma: 2 soru
+  - Taşınabilirlik Ve Uyumluluk: 2 soru
+  - Hız Ve Verimlilik: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Ağ Arayüzü Yönetimi:
-- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
-- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Web sunucularına HTTP istekleri göndermek | Ağ bağlantısının durumunu izlemek
-- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
+#### Konteynerizasyonun Tanımı Ve İ Şlevi:
+- Soru: Konteynerizasyonun temel amacı nedir?
+- Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını optimize etmek
+- Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
 - Zorluk: easy
 
-#### İfconfiğiile Arayüz Yapılandırması:
-- Soru: Aşağıdakilerden hangisi 'ip' komutunun bir ağ arayüzünü etkinleştirmek için kullanılan doğru söz dizimidir?
-- Seçenekler: sudo ip link set eth0 up | ip addr show eth0 | sudo ip link set eth0 down | ip config eth0 enable
-- Doğru Cevap: sudo ip link set eth0 up
-- Zorluk: medium
-
-#### İp Komutu İle Ağ Yapılandırması:
-- Soru: Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü devre dışı bırakır?
-- Seçenekler: sudo ip link set eth0 down | sudo ip link set eth0 up | ip addr show | ip route add default via 192.168.1.1
-- Doğru Cevap: sudo ip link set eth0 down
-- Zorluk: medium
-
-#### Pinğiile Ağ Bağlantısı Testi:
-- Soru: 'ping 10.112.0.1' komutu ne yapar?
-- Seçenekler: 10.112.0.1 IP adresine ping gönderir | Mevcut bağlantıları listeler | Ağ arayüzlerini listeler | DNS sunucusuna sorgu gönderir
-- Doğru Cevap: 10.112.0.1 IP adresine ping gönderir
+#### Uygulama Ve Bağımlılık Paketleme:
+- Soru: Konteynerleştirme sürecinde, bir uygulama ve onun bağımlılıkları hangi birim içinde paketlenir?
+- Seçenekler: Sanal Makine | Konteyner İmajı | Çekirdek (Kernel) | Sürücü (Driver)
+- Doğru Cevap: Konteyner İmajı
 - Zorluk: easy
 
-#### Netstat İle Ağ Bağlantılarını Görüntüleme:
-- Soru: 'netstat' komutu ne için kullanılır?
-- Seçenekler: Ağ bağlantılarını ve istatistiklerini görüntülemek | Bir hedefe giden yolu izlemek | DNS sunucusuna sorgu göndermek | Web sunucularına istek göndermek
-- Doğru Cevap: Ağ bağlantılarını ve istatistiklerini görüntülemek
+#### İ Zole Ortamda Çalıştırma:
+- Soru: Konteynerler, aynı işletim sistemi üzerinde nasıl çalışır?
+- Seçenekler: Farklı işletim sistemleri kullanarak | İzole edilmiş kullanıcı alanlarında | Doğrudan donanım üzerinde | Sanal makineler aracılığıyla
+- Doğru Cevap: İzole edilmiş kullanıcı alanlarında
+- Zorluk: easy
+
+#### Taşınabilirlik Ve Uyumluluk:
+- Soru: Konteynerlerin taşınabilirliği ne anlama gelir?
+- Seçenekler: Sadece belirli işletim sistemlerinde çalışabilme | Farklı altyapılarda ve ortamlarda kolayca çalışabilme | Sadece bulut ortamlarında çalışabilme | Sadece geliştirme ortamlarında çalışabilme
+- Doğru Cevap: Farklı altyapılarda ve ortamlarda kolayca çalışabilme
+- Zorluk: easy
+
+#### Hız Ve Verimlilik:
+- Soru: Konteynerlerin hızı ve verimliliği neyi ifade eder?
+- Seçenekler: Sadece daha hızlı başlatılmalarını | Sanal makinelere göre daha fazla kaynak tüketmelerini | Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini | Sadece daha az depolama alanı kullanmalarını
+- Doğru Cevap: Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini
 - Zorluk: easy
 
