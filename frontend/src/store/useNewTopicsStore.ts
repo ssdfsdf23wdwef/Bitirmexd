@@ -1,11 +1,9 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { createTrackedStore } from "./zustand.middleware";
-import { getLogger, getFlowTracker, mapToTrackerCategory } from "../lib/logger.utils";
+// import { createTrackedStore } from "./zustand.middleware"; // Şimdilik bunu yorum satırına alın
 import { LearningTarget } from "@/types/learningTarget.type";
 import learningTargetService from "@/services/learningTarget.service";
 import { StateCreator, StoreApi } from "zustand";
-import { FlowCategory } from "../constants/logging.constants";
 
 /**
  * Yeni Konular State arayüzü
@@ -23,6 +21,9 @@ interface NewTopicsState {
   errorLoadingSuggestedTopics: string | null;
   isConfirmingTopics: boolean;
   errorConfirmingTopics: string | null;
+
+  // Bekleyen konular
+  pendingTopics: PendingTopic[];
 }
 
 /**
@@ -47,6 +48,18 @@ interface NewTopicsActions {
   
   // Tüm state'i sıfırla
   resetNewTopicsState: () => void;
+
+  // Bekleyen konuları ayarla
+  setPendingTopics: (topicNames: string[]) => void;
+
+  // Bekleyen konuları temizle
+  clearPendingTopics: () => void;
+}
+
+// PendingTopic arayüzü
+export interface PendingTopic {
+  name: string;
+  status: 'BEKLEMEDE';
 }
 
 // Define type for extended API with trackAction
@@ -61,10 +74,6 @@ interface ExtendedApi extends StoreApi<NewTopicsStore> {
  * Combined interface (State + Actions)
  */
 interface NewTopicsStore extends NewTopicsState, NewTopicsActions {}
-
-// Logger
-const logger = getLogger();
-const flowTracker = getFlowTracker();
 
 // NewTopicsStore implementasyonu
 const newTopicsStoreImpl: StateCreator<
@@ -82,6 +91,7 @@ const newTopicsStoreImpl: StateCreator<
     errorLoadingSuggestedTopics: null,
     isConfirmingTopics: false,
     errorConfirmingTopics: null,
+    pendingTopics: [],
 
     // Actions
     loadSuggestedNewTopics: async (
@@ -89,45 +99,12 @@ const newTopicsStoreImpl: StateCreator<
       lessonContext: string,
       existingTopicNames: string[] = []
     ) => {
-      logger.debug(
-        `Yeni konu önerileri yükleniyor: courseId=${courseId}, contextLength=${lessonContext.length}, existingTopicsCount=${existingTopicNames.length}`,
-        'NewTopicsStore.loadSuggestedNewTopics'
-      );
-      
-      flowTracker.trackStep(
-        mapToTrackerCategory(FlowCategory.State),
-        `Yeni konu önerileri yükleme başlatıldı - courseId: ${courseId}`,
-        'NewTopicsStore'
-      );
-
-      // Loading state
-      set((state) => ({
-        ...state,
-        isLoadingSuggestedTopics: true,
-        errorLoadingSuggestedTopics: null
-      }));
-
       try {
         // API call
         const suggestedTopics = await learningTargetService.detectNewTopics(
           courseId,
           lessonContext,
           existingTopicNames
-        );
-
-        // Başarılı sonuç (Successful result)
-        flowTracker.trackStep(
-          mapToTrackerCategory(FlowCategory.State),
-          `Yeni konu önerileri başarıyla yüklendi - ${suggestedTopics.length} konu`,
-          'NewTopicsStore'
-        );
-
-        logger.debug(
-          `Yeni konu önerileri yüklendi: ${suggestedTopics.length} konu bulundu`,
-          'NewTopicsStore.loadSuggestedNewTopics',
-          undefined,
-          undefined,
-          { courseId, suggestedCount: suggestedTopics.length, topics: suggestedTopics }
         );
 
         set((state) => ({
@@ -138,21 +115,6 @@ const newTopicsStoreImpl: StateCreator<
 
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
-        
-        logger.error(
-          `Yeni konu önerileri yüklenirken hata oluştu: ${errorMessage}`,
-          'NewTopicsStore.loadSuggestedNewTopics',
-          undefined,
-          undefined,
-          error instanceof Error ? error : new Error(errorMessage),
-          { courseId }
-        );
-
-        flowTracker.trackStep(
-          mapToTrackerCategory(FlowCategory.Error),
-          `Yeni konu önerileri yüklenirken hata: ${errorMessage}`,
-          'NewTopicsStore'
-        );
 
         set((state) => ({
           ...state,
@@ -164,21 +126,8 @@ const newTopicsStoreImpl: StateCreator<
     },    
     
     toggleTopicForConfirmation: (topicName: string) => {
-      logger.debug(
-        `Konu onay durumu değiştiriliyor: ${topicName}`,
-        'NewTopicsStore.toggleTopicForConfirmation',
-        undefined,
-        "125"
-      );
-
       const currentSelected = get().selectedNewTopicsForConfirmation;
       const isCurrentlySelected = currentSelected.includes(topicName);
-
-      flowTracker.trackStep(
-        mapToTrackerCategory(FlowCategory.State),
-        `Konu onay durumu: ${topicName} - ${isCurrentlySelected ? 'çıkarıldı' : 'eklendi'}`,
-        'NewTopicsStore'
-      );
 
       set((state) => {
         // Create a new array based on whether the topic is already selected
@@ -193,31 +142,10 @@ const newTopicsStoreImpl: StateCreator<
           selectedNewTopicsForConfirmation: newSelectedTopics
         };
       });
-
-      logger.debug(
-        `Konu onay durumu değiştirildi: ${topicName} - ${isCurrentlySelected ? 'listeden çıkarıldı' : 'listeye eklendi'}`,
-        'NewTopicsStore.toggleTopicForConfirmation',
-        undefined,
-        "144",
-        { topicName, isSelected: !isCurrentlySelected, selectedCount: get().selectedNewTopicsForConfirmation.length }
-      );
     },
 
     // Use simple function instead of trackAction for type safety
     clearSuggestedTopics: () => {
-      logger.debug(
-        'Önerilen konular temizleniyor',
-        'NewTopicsStore.clearSuggestedTopics',
-        undefined,
-        "152"
-      );
-
-      flowTracker.trackStep(
-        mapToTrackerCategory(FlowCategory.State),
-        'Önerilen konular ve seçim listesi temizlendi',
-        'NewTopicsStore'
-      );
-
       set((state) => ({
         ...state,
         suggestedNewTopics: [],
@@ -229,36 +157,8 @@ const newTopicsStoreImpl: StateCreator<
     confirmSelectedTopics: async (courseId: string): Promise<boolean> => {
       const selectedTopics = get().selectedNewTopicsForConfirmation;
       
-      logger.debug(
-        `Seçilen konular onaylanıyor: courseId=${courseId}, selectedCount=${selectedTopics.length}`,
-        'NewTopicsStore.confirmSelectedTopics',
-        undefined,
-        "169",
-        { courseId, selectedTopics }
-      );
-
-      flowTracker.trackStep(
-        mapToTrackerCategory(FlowCategory.State),
-        `Seçilen konular onaylanıyor - ${selectedTopics.length} konu`,
-        'NewTopicsStore'
-      );
-
       if (selectedTopics.length === 0) {
         const errorMessage = 'Onaylanacak konu seçilmedi';
-        logger.error(
-          errorMessage,
-          'NewTopicsStore.confirmSelectedTopics',
-          undefined,
-          "184",
-          { courseId, selectedTopics, error: new Error(errorMessage) }
-        );
-
-        flowTracker.trackStep(
-          mapToTrackerCategory(FlowCategory.Error),
-          `Seçilen konular onaylanırken hata: ${errorMessage}`,
-          'NewTopicsStore'
-        );
-
         set((state) => ({
           ...state,
           errorConfirmingTopics: errorMessage
@@ -280,21 +180,6 @@ const newTopicsStoreImpl: StateCreator<
           selectedTopics
         );
 
-        // Başarılı sonuç
-        flowTracker.trackStep(
-          mapToTrackerCategory(FlowCategory.State),
-          `Konular başarıyla onaylandı ve kaydedildi - ${confirmedTargets.length} öğrenme hedefi`,
-          'NewTopicsStore'
-        );
-
-        logger.info(
-          `Konular başarıyla onaylandı ve kaydedildi: ${confirmedTargets.length} öğrenme hedefi`,
-          'NewTopicsStore.confirmSelectedTopics',
-          undefined,
-          "203",
-          { courseId, confirmedCount: confirmedTargets.length, targetIds: confirmedTargets.map(t => t.id) }
-        );
-
         // Return the updated state object as required by Zustand
         set((state) => ({
           ...state,
@@ -311,20 +196,6 @@ const newTopicsStoreImpl: StateCreator<
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
         
-        logger.error(
-          `Konular onaylanırken hata oluştu: ${errorMessage}`,
-          'NewTopicsStore.confirmSelectedTopics',
-          undefined,
-          "220",
-          { courseId, selectedTopics, error: error instanceof Error ? error : new Error(errorMessage) }
-        );
-
-        flowTracker.trackStep(
-          mapToTrackerCategory(FlowCategory.Error),
-          `Konular onaylanırken hata: ${errorMessage}`,
-          'NewTopicsStore'
-        );
-
         set((state) => ({
           ...state,
           isConfirmingTopics: false,
@@ -337,19 +208,6 @@ const newTopicsStoreImpl: StateCreator<
 
     // Use simple function instead of trackAction for type safety
     resetNewTopicsState: () => {
-      logger.debug(
-        'NewTopics store sıfırlanıyor',
-        'NewTopicsStore.resetNewTopicsState',
-        undefined,
-        "239"
-      );
-
-      flowTracker.trackStep(
-        mapToTrackerCategory(FlowCategory.State),
-        'NewTopics store tüm state\'leri sıfırlandı',
-        'NewTopicsStore'
-      );
-
       set((state) => ({
         ...state,
         suggestedNewTopics: [],
@@ -358,22 +216,30 @@ const newTopicsStoreImpl: StateCreator<
         isLoadingSuggestedTopics: false,
         errorLoadingSuggestedTopics: null,
         isConfirmingTopics: false,
-        errorConfirmingTopics: null
+        errorConfirmingTopics: null,
+        pendingTopics: []
       }));
-    }
+    },
+
+    // Bekleyen konuları ayarla
+    setPendingTopics: (topicNames) =>
+      set((state) => {
+        state.pendingTopics = topicNames.map((name) => ({
+          name,
+          status: 'BEKLEMEDE',
+        }));
+      }),
+
+    // Bekleyen konuları temizle
+    clearPendingTopics: () =>
+      set((state) => {
+        state.pendingTopics = [];
+      }),
   };
 };
 
 // Immer ile TrackedStore oluştur
-export const useNewTopicsStore = createTrackedStore<NewTopicsStore, typeof create>(
-  create,
-  'NewTopicsStore',
-  {
-    enableLogging: true,
-    enablePerformance: true,
-    additionalMiddlewares: [immer]
-  }
-)(newTopicsStoreImpl);
+export const useNewTopicsStore = create<NewTopicsStore>()(immer(newTopicsStoreImpl as any));
 
 // Selector hooks
 export const useNewTopicsLoading = () => {

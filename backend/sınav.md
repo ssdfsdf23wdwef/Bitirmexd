@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T16:51:47.737Z
+## Tarih: 2025-06-08T19:18:45.294Z
 
-## Trace ID: quiz-1749401507728-7q4po
+## Trace ID: quiz-1749410325278-sx644
 
-## Alt Konular (7 adet):
+## Alt Konular (9 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Süperbilgisayar Sıralama Listeleri** (2 soru)
-2. **Top500 Tanımı Ve Amacı** (2 soru)
-3. **Hpcğitanımı Ve Amacı** (2 soru)
-4. **Green500 Tanımı Ve Amacı** (2 soru)
-5. **Linpack Testi** (2 soru)
+1. **Recommendation Systems Overview** (2 soru)
+2. **Retrieval Strategies** (2 soru)
+3. **Rankinğialgorithms** (2 soru)
+4. **Content İnformation Utilization** (2 soru)
+5. **Advantages And Disadvantages** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,10 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Hpcğitesti
-2. Flops Watt Oranı
+1. Cosine Similarity
+2. Dot Product Similarity
+3. Euclidean Distance
+4. User İtem İnteractions
 
 ```
 
@@ -49,11 +51,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Süperbilgisayar Sıralama Listeleri** (2 soru)
-2. **Top500 Tanımı Ve Amacı** (2 soru)
-3. **Hpcğitanımı Ve Amacı** (2 soru)
-4. **Green500 Tanımı Ve Amacı** (2 soru)
-5. **Linpack Testi** (2 soru)
+1. **Recommendation Systems Overview** (2 soru)
+2. **Retrieval Strategies** (2 soru)
+3. **Rankinğialgorithms** (2 soru)
+4. **Content İnformation Utilization** (2 soru)
+5. **Advantages And Disadvantages** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,95 +63,197 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Hpcğitesti
-2. Flops Watt Oranı
+1. Cosine Similarity
+2. Dot Product Similarity
+3. Euclidean Distance
+4. User İtem İnteractions
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
-Bilgisayar Mühendisliği Bölümü
-Bahar –2025(ÖÖ.,İÖ.)
-MBM7-452 -Eksaskala Bilgisayar Sistemleri
-(Sunu 6)
-Dr. Öğr. Üyesi Esra Çelik
+Security Level:
+Department name:AIE
+Author’s name:Çağrı Yeşil
+Date:2.11.2023
+Recommendation Systems
 
-Süperbilgisayar Dünyasında Sıralama
-•Süperbilgisayarlar, yüksek hesaplama gücüyle bilimsel
-araştırmalardan yapay zekaya kadar pek çok alanda kullanılır.
-•Bu sistemlerin hızını, verimliliğini ve gerçek performansını
-değerlendiren üç temel liste vardır:
-•TOP500
-•HPCG (High Performance Conjugate Gradient)
-•Green500
+Contents
+1.Recommendation system: Retrieval & Ranking
+2.Content base recommendation system
+3.Similarity measurements f_simple(U1,M1) and f_complex(U1,M1,...)
+4.Colobrative Filtering
 
-TOP500
-•TOP500,
-•dünyanın en hızlı 500 süperbilgisayarını hesaplama gücüne göre
-sıralar.
-•1993’ten bu yana yılda iki kez (Haziran ve Kasım aylarında)
-yayımlanmaktadır.
-•Performansodaklıdır.
-•En yüksek hesaplama gücü kimde?sorusunun cevabını verir.
+Huawei Proprietary -Restricted Distribution3
+Similarity Metric: is a metric that shows how much an item is similar to an item or suitable for a user
+Retrieval:
+•Selecting top K items according to similarity metrics for an user
+•Selecting all movies of which genres are sci-fi and adventure for a user
+•Content-baseor colobrative filtering approaches can be used here
+Ranking:
+•Ranking or ordering selecting items according to a metricto decide which items will be showed to user
+•Deciding which movie among the sci-fi and adventure movies will be shown to a user
+•Machine learning, deep learning strategies are used here
+Question:
+•Why do we need retrieval? Can’t we just use rank all the items and select best of them?
+•Why do we need ranking? Can’t we just select top 1 item according to the similarity metric
+Retrieval/Ranking
 
-TOP500
-•Sıralama ölçütü olarak LINPACK testi kullanılır.
-•Bu test:
-•Süperbilgisayarın ne kadar hızlı işlem yapabildiğini yanisistemin
-floating-point işlemleri (FLOPS) performansını ölçer.
-•Matris çözümlemeye dayalıdır.
-•Bellek kullanımı, veri aktarımı veya gerçek dünya uygulamalarındaki
-performansı tam olarak yansıtmaz.
+Huawei Proprietary -Restricted Distribution4
+Why do we need retrieval? Can’t we just use rank all the items and select best of them?
+•There are millions of data and recommendations are generally real-time problems
+•It is not possible to rank millions of data in real-time
+•Therefore, we select a subset of data with retrieval strategies and then apply ranking to that small subset
+Why do we need ranking? Can’t we just select top 1 item according to the similarity metric?
+•To be fast, retrieval strategies use small amount of features.
+•With small amount of features, it is not possible to decide which item is better for an user
+•We need different strategies (ranking) to handle larger amount of features.
+Retrieval/Ranking
 
-TOP500
-•Kasım 2024 TOP500 listesinde ElCapiton ilk sırada yer alır.
+Huawei Proprietary -Restricted Distribution5
+1) Content-base approach:
+>If user watch 2 horror movies then the system can recommend
+horror moviesto that user.
+2) Colobrative approach
+>BooksofUser1:A,B(History),C(History)
+>BooksofUser2:B,C,D
+>RecommendAtoUser1andRecommendDtoUser2
+Retrieval strategies
 
-HPCG
-•HPCG,
-•bellek, iletişim ve veri akış performansını test eder.
-•Gerçek dünya uygulamalarına odaklanır.
-•TOP500’ün eksik kaldığı noktaları tamamlamak için alternatif olarak
-geliştirilmiştir.
-•Gerçek dünya uygulamalarına (mühendislik hesaplamaları vb.) daha
-yakındır.
+Huawei Proprietary -Restricted Distribution6
+Content-base Recommendation
+•In content-base recommendation, we use content
+information to recommend items to users
+•Which movie whould you recommend to these
+users? Why?
+•What if we have 1000 sci-fi movies that we can
+recommend to user 3, which one will we
+recommend?
+•What about User 2, we have no information about
+her/his preferences?
 
-HPCG
-•Sıralama ölçütü olarak HPCG testi kullanılır.
-•Bu test:
-•İteratif bir doğrusal denklem çözme yöntemi olan Konjugat
-Gradyanyöntemini kullanılır.
-•Bellek erişimi, iletişim yeteneği ve veri transfer performansını test
-eder
+Huawei Proprietary -Restricted Distribution7
+Content-base Recommendation
+•In real world, we may have to use more than one
+content information
+•Which movie whould you recommend to these
+users? Why?
 
-HPCG
-•Kasım 2024 HPCG listesinde Fugaku ilk sırada yer alır.
+Huawei Proprietary -Restricted Distribution8
+How to measure similarity/closeness?
+<User1, Star Wars> = 1*1+0*1+1*0+0*0+1*0 = 1
+<User1, Exorcist> = 2
+<User1, Avengers> = 2
+<User1, La la land> = 1
 
-Green500
-•Green500,
-•enerji verimliliğini temel alarak süperbilgisayarları sıralayan
-listedir.
-•Çevreci yaklaşıma odaklanır.
-•Verimli, sürdürülebilir HPC sistemlerini teşvik eder.
-•Sıralama ölçütü olarak FLOPS/Wattoranına bakar.
-•Yani, 1 watt enerji başına ne kadar işlem yapıldığı değerlendirilir.
+Huawei Proprietary -Restricted Distribution9
+Similarity of vectors
+Movie 1 = [1,3]
+Movie 2 = [2,1]
+User = [2,2]
 
-Green500
-•Kasım 2024 Green500 listesinde JEDI ilk sırada yer alır.
+Huawei Proprietary -Restricted Distribution10
+Similarity of vectors: Cosine similarity
+Movie 1 = [1,3]
+Movie 2 = [2,1]
+User = [2,2]
+cos(M1, User) = cos(β=26.57) = 0.13
+cos(M2, User) = cos(α=18.44) = 0.91
+Movie 2 is more similar to User
+Reminder: cos(0) = 1 and cos(90)=0
+α
+β
 
-Listelerin Karşılaştırılması
-ListeOdak NoktasıTest (Benchmark)Amaç
-TOP500Ham hesaplama gücü
-(FLOPS)
-LINPACKEn hızlı
-süperbilgisayarları
-belirlemek
-HPCGBellek, iletişim ve
-gerçekçi yük
-HPCGGerçek
-uygulamalardaki
-performansı ölçmek
-Green500Enerji verimliliğiFLOPS/WattEn verimli
-süperbilgisayarları
-sıralamak
+Huawei Proprietary -Restricted Distribution11
+Similarity of vectors: Dot Product (similarity)
+sx,y=
+푖=0
+푑
+푥
+푖
+.푦
+푖
+Movie 1 = [1,3]
+Movie 2 = [2,1]
+User = [2,2]
+<M1, User> = 1∗2+3∗2=8
+<M2, User> =2∗2+1∗2= 6
+Movie 1 is more similar to User
+α
+β
+
+Huawei Proprietary -Restricted Distribution12
+dotproductofx,y∊푅
+푑
+=<x,y>=
+
+푖=0
+푑
+푥
+푖
+푦
+푖
+=푥푦cos(푥,푦)
+푛표푟푚표푟푚푎푔푛푖푡푢푑푒표푓푥→푥=
+
+푖
+푑
+푥
+푖
+2
+푛표푟푚표푟푚푎푔푛푖푡푢푑푒표푓푦→푦=
+
+푖
+푑
+푦
+푖
+2
+푊ℎ푎푡ℎ푎푝푝푒푛푠푖푓푥and푦푖푠푒푞푢푎푙푡표1?
+Similarity of vectors: Dot Product (similarity) cont.
+
+Huawei Proprietary -Restricted Distribution13
+Similarity of vectors: Euclidean distance
+s(x,y)=
+푖=0
+푑
+(푥
+푖
+−푦
+푖
+)
+2
+Movie 1 = [1,3]
+Movie 2 = [2,1]
+User = [2,2]
+<M1, User> = (1−2)
+2
++(3−2)
+2
+= 2
+<M2, User> =(2−2)
+2
++(3−2)
+2
+= 1
+Movie 2 is closer to User
+α
+β
+
+Huawei Proprietary -Restricted Distribution14
+•Compared to the cosine, the dot product similarity is sensitive to the norm of the embedding.
+>That is, the larger the norm of an embedding, the higher the similarity (for items with an acute angle)
+and the more likely the item is to be recommended.
+•Items that appear very frequently in the training set (for example, popular YouTube videos) tend to have
+embeddingswith large norms.
+>If capturing popularity information is desirable, then you should prefer dot product. However, if you're not careful,
+the popular items may end up dominating the recommendations.
+•Dot product is easy to implement and compute, therefore we generally use dot product in
+recommendation systems
+Which Similarity Measure to Choose?
+
+Huawei Proprietary -Restricted Distribution15
+Advantages
+•The model doesn't need any data about other users, since the recommendations are specific to this
+user. This makes...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -316,50 +420,4 @@ sıralamak
 // ================ PROMPT SONU ======================
 // ====================================================
 ```
-
-
-
-## İşlenen Sorular Analizi:
-
-- Toplam Soru Sayısı: 10
-- Alt Konu Dağılımı:
-
-  - Süperbilgisayar Sıralama Listeleri: 2 soru
-  - Top500 Tanımı Ve Amacı: 2 soru
-  - Hpcğitanımı Ve Amacı: 2 soru
-  - Green500 Tanımı Ve Amacı: 2 soru
-  - Linpack Testi: 2 soru
-
-
-### Soru Örnekleri (Her Alt Konudan 1 Adet):
-
-#### Süperbilgisayar Sıralama Listeleri:
-- Soru: Aşağıdakilerden hangisi süperbilgisayarların performansını değerlendiren temel listelerden biridir?
-- Seçenekler: BigData500 | TOP500 | Cloud100 | AIindex200
-- Doğru Cevap: TOP500
-- Zorluk: easy
-
-#### Top500 Tanımı Ve Amacı:
-- Soru: TOP500 listesinin temel amacı nedir?
-- Seçenekler: Enerji verimliliğini değerlendirmek | Dünyanın en hızlı 500 süperbilgisayarını sıralamak | Bellek ve iletişim performansını ölçmek | Gerçek dünya uygulamalarındaki performansı iyileştirmek
-- Doğru Cevap: Dünyanın en hızlı 500 süperbilgisayarını sıralamak
-- Zorluk: medium
-
-#### Hpcğitanımı Ve Amacı:
-- Soru: HPCG'nin (High Performance Conjugate Gradient) temel amacı nedir?
-- Seçenekler: Enerji verimliliğini ölçmek | Ham hesaplama gücünü değerlendirmek | Bellek, iletişim ve veri akış performansını test etmek | Sadece floating-point işlemlerini (FLOPS) ölçmek
-- Doğru Cevap: Bellek, iletişim ve veri akış performansını test etmek
-- Zorluk: medium
-
-#### Green500 Tanımı Ve Amacı:
-- Soru: Green500 listesinin temel odak noktası nedir?
-- Seçenekler: Ham hesaplama gücü | Bellek performansı | Enerji verimliliği | Veri depolama kapasitesi
-- Doğru Cevap: Enerji verimliliği
-- Zorluk: easy
-
-#### Linpack Testi:
-- Soru: TOP500 listesinde sıralama ölçütü olarak kullanılan LINPACK testi neyi ölçer?
-- Seçenekler: Bellek erişim hızını | Enerji tüketimini | Sistemin floating-point işlemleri (FLOPS) performansını | Veri aktarım hızını
-- Doğru Cevap: Sistemin floating-point işlemleri (FLOPS) performansını
-- Zorluk: medium
 

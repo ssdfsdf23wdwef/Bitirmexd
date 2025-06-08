@@ -1601,7 +1601,7 @@ export class LearningTargetsService {
           courseId,
           userId,
           topicName: topic.subTopicName, // Using topicName for new model compatibility
-          status: LearningTargetStatus.NOT_STARTED, // Default status for new AI-suggested topics
+          status: LearningTargetStatus.NOT_STARTED, // Default status for new AI-suggested topicsWorking
           failCount: 0,
           mediumCount: 0,
           successCount: 0,
@@ -1674,6 +1674,185 @@ export class LearningTargetsService {
         additionalInfo: 'AI önerisi konular kaydedilirken hata oluştu',
       });
       throw error;
+    }
+  }
+
+  // Helper method to determine learning status from score
+  private determineStatusFromScore(score: number): LearningTargetStatus {
+    if (score >= 70) return LearningTargetStatus.MASTERED;
+    if (score >= 50) return LearningTargetStatus.MEDIUM;
+    return LearningTargetStatus.FAILED;
+  }
+
+  // Helper method to derive topicName from normalizedSubTopicName
+  // Example: 'react_hooks' -> 'React Hooks'
+  private deriveTopicName(normalizedSubTopicName: string): string {
+    if (!normalizedSubTopicName) return 'Unknown Topic';
+    return normalizedSubTopicName
+      .replace(/_/g, ' ') // Replace underscores with spaces
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(' ');
+  }
+
+  /**
+   * Creates or updates learning targets based on quiz results.
+   * @param userId The ID of the user.
+   * @param quizTopicResults An array of objects containing normalized topic names and scores.
+   * @param courseId Optional ID of the course this quiz belongs to.
+   */
+  @LogMethod({ trackParams: true })
+  async createOrUpdateFromQuizResults(
+    userId: string,
+    quizTopicResults: Array<{
+      normalizedSubTopicName: string;
+      scorePercent: number;
+      // Optional: If the quiz knows the original topic name, it can pass it
+      // to avoid deriving it, which might not always be perfect.
+      topicName?: string; 
+    }>,
+    courseId?: string, // Optional: If provided, targets are course-specific
+  ): Promise<void> {
+    const operationId = uuidv4(); // For tracking this specific operation
+    this.logger.info(
+      `[${operationId}] Starting create/update of learning targets from quiz results for user ${userId}. Topics: ${quizTopicResults.length}, CourseID: ${courseId || 'N/A'}`,
+      'LearningTargetsService.createOrUpdateFromQuizResults',
+      __filename,
+    );
+
+    if (!quizTopicResults || quizTopicResults.length === 0) {
+      this.logger.warn(
+        `[${operationId}] No quiz topic results provided for user ${userId}. Aborting.`,
+        'LearningTargetsService.createOrUpdateFromQuizResults',
+        __filename,
+      );
+      return;
+    }
+
+    const db = this.firebaseService.firestore;
+    const batch = db.batch();
+    const now = admin.firestore.FieldValue.serverTimestamp(); // Use server timestamp
+
+    for (const result of quizTopicResults) {
+      const { normalizedSubTopicName, scorePercent } = result;
+      let { topicName } = result; // Use provided topicName if available
+
+      if (!normalizedSubTopicName) {
+        this.logger.warn(
+          `[${operationId}] Skipping result with missing normalizedSubTopicName for user ${userId}.`,
+          'LearningTargetsService.createOrUpdateFromQuizResults',
+          __filename,
+        );
+        continue;
+      }
+
+      // If topicName is not provided in the result, derive it
+      if (!topicName) {
+        topicName = this.deriveTopicName(normalizedSubTopicName);
+      }
+
+      let query = db
+        .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
+        .where('userId', '==', userId)
+        .where('normalizedSubTopicName', '==', normalizedSubTopicName);
+
+      if (courseId) {
+        query = query.where('courseId', '==', courseId);
+      }
+      query = query.limit(1); // Expect at most one matching target
+
+      const snapshot = await query.get();
+      const newStatus = this.determineStatusFromScore(scorePercent);
+      // Firestore server timestamp will be converted to a Date object on read.
+      // For scoreHistory, we store the score and a placeholder for the server-generated date.
+      const scoreEntry = { score: scorePercent, date: now }; 
+
+      if (snapshot.empty) {
+        // Create new learning target
+        const newTargetRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
+        
+        const newLearningTarget: Omit<LearningTarget, 'id'> = {
+          userId,
+          topicName, // Use derived or provided topicName
+          normalizedSubTopicName,
+          status: newStatus,
+          scoreHistory: [scoreEntry],
+          attemptCount: 1,
+          lastAttemptScorePercent: scorePercent,
+          lastAttemptDate: now, // Placeholder for server timestamp
+          source: LearningTargetSource.QUIZ,
+          isNewTopic: true, // Assuming if it wasn't found, it's new in this context
+          createdAt: now,   // Placeholder for server timestamp
+          updatedAt: now,   // Placeholder for server timestamp
+          firstEncountered: now, // Placeholder for server timestamp
+          notes: '', // Default empty notes
+          // Optional fields, ensure they are not undefined if not set
+          failCount: newStatus === LearningTargetStatus.FAILED ? 1 : 0,
+          mediumCount: newStatus === LearningTargetStatus.MEDIUM ? 1 : 0,
+          masteredCount: newStatus === LearningTargetStatus.MASTERED ? 1 : 0,
+        };
+        if (courseId) {
+          (newLearningTarget as LearningTarget).courseId = courseId;
+        }
+
+        batch.set(newTargetRef, newLearningTarget);
+        this.logger.debug(
+          `[${operationId}] Scheduled NEW learning target for user ${userId}, topic: ${topicName} (normalized: ${normalizedSubTopicName}), course: ${courseId || 'N/A'}`,
+          'LearningTargetsService.createOrUpdateFromQuizResults',
+          __filename,
+        );
+      } else {
+        // Update existing learning target
+        const docRef = snapshot.docs[0].ref;
+        const existingData = snapshot.docs[0].data() as LearningTarget;
+
+        const updatedScoreHistory = existingData.scoreHistory
+          ? [...existingData.scoreHistory, scoreEntry] // Append new score entry
+          : [scoreEntry];
+
+        const updatePayload: Partial<Omit<LearningTarget, 'id'>> = {
+          status: newStatus,
+          scoreHistory: updatedScoreHistory,
+          attemptCount: admin.firestore.FieldValue.increment(1),
+          lastAttemptScorePercent: scorePercent,
+          lastAttemptDate: now, // Placeholder for server timestamp
+          updatedAt: now,       // Placeholder for server timestamp
+        };
+        
+        // Update status counts
+        if (newStatus === LearningTargetStatus.FAILED) {
+          updatePayload.failCount = admin.firestore.FieldValue.increment(1) as any;
+        } else if (newStatus === LearningTargetStatus.MEDIUM) {
+          updatePayload.mediumCount = admin.firestore.FieldValue.increment(1) as any;
+        } else if (newStatus === LearningTargetStatus.MASTERED) {
+          updatePayload.masteredCount = admin.firestore.FieldValue.increment(1) as any;
+        }
+
+        batch.update(docRef, updatePayload);
+        this.logger.debug(
+          `[${operationId}] Scheduled UPDATE for learning target for user ${userId}, topic: ${existingData.topicName} (normalized: ${normalizedSubTopicName}), course: ${courseId || 'N/A'}`,
+          'LearningTargetsService.createOrUpdateFromQuizResults',
+          __filename,
+        );
+      }
+    }
+
+    try {
+      await batch.commit();
+      this.logger.info(
+        `[${operationId}] Successfully committed batch updates for learning targets for user ${userId}. Processed ${quizTopicResults.length} results.`,
+        'LearningTargetsService.createOrUpdateFromQuizResults',
+        __filename,
+      );
+    } catch (error) {
+      this.logger.error(
+        `[${operationId}] Error committing batch updates for learning targets for user ${userId}: ${error.message}`,
+        'LearningTargetsService.createOrUpdateFromQuizResults',
+        __filename,
+        undefined,
+        error,
+      );
+      throw error; // Rethrow to be handled by the caller or global error handler
     }
   }
 

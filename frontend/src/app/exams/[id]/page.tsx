@@ -10,8 +10,10 @@ import { Clock, Flag, CheckCircle, XCircle, Info, ChevronLeft, Award, ListChecks
 import { Quiz, Question, QuizType, QuizSubmissionPayload, DifficultyLevel } from "@/types/quiz.type";
 import quizService from "@/services/quiz.service";
 import { ErrorService } from "@/services/error.service";
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip, Button } from "@nextui-org/react"; // Added Button
 import learningTargetService from "@/services/learningTarget.service";
+import { useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
+import { useQuizStore } from "@/store/useQuizStore"; // Added useQuizStore
 
 // Sonuçları localStorage'a kaydetmek için fonksiyon
 const storeQuizResultsInStorage = (quizId: string, resultsToStore: Quiz) => {
@@ -50,15 +52,38 @@ const storeQuizInStorage = (quizId: string, quizData: Quiz) => {
 export default function ExamPage() {
   const router = useRouter();
   const params = useParams();
+  // Ensure examId is correctly extracted and is a string
+  const examId = Array.isArray(params.id) ? params.id[0] : params.id as string;
+  const queryClient = useQueryClient();
+  // As per prompt: get answers from useQuizStore. 
+  // If 'answers' is not in your store, this will cause an error.
+  const { answers } = useQuizStore(); 
   const [quiz, setQuiz] = useState<Quiz>();
   const [loading, setLoading] = useState(true);
-  // Removed currentQuestionIndex as we're now showing all questions at once
   const [userAnswers, setUserAnswers] = useState<Record<string, any>>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(new Set());
   const [isCompleted, setIsCompleted] = useState(false);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showResults, setShowResults] = useState(false);  const { isDarkMode, theme } = useTheme();
+  const [isSubmitting, setIsSubmitting] = useState(false); // This is for the existing handleSubmit
+  const [isLoadingFinishExam, setIsLoadingFinishExam] = useState(false); // New state for handleFinishExam
+  const [showResults, setShowResults] = useState(false);
+  const { isDarkMode, theme } = useTheme();
+
+  const handleFinishExam = async () => {
+    setIsLoadingFinishExam(true);
+    try {
+      // As per prompt: call quizService.submitQuiz with examId and answers object.
+      // This might conflict with another signature of submitQuiz if it expects a single payload object.
+      await quizService.submitQuiz(examId, { answers });
+      await queryClient.invalidateQueries({ queryKey: ['learningTargets'] });
+      router.push(`/exams/${examId}/results`);
+    } catch (error) {
+      console.error("Error finishing exam:", error);
+      ErrorService.showToast("Sınav bitirilirken bir hata oluştu.", "error", "Sınav Hatası");
+    } finally {
+      setIsLoadingFinishExam(false);
+    }
+  };
 
   // Sınav verilerini yükle
   useEffect(() => {
@@ -1335,7 +1360,7 @@ export default function ExamPage() {
         <div className="sticky bottom-6 flex justify-center mt-8 pb-4">
           {allAnswered ? (
             <button
-              onClick={handleSubmit}
+              onClick={handleSubmit} // This is the existing submit logic
               disabled={isSubmitting}
               className={`
                 px-10 py-4 rounded-xl font-bold text-lg shadow-2xl transition-all duration-200 flex items-center
@@ -1359,6 +1384,18 @@ export default function ExamPage() {
               Tüm soruları cevaplamadan sınavı tamamlayamazsınız.
             </div>
           )}
+        </div>
+
+        {/* New "Sınavı Bitir" button as per Prompt 3 */}
+        <div className="flex justify-center">
+          <Button 
+            onClick={handleFinishExam} 
+            disabled={isLoadingFinishExam}
+            color="primary"
+            className="mt-4 mb-8" // Adjusted margin
+          >
+            Sınavı Bitir
+          </Button>
         </div>
       </div>
     );

@@ -1,13 +1,80 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
 import { AnalysisResult } from '../common/interfaces';
+import { LearningTargetsService } from '../learning-targets/learning-targets.service'; // Added import
+import { QuizSubmissionDto } from './dto/quiz-submission.dto'; // Added import
 
 @Injectable()
 export class QuizAnalysisService {
   private readonly logger = new Logger(QuizAnalysisService.name);
   private readonly quizzesCollection = 'quizzes';
+  private readonly quizSubmissionsCollection = 'quizSubmissions'; // Added for storing submission
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(
+    private firebaseService: FirebaseService,
+    private learningTargetsService: LearningTargetsService, // Added injection
+  ) {}
+
+  /**
+   * Analyzes a quiz submission, persists the results, and updates learning targets.
+   * @param userId The ID of the user who submitted the quiz.
+   * @param quizId The ID of the quiz.
+   * @param submission The user's quiz submission details.
+   * @returns The analysis result.
+   */
+  async analyzeAndPersistResults(
+    userId: string,
+    quizId: string,
+    submission: QuizSubmissionDto, // Use DTO for submission type
+  ): Promise<AnalysisResult> {
+    this.logger.log(
+      `Analyzing quiz results for user ${userId}, quiz ${quizId}`,
+    );
+
+    // 1. Fetch the complete quiz data
+    const quiz = await this.firebaseService.getDocumentById<
+      any // Replace 'any' with a proper Quiz interface/type if available
+    >(this.quizzesCollection, quizId);
+
+    if (!quiz || !quiz.questions) {
+      this.logger.error(`Quiz not found or has no questions: ${quizId}`);
+      throw new Error('Quiz data is incomplete or not found.');
+    }
+
+    // 2. Analyze the results using the existing helper method
+    // The existing analyzeQuizResults seems to expect userAnswers as Record<string, string>
+    // and questions array directly.
+    const { analysisResult, topicScores, failedQuestions } = this.analyzeQuizResults(
+      quiz.questions, // Assuming quiz.questions is an array of question objects
+      submission.answers, // submission.answers should be Record<string, string>
+    );
+
+    // 3. Persist the submission details (optional, but good practice)
+    const submissionData = {
+      userId,
+      quizId,
+      submittedAt: new Date(),
+      answers: submission.answers,
+      analysis: analysisResult, // Store the detailed analysis with the submission
+      failedQuestions, // Store failed questions for review
+    };
+    await this.firebaseService.addDocument(
+      this.quizSubmissionsCollection,
+      submissionData,
+    );
+
+    // 4. Call LearningTargetsService to persist/update learning targets
+    await this.learningTargetsService.createOrUpdateFromQuizResults(
+      userId,
+      topicScores, // Pass the calculated topicScores
+    );
+
+    this.logger.log(
+      `Successfully analyzed and persisted results for user ${userId}, quiz ${quizId}`,
+    );
+
+    return analysisResult;
+  }
 
   /**
    * Analyze quiz results to calculate scores, create topic-based analysis

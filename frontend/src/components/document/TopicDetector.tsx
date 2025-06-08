@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FiInfo, FiAlertCircle, FiChevronRight } from "react-icons/fi";
 import { LearningTargetStatusLiteral, DetectedSubTopic } from "@/types";
 import documentService from "@/services/document.service";
+import { useNewTopicsStore } from "@/store/useNewTopicsStore"; // Added import
 
 interface TopicDetectorProps {
   documentId: string;
@@ -23,6 +24,7 @@ export default function TopicDetector({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [topics, setTopics] = useState<DetectedSubTopic[]>([]);
+  const { setPendingTopics } = useNewTopicsStore(); // Added store hook
 
   // Konu tespiti işlemi
   useEffect(() => {
@@ -43,6 +45,10 @@ export default function TopicDetector({
           // Backend API'yi çağır
           const detectedTopics = await documentService.detectTopics(documentId);
           
+          // Store'a pending topic'leri kaydet
+          const topicNames = detectedTopics.map(topic => topic.subTopicName);
+          setPendingTopics(topicNames); // Call setPendingTopics
+
           // Tespit edilen konuları işle ve görüntüleme için hazırla
           const processedTopics = detectedTopics.map(topic => ({
             ...topic,
@@ -84,7 +90,7 @@ export default function TopicDetector({
 
     // Konu tespiti işlemini başlat
     detectTopics();
-  }, [documentId, onError]);
+  }, [documentId, onError, setPendingTopics]); // Added setPendingTopics to dependency array
 
   // Tüm konuları seçme/seçimi kaldırma
   const toggleAll = useCallback((selectAll: boolean) => {
