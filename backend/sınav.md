@@ -421,3 +421,49 @@ user. This makes...(Kısaltıldı)
 // ====================================================
 ```
 
+
+
+## İşlenen Sorular Analizi:
+
+- Toplam Soru Sayısı: 10
+- Alt Konu Dağılımı:
+
+  - Recommendation Systems Overview: 2 soru
+  - Retrieval Strategies: 2 soru
+  - Rankinğialgorithms: 2 soru
+  - Content İnformation Utilization: 2 soru
+  - Advantages And Disadvantages: 2 soru
+
+
+### Soru Örnekleri (Her Alt Konudan 1 Adet):
+
+#### Recommendation Systems Overview:
+- Soru: Aşağıdakilerden hangisi bir öneri sisteminin temel işlevlerinden biridir?
+- Seçenekler: Kullanıcı verilerini analiz etmek | Veri tabanlarını yönetmek | Kullanıcılara uygun öğeleri bulmak ve sıralamak | Ağ güvenliğini sağlamak
+- Doğru Cevap: Kullanıcılara uygun öğeleri bulmak ve sıralamak
+- Zorluk: easy
+
+#### Retrieval Strategies:
+- Soru: Öneri sistemlerinde retrieval stratejileri neden gereklidir? 
+- Seçenekler: Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması | Kullanıcı arayüzünü basitleştirmek için | Veri depolama maliyetlerini azaltmak için | Sadece en popüler öğeleri göstermek için
+- Doğru Cevap: Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması
+- Zorluk: medium
+
+#### Rankinğialgorithms:
+- Soru: Öneri sistemlerinde sıralama (ranking) algoritmalarının temel amacı nedir?
+- Seçenekler: Öğeleri rastgele sıralamak | En popüler öğeleri en üste yerleştirmek | Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak | Sadece yeni eklenen öğeleri göstermek
+- Doğru Cevap: Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak
+- Zorluk: medium
+
+#### Content İnformation Utilization:
+- Soru: İçerik tabanlı öneri sistemleri (Content-based recommendation systems) neye göre önerilerde bulunur?
+- Seçenekler: Diğer kullanıcıların tercihlerine | Öğelerin içeriğine (açıklama, tür, özellikler vb.) | Rastgele seçilen öğelere | Sadece popüler öğelere
+- Doğru Cevap: Öğelerin içeriğine (açıklama, tür, özellikler vb.)
+- Zorluk: easy
+
+#### Advantages And Disadvantages:
+- Soru: Aşağıdakilerden hangisi öneri sistemlerinin bir avantajı değildir?
+- Seçenekler: Kullanıcılara kişiselleştirilmiş öneriler sunabilme | İşletmelerin satışlarını artırabilme | Yeni ve keşfedilmemiş öğeleri kullanıcılara sunabilme | Diğer kullanıcılar hakkında veri gerektirmesi
+- Doğru Cevap: Diğer kullanıcılar hakkında veri gerektirmesi
+- Zorluk: medium
+

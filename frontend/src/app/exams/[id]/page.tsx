@@ -13,7 +13,7 @@ import { ErrorService } from "@/services/error.service";
 import { Tooltip, Button } from "@nextui-org/react"; // Added Button
 import learningTargetService from "@/services/learningTarget.service";
 import { useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
-import { useQuizStore } from "@/store/useQuizStore"; // Added useQuizStore
+// import { useQuizStore } from "@/store/useQuizStore"; // Removed: not needed since answers are in local state
 
 // Sonuçları localStorage'a kaydetmek için fonksiyon
 const storeQuizResultsInStorage = (quizId: string, resultsToStore: Quiz) => {
@@ -54,10 +54,9 @@ export default function ExamPage() {
   const params = useParams();
   // Ensure examId is correctly extracted and is a string
   const examId = Array.isArray(params.id) ? params.id[0] : params.id as string;
-  const queryClient = useQueryClient();
-  // As per prompt: get answers from useQuizStore. 
+  const queryClient = useQueryClient();  // As per prompt: get answers from useQuizStore. 
   // If 'answers' is not in your store, this will cause an error.
-  const { answers } = useQuizStore(); 
+  // const { answers } = useQuizStore(); // Removed: answers are stored in local userAnswers state
   const [quiz, setQuiz] = useState<Quiz>();
   const [loading, setLoading] = useState(true);
   const [userAnswers, setUserAnswers] = useState<Record<string, any>>({});
@@ -68,13 +67,41 @@ export default function ExamPage() {
   const [isLoadingFinishExam, setIsLoadingFinishExam] = useState(false); // New state for handleFinishExam
   const [showResults, setShowResults] = useState(false);
   const { isDarkMode, theme } = useTheme();
+  const [startTime, setStartTime] = useState<number>(Date.now()); // Add startTime state
+
+  useEffect(() => {
+    setStartTime(Date.now()); // Set startTime when component mounts or examId changes
+  }, [examId]);
 
   const handleFinishExam = async () => {
-    setIsLoadingFinishExam(true);
-    try {
-      // As per prompt: call quizService.submitQuiz with examId and answers object.
-      // This might conflict with another signature of submitQuiz if it expects a single payload object.
-      await quizService.submitQuiz(examId, { answers });
+    if (!examId) {
+      console.error("Error finishing exam: examId is undefined.");
+      ErrorService.showToast("Sınav kimliği bulunamadı. Lütfen tekrar deneyin.", "error", "Sınav Hatası");
+      setIsLoadingFinishExam(false);
+      return;
+    }
+    setIsLoadingFinishExam(true);    try {
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Calculate elapsed time in seconds
+      const submissionPayload: QuizSubmissionPayload = {
+        quizId: examId,
+        userAnswers: userAnswers, // Use local userAnswers state instead of answers from store
+        elapsedTime: elapsedTime,
+      };
+      const result = await quizService.submitQuiz(submissionPayload);      // Save result to localStorage for results page
+      if (result && typeof window !== 'undefined') {
+        const examCompletionKey = `examCompletionData_${examId}`;
+        
+        // Transform data to the format expected by results page
+        const transformedData = {
+          quizData: result.quiz,
+          userAnswersData: result.quiz?.userAnswers || {}
+        };
+        
+        localStorage.setItem(examCompletionKey, JSON.stringify(transformedData));
+        console.log(`[DEBUG] ✅ Sınav sonuçları localStorage'a kaydedildi: ${examCompletionKey}`);
+        console.log(`[DEBUG] 📄 Kaydedilen veri:`, transformedData);
+      }
+      
       await queryClient.invalidateQueries({ queryKey: ['learningTargets'] });
       router.push(`/exams/${examId}/results`);
     } catch (error) {

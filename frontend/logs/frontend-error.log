@@ -1445,3 +1445,11 @@ Details: {"reason":"Error: Invalid hook call. Hooks can only be called inside of
 ------------------------------------------------------------
 [2025-06-08T19:18:03.212Z] [info] [LogSetup] Frontend log sistemi başlatıldı
 ------------------------------------------------------------
+[2025-06-08T19:20:55.043Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-08T19:20:55.035Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-08T19:39:17.325Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-08T19:39:17.320Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------

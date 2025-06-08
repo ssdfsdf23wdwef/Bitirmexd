@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T19:08:51.578Z
-Trace ID: quiz-1749409702774-s89vx
-Yanıt Uzunluğu: 10111 karakter
+Tarih: 2025-06-08T19:19:00.400Z
+Trace ID: quiz-1749410325278-sx644
+Yanıt Uzunluğu: 9331 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 10111 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi bir film öneri sisteminde kullanılan girdi türlerinden biridir?",
+      "questionText": "Aşağıdakilerden hangisi bir öneri sisteminin temel işlevlerinden biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Açık geri bildirim (Explicit feedback)",
-        "Kapalı geri bildirim (Implicit feedback)",
-        "Her ikisi de (Açık ve Kapalı)",
-        "Hiçbiri"
+        "Kullanıcı verilerini analiz etmek",
+        "Veri tabanlarını yönetmek",
+        "Kullanıcılara uygun öğeleri bulmak ve sıralamak",
+        "Ağ güvenliğini sağlamak"
       ],
-      "correctAnswer": "Her ikisi de (Açık ve Kapalı)",
-      "explanation": "Film öneri sistemlerinde kullanıcıların filmleri ne kadar beğendiğini belirten sayısal puanlar (açık geri bildirim) ve kullanıcının bir filmi izlemesi (kapalı geri bildirim) gibi iki tür girdi kullanılır.",
+      "correctAnswer": "Kullanıcılara uygun öğeleri bulmak ve sıralamak",
+      "explanation": "Öneri sistemleri, kullanıcıların ilgi alanlarına uygun öğeleri (ürünler, filmler, kitaplar vb.) bulmayı ve bu öğeleri kullanıcılara sunmak üzere sıralamayı amaçlar. Bu süreç, retrieval (bulma) ve ranking (sıralama) aşamalarını içerir.",
       "subTopicName": "Recommendation Systems Overview",
       "normalizedSubTopicName": "recommendation_systems_overview",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Öneri sistemlerinde 'Retrieval & Ranking' ne anlama gelir?",
+      "questionText": "Öneri sistemlerinde 'retrieval' (bulma) aşamasının temel amacı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kullanıcıların açıkça belirttiği tercihleri listeleme",
-        "İlgili öğeleri bulma ve önem sırasına göre sıralama",
-        "Sadece popüler öğeleri gösterme",
-        "Rastgele öğeler önerme"
+        "Tüm öğeleri sıralamak",
+        "Öğeler arasından en popüler olanları seçmek",
+        "Büyük bir öğe kümesinden küçük bir ilgili alt küme seçmek",
+        "Kullanıcıların demografik bilgilerini analiz etmek"
       ],
-      "correctAnswer": "İlgili öğeleri bulma ve önem sırasına göre sıralama",
-      "explanation": "'Retrieval & Ranking', öneri sistemlerinde öncelikle ilgili öğelerin (örneğin filmler) bulunması (Retrieval) ve ardından bu öğelerin kullanıcının ilgi düzeyine göre sıralanması (Ranking) anlamına gelir.",
+      "correctAnswer": "Büyük bir öğe kümesinden küçük bir ilgili alt küme seçmek",
+      "explanation": "Retrieval aşaması, milyonlarca öğe arasından, kullanıcının ilgi alanlarına veya tercihlerine uygun olabilecek küçük bir alt kümeyi seçmeyi hedefler. Bu, sıralama (ranking) aşaması için daha yönetilebilir bir veri kümesi sağlar.",
       "subTopicName": "Recommendation Systems Overview",
       "normalizedSubTopicName": "recommendation_systems_overview",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Açık geri bildirim (explicit feedback) nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Kullanıcının bir öğeyle etkileşimini gözlemleyerek çıkarılan geri bildirimdir.",
-        "Kullanıcının bir öğeyi beğenip beğenmediğine dair doğrudan sayısal bir derecelendirme sağladığı geri bildirimdir.",
-        "Sistemin kullanıcının tercihlerini tahmin etmesi.",
-        "Kullanıcının geçmiş davranışlarına dayanarak yapılan çıkarımlar."
-      ],
-      "correctAnswer": "Kullanıcının bir öğeyi beğenip beğenmediğine dair doğrudan sayısal bir derecelendirme sağladığı geri bildirimdir.",
-      "explanation": "Açık geri bildirim, kullanıcıların belirli bir öğeyi ne kadar beğendiklerini sayısal bir derecelendirme ile belirtmeleridir. Örneğin, bir filme 1 ile 5 arasında bir puan vermek açık geri bildirimdir.",
-      "subTopicName": "Explicit Vs İmplicit Feedback",
-      "normalizedSubTopicName": "explicit_vs_implicit_feedback",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Kapalı geri bildirim (implicit feedback) nedir?",
+      "questionText": "Öneri sistemlerinde retrieval stratejileri neden gereklidir? ",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kullanıcının bir öğeyi açıkça derecelendirmesi.",
-        "Kullanıcının bir öğeyle etkileşimde bulunması sonucu çıkarılan dolaylı geri bildirimdir.",
-        "Sistemin kullanıcının tercihlerini rastgele belirlemesi.",
-        "Kullanıcının gelecekteki davranışlarını tahmin etme."
+        "Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması",
+        "Kullanıcı arayüzünü basitleştirmek için",
+        "Veri depolama maliyetlerini azaltmak için",
+        "Sadece en popüler öğeleri göstermek için"
       ],
-      "correctAnswer": "Kullanıcının bir öğeyle etkileşimde bulunması sonucu çıkarılan dolaylı geri bildirimdir.",
-      "explanation": "Kapalı geri bildirim, kullanıcının bir öğeyle (örneğin bir film) etkileşimde bulunması sonucu sistemin kullanıcının ilgisini dolaylı olarak çıkarmasıdır. Örneğin, bir kullanıcının bir filmi izlemesi, o filme ilgi duyduğu şeklinde yorumlanabilir.",
-      "subTopicName": "Explicit Vs İmplicit Feedback",
-      "normalizedSubTopicName": "explicit_vs_implicit_feedback",
+      "correctAnswer": "Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması",
+      "explanation": "Milyonlarca öğe arasından gerçek zamanlı olarak en iyi önerileri belirlemek hesaplama açısından çok maliyetlidir. Retrieval stratejileri, bu büyük veri kümesini daha küçük ve yönetilebilir bir alt kümeye indirerek sıralama işlemini hızlandırır.",
+      "subTopicName": "Retrieval Strategies",
+      "normalizedSubTopicName": "retrieval_strategies",
       "difficulty": "medium"
     },
     {
-      "id": "q5",
-      "questionText": "İki kullanıcı arasındaki benzerliği bulmak için nokta çarpımı (dot product) kullanmanın karmaşıklığı nedir?",
+      "id": "q4",
+      "questionText": "Aşağıdakilerden hangisi retrieval stratejilerine bir örnektir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Bir kullanıcı için diğer tüm kullanıcılarla benzerliği bulmak O(1) karmaşıklığına sahiptir.",
-        "Bir kullanıcı için diğer tüm kullanıcılarla benzerliği bulmak O(n) karmaşıklığına sahiptir.",
-        "Bir kullanıcı için diğer tüm kullanıcılarla benzerliği bulmak O(log n) karmaşıklığına sahiptir.",
-        "Bir kullanıcı için diğer tüm kullanıcılarla benzerliği bulmak O(n^2) karmaşıklığına sahiptir."
+        "En yüksek puan alan öğeyi seçmek",
+        "Sadece belirli bir türdeki (örneğin, bilim kurgu) tüm filmleri seçmek",
+        "Öğeleri rastgele sıralamak",
+        "Kullanıcıların yaşlarına göre öğeleri filtrelemek"
       ],
-      "correctAnswer": "Bir kullanıcı için diğer tüm kullanıcılarla benzerliği bulmak O(n) karmaşıklığına sahiptir.",
-      "explanation": "Bir kullanıcının diğer tüm kullanıcılarla benzerliğini bulmak için nokta çarpımı kullanıldığında, her bir kullanıcı için nokta çarpımı hesaplaması yapılır. Bu, n sayıda kullanıcı varsa O(n) karmaşıklığına denk gelir.",
-      "subTopicName": "User Similarity Calculation",
-      "normalizedSubTopicName": "user_similarity_calculation",
+      "correctAnswer": "Sadece belirli bir türdeki (örneğin, bilim kurgu) tüm filmleri seçmek",
+      "explanation": "Retrieval stratejileri, belirli kriterlere göre (örneğin, tür, yazar, yayın tarihi) öğeleri filtreleyerek daha küçük bir alt küme oluşturmayı içerir. Bu, sıralama algoritmalarının daha hızlı ve verimli çalışmasını sağlar.",
+      "subTopicName": "Retrieval Strategies",
+      "normalizedSubTopicName": "retrieval_strategies",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q5",
+      "questionText": "Öneri sistemlerinde sıralama (ranking) algoritmalarının temel amacı nedir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Öğeleri rastgele sıralamak",
+        "En popüler öğeleri en üste yerleştirmek",
+        "Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak",
+        "Sadece yeni eklenen öğeleri göstermek"
+      ],
+      "correctAnswer": "Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak",
+      "explanation": "Sıralama algoritmaları, retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına, geçmiş davranışlarına ve diğer faktörlere göre en uygun olandan en az uygun olana doğru sıralayarak kullanıcılara en alakalı önerileri sunmayı amaçlar.",
+      "subTopicName": "Rankinğialgorithms",
+      "normalizedSubTopicName": "rankinğialgorithms",
       "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "Kullanıcı benzerliği hesaplamasında nokta çarpımı (dot product) neyi ifade eder?",
+      "questionText": "Sıralama (ranking) aşamasında, retrieval aşamasına kıyasla neden daha fazla özellik kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kullanıcıların farklı öğelere verdiği puanların ortalamasıdır.",
-        "Kullanıcıların ortak olarak ilgi duyduğu öğelerin sayısının bir ölçüsüdür.",
-        "Kullanıcıların yaşlarının farkıdır.",
-        "Kullanıcıların demografik özelliklerinin karşılaştırılmasıdır."
+        "Retrieval aşamasının daha hızlı olması gerektiği için",
+        "Sıralama aşamasında daha doğru sonuçlar elde etmek için",
+        "Retrieval aşamasında özelliklerin maliyetli olması nedeniyle",
+        "Sıralama aşamasında daha az veri olduğu için"
       ],
-      "correctAnswer": "Kullanıcıların ortak olarak ilgi duyduğu öğelerin sayısının bir ölçüsüdür.",
-      "explanation": "Nokta çarpımı, kullanıcıların ilgi alanlarının vektörel olarak temsil edilmesi durumunda, bu vektörlerin ne kadar paralel olduğunu (yani ne kadar benzer ilgi alanlarına sahip olduklarını) gösterir. Yüksek bir nokta çarpımı, kullanıcıların benzer öğelere ilgi duyduğunu işaret eder.",
-      "subTopicName": "User Similarity Calculation",
-      "normalizedSubTopicName": "user_similarity_calculation",
+      "correctAnswer": "Sıralama aşamasında daha doğru sonuçlar elde etmek için",
+      "explanation": "Retrieval aşaması hızlı olmak zorunda olduğundan daha az özellikle çalışır. Sıralama aşamasında ise daha fazla özellik kullanılarak kullanıcının ilgi alanlarına daha uygun ve doğru öneriler sunulması hedeflenir.",
+      "subTopicName": "Rankinğialgorithms",
+      "normalizedSubTopicName": "rankinğialgorithms",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Collaborative Filtering'de 1 boyutlu embedding kullanıldığında, kullanıcıların değerleri neye göre belirlenir?",
+      "questionText": "İçerik tabanlı öneri sistemleri (Content-based recommendation systems) neye göre önerilerde bulunur?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kullanıcıların demografik özelliklerine göre.",
-        "Kullanıcıların izlediği filmlere göre.",
-        "Kullanıcıların yaşlarına göre.",
-        "Kullanıcıların tercihlerine göre verdikleri puanlara göre."
+        "Diğer kullanıcıların tercihlerine",
+        "Öğelerin içeriğine (açıklama, tür, özellikler vb.)",
+        "Rastgele seçilen öğelere",
+        "Sadece popüler öğelere"
       ],
-      "correctAnswer": "Kullanıcıların izlediği filmlere göre.",
-      "explanation": "Collaborative Filtering'de 1 boyutlu embedding kullanıldığında, kullanıcıların değerleri genellikle izledikleri filmlere göre belirlenir. Sistem, kullanıcıların hangi filmleri izlediğine bakarak kullanıcıların tercihlerini ve benzerliklerini anlamaya çalışır.",
-      "subTopicName": "Collaborative Filterinğiembedding",
-      "normalizedSubTopicName": "collaborative_filterinğiembedding",
-      "difficulty": "medium"
+      "correctAnswer": "Öğelerin içeriğine (açıklama, tür, özellikler vb.)",
+      "explanation": "İçerik tabanlı öneri sistemleri, kullanıcının geçmişte beğendiği öğelerin içeriğine (tür, açıklama, özellikler vb.) bakarak benzer içeriğe sahip öğeleri önerir. Örneğin, bir kullanıcı bilim kurgu filmlerini seviyorsa, sistem benzer bilim kurgu filmlerini önerecektir.",
+      "subTopicName": "Content İnformation Utilization",
+      "normalizedSubTopicName": "content_information_utilization",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Collaborative Filtering'de 2 boyutlu embedding, 1 boyutlu embedding'e göre ne gibi bir avantaj sağlar?",
+      "questionText": "İçerik tabanlı bir öneri sisteminde, bir kullanıcı daha önce iki korku filmi izlediyse, sistem bu kullanıcıya ne tür bir film önerebilir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Daha az karmaşık hesaplamalar gerektirir.",
-        "Daha fazla özelliği temsil etme imkanı sunar.",
-        "Daha hızlı sonuç verir.",
-        "Daha az veri depolama alanı kullanır."
+        "Romantik komedi",
+        "Bilim kurgu",
+        "Korku",
+        "Belgesel"
       ],
-      "correctAnswer": "Daha fazla özelliği temsil etme imkanı sunar.",
-      "explanation": "2 boyutlu embedding, öğeleri (örneğin filmleri) birden fazla özellikle (örneğin Çocuk/Yetişkin, Gişe Rekortmeni/Sanatsal) temsil etme imkanı sunar. Bu, öğelerin ve kullanıcıların daha zengin bir şekilde modellenmesini sağlar ve daha doğru önerilerde bulunmaya yardımcı olur.",
-      "subTopicName": "Collaborative Filterinğiembedding",
-      "normalizedSubTopicName": "collaborative_filterinğiembedding",
-      "difficulty": "medium"
+      "correctAnswer": "Korku",
+      "explanation": "İçerik tabanlı sistemler, kullanıcının geçmişte beğendiği içeriklere benzer içerikler önerir. Bu durumda, kullanıcının daha önce korku filmi izlemesi, sistemin korku filmi önermesi için bir sebep teşkil eder.",
+      "subTopicName": "Content İnformation Utilization",
+      "normalizedSubTopicName": "content_information_utilization",
+      "difficulty": "easy"
     },
     {
       "id": "q9",
-      "questionText": "Matris Faktörizasyonunda (Matrix Factorization) amaç nedir?",
+      "questionText": "Aşağıdakilerden hangisi öneri sistemlerinin bir avantajı değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kullanıcıların sayısını artırmak.",
-        "Öğelerin popülerliğini artırmak.",
-        "Eksik verileri tahmin etmek ve kullanıcı-öğe etkileşimlerini modellemek.",
-        "Veri depolama maliyetlerini azaltmak."
+        "Kullanıcılara kişiselleştirilmiş öneriler sunabilme",
+        "İşletmelerin satışlarını artırabilme",
+        "Yeni ve keşfedilmemiş öğeleri kullanıcılara sunabilme",
+        "Diğer kullanıcılar hakkında veri gerektirmesi"
       ],
-      "correctAnswer": "Eksik verileri tahmin etmek ve kullanıcı-öğe etkileşimlerini modellemek.",
-      "explanation": "Matris Faktörizasyonunun temel amacı, kullanıcılar ve öğeler arasındaki ilişkileri daha düşük boyutlu uzaylarda temsil ederek eksik verileri (örneğin, kullanıcının henüz değerlendirmediği bir filmi) tahmin etmektir.",
-      "subTopicName": "Matrix Factorization Learning",
-      "normalizedSubTopicName": "matrix_factorization_learning",
+      "correctAnswer": "Diğer kullanıcılar hakkında veri gerektirmesi",
+      "explanation": "Model sadece kullanıcının kendi verilerini kullanır, bu da diğer kullanıcılar hakkında veri gerektirmediği anlamına gelir. Bu, özellikle gizlilik endişelerinin yüksek olduğu durumlarda bir avantajdır.",
+      "subTopicName": "Advantages And Disadvantages",
+      "normalizedSubTopicName": "advantages_and_disadvantages",
       "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Matris Faktörizasyonunda (Matrix Factorization) U ve V matrisleri nasıl öğrenilir?",
+      "questionText": "İçerik tabanlı öneri sistemlerinin bir dezavantajı nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Rastgele sayılar atanarak.",
-        "Kullanıcıların demografik özellikleri kullanılarak.",
-        "Stokastik Gradyan İnişi (SGD) gibi optimizasyon yöntemleri kullanılarak.",
-        "Sadece bilinen kullanıcı-öğe etkileşimleri analiz edilerek."
+        "Yeni öğeleri önermekte zorlanabilmesi",
+        "Çok fazla hesaplama gücü gerektirmesi",
+        "Sadece popüler öğeleri önerebilmesi",
+        "Kullanıcı gizliliğini ihlal etmesi"
       ],
-      "correctAnswer": "Stokastik Gradyan İnişi (SGD) gibi optimizasyon yöntemleri kullanılarak.",
-      "explanation": "Matris Faktörizasyonunda U ve V matrisleri, genellikle Stokastik Gradyan İnişi (SGD) gibi optimizasyon yöntemleri kullanılarak öğrenilir. Bu yöntemler, modelin tahminlerini gerçek değerlere yaklaştırmak için iteratif olarak parametreleri ayarlar.",
-      "subTopicName": "Matrix Factorization Learning",
-      "normalizedSubTopicName": "matrix_factorization_learning",
+      "correctAnswer": "Yeni öğeleri önermekte zorlanabilmesi",
+      "explanation": "İçerik tabanlı sistemler, kullanıcının geçmişte etkileşimde bulunduğu öğelere benzer öğeler önerdiğinden, tamamen yeni veya farklı türdeki öğeleri önermekte zorlanabilirler. Bu durum, kullanıcının keşif alanını sınırlayabilir.",
+      "subTopicName": "Advantages And Disadvantages",
+      "normalizedSubTopicName": "advantages_and_disadvantages",
       "difficulty": "medium"
     }
   ]

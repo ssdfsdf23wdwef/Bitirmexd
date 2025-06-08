@@ -1057,47 +1057,59 @@ class QuizApiService {
   
   private createLocalQuizSubmission(payload: QuizSubmissionPayload): QuizSubmissionResponse {
     console.info('[QuizApiService] Backend bağlantısı kurulamadı, yerel sınav sonuçları oluşturuluyor', payload);
-    
-    // localStorage'dan veriyi al
-    const storedQuiz = this.getQuizFromLocalStorage(payload.quizId);
+
+    const currentQuizId = payload.quizId;
+    const storedQuiz = this.getQuizFromLocalStorage(currentQuizId);
+
     if (!storedQuiz) {
-      console.warn('[QuizApiService] Yerel depolama verisi bulunamadı:', payload.quizId);
-      // Minimum gerekli veriyle bir sonuç oluştur
+      console.warn('[QuizApiService] Yerel depolama verisi bulunamadı:', currentQuizId);
+      // Ensure userAnswers is an object before calling Object.keys
+      const userAnswers = payload.userAnswers || {};
+      const totalQuestions = Object.keys(userAnswers).length;
+
       return {
-        id: payload.quizId,
+        id: currentQuizId,
         score: 0,
         submittedAt: new Date().toISOString(),
         correctCount: 0,
-        totalQuestions: Object.keys(payload.userAnswers).length,
+        totalQuestions: totalQuestions,
         elapsedTime: payload.elapsedTime
       };
     }
-    
+
     // Kullanıcı yanıtlarını localStorage'a kaydet (analiz için kullanılacak)
     try {
-      storedQuiz.userAnswers = payload.userAnswers;
-      localStorage.setItem(`quizResult_${payload.quizId}`, JSON.stringify(storedQuiz));
+      storedQuiz.userAnswers = payload.userAnswers || {}; // Default to empty object
+      if (currentQuizId !== undefined) { // Avoid key "quizResult_undefined" if possible, though it works
+        localStorage.setItem(`quizResult_${currentQuizId}`, JSON.stringify(storedQuiz));
+      } else {
+        console.warn('[QuizApiService] currentQuizId is undefined, cannot save to localStorage with specific key.');
+      }
     } catch (e) {
       console.error('[QuizApiService] LocalStorage kayıt hatası:', e);
     }
-    
+
     // Sınav sonucunu oluştur (frontend'de)
-    const correctCount = Object.entries(payload.userAnswers).filter(([qId, ans]) => {
+    const safeUserAnswersForScoring = payload.userAnswers || {}; // Default to empty object
+    const correctCount = Object.entries(safeUserAnswersForScoring).filter(([qId, ans]) => {
       const question = storedQuiz.questions.find(q => q.id === qId);
       return question && question.correctAnswer === ans;
     }).length;
-    
+
+    const totalQuizQuestions = storedQuiz.questions ? storedQuiz.questions.length : 0;
+    const score = totalQuizQuestions > 0 ? Math.round((correctCount / totalQuizQuestions) * 100) : 0;
+
     const result: QuizSubmissionResponse = {
-      id: payload.quizId,
-      score: Math.round((correctCount / storedQuiz.questions.length) * 100),
+      id: currentQuizId,
+      score: score,
       submittedAt: new Date().toISOString(),
       correctCount,
-      totalQuestions: storedQuiz.questions.length,
+      totalQuestions: totalQuizQuestions,
       elapsedTime: payload.elapsedTime
     };
-    
+
     console.log('[QuizApiService] Yerel sınav sonuçları oluşturuldu:', result);
-    
+
     return result;
   }
   
