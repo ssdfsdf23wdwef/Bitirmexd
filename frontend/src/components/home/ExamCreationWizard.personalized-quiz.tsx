@@ -1465,21 +1465,7 @@ export default function ExamCreationWizard({
         setSelectedTopics(topicsToUse);
       }
       
-      // Eğer konu sayısı 2'den fazlaysa, ilk 2'ye düşür (AI model için daha iyi çalışır)
-      // Not: AI modelinin çok sayıda konuyu işlerken zorlandığını gördük, bu yüzden 5'ten 3'e ve şimdi 2'ye düşürdük
-      const MAX_TOPICS = 2; // Maksimum konu sayısını 2'ye düşürdük
-      if (topicsToUse.length > MAX_TOPICS) {
-        console.log(`[ECW handleFinalSubmit] Konu sayısı ${MAX_TOPICS}'ten fazla (${topicsToUse.length}), ilk ${MAX_TOPICS} konu alınıyor...`);
-        topicsToUse = topicsToUse.slice(0, MAX_TOPICS);
-        console.log(`[ECW handleFinalSubmit] Konu listesi ${MAX_TOPICS}'e düşürüldü:`, topicsToUse);
-        
-        // State güncellemesi
-        const limitedTopicIds = topicsToUse.map(t => t.normalizedSubTopic);
-        setSelectedTopicIds(limitedTopicIds);
-        setSelectedSubTopicIds(limitedTopicIds);
-        setSelectedTopics(topicsToUse);
-      }
-      
+
       // API için alt konu nesnelerini oluştur
       const mappedSubTopics = topicsToUse.map((topic) => {
         return {
