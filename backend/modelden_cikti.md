@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-06T04:43:04.877Z
-Trace ID: quiz-1749184970062-uhl5g
-Yanıt Uzunluğu: 9129 karakter
+Tarih: 2025-06-07T23:52:05.341Z
+Trace ID: quiz-1749340313017-502wn
+Yanıt Uzunluğu: 8472 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,171 @@ Yanıt Uzunluğu: 9129 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "KVM hypervisor kurulumu için gerekli paketlerden biri aşağıdakilerden hangisidir?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "qemu-kvm",
-        "docker",
-        "virtualbox",
-        "vmware"
+        "Ağ arayüzlerini listelemek ve yapılandırmak",
+        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
+        "Web sunucularına HTTP istekleri göndermek",
+        "Ağ bağlantısının durumunu izlemek"
       ],
-      "correctAnswer": "qemu-kvm",
-      "explanation": "KVM kurulumu için qemu-kvm paketi gereklidir. Diğer seçenekler farklı sanallaştırma çözümlerine aittir. Metinde 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' komutu ile bu paketlerin kurulumu belirtilmiştir.",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
+      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Metinde 'Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
+      "subTopicName": "Ağ Arayüzü Yönetimi",
+      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi KVM kurulumunda kullanılan bir araç değildir?",
+      "questionText": "'ifconfig eth0' komutu hangi bilgiyi görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "virt-manager",
-        "qemu-img",
-        "virsh",
-        "docker-compose"
+        "eth0 arayüzünün IP adresini",
+        "Mevcut TCP bağlantılarını",
+        "Bir hedefe doğru giden yolu",
+        "Ağ istatistiklerini"
       ],
-      "correctAnswer": "docker-compose",
-      "explanation": "Docker-compose, container orkestrasyon aracıdır, KVM ile ilgili değildir. Virt-manager, qemu-img ve virsh KVM kurulumunda kullanılan araçlardır. Metinde 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' komutu ile virt-manager kurulumu belirtilmiştir.",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
-      "difficulty": "medium"
+      "correctAnswer": "eth0 arayüzünün IP adresini",
+      "explanation": "'ifconfig eth0' komutu, belirtilen eth0 arayüzünün IP adresini görüntülemek için kullanılır. Metinde 'ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
+      "subTopicName": "Ağ Arayüzü Yönetimi",
+      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
+      "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "KVM kurulumu için gerekli paketlerin kurulumunda kullanılan komut aşağıdakilerden hangisidir?",
+      "questionText": "Aşağıdakilerden hangisi 'ip' komutunun bir ağ arayüzünü etkinleştirmek için kullanılan doğru söz dizimidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "applying",
       "options": [
-        "sudo apt update",
-        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-        "sudo systemctl enable --now libvirtd",
-        "sudo usermod -aG kvm $USER"
+        "sudo ip link set eth0 up",
+        "ip addr show eth0",
+        "sudo ip link set eth0 down",
+        "ip config eth0 enable"
       ],
-      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-      "explanation": "Bu komut, KVM için gerekli olan tüm paketleri kurar. Diğer komutlar farklı amaçlara hizmet eder. Metinde 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' komutu ile bu paketlerin kurulumu belirtilmiştir.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi KVM için gerekli paketlerin kurulum adımlarından biri değildir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Paket listesini güncelleme",
-        "Gerekli paketleri kurma",
-        "Firewall yapılandırması",
-        "Bağımlılıkları çözme"
-      ],
-      "correctAnswer": "Firewall yapılandırması",
-      "explanation": "Firewall yapılandırması doğrudan KVM paket kurulum adımlarından biri değildir. Paket listesini güncelleme, gerekli paketleri kurma ve bağımlılıkları çözme, paket kurulum sürecinin parçalarıdır. Metinde 'sudo apt update' ile paket listesi güncellenir ve 'sudo apt install' ile paketler kurulur.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "correctAnswer": "sudo ip link set eth0 up",
+      "explanation": "'sudo ip link set eth0 up' komutu, eth0 ağ arayüzünü etkinleştirmek için doğru söz dizimidir. Metinde 'sudo ip link set eth0 up Ağ arayüzünü etkinleştirme' ifadesi yer almaktadır. Diğer seçenekler farklı amaçlara hizmet eder.",
+      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
+      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
       "difficulty": "medium"
     },
     {
-      "id": "q5",
-      "questionText": "Libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?",
+      "id": "q4",
+      "questionText": "'ip addr show' komutu ne işe yarar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "sudo systemctl start libvirtd",
-        "sudo systemctl enable libvirtd",
-        "sudo systemctl restart libvirtd",
-        "sudo systemctl status libvirtd"
+        "Ağ arayüzlerini listeler",
+        "Ağ arayüzünü devre dışı bırakır",
+        "Belirli sayıda ping gönderir",
+        "Mevcut bağlantıları listeler"
       ],
-      "correctAnswer": "sudo systemctl enable libvirtd",
-      "explanation": "sudo systemctl enable libvirtd komutu, sistem yeniden başlatıldığında libvirtd servisinin otomatik olarak başlamasını sağlar. Metinde 'sudo systemctl enable --now libvirtd' komutu ile bu servis aktif hale getirilir.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
+      "correctAnswer": "Ağ arayüzlerini listeler",
+      "explanation": "'ip addr show' komutu ağ arayüzlerini listelemek için kullanılır. Metinde 'ip addr show Ağ arayüzlerini listeleme' ifadesi yer almaktadır. Diğer seçenekler farklı komutların işlevlerini belirtir.",
+      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
+      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
       "difficulty": "easy"
     },
     {
-      "id": "q6",
-      "questionText": "Aşağıdakilerden hangisi libvirtd servisinin durumunu kontrol etmek için kullanılan komuttur?",
+      "id": "q5",
+      "questionText": "Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü devre dışı bırakır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "applying",
       "options": [
-        "sudo systemctl start libvirtd",
-        "sudo systemctl enable libvirtd",
-        "sudo systemctl restart libvirtd",
-        "sudo systemctl status libvirtd"
+        "sudo ip link set eth0 down",
+        "sudo ip link set eth0 up",
+        "ip addr show",
+        "ip route add default via 192.168.1.1"
       ],
-      "correctAnswer": "sudo systemctl status libvirtd",
-      "explanation": "sudo systemctl status libvirtd komutu, libvirtd servisinin çalışıp çalışmadığını ve diğer durum bilgilerini gösterir. Metinde 'sudo systemctl status libvirtd' komutu ile servis durumunun kontrol edildiği belirtilmiştir.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "'sudo ip link set eth0 down' komutu 'eth0' arayüzünü devre dışı bırakır. Metinde 'sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma' ifadesi yer almaktadır. Diğer seçenekler farklı işlevlere sahiptir.",
+      "subTopicName": "İp Komutu İle Ağ Yapılandırması",
+      "normalizedSubTopicName": "ip_komutu_ile_ag_yapilandirmasi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q6",
+      "questionText": "'ip' komutu ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
+      "questionType": "true_false",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Doğru",
+        "Yanlış"
+      ],
+      "correctAnswer": "Doğru",
+      "explanation": "'ip' komutu, ağ yapılandırması için kullanılır ve arayüzleri etkinleştirmek veya devre dışı bırakmak gibi işlemleri gerçekleştirebilir. Metinde 'ip (Ağ yapılandırması)' ifadesi yer almaktadır.",
+      "subTopicName": "İp Komutu İle Ağ Yapılandırması",
+      "normalizedSubTopicName": "ip_komutu_ile_ag_yapilandirmasi",
       "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "Kullanıcının KVM sanal makinelerini yönetebilmesi için hangi gruplara eklenmesi gerekir?",
+      "questionText": "'ping 10.112.0.1' komutu ne yapar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "kvm ve libvirt",
-        "root ve admin",
-        "qemu ve kvm",
-        "libvirt ve qemu"
+        "10.112.0.1 IP adresine ping gönderir",
+        "Mevcut bağlantıları listeler",
+        "Ağ arayüzlerini listeler",
+        "DNS sunucusuna sorgu gönderir"
       ],
-      "correctAnswer": "kvm ve libvirt",
-      "explanation": "Kullanıcının KVM sanal makinelerini yönetebilmesi için kvm ve libvirt gruplarına eklenmesi gerekir. Metinde 'sudo usermod -aG kvm $USER' ve 'sudo usermod -aG libvirt $USER' komutları ile bu gruplara ekleme yapıldığı belirtilmiştir.",
-      "subTopicName": "Kullanıcı Yetkilendirmesi",
-      "normalizedSubTopicName": "kullanici_yetkilendirmesi",
+      "correctAnswer": "10.112.0.1 IP adresine ping gönderir",
+      "explanation": "'ping 10.112.0.1' komutu, belirtilen IP adresine ICMP Echo istekleri göndererek ağ bağlantısını test eder. Metinde 'ping 10.112.0.1 Bir IP adresine ping gönderme' ifadesi yer almaktadır. Diğer seçenekler farklı komutların işlevlerini belirtir.",
+      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Kullanıcıyı kvm ve libvirt gruplarına eklemek için hangi komutlar kullanılır?",
+      "questionText": "'ping -c 4 10.112.0.1' komutunun işlevi nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "sudo adduser $USER kvm ve sudo adduser $USER libvirt",
-        "sudo usermod -aG kvm $USER ve sudo usermod -aG libvirt $USER",
-        "sudo groupadd kvm ve sudo groupadd libvirt",
-        "sudo chown $USER kvm ve sudo chown $USER libvirt"
+        "10.112.0.1 adresine 4 adet ping gönderir",
+        "10.112.0.1 adresine sürekli ping gönderir",
+        "Sadece ağ arayüzlerini listeler",
+        "Sadece mevcut bağlantıları listeler"
       ],
-      "correctAnswer": "sudo usermod -aG kvm $USER ve sudo usermod -aG libvirt $USER",
-      "explanation": "sudo usermod -aG kvm $USER ve sudo usermod -aG libvirt $USER komutları, kullanıcıyı kvm ve libvirt gruplarına eklemek için kullanılır. Metinde bu komutlar aynen belirtilmiştir.",
-      "subTopicName": "Kullanıcı Yetkilendirmesi",
-      "normalizedSubTopicName": "kullanici_yetkilendirmesi",
+      "correctAnswer": "10.112.0.1 adresine 4 adet ping gönderir",
+      "explanation": "'ping -c 4 10.112.0.1' komutu, 10.112.0.1 adresine 4 adet ping gönderir. '-c 4' parametresi gönderilecek ping sayısını belirtir. Metinde 'ping -c 4 10.112.0.1 Belirli sayıda ping gönderme' ifadesi yer almaktadır.",
+      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
+      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
       "difficulty": "easy"
     },
     {
       "id": "q9",
-      "questionText": "`virt-install` komutunda kullanılan `--disk path=/var/lib/libvirt/images/testVM.img,size=30` parametresi neyi ifade eder?",
+      "questionText": "'netstat' komutu ne için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makinenin adını",
-        "Sanal makineye ayrılan RAM miktarını",
-        "Sanal makine diskinin konumunu ve boyutunu",
-        "Sanal makine için kullanılacak işletim sistemi varyantını"
+        "Ağ bağlantılarını ve istatistiklerini görüntülemek",
+        "Bir hedefe giden yolu izlemek",
+        "DNS sunucusuna sorgu göndermek",
+        "Web sunucularına istek göndermek"
       ],
-      "correctAnswer": "Sanal makine diskinin konumunu ve boyutunu",
-      "explanation": "Bu parametre, sanal makine diskinin /var/lib/libvirt/images/testVM.img konumunda oluşturulacağını ve boyutunun 30 GB olacağını belirtir. Metinde 'sudo virt-install --name=testVM ... --disk path=/var/lib/libvirt/images/testVM.img,size=30 ...' komutu ile disk parametresi örneği verilmiştir.",
-      "subTopicName": "Virt İnstallıkomutu Kullanımı",
-      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
-      "difficulty": "medium"
+      "correctAnswer": "Ağ bağlantılarını ve istatistiklerini görüntülemek",
+      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Metinde 'netstat (Ağ Bağlantılarını Görüntüleme) Ağ bağlantıları ve istatistikleri hakkında bilgi verir.' ifadesi yer almaktadır. Diğer seçenekler farklı komutların kullanım amaçlarını belirtir.",
+      "subTopicName": "Netstat İle Ağ Bağlantılarını Görüntüleme",
+      "normalizedSubTopicName": "netstat_ile_ag_baglantilarini_goruntuleme",
+      "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "`virt-install` komutunda `--cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso` parametresi ne işe yarar?",
+      "questionText": "'netstat -tuln' komutu ne işe yarar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makineye verilecek ismi belirtir.",
-        "Sanal makineye ISO imajını bağlar.",
-        "Sanal makineye ayrılacak işlemci sayısını belirtir.",
-        "Sanal makinenin kullanacağı ağ köprüsünü belirtir."
+        "Belirli bir portu dinleyen süreçleri listeler",
+        "Mevcut TCP bağlantılarını listeler",
+        "Ağ istatistiklerini görüntüler",
+        "Yönlendirme tablosunu görüntüler"
       ],
-      "correctAnswer": "Sanal makineye ISO imajını bağlar.",
-      "explanation": "Bu parametre, sanal makine kurulumu için kullanılacak ISO imajının konumunu belirtir. Bu sayede sanal makine, belirtilen ISO dosyası üzerinden başlatılabilir. Metinde 'sudo virt-install --name=testVM ... --cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso ...' komutu ile cdrom parametresi örneği verilmiştir.",
-      "subTopicName": "Virt İnstallıkomutu Kullanımı",
-      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
-      "difficulty": "medium"
+      "correctAnswer": "Belirli bir portu dinleyen süreçleri listeler",
+      "explanation": "'netstat -tuln' komutu, belirli bir portu dinleyen süreçleri listeler. Metinde 'netstat -tuln Belirli bir portu dinleyen süreçleri listeleme' ifadesi yer almaktadır. Diğer seçenekler farklı 'netstat' parametrelerinin işlevlerini belirtir.",
+      "subTopicName": "Netstat İle Ağ Bağlantılarını Görüntüleme",
+      "normalizedSubTopicName": "netstat_ile_ag_baglantilarini_goruntuleme",
+      "difficulty": "easy"
     }
   ]
 }
