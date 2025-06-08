@@ -171,7 +171,7 @@ const ExamItem = ({ quiz, index }: { quiz: Quiz; index: number }) => {
       <td className="px-4 py-4 whitespace-nowrap text-right">
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-end space-x-2">
           <Link
-            href={`/exams/${quiz.id}`}
+            href={`/exams/${quiz.id}/results`}
             className="inline-flex items-center justify-center w-8 h-8 rounded-full text-brand-primary bg-brand-primary bg-opacity-10 hover:bg-opacity-20 transition-colors"
           >
             <FiEye className="w-4 h-4" />

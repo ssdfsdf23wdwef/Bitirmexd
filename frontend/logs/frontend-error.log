@@ -1083,3 +1083,7 @@ Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/
 ------------------------------------------------------------
 [2025-06-08T00:57:19.587Z] [info] [ClientLogSetup] Uygulama başlatıldı
 ------------------------------------------------------------
+[2025-06-08T01:01:22.713Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-08T01:01:22.711Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
