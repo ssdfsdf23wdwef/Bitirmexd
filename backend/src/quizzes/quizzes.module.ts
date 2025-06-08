@@ -14,7 +14,7 @@ import { CoursesModule } from '../courses/courses.module';
     FirebaseModule,
     AiModule,
     SharedModule,
-    forwardRef(() => LearningTargetsModule),
+    LearningTargetsModule,
     forwardRef(() => DocumentsModule),
     CoursesModule,
   ],

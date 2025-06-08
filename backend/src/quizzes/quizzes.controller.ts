@@ -543,7 +543,10 @@ export class QuizzesController {
         { quizId: id, userId: user.uid },
       );
 
-      return quiz;
+      return {
+        ...quiz,
+        userAnswers: quiz.userAnswers || {}, // <-- Bunu ekle!
+      };;
     } catch (error) {
       this.logger.error(
         `Sınav getirilirken hata: ${error.message}`,

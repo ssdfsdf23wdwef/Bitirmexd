@@ -57,14 +57,13 @@ export class QuizzesService {
   constructor(
     private readonly firebaseService: FirebaseService,
     private readonly aiService: AiService,
-    @Inject(forwardRef(() => LearningTargetsService))
+    private readonly logger: LoggerService,
     private readonly learningTargetsService: LearningTargetsService,
     private readonly quizAnalysisService: QuizAnalysisService,
     private readonly documentsService: DocumentsService,
     private readonly coursesService: CoursesService,
     private readonly normalizationService: NormalizationService,
   ) {
-    this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
     this.logger.debug(
       'QuizzesService başlatıldı',
@@ -206,13 +205,27 @@ export class QuizzesService {
         );
         throw new NotFoundException('Sınav bulunamadı');
       }
+      
+      // --- ADIM 1: Firestore'dan dönen ham veri ---
+      this.logger.examProcessLogger.debug(`[TRACE] findOne | Firestore'dan dönen ham veri: ${JSON.stringify(doc.data(), null, 2)}`);
 
       const quizData = doc.data();
+      // --- ADIM 2: Quiz objesi oluşturuluyor ---
       const quiz = { id: doc.id, ...quizData } as unknown as Quiz;
+      this.logger.examProcessLogger.debug(`[TRACE] findOne | Quiz objesi: ${JSON.stringify(quiz, null, 2)}`);
 
+      // --- ADIM 3: userAnswers alanı var mı, tipi ve içeriği nedir? ---
+      this.logger.examProcessLogger.debug(`[TRACE] findOne | userAnswers typeof: ${typeof quiz.userAnswers}`);
+      if (!quiz.userAnswers) {
+        this.logger.examProcessLogger.warn(`[TRACE] findOne | userAnswers alanı YOK veya BOŞ!`);
+      } else {
+        this.logger.examProcessLogger.debug(`[TRACE] findOne | userAnswers içeriği: ${JSON.stringify(quiz.userAnswers, null, 2)}`);
+      }
+
+      // --- ADIM 4: userId kontrolü ---
       if (quiz.userId !== userId) {
-        this.logger.warn(
-          `Yetkisiz erişim: ${userId} kullanıcısı ${id} ID'li sınava erişim yetkisine sahip değil`,
+        this.logger.examProcessLogger.warn(
+          `[TRACE] findOne | Yetkisiz erişim: ${userId} kullanıcısı ${id} ID'li sınava erişim yetkisine sahip değil`,
           'QuizzesService.findOne',
           __filename,
           98,
@@ -221,15 +234,11 @@ export class QuizzesService {
         throw new ForbiddenException('Bu işlem için yetkiniz bulunmamaktadır.');
       }
 
-      this.logger.debug(
-        `${id} ID'li sınav başarıyla getirildi`,
-        'QuizzesService.findOne',
-        __filename,
-        107,
-        { quizId: id, userId },
-      );
+      // --- ADIM 5: Response olarak dönen veri ---
+      this.logger.examProcessLogger.debug(`[TRACE] findOne | RESPONSE olarak dönecek quiz objesi: ${JSON.stringify(quiz, null, 2)}`);
 
       return quiz;
+
     } catch (error) {
       // Zaten loglanan hataları tekrar loglama
       if (
@@ -1154,7 +1163,7 @@ export class QuizzesService {
         subcollectionError instanceof Error ? subcollectionError : new Error(String(subcollectionError)),
         { quizId: savedQuizId, userId: userId }
       );
-      // Subcollection hatası ana işlemi durdurmasın ama log et
+      // Subcollection hatası ana işlemi durdurmuyor ama log et
     }
 
     // Debug logging helper for quiz submission
@@ -1461,19 +1470,15 @@ export class QuizzesService {
       );
       
       // Log to learning targets log file
-      this.logLearningTarget(
-        LogLevel.INFO,
-        `[${traceId}] Starting learning target update process`,
-        {
-          traceId,
-          courseId,
-          userId,
-          hasAnalysis: !!analysis,
-          selectedSubTopicsCount: selectedSubTopics?.length || 0,
-          timestamp: new Date().toISOString()
-        }
-      );
-      
+      this.logLearningTarget(LogLevel.INFO, `Updating learning targets for course ${courseId} based on quiz analysis`, {
+        traceId,
+        courseId,
+        userId,
+        hasAnalysis: !!analysis,
+        selectedSubTopicsCount: selectedSubTopics?.length || 0,
+        timestamp: new Date().toISOString()
+      });
+
       console.log(`[${traceId}] [VALIDATION] Validating parameters...`);
       // Parametre doğrulama
       if (!courseId || !userId) {
@@ -1593,7 +1598,7 @@ export class QuizzesService {
               this.logLearningTarget(
                 LogLevel.INFO,
                 `[${traceId}] Batch creation completed`,
-                { 
+                {
                   durationMs: batchDuration,
                   result: result || 'no_result',
                   success: !!result
@@ -1752,7 +1757,7 @@ export class QuizzesService {
             const targets = await this.learningTargetsService.findByCourse(courseId, userId);
             const normalizedSubTopic = this.normalizationService.normalizeSubTopicName(subTopic);
             
-            // Normalize edilmiş ada göre hedefi bulıyorz
+            // Normalize edilmiş ada göre hedefi buluyorz
             const target = targets.find(t => 
               this.normalizationService.normalizeSubTopicName(t.subTopicName) === normalizedSubTopic);
             
@@ -2840,6 +2845,22 @@ export class QuizzesService {
         { quizId, userId, questionCount: questions.length }
       );
 
+      // Seçilen konular öğrenme hedefi olarak kaydediliyor...
+try {
+  this.logger.info('Seçilen konular öğrenme hedefi olarak kaydediliyor...', 'QuizzesService.createPersonalizedQuiz', __filename);
+  if (Array.isArray(subTopics) && subTopics.length > 0 && courseId && userId) {
+    const topicsForLearningTargets = subTopics.map(topic => ({
+      subTopicName: topic,
+      normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic)
+    }));
+    await this.learningTargetsService.createBatch(courseId, userId, topicsForLearningTargets);
+    this.logger.info(`${topicsForLearningTargets.length} adet yeni öğrenme hedefi başarıyla kaydedildi.`, 'QuizzesService.createPersonalizedQuiz', __filename);
+  }
+} catch (error) {
+  this.logger.error('Öğrenme hedefleri kaydedilirken bir hata oluştu.', 'QuizzesService.createPersonalizedQuiz', __filename, undefined, error);
+  // Hata oluşsa bile sınav oluşturmaya devam etmesi için süreci durdurmuyoruz.
+}
+
       return quiz;
     } catch (error) {
       this.logger.error(
@@ -2999,30 +3020,51 @@ export class QuizzesService {
             normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic)
           }));
 
+          // LOG: Öğrenme hedefi oluşturma giriş verileri
+        this.logLearningTarget(
+          LogLevel.INFO,
+          `[${traceId}] [START] Öğrenme hedefi oluşturma girişimi`,
+          {
+            userId,
+            courseId,
+            personalizedQuizType,
+            topicsForLearningTargets,
+            function: 'createPersonalizedQuiz',
+            step: 'input',
+            timestamp: new Date().toISOString()
+          }
+        );
+
           // Öğrenme hedeflerini oluştur
           await this.learningTargetsService.createBatch(
             courseId,
-            userId,
-            topicsForLearningTargets
+            userId,            topicsForLearningTargets
           );
 
-          this.logger.info(
-            `[${traceId}] Öğrenme hedefleri başarıyla oluşturuldu/güncellendi`,
-            'QuizzesService.createPersonalizedQuiz',
-            __filename,
-            undefined,
-            { userId, courseId, subTopics }
+          // LOG: Başarılı kayıt
+          this.logLearningTarget(
+            LogLevel.INFO,
+            `[${traceId}] Öğrenme hedefleri başarıyla oluşturuldu`,
+            {
+              userId,
+              courseId,
+              personalizedQuizType,
+              topicsForLearningTargets
+            }
           );
-        } catch (error) {
-          // Öğrenme hedefi oluşturma hatası sınavın oluşturulmasını engellemesin
-          this.logger.error(
-            `[${traceId}] Yeni konular için öğrenme hedefleri oluşturulurken/güncellenirken hata oluştu (UserId: ${userId}, CourseId: ${courseId}, SubTopicCount: ${subTopics.length}): ${error instanceof Error ? error.message : String(error)}`,
-            'QuizzesService.createPersonalizedQuiz',
-            __filename,
-            undefined
-          );
-          // Hatayı logla ama dışarı fırlatma
-        }
+        } catch (learningTargetError) {
+          // LOG: Hata kaydı
+          this.logLearningTarget(
+            LogLevel.ERROR,
+            `[${traceId}] Öğrenme hedefleri oluşturulurken hata oluştu`,
+            {
+              userId,
+              courseId,
+              personalizedQuizType,
+              topicsForLearningTargets, 
+              error: learningTargetError instanceof Error ? learningTargetError.message : String(learningTargetError)
+            })
+        } 
       }
 
       const duration = Date.now() - startTime;

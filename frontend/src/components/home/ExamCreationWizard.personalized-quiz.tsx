@@ -136,7 +136,8 @@ export default function ExamCreationWizard({
   // Tespit edilen konular
   const [detectedTopics, setDetectedTopics] = useState<DetectedSubTopic[]>([]);
 
-  // Not: prevStep, nextStep ve handlePersonalizedQuizTypeSelect fonksiyonları dosyanın başka kısımlarında zaten tanımlı
+  // Öğrenme hedefleri state'i (alt konular -> pending)
+  const [learningTargets, setLearningTargets] = useState<LearningTarget[]>([]);
 
   // Ders seçim işleyici fonksiyonu
   const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -435,6 +436,27 @@ export default function ExamCreationWizard({
       console.log('[ECW handleTopicsDetected] Created subTopicItems:', JSON.stringify(subTopicItems));
       setSelectedTopics(subTopicItems);
       
+      // --- ÖNEMLİ: Alt konulardan öğrenme hedefleri oluştur (status: pending) ---
+      const initialTargets: LearningTarget[] = selectedTopics.map(topicId => {
+        const topic = detectedTopics.find(t => t.id === topicId);
+        return {
+          id: topicId,
+          courseId: selectedCourseId,
+          userId: 'current-user', // örnek
+          subTopicName: topic?.subTopicName || topicId,
+          normalizedSubTopicName: topic?.normalizedSubTopicName || topicId,
+          status: 'pending',
+          failCount: 0,
+          mediumCount: 0,
+          successCount: 0,
+          lastAttemptScorePercent: 0,
+          firstEncountered: new Date().toISOString(),
+        };
+      });
+      setLearningTargets(initialTargets);
+      console.log('[ECW handleTopicsDetected] Öğrenme hedefleri (pending) oluşturuldu:', initialTargets);
+      // --- ---
+      
       // Alt konu ID'lerini güncelle
       const subTopicIds = selectedTopics.map(topicId => topicId);
       setSelectedSubTopicIds(subTopicIds);
@@ -594,10 +616,6 @@ export default function ExamCreationWizard({
         }
       });
       console.log(`✅ selectedTopics listesi güncellendi. Şu anda seçili konular:`, selectedTopics);
-    } else {
-      console.warn(`⚠️ Uyarı: ${subTopicId} ID'sine sahip konu bulunamadı!`);
-    }
-  };
 
   // Kişiselleştirilmiş sınav alt türü
   const handlePersonalizedQuizTypeSelect = (
@@ -1318,6 +1336,32 @@ export default function ExamCreationWizard({
 
   // Final gönderim işleyicisi
   const handleFinalSubmit = async () => {
+    // 1. Sınav analizini simüle et (örnek mock analiz)
+    // Gerçek uygulamada quiz.analysisResult.performanceBySubTopic kullanılacak
+    const mockAnalysis: Record<string, { status: LearningTarget["status"], scorePercent: number }> = {};
+    learningTargets.forEach((t, idx) => {
+      // Simülasyon: ilk alt konu failed, ikincisi medium, üçüncüsü mastered, diğerleri pending kalsın
+      if (idx === 0) mockAnalysis[t.normalizedSubTopicName] = { status: 'failed', scorePercent: 30 };
+      else if (idx === 1) mockAnalysis[t.normalizedSubTopicName] = { status: 'medium', scorePercent: 60 };
+      else if (idx === 2) mockAnalysis[t.normalizedSubTopicName] = { status: 'mastered', scorePercent: 95 };
+    });
+    // 2. Öğrenme hedeflerini güncelle (analize göre)
+    const updatedTargets = learningTargets.map(target => ({
+      ...target,
+      status: mockAnalysis[target.normalizedSubTopicName]?.status || target.status,
+      lastAttemptScorePercent: mockAnalysis[target.normalizedSubTopicName]?.scorePercent ?? target.lastAttemptScorePercent,
+    }));
+    setLearningTargets(updatedTargets);
+    console.log('[ECW handleFinalSubmit] Sınav sonrası öğrenme hedefleri güncellendi:', updatedTargets);
+    // 3. Backend'e batch gönderim (GERÇEK API)
+    try {
+      await learningTargetService.createBatchLearningTargets(selectedCourseId, updatedTargets.map(({id, courseId, userId, ...rest}) => rest));
+      toast.success('Öğrenme hedefleri başarıyla backend ile senkronize edildi!');
+    } catch (err) {
+      console.error('[ECW handleFinalSubmit] Öğrenme hedefleri backend gönderim hatası:', err);
+      toast.error('Öğrenme hedefleri kaydedilemedi!');
+    }
+
     if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMessage(null);

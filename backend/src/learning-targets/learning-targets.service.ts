@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Inject,
   forwardRef,
+  Get,
 } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
 import { AiService } from '../ai/ai.service';
@@ -628,6 +629,15 @@ export class LearningTargetsService {
         undefined,
         { targetId, userId, updateData: dto }
       );
+
+      // LOG: Güncelleme girişimi
+      if (typeof (global as any).logLearningTarget === 'function') {
+        (global as any).logLearningTarget(
+          'INFO',
+          `[update] Öğrenme hedefi güncelleme girişimi`,
+          { targetId, userId, updateData: dto, function: 'update', step: 'input', timestamp: new Date().toISOString() }
+        );
+      }
 
       // Get the target to verify ownership
       const targetRef = this.firebaseService.firestore

@@ -11,6 +11,7 @@ import { Quiz, Question, QuizType, QuizSubmissionPayload, DifficultyLevel } from
 import quizService from "@/services/quiz.service";
 import { ErrorService } from "@/services/error.service";
 import { Tooltip } from "@nextui-org/react";
+import learningTargetService from "@/services/learningTarget.service";
 
 // Sonuçları localStorage'a kaydetmek için fonksiyon
 const storeQuizResultsInStorage = (quizId: string, resultsToStore: Quiz) => {
@@ -465,20 +466,33 @@ export default function ExamPage() {
             score: quizResult?.score || 0,
             userId: quizResult?.userId || "anonim",
 
-            // Quiz tipinde gerekli olan eksik alanlar
-            courseId: quizResult?.courseId || "",
-            preferences: quizResult?.preferences || {
-              questionCount: quizResult?.totalQuestions || quizResult?.questions?.length || 0,
-              difficulty: 'mixed',
-            },
-            correctCount: quizResult?.correctCount || 0,
-            totalQuestions: quizResult?.totalQuestions || (quizResult?.questions?.length || 0),
-            // Analiz sonuçlarını ekle
-            analysisResult: result.analysisResult
           }
-          
-          storeQuizResultsInStorage(quizId, updatedQuizResult);
-          console.log(`💾 Analiz sonucu localStorage'a kaydedildi`);
+
+          // --- Öğrenme Hedefleri Güncellemesi ---
+          try {
+            const performanceBySubTopic = result.analysisResult.performanceBySubTopic;
+            if (performanceBySubTopic && quiz && quiz.courseId) {
+              // Güncellenecek hedefleri hazırla
+              const updates = Object.entries(performanceBySubTopic).map(([normalizedSubTopic, perf]: [string, any]) => ({
+                normalizedSubTopicName: normalizedSubTopic,
+                status: perf.status, // "mastered" | "medium" | "failed"
+                lastAttemptScorePercent: perf.scorePercent,
+              }));
+              if (updates.length > 0) {
+                await learningTargetService.updateMultipleStatuses(updates);
+                ErrorService.showToast("Öğrenme hedefleriniz başarıyla güncellendi!", "success", "Öğrenme Hedefleri");
+                console.log("[handleSubmit] Öğrenme hedefleri güncellendi:", updates);
+              } else {
+                console.log("[handleSubmit] Güncellenecek öğrenme hedefi yok.");
+              }
+            } else {
+              console.warn("[handleSubmit] Alt konu performansı ya da courseId bulunamadı, öğrenme hedefi güncellenmedi.");
+            }
+          } catch (ltError) {
+            console.error("[handleSubmit] Öğrenme hedefleri güncellenirken hata:", ltError);
+            ErrorService.showToast("Öğrenme hedefleri güncellenirken bir hata oluştu.", "error", "Öğrenme Hedefleri");
+          }
+          // --- Öğrenme Hedefleri Güncellemesi Sonu ---
         } else {
           console.log(`ℹ️ Backend'den analiz sonucu alınamadı, sadece lokalde hesaplanan sonucu kullanıyoruz`);
         }

@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T01:38:41.050Z
-Trace ID: quiz-1749346708280-w5pas
-Yanıt Uzunluğu: 7586 karakter
+Tarih: 2025-06-08T12:59:29.472Z
+Trace ID: quiz-1749387556149-uynnf
+Yanıt Uzunluğu: 8353 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 7586 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "KVM (Kernel-based Virtual Machine) hangi tip bir hypervisor'dır?",
+      "questionText": "Veri ön işleme sürecinin temel amacı nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Tip-1 Hypervisor",
-        "Tip-2 Hypervisor",
-        "Hibrit Hypervisor",
-        "Mikro Hypervisor"
+        "Veri miktarını azaltmak",
+        "Verinin kalitesini artırmak",
+        "Veriyi daha karmaşık hale getirmek",
+        "Veriyi farklı kaynaklardan toplamak"
       ],
-      "correctAnswer": "Tip-1 Hypervisor",
-      "explanation": "KVM, doğrudan donanım üzerinde çalıştığı için Tip-1 hypervisor olarak sınıflandırılır. Tip-2 hypervisor'lar ise bir işletim sistemi üzerinde çalışır.",
-      "subTopicName": "Kvm Tip 1 Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_tip_1_hypervisor_kurulumu",
+      "correctAnswer": "Verinin kalitesini artırmak",
+      "explanation": "Veri ön işlemenin temel amacı, verinin kalitesini artırarak daha doğru ve güvenilir analizler yapılmasını sağlamaktır. Diğer seçenekler veri ön işlemenin alt adımları olabilir, ancak temel amaç verinin kalitesini artırmaktır.",
+      "subTopicName": "Data Preprocessinğioverview",
+      "normalizedSubTopicName": "data_preprocessinğioverview",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Ubuntu imajını indirmek için verilen bağlantıdaki hangi mimari (architecture) belirtilmiştir?",
+      "questionText": "Aşağıdakilerden hangisi veri ön işleme adımlarından biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "i386",
-        "amd64",
-        "arm64",
-        "riscv64"
+        "Veri temizleme",
+        "Veri entegrasyonu",
+        "Veri görselleştirme",
+        "Veri indirgeme"
       ],
-      "correctAnswer": "amd64",
-      "explanation": "Verilen bağlantıda indirilecek Ubuntu imajının mimarisi amd64 olarak belirtilmiştir.",
-      "subTopicName": "Kvm Tip 1 Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_tip_1_hypervisor_kurulumu",
+      "correctAnswer": "Veri görselleştirme",
+      "explanation": "Veri görselleştirme, veri ön işleme adımlarından biri değildir. Veri temizleme, veri entegrasyonu ve veri indirgeme, veri ön işleme sürecinde yer alan temel adımlardır.",
+      "subTopicName": "Data Preprocessinğioverview",
+      "normalizedSubTopicName": "data_preprocessinğioverview",
       "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "KVM kurulumu için gerekli olan paketlerden hangisi sanal makineleri yönetmek için grafik arayüzü sağlar?",
+      "questionText": "Veri ön işlemenin amacı düşünüldüğünde, aşağıdakilerden hangisi veri kalitesini doğrudan etkilemez?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "qemu-kvm",
-        "libvirt-daemon-system",
-        "virt-manager",
-        "bridge-utils"
+        "Eksik verilerin giderilmesi",
+        "Gürültülü verilerin temizlenmesi",
+        "Veri kaynaklarının çeşitliliği",
+        "Tutarsızlıkların çözülmesi"
       ],
-      "correctAnswer": "virt-manager",
-      "explanation": "virt-manager paketi, KVM sanal makinelerini yönetmek için kullanılan grafik arayüzünü sağlar. Diğer paketler ise KVM'nin temel bileşenleridir.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "correctAnswer": "Veri kaynaklarının çeşitliliği",
+      "explanation": "Veri kaynaklarının çeşitliliği, veri ön işlemenin bir parçası olan veri entegrasyonu ile ilgilidir, ancak tek başına veri kalitesini doğrudan etkilemez. Eksik verilerin giderilmesi, gürültülü verilerin temizlenmesi ve tutarsızlıkların çözülmesi ise veri kalitesini doğrudan artıran işlemlerdir.",
+      "subTopicName": "Data Preprocessinğioverview",
+      "normalizedSubTopicName": "data_preprocessinğioverview",
       "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "KVM kurulumunda, ağ köprülemesi (network bridging) için hangi paket gereklidir?",
+      "questionText": "Veri ön işlemede 'veri indirgeme' (data reduction) ne anlama gelir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "qemu-kvm",
-        "virtinst",
-        "bridge-utils",
-        "libvirt-clients"
+        "Veri setindeki örneklem sayısını artırmak",
+        "Veri setindeki öznitelik sayısını azaltmak",
+        "Veri setindeki hatalı kayıtları silmek",
+        "Veri setini farklı veri tabanlarına dağıtmak"
       ],
-      "correctAnswer": "bridge-utils",
-      "explanation": "bridge-utils paketi, KVM sanal makineleri için ağ köprülemesi (network bridging) yapılandırması yapmak için gereklidir.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
-      "difficulty": "easy"
+      "correctAnswer": "Veri setindeki öznitelik sayısını azaltmak",
+      "explanation": "Veri indirgeme (data reduction), veri setindeki öznitelik sayısını azaltarak daha basit ve anlaşılır bir model oluşturmayı hedefler. Bu, modelin karmaşıklığını azaltır ve performansı artırabilir.",
+      "subTopicName": "Data Preprocessinğioverview",
+      "normalizedSubTopicName": "data_preprocessinğioverview",
+      "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "/etc/libvirt/qemu.conf dosyasında hangi satırlardaki '#' işareti kaldırılır?",
+      "questionText": "Bir veri setinde, bir müşterinin yaşının hem sayısal olarak hem de doğum tarihi olarak farklı formatlarda bulunması hangi tür veri ön işleme ihtiyacını gösterir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "user ve group",
-        "pidfile ve log_outputs",
-        "dynamic_ownership ve security_driver",
-        "Seçeneklerin hiçbiri"
+        "Veri temizleme",
+        "Veri entegrasyonu",
+        "Veri indirgeme",
+        "Veri dönüşümü"
       ],
-      "correctAnswer": "user ve group",
-      "explanation": "/etc/libvirt/qemu.conf dosyasında, kullanıcı ve grup tanımlarını etkinleştirmek için #user ve #group satırlarındaki '#' işareti kaldırılır.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
+      "correctAnswer": "Veri dönüşümü",
+      "explanation": "Yaşın farklı formatlarda bulunması, veri dönüşümü ihtiyacını gösterir. Veri dönüşümü, verinin farklı formatlarda veya ölçeklerde olmasından kaynaklanan sorunları çözmeyi amaçlar.",
+      "subTopicName": "Data Preprocessinğioverview",
+      "normalizedSubTopicName": "data_preprocessinğioverview",
       "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "libvirtd servisindeki değişikliklerin uygulanabilmesi için hangi komut çalıştırılmalıdır?",
+      "questionText": "Aşağıdakilerden hangisi veri kalitesinin bir boyutu değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "sudo systemctl start libvirtd.service",
-        "sudo systemctl stop libvirtd.service",
-        "sudo systemctl restart libvirtd.service",
-        "sudo systemctl enable libvirtd.service"
+        "Doğruluk (Accuracy)",
+        "Tamlık (Completeness)",
+        "Tutarlılık (Consistency)",
+        "Karmaşıklık (Complexity)"
       ],
-      "correctAnswer": "sudo systemctl restart libvirtd.service",
-      "explanation": "libvirtd servisindeki değişikliklerin geçerli olması için servisin yeniden başlatılması gerekmektedir. Bu işlem 'sudo systemctl restart libvirtd.service' komutu ile yapılır.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
+      "correctAnswer": "Karmaşıklık (Complexity)",
+      "explanation": "Veri kalitesinin boyutları arasında doğruluk, tamlık, tutarlılık, güncellik, güvenilirlik ve yorumlanabilirlik bulunur. Karmaşıklık, veri kalitesini doğrudan etkileyen bir faktör değildir.",
+      "subTopicName": "Data Quality Dimensions",
+      "normalizedSubTopicName": "data_quality_dimensions",
       "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "virt-install komutunda, '--os-variant' parametresi neyi belirtir?",
+      "questionText": "Bir veri setinde, bazı müşterilerin gelir bilgilerinin eksik olması hangi veri kalitesi boyutunu etkiler?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makinenin adını",
-        "İşletim sistemi türünü ve versiyonunu",
-        "Sanal işlemci sayısını",
-        "Bellek miktarını"
+        "Doğruluk (Accuracy)",
+        "Tamlık (Completeness)",
+        "Tutarlılık (Consistency)",
+        "Güncellik (Timeliness)"
       ],
-      "correctAnswer": "İşletim sistemi türünü ve versiyonunu",
-      "explanation": "'--os-variant' parametresi, kurulacak sanal makinenin işletim sistemi türünü ve versiyonunu belirtir. Örneğin, ubuntu22.04.",
-      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
-      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
-      "difficulty": "medium"
+      "correctAnswer": "Tamlık (Completeness)",
+      "explanation": "Eksik gelir bilgileri, veri setinin tamlık (completeness) boyutunu etkiler. Tamlık, tüm gerekli verilerin mevcut olup olmadığını ifade eder.",
+      "subTopicName": "Data Quality Dimensions",
+      "normalizedSubTopicName": "data_quality_dimensions",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "virt-install komutunda '--disk path=/var/lib/libvirt/images/testVM.img,size=30' parametresi ne anlama gelir?",
+      "questionText": "Bir müşterinin hem online başvuru formunda hem de fiziksel başvuru formunda farklı adres bilgilerinin bulunması hangi veri kalitesi sorununa işaret eder?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "Sanal makinenin ISO dosyasının yolunu belirtir.",
-        "Sanal makine için 30GB'lık bir disk oluşturulacağını ve konumunu belirtir.",
-        "Sanal makineye 30GB RAM atanacağını belirtir.",
-        "Sanal makineye 30 adet sanal CPU atanacağını belirtir."
+        "Doğruluk (Accuracy)",
+        "Tamlık (Completeness)",
+        "Tutarlılık (Consistency)",
+        "Yorumlanabilirlik (Interpretability)"
       ],
-      "correctAnswer": "Sanal makine için 30GB'lık bir disk oluşturulacağını ve konumunu belirtir.",
-      "explanation": "Bu parametre, sanal makine için /var/lib/libvirt/images/ dizininde testVM.img adında 30GB boyutunda bir disk oluşturulacağını belirtir.",
-      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
-      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
+      "correctAnswer": "Tutarlılık (Consistency)",
+      "explanation": "Farklı adres bilgilerinin bulunması, tutarsızlık (consistency) sorununa işaret eder. Tutarlılık, aynı verinin farklı kaynaklarda veya farklı zamanlarda aynı değeri taşıması anlamına gelir.",
+      "subTopicName": "Data Quality Dimensions",
+      "normalizedSubTopicName": "data_quality_dimensions",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Çalışır durumda olan bir sanal makineyi grafiksel olarak görüntülemek için hangi komut kullanılır?",
+      "questionText": "Bir veri setinde, bir ürünün fiyatının bir gün '10 TL' iken ertesi gün '-10 TL' olarak kaydedilmesi hangi tür veri kalitesi sorununa örnektir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "analyzing",
       "options": [
-        "virsh list --all",
-        "virt-viewer testVM",
-        "virt-manager",
-        "virsh start testVM"
+        "Yanlış veri (Inaccurate data)",
+        "Eksik veri (Incomplete data)",
+        "Tutarsız veri (Inconsistent data)",
+        "Zamanında güncellenmemiş veri (Untimely data)"
       ],
-      "correctAnswer": "virt-viewer testVM",
-      "explanation": "Çalışır durumdaki bir sanal makineyi grafiksel olarak görüntülemek için 'virt-viewer sanal_makine_adı' komutu kullanılır. Örneğin, 'virt-viewer testVM'.",
-      "subTopicName": "Sanal Makine Listeleme Ve Görüntüleme",
-      "normalizedSubTopicName": "sanal_makine_listeleme_ve_goruntuleme",
-      "difficulty": "easy"
+      "correctAnswer": "Yanlış veri (Inaccurate data)",
+      "explanation": "Ürünün fiyatının negatif olarak kaydedilmesi, açıkça bir hatadır ve yanlış veri (inaccurate data) sorununa örnektir. Bu durum, verinin doğruluk boyutunu zedeler.",
+      "subTopicName": "Data Quality Dimensions",
+      "normalizedSubTopicName": "data_quality_dimensions",
+      "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Tüm sanal makineleri grafik arayüzden yönetmek için hangi komut kullanılır?",
+      "questionText": "Veri kalitesinin 'yorumlanabilirlik' (interpretability) boyutu neyi ifade eder?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "virsh list --all",
-        "virt-viewer testVM",
-        "virt-manager",
-        "virsh start testVM"
+        "Verinin ne kadar doğru olduğunu",
+        "Verinin ne kadar eksiksiz olduğunu",
+        "Verinin ne kadar kolay anlaşılabilir olduğunu",
+        "Verinin ne kadar güncel olduğunu"
       ],
-      "correctAnswer": "virt-manager",
-      "explanation": "Tüm sanal makineleri grafik arayüzden yönetmek için 'virt-manager' komutu kullanılır. Bu komut, sanal makineleri başlatma, durdurma, yapılandırma gibi işlemleri kolayca yapmayı sağlar.",
-      "subTopicName": "Sanal Makine Listeleme Ve Görüntüleme",
-      "normalizedSubTopicName": "sanal_makine_listeleme_ve_goruntuleme",
+      "correctAnswer": "Verinin ne kadar kolay anlaşılabilir olduğunu",
+      "explanation": "Yorumlanabilirlik (interpretability), verinin ne kadar kolay anlaşılabilir ve yorumlanabilir olduğunu ifade eder. Verinin anlamını açıkça ifade etmesi ve kullanıcılar tarafından kolayca anlaşılması önemlidir.",
+      "subTopicName": "Data Quality Dimensions",
+      "normalizedSubTopicName": "data_quality_dimensions",
       "difficulty": "easy"
     }
   ]

@@ -42,6 +42,67 @@ interface LogEntry {
  * Uygulamada farklı seviyelerde logları kapsar
  */
 export class LoggerService {
+  /**
+   * Öğrenme hedefleri logunu localStorage'a ve konsola yazar
+   * @param message Log mesajı
+   * @param level Log seviyesi ('info' | 'error' | 'debug')
+   * @param context Bağlam (opsiyonel)
+   * @param metadata Ek veri (opsiyonel)
+   */
+  public logLearningTarget(
+    message: string,
+    level: 'info' | 'error' | 'debug' = 'info',
+    context?: string,
+    metadata?: Record<string, unknown>
+  ) {
+    const timestamp = new Date().toISOString();
+    const logLine = `[${timestamp}] [${level.toUpperCase()}]${context ? ` [${context}]` : ''} ${message}` + (metadata ? ` | ${JSON.stringify(metadata)}` : '');
+    // Konsola da yaz
+    if (level === 'error') {
+      // eslint-disable-next-line no-console
+      console.error(logLine);
+    } else if (level === 'debug') {
+      // eslint-disable-next-line no-console
+      console.debug(logLine);
+    } else {
+      // eslint-disable-next-line no-console
+      console.info(logLine);
+    }
+    // LocalStorage'a ekle
+    if (typeof window !== 'undefined') {
+      try {
+        const key = 'learning_targets.log';
+        let logs = '';
+        try {
+          logs = localStorage.getItem(key) || '';
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn(`[LoggerService] learning_targets.log okuma hatası:`, e);
+          logs = '';
+        }
+        logs += logLine + '\n';
+        // Maksimum 100KB log sakla
+        const MAX_SIZE = 100 * 1024;
+        if (logs.length > MAX_SIZE) {
+          logs = logs.substring(logs.length - MAX_SIZE);
+          const firstLineIndex = logs.indexOf('\n') + 1;
+          if (firstLineIndex > 0 && firstLineIndex < logs.length) {
+            logs = logs.substring(firstLineIndex);
+          }
+        }
+        try {
+          localStorage.setItem(key, logs);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn(`[LoggerService] learning_targets.log yazma hatası:`, e);
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[LoggerService] learning_targets.log global hata:', err);
+      }
+    }
+  }
+
   private static instance: LoggerService;
   private config: LoggerConfig;
   private apiQueue: LogEntry[] = [];

@@ -1,29 +1,23 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T01:38:28.294Z
+## Tarih: 2025-06-08T12:59:16.162Z
 
-## Trace ID: quiz-1749346708280-w5pas
+## Trace ID: quiz-1749387556149-uynnf
 
-## Alt Konular (7 adet):
+## Alt Konular (2 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Tip 1 Hypervisor Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Kurulumu** (2 soru)
-3. **Libvirtd Servisini Yapılandırma** (2 soru)
-4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Sanal Makine Listeleme Ve Görüntüleme** (2 soru)
+1. **Data Preprocessinğioverview** (5 soru)
+2. **Data Quality Dimensions** (5 soru)
 
-**Toplam Aktif: 5 alt konu, 10 soru**
+**Toplam Aktif: 2 alt konu, 10 soru**
 
 ## BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)
 
-**Aşağıdaki konulardan soru üretilmeyecektir:**
-
-1. Sanal Makine Durumunu Yönetme
-2. Sanal Makine Silme İ Şlemi
+Bekleyen konu yok.
 
 ```
 
@@ -49,125 +43,186 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Tip 1 Hypervisor Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Kurulumu** (2 soru)
-3. **Libvirtd Servisini Yapılandırma** (2 soru)
-4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Sanal Makine Listeleme Ve Görüntüleme** (2 soru)
+1. **Data Preprocessinğioverview** (5 soru)
+2. **Data Quality Dimensions** (5 soru)
 
-**Toplam Aktif: 5 alt konu, 10 soru**
+**Toplam Aktif: 2 alt konu, 10 soru**
 
 ## BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)
 
-**Aşağıdaki konulardan soru üretilmeyecektir:**
-
-1. Sanal Makine Durumunu Yönetme
-2. Sanal Makine Silme İ Şlemi
+Bekleyen konu yok.
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
+1
+Data Mining:
+Concepts and Techniques
+(3
+rd
+ed.)
+—Chapter 3—
+Jiawei Han, Micheline Kamber, and Jian Pei
+University of Illinois at Urbana-Champaign &
+Simon Fraser University
+©2011 Han, Kamber & Pei. All rights reserved.
 
-BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
-BAHAR DÖNEMİ 2025
-Öğretim Üyesi: Dr. Bilal USANMAZ
-bilal@atauni.edu.tr
+22
+Chapter 3: Data Preprocessing
+Data Preprocessing: An Overview
+Data Quality
+Major Tasks in Data Preprocessing
+Data Cleaning
+Data Integration
+Data Reduction
+Data Transformation and Data Discretization
+Summary
 
+3
+Data Quality: Why Preprocess the Data?
+Measures for data quality: A multidimensional view
+Accuracy: correct or wrong, accurate or not
+Completeness: not recorded, unavailable, ...
+Consistency: some modified but some not, dangling, ...
+Timeliness: timely update?
+Believability: how trustable the data are correct?
+Interpretability: how easily the data can be
+understood?
 
+4
+Major Tasks in Data Preprocessing
+Data cleaning
+Fill in missing values, smooth noisy data, identify or remove
+outliers, and resolve inconsistencies
+Data integration
+Integration of multiple databases, data cubes, or files
+Data reduction
+Dimensionality reduction
+Numerosity reduction
+Data compression
+Data transformation and data discretization
+Normalization
+Concept hierarchy generation
 
-5.Hafta
+55
+Chapter 3: Data Preprocessing
+Data Preprocessing: An Overview
+Data Quality
+Major Tasks in Data Preprocessing
+Data Cleaning
+Data Integration
+Data Reduction
+Data Transformation and Data Discretization
+Summary
 
+6
+Data Cleaning
+Data in the Real World Is Dirty: Lots of potentially incorrect data,
+e.g., instrument faulty, human or computer error, transmission error
+incomplete: lacking attribute values, lacking certain attributes of
+interest, or containing only aggregate data
+e.g., Occupation=“ ” (missing data)
+noisy: containing noise, errors, or outliers
+e.g., Salary=“−10” (an error)
+inconsistent: containing discrepancies in codes or names, e.g.,
+Age=“42”, Birthday=“03/07/2010”
+Was rating “1, 2, 3”, now rating “A, B, C”
+discrepancy between duplicate records
+Intentional(e.g., disguised missingdata)
+Jan. 1 as everyone’s birthday?
 
-KVM (Tip-1 Hypervisor Kurulumu)
+7
+Incomplete (Missing) Data
+Data is not always available
+E.g., many tuples have no recorded value for several
+attributes, such as customer income in sales data
+Missing data may be due to
+equipment malfunction
+inconsistent with other recorded data and thus deleted
+data not entered due to misunderstanding
+certain data may not be considered important at the
+time of entry
+not register history or changes of the data
+Missing data may need to be inferred
 
-Aşağıdaki adresten ubuntu imajını indirilir
-https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
-İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
+8
+How to Handle Missing Data?
+Ignore the tuple: usually done when class label is missing
+(when doing classification)—not effective when the % of
+missing values per attribute varies considerably
+Fill in the missing value manually: tedious + infeasible?
+Fill in it automatically with
+a global constant : e.g., “unknown”, a new class?!
+the attribute mean
+the attribute mean for all samples belonging to the
+same class: smarter
+the most probable value: inference-based such as
+Bayesian formula or decision tree
 
-İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
-için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
-scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
+9
+Noisy Data
+Noise: random error or variance in a measured variable
+Incorrect attribute valuesmay be due to
+faulty data collection instruments
+data entry problems
+data transmission problems
+technology limitation
+inconsistency in naming convention
+Other data problemswhich require data cleaning
+duplicate records
+incomplete data
+inconsistent data
 
-Kvm kurulumu
-sudo apt update
-sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
-sudo systemctl enable --now libvirtd
-sudo systemctl start libvirtd
-sudo systemctl status libvirtd
-sudo usermod -aG kvm $USER
-sudo usermod -aG libvirt $USER
+10
+How to Handle Noisy Data?
+Binning
+first sort data and partition into (equal-frequency) bins
+then one can smooth by bin means, smooth by bin
+median, smooth by bin boundaries, etc.
+Regression
+smooth by fitting the data into regression functions
+Clustering
+detect and remove outliers
+Combined computer and human inspection
+detect suspicious values and check by human (e.g.,
+deal with possible outliers)
 
-Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
-sudo nano /etc/libvirt/qemu.conf
-Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
-Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
-Dosya ctrl+x ile kayıt edilerek çıkılır
+11
+Data Cleaning as a Process
+Data discrepancy detection
+Use metadata (e.g., domain, range, dependency, distribution)
+Check field overloading
+Check uniqueness rule, consecutive rule and null rule
+Use commercial tools
+Data scrubbing: use simple domain knowledge (e.g., postal
+code, spell-check) to detect errors and make corrections
+Data auditing: by analyzing data to discover rules and
+relationship to detect violators (e.g., correlation and clustering
+to find outliers)
+Data migration and integration
+Data migration tools: allow transformations to be specified
+ETL (Extraction/Transformation/Loading) tools: allow users to
+specify transformations through a graphical user interface
+Integration of the two processes
+Iterative and interactive (e.g., Potter’s Wheels)
 
-Komut satırında aşağıdaki komut verilir
-sudo systemctl restart libvirtd.service
+1212
+Chapter 3: Data Preprocessing
+Data Preprocessing: An Overview
+Data Quality
+Major Tasks in Data Preprocessing
+Data Cleaning
+Data Integration
+Data Reduction
+Data Transformation and Data Discretization
+Summary
 
-
-
-
-
-
-
-
-VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
-
-sudo virt-install --name=testVM \
---os-variant=ubuntu22.04 \
---vcpu=2 \
---ram=4096 \
---disk path=/var/lib/libvirt/images/testVM.img,size=30 \
---graphics spice \
---cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
---network bridge:virbr0
-
-
-Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
-kısmıdır.
-
-
-
-
-
-
-
-
-
-Sanal Makinelerin Yönetilmesi
-- Kurulu olan sanal makineleri ve durumlarını listeleyin
-
-virsh list --all
-- Çalışır durumda (running) olan sanal makineyi görüntüleyin
-
-virt-viewer testVM
-- Tüm sanal makineleri grafik arayüzden yönetin.
-virt-manager
-
-- Shut-down durumundaki bir sanal makineyi başlatma
-virsh start testVM
-- Bir sanal makineyi restart yapma
-virsh reboot testVM
-
-- Bir sanal makineyi kapatma
-virsh shutdown testVM
-
-- Bir sanal makineyi pause yapma
-virsh suspend testVM
-
-- Bir sanal makineyi unpause yapma
-virsh resume testVM
-
-- Bir sanal makineyi silme
-Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
-edilmelidir sonrada undefine yapılmalıdır.
-virsh destroy testVM
-virsh undefine testVM
-
-
-
+1313
+Data Integration
+Data integration:
+Combines data from multiple sources into a coherent store
+Schema integration: e.g., A.cust-id B.cust-#
+Integrate metadata from d...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -342,42 +397,21 @@ virsh undefine testVM
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Kvm Tip 1 Hypervisor Kurulumu: 2 soru
-  - Gerekli Paketlerin Kurulumu: 2 soru
-  - Libvirtd Servisini Yapılandırma: 2 soru
-  - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
-  - Sanal Makine Listeleme Ve Görüntüleme: 2 soru
+  - Data Preprocessinğioverview: 5 soru
+  - Data Quality Dimensions: 5 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Kvm Tip 1 Hypervisor Kurulumu:
-- Soru: KVM (Kernel-based Virtual Machine) hangi tip bir hypervisor'dır?
-- Seçenekler: Tip-1 Hypervisor | Tip-2 Hypervisor | Hibrit Hypervisor | Mikro Hypervisor
-- Doğru Cevap: Tip-1 Hypervisor
+#### Data Preprocessinğioverview:
+- Soru: Veri ön işleme sürecinin temel amacı nedir?
+- Seçenekler: Veri miktarını azaltmak | Verinin kalitesini artırmak | Veriyi daha karmaşık hale getirmek | Veriyi farklı kaynaklardan toplamak
+- Doğru Cevap: Verinin kalitesini artırmak
 - Zorluk: easy
 
-#### Gerekli Paketlerin Kurulumu:
-- Soru: KVM kurulumu için gerekli olan paketlerden hangisi sanal makineleri yönetmek için grafik arayüzü sağlar?
-- Seçenekler: qemu-kvm | libvirt-daemon-system | virt-manager | bridge-utils
-- Doğru Cevap: virt-manager
-- Zorluk: medium
-
-#### Libvirtd Servisini Yapılandırma:
-- Soru: /etc/libvirt/qemu.conf dosyasında hangi satırlardaki '#' işareti kaldırılır?
-- Seçenekler: user ve group | pidfile ve log_outputs | dynamic_ownership ve security_driver | Seçeneklerin hiçbiri
-- Doğru Cevap: user ve group
-- Zorluk: medium
-
-#### Virt İnstallıkomutu İle Vm Oluşturma:
-- Soru: virt-install komutunda, '--os-variant' parametresi neyi belirtir?
-- Seçenekler: Sanal makinenin adını | İşletim sistemi türünü ve versiyonunu | Sanal işlemci sayısını | Bellek miktarını
-- Doğru Cevap: İşletim sistemi türünü ve versiyonunu
-- Zorluk: medium
-
-#### Sanal Makine Listeleme Ve Görüntüleme:
-- Soru: Çalışır durumda olan bir sanal makineyi grafiksel olarak görüntülemek için hangi komut kullanılır?
-- Seçenekler: virsh list --all | virt-viewer testVM | virt-manager | virsh start testVM
-- Doğru Cevap: virt-viewer testVM
+#### Data Quality Dimensions:
+- Soru: Aşağıdakilerden hangisi veri kalitesinin bir boyutu değildir?
+- Seçenekler: Doğruluk (Accuracy) | Tamlık (Completeness) | Tutarlılık (Consistency) | Karmaşıklık (Complexity)
+- Doğru Cevap: Karmaşıklık (Complexity)
 - Zorluk: easy
 

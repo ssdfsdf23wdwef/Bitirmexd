@@ -58,9 +58,40 @@ const calculateResults = (questions: Question[], userAnswers: Record<string, str
 import { fetchExamResultFromBackend } from '@/services/quiz.service';
 
 export default function ExamResultsPage() {
+  function normalize(val: any) {
+    if (val == null) return '';
+    if (typeof val === 'object' && 'text' in val) return String(val.text).trim().toLocaleLowerCase('tr');
+    return String(val).trim().toLocaleLowerCase('tr');
+  }
   const params = useParams();
-  const { theme, setTheme, isDarkMode } = useTheme(); // Temayı al
+  const { theme, setTheme, isDarkMode } = useTheme();
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  // ... diğer state ve ref'ler
+
+  const calculatedSubTopicStats: Array<{subTopic: string; score: number; totalQuestions: number; correctQuestions: number}> = React.useMemo(() => {
+    if (!quizResult || !Array.isArray(quizResult.questions)) return [];
+    const statsMap: Record<string, { total: number; correct: number }> = {};
+    quizResult.questions.forEach((q) => {
+      if (!q.subTopic) return;
+      if (!statsMap[q.subTopic]) statsMap[q.subTopic] = { total: 0, correct: 0 };
+      statsMap[q.subTopic].total += 1;
+      if (q.isCorrect) statsMap[q.subTopic].correct += 1;
+    });
+    return Object.entries(statsMap).map(([subTopic, data]) => ({
+      subTopic,
+      score: data.total > 0 ? (data.correct / data.total) * 100 : 0,
+      totalQuestions: data.total,
+      correctQuestions: data.correct,
+    }));
+  }, [quizResult]);
+
+  // Genel puan (doğru/total * 100)
+  const calculatedOverallScore: number = React.useMemo(() => {
+    if (!quizResult || !Array.isArray(quizResult.questions) || quizResult.questions.length === 0) return 0;
+    const correctCount = quizResult.questions.filter(q => q.isCorrect).length;
+    return (correctCount / quizResult.questions.length) * 100;
+  }, [quizResult]);
+
   // Backend'den çekilen veri için loading ve error state
   const [backendLoading, setBackendLoading] = useState(false);
   const [backendError, setBackendError] = useState<string | null>(null);
@@ -72,7 +103,16 @@ export default function ExamResultsPage() {
     try {
       const backendResult = await fetchExamResultFromBackend(quizId);
       if (!backendResult) throw new Error("Sonuç bulunamadı");
-      setQuizResult(backendResult as QuizResult);
+      // questions dizisine userAnswer ve isCorrect ekle
+      const processedQuestions = backendResult.questions.map((q: any) => ({
+        ...q,
+        userAnswer: backendResult.userAnswers?.[q.id] ?? null,
+        isCorrect: backendResult.userAnswers?.[q.id] === q.correctAnswer,
+      }));
+      setQuizResult({
+        ...backendResult,
+        questions: processedQuestions,
+      });
       dataLoadedRef.current = true;
       setLoading(false);
     } catch (err: any) {
@@ -315,7 +355,7 @@ export default function ExamResultsPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
             <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
-              <p className={`text-5xl font-bold ${getScoreColor(Number(quizResult.overallScore) || 0)}`}>{Number(quizResult.overallScore).toFixed(1)}%</p>
+              <p className={`text-5xl font-bold ${getScoreColor(calculatedOverallScore)}`}>{calculatedOverallScore.toFixed(1)}%</p>
               <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Genel Puan</p>
             </div>
             <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
@@ -332,9 +372,9 @@ export default function ExamResultsPage() {
           <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>
             <ListChecks className="mr-2 h-5 w-5" /> Alt Konu Başarıları
           </h2>
-          {(quizResult.subTopicStats?.length ?? 0) > 0 ? (
+          {(calculatedSubTopicStats.length > 0) ? (
             <ul className="space-y-2">
-              {quizResult.subTopicStats.map((stat, index) => (
+              {calculatedSubTopicStats.map((stat: {subTopic: string; score: number; totalQuestions: number; correctQuestions: number}, index: number) => (
                 <li key={index} className={`p-2.5 rounded-md shadow-sm hover:shadow-md transition-all duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
                   <div className="flex justify-between items-center mb-1.5">
                     <h3 className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-600'}`}>{stat.subTopic}</h3>
@@ -367,7 +407,8 @@ export default function ExamResultsPage() {
           <ul className="space-y-6">
             {quizResult.questions.map((q, index) => (
               <li key={q.id} 
-                  className={`p-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 ${isDarkMode ? 'bg-slate-800' : 'bg-white'} ${q.isCorrect ? (isDarkMode ? 'border-green-500' : 'border-green-600') : (isDarkMode ? 'border-red-500' : 'border-red-600')}`}>
+                  className={`p-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 ${isDarkMode ? 'bg-slate-800' : 'bg-white'} ${q.isCorrect ? (isDarkMode ? 'border-green-500' : 'border-green-600') : (isDarkMode ? 'border-red-500' : 'border-red-600')}`}
+              >
                 <div className="flex justify-between items-start mb-3">
                   <h3 className={`text-lg font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Soru {index + 1}: {q.questionText}</h3>
                   {q.isCorrect ? (
@@ -376,24 +417,40 @@ export default function ExamResultsPage() {
                     <XCircle className={`h-8 w-8 flex-shrink-0 ml-4 ${isDarkMode ? 'text-red-400' : 'text-red-500'}`} />
                   )}
                 </div>
-                <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Alt Konu: {q.subTopic}</p>
+                {/* Kullanıcı cevabı gösterimi */}
+                <div className={`mb-2 text-sm ${isDarkMode ? 'text-yellow-200' : 'text-yellow-700'} font-semibold`}>Senin cevabın: {q.userAnswer ? (typeof q.userAnswer === 'object' && 'text' in q.userAnswer ? q.userAnswer.text : q.userAnswer) : <span className="italic text-gray-400">Cevap verilmedi</span>}</div>
                 <div className="space-y-2 text-sm">
                   <p className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Seçenekler:</p>
                   <ul className="list-disc list-inside pl-4 space-y-1">
                     {q.options.map((option, i) => {
-                      const optionText = typeof option === 'object' && option !== null && 'text' in option ? option.text : option;
-                      const correctAnswerText = typeof q.correctAnswer === 'object' && q.correctAnswer !== null && 'text' in q.correctAnswer ? q.correctAnswer.text : q.correctAnswer;
-                      const userAnswerText = typeof q.userAnswer === 'object' && q.userAnswer !== null && 'text' in q.userAnswer ? q.userAnswer.text : q.userAnswer;
+                      const isUserAnswer = normalize(option) === normalize(q.userAnswer);
+                      const isCorrectAnswer = normalize(option) === normalize(q.correctAnswer);
                       return (
-                        <li key={i} className={`
-                          ${optionText === correctAnswerText ? (isDarkMode ? 'text-green-400 font-bold' : 'text-green-600 font-bold') : ''}
-                          ${optionText === userAnswerText && optionText !== correctAnswerText ? (isDarkMode ? 'text-red-400 line-through' : 'text-red-500 line-through') : ''}
-                          ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}
-                        `}>
-                          {optionText}
-                          {optionText === correctAnswerText && <span className="ml-2 text-xs">(Doğru Cevap)</span>}
-                          {optionText === userAnswerText && optionText !== correctAnswerText && <span className="ml-2 text-xs">(Sizin Cevabınız)</span>}
-                          {optionText === userAnswerText && optionText === correctAnswerText && <span className="ml-2 text-xs">(Sizin Cevabınız - Doğru)</span>}
+                        <li
+                          key={i}
+                          className={`
+                            flex items-center gap-2
+                            ${isCorrectAnswer ? (isDarkMode ? 'text-green-400 font-bold' : 'text-green-600 font-bold') : ''}
+                            ${isUserAnswer && !isCorrectAnswer ? (isDarkMode ? 'text-red-400 line-through' : 'text-red-500 line-through') : ''}
+                            ${isUserAnswer ? 'bg-yellow-100 dark:bg-yellow-900 rounded px-2 py-1' : ''}
+                            ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}
+                          `}
+                        >
+                          {isUserAnswer && (
+                            <span title="Sizin Cevabınız" className="inline-block">
+                              <svg width="16" height="16" fill="orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>
+                            </span>
+                          )}
+                          {typeof option === 'object' && option !== null && 'text' in option ? option.text : option}
+                          {isCorrectAnswer && isUserAnswer && (
+                            <span className="ml-2 text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded">Sizin Cevabınız - Doğru</span>
+                          )}
+                          {isCorrectAnswer && !isUserAnswer && (
+                            <span className="ml-2 text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded">Doğru Cevap</span>
+                          )}
+                          {isUserAnswer && !isCorrectAnswer && (
+                            <span className="ml-2 text-xs font-bold bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">Sizin Cevabınız</span>
+                          )}
                         </li>
                       );
                     })}
@@ -417,12 +474,7 @@ export default function ExamResultsPage() {
           </ul>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-center ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}">
-          <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
-            Sınavınızı tamamladığınız için teşekkür ederiz.
-          </p>
-          {/* <Link href="/exams" className={`${isDarkMode ? 'text-sky-400 hover:text-sky-300' : 'text-sky-600 hover:text-sky-700'} underline mt-2 inline-block`}>Diğer Sınavlara Göz At</Link> */}
-        </footer>
+      
       </div>
     </div>
   );

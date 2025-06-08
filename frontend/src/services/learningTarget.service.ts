@@ -5,6 +5,8 @@ import {
   LearningTargetStatusLiteral 
 } from "@/types/learningTarget.type";
 import { getLogger, getFlowTracker, trackFlow, mapToTrackerCategory } from "@/lib/logger.utils";
+// Logger instance
+const logger = getLogger();
 import { LogClass, LogMethod } from "@/decorators/log-method.decorator";
 import { FlowCategory } from "@/constants/logging.constants";
 
@@ -43,7 +45,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`getLearningTargets_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.debug(
+      logger.logLearningTarget(
         `Öğrenme hedefleri getirildi: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
         'LearningTargetService.getLearningTargetsByCourse',
         __filename,
@@ -78,7 +80,7 @@ class LearningTargetService {
         { courseId }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Eski API uyumluluğu için getLearningTargets çağrılıyor: ${courseId}`,
         'LearningTargetService.getLearningTargets',
         __filename,
@@ -90,7 +92,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`getLearningTargetsCompat_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.debug(
+      logger.logLearningTarget(
         `Uyumluluk metodu başarılı: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
         'LearningTargetService.getLearningTargets',
         __filename,
@@ -102,7 +104,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd(`getLearningTargetsCompat_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         `Öğrenme hedefleri yüklenirken hata oluştu: ${courseId}`,
         'LearningTargetService.getLearningTargets',
         __filename,
@@ -136,7 +138,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`getLearningTarget_${id}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.debug(
+      logger.logLearningTarget(
         `Öğrenme hedefi getirildi: ID=${id}`,
         'LearningTargetService.getLearningTargetById',
         __filename,
@@ -190,7 +192,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`getLearningTargetsByStatus_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.debug(
+      logger.logLearningTarget(
         `Durum bazlı öğrenme hedefleri getirildi: Kurs=${courseId}`,
         'LearningTargetService.getLearningTargetsByStatus',
         __filename,
@@ -207,7 +209,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd(`getLearningTargetsByStatus_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         `Durum bazlı öğrenme hedefleri yüklenirken hata oluştu: ${courseId}`,
         'LearningTargetService.getLearningTargetsByStatus',
         __filename,
@@ -233,7 +235,7 @@ class LearningTargetService {
         'LearningTargetService.detectTopics'
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Konu tespiti yapılıyor: ${documentText.length} karakter metin, ${existingTopics.length} mevcut konu`,
         'LearningTargetService.detectTopics',
         __filename,
@@ -255,7 +257,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd('detectTopics', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Konu tespiti tamamlandı: ${result.topics.length} konu tespit edildi`,
         'LearningTargetService.detectTopics',
         __filename,
@@ -270,7 +272,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd('detectTopics', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         'Konu tespiti yapılırken hata oluştu',
         'LearningTargetService.detectTopics',
         __filename,
@@ -301,7 +303,7 @@ class LearningTargetService {
         { courseId, targetCount: targets.length }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Toplu öğrenme hedefi oluşturuluyor: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
         'LearningTargetService.createBatchLearningTargets',
         __filename,
@@ -320,7 +322,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`createBatchTargets_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Toplu öğrenme hedefi oluşturuldu: Kurs=${courseId}, Hedef sayısı=${createdTargets.length}`,
         'LearningTargetService.createBatchLearningTargets',
         __filename,
@@ -336,7 +338,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd(`createBatchTargets_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         `Toplu öğrenme hedefi oluşturulurken hata oluştu: ${courseId}`,
         'LearningTargetService.createBatchLearningTargets',
         __filename,
@@ -370,7 +372,7 @@ class LearningTargetService {
         { updateCount: targetUpdates.length }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Çoklu hedef durumu güncelleniyor: ${targetUpdates.length} hedef`,
         'LearningTargetService.updateMultipleStatuses',
         __filename,
@@ -390,7 +392,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd('updateMultipleStatuses', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Çoklu hedef durumu güncellendi: ${updatedTargets.length} hedef`,
         'LearningTargetService.updateMultipleStatuses',
         __filename,
@@ -405,7 +407,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd('updateMultipleStatuses', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         'Çoklu hedef durumu güncellenirken hata oluştu',
         'LearningTargetService.updateMultipleStatuses',
         __filename,
@@ -441,7 +443,7 @@ class LearningTargetService {
         { id, fields: Object.keys(data).length }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Öğrenme hedefi güncelleniyor: ID=${id}`,
         'LearningTargetService.updateLearningTarget',
         __filename,
@@ -456,7 +458,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`updateTarget_${id}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Öğrenme hedefi güncellendi: ID=${id}`,
         'LearningTargetService.updateLearningTarget',
         __filename,
@@ -495,7 +497,7 @@ class LearningTargetService {
         FlowCategory.API
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Öğrenme hedefi siliniyor: ID=${id}`,
         'LearningTargetService.deleteLearningTarget',
         __filename,
@@ -507,7 +509,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`deleteTarget_${id}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Öğrenme hedefi silindi: ID=${id}`,
         'LearningTargetService.deleteLearningTarget',
         __filename,
@@ -547,7 +549,7 @@ class LearningTargetService {
   } {
     flowTracker.markStart('calculateTargetStats');
     
-    logger.debug(
+    logger.logLearningTarget(
       `Hedef istatistikleri hesaplanıyor: ${targets.length} hedef`,
       'LearningTargetService.calculateTargetStats',
       __filename,
@@ -604,7 +606,7 @@ class LearningTargetService {
 
     // Başarılı sonuç
     const duration = flowTracker.markEnd('calculateTargetStats', mapToTrackerCategory(FlowCategory.Business), 'LearningTargetService', new Error('API Call End'));
-    logger.debug(
+    logger.logLearningTarget(
       `Hedef istatistikleri hesaplandı: Toplam=${totalTargets}, Tamamlanma=%${Math.round(completionRate)}`,
       'LearningTargetService.calculateTargetStats',
       __filename,
@@ -649,7 +651,7 @@ class LearningTargetService {
         : "Bu konuda başarılısınız. Düzenli tekrar ile bilginizi koruyabilirsiniz.",
     };
 
-    logger.debug(
+    logger.logLearningTarget(
       `Durum açıklaması üretildi: ${status}`,
       'LearningTargetService.getPersonalizedStatusDescription',
       __filename,
@@ -682,7 +684,7 @@ class LearningTargetService {
   }> {
     flowTracker.markStart('generateRecommendations');
     
-    logger.debug(
+    logger.logLearningTarget(
       `Öğrenme önerileri oluşturuluyor: ${targets.length} hedef`,
       'LearningTargetService.generateLearningRecommendations',
       __filename,
@@ -705,7 +707,7 @@ class LearningTargetService {
     const mediumTargets = targets.filter((t) => t.status === "medium");
     const pendingTargets = targets.filter((t) => t.status === "pending");
     
-    logger.debug(
+    logger.logLearningTarget(
       'Hedef durumlarına göre gruplandırma yapıldı',
       'LearningTargetService.generateLearningRecommendations',
       __filename,
@@ -758,7 +760,7 @@ class LearningTargetService {
     
     // Başarılı sonuç
     const duration = flowTracker.markEnd('generateRecommendations', mapToTrackerCategory(FlowCategory.Business), 'LearningTargetService', new Error('API Call End'));
-    logger.debug(
+    logger.logLearningTarget(
       `Öğrenme önerileri oluşturuldu: ${recommendations.length} öneri`,
       'LearningTargetService.generateLearningRecommendations',
       __filename,
@@ -800,7 +802,7 @@ class LearningTargetService {
         { courseId, contextLength: lessonContext.length, existingTopicsCount: existingTopicNames.length }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Yeni konu tespiti başlatılıyor: Kurs=${courseId}, Metin uzunluğu=${lessonContext.length}, Mevcut konu sayısı=${existingTopicNames.length}`,
         'LearningTargetService.detectNewTopics',
         __filename,
@@ -823,7 +825,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`detectNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Yeni konu tespiti tamamlandı: Kurs=${courseId}, Tespit edilen yeni konu sayısı=${newTopics.length}`,
         'LearningTargetService.detectNewTopics',
         __filename,
@@ -840,7 +842,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd(`detectNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         `Yeni konu tespiti sırasında hata oluştu: ${courseId}`,
         'LearningTargetService.detectNewTopics',
         __filename,
@@ -870,7 +872,7 @@ class LearningTargetService {
         { courseId, topicsCount: newTopicNames.length }
       );
       
-      logger.debug(
+      logger.logLearningTarget(
         `Yeni konular onaylanıyor: Kurs=${courseId}, Onaylanacak konu sayısı=${newTopicNames.length}`,
         'LearningTargetService.confirmNewTopics',
         __filename,
@@ -891,7 +893,7 @@ class LearningTargetService {
       
       // Başarılı sonuç
       const duration = flowTracker.markEnd(`confirmNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.info(
+      logger.logLearningTarget(
         `Yeni konular başarıyla onaylandı ve kaydedildi: Kurs=${courseId}, Oluşturulan hedef sayısı=${confirmedTargets.length}`,
         'LearningTargetService.confirmNewTopics',
         __filename,
@@ -908,7 +910,7 @@ class LearningTargetService {
     } catch (error) {
       // Hata durumu
       flowTracker.markEnd(`confirmNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
-      logger.error(
+      logger.logLearningTarget(
         `Yeni konuları onaylama ve kaydetme sırasında hata oluştu: ${courseId}`,
         'LearningTargetService.confirmNewTopics',
         __filename,
