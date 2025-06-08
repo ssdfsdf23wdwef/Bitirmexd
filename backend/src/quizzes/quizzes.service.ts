@@ -1854,7 +1854,6 @@ export class QuizzesService {
       // Log dosyası yoksa oluştur
       if (!fs.existsSync(this.learningTargetLogPath)) {
         fs.writeFileSync(this.learningTargetLogPath, '[' + new Date().toISOString() + '] Öğrenme hedefleri log dosyası oluşturuldu\n', { encoding: 'utf8' });
-        console.log(`Öğrenme hedefleri log dosyası oluşturuldu: ${this.learningTargetLogPath}`);
       }
       
       // Log formatını oluştur

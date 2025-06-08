@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T19:18:45.294Z
+## Tarih: 2025-06-08T21:02:11.409Z
 
-## Trace ID: quiz-1749410325278-sx644
+## Trace ID: quiz-1749416531395-iy7t4
 
-## Alt Konular (9 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Recommendation Systems Overview** (2 soru)
-2. **Retrieval Strategies** (2 soru)
-3. **Rankinğialgorithms** (2 soru)
-4. **Content İnformation Utilization** (2 soru)
-5. **Advantages And Disadvantages** (2 soru)
+1. **Konteynerizasyonun Tanımı** (2 soru)
+2. **Yazılım Dağıtım Süreci** (2 soru)
+3. **İ Şletim Sistemi Sanallaştırması** (2 soru)
+4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,10 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Cosine Similarity
-2. Dot Product Similarity
-3. Euclidean Distance
-4. User İtem İnteractions
+1. Ölçeklenebilirlik Ve Yönetim
+2. Yazılım Geliştirme Ve Test
+3. Devops Ve Sürekli Entegrasyon
 
 ```
 
@@ -51,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Recommendation Systems Overview** (2 soru)
-2. **Retrieval Strategies** (2 soru)
-3. **Rankinğialgorithms** (2 soru)
-4. **Content İnformation Utilization** (2 soru)
-5. **Advantages And Disadvantages** (2 soru)
+1. **Konteynerizasyonun Tanımı** (2 soru)
+2. **Yazılım Dağıtım Süreci** (2 soru)
+3. **İ Şletim Sistemi Sanallaştırması** (2 soru)
+4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -63,197 +62,120 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Cosine Similarity
-2. Dot Product Similarity
-3. Euclidean Distance
-4. User İtem İnteractions
+1. Ölçeklenebilirlik Ve Yönetim
+2. Yazılım Geliştirme Ve Test
+3. Devops Ve Sürekli Entegrasyon
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
-Security Level:
-Department name:AIE
-Author’s name:Çağrı Yeşil
-Date:2.11.2023
-Recommendation Systems
 
-Contents
-1.Recommendation system: Retrieval & Ranking
-2.Content base recommendation system
-3.Similarity measurements f_simple(U1,M1) and f_complex(U1,M1,...)
-4.Colobrative Filtering
+BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
+BAHAR DÖNEMİ 2025
+Öğretim Üyesi: Dr. Bilal USANMAZ
+bilal@atauni.edu.tr
 
-Huawei Proprietary -Restricted Distribution3
-Similarity Metric: is a metric that shows how much an item is similar to an item or suitable for a user
-Retrieval:
-•Selecting top K items according to similarity metrics for an user
-•Selecting all movies of which genres are sci-fi and adventure for a user
-•Content-baseor colobrative filtering approaches can be used here
-Ranking:
-•Ranking or ordering selecting items according to a metricto decide which items will be showed to user
-•Deciding which movie among the sci-fi and adventure movies will be shown to a user
-•Machine learning, deep learning strategies are used here
-Question:
-•Why do we need retrieval? Can’t we just use rank all the items and select best of them?
-•Why do we need ranking? Can’t we just select top 1 item according to the similarity metric
-Retrieval/Ranking
 
-Huawei Proprietary -Restricted Distribution4
-Why do we need retrieval? Can’t we just use rank all the items and select best of them?
-•There are millions of data and recommendations are generally real-time problems
-•It is not possible to rank millions of data in real-time
-•Therefore, we select a subset of data with retrieval strategies and then apply ranking to that small subset
-Why do we need ranking? Can’t we just select top 1 item according to the similarity metric?
-•To be fast, retrieval strategies use small amount of features.
-•With small amount of features, it is not possible to decide which item is better for an user
-•We need different strategies (ranking) to handle larger amount of features.
-Retrieval/Ranking
 
-Huawei Proprietary -Restricted Distribution5
-1) Content-base approach:
->If user watch 2 horror movies then the system can recommend
-horror moviesto that user.
-2) Colobrative approach
->BooksofUser1:A,B(History),C(History)
->BooksofUser2:B,C,D
->RecommendAtoUser1andRecommendDtoUser2
-Retrieval strategies
+6.Hafta
 
-Huawei Proprietary -Restricted Distribution6
-Content-base Recommendation
-•In content-base recommendation, we use content
-information to recommend items to users
-•Which movie whould you recommend to these
-users? Why?
-•What if we have 1000 sci-fi movies that we can
-recommend to user 3, which one will we
-recommend?
-•What about User 2, we have no information about
-her/his preferences?
 
-Huawei Proprietary -Restricted Distribution7
-Content-base Recommendation
-•In real world, we may have to use more than one
-content information
-•Which movie whould you recommend to these
-users? Why?
 
-Huawei Proprietary -Restricted Distribution8
-How to measure similarity/closeness?
-<User1, Star Wars> = 1*1+0*1+1*0+0*0+1*0 = 1
-<User1, Exorcist> = 2
-<User1, Avengers> = 2
-<User1, La la land> = 1
+Şekil: VM ve konteyner mimarileri
 
-Huawei Proprietary -Restricted Distribution9
-Similarity of vectors
-Movie 1 = [1,3]
-Movie 2 = [2,1]
-User = [2,2]
 
-Huawei Proprietary -Restricted Distribution10
-Similarity of vectors: Cosine similarity
-Movie 1 = [1,3]
-Movie 2 = [2,1]
-User = [2,2]
-cos(M1, User) = cos(β=26.57) = 0.13
-cos(M2, User) = cos(α=18.44) = 0.91
-Movie 2 is more similar to User
-Reminder: cos(0) = 1 and cos(90)=0
-α
-β
+Şekil: Nvidia konteyner örnek gösterimi
 
-Huawei Proprietary -Restricted Distribution11
-Similarity of vectors: Dot Product (similarity)
-sx,y=
-푖=0
-푑
-푥
-푖
-.푦
-푖
-Movie 1 = [1,3]
-Movie 2 = [2,1]
-User = [2,2]
-<M1, User> = 1∗2+3∗2=8
-<M2, User> =2∗2+1∗2= 6
-Movie 1 is more similar to User
-α
-β
 
-Huawei Proprietary -Restricted Distribution12
-dotproductofx,y∊푅
-푑
-=<x,y>=
 
-푖=0
-푑
-푥
-푖
-푦
-푖
-=푥푦cos(푥,푦)
-푛표푟푚표푟푚푎푔푛푖푡푢푑푒표푓푥→푥=
 
-푖
-푑
-푥
-푖
-2
-푛표푟푚표푟푚푎푔푛푖푡푢푑푒표푓푦→푦=
+Konteynerizasyon nedir?
 
-푖
-푑
-푦
-푖
-2
-푊ℎ푎푡ℎ푎푝푝푒푛푠푖푓푥and푦푖푠푒푞푢푎푙푡표1?
-Similarity of vectors: Dot Product (similarity) cont.
+Konteynerleştirme, bir uygulamanın kodunu herhangi bir altyapıda çalıştırmak için ihtiyaç
+duyduğu tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir.
+Geleneksel olarak bilgisayarınızda herhangi bir uygulamayı çalıştırmak için makinenin işletim
+sistemiyle eşleşen sürümünün yüklenmesi gerekmektedir. Örneğin, bir yazılım paketinin
+Windows sürümünü bir Windows makinesine yüklemeniz gerekiyordu. Ancak
+konteynerleştirmeyle her tür cihaz ve işletim sisteminde çalışan tek bir yazılım paketi veya
+konteyner oluşturabilir[1].
 
-Huawei Proprietary -Restricted Distribution13
-Similarity of vectors: Euclidean distance
-s(x,y)=
-푖=0
-푑
-(푥
-푖
-−푦
-푖
-)
-2
-Movie 1 = [1,3]
-Movie 2 = [2,1]
-User = [2,2]
-<M1, User> = (1−2)
-2
-+(3−2)
-2
-= 2
-<M2, User> =(2−2)
-2
-+(3−2)
-2
-= 1
-Movie 2 is closer to User
-α
-β
+Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve
+aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir
+sanallaştırma türüdür[3].
 
-Huawei Proprietary -Restricted Distribution14
-•Compared to the cosine, the dot product similarity is sensitive to the norm of the embedding.
->That is, the larger the norm of an embedding, the higher the similarity (for items with an acute angle)
-and the more likely the item is to be recommended.
-•Items that appear very frequently in the training set (for example, popular YouTube videos) tend to have
-embeddingswith large norms.
->If capturing popularity information is desirable, then you should prefer dot product. However, if you're not careful,
-the popular items may end up dominating the recommendations.
-•Dot product is easy to implement and compute, therefore we generally use dot product in
-recommendation systems
-Which Similarity Measure to Choose?
+Yazılım mühendisliğinde konteynerleştirme, yazılım uygulamalarının türü veya satıcısı ne olursa
+olsun herhangi bir bulut veya bulut dışı ortamda konteyner adı verilen yalıtılmış kullanıcı
+alanlarında çalışabilmesi için işletim sistemi düzeyinde sanallaştırma veya birden fazla ağ
+kaynağı üzerinden uygulama düzeyinde sanallaştırmadır[4].
 
-Huawei Proprietary -Restricted Distribution15
-Advantages
-•The model doesn't need any data about other users, since the recommendations are specific to this
-user. This makes...(Kısaltıldı)
+Konteynerleştirme, yazılım kodunun kütüphaneler, framework ler ve diğer bağımlılıklar gibi
+gerekli tüm bileşenlerle birlikte paketlenmesidir[5].
+
+
+Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını (kütüphaneler, çerçeveler vb.)
+konteyner adı verilen standart bir birime paketleyen bir yazılım dağıtım yöntemidir. Bu
+konteyner, uygulamayı izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapı
+üzerinde tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik,
+konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
+
+
+
+
+
+
+
+
+
+
+Konteyner teknolojisi, son yıllarda yazılım geliştirme ve dağıtımı için oldukça popüler hale
+gelmiştir. Bu popülerliğin arkasında yatan birçok neden var:
+1. Taşınabilirlik: Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir
+konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği
+anlamına gelir. Bu taşınabilirlik, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda
+kolayca dağıtmalarını ve çalıştırmalarını sağlar.
+2. Hız: Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve
+durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve
+dağıtılmasına yardımcı olur.
+3. Verimlilik: Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde
+kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına
+gelir.
+4. Ölçeklenebilirlik: Konteynerler, otomatik olarak ölçeklendirilebilir. Bu, uygulamanızın trafik
+yükü arttıkça veya azaldıkça otomatik olarak daha fazla veya daha az konteyner başlatarak veya
+durdurarak kaynaklarınızı optimize edebileceğiniz anlamına gelir.
+5. Güvenlik: Konteynerler, her uygulama için ayrı bir izolasyon katmanı sağlayarak güvenliği
+artırır. Bu, bir uygulamadaki bir güvenlik açıklığının diğer uygulamaları etkilemesini önler.
+6. Kolay Yönetim: Konteynerler, Docker gibi araçlarla kolayca yönetilebilir. Bu, birden fazla
+konteynerden oluşan karmaşık uygulamaları bile kolayca yönetmenize ve izlemenize yardımcı
+olur.
+
+Konteyner Teknolojisinin Kullanım Alanları:
+Konteyner teknolojisi, çeşitli alanlarda kullanılmaktadır:
+● Yazılım Geliştirme: Konteynerler, geliştiricilerin uygulamaları yerel ortamlarında test
+etmelerini ve dağıtmadan önce hata ayıklamalarını sağlar.
+● DevOps: Konteynerler, CI/CD (Sürekli Entegrasyon/Sürekli Dağıtım) süreçlerini
+otomatikleştirmeye ve hızlandırmaya yardımcı olur.
+● Mikroservisler: Konteynerler, mikroservis mimarisini uygulamak için idealdir.
+● Bulut Bilişim: Konteynerler, bulut ortamında uygulamaları dağıtmak ve yönetmek için
+idealdir.
+
+
+Uygulama
+01_konteyner_kurulumu.txt
+02_konteyner_calistirma.txt
+
+
+
+
+Kaynaklar:
+
+https://aws.amazon.com/what-is/containerization/
+https://www.ibm.com/topics/containerization
+https://www.checkpoint.com/cyber-hub/cloud-security/what-is-container-security/what-is-cont
+ainerization/
+https://en.wikipedia.org/wiki/Containerization_(computing)
+https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
+
+
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -428,42 +350,42 @@ user. This makes...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Recommendation Systems Overview: 2 soru
-  - Retrieval Strategies: 2 soru
-  - Rankinğialgorithms: 2 soru
-  - Content İnformation Utilization: 2 soru
-  - Advantages And Disadvantages: 2 soru
+  - Konteynerizasyonun Tanımı: 2 soru
+  - Yazılım Dağıtım Süreci: 2 soru
+  - İ Şletim Sistemi Sanallaştırması: 2 soru
+  - Taşınabilirlik Ve Uyumluluk: 2 soru
+  - Hız Ve Verimlilik: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Recommendation Systems Overview:
-- Soru: Aşağıdakilerden hangisi bir öneri sisteminin temel işlevlerinden biridir?
-- Seçenekler: Kullanıcı verilerini analiz etmek | Veri tabanlarını yönetmek | Kullanıcılara uygun öğeleri bulmak ve sıralamak | Ağ güvenliğini sağlamak
-- Doğru Cevap: Kullanıcılara uygun öğeleri bulmak ve sıralamak
+#### Konteynerizasyonun Tanımı:
+- Soru: Konteynerizasyonun temel amacı nedir?
+- Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını optimize etmek
+- Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
 - Zorluk: easy
 
-#### Retrieval Strategies:
-- Soru: Öneri sistemlerinde retrieval stratejileri neden gereklidir? 
-- Seçenekler: Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması | Kullanıcı arayüzünü basitleştirmek için | Veri depolama maliyetlerini azaltmak için | Sadece en popüler öğeleri göstermek için
-- Doğru Cevap: Tüm öğeleri gerçek zamanlı olarak sıralamanın mümkün olmaması
+#### Yazılım Dağıtım Süreci:
+- Soru: Konteynerizasyonun yazılım dağıtım sürecine getirdiği temel yenilik nedir?
+- Seçenekler: Her uygulama için farklı bir işletim sistemi sürümü gerektirmesi | Sadece Windows işletim sisteminde çalışabilen yazılım paketleri oluşturması | Her tür cihaz ve işletim sisteminde çalışabilen tek bir yazılım paketi veya konteyner oluşturabilmesi | Uygulamaların daha yavaş çalışmasına neden olması
+- Doğru Cevap: Her tür cihaz ve işletim sisteminde çalışabilen tek bir yazılım paketi veya konteyner oluşturabilmesi
 - Zorluk: medium
 
-#### Rankinğialgorithms:
-- Soru: Öneri sistemlerinde sıralama (ranking) algoritmalarının temel amacı nedir?
-- Seçenekler: Öğeleri rastgele sıralamak | En popüler öğeleri en üste yerleştirmek | Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak | Sadece yeni eklenen öğeleri göstermek
-- Doğru Cevap: Retrieval aşamasında seçilen öğeleri, kullanıcının ilgi alanlarına göre en uygun olandan en az uygun olana doğru sıralamak
+#### İ Şletim Sistemi Sanallaştırması:
+- Soru: Konteynerleştirme, işletim sistemi sanallaştırması bağlamında nasıl bir yaklaşım sunar?
+- Seçenekler: Her uygulama için ayrı bir işletim sistemi çekirdeği oluşturur. | Aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında uygulamaları çalıştırır. | Uygulamaları doğrudan donanım üzerinde çalıştırır. | İşletim sistemini tamamen ortadan kaldırır.
+- Doğru Cevap: Aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında uygulamaları çalıştırır.
 - Zorluk: medium
 
-#### Content İnformation Utilization:
-- Soru: İçerik tabanlı öneri sistemleri (Content-based recommendation systems) neye göre önerilerde bulunur?
-- Seçenekler: Diğer kullanıcıların tercihlerine | Öğelerin içeriğine (açıklama, tür, özellikler vb.) | Rastgele seçilen öğelere | Sadece popüler öğelere
-- Doğru Cevap: Öğelerin içeriğine (açıklama, tür, özellikler vb.)
+#### Taşınabilirlik Ve Uyumluluk:
+- Soru: Konteynerlerin taşınabilirlik özelliği neyi ifade eder?
+- Seçenekler: Sadece belirli işletim sistemlerinde çalışabilmeyi | İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilmeyi | Sadece bulut ortamlarında çalışabilmeyi | Sadece yerel ortamlarda çalışabilmeyi
+- Doğru Cevap: İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilmeyi
 - Zorluk: easy
 
-#### Advantages And Disadvantages:
-- Soru: Aşağıdakilerden hangisi öneri sistemlerinin bir avantajı değildir?
-- Seçenekler: Kullanıcılara kişiselleştirilmiş öneriler sunabilme | İşletmelerin satışlarını artırabilme | Yeni ve keşfedilmemiş öğeleri kullanıcılara sunabilme | Diğer kullanıcılar hakkında veri gerektirmesi
-- Doğru Cevap: Diğer kullanıcılar hakkında veri gerektirmesi
+#### Hız Ve Verimlilik:
+- Soru: Konteynerlerin hız avantajı, ne tür süreçlerde belirgin bir şekilde hissedilir?
+- Seçenekler: Sadece veri tabanı işlemlerinde | Uygulamaların başlatılması, durdurulması ve ölçeklendirilmesi gibi süreçlerde | Sadece ağ iletişiminde | Sadece güvenlik taramalarında
+- Doğru Cevap: Uygulamaların başlatılması, durdurulması ve ölçeklendirilmesi gibi süreçlerde
 - Zorluk: medium
 

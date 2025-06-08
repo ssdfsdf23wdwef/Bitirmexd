@@ -1728,11 +1728,14 @@ export class LearningTargetsService {
 
       // Process each target in the array
       for (const target of targets) {
-        // Query for existing record based on userId and subTopic
+        // Normalize the incoming subTopic for querying
+        const normalizedQuerySubTopic = this.normalizationService.normalizeSubTopicName(target.subTopic);
+
+        // Query for existing record based on userId and normalizedSubTopicName
         const existingQuery = await db
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .where('userId', '==', userId)
-          .where('subTopicName', '==', target.subTopic)
+          .where('normalizedSubTopicName', '==', normalizedQuerySubTopic) // Changed to query by normalized name
           .limit(1)
           .get();
 

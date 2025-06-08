@@ -1,34 +1,43 @@
-/**
- * @file zustand.middleware.ts
- * @description Zustand için loglama, durum değişikliği izleme ve performans middleware'leri
- */
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { StateCreator, StoreApi } from 'zustand';
+import { StateCreator, StoreMutatorIdentifier } from 'zustand';
 import { getLogger, getFlowTracker } from '../lib/logger.utils';
+import { FlowCategory } from '../services/flow-tracker.service';
 
-/**
- * Temel middleware tipi
- */
+
 export type Middleware<T> = (
-  config: StateCreator<T>
-) => StateCreator<T>;
+  config: StateCreator<T, [], [], T>
+) => StateCreator<T, [], [], T>;
 
 /**
- * Logger middleware
- * Tüm durum değişikliklerini loglar
- * @param storeName Store adı
- * @returns Middleware
+ * Immer destekli middleware tipi
  */
+export type ImmerMiddleware<T> = (
+  config: StateCreator<T, [], [["zustand/immer", never]], T>
+) => StateCreator<T, [], [["zustand/immer", never]], T>;
+
+/**
+ * Generic middleware that works with any mutators
+ */
+export type GenericMiddleware<T, M extends [StoreMutatorIdentifier, unknown][] = []> = (
+  config: StateCreator<T, [], M, T>
+) => StateCreator<T, [], M, T>;
+
+
 export const loggerMiddleware = <T extends object>(storeName: string): Middleware<T> => {
   return (config) => (set, get, api) => {
     const logger = getLogger();
     const flowTracker = getFlowTracker();
-    
-    return config(
+      return config(
       (partial, replace) => {
         const previousState = get();
-        set(partial, replace);
+        
+        // Handle the overloaded set function properly
+        if (replace === true) {
+          set(partial as T, replace);
+        } else {
+          set(partial, replace);
+        }
+        
         const nextState = get();
         
         // Değişimleri belirle
@@ -36,9 +45,13 @@ export const loggerMiddleware = <T extends object>(storeName: string): Middlewar
         const isPartialFunction = typeof partial === 'function';
         const updatedKeys: string[] = [];
         
-        Object.keys(nextState).forEach((key) => {
-          if (previousState[key] !== nextState[key]) {
-            changes[key] = { from: previousState[key], to: nextState[key] };
+        // Safely access object properties with proper typing
+        Object.keys(nextState as Record<string, any>).forEach((key) => {
+          const prevState = previousState as Record<string, any>;
+          const currentState = nextState as Record<string, any>;
+          
+          if (prevState[key] !== currentState[key]) {
+            changes[key] = { from: prevState[key], to: currentState[key] };
             updatedKeys.push(key);
           }
         });
@@ -51,17 +64,7 @@ export const loggerMiddleware = <T extends object>(storeName: string): Middlewar
           nextState
         );
         
-        // Loglama
-        logger.debug(
-          `[${storeName}] Durum güncellendi: ${updatedKeys.join(', ')}`,
-          'ZustandStore',
-          'zustand.middleware.ts',
-          49,
-          {
-            action: isPartialFunction ? 'Function' : 'Object',
-            changes
-          }
-        );
+    
         
         return nextState;
       },
@@ -104,55 +107,29 @@ export const performanceMiddleware = <T extends object>(storeName: string): Midd
             const result = fn(...args);
             
             // Promise ise asenkron olarak ölç
-            if (result instanceof Promise) {
-              return result.then(
+            if (result instanceof Promise) {              return result.then(
                 // Başarılı
                 (value) => {
-                  const duration = flowTracker.markEnd(actionId, 'State', `${storeName}.${actionName}`);
-                  logger.debug(
-                    `Aksiyon tamamlandı: ${actionName}`,
-                    `${storeName}`,
-                    'zustand.middleware.ts',
-                    97,
-                    { duration, args: args.map(a => typeof a) }
-                  );
+                  const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
+                  
                   return value;
                 },
                 // Hata
                 (error) => {
-                  const duration = flowTracker.markEnd(actionId, 'State', `${storeName}.${actionName}`);
-                  logger.error(
-                    `Aksiyon hatası: ${actionName}`,
-                    `${storeName}`,
-                    'zustand.middleware.ts',
-                    106,
-                    { duration, error }
-                  );
+                  const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
+                  
                   throw error;
                 }
               );
-            }
-            
+            }            
             // Senkron işlem
-            const duration = flowTracker.markEnd(actionId, 'State', `${storeName}.${actionName}`);
-            logger.debug(
-              `Aksiyon tamamlandı: ${actionName}`,
-              `${storeName}`,
-              'zustand.middleware.ts',
-              117,
-              { duration, synchronous: true }
-            );
+            const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
+            
             return result;
           } catch (error) {
             // Hata durumunda
-            const duration = flowTracker.markEnd(actionId, 'State', `${storeName}.${actionName}`);
-            logger.error(
-              `Aksiyon hatası: ${actionName}`,
-              `${storeName}`,
-              'zustand.middleware.ts',
-              126,
-              { duration, error }
-            );
+            const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
+            
             throw error;
           }
         }) as F;
@@ -207,21 +184,23 @@ export const persistMiddleware = <T extends object>(
           // Birleştirilmiş durumu set et
           set({ ...initialState, ...filteredState });
         }
-      }
-    } catch (error) {
+      }    } catch (error) {
       logger.error(
         `Durum geri yükleme hatası: ${storeName}`,
         'persistMiddleware',
-        'zustand.middleware.ts',
-        179,
+        error instanceof Error ? error : new Error(String(error)),
+        undefined,
         { error }
       );
     }
-    
-    return config(
+      return config(
       (partial, replace) => {
-        // Önce normal set işlemini gerçekleştir
-        set(partial, replace);
+        // Handle the overloaded set function properly 
+        if (replace === true) {
+          set(partial as T, replace);
+        } else {
+          set(partial, replace);
+        }
         
         // Sonra güncel durumu localStorage'a kaydet (sadece tarayıcı ortamında)
         if (isBrowser) {
@@ -239,13 +218,7 @@ export const persistMiddleware = <T extends object>(
             
             localStorage.setItem(localStorageKey, JSON.stringify(filteredState));
           } catch (error) {
-            logger.error(
-              `Durum kaydetme hatası: ${storeName}`,
-              'persistMiddleware',
-              'zustand.middleware.ts',
-              203,
-              { error }
-            );
+            
           }
         }
       },
@@ -278,17 +251,21 @@ export const composeMiddlewares = <T extends object>(
  * @param options Opsiyonlar
  * @returns Middleware'ler eklenmiş store oluşturucu
  */
-export const createTrackedStore = <T extends object, U>(
-  createStore: (config: StateCreator<T>) => U,
+export const createTrackedStore = <
+  T extends object,
+  M extends [StoreMutatorIdentifier, unknown][] = [],
+  U extends (config: StateCreator<T, [], M, T>) => any = (config: StateCreator<T, [], M, T>) => any
+>(
+  createStore: U,
   storeName: string,
   options?: {
     enableLogging?: boolean;
     enablePersist?: boolean;
     persistWhitelist?: (keyof T)[];
     enablePerformance?: boolean;
-    additionalMiddlewares?: Middleware<T>[];
+    additionalMiddlewares?: GenericMiddleware<T, M>[];
   }
-): U => {
+) => {
   const {
     enableLogging = process.env.NODE_ENV !== 'production',
     enablePersist = false,
@@ -298,46 +275,58 @@ export const createTrackedStore = <T extends object, U>(
   } = options || {};
   
   // Uygulanacak middleware'leri topla
-  const middlewares: Middleware<T>[] = [];
+  const middlewares: GenericMiddleware<T, M>[] = [];
   
   if (enableLogging) {
-    middlewares.push(loggerMiddleware(storeName));
+    middlewares.push(loggerMiddleware(storeName) as GenericMiddleware<T, M>);
   }
   
   if (enablePerformance) {
-    middlewares.push(performanceMiddleware(storeName));
+    middlewares.push(performanceMiddleware(storeName) as GenericMiddleware<T, M>);
   }
   
   if (enablePersist) {
-    middlewares.push(persistMiddleware(storeName, persistWhitelist));
+    middlewares.push(persistMiddleware(storeName, persistWhitelist) as GenericMiddleware<T, M>);
   }
   
   // Kullanıcının eklediği middleware'leri ekle
   middlewares.push(...additionalMiddlewares);
   
   // Tüm middleware'leri uygula
-  const composedMiddleware = composeMiddlewares(middlewares);
+  const composeGenericMiddlewares = <T extends object, M extends [StoreMutatorIdentifier, unknown][] = []>(
+    middlewares: GenericMiddleware<T, M>[]
+  ): GenericMiddleware<T, M> => {
+    return (config) => 
+      middlewares.reduce(
+        (acc, middleware) => middleware(acc), 
+        config
+      );
+  };
   
-  // Bütün middleware'leri eklenmiş store'u oluştur
-  return createStore(composedMiddleware((set, get, api) => {
-    // Store initi izle
-    const flowTracker = getFlowTracker();
-    const logger = getLogger();
-    
-    logger.info(
-      `${storeName} store başlatıldı`,
-      'createTrackedStore',
-      'zustand.middleware.ts',
-      274
-    );
-    
-    flowTracker.trackStep('State', `${storeName} store başlatıldı`, 'ZustandStore');
-    
-    // Store'un temel init fonksiyonunu çağır - burada kullanıcının kodu çalışacak
-    return {
-      _storeName: storeName,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ...(((_set, _get, _api) => ({})) as StateCreator<T>)(set, get, api)
-    };
-  }));
-}; 
+  const composedMiddleware = composeGenericMiddlewares(middlewares);
+  
+  // Store oluşturucu fonksiyonunu döndür
+  return (storeCreator: StateCreator<T, [], M, T>) => {
+    return createStore(composedMiddleware((set, get, api) => {
+      // Store initi izle
+      const flowTracker = getFlowTracker();
+      const logger = getLogger();
+      
+      logger.info(
+        `${storeName} store başlatıldı`,
+        'createTrackedStore',
+        undefined,
+        undefined,
+        { storeName }
+      );
+      
+      flowTracker.trackStep(FlowCategory.State, `${storeName} store başlatıldı`, 'ZustandStore');
+      
+      // Store'un gerçek implementasyonunu çağır
+      return {
+        _storeName: storeName,
+        ...storeCreator(set, get, api)
+      };
+    }));
+  };
+};
