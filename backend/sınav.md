@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T00:38:26.197Z
+## Tarih: 2025-06-08T01:38:28.294Z
 
-## Trace ID: quiz-1749343106184-f8nle
+## Trace ID: quiz-1749346708280-w5pas
 
-## Alt Konular (8 adet):
+## Alt Konular (7 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
-2. **Uygulama Ve Bağımlılık Paketleme** (2 soru)
-3. **İ Zole Ortamda Çalıştırma** (2 soru)
-4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
-5. **Hız Ve Verimlilik** (2 soru)
+1. **Kvm Tip 1 Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
+5. **Sanal Makine Listeleme Ve Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,8 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ölçeklenebilirlik Ve Yönetim
-2. Yazılım Geliştirme Ve Test
-3. Devops Ve Sürekli Entegrasyon
+1. Sanal Makine Durumunu Yönetme
+2. Sanal Makine Silme İ Şlemi
 
 ```
 
@@ -50,11 +49,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
-2. **Uygulama Ve Bağımlılık Paketleme** (2 soru)
-3. **İ Zole Ortamda Çalıştırma** (2 soru)
-4. **Taşınabilirlik Ve Uyumluluk** (2 soru)
-5. **Hız Ve Verimlilik** (2 soru)
+1. **Kvm Tip 1 Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
+5. **Sanal Makine Listeleme Ve Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,9 +61,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ölçeklenebilirlik Ve Yönetim
-2. Yazılım Geliştirme Ve Test
-3. Devops Ve Sürekli Entegrasyon
+1. Sanal Makine Durumunu Yönetme
+2. Sanal Makine Silme İ Şlemi
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -77,46 +75,36 @@ bilal@atauni.edu.tr
 
 
 
-6.Hafta
+5.Hafta
 
 
+KVM (Tip-1 Hypervisor Kurulumu)
 
-Şekil: VM ve konteyner mimarileri
+Aşağıdaki adresten ubuntu imajını indirilir
+https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
+İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
 
+İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
+için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
+scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
 
-Şekil: Nvidia konteyner örnek gösterimi
+Kvm kurulumu
+sudo apt update
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo systemctl enable --now libvirtd
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
 
+Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
+sudo nano /etc/libvirt/qemu.conf
+Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya ctrl+x ile kayıt edilerek çıkılır
 
-
-
-Konteynerizasyon nedir?
-
-Konteynerleştirme, bir uygulamanın kodunu herhangi bir altyapıda çalıştırmak için ihtiyaç
-duyduğu tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir.
-Geleneksel olarak bilgisayarınızda herhangi bir uygulamayı çalıştırmak için makinenin işletim
-sistemiyle eşleşen sürümünün yüklenmesi gerekmektedir. Örneğin, bir yazılım paketinin
-Windows sürümünü bir Windows makinesine yüklemeniz gerekiyordu. Ancak
-konteynerleştirmeyle her tür cihaz ve işletim sisteminde çalışan tek bir yazılım paketi veya
-konteyner oluşturabilir[1].
-
-Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve
-aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir
-sanallaştırma türüdür[3].
-
-Yazılım mühendisliğinde konteynerleştirme, yazılım uygulamalarının türü veya satıcısı ne olursa
-olsun herhangi bir bulut veya bulut dışı ortamda konteyner adı verilen yalıtılmış kullanıcı
-alanlarında çalışabilmesi için işletim sistemi düzeyinde sanallaştırma veya birden fazla ağ
-kaynağı üzerinden uygulama düzeyinde sanallaştırmadır[4].
-
-Konteynerleştirme, yazılım kodunun kütüphaneler, framework ler ve diğer bağımlılıklar gibi
-gerekli tüm bileşenlerle birlikte paketlenmesidir[5].
-
-
-Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını (kütüphaneler, çerçeveler vb.)
-konteyner adı verilen standart bir birime paketleyen bir yazılım dağıtım yöntemidir. Bu
-konteyner, uygulamayı izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapı
-üzerinde tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik,
-konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
+Komut satırında aşağıdaki komut verilir
+sudo systemctl restart libvirtd.service
 
 
 
@@ -125,55 +113,59 @@ konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
 
 
 
+VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
+
+sudo virt-install --name=testVM \
+--os-variant=ubuntu22.04 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/var/lib/libvirt/images/testVM.img,size=30 \
+--graphics spice \
+--cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
+--network bridge:virbr0
 
 
-Konteyner teknolojisi, son yıllarda yazılım geliştirme ve dağıtımı için oldukça popüler hale
-gelmiştir. Bu popülerliğin arkasında yatan birçok neden var:
-1. Taşınabilirlik: Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir
-konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği
-anlamına gelir. Bu taşınabilirlik, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda
-kolayca dağıtmalarını ve çalıştırmalarını sağlar.
-2. Hız: Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve
-durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve
-dağıtılmasına yardımcı olur.
-3. Verimlilik: Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde
-kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına
-gelir.
-4. Ölçeklenebilirlik: Konteynerler, otomatik olarak ölçeklendirilebilir. Bu, uygulamanızın trafik
-yükü arttıkça veya azaldıkça otomatik olarak daha fazla veya daha az konteyner başlatarak veya
-durdurarak kaynaklarınızı optimize edebileceğiniz anlamına gelir.
-5. Güvenlik: Konteynerler, her uygulama için ayrı bir izolasyon katmanı sağlayarak güvenliği
-artırır. Bu, bir uygulamadaki bir güvenlik açıklığının diğer uygulamaları etkilemesini önler.
-6. Kolay Yönetim: Konteynerler, Docker gibi araçlarla kolayca yönetilebilir. Bu, birden fazla
-konteynerden oluşan karmaşık uygulamaları bile kolayca yönetmenize ve izlemenize yardımcı
-olur.
-
-Konteyner Teknolojisinin Kullanım Alanları:
-Konteyner teknolojisi, çeşitli alanlarda kullanılmaktadır:
-● Yazılım Geliştirme: Konteynerler, geliştiricilerin uygulamaları yerel ortamlarında test
-etmelerini ve dağıtmadan önce hata ayıklamalarını sağlar.
-● DevOps: Konteynerler, CI/CD (Sürekli Entegrasyon/Sürekli Dağıtım) süreçlerini
-otomatikleştirmeye ve hızlandırmaya yardımcı olur.
-● Mikroservisler: Konteynerler, mikroservis mimarisini uygulamak için idealdir.
-● Bulut Bilişim: Konteynerler, bulut ortamında uygulamaları dağıtmak ve yönetmek için
-idealdir.
-
-
-Uygulama
-01_konteyner_kurulumu.txt
-02_konteyner_calistirma.txt
+Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
+kısmıdır.
 
 
 
 
-Kaynaklar:
 
-https://aws.amazon.com/what-is/containerization/
-https://www.ibm.com/topics/containerization
-https://www.checkpoint.com/cyber-hub/cloud-security/what-is-container-security/what-is-cont
-ainerization/
-https://en.wikipedia.org/wiki/Containerization_(computing)
-https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
+
+
+
+
+Sanal Makinelerin Yönetilmesi
+- Kurulu olan sanal makineleri ve durumlarını listeleyin
+
+virsh list --all
+- Çalışır durumda (running) olan sanal makineyi görüntüleyin
+
+virt-viewer testVM
+- Tüm sanal makineleri grafik arayüzden yönetin.
+virt-manager
+
+- Shut-down durumundaki bir sanal makineyi başlatma
+virsh start testVM
+- Bir sanal makineyi restart yapma
+virsh reboot testVM
+
+- Bir sanal makineyi kapatma
+virsh shutdown testVM
+
+- Bir sanal makineyi pause yapma
+virsh suspend testVM
+
+- Bir sanal makineyi unpause yapma
+virsh resume testVM
+
+- Bir sanal makineyi silme
+Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
+edilmelidir sonrada undefine yapılmalıdır.
+virsh destroy testVM
+virsh undefine testVM
+
 
 
 - **İstenen Toplam Soru Sayısı:** 10 soru
@@ -350,42 +342,42 @@ https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Konteynerizasyonun Tanımı Ve İ Şlevi: 2 soru
-  - Uygulama Ve Bağımlılık Paketleme: 2 soru
-  - İ Zole Ortamda Çalıştırma: 2 soru
-  - Taşınabilirlik Ve Uyumluluk: 2 soru
-  - Hız Ve Verimlilik: 2 soru
+  - Kvm Tip 1 Hypervisor Kurulumu: 2 soru
+  - Gerekli Paketlerin Kurulumu: 2 soru
+  - Libvirtd Servisini Yapılandırma: 2 soru
+  - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
+  - Sanal Makine Listeleme Ve Görüntüleme: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Konteynerizasyonun Tanımı Ve İ Şlevi:
-- Soru: Konteynerizasyonun temel amacı nedir?
-- Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını optimize etmek
-- Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
+#### Kvm Tip 1 Hypervisor Kurulumu:
+- Soru: KVM (Kernel-based Virtual Machine) hangi tip bir hypervisor'dır?
+- Seçenekler: Tip-1 Hypervisor | Tip-2 Hypervisor | Hibrit Hypervisor | Mikro Hypervisor
+- Doğru Cevap: Tip-1 Hypervisor
 - Zorluk: easy
 
-#### Uygulama Ve Bağımlılık Paketleme:
-- Soru: Konteynerleştirme sürecinde, bir uygulama ve onun bağımlılıkları hangi birim içinde paketlenir?
-- Seçenekler: Sanal Makine | Konteyner İmajı | Çekirdek (Kernel) | Sürücü (Driver)
-- Doğru Cevap: Konteyner İmajı
-- Zorluk: easy
+#### Gerekli Paketlerin Kurulumu:
+- Soru: KVM kurulumu için gerekli olan paketlerden hangisi sanal makineleri yönetmek için grafik arayüzü sağlar?
+- Seçenekler: qemu-kvm | libvirt-daemon-system | virt-manager | bridge-utils
+- Doğru Cevap: virt-manager
+- Zorluk: medium
 
-#### İ Zole Ortamda Çalıştırma:
-- Soru: Konteynerler, aynı işletim sistemi üzerinde nasıl çalışır?
-- Seçenekler: Farklı işletim sistemleri kullanarak | İzole edilmiş kullanıcı alanlarında | Doğrudan donanım üzerinde | Sanal makineler aracılığıyla
-- Doğru Cevap: İzole edilmiş kullanıcı alanlarında
-- Zorluk: easy
+#### Libvirtd Servisini Yapılandırma:
+- Soru: /etc/libvirt/qemu.conf dosyasında hangi satırlardaki '#' işareti kaldırılır?
+- Seçenekler: user ve group | pidfile ve log_outputs | dynamic_ownership ve security_driver | Seçeneklerin hiçbiri
+- Doğru Cevap: user ve group
+- Zorluk: medium
 
-#### Taşınabilirlik Ve Uyumluluk:
-- Soru: Konteynerlerin taşınabilirliği ne anlama gelir?
-- Seçenekler: Sadece belirli işletim sistemlerinde çalışabilme | Farklı altyapılarda ve ortamlarda kolayca çalışabilme | Sadece bulut ortamlarında çalışabilme | Sadece geliştirme ortamlarında çalışabilme
-- Doğru Cevap: Farklı altyapılarda ve ortamlarda kolayca çalışabilme
-- Zorluk: easy
+#### Virt İnstallıkomutu İle Vm Oluşturma:
+- Soru: virt-install komutunda, '--os-variant' parametresi neyi belirtir?
+- Seçenekler: Sanal makinenin adını | İşletim sistemi türünü ve versiyonunu | Sanal işlemci sayısını | Bellek miktarını
+- Doğru Cevap: İşletim sistemi türünü ve versiyonunu
+- Zorluk: medium
 
-#### Hız Ve Verimlilik:
-- Soru: Konteynerlerin hızı ve verimliliği neyi ifade eder?
-- Seçenekler: Sadece daha hızlı başlatılmalarını | Sanal makinelere göre daha fazla kaynak tüketmelerini | Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini | Sadece daha az depolama alanı kullanmalarını
-- Doğru Cevap: Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini
+#### Sanal Makine Listeleme Ve Görüntüleme:
+- Soru: Çalışır durumda olan bir sanal makineyi grafiksel olarak görüntülemek için hangi komut kullanılır?
+- Seçenekler: virsh list --all | virt-viewer testVM | virt-manager | virsh start testVM
+- Doğru Cevap: virt-viewer testVM
 - Zorluk: easy
 

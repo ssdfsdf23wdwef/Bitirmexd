@@ -55,15 +55,43 @@ const calculateResults = (questions: Question[], userAnswers: Record<string, str
   return result;
 };
 
+import { fetchExamResultFromBackend } from '@/services/quiz.service';
+
 export default function ExamResultsPage() {
   const params = useParams();
   const { theme, setTheme, isDarkMode } = useTheme(); // Temayı al
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  // Backend'den çekilen veri için loading ve error state
+  const [backendLoading, setBackendLoading] = useState(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
+
+  // Backend'den sınav sonucu çekme fonksiyonu
+  const fetchBackendExamResult = async (quizId: string) => {
+    setBackendLoading(true);
+    setBackendError(null);
+    try {
+      const backendResult = await fetchExamResultFromBackend(quizId);
+      if (!backendResult) throw new Error("Sonuç bulunamadı");
+      setQuizResult(backendResult as QuizResult);
+      dataLoadedRef.current = true;
+      setLoading(false);
+    } catch (err: any) {
+      setBackendError("Sonuçlar backend'den alınamadı: " + (err?.message || "Bilinmeyen hata"));
+      setLoading(false);
+      dataLoadedRef.current = true;
+    } finally {
+      setBackendLoading(false);
+    }
+  };
+
+
   const [loading, setLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
   const dataLoadedRef = React.useRef(false); // Bir defalık veri yükleme koruması
 
   useEffect(() => {
+  let isMounted = true;
+  (async () => {
     console.log(`[RESULTS_PAGE_TRACE] useEffect BAŞLADI. params.id=`, params.id, '| quizResult exists:', !!quizResult, '| dataLoadedRef.current:', dataLoadedRef.current);
     if (dataLoadedRef.current) {
       console.log('[RESULTS_PAGE_TRACE] dataLoadedRef.current=true olduğu için veri tekrar yüklenmeyecek. useEffect çıkıyor.');
@@ -87,6 +115,7 @@ export default function ExamResultsPage() {
         setDataError("Sınav ID bulunamadı.");
         dataLoadedRef.current = true;
         console.log('[RESULTS_PAGE_STATE] Hata durumunda dataLoadedRef.current=true olarak ayarlandı.');
+        setLoading(false);
         return;
       }
       storageKeyUsed = `examCompletionData_${currentQuizId}`;
@@ -95,18 +124,73 @@ export default function ExamResultsPage() {
       storedDataString = localStorage.getItem(storageKeyUsed);
       console.log(`[RESULTS_PAGE_TRACE] 📄 localStorage'dan okunan veri (string):`, storedDataString);
       if (!storedDataString) {
-        console.log(`[RESULTS_PAGE_DEBUG] setDataError('Sınav sonuç verileri bulunamadı...') çağrılıyor. Anahtar: ${storageKeyUsed}`);
-        console.error(`[RESULTS_PAGE_ERROR] Sınav sonuç verileri bulunamadı. storageKeyUsed: ${storageKeyUsed}`);
-        setDataError('Sınav sonuç verileri bulunamadı...');
-        dataLoadedRef.current = true;
-        console.log('[RESULTS_PAGE_STATE] Hata durumunda dataLoadedRef.current=true olarak ayarlandı.');
+        // Local'de veri yoksa backend'den çekmeye çalış
+        console.log(`[RESULTS_PAGE_DEBUG] LocalStorage'da veri yok, backend'den sonuç çekilecek: ${storageKeyUsed}`);
+        setLoading(true);
+        console.log(`[RESULTS_PAGE_TRACE] setLoading(true) çağrıldı (backend fetch öncesi). Şu anki state:`, { loading, dataError, quizResult });
+        try {
+          console.log(`[RESULTS_PAGE_TRACE] fetchExamResultFromBackend(${currentQuizId}) çağrılıyor...`);
+          const backendResult = await fetchExamResultFromBackend(currentQuizId);
+          console.log(`[RESULTS_PAGE_TRACE] fetchExamResultFromBackend dönüşü:`, backendResult);
+          if (backendResult === undefined) {
+            console.warn('[RESULTS_PAGE_WARN] Backend sonuç: undefined');
+          } else if (backendResult === null) {
+            console.warn('[RESULTS_PAGE_WARN] Backend sonuç: null');
+          } else if (typeof backendResult !== 'object') {
+            console.warn('[RESULTS_PAGE_WARN] Backend sonuç tip hatası:', typeof backendResult);
+          } else {
+            console.log('[RESULTS_PAGE_TRACE] Backend sonuç tip kontrolü geçti:', backendResult);
+            if (backendResult.id) console.log('[RESULTS_PAGE_TRACE] Backend veri id:', backendResult.id);
+            if (backendResult.title) console.log('[RESULTS_PAGE_TRACE] Backend veri title:', backendResult.title);
+            if (backendResult.quizTitle) console.log('[RESULTS_PAGE_TRACE] Backend veri quizTitle:', backendResult.quizTitle);
+            if (Array.isArray(backendResult.questions)) console.log('[RESULTS_PAGE_TRACE] Backend veri questions uzunluğu:', backendResult.questions.length);
+          }
+          if (isMounted && backendResult) {
+            console.log('[RESULTS_PAGE_TRACE] setQuizResult() çağrılacak. Önceki quizResult:', quizResult);
+            setQuizResult((prev) => {
+              console.log('[RESULTS_PAGE_TRACE] setQuizResult callback, önceki:', prev, 'yeni:', backendResult);
+              return backendResult as QuizResult;
+            });
+            setTimeout(() => {
+              console.log('[RESULTS_PAGE_TRACE] setQuizResult sonrası quizResult:', quizResult);
+            }, 100);
+            dataLoadedRef.current = true;
+            console.log(`[RESULTS_PAGE_TRACE] dataLoadedRef.current=true olarak ayarlandı (backend success).`);
+          } else if (isMounted) {
+            setDataError('Sonuçlar backend\'den alınamadı.');
+            console.log(`[RESULTS_PAGE_ERROR] Backend'den sonuç alınamadı veya veri yok. State güncellendi.`);
+            setTimeout(() => {
+              console.log('[RESULTS_PAGE_TRACE] setDataError sonrası dataError:', dataError);
+            }, 100);
+            dataLoadedRef.current = true;
+            console.log(`[RESULTS_PAGE_TRACE] dataLoadedRef.current=true olarak ayarlandı (backend error).`);
+          }
+        } catch (err) {
+          if (isMounted) {
+            setDataError('Sonuçlar backend\'den alınamadı.');
+            console.error(`[RESULTS_PAGE_ERROR] Backend fetch sırasında hata oluştu:`, err);
+            if (err instanceof Error) {
+              console.error('[RESULTS_PAGE_ERROR] Backend fetch hata stack:', err.stack);
+            }
+            setTimeout(() => {
+              console.log('[RESULTS_PAGE_TRACE] setDataError sonrası dataError:', dataError);
+            }, 100);
+            dataLoadedRef.current = true;
+            console.log(`[RESULTS_PAGE_TRACE] dataLoadedRef.current=true olarak ayarlandı (backend catch bloğu).`);
+          }
+        }
+        if (isMounted) {
+          setLoading(false);
+          console.log(`[RESULTS_PAGE_TRACE] setLoading(false) çağrıldı (backend fetch sonrası). Şu anki state:`, { loading, dataError, quizResult });
+        }
         return;
       }
 
       console.log("[RESULTS_PAGE_DEBUG] JSON.parse ÇAĞRILIYOR.");
       let parsedData = null;
       try {
-        parsedData = JSON.parse(storedDataString);
+        parsedData = JSON.parse(storedDataString); 
+
         console.log("[RESULTS_PAGE_TRACE] 📦 localStorage'dan parse edilen veri:", parsedData);
       } catch(parseErr) {
         console.error('[RESULTS_PAGE_ERROR] JSON.parse HATASI:', parseErr, '| Okunan veri:', storedDataString);
@@ -150,7 +234,9 @@ export default function ExamResultsPage() {
       console.log("[RESULTS_PAGE_TRACE] setLoading(false) çağrıldı (finally bloğu).");
       console.log("[RESULTS_PAGE_TRACE] useEffect BİTTİ (finally bloğu sonrası). Son State'ler:", { loading, dataError, quizResult });
     }
-  }, [params.id, calculateResults]); // Bağımlılıklar sadeleştirildi
+    })();
+  return () => { isMounted = false; };
+}, [params.id, calculateResults]); // Bağımlılıklar sadeleştirildi
 
   // localStorage'dan veriyi silmek için ayrı bir effect
   useEffect(() => {
@@ -229,12 +315,12 @@ export default function ExamResultsPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
             <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
-              <p className={`text-5xl font-bold ${getScoreColor(quizResult.overallScore)}`}>{quizResult.overallScore.toFixed(1)}%</p>
+              <p className={`text-5xl font-bold ${getScoreColor(Number(quizResult.overallScore) || 0)}`}>{Number(quizResult.overallScore).toFixed(1)}%</p>
               <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Genel Puan</p>
             </div>
             <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
               <p className={`text-5xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                {quizResult.questions.filter(q => q.isCorrect).length} <span className="text-3xl">/</span> {quizResult.questions.length}
+                {(quizResult.questions?.filter(q => q.isCorrect).length ?? 0)} <span className="text-3xl">/</span> {(quizResult.questions?.length ?? 0)}
               </p>
               <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Doğru / Toplam Soru</p>
             </div>
@@ -246,7 +332,7 @@ export default function ExamResultsPage() {
           <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>
             <ListChecks className="mr-2 h-5 w-5" /> Alt Konu Başarıları
           </h2>
-          {quizResult.subTopicStats.length > 0 ? (
+          {(quizResult.subTopicStats?.length ?? 0) > 0 ? (
             <ul className="space-y-2">
               {quizResult.subTopicStats.map((stat, index) => (
                 <li key={index} className={`p-2.5 rounded-md shadow-sm hover:shadow-md transition-all duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>

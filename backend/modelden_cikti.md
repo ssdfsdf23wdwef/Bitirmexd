@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T00:38:40.116Z
-Trace ID: quiz-1749343106184-f8nle
-Yanıt Uzunluğu: 9546 karakter
+Tarih: 2025-06-08T01:38:41.050Z
+Trace ID: quiz-1749346708280-w5pas
+Yanıt Uzunluğu: 7586 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 9546 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Konteynerizasyonun temel amacı nedir?",
+      "questionText": "KVM (Kernel-based Virtual Machine) hangi tip bir hypervisor'dır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Uygulamaları sanal makinelerde çalıştırmak",
-        "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
-        "İşletim sistemini güncellemek",
-        "Donanım kaynaklarını optimize etmek"
+        "Tip-1 Hypervisor",
+        "Tip-2 Hypervisor",
+        "Hibrit Hypervisor",
+        "Mikro Hypervisor"
       ],
-      "correctAnswer": "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
-      "explanation": "Konteynerizasyon, bir uygulamanın kodunu, çalışması için gereken tüm bağımlılıklarla birlikte paketleyerek farklı altyapılarda tutarlı bir şekilde çalışmasını sağlamayı amaçlar. Bu, uygulamanın işletim sisteminden bağımsız olarak çalışabilmesini sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
-      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
+      "correctAnswer": "Tip-1 Hypervisor",
+      "explanation": "KVM, doğrudan donanım üzerinde çalıştığı için Tip-1 hypervisor olarak sınıflandırılır. Tip-2 hypervisor'lar ise bir işletim sistemi üzerinde çalışır.",
+      "subTopicName": "Kvm Tip 1 Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_tip_1_hypervisor_kurulumu",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi konteynerizasyonun temel özelliklerinden biri değildir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "İzolasyon",
-        "Taşınabilirlik",
-        "Doğrudan donanım erişimi",
-        "Verimlilik"
-      ],
-      "correctAnswer": "Doğrudan donanım erişimi",
-      "explanation": "Konteynerler, işletim sistemi seviyesinde sanallaştırma sağladığı için doğrudan donanıma erişmezler. Bunun yerine, paylaşılan işletim sistemi üzerinde izole edilmiş bir ortamda çalışırlar. Diğer seçenekler (izolasyon, taşınabilirlik, verimlilik) konteynerizasyonun temel özelliklerindendir. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
-      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q3",
-      "questionText": "Konteynerleştirme sürecinde, bir uygulama ve onun bağımlılıkları hangi birim içinde paketlenir?",
+      "questionText": "Ubuntu imajını indirmek için verilen bağlantıdaki hangi mimari (architecture) belirtilmiştir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Sanal Makine",
-        "Konteyner İmajı",
-        "Çekirdek (Kernel)",
-        "Sürücü (Driver)"
+        "i386",
+        "amd64",
+        "arm64",
+        "riscv64"
       ],
-      "correctAnswer": "Konteyner İmajı",
-      "explanation": "Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını konteyner imajı adı verilen standart bir birimde paketler. Bu imaj, uygulamanın farklı ortamlarda tutarlı bir şekilde çalışmasını sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
-      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
+      "correctAnswer": "amd64",
+      "explanation": "Verilen bağlantıda indirilecek Ubuntu imajının mimarisi amd64 olarak belirtilmiştir.",
+      "subTopicName": "Kvm Tip 1 Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_tip_1_hypervisor_kurulumu",
       "difficulty": "easy"
+    },
+    {
+      "id": "q3",
+      "questionText": "KVM kurulumu için gerekli olan paketlerden hangisi sanal makineleri yönetmek için grafik arayüzü sağlar?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "qemu-kvm",
+        "libvirt-daemon-system",
+        "virt-manager",
+        "bridge-utils"
+      ],
+      "correctAnswer": "virt-manager",
+      "explanation": "virt-manager paketi, KVM sanal makinelerini yönetmek için kullanılan grafik arayüzünü sağlar. Diğer paketler ise KVM'nin temel bileşenleridir.",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi, uygulama ve bağımlılıkların paketlenmesinin temel faydalarından biri değildir?",
+      "questionText": "KVM kurulumunda, ağ köprülemesi (network bridging) için hangi paket gereklidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Uygulama bağımlılıklarının tutarlı bir şekilde yönetilmesi",
-        "Farklı ortamlarda uyumluluk sorunlarının azaltılması",
-        "Geliştirme ve dağıtım süreçlerinin hızlandırılması",
-        "Donanım maliyetlerinin artırılması"
+        "qemu-kvm",
+        "virtinst",
+        "bridge-utils",
+        "libvirt-clients"
       ],
-      "correctAnswer": "Donanım maliyetlerinin artırılması",
-      "explanation": "Uygulama ve bağımlılıkların paketlenmesi, donanım maliyetlerini artırmaz; aksine, kaynakların daha verimli kullanılmasını sağlayarak potansiyel olarak maliyetleri düşürebilir. Diğer seçenekler (bağımlılık yönetimi, uyumluluk, hızlandırma) paketlemenin faydalarıdır. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
-      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
-      "difficulty": "medium"
+      "correctAnswer": "bridge-utils",
+      "explanation": "bridge-utils paketi, KVM sanal makineleri için ağ köprülemesi (network bridging) yapılandırması yapmak için gereklidir.",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "difficulty": "easy"
     },
     {
       "id": "q5",
-      "questionText": "Konteynerler, aynı işletim sistemi üzerinde nasıl çalışır?",
+      "questionText": "/etc/libvirt/qemu.conf dosyasında hangi satırlardaki '#' işareti kaldırılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Farklı işletim sistemleri kullanarak",
-        "İzole edilmiş kullanıcı alanlarında",
-        "Doğrudan donanım üzerinde",
-        "Sanal makineler aracılığıyla"
+        "user ve group",
+        "pidfile ve log_outputs",
+        "dynamic_ownership ve security_driver",
+        "Seçeneklerin hiçbiri"
       ],
-      "correctAnswer": "İzole edilmiş kullanıcı alanlarında",
-      "explanation": "Konteynerler, aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanlarında çalışır. Bu izolasyon, her konteynerin kendi bağımlılıklarına ve yapılandırmasına sahip olmasını sağlar ve diğer konteynerleri etkilemesini önler. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "İ Zole Ortamda Çalıştırma",
-      "normalizedSubTopicName": "izole_ortamda_çalıştırma",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q6",
-      "questionText": "İzole ortamda çalıştırmanın temel avantajı nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Kaynak kullanımını azaltmak",
-        "Uygulamalar arası bağımlılığı artırmak",
-        "Güvenlik açıklarını azaltmak",
-        "Uygulamaların birbirini etkilemesini önlemek"
-      ],
-      "correctAnswer": "Uygulamaların birbirini etkilemesini önlemek",
-      "explanation": "İzole ortamda çalıştırmanın temel avantajı, uygulamaların birbirini etkilemesini önlemektir. Bu, bir uygulamadaki bir hatanın veya güvenlik açığının diğer uygulamaları etkilemesini engeller ve sistem genelinde daha güvenli bir ortam sağlar. Kaynak: Konteynerizasyon nedir? bölümü.",
-      "subTopicName": "İ Zole Ortamda Çalıştırma",
-      "normalizedSubTopicName": "izole_ortamda_çalıştırma",
+      "correctAnswer": "user ve group",
+      "explanation": "/etc/libvirt/qemu.conf dosyasında, kullanıcı ve grup tanımlarını etkinleştirmek için #user ve #group satırlarındaki '#' işareti kaldırılır.",
+      "subTopicName": "Libvirtd Servisini Yapılandırma",
+      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
       "difficulty": "medium"
     },
     {
-      "id": "q7",
-      "questionText": "Konteynerlerin taşınabilirliği ne anlama gelir?",
+      "id": "q6",
+      "questionText": "libvirtd servisindeki değişikliklerin uygulanabilmesi için hangi komut çalıştırılmalıdır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sadece belirli işletim sistemlerinde çalışabilme",
-        "Farklı altyapılarda ve ortamlarda kolayca çalışabilme",
-        "Sadece bulut ortamlarında çalışabilme",
-        "Sadece geliştirme ortamlarında çalışabilme"
+        "sudo systemctl start libvirtd.service",
+        "sudo systemctl stop libvirtd.service",
+        "sudo systemctl restart libvirtd.service",
+        "sudo systemctl enable libvirtd.service"
       ],
-      "correctAnswer": "Farklı altyapılarda ve ortamlarda kolayca çalışabilme",
-      "explanation": "Konteynerlerin taşınabilirliği, onların farklı altyapılarda (Linux, Windows, macOS) ve ortamlarda (bulut, şirket içi) kolayca çalışabilmesi anlamına gelir. Bu, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlara kolayca dağıtmasını sağlar. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
-      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
-      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
+      "correctAnswer": "sudo systemctl restart libvirtd.service",
+      "explanation": "libvirtd servisindeki değişikliklerin geçerli olması için servisin yeniden başlatılması gerekmektedir. Bu işlem 'sudo systemctl restart libvirtd.service' komutu ile yapılır.",
+      "subTopicName": "Libvirtd Servisini Yapılandırma",
+      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
       "difficulty": "easy"
     },
     {
-      "id": "q8",
-      "questionText": "Konteynerlerin uyumluluğu hangi sorunu çözer?",
+      "id": "q7",
+      "questionText": "virt-install komutunda, '--os-variant' parametresi neyi belirtir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Farklı işletim sistemleri arasındaki uyumsuzlukları",
-        "Donanım kaynaklarının yetersizliğini",
-        "Ağ bağlantı sorunlarını",
-        "Güvenlik açıklarını"
+        "Sanal makinenin adını",
+        "İşletim sistemi türünü ve versiyonunu",
+        "Sanal işlemci sayısını",
+        "Bellek miktarını"
       ],
-      "correctAnswer": "Farklı işletim sistemleri arasındaki uyumsuzlukları",
-      "explanation": "Konteynerlerin uyumluluğu, farklı işletim sistemleri arasındaki uyumsuzlukları çözerek uygulamaların farklı ortamlarda sorunsuz bir şekilde çalışmasını sağlar. Bu, geliştirme, test ve dağıtım süreçlerini kolaylaştırır. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
-      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
-      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
+      "correctAnswer": "İşletim sistemi türünü ve versiyonunu",
+      "explanation": "'--os-variant' parametresi, kurulacak sanal makinenin işletim sistemi türünü ve versiyonunu belirtir. Örneğin, ubuntu22.04.",
+      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
+      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q8",
+      "questionText": "virt-install komutunda '--disk path=/var/lib/libvirt/images/testVM.img,size=30' parametresi ne anlama gelir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Sanal makinenin ISO dosyasının yolunu belirtir.",
+        "Sanal makine için 30GB'lık bir disk oluşturulacağını ve konumunu belirtir.",
+        "Sanal makineye 30GB RAM atanacağını belirtir.",
+        "Sanal makineye 30 adet sanal CPU atanacağını belirtir."
+      ],
+      "correctAnswer": "Sanal makine için 30GB'lık bir disk oluşturulacağını ve konumunu belirtir.",
+      "explanation": "Bu parametre, sanal makine için /var/lib/libvirt/images/ dizininde testVM.img adında 30GB boyutunda bir disk oluşturulacağını belirtir.",
+      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
+      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Konteynerlerin hızı ve verimliliği neyi ifade eder?",
+      "questionText": "Çalışır durumda olan bir sanal makineyi grafiksel olarak görüntülemek için hangi komut kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sadece daha hızlı başlatılmalarını",
-        "Sanal makinelere göre daha fazla kaynak tüketmelerini",
-        "Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini",
-        "Sadece daha az depolama alanı kullanmalarını"
+        "virsh list --all",
+        "virt-viewer testVM",
+        "virt-manager",
+        "virsh start testVM"
       ],
-      "correctAnswer": "Daha hızlı başlatılmaları ve daha az kaynak tüketmelerini",
-      "explanation": "Konteynerlerin hızı ve verimliliği, sanal makinelere kıyasla daha hızlı başlatılmalarını ve daha az işletim sistemi kaynağı tüketmelerini ifade eder. Bu, daha fazla uygulamanın aynı altyapıda çalıştırılabilmesi anlamına gelir. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
-      "subTopicName": "Hız Ve Verimlilik",
-      "normalizedSubTopicName": "hız_ve_verimlilik",
+      "correctAnswer": "virt-viewer testVM",
+      "explanation": "Çalışır durumdaki bir sanal makineyi grafiksel olarak görüntülemek için 'virt-viewer sanal_makine_adı' komutu kullanılır. Örneğin, 'virt-viewer testVM'.",
+      "subTopicName": "Sanal Makine Listeleme Ve Görüntüleme",
+      "normalizedSubTopicName": "sanal_makine_listeleme_ve_goruntuleme",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Konteynerlerin hız ve verimliliğinin temel nedeni nedir?",
+      "questionText": "Tüm sanal makineleri grafik arayüzden yönetmek için hangi komut kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Tam bir işletim sistemi içermeleri",
-        "Sanal makine kullanmaları",
-        "İşletim sistemi çekirdeğini paylaşmaları",
-        "Daha fazla donanım kaynağına ihtiyaç duymaları"
+        "virsh list --all",
+        "virt-viewer testVM",
+        "virt-manager",
+        "virsh start testVM"
       ],
-      "correctAnswer": "İşletim sistemi çekirdeğini paylaşmaları",
-      "explanation": "Konteynerlerin hız ve verimliliğinin temel nedeni, sanal makineler gibi tam bir işletim sistemi içermemeleri ve işletim sistemi çekirdeğini paylaşmalarıdır. Bu, daha az kaynak tüketimi ve daha hızlı başlatma süreleri sağlar. Kaynak: Konteyner teknolojisinin kullanım alanları bölümü.",
-      "subTopicName": "Hız Ve Verimlilik",
-      "normalizedSubTopicName": "hız_ve_verimlilik",
-      "difficulty": "medium"
+      "correctAnswer": "virt-manager",
+      "explanation": "Tüm sanal makineleri grafik arayüzden yönetmek için 'virt-manager' komutu kullanılır. Bu komut, sanal makineleri başlatma, durdurma, yapılandırma gibi işlemleri kolayca yapmayı sağlar.",
+      "subTopicName": "Sanal Makine Listeleme Ve Görüntüleme",
+      "normalizedSubTopicName": "sanal_makine_listeleme_ve_goruntuleme",
+      "difficulty": "easy"
     }
   ]
 }

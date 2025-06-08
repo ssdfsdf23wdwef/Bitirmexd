@@ -1222,16 +1222,36 @@ class QuizApiService {
     return analysis;
   }
   
-  private getQuizFromLocalStorage(quizId: string): Quiz | null {
-    try {
-      const storedQuizJson = localStorage.getItem(`quizResult_${quizId}`);
-      if (!storedQuizJson) return null;
-      return JSON.parse(storedQuizJson);
-    } catch (error) {
-      return null;
-    }
-  }
+ 
 }
 
 const quizService = new QuizApiService();
 export default quizService;
+
+import { firestoreService } from './firebase.service';
+
+// Firestore'dan bir sınavın tam verisini quizzes koleksiyonundan çek
+export async function fetchExamResultFromBackend(quizId: string) {
+  console.log('[BACKEND_FETCH_TRACE] fetchExamResultFromBackend başlatıldı, quizId:', quizId);
+  try {
+    const result = await firestoreService.getDocument<any>("quizzes", quizId);
+    console.log('[BACKEND_FETCH_TRACE] Firestore getDocument dönüşü:', result);
+    if (result === undefined) {
+      console.warn('[BACKEND_FETCH_WARN] Firestore getDocument sonucu undefined');
+    } else if (result === null) {
+      console.warn('[BACKEND_FETCH_WARN] Firestore getDocument sonucu null');
+    } else if (typeof result !== 'object') {
+      console.warn('[BACKEND_FETCH_WARN] Firestore getDocument tipi:', typeof result);
+    } else {
+      console.log('[BACKEND_FETCH_TRACE] Firestore getDocument tip kontrolü geçti:', result);
+      if (result.id) console.log('[BACKEND_FETCH_TRACE] Backend veri id:', result.id);
+      if (result.title) console.log('[BACKEND_FETCH_TRACE] Backend veri title:', result.title);
+      if (result.quizTitle) console.log('[BACKEND_FETCH_TRACE] Backend veri quizTitle:', result.quizTitle);
+      if (Array.isArray(result.questions)) console.log('[BACKEND_FETCH_TRACE] Backend veri questions uzunluğu:', result.questions.length);
+    }
+    return result;
+  } catch (err) {
+    console.error('[BACKEND_FETCH_ERROR] Firestore getDocument hata:', err);
+    throw err;
+  }
+}
