@@ -28,28 +28,59 @@ export default function TopicDetector({
 
   // Konu tespiti işlemi
   useEffect(() => {
+    console.group('🔍 [TopicDetector] useEffect - Konu tespiti başlatılıyor');
+    console.log('📋 Başlangıç parametreleri:', {
+      documentId,
+      fileName,
+      timestamp: new Date().toISOString()
+    });
+
     // Boş documentId kontrolü
     if (!documentId) {
+      console.error('❌ DocumentId bulunamadı!', { documentId });
       setError("Belge ID'si bulunamadı.");
       setIsLoading(false);
+      console.groupEnd();
       return;
     }
 
     const detectTopics = async () => {
       try {
+        console.log('🔄 Konu tespiti işlemi başlatılıyor...');
         setIsLoading(true);
         setError(null);
 
         // API'den konuları getir
         try {
+          console.log('🌐 Document service API çağrısı yapılıyor...', {
+            documentId,
+            service: 'documentService.detectTopics'
+          });
+          
           // Backend API'yi çağır
+          const startTime = performance.now();
           const detectedTopics = await documentService.detectTopics(documentId);
+          const endTime = performance.now();
+          const apiDuration = endTime - startTime;
+          
+          console.log('✅ API başarılı! Konular tespit edildi:', {
+            detectedTopicsCount: detectedTopics.length,
+            detectedTopicsPreview: detectedTopics.slice(0, 3),
+            allDetectedTopics: detectedTopics,
+            apiDuration: `${apiDuration.toFixed(2)}ms`,
+            timestamp: new Date().toISOString()
+          });
           
           // Store'a pending topic'leri kaydet
           const topicNames = detectedTopics.map(topic => topic.subTopicName);
+          console.log('💾 Store\'a pending topics kaydediliyor...', {
+            topicNames,
+            topicCount: topicNames.length
+          });
           setPendingTopics(topicNames); // Call setPendingTopics
 
           // Tespit edilen konuları işle ve görüntüleme için hazırla
+          console.log('⚙️ Konular işleniyor ve görüntüleme için hazırlanıyor...');
           const processedTopics = detectedTopics.map(topic => ({
             ...topic,
             id: topic.normalizedSubTopicName, // ID olarak normalize edilmiş konu adını kullan
@@ -59,32 +90,64 @@ export default function TopicDetector({
             isNew: !topic.parentTopic // Eğer bir üst konusu yoksa yeni kabul et
           }));
           
+          console.log('✅ Konular başarıyla işlendi:', {
+            processedTopicsCount: processedTopics.length,
+            processedTopicsPreview: processedTopics.slice(0, 3),
+            selectedCount: processedTopics.filter(t => t.isSelected).length,
+            newTopicsCount: processedTopics.filter(t => t.isNew).length,
+            statusDistribution: processedTopics.reduce((acc, topic) => {
+              acc[topic.status] = (acc[topic.status] || 0) + 1;
+              return acc;
+            }, {} as Record<string, number>)
+          });
+          
           setTopics(processedTopics);
+          console.log('🎉 Konu tespiti başarıyla tamamlandı!');
         } catch (error) {
-          console.error("API hatası:", error);
+          console.error('❌ API HATASI:', {
+            error,
+            errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+            errorStack: error instanceof Error ? error.stack : 'Stack yok',
+            documentId,
+            timestamp: new Date().toISOString()
+          });
           
           // Gerçek hata durumunda hata göster
-          setError((error as Error)?.message || "Konular tespit edilemedi.");
+          const errorMessage = (error as Error)?.message || "Konular tespit edilemedi.";
+          setError(errorMessage);
           
           // Hata callback'ini çağır
           if (onError) {
-            onError((error as Error)?.message || "Konular tespit edilemedi.");
+            console.log('📞 onError callback çağrılıyor...', { errorMessage });
+            onError(errorMessage);
           }
         }
       } catch (error) {
+        console.error('❌ GENEL HATA:', {
+          error,
+          errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+          errorStack: error instanceof Error ? error.stack : 'Stack yok',
+          documentId,
+          timestamp: new Date().toISOString()
+        });
+
         // Hata durumunu güncelle
         const errorMessage = (error as Error)?.message || "Bir hata oluştu.";
         setError(errorMessage);
 
         // Hata callback'ini çağır
         if (onError) {
+          console.log('📞 onError callback çağrılıyor...', { errorMessage });
           onError(errorMessage);
         }
 
         // Statik logError metodunu kullanalım
         console.error("Konu tespit hatası:", error);
       } finally {
+        console.log('🏁 Loading durumu false yapılıyor...');
         setIsLoading(false);
+        console.log('💥 Konu tespiti işlemi sonlandı');
+        console.groupEnd();
       }
     };
 
@@ -94,30 +157,85 @@ export default function TopicDetector({
 
   // Tüm konuları seçme/seçimi kaldırma
   const toggleAll = useCallback((selectAll: boolean) => {
-    setTopics((prevTopics: DetectedSubTopic[]) => 
-      prevTopics.map((topic) => ({
+    console.group('🔄 [TopicDetector] toggleAll - Tüm konuların seçimi değiştiriliyor');
+    console.log('📋 Parametreler:', {
+      selectAll,
+      currentTopicsCount: topics.length,
+      currentSelectedCount: topics.filter(t => t.isSelected).length,
+      timestamp: new Date().toISOString()
+    });
+
+    setTopics((prevTopics: DetectedSubTopic[]) => {
+      const updatedTopics = prevTopics.map((topic) => ({
         ...topic,
         isSelected: selectAll,
-      }))
-    );
-  }, []);
+      }));
+
+      console.log('✅ Konular güncellendi:', {
+        totalTopics: updatedTopics.length,
+        selectedTopics: updatedTopics.filter(t => t.isSelected).length,
+        action: selectAll ? 'Tümü seçildi' : 'Tümünün seçimi kaldırıldı'
+      });
+
+      console.groupEnd();
+      return updatedTopics;
+    });
+  }, [topics.length]);
 
   // Tek bir konunun seçimini değiştirme
   const toggleTopic = useCallback((topicId: string) => {
-    setTopics((prevTopics: DetectedSubTopic[]) => 
-      prevTopics.map((topic) => 
+    console.group('🔄 [TopicDetector] toggleTopic - Tek konu seçimi değiştiriliyor');
+    console.log('📋 Parametreler:', {
+      topicId,
+      currentTopicsCount: topics.length,
+      currentSelectedCount: topics.filter(t => t.isSelected).length,
+      targetTopic: topics.find(t => t.id === topicId),
+      timestamp: new Date().toISOString()
+    });
+
+    setTopics((prevTopics: DetectedSubTopic[]) => {
+      const updatedTopics = prevTopics.map((topic) => 
         topic.id === topicId ? { ...topic, isSelected: !topic.isSelected } : topic
-      )
-    );
-  }, []);
+      );
+
+      const targetTopic = updatedTopics.find(t => t.id === topicId);
+      console.log('✅ Konu güncellendi:', {
+        topicId,
+        topicName: targetTopic?.name,
+        newSelectionState: targetTopic?.isSelected,
+        totalSelectedCount: updatedTopics.filter(t => t.isSelected).length
+      });
+
+      console.groupEnd();
+      return updatedTopics;
+    });
+  }, [topics]);
 
   // Seçilen konuları gönderme
   const handleConfirm = useCallback(() => {
-    const selectedTopicIds = topics
-      .filter((topic) => topic.isSelected)
-      .map((topic) => topic.id);
+    console.group('✅ [TopicDetector] handleConfirm - Seçilen konular onaylanıyor');
+    
+    const selectedTopics = topics.filter((topic) => topic.isSelected);
+    const selectedTopicIds = selectedTopics.map((topic) => topic.id);
+
+    console.log('📋 Onay bilgileri:', {
+      totalTopics: topics.length,
+      selectedTopicsCount: selectedTopics.length,
+      selectedTopicIds,
+      selectedTopicNames: selectedTopics.map(t => t.name),
+      selectedTopicDetails: selectedTopics,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log('📞 onTopicsSelected callback çağrılıyor...', {
+      selectedTopicIds,
+      callbackFunction: 'onTopicsSelected'
+    });
 
     onTopicsSelected(selectedTopicIds);
+    
+    console.log('🎉 handleConfirm başarıyla tamamlandı!');
+    console.groupEnd();
   }, [topics, onTopicsSelected]);
 
   // Durum sınıfları

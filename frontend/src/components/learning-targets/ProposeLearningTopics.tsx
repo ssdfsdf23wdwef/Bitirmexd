@@ -79,81 +79,241 @@ const ProposeLearningTopics: React.FC<ProposeLearningTopicsProps> = ({
     .map(target => target.topicName);
 
   const handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setContextText(e.target.value);
+    const newValue = e.target.value;
+    console.log('📝 [ProposeLearningTopics] Context text değiştiriliyor:', {
+      previousLength: contextText.length,
+      newLength: newValue.length,
+      lengthDifference: newValue.length - contextText.length,
+      isEmpty: !newValue.trim(),
+      timestamp: new Date().toISOString()
+    });
+    
+    setContextText(newValue);
   };
 
   const handlePropose = async () => {
+    console.group('🤖 [ProposeLearningTopics] handlePropose - AI konu önerisi başlatılıyor');
+    console.log('📋 Parametreler:', {
+      contextTextLength: contextText.length,
+      contextTextPreview: contextText.substring(0, 200) + '...',
+      existingTopicsCount: existingTopics.length,
+      existingTopics: existingTopics.slice(0, 5),
+      courseId,
+      timestamp: new Date().toISOString()
+    });
+
     if (!contextText.trim()) {
+      console.warn('⚠️ Boş context text!');
       setError('Lütfen analiz edilecek bir metin girin.');
+      console.groupEnd();
       return;
     }
     
+    console.log('🔄 AI önerisi işlemi başlatılıyor...');
     setIsLoading(true);
     setError(null);
     
     try {
+      console.log('🌐 Mock AI service çağrısı yapılıyor...', {
+        contextLength: contextText.length,
+        existingTopicsCount: existingTopics.length,
+        service: 'mockAiSuggestTopics'
+      });
+
       // In a real implementation, this would call your backend API
+      const startTime = performance.now();
       const topics = await mockAiSuggestTopics(contextText, existingTopics);
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ AI önerileri başarıyla alındı:', {
+        proposedTopicsCount: topics.length,
+        proposedTopics: topics,
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        relevanceDistribution: topics.reduce((acc, topic) => {
+          const relevance = topic.relevance || 'Bilinmeyen';
+          acc[relevance] = (acc[relevance] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>),
+        timestamp: new Date().toISOString()
+      });
+
       setProposedTopics(topics);
       setSelectedTopics([]); // Reset selection
+      console.log('📊 State güncellendi:', {
+        proposedTopicsCount: topics.length,
+        selectedTopicsCount: 0,
+        nextStep: 'review'
+      });
       setStep('review');
+      
+      console.log('🎉 handlePropose başarıyla tamamlandı!');
     } catch (error) {
+      console.error('❌ AI önerisi HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        contextLength: contextText.length,
+        existingTopicsCount: existingTopics.length,
+        timestamp: new Date().toISOString()
+      });
+
       console.error('Error proposing topics:', error);
       setError('Konu önerileri alınırken bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
+      console.log('🏁 Loading durumu false yapılıyor...');
       setIsLoading(false);
+      console.log('💥 handlePropose işlemi sonlandı');
+      console.groupEnd();
     }
   };
 
   const handleTopicToggle = (topic: ProposedTopic) => {
+    console.group('🔄 [ProposeLearningTopics] handleTopicToggle - Konu seçimi değiştiriliyor');
+    console.log('📋 Parametreler:', {
+      topicId: topic.tempId,
+      topicName: topic.name,
+      topicRelevance: topic.relevance,
+      currentSelectedCount: selectedTopics.length,
+      isCurrentlySelected: selectedTopics.some(t => t.tempId === topic.tempId),
+      timestamp: new Date().toISOString()
+    });
+
     const currentIndex = selectedTopics.findIndex(t => t.tempId === topic.tempId);
     const newSelectedTopics = [...selectedTopics];
     
+    let action: string;
     if (currentIndex === -1) {
       newSelectedTopics.push(topic);
+      action = 'Eklendi';
     } else {
       newSelectedTopics.splice(currentIndex, 1);
+      action = 'Kaldırıldı';
     }
     
+    console.log('✅ Konu seçimi güncellendi:', {
+      action,
+      topicName: topic.name,
+      newSelectedCount: newSelectedTopics.length,
+      selectedTopicNames: newSelectedTopics.map(t => t.name),
+      totalProposedTopics: proposedTopics.length
+    });
+    
     setSelectedTopics(newSelectedTopics);
+    console.groupEnd();
   };
 
   const handleConfirm = async () => {
+    console.group('✅ [ProposeLearningTopics] handleConfirm - Seçili konular onaylanıyor');
+    console.log('📋 Onay bilgileri:', {
+      selectedTopicsCount: selectedTopics.length,
+      selectedTopicNames: selectedTopics.map(t => t.name),
+      selectedTopicsDetails: selectedTopics,
+      courseId,
+      totalProposedTopics: proposedTopics.length,
+      timestamp: new Date().toISOString()
+    });
+
     if (selectedTopics.length === 0) {
+      console.warn('⚠️ Hiç konu seçilmemiş!');
       setError('Lütfen en az bir konu seçin.');
+      console.groupEnd();
       return;
     }
     
+    console.log('🔄 Konular kaydediliyor...');
     setIsConfirming(true);
     setError(null);
     
     try {
+      console.log('🌐 Mock confirm service çağrısı yapılıyor...', {
+        courseId,
+        selectedTopicsCount: selectedTopics.length,
+        service: 'mockConfirmTopics'
+      });
+
       // In a real implementation, this would call your backend API
+      const startTime = performance.now();
       await mockConfirmTopics(courseId, selectedTopics);
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ Konular başarıyla kaydedildi:', {
+        confirmedTopicsCount: selectedTopics.length,
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        nextStep: 'success',
+        timestamp: new Date().toISOString()
+      });
+
       setStep('success');
       
+      console.log('🔄 Learning targets yenileniyor...');
       // Refresh learning targets after confirmation
       await fetchTargets('current-user', courseId);
+      console.log('✅ Learning targets başarıyla yenilendi');
+      
+      console.log('🎉 handleConfirm başarıyla tamamlandı!');
     } catch (error) {
+      console.error('❌ Konular kaydetme HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        selectedTopicsCount: selectedTopics.length,
+        courseId,
+        timestamp: new Date().toISOString()
+      });
+
       console.error('Error confirming topics:', error);
       setError('Konular kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
+      console.log('🏁 Confirming durumu false yapılıyor...');
       setIsConfirming(false);
+      console.log('💥 handleConfirm işlemi sonlandı');
+      console.groupEnd();
     }
   };
 
   const handleClose = () => {
+    console.group('🚪 [ProposeLearningTopics] handleClose - Dialog kapatılıyor');
+    console.log('📋 Mevcut state:', {
+      step,
+      contextTextLength: contextText.length,
+      proposedTopicsCount: proposedTopics.length,
+      selectedTopicsCount: selectedTopics.length,
+      hasError: !!error,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log('🧹 State temizleniyor...');
     // Reset state
     setContextText('');
     setProposedTopics([]);
     setSelectedTopics([]);
     setError(null);
     setStep('input');
+    
+    console.log('📞 onClose callback çağrılıyor...');
     onClose();
+    
+    console.log('🎉 handleClose başarıyla tamamlandı!');
+    console.groupEnd();
   };
 
   const handleBack = () => {
+    console.group('⬅️ [ProposeLearningTopics] handleBack - Geri navigasyon');
+    console.log('📋 Navigasyon bilgileri:', {
+      currentStep: step,
+      nextStep: 'input',
+      proposedTopicsCount: proposedTopics.length,
+      selectedTopicsCount: selectedTopics.length,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log('📊 Step güncelleniyor: review -> input');
     setStep('input');
+    
+    console.log('🎉 handleBack başarıyla tamamlandı!');
+    console.groupEnd();
   };
 
   // Render content based on current step

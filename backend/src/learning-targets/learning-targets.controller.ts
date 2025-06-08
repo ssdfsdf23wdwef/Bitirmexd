@@ -316,17 +316,59 @@ export class LearningTargetsController {
     @Body() dto: DetectNewTopicsDto,
     @Req() req: RequestWithUser,
   ) {
+    const operationId = `propose-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n🔍 BACKEND: Propose New Topics - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${req.user.uid}`);
+    console.log(`📋 Request Body:`, JSON.stringify(dto, null, 2));
+    console.log(`📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+    console.log(`📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
+    
     try {
       this.flowTracker.trackStep(
         'Yeni konular tespit ediliyor',
         'LearningTargetsController',
       );
 
-      return await this.learningTargetsService.proposeNewTopics(
+      console.log(`\n🚀 Calling LearningTargetsService.proposeNewTopics...`);
+      const serviceStartTime = performance.now();
+      
+      const result = await this.learningTargetsService.proposeNewTopics(
         dto,
         req.user.uid,
       );
+      
+      const serviceEndTime = performance.now();
+      const serviceDuration = serviceEndTime - serviceStartTime;
+      
+      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+      console.log(`📋 Proposed Topics Result:`, JSON.stringify(result, null, 2));
+      console.log(`📊 Proposed Topics Count: ${result.proposedTopics?.length || 0}`);
+      
+      if (result.proposedTopics && result.proposedTopics.length > 0) {
+        console.log(`\n📝 Detailed Proposed Topics:`);
+        result.proposedTopics.forEach((topic, index) => {
+          console.log(`  ${index + 1}. ${topic.name} (ID: ${topic.tempId})`);
+          if (topic.relevance) console.log(`     Relevance: ${topic.relevance}`);
+          if (topic.details) console.log(`     Details: ${topic.details}`);
+        });
+      }
+      
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+      
+      return result;
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in propose new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.error(
         `Yeni konular tespit edilirken hata: ${error.message}`,
         'LearningTargetsController.proposeNewTopics',
@@ -353,17 +395,66 @@ export class LearningTargetsController {
     @Body() dto: ConfirmNewTopicsDto,
     @Req() req: RequestWithUser,
   ): Promise<LearningTarget[]> {
+    const operationId = `confirm-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n✅ BACKEND: Confirm New Topics - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${req.user.uid}`);
+    console.log(`📋 Request Body:`, JSON.stringify(dto, null, 2));
+    console.log(`🏫 Course ID: ${dto.courseId}`);
+    console.log(`📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
+    
+    if (dto.selectedTopics && dto.selectedTopics.length > 0) {
+      console.log(`\n📝 Selected Topics Details:`);
+      dto.selectedTopics.forEach((topic, index) => {
+        console.log(`  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`);
+      });
+    }
+    
     try {
       this.flowTracker.trackStep(
         'Yeni konular öğrenme hedefi olarak kaydediliyor',
         'LearningTargetsController',
       );
 
-      return await this.learningTargetsService.confirmAndSaveNewTopicsAsLearningTargets(
+      console.log(`\n🚀 Calling LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets...`);
+      const serviceStartTime = performance.now();
+      
+      const result = await this.learningTargetsService.confirmAndSaveNewTopicsAsLearningTargets(
         dto,
         req.user.uid,
       );
+      
+      const serviceEndTime = performance.now();
+      const serviceDuration = serviceEndTime - serviceStartTime;
+      
+      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+      console.log(`📊 Created Learning Targets Count: ${result.length}`);
+      
+      if (result.length > 0) {
+        console.log(`\n🎯 Created Learning Targets Details:`);
+        result.forEach((target, index) => {
+          console.log(`  ${index + 1}. ${target.subTopicName} (ID: ${target.id})`);
+          console.log(`     Status: ${target.status}`);
+          console.log(`     Course ID: ${target.courseId}`);
+          console.log(`     Normalized Name: ${target.normalizedSubTopicName}`);
+        });
+      }
+      
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+      
+      return result;
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in confirm new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.error(
         `Yeni öğrenme hedefleri oluşturulurken hata: ${error.message}`,
         'LearningTargetsController.confirmNewTopics',
@@ -1020,6 +1111,24 @@ export class LearningTargetsController {
     @Body() detectNewTopicsDto: DetectNewTopicsDto,
     @Req() req: RequestWithUser,
   ): Promise<string[]> {
+    const operationId = `detect-new-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n🔍 BACKEND: Detect New Topics - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${req.user.uid}`);
+    console.log(`🏫 Course ID: ${courseId}`);
+    console.log(`📋 Request Body:`, JSON.stringify(detectNewTopicsDto, null, 2));
+    console.log(`📊 Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`);
+    console.log(`📝 Context Text Length: ${detectNewTopicsDto.contextText?.length || 0} characters`);
+    
+    if (detectNewTopicsDto.existingTopicTexts && detectNewTopicsDto.existingTopicTexts.length > 0) {
+      console.log(`\n📝 Existing Topics List:`);
+      detectNewTopicsDto.existingTopicTexts.forEach((topic, index) => {
+        console.log(`  ${index + 1}. ${topic}`);
+      });
+    }
+    
     const userId = req.user.uid;
     try {
       this.flowTracker.trackStep(
@@ -1040,14 +1149,35 @@ export class LearningTargetsController {
       );
 
       if (!detectNewTopicsDto.contextText?.trim()) {
-        throw new BadRequestException('Ders içeriği (lessonContext) boş olamaz.');
+        const errorMessage = 'Ders içeriği (lessonContext) boş olamaz.';
+        console.error(`\n❌ VALIDATION ERROR: ${errorMessage}`);
+        console.groupEnd();
+        throw new BadRequestException(errorMessage);
       }
 
+      console.log(`\n🚀 Calling TopicDetectionService.detectExclusiveNewTopics...`);
+      const serviceStartTime = performance.now();
+      
       const newTopics =
         await this.topicDetectionService.detectExclusiveNewTopics(
           detectNewTopicsDto.contextText,
           detectNewTopicsDto.existingTopicTexts,
         );
+
+      const serviceEndTime = performance.now();
+      const serviceDuration = serviceEndTime - serviceStartTime;
+      
+      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+      console.log(`📊 New Topics Detected Count: ${newTopics.length}`);
+      
+      if (newTopics.length > 0) {
+        console.log(`\n🎯 Detected New Topics:`);
+        newTopics.forEach((topic, index) => {
+          console.log(`  ${index + 1}. ${topic}`);
+        });
+      } else {
+        console.log(`\n ℹ️ No new topics detected (all existing topics covered)`);
+      }
 
       this.logger.info(
         `${newTopics.length} yeni konu tespit edildi (course: ${courseId})`,
@@ -1056,8 +1186,20 @@ export class LearningTargetsController {
         682, // Manuel güncellendi
         { count: newTopics.length },
       );
+      
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+      
       return newTopics;
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in detect new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.logError(
         error,
         'LearningTargetsController.detectNewTopics',
@@ -1103,6 +1245,24 @@ export class LearningTargetsController {
     @Request() req: RequestWithUser,
     @Body() batchUpdateDto: BatchUpdateLearningTargetsDto,
   ): Promise<{ success: boolean; updatedCount: number }> {
+    const operationId = `batch-update-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n🔄 BACKEND: Batch Update Learning Targets - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${req.user.uid}`);
+    console.log(`📊 Targets to Update Count: ${batchUpdateDto.targets?.length || 0}`);
+    console.log(`📋 Request Body:`, JSON.stringify(batchUpdateDto, null, 2));
+    
+    if (batchUpdateDto.targets && batchUpdateDto.targets.length > 0) {
+      console.log(`\n📝 Targets Update Details:`);
+      batchUpdateDto.targets.forEach((target, index) => {
+        console.log(`  ${index + 1}. ${target.subTopic}`);
+        console.log(`     Status: ${target.status}`);
+        console.log(`     Score: ${target.score}`);
+      });
+    }
+    
     try {
       const userId = req.user.uid;
       
@@ -1127,10 +1287,21 @@ export class LearningTargetsController {
         }
       );
 
+      console.log(`\n🚀 Calling LearningTargetsService.batchUpdate...`);
+      const serviceStartTime = performance.now();
+      
       const result = await this.learningTargetsService.batchUpdate(
         userId,
         batchUpdateDto.targets
       );
+      
+      const serviceEndTime = performance.now();
+      const serviceDuration = serviceEndTime - serviceStartTime;
+      
+      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+      console.log(`📊 Batch Update Result:`, JSON.stringify(result, null, 2));
+      console.log(`📈 Updated Count: ${result.updatedCount}/${batchUpdateDto.targets.length}`);
+      console.log(`🎯 Success Rate: ${((result.updatedCount / batchUpdateDto.targets.length) * 100).toFixed(1)}%`);
 
       this.logger.info(
         `Batch update completed: ${result.updatedCount}/${batchUpdateDto.targets.length} targets updated`,
@@ -1140,8 +1311,19 @@ export class LearningTargetsController {
         { userId, ...result }
       );
 
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+
       return result;
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in batch update learning targets after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.logError(
         error,
         'LearningTargetsController.batchUpdateLearningTargets',

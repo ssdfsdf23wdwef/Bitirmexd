@@ -393,6 +393,16 @@ export class LearningTargetsService {
     dto: DetectNewTopicsDto,
     userId: string,
   ): Promise<{ proposedTopics: { tempId: string; name: string; relevance?: string; details?: string }[] }> {
+    const operationId = `service-propose-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n🔍 SERVICE: Propose New Topics - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${userId}`);
+    console.log(`📋 DTO:`, JSON.stringify(dto, null, 2));
+    console.log(`📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+    console.log(`📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
+    
     try {
       this.flowTracker.trackStep(
         `Yeni konu önerileri tespit ediliyor`,
@@ -413,19 +423,41 @@ export class LearningTargetsService {
         // TODO: If needed, get course content from course service
         // For now, just use the existing topics as context if no explicit context is provided
         contextText = dto.existingTopicTexts.join('. ');
+        console.log(`\n📝 No context text provided, using existing topics as context (${contextText.length} chars)`);
       }
 
+      console.log(`\n🚀 Calling TopicDetectionService.detectNewTopicsExclusive...`);
+      const aiServiceStartTime = performance.now();
+      
       // Call the topic detection service to detect new topics
       const result = await this.topicDetectionService.detectNewTopicsExclusive(
         contextText,
         dto.existingTopicTexts,
       );
 
+      const aiServiceEndTime = performance.now();
+      const aiServiceDuration = aiServiceEndTime - aiServiceStartTime;
+      
+      console.log(`\n✅ AI Service call completed in ${aiServiceDuration.toFixed(2)}ms`);
+      console.log(`📊 AI Service Result:`, JSON.stringify(result, null, 2));
+
       // Assign temporary IDs to the proposed topics
       const proposedTopics = result.proposedTopics.map(topic => ({
         ...topic,
         tempId: uuidv4(), // Generate a unique ID for each proposed topic
       }));
+
+      console.log(`\n🎯 Processing Results:`);
+      console.log(`📊 Proposed Topics Count: ${proposedTopics.length}`);
+      
+      if (proposedTopics.length > 0) {
+        console.log(`\n📝 Detailed Proposed Topics:`);
+        proposedTopics.forEach((topic, index) => {
+          console.log(`  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`);
+          if (topic.relevance) console.log(`     Relevance: ${topic.relevance}`);
+          if (topic.details) console.log(`     Details: ${topic.details}`);
+        });
+      }
 
       this.logger.info(
         `${proposedTopics.length} adet yeni konu önerisi tespit edildi`,
@@ -435,8 +467,19 @@ export class LearningTargetsService {
         { userId, proposedTopicCount: proposedTopics.length }
       );
 
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+
       return { proposedTopics };
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in propose new topics service after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.error(
         `Yeni konu önerileri tespiti sırasında hata: ${error.message}`,
         'LearningTargetsService.proposeNewTopics',
@@ -459,6 +502,16 @@ export class LearningTargetsService {
     dto: ConfirmNewTopicsDto,
     userId: string,
   ): Promise<LearningTarget[]> {
+    const operationId = `service-confirm-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const startTime = performance.now();
+    
+    console.group(`\n✅ SERVICE: Confirm and Save Topics - Operation ID: ${operationId}`);
+    console.log(`📅 Timestamp: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${userId}`);
+    console.log(`🏫 Course ID: ${dto.courseId}`);
+    console.log(`📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
+    console.log(`📋 DTO:`, JSON.stringify(dto, null, 2));
+    
     try {
       this.flowTracker.trackStep(
         `Seçilen konular öğrenme hedefi olarak kaydediliyor`,
@@ -474,8 +527,15 @@ export class LearningTargetsService {
       );
 
       if (dto.selectedTopics.length === 0) {
+        console.log(`\n⚠️ No topics selected, returning empty array`);
+        console.groupEnd();
         return [];
       }
+
+      console.log(`\n📝 Topics to be created:`);
+      dto.selectedTopics.forEach((topic, index) => {
+        console.log(`  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`);
+      });
 
       // Get Firestore batch for bulk write
       const db = this.firebaseService.firestore;
@@ -483,13 +543,18 @@ export class LearningTargetsService {
       const now = admin.firestore.FieldValue.serverTimestamp();
       const createdTargets: LearningTarget[] = [];
 
+      console.log(`\n🚀 Preparing Firestore batch operations...`);
+      const batchStartTime = performance.now();
+
       // Create a learning target for each selected topic
       for (const topic of dto.selectedTopics) {
+        const normalizedName = this.normalizationService.normalizeSubTopicName(topic.name || '');
+        
         const newTarget: Omit<LearningTarget, 'id'> = {
           userId,
           courseId: dto.courseId || '', // Provide default empty string if undefined
           subTopicName: topic.name || '', // Ensure name is not undefined
-          normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic.name || ''),
+          normalizedSubTopicName: normalizedName,
           status: 'pending',
           failCount: 0,
           mediumCount: 0,
@@ -503,6 +568,9 @@ export class LearningTargetsService {
         const targetRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
         batch.set(targetRef, newTarget);
         
+        console.log(`  📄 Prepared batch operation for: ${topic.name} -> Document ID: ${targetRef.id}`);
+        console.log(`     Normalized Name: ${normalizedName}`);
+        
         // Add to created targets list with temporary ID for return
         // Add to created targets with a placeholder for timestamps
         // This is a workaround for the Timestamp/FieldValue type issue
@@ -514,8 +582,26 @@ export class LearningTargetsService {
         } as LearningTarget);
       }
 
+      const batchPrepTime = performance.now() - batchStartTime;
+      console.log(`\n✅ Batch prepared in ${batchPrepTime.toFixed(2)}ms`);
+      
+      console.log(`\n💾 Committing batch to Firestore...`);
+      const commitStartTime = performance.now();
+      
       // Commit the batch
       await batch.commit();
+      
+      const commitTime = performance.now() - commitStartTime;
+      console.log(`\n✅ Batch committed successfully in ${commitTime.toFixed(2)}ms`);
+      
+      console.log(`\n🎯 Created Learning Targets Summary:`);
+      createdTargets.forEach((target, index) => {
+        console.log(`  ${index + 1}. ${target.subTopicName}`);
+        console.log(`     ID: ${target.id}`);
+        console.log(`     Status: ${target.status}`);
+        console.log(`     Course ID: ${target.courseId}`);
+        console.log(`     Normalized: ${target.normalizedSubTopicName}`);
+      });
 
       this.logger.info(
         `${createdTargets.length} adet öğrenme hedefi başarıyla oluşturuldu`,
@@ -525,8 +611,19 @@ export class LearningTargetsService {
         { userId, createdCount: createdTargets.length }
       );
 
+      const totalDuration = performance.now() - startTime;
+      console.log(`\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.groupEnd();
+
       return createdTargets;
     } catch (error) {
+      const errorDuration = performance.now() - startTime;
+      console.error(`\n❌ ERROR in confirm and save topics service after ${errorDuration.toFixed(2)}ms:`);
+      console.error(`Error Name: ${error.name}`);
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Error Stack:`, error.stack);
+      console.groupEnd();
+      
       this.logger.error(
         `Öğrenme hedefleri oluşturulurken hata: ${error.message}`,
         'LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets',
@@ -1703,6 +1800,22 @@ export class LearningTargetsService {
    */
   @LogMethod({ trackParams: true })
   async batchUpdate(userId: string, targets: any[]): Promise<{ success: boolean; updatedCount: number }> {
+    const operationId = `batch-update-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const startTime = performance.now();
+    
+    console.group(`🔄 Service: Batch Update Learning Targets [${operationId}]`);
+    console.log(`🕐 Service Start Time: ${new Date().toISOString()}`);
+    console.log(`👤 User ID: ${userId}`);
+    console.log(`📊 Targets Count: ${targets.length}`);
+    console.log(`🏷️ Operation ID: ${operationId}`);
+    
+    if (targets.length > 0) {
+      console.log(`📋 Targets to Process:`);
+      targets.forEach((target, index) => {
+        console.log(`  ${index + 1}. SubTopic: "${target.subTopic}", Status: "${target.status}", Score: ${target.score}`);
+      });
+    }
+    
     try {
       this.flowTracker.trackStep(
         `Batch updating ${targets.length} learning targets`,
@@ -1718,34 +1831,63 @@ export class LearningTargetsService {
       );
 
       if (targets.length === 0) {
+        console.log(`⚠️ No targets to process, returning early`);
+        console.groupEnd();
         return { success: true, updatedCount: 0 };
       }
 
       // Get Firestore database instance and create batch
+      console.log(`🔧 Initializing Firestore batch operation...`);
       const db = this.firebaseService.firestore;
       const batch = db.batch();
       let updatedCount = 0;
+      let newTargetsCount = 0;
+      let existingTargetsCount = 0;
 
       // Process each target in the array
-      for (const target of targets) {
+      console.log(`\n🔍 Processing ${targets.length} targets individually...`);
+      const processingStartTime = performance.now();
+      
+      for (let i = 0; i < targets.length; i++) {
+        const target = targets[i];
+        const targetStartTime = performance.now();
+        
+        console.log(`\n📝 Processing Target ${i + 1}/${targets.length}:`);
+        console.log(`  🏷️ SubTopic: "${target.subTopic}"`);
+        console.log(`  📊 Status: "${target.status}"`);
+        console.log(`  🎯 Score: ${target.score}`);
+        
         // Normalize the incoming subTopic for querying
         const normalizedQuerySubTopic = this.normalizationService.normalizeSubTopicName(target.subTopic);
+        console.log(`  🔄 Normalized SubTopic: "${normalizedQuerySubTopic}"`);
 
         // Query for existing record based on userId and normalizedSubTopicName
+        console.log(`  🔍 Querying for existing record...`);
+        const queryStartTime = performance.now();
+        
         const existingQuery = await db
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .where('userId', '==', userId)
           .where('normalizedSubTopicName', '==', normalizedQuerySubTopic) // Changed to query by normalized name
           .limit(1)
           .get();
+          
+        const queryDuration = performance.now() - queryStartTime;
+        console.log(`  ⏱️ Query Duration: ${queryDuration.toFixed(2)}ms`);
 
         if (!existingQuery.empty) {
           // Record exists - update it using batch.update()
+          existingTargetsCount++;
           const existingDoc = existingQuery.docs[0];
           const existingData = existingDoc.data();
           
+          console.log(`  ✅ Found existing record: ${existingDoc.id}`);
+          console.log(`  📋 Current Status: "${existingData.status}" -> New Status: "${target.status}"`);
+          console.log(`  🔢 Current Counters: fail=${existingData.failCount || 0}, medium=${existingData.mediumCount || 0}, success=${existingData.successCount || 0}`);
+          
           // Convert frontend status to backend status
           const backendStatus = this.convertFrontendStatusToBackend(target.status);
+          console.log(`  🔄 Backend Status: "${backendStatus}"`);
           
           // Prepare update data
           const updateData: any = {
@@ -1758,14 +1900,18 @@ export class LearningTargetsService {
           // Update counters based on status
           if (backendStatus === 'failed') {
             updateData.failCount = (existingData.failCount || 0) + 1;
+            console.log(`  ➕ Incrementing fail count: ${existingData.failCount || 0} -> ${updateData.failCount}`);
           } else if (backendStatus === 'medium') {
             updateData.mediumCount = (existingData.mediumCount || 0) + 1;
+            console.log(`  ➕ Incrementing medium count: ${existingData.mediumCount || 0} -> ${updateData.mediumCount}`);
           } else if (backendStatus === 'mastered') {
             updateData.successCount = (existingData.successCount || 0) + 1;
+            console.log(`  ➕ Incrementing success count: ${existingData.successCount || 0} -> ${updateData.successCount}`);
           }
 
           batch.update(existingDoc.ref, updateData);
           updatedCount++;
+          console.log(`  ✅ Queued for update (${updatedCount}/${targets.length})`);
 
           this.logger.debug(
             `Queued update for existing learning target: ${existingDoc.id} (${target.subTopic}) -> ${backendStatus}`,
@@ -1782,9 +1928,13 @@ export class LearningTargetsService {
           );
         } else {
           // Record doesn't exist - create new one using batch.set()
+          newTargetsCount++;
           const newDocRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
           const backendStatus = this.convertFrontendStatusToBackend(target.status);
           const now = admin.firestore.FieldValue.serverTimestamp();
+          
+          console.log(`  🆕 Creating new record: ${newDocRef.id}`);
+          console.log(`  🔄 Backend Status: "${backendStatus}"`);
           
           // Prepare new document data
           const newDocData = {
@@ -1802,9 +1952,12 @@ export class LearningTargetsService {
             createdAt: now,
             updatedAt: now,
           };
+          
+          console.log(`  🔢 Initial Counters: fail=${newDocData.failCount}, medium=${newDocData.mediumCount}, success=${newDocData.successCount}`);
 
           batch.set(newDocRef, newDocData);
           updatedCount++;
+          console.log(`  ✅ Queued for creation (${updatedCount}/${targets.length})`);
 
           this.logger.debug(
             `Queued creation of new learning target: ${newDocRef.id} (${target.subTopic}) -> ${backendStatus}`,
@@ -1819,10 +1972,31 @@ export class LearningTargetsService {
             }
           );
         }
+        
+        const targetDuration = performance.now() - targetStartTime;
+        console.log(`  ⏱️ Target Processing Duration: ${targetDuration.toFixed(2)}ms`);
       }
+      
+      const processingDuration = performance.now() - processingStartTime;
+      console.log(`\n📊 Processing Summary:`);
+      console.log(`  📈 Total Processing Duration: ${processingDuration.toFixed(2)}ms`);
+      console.log(`  🔄 Existing Targets Updated: ${existingTargetsCount}`);
+      console.log(`  🆕 New Targets Created: ${newTargetsCount}`);
+      console.log(`  ✅ Total Queued Operations: ${updatedCount}`);
 
       // Execute all batch operations at once
+      console.log(`\n🚀 Committing batch operations to Firestore...`);
+      const commitStartTime = performance.now();
+      
       await batch.commit();
+      
+      const commitDuration = performance.now() - commitStartTime;
+      const totalDuration = performance.now() - startTime;
+      
+      console.log(`✅ Batch commit completed!`);
+      console.log(`⏱️ Commit Duration: ${commitDuration.toFixed(2)}ms`);
+      console.log(`⏱️ Total Operation Duration: ${totalDuration.toFixed(2)}ms`);
+      console.log(`📈 Success Rate: ${((updatedCount / targets.length) * 100).toFixed(1)}%`);
 
       this.logger.info(
         `Batch update completed: ${updatedCount}/${targets.length} targets processed`,
@@ -1832,8 +2006,16 @@ export class LearningTargetsService {
         { userId, requestedCount: targets.length, updatedCount }
       );
 
+      console.groupEnd();
       return { success: true, updatedCount };
     } catch (error) {
+      const totalDuration = performance.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      
+      console.error(`❌ Batch Update Error after ${totalDuration.toFixed(2)}ms:`, errorMessage);
+      console.error(`📊 Error Details:`, error);
+      console.groupEnd();
+      
       this.logger.error(
         `Batch update failed: ${error.message}`,
         'LearningTargetsService.batchUpdate',

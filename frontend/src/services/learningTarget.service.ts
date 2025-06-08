@@ -783,9 +783,20 @@ class LearningTargetService {
     lessonContext: string, 
     existingTopicNames: string[]
   ): Promise<string[]> {
+    console.group('🔍 [LearningTargetService] detectNewTopics - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      courseId,
+      lessonContextLength: lessonContext.length,
+      lessonContextPreview: lessonContext.substring(0, 200) + '...',
+      existingTopicNamesCount: existingTopicNames.length,
+      existingTopicNames: existingTopicNames.slice(0, 5),
+      timestamp: new Date().toISOString()
+    });
+
     flowTracker.markStart(`detectNewTopics_${courseId}`);
     
     try {
+      console.log('📊 Flow tracking başlatılıyor...');
       trackFlow(
         `Detecting new topics for course ${courseId} with ${existingTopicNames.length} existing topics`,
         "LearningTargetService.detectNewTopics",
@@ -799,6 +810,7 @@ class LearningTargetService {
         { courseId, contextLength: lessonContext.length, existingTopicsCount: existingTopicNames.length }
       );
       
+      console.log('📝 Logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Yeni konu tespiti başlatılıyor: Kurs=${courseId}, Metin uzunluğu=${lessonContext.length}, Mevcut konu sayısı=${existingTopicNames.length}`,
         'LearningTargetService.detectNewTopics',
@@ -812,6 +824,16 @@ class LearningTargetService {
         }
       );
       
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/${courseId}/detect-new-topics`,
+        method: 'POST',
+        requestBody: {
+          lessonContext: lessonContext.substring(0, 100) + '...',
+          existingTopicNamesCount: existingTopicNames.length
+        }
+      });
+
+      const startTime = performance.now();
       const newTopics = await apiService.post<string[]>(
         `/learning-targets/${courseId}/detect-new-topics`,
         {
@@ -819,9 +841,22 @@ class LearningTargetService {
           existingTopicNames
         }
       );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        newTopicsCount: newTopics.length,
+        newTopics: newTopics.slice(0, 10),
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        allNewTopics: newTopics,
+        timestamp: new Date().toISOString()
+      });
       
       // Başarılı sonuç
+      console.log('📊 Flow tracking sonlandırılıyor...');
       const duration = flowTracker.markEnd(`detectNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Yeni konu tespiti tamamlandı: Kurs=${courseId}, Tespit edilen yeni konu sayısı=${newTopics.length}`,
         'LearningTargetService.detectNewTopics',
@@ -835,8 +870,21 @@ class LearningTargetService {
         }
       );
       
+      console.log('🎉 detectNewTopics BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
       return newTopics;
+
     } catch (error) {
+      console.error('❌ API HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        courseId,
+        lessonContextLength: lessonContext.length,
+        existingTopicNamesCount: existingTopicNames.length,
+        timestamp: new Date().toISOString()
+      });
+
       // Hata durumu
       flowTracker.markEnd(`detectNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       logger.logLearningTarget(
@@ -846,6 +894,9 @@ class LearningTargetService {
         825,
         { courseId, contextLength: lessonContext.length, existingTopicsCount: existingTopicNames.length, error }
       );
+
+      console.error('💥 detectNewTopics HATA İLE SONLANDI');
+      console.groupEnd();
       throw error;
     }
   }
@@ -853,9 +904,18 @@ class LearningTargetService {
   // Yeni konuları onayla ve kaydet
   @LogMethod('LearningTargetService', FlowCategory.API)
   async confirmNewTopics(courseId: string, newTopicNames: string[]): Promise<LearningTarget[]> {
+    console.group('✅ [LearningTargetService] confirmNewTopics - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      courseId,
+      newTopicNamesCount: newTopicNames.length,
+      newTopicNames: newTopicNames,
+      timestamp: new Date().toISOString()
+    });
+
     flowTracker.markStart(`confirmNewTopics_${courseId}`);
     
     try {
+      console.log('📊 Flow tracking başlatılıyor...');
       trackFlow(
         `Confirming ${newTopicNames.length} new topics for course ${courseId}`,
         "LearningTargetService.confirmNewTopics",
@@ -869,6 +929,7 @@ class LearningTargetService {
         { courseId, topicsCount: newTopicNames.length }
       );
       
+      console.log('📝 Logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Yeni konular onaylanıyor: Kurs=${courseId}, Onaylanacak konu sayısı=${newTopicNames.length}`,
         'LearningTargetService.confirmNewTopics',
@@ -881,15 +942,40 @@ class LearningTargetService {
         }
       );
       
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/${courseId}/confirm-new-topics`,
+        method: 'POST',
+        requestBody: {
+          newTopicNames: newTopicNames
+        }
+      });
+
+      const startTime = performance.now();
       const confirmedTargets = await apiService.post<LearningTarget[]>(
         `/learning-targets/${courseId}/confirm-new-topics`,
         {
           newTopicNames
         }
       );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        confirmedTargetsCount: confirmedTargets.length,
+        confirmedTargets: confirmedTargets.map(t => ({ 
+          id: t.id, 
+          name: t.subTopicName, 
+          status: t.status 
+        })),
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        timestamp: new Date().toISOString()
+      });
       
       // Başarılı sonuç
+      console.log('📊 Flow tracking sonlandırılıyor...');
       const duration = flowTracker.markEnd(`confirmNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Yeni konular başarıyla onaylandı ve kaydedildi: Kurs=${courseId}, Oluşturulan hedef sayısı=${confirmedTargets.length}`,
         'LearningTargetService.confirmNewTopics',
@@ -903,8 +989,21 @@ class LearningTargetService {
         }
       );
       
+      console.log('🎉 confirmNewTopics BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
       return confirmedTargets;
+
     } catch (error) {
+      console.error('❌ ONAYLAMA HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        courseId,
+        newTopicNamesCount: newTopicNames.length,
+        newTopicNames,
+        timestamp: new Date().toISOString()
+      });
+
       // Hata durumu
       flowTracker.markEnd(`confirmNewTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       logger.logLearningTarget(
@@ -914,6 +1013,9 @@ class LearningTargetService {
         890,
         { courseId, topicsCount: newTopicNames.length, topicNames: newTopicNames, error }
       );
+
+      console.error('💥 confirmNewTopics HATA İLE SONLANDI');
+      console.groupEnd();
       throw error;
     }
   }
@@ -928,9 +1030,26 @@ class LearningTargetService {
       score: number;
     }>
   ): Promise<{ success: boolean; updatedCount: number }> {
+    console.group('🔄 [LearningTargetService] updateLearningTargetsBatch - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      targetCount: temporaryTargets.length,
+      targetsPreview: temporaryTargets.slice(0, 3),
+      statusDistribution: temporaryTargets.reduce((acc, target) => {
+        acc[target.status] = (acc[target.status] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>),
+      scoreRange: {
+        min: Math.min(...temporaryTargets.map(t => t.score)),
+        max: Math.max(...temporaryTargets.map(t => t.score)),
+        avg: temporaryTargets.reduce((sum, t) => sum + t.score, 0) / temporaryTargets.length
+      },
+      timestamp: new Date().toISOString()
+    });
+
     flowTracker.markStart('updateLearningTargetsBatch');
     
     try {
+      console.log('📊 Flow tracking başlatılıyor...');
       trackFlow(
         `Batch updating learning targets: ${temporaryTargets.length} targets`,
         "LearningTargetService.updateLearningTargetsBatch",
@@ -944,6 +1063,7 @@ class LearningTargetService {
         { targetCount: temporaryTargets.length }
       );
       
+      console.log('📝 Logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Batch öğrenme hedefi güncellemesi başlatılıyor: ${temporaryTargets.length} hedef`,
         'LearningTargetService.updateLearningTargetsBatch',
@@ -960,14 +1080,39 @@ class LearningTargetService {
         }
       );
       
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/batch-update`,
+        method: 'PATCH',
+        requestBody: {
+          targetsCount: temporaryTargets.length,
+          sampleTargets: temporaryTargets.slice(0, 2),
+          allStatuses: [...new Set(temporaryTargets.map(t => t.status))]
+        }
+      });
+
       // API çağrısı yap
+      const startTime = performance.now();
       const result = await apiService.patch<{ success: boolean; updatedCount: number }>(
         `/learning-targets/batch-update`, 
         { targets: temporaryTargets }
       );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        success: result.success,
+        updatedCount: result.updatedCount,
+        requestedCount: temporaryTargets.length,
+        successRate: `${((result.updatedCount / temporaryTargets.length) * 100).toFixed(1)}%`,
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        timestamp: new Date().toISOString()
+      });
       
       // Başarılı sonuç
+      console.log('📊 Flow tracking sonlandırılıyor...');
       const duration = flowTracker.markEnd('updateLearningTargetsBatch', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
       logger.logLearningTarget(
         `Batch güncelleme tamamlandı: ${result.updatedCount}/${temporaryTargets.length} hedef güncellendi`,
         'LearningTargetService.updateLearningTargetsBatch',
@@ -981,8 +1126,19 @@ class LearningTargetService {
         }
       );
       
+      console.log('🎉 updateLearningTargetsBatch BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
       return result;
     } catch (error) {
+      console.error('❌ API HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        targetCount: temporaryTargets.length,
+        targetsPreview: temporaryTargets.slice(0, 2),
+        timestamp: new Date().toISOString()
+      });
+
       // Hata durumu
       flowTracker.markEnd('updateLearningTargetsBatch', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       trackFlow(
@@ -999,6 +1155,9 @@ class LearningTargetService {
         960,
         { count: temporaryTargets.length, error }
       );
+
+      console.error('💥 updateLearningTargetsBatch HATA İLE SONLANDI');
+      console.groupEnd();
       throw error;
     }
   }

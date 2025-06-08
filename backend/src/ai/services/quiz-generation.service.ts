@@ -1004,34 +1004,9 @@ export class QuizGenerationService {
         }
       }
 
-      // 4. Sonuçları logla
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] AI yanıtı işleme tamamlandı. Toplam: ${questions.length} geçerli soru`,
-      );
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Üretilen sorular:`,
-        questions.map((q) => ({
-          id: q.id,
-          question: q.questionText.substring(0, 30) + '...',
-          difficulty: q.difficulty,
-          subTopic: q.subTopicName,
-        })),
-      );
+ 
 
-      this.logger.info(
-        `[${traceId}] Quiz soruları başarıyla oluşturuldu. Toplam: ${questions.length} soru`,
-        'QuizGenerationService.processAIResponse',
-      );
-
-      this.logger.logExamStage(
-        metadata.userId || 'anon',
-        'Sorular başarıyla işlendi',
-        {
-          traceId,
-          questionsCount: questions.length,
-          subTopics: metadata.subTopics || [],
-        },
-      );
+      
 
       return questions;
     } catch (error) {

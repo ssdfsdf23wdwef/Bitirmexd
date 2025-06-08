@@ -2246,15 +2246,11 @@ export class QuizValidationService {
           );
         } else if (typeof q_input.topic === 'string' && q_input.topic) {
           subTopicNameFromInput = q_input.topic;
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] #${i + 1} - topic alanı bulundu: ${subTopicNameFromInput}`,
-          );
+        
         } else {
           // Varsayılan alt konu adı
           subTopicNameFromInput = 'Bilinmeyen Konu';
-          console.warn(
-            `[QUIZ_DEBUG] [${traceId}] #${i + 1} - UYARI: Alt konu bilgisi bulunamadı! Varsayılan kullanılıyor: ${subTopicNameFromInput}`,
-          );
+         
         }
 
         // Alt konu adını normalize et
@@ -2264,13 +2260,9 @@ export class QuizValidationService {
             this.normalizationService.normalizeSubTopicName(
               subTopicNameFromInput,
             );
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] #${i + 1} - Normalize edilmiş alt konu: ${normalizedSubTopicName}`,
-          );
+         
         } catch (normError) {
-          console.warn(
-            `[QUIZ_DEBUG] [${traceId}] #${i + 1} - UYARI: Alt konu normalizasyonu hatası: ${normError.message}`,
-          );
+          
           normalizedSubTopicName = subTopicNameFromInput
             .toLowerCase()
             .replace(/\s+/g, '_');
