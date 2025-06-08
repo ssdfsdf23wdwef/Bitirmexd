@@ -1,6 +1,5 @@
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsIn } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { LearningTargetStatus } from '../../common/types/learning-target.type';
 
 export class CreateLearningTargetDto {
   @ApiProperty({ description: 'Konu adı' })
@@ -14,13 +13,13 @@ export class CreateLearningTargetDto {
 
   @ApiProperty({
     description: 'Öğrenme hedefi durumu',
-    enum: LearningTargetStatus,
-    default: LearningTargetStatus.NOT_STARTED,
+    enum: ['pending', 'failed', 'medium', 'mastered'],
+    default: 'pending',
     required: false,
   })
-  @IsEnum(LearningTargetStatus)
+  @IsIn(['pending', 'failed', 'medium', 'mastered'])
   @IsOptional()
-  status?: LearningTargetStatus;
+  status?: 'pending' | 'failed' | 'medium' | 'mastered';
 
   @ApiProperty({
     description: 'Kullanıcının ekleyebileceği notlar',

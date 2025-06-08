@@ -13,6 +13,7 @@ import { ErrorService } from "@/services/error.service";
 import { Tooltip, Button } from "@nextui-org/react"; // Added Button
 import learningTargetService from "@/services/learningTarget.service";
 import { useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
+import { useLearningTargetsStore } from "@/store/useLearningTargetsStore";
 // import { useQuizStore } from "@/store/useQuizStore"; // Removed: not needed since answers are in local state
 
 // Sonuçları localStorage'a kaydetmek için fonksiyon
@@ -57,6 +58,7 @@ export default function ExamPage() {
   const queryClient = useQueryClient();  // As per prompt: get answers from useQuizStore. 
   // If 'answers' is not in your store, this will cause an error.
   // const { answers } = useQuizStore(); // Removed: answers are stored in local userAnswers state
+  const { setTemporaryTargetsFromQuiz, updateTemporaryTargetScores, clearTemporaryTargets } = useLearningTargetsStore();
   const [quiz, setQuiz] = useState<Quiz>();
   const [loading, setLoading] = useState(true);
   const [userAnswers, setUserAnswers] = useState<Record<string, any>>({});
@@ -157,10 +159,9 @@ export default function ExamPage() {
         }
         
         console.log("[DEBUG] ✅ Sınav verileri yüklendi (işlenmeden önce):", JSON.stringify(quizData, null, 2));
-        
-        // Her bir soruyu ensureQuestionSubTopics ile işle
+          // Her bir soruyu ensureQuestionSubTopics ile işle
         if (quizData.questions && Array.isArray(quizData.questions)) {
-          quizData.questions = quizData.questions.map(q => {
+          quizData.questions = quizData.questions.map((q: Question) => {
             const processedQ = ensureQuestionSubTopics(q);
             return processedQ;
           });
@@ -192,6 +193,20 @@ export default function ExamPage() {
 
     loadQuiz();
   }, [params.id]); // ensureQuestionSubTopics bağımlılıklardan çıkarıldı, çünkü sayfa içinde tanımlı ve değişmiyor.
+
+  // Learning targets integration - Set temporary targets from quiz questions
+  useEffect(() => {
+    if (quiz?.questions) {
+      console.log('[Learning Targets] Setting temporary targets from quiz questions');
+      setTemporaryTargetsFromQuiz(quiz.questions);
+    }
+
+    // Cleanup function to clear temporary targets when component unmounts
+    return () => {
+      console.log('[Learning Targets] Clearing temporary targets on unmount');
+      clearTemporaryTargets();
+    };
+  }, [quiz?.questions, setTemporaryTargetsFromQuiz, clearTemporaryTargets]);
 
 
   // Timer
@@ -502,9 +517,7 @@ export default function ExamPage() {
         if (result && result.analysisResult) {
           // Quiz nesnesinin tüm gerekli alanlarını ve tip uyumluluğunu sağlamak için
           // ID'nin kesinlikle string olduğundan emin olalım
-          const quizId = typeof preparedQuiz.id === 'string' ? preparedQuiz.id : String(preparedQuiz.id);
-          
-          // Quiz modeli için tüm gerekli alanları içeren tam bir nesne oluşturalım
+          const quizId = typeof preparedQuiz.id === 'string' ? preparedQuiz.id : String(preparedQuiz.id);          // Quiz modeli için tüm gerekli alanları içeren tam bir nesne oluşturalım
           const updatedQuizResult: Quiz = {
             // quizResult'dan gelen temel alanlar
             ...quizResult,
@@ -519,38 +532,105 @@ export default function ExamPage() {
             timestamp: typeof quizResult?.timestamp === 'string' 
               ? quizResult.timestamp 
               : new Date().toISOString(),
-            // NOT: duration alanı Quiz tipinde olmadığı için kaldırıldı
-            // duration: quizResult?.duration || 0,
+            // courseId için null/undefined kontrolü
+            courseId: quizResult?.courseId || null,
             score: quizResult?.score || 0,
             userId: quizResult?.userId || "anonim",
-
-          }
-
-          // --- Öğrenme Hedefleri Güncellemesi ---
+            correctCount: quizResult?.correctCount || 0,
+            totalQuestions: quizResult?.totalQuestions || 0,
+            elapsedTime: quizResult?.elapsedTime || 0,
+            // preferences için doğru yapı garantisi
+            preferences: {
+              questionCount: quizResult?.preferences?.questionCount || 10,
+              difficulty: quizResult?.preferences?.difficulty || "mixed",
+              timeLimit: quizResult?.preferences?.timeLimit,
+              prioritizeWeakAndMediumTopics: quizResult?.preferences?.prioritizeWeakAndMediumTopics
+            },
+            analysisResult: quizResult?.analysisResult || null
+          }// --- Öğrenme Hedefleri Güncellemesi ---
           try {
-            const performanceBySubTopic = result.analysisResult.performanceBySubTopic;
-            if (performanceBySubTopic && quiz && quiz.courseId) {
-              // Güncellenecek hedefleri hazırla
-              const updates = Object.entries(performanceBySubTopic).map(([normalizedSubTopic, perf]: [string, any]) => ({
-                normalizedSubTopicName: normalizedSubTopic,
-                status: perf.status, // "mastered" | "medium" | "failed"
-                lastAttemptScorePercent: perf.scorePercent,
-              }));
-              if (updates.length > 0) {
-                await learningTargetService.updateMultipleStatuses(updates);
-                ErrorService.showToast("Öğrenme hedefleriniz başarıyla güncellendi!", "success", "Öğrenme Hedefleri");
-                console.log("[handleSubmit] Öğrenme hedefleri güncellendi:", updates);
+            console.log('[Learning Targets] Starting learning targets update...');
+            
+            // Update temporary target scores with quiz results
+            const quizResultsForTargets = {
+              questions: preparedQuiz.questions,
+              userAnswers: validatedUserAnswers
+            };
+            
+            const updatedTargets = updateTemporaryTargetScores(quizResultsForTargets);
+            console.log('[Learning Targets] Updated temporary targets:', updatedTargets);
+            
+            // Send updated targets to backend
+            if (updatedTargets.length > 0) {
+              const batchResult = await learningTargetService.updateLearningTargetsBatch(updatedTargets);
+              console.log('[Learning Targets] Batch update result:', batchResult);
+              
+              if (batchResult.success) {
+                ErrorService.showToast(
+                  `Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.updatedCount} hedef)`, 
+                  "success", 
+                  "Öğrenme Hedefleri"
+                );
               } else {
-                console.log("[handleSubmit] Güncellenecek öğrenme hedefi yok.");
+                console.warn('[Learning Targets] Batch update failed');
+                ErrorService.showToast("Öğrenme hedefleri güncellenirken bir sorun oluştu.", "warning", "Öğrenme Hedefleri");
               }
             } else {
-              console.warn("[handleSubmit] Alt konu performansı ya da courseId bulunamadı, öğrenme hedefi güncellenmedi.");
+              console.log('[Learning Targets] No targets to update');
             }
           } catch (ltError) {
-            console.error("[handleSubmit] Öğrenme hedefleri güncellenirken hata:", ltError);
+            console.error("[Learning Targets] Error updating learning targets:", ltError);
             ErrorService.showToast("Öğrenme hedefleri güncellenirken bir hata oluştu.", "error", "Öğrenme Hedefleri");
           }
           // --- Öğrenme Hedefleri Güncellemesi Sonu ---
+
+          // --- Legacy öğrenme hedefleri güncellemesi (eski kod) ---
+          try {
+            const performanceBySubTopic = result.analysisResult.performanceBySubTopic;
+            if (performanceBySubTopic && quiz && quiz.courseId) {
+              // Önce o kursa ait öğrenme hedeflerini al
+              const learningTargets = await learningTargetService.getLearningTargets(quiz.courseId);
+              
+              // Güncellenecek hedefleri hazırla
+              const updates = Object.entries(performanceBySubTopic).map(([normalizedSubTopic, perf]: [string, any]) => {
+                // Normalized name ile hedefi bul
+                const target = learningTargets.find(lt => 
+                  lt.normalizedSubTopicName === normalizedSubTopic
+                );
+                
+                if (!target) {
+                  console.warn(`[handleSubmit] Öğrenme hedefi bulunamadı: ${normalizedSubTopic}`);
+                  return null;
+                }
+                
+                return {
+                  id: target.id,
+                  status: perf.status, // "mastered" | "medium" | "failed"
+                  lastAttemptScorePercent: perf.scorePercent,
+                };
+              }).filter(Boolean); // null olan değerleri filtrele
+                if (updates.length > 0) {
+                // Her hedefi tek tek güncelle (çünkü updateMultipleStatuses endpoint'i yok)
+                const updatePromises = updates.map(update => {
+                  if (!update) return Promise.resolve();
+                  return learningTargetService.updateLearningTarget(update.id, {
+                    status: update.status,
+                    lastAttemptScorePercent: update.lastAttemptScorePercent
+                  });
+                });
+                
+                await Promise.all(updatePromises);
+                console.log("[handleSubmit] Legacy öğrenme hedefleri güncellendi:", updates);
+              } else {
+                console.log("[handleSubmit] Legacy - Güncellenecek öğrenme hedefi yok.");
+              }            } else {
+              console.warn("[handleSubmit] Legacy - Alt konu performansı ya da courseId bulunamadı, öğrenme hedefi güncellenmedi.");
+            }
+          } catch (ltError) {
+            console.error("[handleSubmit] Legacy öğrenme hedefleri güncellenirken hata:", ltError);
+            // Not showing error toast for legacy update since new system is primary
+          }
+          // --- Legacy Öğrenme Hedefleri Güncellemesi Sonu ---
         } else {
           console.log(`ℹ️ Backend'den analiz sonucu alınamadı, sadece lokalde hesaplanan sonucu kullanıyoruz`);
         }
@@ -767,8 +847,7 @@ export default function ExamPage() {
         else if (data.status === 'medium') performanceCategorization.medium.push(topic);
         else performanceCategorization.failed.push(topic);
       });
-      
-      // Sonuçları oluştur - Quiz tipine uygun olarak
+        // Sonuçları oluştur - Quiz tipine uygun olarak
       const quizResult: Quiz = {
         ...quizToProcess,
         id: quizToProcess.id, // ID'nin string olduğundan emin oluyoruz
@@ -780,6 +859,12 @@ export default function ExamPage() {
           ? (quizToProcess.preferences.timeLimit * 60) - (remainingTime || 0) 
           : 0,
         timestamp: new Date().toISOString(),
+        preferences: {
+          questionCount: quizToProcess.preferences?.questionCount || 10,
+          difficulty: quizToProcess.preferences?.difficulty || "mixed",
+          timeLimit: quizToProcess.preferences?.timeLimit,
+          prioritizeWeakAndMediumTopics: quizToProcess.preferences?.prioritizeWeakAndMediumTopics
+        },
         analysisResult: {
           overallScore: scorePercent,
           performanceBySubTopic,
@@ -822,8 +907,7 @@ export default function ExamPage() {
           name: error.name
         });
       }
-      
-      // En azından temel bilgileri içeren basit bir sonuç oluştur
+        // En azından temel bilgileri içeren basit bir sonuç oluştur
       const fallbackQuizResult: Quiz = {
         ...quizToProcess,
         id: quizToProcess.id, // ID'nin string olduğundan emin oluyoruz
@@ -833,6 +917,12 @@ export default function ExamPage() {
         score: 0,
         elapsedTime: 0,
         timestamp: new Date().toISOString(),
+        preferences: {
+          questionCount: quizToProcess.preferences?.questionCount || 10,
+          difficulty: quizToProcess.preferences?.difficulty || "mixed",
+          timeLimit: quizToProcess.preferences?.timeLimit,
+          prioritizeWeakAndMediumTopics: quizToProcess.preferences?.prioritizeWeakAndMediumTopics
+        },
         analysisResult: {
           overallScore: 0,
           performanceBySubTopic: {},
@@ -1216,11 +1306,14 @@ export default function ExamPage() {
                       : (isDarkMode ? 'text-red-400' : 'text-red-600')}`}>
                       Sizin Cevabınız: <span className={`font-normal ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{userAnswer || "Boş bırakıldı"}</span>
                     </p>
-                  </div>
-                  {!isCorrect && (
+                  </div>                  {!isCorrect && (
                     <div className={`p-3 rounded-md ${isDarkMode ? 'bg-green-900/20 border border-green-800/50' : 'bg-green-50 border border-green-200'}`}>
                       <p className={`font-medium ${isDarkMode ? 'text-green-400' : 'text-green-600'}`}>
-                        Doğru Cevap: <span className={`font-normal ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{question.correctAnswer}</span>
+                        Doğru Cevap: <span className={`font-normal ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                          {typeof question.correctAnswer === 'object' && question.correctAnswer !== null && 'text' in question.correctAnswer 
+                            ? question.correctAnswer.text 
+                            : question.correctAnswer}
+                        </span>
                       </p>
                     </div>
                   )}

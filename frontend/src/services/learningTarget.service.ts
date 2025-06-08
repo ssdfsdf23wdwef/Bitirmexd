@@ -917,9 +917,93 @@ class LearningTargetService {
       throw error;
     }
   }
+
+  // Batch update öğrenme hedefleri
+  @LogMethod('LearningTargetService', FlowCategory.API)
+  async updateLearningTargetsBatch(
+    temporaryTargets: Array<{
+      topic: string;
+      subTopic: string;
+      status: 'PENDING' | 'FAILED' | 'MEDIUM' | 'MASTERED';
+      score: number;
+    }>
+  ): Promise<{ success: boolean; updatedCount: number }> {
+    flowTracker.markStart('updateLearningTargetsBatch');
+    
+    try {
+      trackFlow(
+        `Batch updating learning targets: ${temporaryTargets.length} targets`,
+        "LearningTargetService.updateLearningTargetsBatch",
+        FlowCategory.API
+      );
+      
+      flowTracker.trackApiCall(
+        `/learning-targets/batch-update`,
+        'PATCH',
+        'LearningTargetService.updateLearningTargetsBatch',
+        { targetCount: temporaryTargets.length }
+      );
+      
+      logger.logLearningTarget(
+        `Batch öğrenme hedefi güncellemesi başlatılıyor: ${temporaryTargets.length} hedef`,
+        'LearningTargetService.updateLearningTargetsBatch',
+        __filename,
+        925,
+        { 
+          count: temporaryTargets.length,
+          targets: temporaryTargets.map(t => ({ 
+            topic: t.topic, 
+            subTopic: t.subTopic, 
+            status: t.status.toLowerCase(), 
+            score: t.score 
+          }))
+        }
+      );
+      
+      // API çağrısı yap
+      const result = await apiService.patch<{ success: boolean; updatedCount: number }>(
+        `/learning-targets/batch-update`, 
+        { targets: temporaryTargets }
+      );
+      
+      // Başarılı sonuç
+      const duration = flowTracker.markEnd('updateLearningTargetsBatch', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      logger.logLearningTarget(
+        `Batch güncelleme tamamlandı: ${result.updatedCount}/${temporaryTargets.length} hedef güncellendi`,
+        'LearningTargetService.updateLearningTargetsBatch',
+        __filename,
+        945,
+        { 
+          requestedCount: temporaryTargets.length,
+          updatedCount: result.updatedCount,
+          success: result.success,
+          duration 
+        }
+      );
+      
+      return result;
+    } catch (error) {
+      // Hata durumu
+      flowTracker.markEnd('updateLearningTargetsBatch', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      trackFlow(
+        `Error in batch updating learning targets: ${(error as Error).message}`,
+        "LearningTargetService.updateLearningTargetsBatch",
+        FlowCategory.API,
+        { error, targetCount: temporaryTargets.length }
+      );
+      
+      logger.logLearningTarget(
+        `Batch öğrenme hedefi güncellemesinde hata oluştu: ${temporaryTargets.length} hedef`,
+        'LearningTargetService.updateLearningTargetsBatch',
+        __filename,
+        960,
+        { count: temporaryTargets.length, error }
+      );
+      throw error;
+    }
+  }
 }
 
 // Singleton instance oluştur ve export et
 const learningTargetService = new LearningTargetService();
 export default learningTargetService;
-  

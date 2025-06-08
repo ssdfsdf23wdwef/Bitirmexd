@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import { LearningTarget, LearningTargetStatus } from '../types/learning-target.types';
 
+// Temporary learning target type for quiz processing
+export interface TemporaryLearningTarget {
+  topic: string;
+  subTopic: string;
+  status: 'PENDING' | 'FAILED' | 'MEDIUM' | 'MASTERED';
+  score: number;
+}
+
 // Mock data for learning targets
 const mockLearningTargets: LearningTarget[] = [
   {
@@ -55,6 +63,7 @@ interface LearningTargetsState {
   isLoading: boolean;
   error: string | null;
   selectedCourseId: string | null;
+  temporaryTargets: TemporaryLearningTarget[];
   
   // Actions
   fetchTargets: (userId: string, courseId?: string) => Promise<void>;
@@ -64,6 +73,11 @@ interface LearningTargetsState {
   setSelectedCourseId: (courseId: string | null) => void;
   getTargetsByCourseId: (courseId: string) => LearningTarget[];
   getTargetsByStatus: (status: LearningTargetStatus) => LearningTarget[];
+  
+  // Temporary targets actions for quiz processing
+  setTemporaryTargetsFromQuiz: (questions: any[]) => void;
+  updateTemporaryTargetScores: (quizResults: any) => TemporaryLearningTarget[];
+  clearTemporaryTargets: () => void;
 }
 
 export const useLearningTargetsStore = create<LearningTargetsState>((set, get) => ({
@@ -71,6 +85,7 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
   isLoading: false,
   error: null,
   selectedCourseId: null,
+  temporaryTargets: [],
 
   fetchTargets: async (userId: string, courseId?: string) => {
     set({ isLoading: true, error: null });
@@ -165,5 +180,78 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
     }
     
     return filteredTargets;
+  },
+
+  // Temporary targets actions for quiz processing
+  setTemporaryTargetsFromQuiz: (questions) => {
+    const uniqueSubTopics = new Set<string>();
+    
+    // Extract unique subTopics from questions
+    questions.forEach(question => {
+      if (question.subTopic) {
+        uniqueSubTopics.add(question.subTopic);
+      }
+    });
+
+    // Create temporary targets for each unique subTopic
+    const temporaryTargets: TemporaryLearningTarget[] = Array.from(uniqueSubTopics).map(subTopic => ({
+      topic: questions.find(q => q.subTopic === subTopic)?.topic || 'Unknown Topic',
+      subTopic: subTopic,
+      status: 'PENDING' as const,
+      score: 0,
+    }));
+
+    set({ temporaryTargets });
+    console.log('[Store] Temporary targets created from quiz:', temporaryTargets);
+  },
+
+  updateTemporaryTargetScores: (quizResults) => {
+    const { temporaryTargets } = get();
+    
+    // Calculate scores for each subTopic based on quiz results
+    const updatedTargets = temporaryTargets.map(target => {
+      // Find questions for this subTopic
+      const subTopicQuestions = quizResults.questions?.filter(
+        (q: any) => q.subTopic === target.subTopic
+      ) || [];
+      
+      if (subTopicQuestions.length === 0) {
+        return target; // No questions found, keep original
+      }
+      
+      // Calculate correct answers for this subTopic
+      const correctAnswers = subTopicQuestions.filter((q: any) => {
+        const userAnswer = quizResults.userAnswers?.[q.id];
+        return userAnswer === q.correctAnswer;
+      }).length;
+      
+      const totalQuestions = subTopicQuestions.length;
+      const scorePercent = Math.round((correctAnswers / totalQuestions) * 100);
+      
+      // Determine status based on score
+      let status: 'PENDING' | 'FAILED' | 'MEDIUM' | 'MASTERED';
+      if (scorePercent >= 80) {
+        status = 'MASTERED';
+      } else if (scorePercent >= 60) {
+        status = 'MEDIUM';
+      } else {
+        status = 'FAILED';
+      }
+      
+      return {
+        ...target,
+        score: scorePercent,
+        status,
+      };
+    });
+    
+    set({ temporaryTargets: updatedTargets });
+    console.log('[Store] Temporary target scores updated:', updatedTargets);
+    return updatedTargets;
+  },
+
+  clearTemporaryTargets: () => {
+    set({ temporaryTargets: [] });
+    console.log('[Store] Temporary targets cleared');
   },
 }));

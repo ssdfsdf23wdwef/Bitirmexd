@@ -38,10 +38,10 @@ import {
   DetectNewTopicsDto,
   ConfirmNewTopicsDto,
   CreateLearningTargetDto,
+  BatchUpdateLearningTargetsDto,
 } from './dto'; // DTO'ların yolu doğru varsayılıyor
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { LearningTargetWithQuizzes } from '../common/interfaces';
-import { LearningTarget, LearningTargetStatus } from '../common/types/learning-target.type';
+import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
 import { RequestWithUser } from '../common/types';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
@@ -630,7 +630,7 @@ export class LearningTargetsController {
       return await this.learningTargetsService.findByStatus(
         courseId,
         userId,
-        status as LearningTargetStatus,
+        status as 'pending' | 'failed' | 'medium' | 'mastered',
       );
     } catch (error) {
       if (!(error instanceof BadRequestException)) {
@@ -1068,6 +1068,87 @@ export class LearningTargetsController {
           existingTopicNamesCount:
             detectNewTopicsDto.existingTopicTexts?.length,
           additionalInfo: 'Yeni konu tespiti sırasında hata oluştu',
+        },
+      );
+      throw error;
+    }
+  }
+
+  @Patch('batch-update')
+  @ApiOperation({
+    summary: 'Öğrenme hedeflerini toplu olarak günceller',
+    description: 'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller'
+  })
+  @ApiBody({ 
+    type: BatchUpdateLearningTargetsDto,
+    description: 'Güncellenecek öğrenme hedefleri listesi'
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Öğrenme hedefleri başarıyla güncellendi',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        updatedCount: { type: 'number', example: 5 }
+      }
+    }
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Geçersiz istek verisi'
+  })
+  @LogMethod()
+  async batchUpdateLearningTargets(
+    @Request() req: RequestWithUser,
+    @Body() batchUpdateDto: BatchUpdateLearningTargetsDto,
+  ): Promise<{ success: boolean; updatedCount: number }> {
+    try {
+      const userId = req.user.uid;
+      
+      this.flowTracker.trackStep(
+        `Batch updating ${batchUpdateDto.targets.length} learning targets for user ${userId}`,
+        'LearningTargetsController.batchUpdateLearningTargets',
+      );
+
+      this.logger.info(
+        `Batch update request received for ${batchUpdateDto.targets.length} learning targets`,
+        'LearningTargetsController.batchUpdateLearningTargets',
+        __filename,
+        undefined,
+        { 
+          userId, 
+          targetCount: batchUpdateDto.targets.length,
+          targets: batchUpdateDto.targets.map(t => ({ 
+            subTopic: t.subTopic, 
+            status: t.status, 
+            score: t.score 
+          }))
+        }
+      );
+
+      const result = await this.learningTargetsService.batchUpdate(
+        userId,
+        batchUpdateDto.targets
+      );
+
+      this.logger.info(
+        `Batch update completed: ${result.updatedCount}/${batchUpdateDto.targets.length} targets updated`,
+        'LearningTargetsController.batchUpdateLearningTargets',
+        __filename,
+        undefined,
+        { userId, ...result }
+      );
+
+      return result;
+    } catch (error) {
+      this.logger.logError(
+        error,
+        'LearningTargetsController.batchUpdateLearningTargets',
+        {
+          userId: req.user?.uid || 'unknown',
+          targetCount: batchUpdateDto.targets?.length || 0,
+          additionalInfo: 'Batch öğrenme hedefi güncellemesi sırasında hata oluştu',
         },
       );
       throw error;

@@ -12,8 +12,8 @@ import { AiService } from '../ai/ai.service';
 import { UpdateLearningTargetDto } from './dto/update-learning-target.dto';
 import { NormalizationService } from '../shared/normalization/normalization.service';
 import { CreateLearningTargetDto } from './dto/create-learning-target.dto';
-import { LearningTargetWithQuizzes } from '../common/interfaces';
-import { LearningTarget, LearningTargetStatus, LearningTargetSource } from '../common/types/learning-target.type';
+import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
+import { LearningTargetSource } from '../common/types/learning-target.type';
 import { DetectNewTopicsDto } from './dto/detect-new-topics.dto';
 import { ConfirmNewTopicsDto } from './dto/confirm-new-topics.dto';
 import { v4 as uuidv4 } from 'uuid';
@@ -85,14 +85,16 @@ export class LearningTargetsService {
       // Create the learning target object
       const newTarget: Omit<LearningTarget, 'id'> = {
         userId,
-        courseId: dto.courseId,
-        topicName: dto.topicName,
-        status: dto.status || LearningTargetStatus.NOT_STARTED,
-        isNewTopic: true,
-        source: LearningTargetSource.MANUAL,
-        notes: dto.notes,
-        createdAt: now as any, // Type assertion to resolve Firestore Timestamp/FieldValue issue
-        updatedAt: now as any, // Type assertion to resolve Firestore Timestamp/FieldValue issue
+        courseId: dto.courseId || '', // Provide default empty string if undefined
+        subTopicName: dto.topicName, // Map topicName from DTO to subTopicName for interface
+        normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(dto.topicName), // Generate normalized name
+        status: dto.status || 'pending',
+        failCount: 0,
+        mediumCount: 0,
+        successCount: 0,
+        lastAttemptScorePercent: null,
+        lastAttempt: null,
+        firstEncountered: new Date().toISOString(),
       };
 
       // Save to Firestore
@@ -485,14 +487,16 @@ export class LearningTargetsService {
       for (const topic of dto.selectedTopics) {
         const newTarget: Omit<LearningTarget, 'id'> = {
           userId,
-          courseId: dto.courseId,
-          topicName: topic.name,
-          status: LearningTargetStatus.NOT_STARTED,
-          isNewTopic: true,
-          source: LearningTargetSource.AI_PROPOSAL,
-          originalProposedId: topic.tempId,
-          createdAt: now as any, // Type assertion for Firestore Timestamp
-          updatedAt: now as any, // Type assertion for Firestore Timestamp
+          courseId: dto.courseId || '', // Provide default empty string if undefined
+          subTopicName: topic.name || '', // Ensure name is not undefined
+          normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic.name || ''),
+          status: 'pending',
+          failCount: 0,
+          mediumCount: 0,
+          successCount: 0,
+          lastAttemptScorePercent: null,
+          lastAttempt: null,
+          firstEncountered: new Date().toISOString(),
         };
 
         // Create a new document reference
@@ -658,7 +662,7 @@ export class LearningTargetsService {
       }
 
       // Prepare update data
-      const updateData: Partial<LearningTarget> = {};
+      const updateData: any = {}; // Use any type to allow properties not in the interface
       const now = admin.firestore.FieldValue.serverTimestamp();
       
       // Only update fields that are provided
@@ -671,7 +675,7 @@ export class LearningTargetsService {
       }
       
       // Always update the updatedAt timestamp
-      updateData.updatedAt = now as any;
+      updateData.updatedAt = now;
 
       // Update the document
       await targetRef.update(updateData);
@@ -749,7 +753,7 @@ export class LearningTargetsService {
   async findByStatus(
     courseId: string,
     userId: string,
-    status: LearningTargetStatus,
+    status: 'pending' | 'failed' | 'medium' | 'mastered',
   ): Promise<LearningTargetWithQuizzes[]> {
     try {
       this.flowTracker.trackStep(
@@ -969,7 +973,7 @@ export class LearningTargetsService {
         userId,
         normalizedSubTopicName: normalizedName,
         subTopicName: createLearningTargetDto.topicName, // Using topicName from DTO but mapping to subTopicName for compatibility
-        status: LearningTargetStatus.NOT_STARTED as any, // Type assertion to handle legacy status mapping
+        status: 'pending' as any, // Type assertion to handle legacy status mapping
         failCount: 0,
         mediumCount: 0,
         successCount: 0,
@@ -1398,7 +1402,7 @@ export class LearningTargetsService {
           userId,
           subTopicName: topic.subTopicName,
           normalizedSubTopicName: normalizedName,
-          status: LearningTargetStatus.NOT_STARTED, // Öğrenme hedefi durumu: beklemede
+          status: 'pending', // Öğrenme hedefi durumu: beklemede
           isNew: true, // Yeni oluşturulan hedef olduğu için true
           lastAttemptScorePercent: 0,
           attemptCount: 0,
@@ -1596,26 +1600,19 @@ export class LearningTargetsService {
           .doc(newId);
         
         // Create learning target data with AI-generated source
-        const newLearningTarget = {
+        const newLearningTarget: LearningTarget = {
           id: newId,
           courseId,
           userId,
-          topicName: topic.subTopicName, // Using topicName for new model compatibility
-          status: LearningTargetStatus.NOT_STARTED, // Default status for new AI-suggested topics
+          subTopicName: topic.subTopicName, // Using subTopicName to match interface
+          normalizedSubTopicName: topic.normalizedSubTopicName, // Adding normalized name
+          status: 'pending' as 'pending' | 'failed' | 'medium' | 'mastered', // Default status for new AI-suggested topics
           failCount: 0,
           mediumCount: 0,
           successCount: 0,
           lastAttemptScorePercent: null,
           lastAttempt: null,
           firstEncountered: now.toISOString(),
-          // Adding missing required properties
-          isNewTopic: true,
-          source: 'ai_proposal' as LearningTargetSource, // Using string literal value since it's not an enum
-          createdAt: now as any, // Type assertion for Timestamp compatibility
-          updatedAt: now as any, // Type assertion for Timestamp compatibility
-          attemptCount: 0,
-          quizzes: [],
-          notes: '',
         };
         
         // Add to batch
@@ -1660,7 +1657,7 @@ export class LearningTargetsService {
           courseId, 
           userId, 
           count: createdTargets.length,
-          topics: createdTargets.map(t => t.topicName),
+          topics: createdTargets.map(t => t.subTopicName),
         },
       );
 
@@ -1695,6 +1692,171 @@ export class LearningTargetsService {
 
     if (course.userId !== userId) {
       throw new ForbiddenException('Bu işlem için yetkiniz bulunmamaktadır.');
+    }
+  }
+
+  /**
+   * Batch update learning targets based on quiz results
+   * @param userId User ID
+   * @param targets Array of learning targets to update
+   * @returns Update result with success status and count
+   */
+  @LogMethod({ trackParams: true })
+  async batchUpdate(userId: string, targets: any[]): Promise<{ success: boolean; updatedCount: number }> {
+    try {
+      this.flowTracker.trackStep(
+        `Batch updating ${targets.length} learning targets`,
+        'LearningTargetsService.batchUpdate',
+      );
+
+      this.logger.info(
+        `Batch updating learning targets for user ${userId}`,
+        'LearningTargetsService.batchUpdate',
+        __filename,
+        undefined,
+        { userId, targetCount: targets.length }
+      );
+
+      if (targets.length === 0) {
+        return { success: true, updatedCount: 0 };
+      }
+
+      // Get Firestore database instance and create batch
+      const db = this.firebaseService.firestore;
+      const batch = db.batch();
+      let updatedCount = 0;
+
+      // Process each target in the array
+      for (const target of targets) {
+        // Query for existing record based on userId and subTopic
+        const existingQuery = await db
+          .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
+          .where('userId', '==', userId)
+          .where('subTopicName', '==', target.subTopic)
+          .limit(1)
+          .get();
+
+        if (!existingQuery.empty) {
+          // Record exists - update it using batch.update()
+          const existingDoc = existingQuery.docs[0];
+          const existingData = existingDoc.data();
+          
+          // Convert frontend status to backend status
+          const backendStatus = this.convertFrontendStatusToBackend(target.status);
+          
+          // Prepare update data
+          const updateData: any = {
+            status: backendStatus,
+            lastAttemptScorePercent: target.score,
+            lastAttempt: admin.firestore.FieldValue.serverTimestamp(),
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+          };
+
+          // Update counters based on status
+          if (backendStatus === 'failed') {
+            updateData.failCount = (existingData.failCount || 0) + 1;
+          } else if (backendStatus === 'medium') {
+            updateData.mediumCount = (existingData.mediumCount || 0) + 1;
+          } else if (backendStatus === 'mastered') {
+            updateData.successCount = (existingData.successCount || 0) + 1;
+          }
+
+          batch.update(existingDoc.ref, updateData);
+          updatedCount++;
+
+          this.logger.debug(
+            `Queued update for existing learning target: ${existingDoc.id} (${target.subTopic}) -> ${backendStatus}`,
+            'LearningTargetsService.batchUpdate',
+            __filename,
+            undefined,
+            { 
+              targetId: existingDoc.id,
+              subTopic: target.subTopic,
+              oldStatus: existingData.status,
+              newStatus: backendStatus,
+              score: target.score 
+            }
+          );
+        } else {
+          // Record doesn't exist - create new one using batch.set()
+          const newDocRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
+          const backendStatus = this.convertFrontendStatusToBackend(target.status);
+          const now = admin.firestore.FieldValue.serverTimestamp();
+          
+          // Prepare new document data
+          const newDocData = {
+            userId,
+            subTopicName: target.subTopic,
+            normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(target.subTopic),
+            status: backendStatus,
+            failCount: backendStatus === 'failed' ? 1 : 0,
+            mediumCount: backendStatus === 'medium' ? 1 : 0,
+            successCount: backendStatus === 'mastered' ? 1 : 0,
+            lastAttemptScorePercent: target.score,
+            lastAttempt: now,
+            firstEncountered: new Date().toISOString(),
+            courseId: target.courseId || '',
+            createdAt: now,
+            updatedAt: now,
+          };
+
+          batch.set(newDocRef, newDocData);
+          updatedCount++;
+
+          this.logger.debug(
+            `Queued creation of new learning target: ${newDocRef.id} (${target.subTopic}) -> ${backendStatus}`,
+            'LearningTargetsService.batchUpdate',
+            __filename,
+            undefined,
+            { 
+              targetId: newDocRef.id,
+              subTopic: target.subTopic,
+              status: backendStatus,
+              score: target.score 
+            }
+          );
+        }
+      }
+
+      // Execute all batch operations at once
+      await batch.commit();
+
+      this.logger.info(
+        `Batch update completed: ${updatedCount}/${targets.length} targets processed`,
+        'LearningTargetsService.batchUpdate',
+        __filename,
+        undefined,
+        { userId, requestedCount: targets.length, updatedCount }
+      );
+
+      return { success: true, updatedCount };
+    } catch (error) {
+      this.logger.error(
+        `Batch update failed: ${error.message}`,
+        'LearningTargetsService.batchUpdate',
+        __filename,
+        undefined,
+        error,
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Convert frontend status format to backend format
+   */
+  private convertFrontendStatusToBackend(frontendStatus: string): 'pending' | 'failed' | 'medium' | 'mastered' {
+    switch (frontendStatus.toUpperCase()) {
+      case 'PENDING':
+        return 'pending';
+      case 'FAILED':
+        return 'failed';
+      case 'MEDIUM':
+        return 'medium';
+      case 'MASTERED':
+        return 'mastered';
+      default:
+        return 'pending';
     }
   }
 }
