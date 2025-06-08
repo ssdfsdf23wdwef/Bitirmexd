@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T21:30:34.051Z
-Trace ID: quiz-1749418221794-r1um4
-Yanıt Uzunluğu: 8069 karakter
+Tarih: 2025-06-08T22:22:15.008Z
+Trace ID: quiz-1749421322905-35oid
+Yanıt Uzunluğu: 8310 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,158 +11,173 @@ Yanıt Uzunluğu: 8069 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?",
+      "questionText": "KVM (Kernel-based Virtual Machine) nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım maliyetlerini artırmak",
-        "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
-        "İşletim sistemi uyumluluğunu azaltmak",
-        "Yazılım karmaşıklığını basitleştirmek"
+        "Bir işletim sistemi",
+        "Bir uygulama geliştirme aracı",
+        "Bir Tip-1 hipervizör",
+        "Bir veritabanı yönetim sistemi"
       ],
-      "correctAnswer": "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
-      "explanation": "Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak amacıyla kullanılır. Diğer seçenekler sanallaştırmanın amaçları arasında yer almaz.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
+      "correctAnswer": "Bir Tip-1 hipervizör",
+      "explanation": "KVM, çekirdek tabanlı bir sanallaştırma çözümüdür ve Tip-1 hipervizör olarak sınıflandırılır. Bu, doğrudan donanım üzerinde çalıştığı anlamına gelir.",
+      "subTopicName": "Kvm Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Sanallaştırma teknolojisinde, fiziksel sunucunun kaynaklarını (işlem gücü, bellek vb.) farklı sanal bilgisayarlar arasında paylaşmak ve tahsis etmek için kullanılan yazılımın adı nedir?",
+      "questionText": "Aşağıdakilerden hangisi KVM kurulumu için gerekli adımlardan biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
-      "options": ["Hypervisor", "İşletim Sistemi", "Sanal Makine", "Donanım Sürücüsü"],
-      "correctAnswer": "Hypervisor",
-      "explanation": "Hypervisor, fiziksel sunucunun kaynaklarını farklı sanal makineler arasında paylaşmak ve tahsis etmek için kullanılan yazılımdır. Sanal makineler, hypervisor tarafından yönetilir.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
-      "difficulty": "easy"
+      "options": [
+        "Gerekli paketlerin yüklenmesi",
+        "Libvirtd servisinin başlatılması",
+        "Kullanıcının kvm grubuna eklenmesi",
+        "İşletim sisteminin yeniden kurulması"
+      ],
+      "correctAnswer": "İşletim sisteminin yeniden kurulması",
+      "explanation": "KVM kurulumu için işletim sisteminin yeniden kurulması gerekmez. Gerekli paketlerin yüklenmesi, libvirtd servisinin başlatılması ve kullanıcının kvm grubuna eklenmesi kurulum adımlarıdır.",
+      "subTopicName": "Kvm Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Sanallaştırmanın temel amacı aşağıdakilerden hangisidir?",
+      "questionText": "KVM kurulumu için hangi paketler gereklidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Donanım kaynaklarını daha az verimli kullanmak",
-        "Tek bir işletim sistemini birden fazla donanım üzerinde çalıştırmak",
-        "Donanım kaynaklarının kullanımını en üst düzeye çıkarmak ve maliyetleri düşürmek",
-        "Uygulamaların uyumluluğunu azaltmak"
+        "qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils",
+        "docker, kubernetes, ansible",
+        "apache2, mysql, php",
+        "git, vim, gcc"
       ],
-      "correctAnswer": "Donanım kaynaklarının kullanımını en üst düzeye çıkarmak ve maliyetleri düşürmek",
-      "explanation": "Sanallaştırmanın temel amacı, donanım kaynaklarının kullanımını en üst düzeye çıkarmak ve maliyetleri düşürmektir. Bu, kaynakların daha verimli kullanılmasını sağlayarak genel verimliliği artırır.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
+      "correctAnswer": "qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils",
+      "explanation": "Metinde belirtildiği gibi, KVM kurulumu için gerekli paketler şunlardır: qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils.",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın bir faydası değildir?",
+      "questionText": "Aşağıdaki komutlardan hangisi KVM için gerekli paketleri kurmak için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Donanım maliyetlerinde azalma",
-        "Kaynak kullanımında artış",
-        "Enerji tüketiminde artış",
-        "Daha kolay yedekleme ve kurtarma"
+        "sudo apt update && sudo apt install -y kvm",
+        "sudo apt update && sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+        "sudo yum install kvm",
+        "sudo pacman -S kvm"
       ],
-      "correctAnswer": "Enerji tüketiminde artış",
-      "explanation": "Sanallaştırma, donanım sayısını azaltarak ve kaynak kullanımını optimize ederek enerji tüketimini azaltır. Dolayısıyla enerji tüketiminde artış sanallaştırmanın bir faydası değildir.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
+      "correctAnswer": "sudo apt update && sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+      "explanation": "Metinde belirtildiği gibi, KVM için gerekli paketleri kurmak için kullanılan komut 'sudo apt update && sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' şeklindedir.",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Sanal makineler (VM'ler) hangi yazılım sayesinde fiziksel sunucunun kaynaklarını paylaşır ve yönetir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": ["İşletim Sistemi", "Hypervisor", "Donanım Sürücüsü", "Uygulama Yazılımı"],
-      "correctAnswer": "Hypervisor",
-      "explanation": "Sanal makineler, fiziksel sunucunun kaynaklarını hypervisor yazılımı sayesinde paylaşır ve yönetir. Hypervisor, VM'ler arasında kaynak tahsisini ve yönetimini sağlar.",
-      "subTopicName": "Sanal Makine Vm İ Şleyişi",
-      "normalizedSubTopicName": "sanal_makine_vm_i_şleyişi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q6",
-      "questionText": "Bir fiziksel sunucu üzerinde çalışan sanal makinelerin (VM'ler) her biri, fiziksel sunucunun hangi kaynaklarını kullanabilir?",
+      "questionText": "/etc/libvirt/qemu.conf dosyasında hangi değişiklikler yapılması önerilir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sadece işlemci (CPU)",
-        "Sadece bellek (RAM)",
-        "Sadece depolama alanı",
-        "İşlemci (CPU), bellek (RAM) ve depolama alanı gibi tüm donanım kaynakları"
+        "Dosyanın silinmesi",
+        "#user ve #group satırlarının başındaki # işaretinin kaldırılması",
+        "Dosyanın salt okunur yapılması",
+        "Dosyaya yeni kullanıcılar eklenmesi"
       ],
-      "correctAnswer": "İşlemci (CPU), bellek (RAM) ve depolama alanı gibi tüm donanım kaynakları",
-      "explanation": "Sanal makineler, fiziksel sunucunun işlemci, bellek ve depolama alanı gibi tüm donanım kaynaklarını kullanabilir. Hypervisor, bu kaynakların VM'ler arasında paylaştırılmasını ve yönetilmesini sağlar.",
-      "subTopicName": "Sanal Makine Vm İ Şleyişi",
-      "normalizedSubTopicName": "sanal_makine_vm_i_şleyişi",
+      "correctAnswer": "#user ve #group satırlarının başındaki # işaretinin kaldırılması",
+      "explanation": "Metinde belirtildiği gibi, /etc/libvirt/qemu.conf dosyasında #user ve #group satırlarının başındaki # işaretinin kaldırılması önerilir.",
+      "subTopicName": "Libvirtd Servisini Yapılandırma",
+      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
       "difficulty": "medium"
     },
     {
-      "id": "q7",
-      "questionText": "Hypervisor'ün temel görevi nedir?",
+      "id": "q6",
+      "questionText": "Libvirtd servisinin yeniden başlatılması için hangi komut kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Donanım sürücülerini güncellemek",
-        "Sanal makineler oluşturmak ve çalıştırmak",
-        "Ağ bağlantılarını yönetmek",
-        "Uygulama yazılımlarını derlemek"
+        "sudo systemctl stop libvirtd.service",
+        "sudo systemctl restart libvirtd.service",
+        "sudo systemctl disable libvirtd.service",
+        "sudo systemctl kill libvirtd.service"
       ],
-      "correctAnswer": "Sanal makineler oluşturmak ve çalıştırmak",
-      "explanation": "Hypervisor'ün temel görevi, sanal makineler oluşturmak ve çalıştırmaktır. Hypervisor, sanal makinelerin donanım kaynaklarını paylaşmasını ve yönetmesini sağlar.",
-      "subTopicName": "Hypervisorün Rolü Ve Fonksiyonları",
-      "normalizedSubTopicName": "hypervisorün_rolü_ve_fonksiyonları",
+      "correctAnswer": "sudo systemctl restart libvirtd.service",
+      "explanation": "Metinde belirtildiği gibi, Libvirtd servisinin yeniden başlatılması için 'sudo systemctl restart libvirtd.service' komutu kullanılır.",
+      "subTopicName": "Libvirtd Servisini Yapılandırma",
+      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
       "difficulty": "easy"
     },
     {
+      "id": "q7",
+      "questionText": "Yeni bir sanal makine oluşturmak için kullanılan 'virt-install' komutunda, '--os-variant' parametresi neyi belirtir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Sanal makinenin adını",
+        "Sanal makine için kullanılacak işletim sistemi varyantını",
+        "Sanal makineye ayrılacak RAM miktarını",
+        "Sanal makine için kullanılacak disk yolunu"
+      ],
+      "correctAnswer": "Sanal makine için kullanılacak işletim sistemi varyantını",
+      "explanation": "'--os-variant' parametresi, sanal makine için kullanılacak işletim sistemi varyantını belirtir. Örneğin, ubuntu22.04.",
+      "subTopicName": "Virt İnstallıkomutu Kullanımı",
+      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
+      "difficulty": "medium"
+    },
+    {
       "id": "q8",
-      "questionText": "Hypervisor'ün sanal makinelere (VM) kaynak tahsis ederken kullandığı kaynak havuzuna ne ad verilir?",
+      "questionText": "'virt-install' komutunda '--cdrom' parametresi ne işe yarar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
-      "options": ["Guest", "Pool", "Host", "Kernel"],
-      "correctAnswer": "Pool",
-      "explanation": "Hypervisor tarafından tahsis edilmek üzere kullanabileceği işlemci, bellek, depolama gibi kaynaklara pool ismi verilir.",
-      "subTopicName": "Hypervisorün Rolü Ve Fonksiyonları",
-      "normalizedSubTopicName": "hypervisorün_rolü_ve_fonksiyonları",
+      "options": [
+        "Sanal makineye bir CD-ROM sürücüsü ekler",
+        "Sanal makineye bir ISO imajı bağlar",
+        "Sanal makinenin CD-ROM sürücüsünü çıkarır",
+        "Sanal makinenin CD-ROM sürücüsünü günceller"
+      ],
+      "correctAnswer": "Sanal makineye bir ISO imajı bağlar",
+      "explanation": "'--cdrom' parametresi, sanal makineye bir ISO imajı bağlamak için kullanılır. Bu, sanal makineyi bir ISO imajından başlatmayı sağlar.",
+      "subTopicName": "Virt İnstallıkomutu Kullanımı",
+      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
       "difficulty": "easy"
     },
     {
       "id": "q9",
-      "questionText": "Tip 1 hypervisor'ler için aşağıdaki ifadelerden hangisi doğrudur?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "İşletim sistemi üzerinde bir uygulama olarak çalışır.",
-        "Doğrudan donanım üzerinde çalışır.",
-        "Sadece kişisel bilgisayarlarda kullanılır.",
-        "Konuk işletim sistemlerinden bağımsız çalışmaz."
-      ],
-      "correctAnswer": "Doğrudan donanım üzerinde çalışır.",
-      "explanation": "Tip 1 hypervisor'ler doğrudan donanım üzerinde çalışır ve bu nedenle 'bare metal' olarak da adlandırılırlar. Bu, onların daha verimli ve güvenli olmalarını sağlar.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi Tip 1 hypervisor örneğidir?",
+      "questionText": "Çalışır durumdaki sanal makineyi görüntülemek için hangi 'virsh' komutu kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "VMware Workstation",
-        "Oracle VirtualBox",
-        "KVM",
-        "Wine"
+        "virsh list",
+        "virt-viewer testVM",
+        "virsh start testVM",
+        "virsh shutdown testVM"
       ],
-      "correctAnswer": "KVM",
-      "explanation": "KVM (Kernel-based Virtual Machine), Microsoft Hyper-V ve VMware vSphere tip-1 hypervisor örnekleridir. VMware Workstation ve Oracle VirtualBox ise Tip 2 hypervisor örnekleridir.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "correctAnswer": "virt-viewer testVM",
+      "explanation": "Çalışır durumdaki sanal makineyi görüntülemek için 'virt-viewer testVM' komutu kullanılır.",
+      "subTopicName": "Virsh Komutları İle Yönetim",
+      "normalizedSubTopicName": "virsh_komutlari_ile_yonetim",
       "difficulty": "easy"
+    },
+    {
+      "id": "q10",
+      "questionText": "Bir sanal makineyi silmek için hangi 'virsh' komutları sırasıyla kullanılmalıdır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "virsh shutdown testVM; virsh undefine testVM",
+        "virsh destroy testVM; virsh undefine testVM",
+        "virsh suspend testVM; virsh undefine testVM",
+        "virsh reboot testVM; virsh undefine testVM"
+      ],
+      "correctAnswer": "virsh destroy testVM; virsh undefine testVM",
+      "explanation": "Bir sanal makineyi silmek için önce 'virsh destroy testVM' komutu ile sanal makine kapatılmalı, ardından 'virsh undefine testVM' komutu ile sanal makine sistemden kaldırılmalıdır.",
+      "subTopicName": "Virsh Komutları İle Yönetim",
+      "normalizedSubTopicName": "virsh_komutlari_ile_yonetim",
+      "difficulty": "medium"
     }
   ]
 }

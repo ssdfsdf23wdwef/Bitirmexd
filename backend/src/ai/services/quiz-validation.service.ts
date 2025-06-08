@@ -113,11 +113,6 @@ export class QuizValidationService {
         Object.keys(parsedJson),
       );
 
-      if (parsedJson.questions && Array.isArray(parsedJson.questions)) {
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] Tam yapıda JSON bulundu. ${parsedJson.questions.length} soru içeriyor`,
-        );
-      }
 
       return parsedJson as T;
     } catch (error) {
@@ -127,17 +122,10 @@ export class QuizValidationService {
     }
 
     // Metin içinden JSON bölümünü çıkar
-    console.log(`[QUIZ_DEBUG] [${traceId}] Metin içinden JSON çıkartılıyor...`);
     const jsonContent = this.extractJsonFromAIResponse(processedText);
 
     if (!jsonContent) {
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] KRİTİK HATA: Yanıttan JSON içeriği çıkarılamadı!`,
-      );
-      this.logger.warn(
-        `[${traceId}] AI yanıtından JSON içeriği çıkarılamadı. Ham yanıtın ilk 100 karakteri: "${text.substring(0, 100)}..."`,
-        'QuizValidationService.parseAIResponseToJSON',
-      );
+     
       return this.createFallbackData<T>(text, metadata);
     }
 
@@ -312,10 +300,7 @@ export class QuizValidationService {
       }
     }
 
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] ${validJsonObjects.length} adet geçerli JSON nesnesi bulundu`,
-    );
-
+  
     // Hiç geçerli JSON objesi bulunamadıysa fallback data döndür
     if (validJsonObjects.length === 0) {
       console.log(
@@ -1628,16 +1613,9 @@ export class QuizValidationService {
       const result = QuizResponseSchema.safeParse(response);
 
       if (result.success) {
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] Sıkı şema doğrulaması (QuizResponseSchema) başarılı!`,
-        );
+       
         return result.data;
-      } else {
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] Zod doğrulama hataları:`,
-          JSON.stringify(result.error.format()),
-        );
-      }
+      } 
 
       return null;
     } catch (e) {
@@ -1662,24 +1640,11 @@ export class QuizValidationService {
   ) {
     const { traceId } = metadata;
 
-    // DETAYLI LOGLAMA: Validasyon başlangıcı
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] Quiz yanıtı şema doğrulaması başlatılıyor`,
-    );
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri türü:`,
-      typeof parsedJson,
-    );
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] Üst düzey anahtarlar:`,
-      Object.keys(parsedJson || {}),
-    );
+   
 
     try {
       // Zod şeması ile validasyon
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Zod şeması ile doğrulama yapılıyor...`,
-      );
+    
 
       // Önce QuizResponseSchema ile doğrulamayı deneyelim (daha katı şema)
       const fullValidationResult = this.tryQuizResponseValidation(
@@ -1702,9 +1667,7 @@ export class QuizValidationService {
 
         // Veri yapısına göre işle
         if (Array.isArray(validationResult.data)) {
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] Doğrulanan veri bir dizi, ${validationResult.data.length} soru içeriyor.`,
-          );
+        
           return { questions: validationResult.data };
         }
         console.log(
@@ -1715,22 +1678,8 @@ export class QuizValidationService {
 
       // Validasyon başarısız - hata detaylarını inceleyip alternatif çözümler dene
       const validationError = validationResult.error;
-      console.error(
-        `[QUIZ_DEBUG] [${traceId}] Şema doğrulama HATASI:`,
-        validationError.message,
-      );
-      console.error(
-        `[QUIZ_DEBUG] [${traceId}] Hata detayları:`,
-        JSON.stringify(validationError.errors, null, 2),
-      );
+     
 
-      this.logger.error(
-        `[${traceId}] AI yanıtı Zod doğrulamasından geçemedi: ${validationError.message}`,
-        'QuizValidationService.validateQuizResponseSchema',
-        undefined,
-        undefined,
-        validationError,
-      );
 
       // Yanıt içinde questions yoksa (ama doğrudan soru listesi içerik olabilir)
       if (!parsedJson.questions) {
@@ -1756,9 +1705,7 @@ export class QuizValidationService {
         );
 
         if (containsQuestionProperties) {
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] JSON içinde soru benzeri nesneler tespit edildi, bunları çıkarmaya çalışılacak.`,
-          );
+         
           this.logger.debug(
             `[${traceId}] JSON içinde soru benzeri nesneler tespit edildi, bunları işlemeye çalışılacak`,
             'QuizValidationService.validateQuizResponseSchema',
@@ -1846,28 +1793,12 @@ export class QuizValidationService {
         }
 
         if (foundQuestions.length > 0) {
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] Alternatif yöntemlerle ${foundQuestions.length} adet soru bulundu. İşlemeye devam edilecek.`,
-          );
+        
           return { questions: foundQuestions };
         }
 
-        console.error(
-          `[QUIZ_DEBUG] [${traceId}] KRİTİK HATA: Tüm yöntemlerle arama yapılmasına rağmen hiç soru bulunamadı!`,
-        );
-        console.error(
-          `[QUIZ_DEBUG] [${traceId}] Ham yanıt (ilk 1000 karakter):`,
-          rawResponse.substring(0, 1000),
-        );
 
-        this.logger.error(
-          `[${traceId}] Quiz AI yanıtında 'questions' dizisi bulunamadı`,
-          'QuizValidationService.validateQuizResponseSchema',
-          __filename,
-          undefined,
-          undefined,
-          { parsedJsonKeys: Object.keys(parsedJson) },
-        );
+     
 
         // Örnek içerik tespit edildi mi kontrol et
         const containsExamples = this.detectExampleContent(rawResponse);
@@ -1968,31 +1899,8 @@ export class QuizValidationService {
   ): QuizQuestion[] {
     const { traceId } = metadata;
 
-    // DETAYLI LOGLAMA: Dönüştürme başlangıcı
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] Soruları son işleme ve doğrulama aşaması başlatılıyor`,
-    );
-    console.log(
-      `[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri tipi:`,
-      typeof validatedData,
-    );
 
-    // validatedData tipine göre kontroller
-    if (Array.isArray(validatedData)) {
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri bir dizi, eleman sayısı: ${validatedData.length}`,
-      );
-    } else if (validatedData && typeof validatedData === 'object') {
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Doğrulanacak veri bir nesne, anahtarlar:`,
-        Object.keys(validatedData),
-      );
-      if (validatedData.questions) {
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] 'questions' alanı mevcut, eleman sayısı: ${Array.isArray(validatedData.questions) ? validatedData.questions.length : 'array değil'}`,
-        );
-      }
-    }
+
 
     // Soru dizisini al
     const questionsArray = Array.isArray(validatedData)
@@ -2023,9 +1931,7 @@ export class QuizValidationService {
 
     // AI modelinden gelen veriyi dönüştür (format uyumsuzluklarını ele al)
     try {
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] AI model yanıtı format dönüşümü başlatılıyor...`,
-      );
+   
 
       // Her soru için AI modeli tarafından döndürülen formatı uyumlu hale getir
       for (let i = 0; i < validatedData.questions.length; i++) {
@@ -2132,9 +2038,7 @@ export class QuizValidationService {
         }
       }
 
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Toplam ${validatedData.questions.length} soru başarıyla dönüştürüldü.`,
-      );
+   
     } catch (error) {
       this.logger.error(
         `[${traceId}] Soru formatı dönüştürme hatası: ${error.message}`,
@@ -2198,12 +2102,8 @@ export class QuizValidationService {
           ? `UYARI: İstenen soru sayısı (${requestedCount}) karşılanamadı! Sadece ${questionsArray.length} soru bulundu.`
           : `BİLGİ: İstenen soru sayısından (${requestedCount}) daha fazla (${questionsArray.length}) soru bulundu.`;
 
-      console.warn(`[QUIZ_DEBUG] [${traceId}] ${message}`);
 
-      this.logger.warn(
-        `[${traceId}] ${message}`,
-        'QuizValidationService.transformAndValidateQuestions',
-      );
+  
     }
 
     // Soru validasyonu
@@ -2326,18 +2226,9 @@ export class QuizValidationService {
         // Zod şeması ile doğrula
         QuizQuestionSchema.parse(questionData);
         validQuestions.push(questionData as QuizQuestion);
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] #${i + 1} - Soru validasyonu başarılı, eklendi`,
-        );
+       
       } catch (questionValidationError) {
-        // Hata kayıtları
-        console.error(
-          `[QUIZ_DEBUG] [${traceId}] #${i + 1} - HATA: Soru validasyonu başarısız: ${questionValidationError.message}`,
-        );
-        console.error(
-          `[QUIZ_DEBUG] [${traceId}] #${i + 1} - Hatalı soru verisi:`,
-          JSON.stringify(q_input, null, 2),
-        );
+      
 
         this.logger.warn(
           `[${traceId}] Soru validasyon hatası (ID: ${q_input.id || `q_${i}`}): ${questionValidationError.message}`,
@@ -2369,9 +2260,7 @@ export class QuizValidationService {
 
     // İstenen soru sayısı karşılanmadı mı uyarısı
     if (validQuestions.length < requestedCount) {
-      console.warn(
-        `[QUIZ_DEBUG] [${traceId}] UYARI: İstenen soru sayısı (${requestedCount}) karşılanamadı! Sadece ${validQuestions.length} soru üretilebildi.`,
-      );
+   
 
       this.logger.warn(
         `[${traceId}] İstenen soru sayısı (${requestedCount}) karşılanamadı. Sadece ${validQuestions.length} soru üretilebildi.`,

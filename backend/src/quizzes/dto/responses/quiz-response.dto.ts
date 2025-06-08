@@ -284,6 +284,13 @@ export class QuizResponseDto {
   })
   updatedAt: string;
 
+  @ApiProperty({
+    description: 'Sınav oluşturulurken tespit edilen veya kullanılan alt konular',
+    type: [String],
+    required: false,
+  })
+  detectedTopics?: string[];
+
   constructor(partial: Partial<QuizResponseDto>) {
     Object.assign(this, partial);
 

@@ -65,13 +65,7 @@ export class GeminiProviderService implements AIProvider {
         options?.metadata?.traceId ||
         `gemini-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
 
-      // DETAYLI LOGLAMA: API isteği başlangıcı
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Gemini API isteği hazırlanıyor (${prompt.length} karakter)`,
-      );
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Prompt ilk 500 karakteri: ${prompt.substring(0, 500)}...`,
-      );
+    
 
       // Özel ayarlar varsa onları kullan, yoksa modeldeki ayarları kullan
       const requestParams = options || {};
@@ -131,10 +125,7 @@ export class GeminiProviderService implements AIProvider {
         topP: generationConfig.topP,
       });
 
-      // DETAYLI LOGLAMA: API çağrısı yapılıyor
-      console.log(`[QUIZ_DEBUG] [${traceId}] Gemini API çağrısı yapılıyor...`);
-      console.time(`[QUIZ_DEBUG] [${traceId}] Gemini API yanıt süresi`);
-
+   
       // API çağrısı
       const response = await this.model.generateContent({
         contents,

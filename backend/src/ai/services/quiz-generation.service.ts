@@ -293,14 +293,7 @@ export class QuizGenerationService {
       // Prompu hazırla
       const promptText = await this.prepareQuizPrompt(options, metadata);
 
-      // DETAYLI LOGLAMA EKLE: Hazırlanan promptu logla
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Hazırlanan prompt (ilk 500 karakter):\n${promptText.substring(0, 500)}...`,
-      );
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Prompt toplam uzunluğu: ${promptText.length} karakter`,
-      );
-
+   
       this.logger.logExamStage(options.userId || 'anon', 'Prompt hazırlandı', {
         traceId,
         promptLength: promptText.length,
@@ -312,16 +305,7 @@ export class QuizGenerationService {
       );
       const rawJsonResponse = await this.generateAIContent(promptText, metadata);
 
-      // DETAYLI LOGLAMA EKLE: AI yanıtını logla
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] AI yanıtı alındı (ilk 500 karakter):\n${rawJsonResponse.substring(0, 500)}...`,
-      );
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] AI yanıtı toplam uzunluğu: ${rawJsonResponse.length} karakter`,
-      );
-      console.log(
-        `[QUIZ_DEBUG] [${traceId}] Yanıt JSON içeriyor mu: ${rawJsonResponse.includes('{') && rawJsonResponse.includes('}') ? 'EVET' : 'HAYIR'}`,
-      );
+  
 
       this.logger.logExamStage(options.userId || 'anon', 'AI yanıtı alındı', {
         traceId,
@@ -329,7 +313,6 @@ export class QuizGenerationService {
       });
 
       // JSON parse işlemi
-      console.log(`[QUIZ_DEBUG] [${traceId}] AI yanıtı JSON olarak parse ediliyor...`);
       let parsedResponse;
       try {
         // String kontrolü
@@ -345,7 +328,6 @@ export class QuizGenerationService {
         let cleanedResponse = rawJsonResponse;
         
         // Ham yanıtın ilk 100 karakterini logla
-        console.log(`[QUIZ_DEBUG] [${traceId}] Ham yanıt (ilk 100 karakter): ${rawJsonResponse.substring(0, 100)}...`);
         
         // 1. Başlık satırlarını kaldır (## Ham Çıktı: gibi)
         cleanedResponse = cleanedResponse.replace(/^.*?Ham Çıktı:.*?$/m, '');
@@ -367,10 +349,7 @@ export class QuizGenerationService {
 
         // JSON parse işlemi
         parsedResponse = JSON.parse(cleanedResponse);
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] JSON parse başarılı. Anahtarlar:`,
-          Object.keys(parsedResponse),
-        );
+      
       } catch (error) {
         // JSON parse hatası
         this.logger.error(
@@ -410,44 +389,15 @@ export class QuizGenerationService {
           throw new Error('Validation returned null or undefined result');
         }
 
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] Zod doğrulaması başarılı. Sorular işleniyor...`,
-        );
-
         // Doğrulanmış sorular için detaylı işleme
         const questions = this.processAIResponse(rawJsonResponse, metadata, validatedData);
 
         // DETAYLI LOGLAMA EKLE: İşlenen soruları logla
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] İşlem sonrası soru sayısı: ${questions.length}`,
-        );
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] İlk soru örneği:`,
-          questions.length > 0
-            ? JSON.stringify(questions[0], null, 2)
-            : 'Soru yok',
-        );
-        console.log(
-          `[QUIZ_DEBUG] [${traceId}] Tüm sorular:`,
-          JSON.stringify(
-            questions.map((q) => ({
-              id: q.id,
-              text: q.questionText.substring(0, 50) + '...',
-              subTopic: q.subTopicName,
-              normalized: q.normalizedSubTopicName,
-              difficulty: q.difficulty,
-            })),
-            null,
-            2,
-          ),
-        );
+      
+      
 
         // KONTROL EKLE: İstenen soru sayısı ve dönen soru sayısı karşılaştırması
-        if (questions.length < options.questionCount) {
-          console.warn(
-            `[QUIZ_DEBUG] [${traceId}] UYARI: Üretilen soru sayısı (${questions.length}) istenen soru sayısından (${options.questionCount}) az! AI yanıtı eksik olabilir.`,
-          );
-        }
+       
 
         // Sınav oluşturmayı tamamladığını logla
         this.logger.logExamCompletion(
@@ -981,29 +931,7 @@ export class QuizGenerationService {
       }
 
       // İstenen soru sayısıyla karşılaştırma
-      if (
-        metadata.questionCount &&
-        questions.length !== metadata.questionCount
-      ) {
-        console.warn(
-          `[QUIZ_DEBUG] [${traceId}] UYARI: İstenen soru sayısı (${metadata.questionCount}) ile üretilen soru sayısı (${questions.length}) eşleşmiyor!`,
-        );
-
-        if (questions.length === 0) {
-          console.error(
-            `[QUIZ_DEBUG] [${traceId}] KRİTİK HATA: Hiç geçerli soru üretilemedi!`,
-          );
-        } else if (questions.length < metadata.questionCount) {
-          console.warn(
-            `[QUIZ_DEBUG] [${traceId}] UYARI: Üretilen soru sayısı (${questions.length}) istenen sayıdan (${metadata.questionCount}) az`,
-          );
-        } else {
-          console.log(
-            `[QUIZ_DEBUG] [${traceId}] BİLGİ: Üretilen soru sayısı (${questions.length}) istenen sayıdan (${metadata.questionCount}) fazla`,
-          );
-        }
-      }
-
+    
  
 
       

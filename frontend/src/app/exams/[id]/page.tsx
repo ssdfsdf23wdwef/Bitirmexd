@@ -104,6 +104,8 @@ export default function ExamPage() {
         console.log(`[DEBUG] 📄 Kaydedilen veri:`, transformedData);
       }
       
+      // Öğrenme hedeflerini temizle
+      clearTemporaryTargets();
       await queryClient.invalidateQueries({ queryKey: ['learningTargets'] });
       router.push(`/exams/${examId}/results`);
     } catch (error) {

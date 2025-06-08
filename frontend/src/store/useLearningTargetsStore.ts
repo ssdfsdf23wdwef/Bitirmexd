@@ -9,6 +9,11 @@ export interface TemporaryLearningTarget {
   score: number;
 }
 
+export interface PendingTopic {
+  name: string;
+  status: 'pending';
+}
+
 // Mock data for learning targets
 const mockLearningTargets: LearningTarget[] = [
   {
@@ -64,6 +69,7 @@ interface LearningTargetsState {
   error: string | null;
   selectedCourseId: string | null;
   temporaryTargets: TemporaryLearningTarget[];
+  pendingTopics: PendingTopic[]; // Yeni state
   
   // Actions
   fetchTargets: (userId: string, courseId?: string) => Promise<void>;
@@ -78,6 +84,8 @@ interface LearningTargetsState {
   setTemporaryTargetsFromQuiz: (questions: any[]) => void;
   updateTemporaryTargetScores: (quizResults: any) => TemporaryLearningTarget[];
   clearTemporaryTargets: () => void;
+  setPendingTopics: (topics: string[]) => void; // Yeni action
+  clearPendingTopics: () => void; // Yeni action
 }
 
 export const useLearningTargetsStore = create<LearningTargetsState>((set, get) => ({
@@ -86,6 +94,7 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
   error: null,
   selectedCourseId: null,
   temporaryTargets: [],
+  pendingTopics: [], // State'i başlat
 
   fetchTargets: async (userId: string, courseId?: string) => {
     set({ isLoading: true, error: null });
@@ -200,9 +209,8 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
       status: 'PENDING' as const,
       score: 0,
     }));
-
+    
     set({ temporaryTargets });
-    console.log('[Store] Temporary targets created from quiz:', temporaryTargets);
   },
 
   updateTemporaryTargetScores: (quizResults) => {
@@ -252,6 +260,17 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
 
   clearTemporaryTargets: () => {
     set({ temporaryTargets: [] });
-    console.log('[Store] Temporary targets cleared');
+  },
+
+  setPendingTopics: (topics: string[]) => {
+    const pendingTopics: PendingTopic[] = topics.map(topicName => ({
+      name: topicName,
+      status: 'pending',
+    }));
+    set({ pendingTopics });
+  },
+
+  clearPendingTopics: () => {
+    set({ pendingTopics: [] });
   },
 }));

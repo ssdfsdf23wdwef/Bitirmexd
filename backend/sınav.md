@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T21:30:21.826Z
+## Tarih: 2025-06-08T22:22:02.916Z
 
-## Trace ID: quiz-1749418221794-r1um4
+## Trace ID: quiz-1749421322905-35oid
 
-## Alt Konular (8 adet):
+## Alt Konular (6 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm İ Şleyişi** (2 soru)
-4. **Hypervisorün Rolü Ve Fonksiyonları** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Virt İnstallıkomutu Kullanımı** (2 soru)
+5. **Virsh Komutları İle Yönetim** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,7 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Virt Manager İle Grafik Yönetim
 
 ```
 
@@ -50,11 +48,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm İ Şleyişi** (2 soru)
-4. **Hypervisorün Rolü Ve Fonksiyonları** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirtd Servisini Yapılandırma** (2 soru)
+4. **Virt İnstallıkomutu Kullanımı** (2 soru)
+5. **Virsh Komutları İle Yönetim** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,9 +60,7 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Virt Manager İle Grafik Yönetim
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -77,111 +73,99 @@ bilal@atauni.edu.tr
 
 
 
-4. Hafta
+5.Hafta
 
 
-Sanallaştırma Nedir?
+KVM (Tip-1 Hypervisor Kurulumu)
 
-Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir.
+Aşağıdaki adresten ubuntu imajını indirilir
+https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
+İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
 
-Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı
-kullanır ve tek bir bilgisayarın donanım parçalarının (işlemciler, bellek, depolama vb.) sanal
-makineler (VM'ler) olarak da bilinen birkaç sanal bilgisayara ayrılmasına olanak tanır [1] .
+İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
+için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
+scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
 
-Sanal Makine Nedir ?
+Kvm kurulumu
+sudo apt update
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo systemctl enable --now libvirtd
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
 
-Sanal makineler (VM'ler), sanallaştırma teknolojisinin önemli bir parçasıdır ve esasen tek bir
-fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder. Fiziksel sunucunun bellek ve
-işlem gücü gibi kaynaklarını farklı VM'ler arasında paylaşmak ve tahsis etmek için
-hypervisor
-verilen yazılımı kullanırlar [2].
+Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
+sudo nano /etc/libvirt/qemu.conf
+Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya ctrl+x ile kayıt edilerek çıkılır
 
-Hypervisor Nedir ?
-
-Hypervisor, sanal makineler (VM'ler) oluşturan ve çalıştıran bir yazılımdır. Bir hypervisor,
-hypervisor işletim sistemini ve kaynaklarını sanal makinelerden izole eder ve bu VM'lerin
-oluşturulmasını ve yönetilmesini sağlar.
-Hypervisor yüklü fiziksel donanıma host ve bunun üzerindeki sanal makinelere de guest adı
-verilir.
-Hypervisor tarafından tahsis edilmek üzere kullanabileceği işlemci, bellek, depolama gibi
-kaynaklara
-pool ismi verilir.
-Tüm hypervisor’lerin, VM'leri çalıştırmak için bellek yöneticisi, işlem zamanlayıcı, giriş/çıkış (G/Ç)
-yığını, aygıt sürücüleri, güvenlik yöneticisi, ağ yığını ve daha fazlası gibi bazı işletim sistemi
-düzeyindeki bileşenlere ihtiyacı vardır.
-Hypervisor, her sanal makineye kaynak tahsis eder ve VM kaynaklarının fiziksel kaynaklara göre
-zamanlamasını yönetir.Yürütmeyi hala fiziksel donanım yapıyor, dolayısıyla hypervisor programı
-yönetirken fiziksel CPU hala VM'ler tarafından talep edildiği şekilde CPU talimatlarını yürütür.
-
-
-Birden fazla farklı işletim sistemi yan yana çalışabilir ve aynı sanallaştırılmış donanım
-kaynaklarını bir hypervisor sayesinde paylaşabilir. Bu, sanallaştırmanın önemli bir avantajıdır.
-Sanallaştırma olmadan donanım üzerinde yalnızca 1 işletim sistemi çalıştırılabilir.
-Hypervisor yazılımının ticari ve açık kaynak kodlu olmak üzere farklı seçenekleri mevcuttur.
-VMware, sanallaştırma için popüler bir ticari yazılımdır ve ESXi hypervisor yazılımını ve vSphere
-sanallaştırma platformunu sunmaktadır.
-Kernel-based Virtual Machine (KVM) bir açık kaynak hypervisor seçeneğidir. Linux çekirdeği ile
-birlikte gelmektedir. Ayrıca Xen ve Microsoft Hyper-V diğer hypervisor seneçekleridir.
-
-Hypervisor Tipleri
-Sanallaştırmada kullanılan hypervisor ler 2 tiptir. Bunlar; tip-1 ve tip-2 olarak ayrılmaktadır.
-Tip-1 Hypervisor
-Tip-1 hypervisor aynı zamanda native yada bare metal olarakta isimlendirilmektedir. Direk host
-üzerinde çalışır ve guest işletim sistemlerini yönetir. Host üzerindeki donanım kaynakları
-hypervisor tarafından yönetilir
-Tip-1 hypervisor türü daha çok kurumsal veri merkezlerinde veya benzeri sunucu tabanlı
-ortamlarda yaygın olarak kullanılmaktadır.
-KVM, Microsoft Hyper-V, ve VMware vSphere tip-1 hypervisor örnekleridir. KVM 2007 yılında
-linux ile tümleşik dağıtılmaya başlanmıştır.
-
-Şekil-1: Tip-1 Sanallaştırma mimarisi
+Komut satırında aşağıdaki komut verilir
+sudo systemctl restart libvirtd.service
 
 
 
-Tip-2
-Tip-2 hypervisor, hosted hypervisor olarak da bilinmektedir. Tip-2 hypervisor, geleneksel
-işletim sistemleri üzerinde bir yazılım katmanı yada uygulama olarak çalışmaktadır.
-Konuk işletim sistemlerini ana işletim sisteminden soyutlayarak çalışır.
-Tip-2 hypervisor, kişisel bilgisayarda birden fazla işletim sistemini çalıştırmak isteyen bireysel
-kullanıcılar için iyi bir seçenektir.
-VMware Workstation ve Oracle VirtualBox tip-2 hypervisor için iki örnektir [3].
-
-
-Şekil-2: Tip-2 Sanallaştırma mimarisi
-Sanallaştırma Türleri
-
-● Desktop virtualization
-● Storage virtualization
-● Network virtualization
-● Data virtualization
-● Application virtualization
-● Data center virtualization
-● CPU virtualization
-● GPU virtualization
-● Linux virtualization
-● Cloud virtualization
 
 
 
-Desktop virtualization (Masaüstü Sanallaştırma)
-
-Masaüstü sanallaştırma teknolojisi fiziksel istemci cihazından masaüstü ortamını ayırır. Fiziksel
-cihaz olarak bir kişisel bilgisayar yada thin client kullanılabilirken kullanıcının masaüstü merkezi
-bir sunucuda barındırılmaktadır. Bu teknoloji, kullanıcıların çeşitli cihaz ve konumlardan
-masaüstlerine erişmesine ve bunlarla etkileşime girmesine olanak tanır [4].
-
-Masaüstü sanallaştırma iki farklı biçime sahiptir:
-1. Virtual desktop infrastructure (VDI): Birden fazla masaüstü merkezi sunucularda
-barındırılan sanal makineler üzerinde çalışır ve onlara thin client lar üzerinden erişmek
-isteyen kullanıcılara servis edilir. Bu şekilde VDI, bir kuruluşun kullanıcılarına, herhangi
-bir cihaza işletim sistemi kurmadan, herhangi bir cihazdan çeşitli işletim sistemlerine
-erişim sağlamasını imkan verir [1].
 
 
-Şekil-3: VDI tipi masaüstü sanallaştırma
+VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
 
-2. Local Desktop virtualization: Yerel bir bilgisayarda bir hypervisor çalıştırarak kullanıcının
-o bilgisayarda ...(Kısaltıldı)
+sudo virt-install --name=testVM \
+--os-variant=ubuntu22.04 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/var/lib/libvirt/images/testVM.img,size=30 \
+--graphics spice \
+--cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
+--network bridge:virbr0
+
+
+Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
+kısmıdır.
+
+
+
+
+
+
+
+
+
+Sanal Makinelerin Yönetilmesi
+- Kurulu olan sanal makineleri ve durumlarını listeleyin
+
+virsh list --all
+- Çalışır durumda (running) olan sanal makineyi görüntüleyin
+
+virt-viewer testVM
+- Tüm sanal makineleri grafik arayüzden yönetin.
+virt-manager
+
+- Shut-down durumundaki bir sanal makineyi başlatma
+virsh start testVM
+- Bir sanal makineyi restart yapma
+virsh reboot testVM
+
+- Bir sanal makineyi kapatma
+virsh shutdown testVM
+
+- Bir sanal makineyi pause yapma
+virsh suspend testVM
+
+- Bir sanal makineyi unpause yapma
+virsh resume testVM
+
+- Bir sanal makineyi silme
+Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
+edilmelidir sonrada undefine yapılmalıdır.
+virsh destroy testVM
+virsh undefine testVM
+
+
+
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -356,42 +340,42 @@ o bilgisayarda ...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Sanallaştırma Temelıkavramları: 2 soru
-  - Sanallaştırma Tanımı Ve Amacı: 2 soru
-  - Sanal Makine Vm İ Şleyişi: 2 soru
-  - Hypervisorün Rolü Ve Fonksiyonları: 2 soru
-  - Tip 1 Hypervisor Bare Metal: 2 soru
+  - Kvm Hypervisor Kurulumu: 2 soru
+  - Gerekli Paketlerin Kurulumu: 2 soru
+  - Libvirtd Servisini Yapılandırma: 2 soru
+  - Virt İnstallıkomutu Kullanımı: 2 soru
+  - Virsh Komutları İle Yönetim: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Sanallaştırma Temelıkavramları:
-- Soru: Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?
-- Seçenekler: Donanım maliyetlerini artırmak | Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak | İşletim sistemi uyumluluğunu azaltmak | Yazılım karmaşıklığını basitleştirmek
-- Doğru Cevap: Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak
+#### Kvm Hypervisor Kurulumu:
+- Soru: KVM (Kernel-based Virtual Machine) nedir?
+- Seçenekler: Bir işletim sistemi | Bir uygulama geliştirme aracı | Bir Tip-1 hipervizör | Bir veritabanı yönetim sistemi
+- Doğru Cevap: Bir Tip-1 hipervizör
 - Zorluk: easy
 
-#### Sanallaştırma Tanımı Ve Amacı:
-- Soru: Sanallaştırmanın temel amacı aşağıdakilerden hangisidir?
-- Seçenekler: Donanım kaynaklarını daha az verimli kullanmak | Tek bir işletim sistemini birden fazla donanım üzerinde çalıştırmak | Donanım kaynaklarının kullanımını en üst düzeye çıkarmak ve maliyetleri düşürmek | Uygulamaların uyumluluğunu azaltmak
-- Doğru Cevap: Donanım kaynaklarının kullanımını en üst düzeye çıkarmak ve maliyetleri düşürmek
+#### Gerekli Paketlerin Kurulumu:
+- Soru: KVM kurulumu için hangi paketler gereklidir?
+- Seçenekler: qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils | docker, kubernetes, ansible | apache2, mysql, php | git, vim, gcc
+- Doğru Cevap: qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils
 - Zorluk: easy
 
-#### Sanal Makine Vm İ Şleyişi:
-- Soru: Sanal makineler (VM'ler) hangi yazılım sayesinde fiziksel sunucunun kaynaklarını paylaşır ve yönetir?
-- Seçenekler: İşletim Sistemi | Hypervisor | Donanım Sürücüsü | Uygulama Yazılımı
-- Doğru Cevap: Hypervisor
-- Zorluk: easy
-
-#### Hypervisorün Rolü Ve Fonksiyonları:
-- Soru: Hypervisor'ün temel görevi nedir?
-- Seçenekler: Donanım sürücülerini güncellemek | Sanal makineler oluşturmak ve çalıştırmak | Ağ bağlantılarını yönetmek | Uygulama yazılımlarını derlemek
-- Doğru Cevap: Sanal makineler oluşturmak ve çalıştırmak
-- Zorluk: easy
-
-#### Tip 1 Hypervisor Bare Metal:
-- Soru: Tip 1 hypervisor'ler için aşağıdaki ifadelerden hangisi doğrudur?
-- Seçenekler: İşletim sistemi üzerinde bir uygulama olarak çalışır. | Doğrudan donanım üzerinde çalışır. | Sadece kişisel bilgisayarlarda kullanılır. | Konuk işletim sistemlerinden bağımsız çalışmaz.
-- Doğru Cevap: Doğrudan donanım üzerinde çalışır.
+#### Libvirtd Servisini Yapılandırma:
+- Soru: /etc/libvirt/qemu.conf dosyasında hangi değişiklikler yapılması önerilir?
+- Seçenekler: Dosyanın silinmesi | #user ve #group satırlarının başındaki # işaretinin kaldırılması | Dosyanın salt okunur yapılması | Dosyaya yeni kullanıcılar eklenmesi
+- Doğru Cevap: #user ve #group satırlarının başındaki # işaretinin kaldırılması
 - Zorluk: medium
+
+#### Virt İnstallıkomutu Kullanımı:
+- Soru: Yeni bir sanal makine oluşturmak için kullanılan 'virt-install' komutunda, '--os-variant' parametresi neyi belirtir?
+- Seçenekler: Sanal makinenin adını | Sanal makine için kullanılacak işletim sistemi varyantını | Sanal makineye ayrılacak RAM miktarını | Sanal makine için kullanılacak disk yolunu
+- Doğru Cevap: Sanal makine için kullanılacak işletim sistemi varyantını
+- Zorluk: medium
+
+#### Virsh Komutları İle Yönetim:
+- Soru: Çalışır durumdaki sanal makineyi görüntülemek için hangi 'virsh' komutu kullanılır?
+- Seçenekler: virsh list | virt-viewer testVM | virsh start testVM | virsh shutdown testVM
+- Doğru Cevap: virt-viewer testVM
+- Zorluk: easy
 
