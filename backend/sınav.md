@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T22:22:02.916Z
+## Tarih: 2025-06-08T22:36:10.919Z
 
-## Trace ID: quiz-1749421322905-35oid
+## Trace ID: quiz-1749422170897-x6h3k
 
-## Alt Konular (6 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hypervisor Kurulumu** (2 soru)
+1. **Kvm Kurulumu** (2 soru)
 2. **Gerekli Paketlerin Kurulumu** (2 soru)
 3. **Libvirtd Servisini Yapılandırma** (2 soru)
-4. **Virt İnstallıkomutu Kullanımı** (2 soru)
-5. **Virsh Komutları İle Yönetim** (2 soru)
+4. **Kullanıcı İ Zinlerini Ayarlama** (2 soru)
+5. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,7 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Virt Manager İle Grafik Yönetim
+1. Sanal Makine Listeleme Ve Görüntüleme
+2. Sanal Makine Durumunu Değiştirme
+3. Sanal Makine Silme
 
 ```
 
@@ -48,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hypervisor Kurulumu** (2 soru)
+1. **Kvm Kurulumu** (2 soru)
 2. **Gerekli Paketlerin Kurulumu** (2 soru)
 3. **Libvirtd Servisini Yapılandırma** (2 soru)
-4. **Virt İnstallıkomutu Kullanımı** (2 soru)
-5. **Virsh Komutları İle Yönetim** (2 soru)
+4. **Kullanıcı İ Zinlerini Ayarlama** (2 soru)
+5. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -60,7 +62,9 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Virt Manager İle Grafik Yönetim
+1. Sanal Makine Listeleme Ve Görüntüleme
+2. Sanal Makine Durumunu Değiştirme
+3. Sanal Makine Silme
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -340,42 +344,42 @@ virsh undefine testVM
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Kvm Hypervisor Kurulumu: 2 soru
+  - Kvm Kurulumu: 2 soru
   - Gerekli Paketlerin Kurulumu: 2 soru
   - Libvirtd Servisini Yapılandırma: 2 soru
-  - Virt İnstallıkomutu Kullanımı: 2 soru
-  - Virsh Komutları İle Yönetim: 2 soru
+  - Kullanıcı İ Zinlerini Ayarlama: 2 soru
+  - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Kvm Hypervisor Kurulumu:
-- Soru: KVM (Kernel-based Virtual Machine) nedir?
-- Seçenekler: Bir işletim sistemi | Bir uygulama geliştirme aracı | Bir Tip-1 hipervizör | Bir veritabanı yönetim sistemi
-- Doğru Cevap: Bir Tip-1 hipervizör
+#### Kvm Kurulumu:
+- Soru: KVM kurulumu için gerekli paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?
+- Seçenekler: qemu-kvm | virt-manager | libvirt-daemon-system | virtinst
+- Doğru Cevap: virt-manager
 - Zorluk: easy
 
 #### Gerekli Paketlerin Kurulumu:
-- Soru: KVM kurulumu için hangi paketler gereklidir?
-- Seçenekler: qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils | docker, kubernetes, ansible | apache2, mysql, php | git, vim, gcc
-- Doğru Cevap: qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils
+- Soru: KVM kurulumu sırasında gerekli olan paketleri kurmak için kullanılan komut aşağıdakilerden hangisidir?
+- Seçenekler: sudo apt update | sudo apt install -y qemu-kvm virt-manager | sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils | sudo systemctl enable --now libvirtd
+- Doğru Cevap: sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
 - Zorluk: easy
 
 #### Libvirtd Servisini Yapılandırma:
-- Soru: /etc/libvirt/qemu.conf dosyasında hangi değişiklikler yapılması önerilir?
-- Seçenekler: Dosyanın silinmesi | #user ve #group satırlarının başındaki # işaretinin kaldırılması | Dosyanın salt okunur yapılması | Dosyaya yeni kullanıcılar eklenmesi
-- Doğru Cevap: #user ve #group satırlarının başındaki # işaretinin kaldırılması
+- Soru: /etc/libvirt/qemu.conf dosyasında yapılan değişiklikler hangi amaçla kullanılır?
+- Seçenekler: Sanal makine imajlarının konumunu değiştirmek | Kullanıcı ve grup izinlerini ayarlamak | Ağ ayarlarını yapılandırmak | Sanal makine kaynaklarını sınırlandırmak
+- Doğru Cevap: Kullanıcı ve grup izinlerini ayarlamak
 - Zorluk: medium
 
-#### Virt İnstallıkomutu Kullanımı:
-- Soru: Yeni bir sanal makine oluşturmak için kullanılan 'virt-install' komutunda, '--os-variant' parametresi neyi belirtir?
-- Seçenekler: Sanal makinenin adını | Sanal makine için kullanılacak işletim sistemi varyantını | Sanal makineye ayrılacak RAM miktarını | Sanal makine için kullanılacak disk yolunu
-- Doğru Cevap: Sanal makine için kullanılacak işletim sistemi varyantını
+#### Kullanıcı İ Zinlerini Ayarlama:
+- Soru: Kullanıcının KVM ve libvirt gruplarına eklenmesinin amacı nedir?
+- Seçenekler: Sanal makine performansını artırmak | Kullanıcının sanal makinelere erişim yetkisini sağlamak | Ağ yapılandırmasını kolaylaştırmak | Sistem güvenliğini artırmak
+- Doğru Cevap: Kullanıcının sanal makinelere erişim yetkisini sağlamak
 - Zorluk: medium
 
-#### Virsh Komutları İle Yönetim:
-- Soru: Çalışır durumdaki sanal makineyi görüntülemek için hangi 'virsh' komutu kullanılır?
-- Seçenekler: virsh list | virt-viewer testVM | virsh start testVM | virsh shutdown testVM
-- Doğru Cevap: virt-viewer testVM
-- Zorluk: easy
+#### Virt İnstallıkomutu İle Vm Oluşturma:
+- Soru: `virt-install` komutunda kullanılan `--disk path=/var/lib/libvirt/images/testVM.img,size=30` parametresi neyi ifade eder?
+- Seçenekler: Sanal makinenin kullanacağı işlemci sayısını | Sanal makineye ayrılacak RAM miktarını | Sanal makinenin disk imajının yolunu ve boyutunu | Sanal makinenin ağ ayarlarını
+- Doğru Cevap: Sanal makinenin disk imajının yolunu ve boyutunu
+- Zorluk: medium
 

@@ -1315,6 +1315,10 @@ export class QuizzesService {
             } as Record<string, unknown>
           );
 
+          subTopicsToUpdate.push({ 
+            subTopic: "genel konu", 
+            normalizedSubTopic: this.normalizationService.normalizeSubTopicName("genel konu") 
+          });
           try {
             // Convert to the expected TopicDto format for updateLearningTargetsFromAnalysis
             const topicDtos = subTopicsToUpdate.map(topic => ({
