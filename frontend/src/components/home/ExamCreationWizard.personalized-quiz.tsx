@@ -616,7 +616,7 @@ export default function ExamCreationWizard({
         }
       });
       console.log(`✅ selectedTopics listesi güncellendi. Şu anda seçili konular:`, selectedTopics);
-
+    }};  
   // Kişiselleştirilmiş sınav alt türü
   const handlePersonalizedQuizTypeSelect = (
     type: "weakTopicFocused" | "learningObjectiveFocused" | "newTopicFocused" | "comprehensive",
@@ -2449,4 +2449,5 @@ export default function ExamCreationWizard({
       </ExamCreationProgress>
     </div>
   );
-}
+  }
+

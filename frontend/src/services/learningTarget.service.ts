@@ -11,7 +11,7 @@ import { LogClass, LogMethod } from "@/decorators/log-method.decorator";
 import { FlowCategory } from "@/constants/logging.constants";
 
 // Logger ve flowTracker nesnelerini elde et
-const logger = getLogger();
+
 const flowTracker = getFlowTracker();
 
 /**
@@ -47,9 +47,8 @@ class LearningTargetService {
       const duration = flowTracker.markEnd(`getLearningTargets_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       logger.logLearningTarget(
         `Öğrenme hedefleri getirildi: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
+        'debug',
         'LearningTargetService.getLearningTargetsByCourse',
-        __filename,
-        36,
         { count: targets.length, courseId, duration }
       );
       
@@ -82,9 +81,8 @@ class LearningTargetService {
       
       logger.logLearningTarget(
         `Eski API uyumluluğu için getLearningTargets çağrılıyor: ${courseId}`,
+        'debug',
         'LearningTargetService.getLearningTargets',
-        __filename,
-        69,
         { courseId }
       );
       
@@ -94,9 +92,8 @@ class LearningTargetService {
       const duration = flowTracker.markEnd(`getLearningTargetsCompat_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       logger.logLearningTarget(
         `Uyumluluk metodu başarılı: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
+        'debug',
         'LearningTargetService.getLearningTargets',
-        __filename,
-        80,
         { count: targets.length, courseId, duration }
       );
       
@@ -106,9 +103,8 @@ class LearningTargetService {
       flowTracker.markEnd(`getLearningTargetsCompat_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
       logger.logLearningTarget(
         `Öğrenme hedefleri yüklenirken hata oluştu: ${courseId}`,
+        'error',
         'LearningTargetService.getLearningTargets',
-        __filename,
-        91,
         { courseId, error }
       );
       throw error;
@@ -397,9 +393,10 @@ class LearningTargetService {
         'LearningTargetService.updateMultipleStatuses',
         __filename,
         347,
-        { 
+        {
           count: updatedTargets.length,
-          duration 
+          duration,
+          courseId: ""
         }
       );
       

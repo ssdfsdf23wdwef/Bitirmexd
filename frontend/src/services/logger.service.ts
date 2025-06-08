@@ -50,11 +50,7 @@ export class LoggerService {
    * @param metadata Ek veri (opsiyonel)
    */
   public logLearningTarget(
-    message: string,
-    level: 'info' | 'error' | 'debug' = 'info',
-    context?: string,
-    metadata?: Record<string, unknown>
-  ) {
+message: string, p0: string, __filename: string, p1: number, p2: { count: number; courseId: string; duration: number; }, level: 'info' | 'error' | 'debug' = 'info', context?: string, metadata?: Record<string, unknown>  ) {
     const timestamp = new Date().toISOString();
     const logLine = `[${timestamp}] [${level.toUpperCase()}]${context ? ` [${context}]` : ''} ${message}` + (metadata ? ` | ${JSON.stringify(metadata)}` : '');
     // Konsola da yaz

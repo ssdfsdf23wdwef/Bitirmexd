@@ -1,8 +1,8 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-08T12:59:16.162Z
+## Tarih: 2025-06-08T16:04:41.899Z
 
-## Trace ID: quiz-1749387556149-uynnf
+## Trace ID: quiz-1749398681885-c3h34
 
 ## Alt Konular (2 adet):
 ```
@@ -10,8 +10,8 @@
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Data Preprocessinğioverview** (5 soru)
-2. **Data Quality Dimensions** (5 soru)
+1. **Süperbilgisayar Sıralama Listeleri** (5 soru)
+2. **Top500 Listesi** (5 soru)
 
 **Toplam Aktif: 2 alt konu, 10 soru**
 
@@ -43,8 +43,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Data Preprocessinğioverview** (5 soru)
-2. **Data Quality Dimensions** (5 soru)
+1. **Süperbilgisayar Sıralama Listeleri** (5 soru)
+2. **Top500 Listesi** (5 soru)
 
 **Toplam Aktif: 2 alt konu, 10 soru**
 
@@ -55,174 +55,89 @@ Bekleyen konu yok.
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
-1
-Data Mining:
-Concepts and Techniques
-(3
-rd
-ed.)
-—Chapter 3—
-Jiawei Han, Micheline Kamber, and Jian Pei
-University of Illinois at Urbana-Champaign &
-Simon Fraser University
-©2011 Han, Kamber & Pei. All rights reserved.
+Bilgisayar Mühendisliği Bölümü
+Bahar –2025(ÖÖ.,İÖ.)
+MBM7-452 -Eksaskala Bilgisayar Sistemleri
+(Sunu 6)
+Dr. Öğr. Üyesi Esra Çelik
 
-22
-Chapter 3: Data Preprocessing
-Data Preprocessing: An Overview
-Data Quality
-Major Tasks in Data Preprocessing
-Data Cleaning
-Data Integration
-Data Reduction
-Data Transformation and Data Discretization
-Summary
+Süperbilgisayar Dünyasında Sıralama
+•Süperbilgisayarlar, yüksek hesaplama gücüyle bilimsel
+araştırmalardan yapay zekaya kadar pek çok alanda kullanılır.
+•Bu sistemlerin hızını, verimliliğini ve gerçek performansını
+değerlendiren üç temel liste vardır:
+•TOP500
+•HPCG (High Performance Conjugate Gradient)
+•Green500
 
-3
-Data Quality: Why Preprocess the Data?
-Measures for data quality: A multidimensional view
-Accuracy: correct or wrong, accurate or not
-Completeness: not recorded, unavailable, ...
-Consistency: some modified but some not, dangling, ...
-Timeliness: timely update?
-Believability: how trustable the data are correct?
-Interpretability: how easily the data can be
-understood?
+TOP500
+•TOP500,
+•dünyanın en hızlı 500 süperbilgisayarını hesaplama gücüne göre
+sıralar.
+•1993’ten bu yana yılda iki kez (Haziran ve Kasım aylarında)
+yayımlanmaktadır.
+•Performansodaklıdır.
+•En yüksek hesaplama gücü kimde?sorusunun cevabını verir.
 
-4
-Major Tasks in Data Preprocessing
-Data cleaning
-Fill in missing values, smooth noisy data, identify or remove
-outliers, and resolve inconsistencies
-Data integration
-Integration of multiple databases, data cubes, or files
-Data reduction
-Dimensionality reduction
-Numerosity reduction
-Data compression
-Data transformation and data discretization
-Normalization
-Concept hierarchy generation
+TOP500
+•Sıralama ölçütü olarak LINPACK testi kullanılır.
+•Bu test:
+•Süperbilgisayarın ne kadar hızlı işlem yapabildiğini yanisistemin
+floating-point işlemleri (FLOPS) performansını ölçer.
+•Matris çözümlemeye dayalıdır.
+•Bellek kullanımı, veri aktarımı veya gerçek dünya uygulamalarındaki
+performansı tam olarak yansıtmaz.
 
-55
-Chapter 3: Data Preprocessing
-Data Preprocessing: An Overview
-Data Quality
-Major Tasks in Data Preprocessing
-Data Cleaning
-Data Integration
-Data Reduction
-Data Transformation and Data Discretization
-Summary
+TOP500
+•Kasım 2024 TOP500 listesinde ElCapiton ilk sırada yer alır.
 
-6
-Data Cleaning
-Data in the Real World Is Dirty: Lots of potentially incorrect data,
-e.g., instrument faulty, human or computer error, transmission error
-incomplete: lacking attribute values, lacking certain attributes of
-interest, or containing only aggregate data
-e.g., Occupation=“ ” (missing data)
-noisy: containing noise, errors, or outliers
-e.g., Salary=“−10” (an error)
-inconsistent: containing discrepancies in codes or names, e.g.,
-Age=“42”, Birthday=“03/07/2010”
-Was rating “1, 2, 3”, now rating “A, B, C”
-discrepancy between duplicate records
-Intentional(e.g., disguised missingdata)
-Jan. 1 as everyone’s birthday?
+HPCG
+•HPCG,
+•bellek, iletişim ve veri akış performansını test eder.
+•Gerçek dünya uygulamalarına odaklanır.
+•TOP500’ün eksik kaldığı noktaları tamamlamak için alternatif olarak
+geliştirilmiştir.
+•Gerçek dünya uygulamalarına (mühendislik hesaplamaları vb.) daha
+yakındır.
 
-7
-Incomplete (Missing) Data
-Data is not always available
-E.g., many tuples have no recorded value for several
-attributes, such as customer income in sales data
-Missing data may be due to
-equipment malfunction
-inconsistent with other recorded data and thus deleted
-data not entered due to misunderstanding
-certain data may not be considered important at the
-time of entry
-not register history or changes of the data
-Missing data may need to be inferred
+HPCG
+•Sıralama ölçütü olarak HPCG testi kullanılır.
+•Bu test:
+•İteratif bir doğrusal denklem çözme yöntemi olan Konjugat
+Gradyanyöntemini kullanılır.
+•Bellek erişimi, iletişim yeteneği ve veri transfer performansını test
+eder
 
-8
-How to Handle Missing Data?
-Ignore the tuple: usually done when class label is missing
-(when doing classification)—not effective when the % of
-missing values per attribute varies considerably
-Fill in the missing value manually: tedious + infeasible?
-Fill in it automatically with
-a global constant : e.g., “unknown”, a new class?!
-the attribute mean
-the attribute mean for all samples belonging to the
-same class: smarter
-the most probable value: inference-based such as
-Bayesian formula or decision tree
+HPCG
+•Kasım 2024 HPCG listesinde Fugaku ilk sırada yer alır.
 
-9
-Noisy Data
-Noise: random error or variance in a measured variable
-Incorrect attribute valuesmay be due to
-faulty data collection instruments
-data entry problems
-data transmission problems
-technology limitation
-inconsistency in naming convention
-Other data problemswhich require data cleaning
-duplicate records
-incomplete data
-inconsistent data
+Green500
+•Green500,
+•enerji verimliliğini temel alarak süperbilgisayarları sıralayan
+listedir.
+•Çevreci yaklaşıma odaklanır.
+•Verimli, sürdürülebilir HPC sistemlerini teşvik eder.
+•Sıralama ölçütü olarak FLOPS/Wattoranına bakar.
+•Yani, 1 watt enerji başına ne kadar işlem yapıldığı değerlendirilir.
 
-10
-How to Handle Noisy Data?
-Binning
-first sort data and partition into (equal-frequency) bins
-then one can smooth by bin means, smooth by bin
-median, smooth by bin boundaries, etc.
-Regression
-smooth by fitting the data into regression functions
-Clustering
-detect and remove outliers
-Combined computer and human inspection
-detect suspicious values and check by human (e.g.,
-deal with possible outliers)
+Green500
+•Kasım 2024 Green500 listesinde JEDI ilk sırada yer alır.
 
-11
-Data Cleaning as a Process
-Data discrepancy detection
-Use metadata (e.g., domain, range, dependency, distribution)
-Check field overloading
-Check uniqueness rule, consecutive rule and null rule
-Use commercial tools
-Data scrubbing: use simple domain knowledge (e.g., postal
-code, spell-check) to detect errors and make corrections
-Data auditing: by analyzing data to discover rules and
-relationship to detect violators (e.g., correlation and clustering
-to find outliers)
-Data migration and integration
-Data migration tools: allow transformations to be specified
-ETL (Extraction/Transformation/Loading) tools: allow users to
-specify transformations through a graphical user interface
-Integration of the two processes
-Iterative and interactive (e.g., Potter’s Wheels)
-
-1212
-Chapter 3: Data Preprocessing
-Data Preprocessing: An Overview
-Data Quality
-Major Tasks in Data Preprocessing
-Data Cleaning
-Data Integration
-Data Reduction
-Data Transformation and Data Discretization
-Summary
-
-1313
-Data Integration
-Data integration:
-Combines data from multiple sources into a coherent store
-Schema integration: e.g., A.cust-id B.cust-#
-Integrate metadata from d...(Kısaltıldı)
+Listelerin Karşılaştırılması
+ListeOdak NoktasıTest (Benchmark)Amaç
+TOP500Ham hesaplama gücü
+(FLOPS)
+LINPACKEn hızlı
+süperbilgisayarları
+belirlemek
+HPCGBellek, iletişim ve
+gerçekçi yük
+HPCGGerçek
+uygulamalardaki
+performansı ölçmek
+Green500Enerji verimliliğiFLOPS/WattEn verimli
+süperbilgisayarları
+sıralamak
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -397,21 +312,21 @@ Data Integration
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Data Preprocessinğioverview: 5 soru
-  - Data Quality Dimensions: 5 soru
+  - Süperbilgisayar Sıralama Listeleri: 5 soru
+  - Top500 Listesi: 5 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Data Preprocessinğioverview:
-- Soru: Veri ön işleme sürecinin temel amacı nedir?
-- Seçenekler: Veri miktarını azaltmak | Verinin kalitesini artırmak | Veriyi daha karmaşık hale getirmek | Veriyi farklı kaynaklardan toplamak
-- Doğru Cevap: Verinin kalitesini artırmak
+#### Süperbilgisayar Sıralama Listeleri:
+- Soru: Aşağıdakilerden hangisi süperbilgisayarların performansını değerlendiren temel listelerden biri değildir?
+- Seçenekler: TOP500 | HPCG | Green500 | Blue500
+- Doğru Cevap: Blue500
 - Zorluk: easy
 
-#### Data Quality Dimensions:
-- Soru: Aşağıdakilerden hangisi veri kalitesinin bir boyutu değildir?
-- Seçenekler: Doğruluk (Accuracy) | Tamlık (Completeness) | Tutarlılık (Consistency) | Karmaşıklık (Complexity)
-- Doğru Cevap: Karmaşıklık (Complexity)
+#### Top500 Listesi:
+- Soru: TOP500 listesi ilk olarak hangi yılda yayınlanmıştır?
+- Seçenekler: 1983 | 1993 | 2003 | 2013
+- Doğru Cevap: 1993
 - Zorluk: easy
 

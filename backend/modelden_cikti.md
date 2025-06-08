@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T12:59:29.472Z
-Trace ID: quiz-1749387556149-uynnf
-Yanıt Uzunluğu: 8353 karakter
+Tarih: 2025-06-08T16:04:52.807Z
+Trace ID: quiz-1749398681885-c3h34
+Yanıt Uzunluğu: 6993 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 8353 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Veri ön işleme sürecinin temel amacı nedir?",
+      "questionText": "Aşağıdakilerden hangisi süperbilgisayarların performansını değerlendiren temel listelerden biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Veri miktarını azaltmak",
-        "Verinin kalitesini artırmak",
-        "Veriyi daha karmaşık hale getirmek",
-        "Veriyi farklı kaynaklardan toplamak"
+        "TOP500",
+        "HPCG",
+        "Green500",
+        "Blue500"
       ],
-      "correctAnswer": "Verinin kalitesini artırmak",
-      "explanation": "Veri ön işlemenin temel amacı, verinin kalitesini artırarak daha doğru ve güvenilir analizler yapılmasını sağlamaktır. Diğer seçenekler veri ön işlemenin alt adımları olabilir, ancak temel amaç verinin kalitesini artırmaktır.",
-      "subTopicName": "Data Preprocessinğioverview",
-      "normalizedSubTopicName": "data_preprocessinğioverview",
+      "correctAnswer": "Blue500",
+      "explanation": "Süperbilgisayarların performansını değerlendiren üç temel liste TOP500, HPCG ve Green500'dür. Blue500 diye bir liste bulunmamaktadır. Bkz: Sunu 6, sayfa 2.",
+      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
+      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi veri ön işleme adımlarından biri değildir?",
+      "questionText": "Hangi liste, süperbilgisayarları enerji verimliliğini temel alarak sıralar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Veri temizleme",
-        "Veri entegrasyonu",
-        "Veri görselleştirme",
-        "Veri indirgeme"
+        "TOP500",
+        "HPCG",
+        "Green500",
+        "LINPACK"
       ],
-      "correctAnswer": "Veri görselleştirme",
-      "explanation": "Veri görselleştirme, veri ön işleme adımlarından biri değildir. Veri temizleme, veri entegrasyonu ve veri indirgeme, veri ön işleme sürecinde yer alan temel adımlardır.",
-      "subTopicName": "Data Preprocessinğioverview",
-      "normalizedSubTopicName": "data_preprocessinğioverview",
+      "correctAnswer": "Green500",
+      "explanation": "Green500, süperbilgisayarları enerji verimliliğini temel alarak sıralayan listedir. Bu liste, çevreci yaklaşıma odaklanır ve verimli, sürdürülebilir HPC sistemlerini teşvik eder. Bkz: Sunu 6, sayfa 7.",
+      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
+      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
       "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "Veri ön işlemenin amacı düşünüldüğünde, aşağıdakilerden hangisi veri kalitesini doğrudan etkilemez?",
+      "questionText": "Aşağıdakilerden hangisi HPCG listesinin odak noktasıdır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Eksik verilerin giderilmesi",
-        "Gürültülü verilerin temizlenmesi",
-        "Veri kaynaklarının çeşitliliği",
-        "Tutarsızlıkların çözülmesi"
+        "Ham hesaplama gücü",
+        "Bellek, iletişim ve gerçekçi yük",
+        "Enerji verimliliği",
+        "Floating-point işlem performansı"
       ],
-      "correctAnswer": "Veri kaynaklarının çeşitliliği",
-      "explanation": "Veri kaynaklarının çeşitliliği, veri ön işlemenin bir parçası olan veri entegrasyonu ile ilgilidir, ancak tek başına veri kalitesini doğrudan etkilemez. Eksik verilerin giderilmesi, gürültülü verilerin temizlenmesi ve tutarsızlıkların çözülmesi ise veri kalitesini doğrudan artıran işlemlerdir.",
-      "subTopicName": "Data Preprocessinğioverview",
-      "normalizedSubTopicName": "data_preprocessinğioverview",
+      "correctAnswer": "Bellek, iletişim ve gerçekçi yük",
+      "explanation": "HPCG listesinin odak noktası bellek, iletişim ve gerçekçi yük performansıdır. Bu liste, gerçek dünya uygulamalarındaki performansı ölçmeyi amaçlar. Bkz: Sunu 6, sayfa 8.",
+      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
+      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
       "difficulty": "medium"
     },
     {
       "id": "q4",
-      "questionText": "Veri ön işlemede 'veri indirgeme' (data reduction) ne anlama gelir?",
+      "questionText": "Hangi liste, gerçek dünya uygulamalarına daha yakın bir performans değerlendirmesi sunar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Veri setindeki örneklem sayısını artırmak",
-        "Veri setindeki öznitelik sayısını azaltmak",
-        "Veri setindeki hatalı kayıtları silmek",
-        "Veri setini farklı veri tabanlarına dağıtmak"
+        "TOP500",
+        "HPCG",
+        "Green500",
+        "LINPACK"
       ],
-      "correctAnswer": "Veri setindeki öznitelik sayısını azaltmak",
-      "explanation": "Veri indirgeme (data reduction), veri setindeki öznitelik sayısını azaltarak daha basit ve anlaşılır bir model oluşturmayı hedefler. Bu, modelin karmaşıklığını azaltır ve performansı artırabilir.",
-      "subTopicName": "Data Preprocessinğioverview",
-      "normalizedSubTopicName": "data_preprocessinğioverview",
+      "correctAnswer": "HPCG",
+      "explanation": "HPCG, gerçek dünya uygulamalarına (mühendislik hesaplamaları vb.) daha yakın bir performans değerlendirmesi sunar. TOP500'ün eksik kaldığı noktaları tamamlamak için alternatif olarak geliştirilmiştir. Bkz: Sunu 6, sayfa 5.",
+      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
+      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Bir veri setinde, bir müşterinin yaşının hem sayısal olarak hem de doğum tarihi olarak farklı formatlarda bulunması hangi tür veri ön işleme ihtiyacını gösterir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
-      "options": [
-        "Veri temizleme",
-        "Veri entegrasyonu",
-        "Veri indirgeme",
-        "Veri dönüşümü"
-      ],
-      "correctAnswer": "Veri dönüşümü",
-      "explanation": "Yaşın farklı formatlarda bulunması, veri dönüşümü ihtiyacını gösterir. Veri dönüşümü, verinin farklı formatlarda veya ölçeklerde olmasından kaynaklanan sorunları çözmeyi amaçlar.",
-      "subTopicName": "Data Preprocessinğioverview",
-      "normalizedSubTopicName": "data_preprocessinğioverview",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q6",
-      "questionText": "Aşağıdakilerden hangisi veri kalitesinin bir boyutu değildir?",
+      "questionText": "Green500 listesinde sıralama ölçütü olarak hangi oran dikkate alınır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Doğruluk (Accuracy)",
-        "Tamlık (Completeness)",
-        "Tutarlılık (Consistency)",
-        "Karmaşıklık (Complexity)"
+        "FLOPS",
+        "LINPACK",
+        "FLOPS/Watt",
+        "HPCG"
       ],
-      "correctAnswer": "Karmaşıklık (Complexity)",
-      "explanation": "Veri kalitesinin boyutları arasında doğruluk, tamlık, tutarlılık, güncellik, güvenilirlik ve yorumlanabilirlik bulunur. Karmaşıklık, veri kalitesini doğrudan etkileyen bir faktör değildir.",
-      "subTopicName": "Data Quality Dimensions",
-      "normalizedSubTopicName": "data_quality_dimensions",
+      "correctAnswer": "FLOPS/Watt",
+      "explanation": "Green500 listesinde sıralama ölçütü olarak FLOPS/Watt oranına bakılır. Yani, 1 watt enerji başına ne kadar işlem yapıldığı değerlendirilir. Bkz: Sunu 6, sayfa 7.",
+      "subTopicName": "Süperbilgisayar Sıralama Listeleri",
+      "normalizedSubTopicName": "superbilgisayar_siralama_listeleri",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q6",
+      "questionText": "TOP500 listesi ilk olarak hangi yılda yayınlanmıştır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "1983",
+        "1993",
+        "2003",
+        "2013"
+      ],
+      "correctAnswer": "1993",
+      "explanation": "TOP500 listesi, 1993'ten bu yana yılda iki kez (Haziran ve Kasım aylarında) yayımlanmaktadır. Bkz: Sunu 6, sayfa 3.",
+      "subTopicName": "Top500 Listesi",
+      "normalizedSubTopicName": "top500_listesi",
       "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "Bir veri setinde, bazı müşterilerin gelir bilgilerinin eksik olması hangi veri kalitesi boyutunu etkiler?",
+      "questionText": "TOP500 listesi hangi aralıklarla yayınlanmaktadır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Doğruluk (Accuracy)",
-        "Tamlık (Completeness)",
-        "Tutarlılık (Consistency)",
-        "Güncellik (Timeliness)"
+        "Yılda bir kez",
+        "Yılda iki kez",
+        "Üç ayda bir",
+        "Altı ayda bir"
       ],
-      "correctAnswer": "Tamlık (Completeness)",
-      "explanation": "Eksik gelir bilgileri, veri setinin tamlık (completeness) boyutunu etkiler. Tamlık, tüm gerekli verilerin mevcut olup olmadığını ifade eder.",
-      "subTopicName": "Data Quality Dimensions",
-      "normalizedSubTopicName": "data_quality_dimensions",
+      "correctAnswer": "Yılda iki kez",
+      "explanation": "TOP500 listesi, 1993'ten bu yana yılda iki kez (Haziran ve Kasım aylarında) yayımlanmaktadır. Bkz: Sunu 6, sayfa 3.",
+      "subTopicName": "Top500 Listesi",
+      "normalizedSubTopicName": "top500_listesi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Bir müşterinin hem online başvuru formunda hem de fiziksel başvuru formunda farklı adres bilgilerinin bulunması hangi veri kalitesi sorununa işaret eder?",
+      "questionText": "TOP500 listesinde sıralama ölçütü olarak hangi test kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Doğruluk (Accuracy)",
-        "Tamlık (Completeness)",
-        "Tutarlılık (Consistency)",
-        "Yorumlanabilirlik (Interpretability)"
+        "HPCG testi",
+        "LINPACK testi",
+        "Green500 testi",
+        "Konjugat Gradyan yöntemi"
       ],
-      "correctAnswer": "Tutarlılık (Consistency)",
-      "explanation": "Farklı adres bilgilerinin bulunması, tutarsızlık (consistency) sorununa işaret eder. Tutarlılık, aynı verinin farklı kaynaklarda veya farklı zamanlarda aynı değeri taşıması anlamına gelir.",
-      "subTopicName": "Data Quality Dimensions",
-      "normalizedSubTopicName": "data_quality_dimensions",
+      "correctAnswer": "LINPACK testi",
+      "explanation": "TOP500 listesinde sıralama ölçütü olarak LINPACK testi kullanılır. Bu test, süperbilgisayarın ne kadar hızlı işlem yapabildiğini, yani sistemin floating-point işlemleri (FLOPS) performansını ölçer. Bkz: Sunu 6, sayfa 4.",
+      "subTopicName": "Top500 Listesi",
+      "normalizedSubTopicName": "top500_listesi",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Bir veri setinde, bir ürünün fiyatının bir gün '10 TL' iken ertesi gün '-10 TL' olarak kaydedilmesi hangi tür veri kalitesi sorununa örnektir?",
+      "questionText": "LINPACK testinin temel amacı nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Yanlış veri (Inaccurate data)",
-        "Eksik veri (Incomplete data)",
-        "Tutarsız veri (Inconsistent data)",
-        "Zamanında güncellenmemiş veri (Untimely data)"
+        "Bellek kullanımını ölçmek",
+        "Veri aktarım hızını ölçmek",
+        "Sistemin floating-point işlem (FLOPS) performansını ölçmek",
+        "Enerji verimliliğini ölçmek"
       ],
-      "correctAnswer": "Yanlış veri (Inaccurate data)",
-      "explanation": "Ürünün fiyatının negatif olarak kaydedilmesi, açıkça bir hatadır ve yanlış veri (inaccurate data) sorununa örnektir. Bu durum, verinin doğruluk boyutunu zedeler.",
-      "subTopicName": "Data Quality Dimensions",
-      "normalizedSubTopicName": "data_quality_dimensions",
+      "correctAnswer": "Sistemin floating-point işlem (FLOPS) performansını ölçmek",
+      "explanation": "LINPACK testi, süperbilgisayarın ne kadar hızlı işlem yapabildiğini, yani sistemin floating-point işlemleri (FLOPS) performansını ölçer. Bkz: Sunu 6, sayfa 4.",
+      "subTopicName": "Top500 Listesi",
+      "normalizedSubTopicName": "top500_listesi",
       "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Veri kalitesinin 'yorumlanabilirlik' (interpretability) boyutu neyi ifade eder?",
+      "questionText": "Kasım 2024 TOP500 listesinde ilk sırada hangi süperbilgisayar yer almaktadır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Verinin ne kadar doğru olduğunu",
-        "Verinin ne kadar eksiksiz olduğunu",
-        "Verinin ne kadar kolay anlaşılabilir olduğunu",
-        "Verinin ne kadar güncel olduğunu"
+        "Fugaku",
+        "JEDI",
+        "ElCapitan",
+        "Hiçbiri"
       ],
-      "correctAnswer": "Verinin ne kadar kolay anlaşılabilir olduğunu",
-      "explanation": "Yorumlanabilirlik (interpretability), verinin ne kadar kolay anlaşılabilir ve yorumlanabilir olduğunu ifade eder. Verinin anlamını açıkça ifade etmesi ve kullanıcılar tarafından kolayca anlaşılması önemlidir.",
-      "subTopicName": "Data Quality Dimensions",
-      "normalizedSubTopicName": "data_quality_dimensions",
+      "correctAnswer": "ElCapitan",
+      "explanation": "Kasım 2024 TOP500 listesinde ElCapitan ilk sırada yer almaktadır. Bkz: Sunu 6, sayfa 4.",
+      "subTopicName": "Top500 Listesi",
+      "normalizedSubTopicName": "top500_listesi",
       "difficulty": "easy"
     }
   ]
