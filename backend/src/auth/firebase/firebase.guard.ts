@@ -56,7 +56,21 @@ export class FirebaseGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic) {
+        const isAnonymousAllowed = this.reflector.getAllAndOverride<boolean>(
+      'anonymousAllowed',
+      [context.getHandler(), context.getClass()],
+    );
+
+    if (isPublic || isAnonymousAllowed) {
+      this.logger.debug(
+        `Anonim erişim izni verilen endpoint: ${method} ${path} (isPublic: ${isPublic}, isAnonymousAllowed: ${isAnonymousAllowed})`,
+        'FirebaseGuard.canActivate',
+        __filename,
+      );
+      this.flowTracker.trackStep(
+        'Endpoint anonim erişime açık, kimlik doğrulama atlanıyor',
+        'FirebaseGuard',
+      );
       return true;
     }
 

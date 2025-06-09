@@ -1781,3 +1781,7 @@ Details: {"reason":"TypeError: file.split is not a function\n    at LoggerServic
 ------------------------------------------------------------
 [2025-06-09T12:23:56.985Z] [info] [ClientLogSetup] Uygulama başlatıldı
 ------------------------------------------------------------
+[2025-06-09T12:31:56.092Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T12:31:56.088Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
