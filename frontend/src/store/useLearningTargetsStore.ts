@@ -195,16 +195,21 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
   setTemporaryTargetsFromQuiz: (questions) => {
     const uniqueSubTopics = new Set<string>();
     
-    // Extract unique subTopics from questions
+    // Extract unique subTopics from questions - check both field naming conventions
     questions.forEach(question => {
-      if (question.subTopic) {
-        uniqueSubTopics.add(question.subTopic);
+      // Check for both subTopic (frontend interface) and subTopicName (backend API response) fields
+      const subTopicValue = question.subTopic || (question as any).subTopicName;
+      if (subTopicValue) {
+        uniqueSubTopics.add(subTopicValue);
       }
     });
 
     // Create temporary targets for each unique subTopic
     const temporaryTargets: TemporaryLearningTarget[] = Array.from(uniqueSubTopics).map(subTopic => ({
-      topic: questions.find(q => q.subTopic === subTopic)?.topic || 'Unknown Topic',
+      topic: questions.find(q => {
+        const questionSubTopic = q.subTopic || (q as any).subTopicName;
+        return questionSubTopic === subTopic;
+      })?.topic || 'Unknown Topic',
       subTopic: subTopic,
       status: 'PENDING' as const,
       score: 0,
@@ -218,9 +223,12 @@ export const useLearningTargetsStore = create<LearningTargetsState>((set, get) =
     
     // Calculate scores for each subTopic based on quiz results
     const updatedTargets = temporaryTargets.map(target => {
-      // Find questions for this subTopic
+      // Find questions for this subTopic - check both field naming conventions
       const subTopicQuestions = quizResults.questions?.filter(
-        (q: any) => q.subTopic === target.subTopic
+        (q: any) => {
+          const questionSubTopic = q.subTopic || q.subTopicName;
+          return questionSubTopic === target.subTopic;
+        }
       ) || [];
       
       if (subTopicQuestions.length === 0) {

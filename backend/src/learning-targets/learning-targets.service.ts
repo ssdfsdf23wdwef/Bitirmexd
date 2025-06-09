@@ -1633,8 +1633,13 @@ export class LearningTargetsService {
         return []; // No new topics to add
       }
 
+
+   const db = this.firebaseService.firestore;
+      if (!db) {
+        throw new Error('Firestore servisi başlatılamadı');
+      }
       const now = new Date();
-      const batch = this.firebaseService.firestore.batch();
+      const batch = db.batch();
       const createdTargets: LearningTargetWithQuizzes[] = [];
 
       // Her bir konu için öğrenme hedefi oluştur
@@ -1647,7 +1652,7 @@ export class LearningTargetsService {
         const newId = this.firebaseService.generateId();
         
         // Yeni belge referansı
-        const newRef = this.firebaseService.firestore
+        const newRef = db
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .doc(newId);
         
