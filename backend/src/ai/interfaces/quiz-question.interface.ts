@@ -61,7 +61,7 @@ export interface QuizMetadata {
 }
 
 // Hata paketleyici
-export interface ErrorWithMetadata extends Error {
+interface ErrorWithMetadata extends Error {
   metadata?: Record<string, any>;
 }
 

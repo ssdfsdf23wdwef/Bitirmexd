@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const CACHE_TTL_KEY = 'cache_ttl_seconds';
+const CACHE_TTL_KEY = 'cache_ttl_seconds';
 
 /**
  * Özel önbellekleme süresi belirleyen dekoratör
@@ -17,5 +17,4 @@ export const CACHE_TTL_KEY = 'cache_ttl_seconds';
  * }
  * ```
  */
-export const CacheTTL = (ttlSeconds: number) =>
-  SetMetadata(CACHE_TTL_KEY, ttlSeconds);
+const CacheTTL = (ttlSeconds: number) => SetMetadata(CACHE_TTL_KEY, ttlSeconds);

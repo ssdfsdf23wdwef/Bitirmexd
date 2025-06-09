@@ -33,7 +33,7 @@ flowTracker.track('Firestore utils yükleniyor', 'firestore.utils');
  * @param operation Her öğe için uygulanacak işlem (batch ve öğe alır)
  * @param firestore Firestore instance
  */
-export const handleBatchOperation = async <T>(
+const handleBatchOperation = async <T>(
   batch: WriteBatch,
   items: T[],
   operation: (batch: WriteBatch, item: T) => void,
@@ -83,7 +83,7 @@ export const handleBatchOperation = async <T>(
  * @param value Alan değeri
  * @returns Eğer varsa true, yoksa false
  */
-export const entityExists = async (
+const entityExists = async (
   firestore: Firestore,
   collection: string,
   field: string,
@@ -191,7 +191,7 @@ export const cascadeDelete = async (
  * @param startAfter Başlangıç belge snapshot'ı
  * @returns Belge array'i ve bir sonraki sayfa için cursor
  */
-export const paginateFirestore = async <T>(
+const paginateFirestore = async <T>(
   firestore: Firestore,
   collection: string,
   whereConditions: Array<{
@@ -258,7 +258,7 @@ export const paginateFirestore = async <T>(
  * @param collectionPath Koleksiyon yolu
  * @returns Koleksiyon referansı
  */
-export function getCollection<T = any>(
+function getCollection<T = any>(
   collectionPath: string,
 ): CollectionReference<T> {
   try {
@@ -295,7 +295,7 @@ export function getCollection<T = any>(
  * @param documentId Belge ID'si
  * @returns Belge referansı
  */
-export function getDocument<T extends DocumentData = DocumentData>(
+function getDocument<T extends DocumentData = DocumentData>(
   collectionPath: string,
   documentId: string,
 ): DocumentReference<T> {
@@ -332,7 +332,7 @@ export function getDocument<T extends DocumentData = DocumentData>(
  * @param documentId Belge ID'si
  * @returns Belge verisi veya null
  */
-export async function readDocument<T extends DocumentData = DocumentData>(
+async function readDocument<T extends DocumentData = DocumentData>(
   collectionPath: string,
   documentId: string,
 ): Promise<T | null> {
@@ -381,7 +381,7 @@ export async function readDocument<T extends DocumentData = DocumentData>(
  * @param merge Varolan belgeyi güncellerken alanları birleştir
  * @returns İşlem sonucu
  */
-export async function writeDocument<T extends DocumentData = DocumentData>(
+async function writeDocument<T extends DocumentData = DocumentData>(
   collectionPath: string,
   documentId: string,
   data: T,
@@ -420,7 +420,7 @@ export async function writeDocument<T extends DocumentData = DocumentData>(
  * @param documentId Belge ID'si
  * @returns İşlem sonucu
  */
-export async function deleteDocument(
+async function deleteDocument(
   collectionPath: string,
   documentId: string,
 ): Promise<void> {
@@ -454,9 +454,7 @@ export async function deleteDocument(
  * @param collectionPath Koleksiyon yolu
  * @returns Belge dizisi
  */
-export async function getAllDocuments<T = any>(
-  collectionPath: string,
-): Promise<T[]> {
+async function getAllDocuments<T = any>(collectionPath: string): Promise<T[]> {
   try {
     flowTracker.trackStep(
       `${collectionPath} koleksiyonundaki tüm belgeler alınıyor`,
@@ -539,7 +537,7 @@ export const toPlainObject = (obj: any): any => {
  * @param data The data to make safe for Firestore
  * @returns Object safe for storing in Firestore
  */
-export const ensureFirestoreSafe = <T>(data: T): T => {
+const ensureFirestoreSafe = <T>(data: T): T => {
   try {
     // Use JSON stringify/parse as a quick way to convert to plain objects
     // This effectively removes all prototypes but maintains the structure

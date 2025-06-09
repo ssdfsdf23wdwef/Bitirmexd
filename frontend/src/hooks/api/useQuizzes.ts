@@ -27,7 +27,7 @@ export function useQuizzes(courseId?: string) {
 /**
  * ID'ye göre sınav getirir
  */
-export function useQuiz(quizId: string | undefined | null) {
+function useQuiz(quizId: string | undefined | null) {
   return useQuery<Quiz, Error>({
     queryKey: ['quiz', quizId],
     queryFn: async () => {
@@ -52,7 +52,7 @@ export function useQuiz(quizId: string | undefined | null) {
 /**
  * Sınav analiz sonuçlarını getirir
  */
-export function useQuizAnalysis(quizId: string | undefined) {
+function useQuizAnalysis(quizId: string | undefined) {
   return useQuery({
     queryKey: ['quizAnalysis', quizId],
     queryFn: async () => {
@@ -111,7 +111,7 @@ export function useQuizAnalysis(quizId: string | undefined) {
 /**
  * Başarısız soruları getirir
  */
-export function useFailedQuestions(courseId?: string) {
+function useFailedQuestions(courseId?: string) {
   return useQuery({
     queryKey: ['failedQuestions', courseId],
     queryFn: async () => {
@@ -134,4 +134,3 @@ const quizApi = {
   useFailedQuestions,
 };
 
-export default quizApi;

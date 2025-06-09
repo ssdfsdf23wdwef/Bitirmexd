@@ -546,7 +546,7 @@ export class QuizzesController {
       return {
         ...quiz,
         userAnswers: quiz.userAnswers || {}, // <-- Bunu ekle!
-      };;
+      };
     } catch (error) {
       this.logger.error(
         `Sınav getirilirken hata: ${error.message}`,

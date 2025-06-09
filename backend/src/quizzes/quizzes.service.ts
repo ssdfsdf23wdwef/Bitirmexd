@@ -53,7 +53,7 @@ export class QuizzesService {
 
   // Öğrenme hedefi log dosyası yolu
   private readonly learningTargetLogPath: string;
-  
+
   constructor(
     private readonly firebaseService: FirebaseService,
     private readonly aiService: AiService,
@@ -71,25 +71,35 @@ export class QuizzesService {
       __filename,
       29,
     );
-    
+
     // Öğrenme hedefleri için log dosyası yolunu ayarla
     const logDir = 'logs';
     this.learningTargetLogPath = path.join(logDir, 'learning_targets.log'); // Türkçe karakter içermeyen dosya adı
-    
+
     try {
       // Log dizininin var olduğundan emin ol
       if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir, { recursive: true });
         console.log(`Log dizini oluşturuldu: ${logDir}`);
       }
-      
+
       // Öğrenme hedefi log dosyasını oluştur (yoksa)
       if (!fs.existsSync(this.learningTargetLogPath)) {
-        fs.writeFileSync(this.learningTargetLogPath, '[' + new Date().toISOString() + '] Öğrenme hedefleri log dosyası oluşturuldu\n', { encoding: 'utf8' });
-        console.log(`Öğrenme hedefleri log dosyası oluşturuldu: ${this.learningTargetLogPath}`);
+        fs.writeFileSync(
+          this.learningTargetLogPath,
+          '[' +
+            new Date().toISOString() +
+            '] Öğrenme hedefleri log dosyası oluşturuldu\n',
+          { encoding: 'utf8' },
+        );
+        console.log(
+          `Öğrenme hedefleri log dosyası oluşturuldu: ${this.learningTargetLogPath}`,
+        );
       }
     } catch (error) {
-      console.error(`Log dosyası oluşturulurken hata: ${error instanceof Error ? error.message : String(error)}`);
+      console.error(
+        `Log dosyası oluşturulurken hata: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -99,10 +109,7 @@ export class QuizzesService {
   @LogMethod({ trackParams: true })
   async findAll(): Promise<Quiz[]> {
     try {
-      this.flowTracker.trackStep(
-        'Tüm sınavlar getiriliyor',
-        'QuizzesService',
-      );
+      this.flowTracker.trackStep('Tüm sınavlar getiriliyor', 'QuizzesService');
 
       const snapshot = await this.firebaseService.firestore
         .collection(FIRESTORE_COLLECTIONS.QUIZZES)
@@ -205,21 +212,31 @@ export class QuizzesService {
         );
         throw new NotFoundException('Sınav bulunamadı');
       }
-      
+
       // --- ADIM 1: Firestore'dan dönen ham veri ---
-      this.logger.examProcessLogger.debug(`[TRACE] findOne | Firestore'dan dönen ham veri: ${JSON.stringify(doc.data(), null, 2)}`);
+      this.logger.examProcessLogger.debug(
+        `[TRACE] findOne | Firestore'dan dönen ham veri: ${JSON.stringify(doc.data(), null, 2)}`,
+      );
 
       const quizData = doc.data();
       // --- ADIM 2: Quiz objesi oluşturuluyor ---
       const quiz = { id: doc.id, ...quizData } as unknown as Quiz;
-      this.logger.examProcessLogger.debug(`[TRACE] findOne | Quiz objesi: ${JSON.stringify(quiz, null, 2)}`);
+      this.logger.examProcessLogger.debug(
+        `[TRACE] findOne | Quiz objesi: ${JSON.stringify(quiz, null, 2)}`,
+      );
 
       // --- ADIM 3: userAnswers alanı var mı, tipi ve içeriği nedir? ---
-      this.logger.examProcessLogger.debug(`[TRACE] findOne | userAnswers typeof: ${typeof quiz.userAnswers}`);
+      this.logger.examProcessLogger.debug(
+        `[TRACE] findOne | userAnswers typeof: ${typeof quiz.userAnswers}`,
+      );
       if (!quiz.userAnswers) {
-        this.logger.examProcessLogger.warn(`[TRACE] findOne | userAnswers alanı YOK veya BOŞ!`);
+        this.logger.examProcessLogger.warn(
+          `[TRACE] findOne | userAnswers alanı YOK veya BOŞ!`,
+        );
       } else {
-        this.logger.examProcessLogger.debug(`[TRACE] findOne | userAnswers içeriği: ${JSON.stringify(quiz.userAnswers, null, 2)}`);
+        this.logger.examProcessLogger.debug(
+          `[TRACE] findOne | userAnswers içeriği: ${JSON.stringify(quiz.userAnswers, null, 2)}`,
+        );
       }
 
       // --- ADIM 4: userId kontrolü ---
@@ -235,10 +252,11 @@ export class QuizzesService {
       }
 
       // --- ADIM 5: Response olarak dönen veri ---
-      this.logger.examProcessLogger.debug(`[TRACE] findOne | RESPONSE olarak dönecek quiz objesi: ${JSON.stringify(quiz, null, 2)}`);
+      this.logger.examProcessLogger.debug(
+        `[TRACE] findOne | RESPONSE olarak dönecek quiz objesi: ${JSON.stringify(quiz, null, 2)}`,
+      );
 
       return quiz;
-
     } catch (error) {
       // Zaten loglanan hataları tekrar loglama
       if (
@@ -453,10 +471,10 @@ export class QuizzesService {
 
         this.logger.logExamProcess(
           `newTopicFocused: ${existingTopics.length} mevcut konu bulundu`,
-          { 
+          {
             courseId: dto.courseId,
             existingTopicsCount: existingTopics.length,
-            existingTopics: existingTopics.map(t => t.subTopicName)
+            existingTopics: existingTopics.map((t) => t.subTopicName),
           },
         );
 
@@ -472,13 +490,13 @@ export class QuizzesService {
           {
             courseId: dto.courseId,
             documentTextLength: dto.sourceDocument.text.length,
-            existingTopicsForAI: existingTopics.map(t => t.subTopicName)
+            existingTopicsForAI: existingTopics.map((t) => t.subTopicName),
           },
         );
 
         try {
           // Pass existing topics to AI so it can detect NEW topics that are NOT in the existing list
-          const existingTopicNames = existingTopics.map(t => t.subTopicName);
+          const existingTopicNames = existingTopics.map((t) => t.subTopicName);
           const topicsResult = await this.aiService.detectTopics(
             dto.sourceDocument.text,
             existingTopicNames, // Pass existing topics to AI
@@ -487,10 +505,13 @@ export class QuizzesService {
 
           if (topicsResult.topics && topicsResult.topics.length > 0) {
             // Filter out any topics that already exist (double-check)
-            const newTopics = topicsResult.topics.filter(detectedTopic => {
-              const isDuplicate = existingTopics.some(existingTopic => 
-                existingTopic.normalizedSubTopicName === detectedTopic.normalizedSubTopicName ||
-                existingTopic.subTopicName.toLowerCase() === detectedTopic.subTopicName.toLowerCase()
+            const newTopics = topicsResult.topics.filter((detectedTopic) => {
+              const isDuplicate = existingTopics.some(
+                (existingTopic) =>
+                  existingTopic.normalizedSubTopicName ===
+                    detectedTopic.normalizedSubTopicName ||
+                  existingTopic.subTopicName.toLowerCase() ===
+                    detectedTopic.subTopicName.toLowerCase(),
               );
               return !isDuplicate;
             });
@@ -509,9 +530,10 @@ export class QuizzesService {
 
             this.logger.logExamProcess(
               `newTopicFocused: Belgeden ${selectedTopics.length} YENİ konu tespit edildi`,
-              { 
-                detectedNewTopics: selectedTopics.map(t => t.subTopic),
-                filteredOutExisting: topicsResult.topics.length - newTopics.length
+              {
+                detectedNewTopics: selectedTopics.map((t) => t.subTopic),
+                filteredOutExisting:
+                  topicsResult.topics.length - newTopics.length,
               },
             );
           } else {
@@ -585,12 +607,12 @@ export class QuizzesService {
             (a, b) => a + b,
             0,
           );
-          
+
           // Konu dağılımı için değişkenler
           let initialAssignedQuestions = 0;
           // Create empty array for initial topic counts
           const initialTopicsArray = [];
-          
+
           while (
             initialAssignedQuestions < totalQuestions &&
             initialTopicsArray.length > 0
@@ -820,7 +842,12 @@ export class QuizzesService {
     );
 
     // newTopicFocused türü için tespit edilen yeni konuları öğrenme hedefi olarak kaydet
-    if (dto.personalizedQuizType === 'newTopicFocused' && selectedTopics && selectedTopics.length > 0 && dto.courseId) {
+    if (
+      dto.personalizedQuizType === 'newTopicFocused' &&
+      selectedTopics &&
+      selectedTopics.length > 0 &&
+      dto.courseId
+    ) {
       try {
         await this.saveDetectedSubTopicsAsLearningTargets(
           dto.courseId,
@@ -832,7 +859,10 @@ export class QuizzesService {
           `newTopicFocused türü için ${selectedTopics.length} yeni konu öğrenme hedefi olarak kaydedildi`,
         );
       } catch (error) {
-        this.logger.error('Yeni konuları öğrenme hedefi olarak kaydetme hatası:', error);
+        this.logger.error(
+          'Yeni konuları öğrenme hedefi olarak kaydetme hatası:',
+          error,
+        );
         // Quiz oluşturma başarılı oldu, sadece logging yapıyoruz
       }
     }
@@ -851,7 +881,10 @@ export class QuizzesService {
     const submitDebugLog = (message: string, data?: any) => {
       const timestamp = new Date().toISOString();
       const logEntry = `[${timestamp}] [SUBMIT_QUIZ_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
-      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+      require('fs').appendFileSync(
+        'C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log',
+        logEntry,
+      );
     };
 
     submitDebugLog('=== SUBMIT QUIZ START ===', {
@@ -881,11 +914,15 @@ export class QuizzesService {
       } else if (answer && typeof answer === 'object' && 'text' in answer) {
         const textValue = String((answer as any).text);
         transformedUserAnswers[questionId] = textValue;
-        submitDebugLog(`✅ OBJECT ANSWER CONVERTED: ${textValue}`, { originalObject: answer });
+        submitDebugLog(`✅ OBJECT ANSWER CONVERTED: ${textValue}`, {
+          originalObject: answer,
+        });
       } else {
         const stringValue = String(answer || '');
         transformedUserAnswers[questionId] = stringValue;
-        submitDebugLog(`⚠️ FALLBACK CONVERSION: ${stringValue}`, { originalValue: answer });
+        submitDebugLog(`⚠️ FALLBACK CONVERSION: ${stringValue}`, {
+          originalValue: answer,
+        });
       }
     }
 
@@ -894,7 +931,7 @@ export class QuizzesService {
       transformedCount: Object.keys(transformedUserAnswers).length,
       transformedUserAnswers,
     });
-    
+
     // Analyze quiz results using transformed string answers
     const analysisResult = this.quizAnalysisService.analyzeQuizResults(
       dto.questions,
@@ -922,79 +959,103 @@ export class QuizzesService {
     }
 
     // Create a Firestore-safe version of the data by deeply transforming nested objects
-    const firestore_safe_questions = dto.questions.map(q => ({
+    const firestore_safe_questions = dto.questions.map((q) => ({
       id: q.id,
       questionText: q.questionText,
-      options: Array.isArray(q.options) 
-        ? q.options.map(opt => 
-            typeof opt === 'string' 
-              ? opt 
-              : (opt && typeof opt === 'object' && 'text' in opt) 
+      options: Array.isArray(q.options)
+        ? q.options.map((opt) =>
+            typeof opt === 'string'
+              ? opt
+              : opt && typeof opt === 'object' && 'text' in opt
                 ? String((opt as any).text)
-                : String(opt || '')
+                : String(opt || ''),
           )
         : [],
       correctAnswer: q.correctAnswer,
       explanation: q.explanation || '',
       subTopic: q.subTopic || '',
       normalizedSubTopic: q.normalizedSubTopic || '',
-      difficulty: q.difficulty || 'medium'
+      difficulty: q.difficulty || 'medium',
     }));
 
-    const firestore_safe_selectedSubTopics = Array.isArray(dto.selectedSubTopics)
-      ? dto.selectedSubTopics.map(st => 
-          typeof st === 'string' 
-            ? st 
-            : (st && typeof st === 'object') 
+    const firestore_safe_selectedSubTopics = Array.isArray(
+      dto.selectedSubTopics,
+    )
+      ? dto.selectedSubTopics.map((st) =>
+          typeof st === 'string'
+            ? st
+            : st && typeof st === 'object'
               ? {
                   subTopic: String((st as any).subTopic || ''),
-                  normalizedSubTopic: String((st as any).normalizedSubTopic || ''),
-                  selected: Boolean((st as any).selected)
+                  normalizedSubTopic: String(
+                    (st as any).normalizedSubTopic || '',
+                  ),
+                  selected: Boolean((st as any).selected),
                 }
-              : String(st || '')
+              : String(st || ''),
         )
       : [];
 
-    const firestore_safe_preferences = dto.preferences ? {
-      questionCount: Number(dto.preferences.questionCount || 10),
-      difficulty: String(dto.preferences.difficulty || 'medium'),
-      timeLimit: dto.preferences.timeLimit ? Number(dto.preferences.timeLimit) : null,
-      prioritizeWeakAndMediumTopics: dto.preferences.prioritizeWeakAndMediumTopics ? Boolean(dto.preferences.prioritizeWeakAndMediumTopics) : null
-    } : null;
+    const firestore_safe_preferences = dto.preferences
+      ? {
+          questionCount: Number(dto.preferences.questionCount || 10),
+          difficulty: String(dto.preferences.difficulty || 'medium'),
+          timeLimit: dto.preferences.timeLimit
+            ? Number(dto.preferences.timeLimit)
+            : null,
+          prioritizeWeakAndMediumTopics: dto.preferences
+            .prioritizeWeakAndMediumTopics
+            ? Boolean(dto.preferences.prioritizeWeakAndMediumTopics)
+            : null,
+        }
+      : null;
 
-    const firestore_safe_sourceDocument = dto.sourceDocument ? {
-      fileName: String(dto.sourceDocument.fileName || ''),
-      storagePath: String(dto.sourceDocument.storagePath || ''),
-      documentId: dto.sourceDocument.documentId || null
-    } : null;
+    const firestore_safe_sourceDocument = dto.sourceDocument
+      ? {
+          fileName: String(dto.sourceDocument.fileName || ''),
+          storagePath: String(dto.sourceDocument.storagePath || ''),
+          documentId: dto.sourceDocument.documentId || null,
+        }
+      : null;
 
     // Transform complexityData to be Firestore-safe
-    const firestore_safe_complexityData = complexityData ? {
-      difficultyDistribution: complexityData.difficultyDistribution ? 
-        this.firebaseService.toPlainObject(complexityData.difficultyDistribution) : null,
-      averageComplexity: complexityData.averageComplexity ? 
-        Number(complexityData.averageComplexity) : null,
-      complexityLevel: complexityData.complexityLevel ? 
-        String(complexityData.complexityLevel) : null
-    } : null;
-    
+    const firestore_safe_complexityData = complexityData
+      ? {
+          difficultyDistribution: complexityData.difficultyDistribution
+            ? this.firebaseService.toPlainObject(
+                complexityData.difficultyDistribution,
+              )
+            : null,
+          averageComplexity: complexityData.averageComplexity
+            ? Number(complexityData.averageComplexity)
+            : null,
+          complexityLevel: complexityData.complexityLevel
+            ? String(complexityData.complexityLevel)
+            : null,
+        }
+      : null;
+
     const quizDataToSave = {
       userId,
       quizType: String(dto.quizType),
-      personalizedQuizType: dto.personalizedQuizType ? String(dto.personalizedQuizType) : null,
+      personalizedQuizType: dto.personalizedQuizType
+        ? String(dto.personalizedQuizType)
+        : null,
       courseId: dto.courseId ? String(dto.courseId) : null,
       sourceDocument: firestore_safe_sourceDocument,
       selectedSubTopics: firestore_safe_selectedSubTopics,
-      preferences: firestore_safe_preferences, 
+      preferences: firestore_safe_preferences,
       questions: firestore_safe_questions,
       userAnswers: transformedUserAnswers, // Use transformed string-only userAnswers
       score: Number(analysis.overallScore),
-      correctCount:
-        Number((analysisResult as any).correctCount ||
-        (analysisResult as any).totalCorrect ||
-        0),
-      totalQuestions:
-        Number((analysisResult as any).totalQuestions || dto.questions.length),
+      correctCount: Number(
+        (analysisResult as any).correctCount ||
+          (analysisResult as any).totalCorrect ||
+          0,
+      ),
+      totalQuestions: Number(
+        (analysisResult as any).totalQuestions || dto.questions.length,
+      ),
       elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
       analysisResult: this.firebaseService.toPlainObject(analysis), // Use utility for analysis object
       timestamp: new Date(),
@@ -1003,98 +1064,107 @@ export class QuizzesService {
 
     // TRANSACTION-BASED SUBMİT: Veri tutarlılığı için transaction kullan
     let savedQuizId: string;
-    
+
     try {
       // Firestore transaction içinde quiz operations yap
-      savedQuizId = await this.firebaseService.firestore.runTransaction(async (transaction) => {
-        // 1. Quiz verisini Firestore'dan al (eğer quiz ID varsa)
-        let existingQuiz: any = null;
-        if (dto.quizId) {
-          this.logger.info(
-            `Transaction içinde mevcut quiz alınıyor: ${dto.quizId}`,
-            'QuizzesService.submitQuiz',
-            __filename,
-            undefined,
-            { quizId: dto.quizId, userId: userId }
-          );
-          
-          const quizRef = this.firebaseService.firestore
-            .collection(FIRESTORE_COLLECTIONS.QUIZZES)
-            .doc(dto.quizId);
-          
-          const quizDoc = await transaction.get(quizRef);
-          
-          if (quizDoc.exists) {
-            existingQuiz = quizDoc.data() as any;
+      savedQuizId = await this.firebaseService.firestore.runTransaction(
+        async (transaction) => {
+          // 1. Quiz verisini Firestore'dan al (eğer quiz ID varsa)
+          let existingQuiz: any = null;
+          if (dto.quizId) {
             this.logger.info(
-              `Mevcut quiz bulundu ve güncellenecek: ${dto.quizId}`,
+              `Transaction içinde mevcut quiz alınıyor: ${dto.quizId}`,
               'QuizzesService.submitQuiz',
               __filename,
               undefined,
-              { quizId: dto.quizId, existingQuizType: existingQuiz?.quizType }
+              { quizId: dto.quizId, userId: userId },
             );
-            
-            // Mevcut quiz'i güncelleyerek submit verisini ekle
-            transaction.update(quizRef, {
-              ...quizDataToSave,
-              timestamp: new Date(), // Submit zamanını güncelle
-              score: Number(analysis.overallScore),
-              correctCount: Number((analysisResult as any).correctCount || 0),
-              elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
-              userAnswers: transformedUserAnswers,
-              analysisResult: this.firebaseService.toPlainObject(analysis)
-            });
-            
-            return dto.quizId;
-          } else {
-            this.logger.warn(
-              `Quiz ID sağlandı ancak bulunamadı: ${dto.quizId}, yeni quiz oluşturuluyor`,
-              'QuizzesService.submitQuiz',
-              __filename,
-              undefined,
-              { quizId: dto.quizId, userId: userId }
-            );
+
+            const quizRef = this.firebaseService.firestore
+              .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+              .doc(dto.quizId);
+
+            const quizDoc = await transaction.get(quizRef);
+
+            if (quizDoc.exists) {
+              existingQuiz = quizDoc.data() as any;
+              this.logger.info(
+                `Mevcut quiz bulundu ve güncellenecek: ${dto.quizId}`,
+                'QuizzesService.submitQuiz',
+                __filename,
+                undefined,
+                {
+                  quizId: dto.quizId,
+                  existingQuizType: existingQuiz?.quizType,
+                },
+              );
+
+              // Mevcut quiz'i güncelleyerek submit verisini ekle
+              transaction.update(quizRef, {
+                ...quizDataToSave,
+                timestamp: new Date(), // Submit zamanını güncelle
+                score: Number(analysis.overallScore),
+                correctCount: Number((analysisResult as any).correctCount || 0),
+                elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
+                userAnswers: transformedUserAnswers,
+                analysisResult: this.firebaseService.toPlainObject(analysis),
+              });
+
+              return dto.quizId;
+            } else {
+              this.logger.warn(
+                `Quiz ID sağlandı ancak bulunamadı: ${dto.quizId}, yeni quiz oluşturuluyor`,
+                'QuizzesService.submitQuiz',
+                __filename,
+                undefined,
+                { quizId: dto.quizId, userId: userId },
+              );
+            }
           }
-        }
-        
-        // 2. Yeni quiz oluştur (ID yoksa veya bulunamazsa)
-        const newQuizRef = this.firebaseService.firestore
-          .collection(FIRESTORE_COLLECTIONS.QUIZZES)
-          .doc(); // Yeni ID oluştur
-        
-        transaction.set(newQuizRef, quizDataToSave);          this.logger.info(
+
+          // 2. Yeni quiz oluştur (ID yoksa veya bulunamazsa)
+          const newQuizRef = this.firebaseService.firestore
+            .collection(FIRESTORE_COLLECTIONS.QUIZZES)
+            .doc(); // Yeni ID oluştur
+
+          transaction.set(newQuizRef, quizDataToSave);
+          this.logger.info(
             `Transaction içinde yeni quiz oluşturuldu: ${newQuizRef.id}`,
             'QuizzesService.submitQuiz',
             __filename,
             undefined,
-            { 
-              newQuizId: newQuizRef.id, 
+            {
+              newQuizId: newQuizRef.id,
               userId: userId,
-              quizType: dto.quizType 
-            }
+              quizType: dto.quizType,
+            },
           );
-        
-        return newQuizRef.id;
-      });
-      
+
+          return newQuizRef.id;
+        },
+      );
+
       this.logger.info(
         `Quiz transaction başarıyla tamamlandı: ${savedQuizId}`,
         'QuizzesService.submitQuiz',
         __filename,
         undefined,
-        { quizId: savedQuizId, userId: userId }
+        { quizId: savedQuizId, userId: userId },
       );
-      
     } catch (transactionError) {
       this.logger.error(
         `Quiz transaction hatası: ${transactionError instanceof Error ? transactionError.message : String(transactionError)}`,
         'QuizzesService.submitQuiz',
         __filename,
         undefined,
-        transactionError instanceof Error ? transactionError : new Error(String(transactionError)),
-        { userId: userId, quizType: dto.quizType }
+        transactionError instanceof Error
+          ? transactionError
+          : new Error(String(transactionError)),
+        { userId: userId, quizType: dto.quizType },
       );
-      throw new Error(`Quiz submission transaction failed: ${transactionError instanceof Error ? transactionError.message : String(transactionError)}`);
+      throw new Error(
+        `Quiz submission transaction failed: ${transactionError instanceof Error ? transactionError.message : String(transactionError)}`,
+      );
     }
 
     // 3. Quiz submission'ı ayrı subcollection'a kaydet
@@ -1103,7 +1173,7 @@ export class QuizzesService {
       if (!userId) {
         throw new Error('userId is required for quiz submission');
       }
-      
+
       const submissionId = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       const submissionData = {
         submissionId,
@@ -1115,7 +1185,7 @@ export class QuizzesService {
         totalQuestions: dto.questions.length,
         elapsedTime: dto.elapsedTime ? Number(dto.elapsedTime) : 0,
         submissionTimestamp: new Date(),
-        analysisResult: this.firebaseService.toPlainObject(analysis)
+        analysisResult: this.firebaseService.toPlainObject(analysis),
       };
 
       // Quiz'in submission subcollection'ına kaydet
@@ -1138,7 +1208,7 @@ export class QuizzesService {
           quizType: dto.quizType,
           score: Number(analysis.overallScore),
           submissionTimestamp: new Date(),
-          courseId: dto.courseId || null
+          courseId: dto.courseId || null,
         });
 
       this.logger.info(
@@ -1146,22 +1216,23 @@ export class QuizzesService {
         'QuizzesService.submitQuiz',
         __filename,
         undefined,
-        { 
-          quizId: savedQuizId, 
-          submissionId, 
+        {
+          quizId: savedQuizId,
+          submissionId,
           userId: userId,
-          score: analysis.overallScore 
-        }
+          score: analysis.overallScore,
+        },
       );
-
     } catch (subcollectionError) {
       this.logger.error(
         `Submission subcollection kaydetme hatası: ${subcollectionError instanceof Error ? subcollectionError.message : String(subcollectionError)}`,
         'QuizzesService.submitQuiz',
         __filename,
         undefined,
-        subcollectionError instanceof Error ? subcollectionError : new Error(String(subcollectionError)),
-        { quizId: savedQuizId, userId: userId }
+        subcollectionError instanceof Error
+          ? subcollectionError
+          : new Error(String(subcollectionError)),
+        { quizId: savedQuizId, userId: userId },
       );
       // Subcollection hatası ana işlemi durdurmuyor ama log et
     }
@@ -1170,24 +1241,30 @@ export class QuizzesService {
     const failedQuestionsDebugLog = (message: string, data?: any) => {
       const timestamp = new Date().toISOString();
       const logEntry = `[${timestamp}] [QUIZ_SUBMISSION_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
-      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+      require('fs').appendFileSync(
+        'C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log',
+        logEntry,
+      );
     };
 
-    failedQuestionsDebugLog('=== QUIZ SUBMISSION - FAILED QUESTIONS PROCESSING START ===', {
-      savedQuizId,
-      userId,
-      courseId: dto.courseId,
-      totalQuestions: dto.questions.length,
-      transformedUserAnswersKeys: Object.keys(transformedUserAnswers),
-    });
+    failedQuestionsDebugLog(
+      '=== QUIZ SUBMISSION - FAILED QUESTIONS PROCESSING START ===',
+      {
+        savedQuizId,
+        userId,
+        courseId: dto.courseId,
+        totalQuestions: dto.questions.length,
+        transformedUserAnswersKeys: Object.keys(transformedUserAnswers),
+      },
+    );
 
     // Save failed questions if there are any
     failedQuestionsDebugLog('🔍 FILTERING FAILED QUESTIONS');
-    
+
     const failedQuestions = dto.questions.filter((q, index) => {
       const userAnswer = transformedUserAnswers[q.id];
       const isIncorrect = userAnswer !== q.correctAnswer;
-      
+
       failedQuestionsDebugLog(`📝 QUESTION ${index + 1} ANALYSIS`, {
         questionIndex: index,
         questionId: q.id,
@@ -1197,20 +1274,20 @@ export class QuizzesService {
         isIncorrect,
         fullQuestion: q,
       });
-      
+
       return isIncorrect;
     });
 
     failedQuestionsDebugLog('📊 FAILED QUESTIONS FILTER RESULTS', {
       totalQuestions: dto.questions.length,
       failedQuestionsCount: failedQuestions.length,
-      failedQuestionIds: failedQuestions.map(q => q.id),
-      failedQuestions: failedQuestions.map(q => ({
+      failedQuestionIds: failedQuestions.map((q) => q.id),
+      failedQuestions: failedQuestions.map((q) => ({
         id: q.id,
         questionText: q.questionText?.substring(0, 50) + '...',
         userAnswer: transformedUserAnswers[q.id],
         correctAnswer: q.correctAnswer,
-      }))
+      })),
     });
 
     if (failedQuestions.length > 0) {
@@ -1220,7 +1297,7 @@ export class QuizzesService {
         courseId: dto.courseId || null,
         failedQuestionsCount: failedQuestions.length,
       });
-      
+
       try {
         await this.saveFailedQuestions(
           savedQuizId,
@@ -1229,7 +1306,9 @@ export class QuizzesService {
           failedQuestions,
           transformedUserAnswers,
         );
-        failedQuestionsDebugLog('✅ saveFailedQuestions COMPLETED SUCCESSFULLY');
+        failedQuestionsDebugLog(
+          '✅ saveFailedQuestions COMPLETED SUCCESSFULLY',
+        );
       } catch (saveFailedError) {
         failedQuestionsDebugLog('💥 saveFailedQuestions ERROR', {
           error: saveFailedError.message,
@@ -1254,37 +1333,41 @@ export class QuizzesService {
 
         // Normalize and validate selected subtopics
         const subTopicsToUpdate: SubtopicUpdate[] = [];
-        const selectedSubTopics = Array.isArray(dto.selectedSubTopics) ? dto.selectedSubTopics : [];
-        
+        const selectedSubTopics = Array.isArray(dto.selectedSubTopics)
+          ? dto.selectedSubTopics
+          : [];
+
         // Process each subtopic
         for (const item of selectedSubTopics) {
           try {
             if (!item || typeof item !== 'object') continue;
-            
+
             // Handle TopicSelection object with proper type checking
             const topicItem = item as Record<string, any>;
             if ('subTopic' in topicItem && topicItem.subTopic) {
               const subTopic = String(topicItem.subTopic).trim();
               if (subTopic) {
-                const normalizedSubTopic = 
-                  'normalizedSubTopic' in topicItem && topicItem.normalizedSubTopic 
+                const normalizedSubTopic =
+                  'normalizedSubTopic' in topicItem &&
+                  topicItem.normalizedSubTopic
                     ? String(topicItem.normalizedSubTopic)
                     : this.normalizationService.normalizeSubTopicName(subTopic);
-                
+
                 subTopicsToUpdate.push({
                   subTopic,
-                  normalizedSubTopic
+                  normalizedSubTopic,
                 });
               }
             }
           } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : String(error);
+            const errorMessage =
+              error instanceof Error ? error.message : String(error);
             this.logger.warn(
               `Error processing subtopic item: ${JSON.stringify(item)}`,
               'QuizzesService.submitQuiz',
               __filename,
               undefined,
-              { error: errorMessage } as Record<string, unknown>
+              { error: errorMessage } as Record<string, unknown>,
             );
           }
         }
@@ -1294,11 +1377,11 @@ export class QuizzesService {
           'QuizzesService.submitQuiz',
           __filename,
           undefined,
-          { 
+          {
             quizId: savedQuizId,
             subtopicsCount: subTopicsToUpdate.length,
-            courseId: dto.courseId
-          } as Record<string, unknown>
+            courseId: dto.courseId,
+          } as Record<string, unknown>,
         );
 
         // Log the subtopics that will be updated
@@ -1308,65 +1391,70 @@ export class QuizzesService {
             'QuizzesService.submitQuiz',
             __filename,
             undefined,
-            { 
+            {
               quizId: savedQuizId,
               courseId: dto.courseId,
-              subtopics: subTopicsToUpdate.map(st => st.subTopic)
-            } as Record<string, unknown>
+              subtopics: subTopicsToUpdate.map((st) => st.subTopic),
+            } as Record<string, unknown>,
           );
 
-          subTopicsToUpdate.push({ 
-            subTopic: "genel konu", 
-            normalizedSubTopic: this.normalizationService.normalizeSubTopicName("genel konu") 
+          subTopicsToUpdate.push({
+            subTopic: 'genel konu',
+            normalizedSubTopic:
+              this.normalizationService.normalizeSubTopicName('genel konu'),
           });
           try {
             // Convert to the expected TopicDto format for updateLearningTargetsFromAnalysis
-            const topicDtos = subTopicsToUpdate.map(topic => ({
+            const topicDtos = subTopicsToUpdate.map((topic) => ({
               subTopic: topic.subTopic,
-              normalizedSubTopic: topic.normalizedSubTopic
+              normalizedSubTopic: topic.normalizedSubTopic,
             }));
-            
+
             if (dto.courseId) {
               await this.updateLearningTargetsFromAnalysis(
                 analysis,
                 dto.courseId,
                 userId,
-                topicDtos
+                topicDtos,
               );
             }
-            
+
             this.logger.info(
               `Successfully updated learning targets for ${subTopicsToUpdate.length} subtopics`,
               'QuizzesService.submitQuiz',
               __filename,
               undefined,
-              { 
+              {
                 quizId: savedQuizId,
                 subtopicsCount: subTopicsToUpdate.length,
-                courseId: dto.courseId
-              } as Record<string, unknown>
+                courseId: dto.courseId,
+              } as Record<string, unknown>,
             );
           } catch (error) {
             // Log the error but don't fail the entire operation
-            const errorMessage = error instanceof Error ? error.message : String(error);
+            const errorMessage =
+              error instanceof Error ? error.message : String(error);
             const errorStack = error instanceof Error ? error.stack : undefined;
             // Create a proper Error object for logging
-          const errorToLog = new Error(`Failed to update learning targets: ${errorMessage}`);
-          if (errorStack) {
-            errorToLog.stack = errorStack;
-          }
-          
-          // Log the error with context
-          this.logger.error(
-            `Failed to update learning targets: ${errorToLog.message}`,
-            'QuizzesService.submitQuiz',
-            __filename, // filePath
-            undefined,  // lineNumber
-            errorToLog, // error object
-            {          // additionalInfo
-              quizId: savedQuizId,
-              courseId: dto.courseId
+            const errorToLog = new Error(
+              `Failed to update learning targets: ${errorMessage}`,
+            );
+            if (errorStack) {
+              errorToLog.stack = errorStack;
             }
+
+            // Log the error with context
+            this.logger.error(
+              `Failed to update learning targets: ${errorToLog.message}`,
+              'QuizzesService.submitQuiz',
+              __filename, // filePath
+              undefined, // lineNumber
+              errorToLog, // error object
+              {
+                // additionalInfo
+                quizId: savedQuizId,
+                courseId: dto.courseId,
+              },
             );
           }
         } else {
@@ -1375,22 +1463,23 @@ export class QuizzesService {
             'QuizzesService.submitQuiz',
             __filename,
             undefined,
-            { 
+            {
               quizId: savedQuizId,
               originalSubtopics: dto.selectedSubTopics,
-              courseId: dto.courseId 
-            } as Record<string, unknown>
+              courseId: dto.courseId,
+            } as Record<string, unknown>,
           );
         }
       } catch (error) {
         // Öğrenme hedefi güncelleme hatası sınavın tamamlanmasını engellemesin
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
         console.error('[ERROR] Error updating learning targets:', error);
         this.logger.error(
           `Öğrenme hedefleri güncellenirken hata oluştu (Quiz ID: ${savedQuizId}): ${errorMessage}`,
           'QuizzesService.submitQuiz',
           __filename,
-          undefined
+          undefined,
         );
         // Hatayı logluyoruz ama dışarı fırlatmıyoruz
       }
@@ -1414,7 +1503,7 @@ export class QuizzesService {
       questions: quizDataToSave.questions,
       analysisResult: quizDataToSave.analysisResult,
       sourceDocument: quizDataToSave.sourceDocument,
-      selectedSubTopics: quizDataToSave.selectedSubTopics as any, 
+      selectedSubTopics: quizDataToSave.selectedSubTopics as any,
     };
 
     return { quiz: returnedQuiz, analysis };
@@ -1435,7 +1524,7 @@ export class QuizzesService {
   ): Promise<void> {
     const traceId = `LT-${Date.now()}`;
     const startTime = Date.now();
-    
+
     // Log the start of the learning target update process
     this.logLearningTarget(
       LogLevel.INFO,
@@ -1445,17 +1534,18 @@ export class QuizzesService {
         courseId,
         userId,
         hasAnalysis: !!analysis,
-        hasSelectedSubTopics: !!selectedSubTopics && selectedSubTopics.length > 0,
-        timestamp: new Date().toISOString()
-      }
+        hasSelectedSubTopics:
+          !!selectedSubTopics && selectedSubTopics.length > 0,
+        timestamp: new Date().toISOString(),
+      },
     );
-    
+
     console.log(`[${traceId}] [START] updateLearningTargetsFromAnalysis`, {
       courseId,
       userId,
       hasAnalysis: !!analysis,
       selectedSubTopicsCount: selectedSubTopics?.length || 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     try {
@@ -1465,23 +1555,27 @@ export class QuizzesService {
         'QuizzesService.updateLearningTargetsFromAnalysis',
         __filename,
         undefined,
-        { 
-          courseId, 
+        {
+          courseId,
           userId,
-          hasPerformanceData: !!(analysis?.performanceBySubTopic),
-          selectedSubTopicsCount: selectedSubTopics?.length || 0
+          hasPerformanceData: !!analysis?.performanceBySubTopic,
+          selectedSubTopicsCount: selectedSubTopics?.length || 0,
         },
       );
-      
+
       // Log to learning targets log file
-      this.logLearningTarget(LogLevel.INFO, `Updating learning targets for course ${courseId} based on quiz analysis`, {
-        traceId,
-        courseId,
-        userId,
-        hasAnalysis: !!analysis,
-        selectedSubTopicsCount: selectedSubTopics?.length || 0,
-        timestamp: new Date().toISOString()
-      });
+      this.logLearningTarget(
+        LogLevel.INFO,
+        `Updating learning targets for course ${courseId} based on quiz analysis`,
+        {
+          traceId,
+          courseId,
+          userId,
+          hasAnalysis: !!analysis,
+          selectedSubTopicsCount: selectedSubTopics?.length || 0,
+          timestamp: new Date().toISOString(),
+        },
+      );
 
       console.log(`[${traceId}] [VALIDATION] Validating parameters...`);
       // Parametre doğrulama
@@ -1491,37 +1585,54 @@ export class QuizzesService {
 
       // 1. First, create learning targets for all subtopics in the quiz (if they don't exist yet)
       let subTopics: string[] = [];
-      
+
       // Log the raw selectedSubTopics for debugging
-      console.log(`[${traceId}] [DEBUG] Raw selectedSubTopics:`, JSON.stringify(selectedSubTopics, null, 2));
+      console.log(
+        `[${traceId}] [DEBUG] Raw selectedSubTopics:`,
+        JSON.stringify(selectedSubTopics, null, 2),
+      );
       this.logLearningTarget(
         LogLevel.DEBUG,
         `[${traceId}] Raw selectedSubTopics`,
-        { selectedSubTopics, count: selectedSubTopics?.length || 0 }
+        { selectedSubTopics, count: selectedSubTopics?.length || 0 },
       );
-      
+
       // The selectedSubTopics parameter can come in different formats, let's convert them all to a string array
       if (selectedSubTopics && selectedSubTopics.length > 0) {
-        console.log(`[${traceId}] [PROCESSING] Processing ${selectedSubTopics.length} selected subtopics...`);
+        console.log(
+          `[${traceId}] [PROCESSING] Processing ${selectedSubTopics.length} selected subtopics...`,
+        );
         this.logLearningTarget(
           LogLevel.INFO,
           `[${traceId}] Processing selected subtopics`,
-          { count: selectedSubTopics.length }
+          { count: selectedSubTopics.length },
         );
         try {
           // Debug için log ekle
-          console.log('[DEBUG] Selected Subtopics:', JSON.stringify(selectedSubTopics, null, 2));
-          
+          console.log(
+            '[DEBUG] Selected Subtopics:',
+            JSON.stringify(selectedSubTopics, null, 2),
+          );
+
           if (typeof selectedSubTopics[0] === 'string') {
             // Eğer zaten string dizisiyse
             // Convert TopicDto[] to string[] by extracting subTopic property
             subTopics = selectedSubTopics
-              .map(topic => typeof topic === 'object' && topic !== null && 'subTopic' in topic ? topic.subTopic : null)
+              .map((topic) =>
+                typeof topic === 'object' &&
+                topic !== null &&
+                'subTopic' in topic
+                  ? topic.subTopic
+                  : null,
+              )
               .filter((topic): topic is string => typeof topic === 'string');
-          } else if (typeof selectedSubTopics[0] === 'object' && 'subTopic' in selectedSubTopics[0]) {
+          } else if (
+            typeof selectedSubTopics[0] === 'object' &&
+            'subTopic' in selectedSubTopics[0]
+          ) {
             // Eğer TopicDto dizisiyse
             subTopics = (selectedSubTopics as TopicDto[])
-              .map(topic => topic?.subTopic)
+              .map((topic) => topic?.subTopic)
               .filter(Boolean) as string[];
           }
 
@@ -1531,72 +1642,92 @@ export class QuizzesService {
               'QuizzesService.updateLearningTargetsFromAnalysis',
               __filename,
               undefined,
-              { courseId, userId, subTopicCount: subTopics.length, subTopics }
+              { courseId, userId, subTopicCount: subTopics.length, subTopics },
             );
-            
+
             // Log to learning targets file
-            this.logLearningTarget(LogLevel.INFO, `Creating learning targets for ${subTopics.length} subtopics`, {
-              courseId, 
-              userId,
-              traceId,
-              subTopicCount: subTopics.length,
-              subTopics
-            });
+            this.logLearningTarget(
+              LogLevel.INFO,
+              `Creating learning targets for ${subTopics.length} subtopics`,
+              {
+                courseId,
+                userId,
+                traceId,
+                subTopicCount: subTopics.length,
+                subTopics,
+              },
+            );
 
             // Process each subtopic
             const topicsForLearningTargets = subTopics
-              .filter(topic => {
+              .filter((topic) => {
                 const isValid = topic && typeof topic === 'string';
                 if (!isValid) {
-                  console.warn(`[${traceId}] [WARN] Invalid topic filtered out:`, topic);
+                  console.warn(
+                    `[${traceId}] [WARN] Invalid topic filtered out:`,
+                    topic,
+                  );
                   this.logLearningTarget(
                     LogLevel.WARN,
                     `[${traceId}] Invalid topic filtered out`,
-                    { topic, type: typeof topic }
+                    { topic, type: typeof topic },
                   );
                 }
                 return isValid;
               })
-              .map(topic => ({
+              .map((topic) => ({
                 subTopicName: topic,
-                normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic)
+                normalizedSubTopicName:
+                  this.normalizationService.normalizeSubTopicName(topic),
               }));
 
-            console.log(`[${traceId}] [DEBUG] Topics for Learning Targets:`, JSON.stringify(topicsForLearningTargets, null, 2));
+            console.log(
+              `[${traceId}] [DEBUG] Topics for Learning Targets:`,
+              JSON.stringify(topicsForLearningTargets, null, 2),
+            );
             this.logLearningTarget(
               LogLevel.DEBUG,
               `[${traceId}] Topics for Learning Targets`,
-              { count: topicsForLearningTargets.length, topics: topicsForLearningTargets }
+              {
+                count: topicsForLearningTargets.length,
+                topics: topicsForLearningTargets,
+              },
             );
 
             if (topicsForLearningTargets.length === 0) {
-              console.warn(`[${traceId}] [WARN] No valid topics after filtering and normalization`);
+              console.warn(
+                `[${traceId}] [WARN] No valid topics after filtering and normalization`,
+              );
               this.logLearningTarget(
                 LogLevel.WARN,
                 `[${traceId}] No valid topics after filtering and normalization`,
-                { originalCount: subTopics.length }
+                { originalCount: subTopics.length },
               );
               return; // Exit early if no valid topics
             }
 
             try {
               // Create learning targets (updates existing ones, only creates new ones if they don't exist)
-              console.log(`[${traceId}] [CREATE_BATCH] Creating batch for ${topicsForLearningTargets.length} learning targets...`);
+              console.log(
+                `[${traceId}] [CREATE_BATCH] Creating batch for ${topicsForLearningTargets.length} learning targets...`,
+              );
               this.logLearningTarget(
                 LogLevel.INFO,
                 `[${traceId}] Creating batch learning targets`,
-                { count: topicsForLearningTargets.length }
+                { count: topicsForLearningTargets.length },
               );
 
               const batchStartTime = Date.now();
               const result = await this.learningTargetsService.createBatch(
                 courseId,
                 userId,
-                topicsForLearningTargets
+                topicsForLearningTargets,
               );
 
               const batchDuration = Date.now() - batchStartTime;
-              console.log(`[${traceId}] [CREATE_BATCH] Completed in ${batchDuration}ms`);
+              console.log(
+                `[${traceId}] [CREATE_BATCH] Completed in ${batchDuration}ms`,
+              );
               console.log(`[${traceId}] [CREATE_BATCH] Result:`, result);
 
               this.logLearningTarget(
@@ -1605,8 +1736,8 @@ export class QuizzesService {
                 {
                   durationMs: batchDuration,
                   result: result || 'no_result',
-                  success: !!result
-                }
+                  success: !!result,
+                },
               );
 
               this.logger.info(
@@ -1614,18 +1745,22 @@ export class QuizzesService {
                 'QuizzesService.updateLearningTargetsFromAnalysis',
                 __filename,
                 undefined,
-                { courseId, userId, result }
+                { courseId, userId, result },
               );
 
               // Öğrenme hedefleri log dosyasına başarılı işlemi kaydet
-              this.logLearningTarget(LogLevel.INFO, 'Learning targets created successfully', {
-                courseId, 
-                userId, 
-                traceId,
-                action: 'create_batch_success',
-                count: topicsForLearningTargets.length,
-                result: result ? 'success' : 'no_result'
-              });
+              this.logLearningTarget(
+                LogLevel.INFO,
+                'Learning targets created successfully',
+                {
+                  courseId,
+                  userId,
+                  traceId,
+                  action: 'create_batch_success',
+                  count: topicsForLearningTargets.length,
+                  result: result ? 'success' : 'no_result',
+                },
+              );
             } catch (batchError) {
               console.error('[ERROR] Create Batch Error:', batchError);
               this.logger.error(
@@ -1633,8 +1768,10 @@ export class QuizzesService {
                 'QuizzesService.updateLearningTargetsFromAnalysis',
                 __filename,
                 undefined, // lineNumber
-                batchError instanceof Error ? batchError : new Error(String(batchError)), // error
-                { courseId, userId } // additionalInfo
+                batchError instanceof Error
+                  ? batchError
+                  : new Error(String(batchError)), // error
+                { courseId, userId }, // additionalInfo
               );
               throw batchError;
             }
@@ -1645,15 +1782,22 @@ export class QuizzesService {
               'QuizzesService.updateLearningTargetsFromAnalysis',
               __filename,
               undefined,
-              { courseId, userId, subTopics }
+              { courseId, userId, subTopics },
             );
           }
         } catch (processError) {
           console.error('[ERROR] Error processing subtopics:', processError);
-          const errorMessage = processError instanceof Error ? processError.message : String(processError);
-          const errorStack = processError instanceof Error ? processError.stack : undefined;
+          const errorMessage =
+            processError instanceof Error
+              ? processError.message
+              : String(processError);
+          const errorStack =
+            processError instanceof Error ? processError.stack : undefined;
 
-          console.error(`[${traceId}] [ERROR] Error in updateLearningTargetsFromAnalysis:`, errorMessage);
+          console.error(
+            `[${traceId}] [ERROR] Error in updateLearningTargetsFromAnalysis:`,
+            errorMessage,
+          );
           if (errorStack) {
             console.error(`[${traceId}] [ERROR] Stack trace:`, errorStack);
           }
@@ -1664,15 +1808,18 @@ export class QuizzesService {
             __filename,
             undefined,
             processError,
-            { 
-              courseId, 
+            {
+              courseId,
               userId,
               traceId,
               error: {
                 message: errorMessage,
-                name: processError instanceof Error ? processError.name : 'UnknownError',
-                stack: errorStack
-              }
+                name:
+                  processError instanceof Error
+                    ? processError.name
+                    : 'UnknownError',
+                stack: errorStack,
+              },
             },
           );
 
@@ -1685,14 +1832,16 @@ export class QuizzesService {
               stack: errorStack,
               courseId,
               userId,
-              traceId
-            }
+              traceId,
+            },
           );
 
           // We don't throw the error, we just log it because the failure of this operation should not affect the main process
         } finally {
           const duration = Date.now() - startTime;
-          console.log(`[${traceId}] [COMPLETED] updateLearningTargetsFromAnalysis completed in ${duration}ms`);
+          console.log(
+            `[${traceId}] [COMPLETED] updateLearningTargetsFromAnalysis completed in ${duration}ms`,
+          );
 
           this.logLearningTarget(
             LogLevel.INFO,
@@ -1702,8 +1851,8 @@ export class QuizzesService {
               courseId,
               userId,
               durationMs: duration,
-              timestamp: new Date().toISOString()
-            }
+              timestamp: new Date().toISOString(),
+            },
           );
         }
       } else {
@@ -1713,7 +1862,7 @@ export class QuizzesService {
           'QuizzesService.updateLearningTargetsFromAnalysis',
           __filename,
           undefined,
-          { courseId, userId }
+          { courseId, userId },
         );
       }
 
@@ -1722,23 +1871,31 @@ export class QuizzesService {
       this.logLearningTarget(
         LogLevel.INFO,
         `[${traceId}] Processing analysis results`,
-        { 
+        {
           hasAnalysis: !!analysis,
-          hasPerformanceData: !!(analysis?.performanceBySubTopic),
-          performanceKeys: analysis?.performanceBySubTopic ? Object.keys(analysis.performanceBySubTopic) : []
-        }
+          hasPerformanceData: !!analysis?.performanceBySubTopic,
+          performanceKeys: analysis?.performanceBySubTopic
+            ? Object.keys(analysis.performanceBySubTopic)
+            : [],
+        },
       );
-      
+
       if (analysis && analysis.performanceBySubTopic) {
-        const performanceEntries = Object.entries(analysis.performanceBySubTopic);
-        console.log(`[${traceId}] [ANALYSIS] Found performance data for ${performanceEntries.length} subtopics`);
-        
+        const performanceEntries = Object.entries(
+          analysis.performanceBySubTopic,
+        );
+        console.log(
+          `[${traceId}] [ANALYSIS] Found performance data for ${performanceEntries.length} subtopics`,
+        );
+
         if (performanceEntries.length === 0) {
-          console.warn(`[${traceId}] [WARN] No performance data available in analysis`);
+          console.warn(
+            `[${traceId}] [WARN] No performance data available in analysis`,
+          );
           this.logLearningTarget(
             LogLevel.WARN,
             `[${traceId}] No performance data available`,
-            { analysisKeys: Object.keys(analysis) }
+            { analysisKeys: Object.keys(analysis) },
           );
         }
         this.logger.info(
@@ -1746,7 +1903,12 @@ export class QuizzesService {
           'QuizzesService.updateLearningTargetsFromAnalysis',
           __filename,
           undefined,
-          { courseId, userId, performanceTopicsCount: Object.keys(analysis.performanceBySubTopic).length }
+          {
+            courseId,
+            userId,
+            performanceTopicsCount: Object.keys(analysis.performanceBySubTopic)
+              .length,
+          },
         );
 
         // Analiz sonuçlarındaki her alt konu için
@@ -1755,50 +1917,71 @@ export class QuizzesService {
         )) {
           // Puana göre durumu hesapla
           const status = this.calculateStatus(performance.scorePercent);
-          
+
           try {
             // Öğrenme hedefini bul
-            const targets = await this.learningTargetsService.findByCourse(courseId, userId);
-            const normalizedSubTopic = this.normalizationService.normalizeSubTopicName(subTopic);
-            
+            const targets = await this.learningTargetsService.findByCourse(
+              courseId,
+              userId,
+            );
+            const normalizedSubTopic =
+              this.normalizationService.normalizeSubTopicName(subTopic);
+
             // Normalize edilmiş ada göre hedefi buluyorz
-            const target = targets.find(t => 
-              this.normalizationService.normalizeSubTopicName(t.subTopicName) === normalizedSubTopic);
-            
+            const target = targets.find(
+              (t) =>
+                this.normalizationService.normalizeSubTopicName(
+                  t.subTopicName,
+                ) === normalizedSubTopic,
+            );
+
             if (target) {
               // Hedef bulundu, durumunu güncelle
-              await this.learningTargetsService.updateLearningTarget(target.id, {
-                status: status as any, // Type casting ile sorunu çözüyoruz
-                // Not: UpdateLearningTargetDto içinde lastAttemptScorePercent alanı yok
-                // istatistikler için ayrı bir güncelleme metodu kullanılabilir
-              }, userId);
-              
+              await this.learningTargetsService.updateLearningTarget(
+                target.id,
+                {
+                  status: status as any, // Type casting ile sorunu çözüyoruz
+                  // Not: UpdateLearningTargetDto içinde lastAttemptScorePercent alanı yok
+                  // istatistikler için ayrı bir güncelleme metodu kullanılabilir
+                },
+                userId,
+              );
+
               this.logger.info(
                 `[${traceId}] Updated learning target status for "${subTopic}" to ${status}`,
                 'QuizzesService.updateLearningTargetsFromAnalysis',
                 __filename,
                 undefined,
-                { targetId: target.id, subTopic, newStatus: status, scorePercent: performance.scorePercent }
+                {
+                  targetId: target.id,
+                  subTopic,
+                  newStatus: status,
+                  scorePercent: performance.scorePercent,
+                },
               );
-              
+
               // Öğrenme hedefi güncellemesini özel log dosyasına kaydet
-              this.logLearningTarget(LogLevel.INFO, `Öğrenme hedefi durumu güncellendi: "${subTopic}" -> ${status}`, {
-                courseId,
-                userId,
-                targetId: target.id,
-                oldStatus: target.status,
-                newStatus: status,
-                scorePercent: performance.scorePercent,
-                traceId,
-                action: 'update_status'
-              });
+              this.logLearningTarget(
+                LogLevel.INFO,
+                `Öğrenme hedefi durumu güncellendi: "${subTopic}" -> ${status}`,
+                {
+                  courseId,
+                  userId,
+                  targetId: target.id,
+                  oldStatus: target.status,
+                  newStatus: status,
+                  scorePercent: performance.scorePercent,
+                  traceId,
+                  action: 'update_status',
+                },
+              );
             } else {
               this.logger.warn(
                 `[${traceId}] Could not find learning target for subtopic "${subTopic}"`,
                 'QuizzesService.updateLearningTargetsFromAnalysis',
                 __filename,
                 undefined,
-                { courseId, userId, subTopic, normalizedSubTopic }
+                { courseId, userId, subTopic, normalizedSubTopic },
               );
             }
           } catch (error) {
@@ -1807,18 +1990,22 @@ export class QuizzesService {
               `[${traceId}] Error updating learning target for "${subTopic}": ${error instanceof Error ? error.message : String(error)}`,
               'QuizzesService.updateLearningTargetsFromAnalysis',
               __filename,
-              undefined
+              undefined,
             );
-            
+
             // Hata durumunu özel log dosyasına da kaydet
-            this.logLearningTarget(LogLevel.ERROR, `Öğrenme hedefi güncellenirken hata: "${subTopic}"`, {
-              courseId,
-              userId,
-              subTopic,
-              error: error instanceof Error ? error.message : String(error),
-              traceId,
-              action: 'update_error'
-            });
+            this.logLearningTarget(
+              LogLevel.ERROR,
+              `Öğrenme hedefi güncellenirken hata: "${subTopic}"`,
+              {
+                courseId,
+                userId,
+                subTopic,
+                error: error instanceof Error ? error.message : String(error),
+                traceId,
+                action: 'update_error',
+              },
+            );
           }
         }
       }
@@ -1828,7 +2015,7 @@ export class QuizzesService {
         `[${traceId}] Error in updateLearningTargetsFromAnalysis: ${error instanceof Error ? error.message : String(error)}`,
         'QuizzesService.updateLearningTargetsFromAnalysis',
         __filename,
-        undefined
+        undefined,
         // metadata objesi geçmiyoruz, zaten hata mesajı log içeriğinde yer alıyor
       );
       // Hatayı dışarı fırlatmıyoruz, sadece logluyoruz
@@ -1847,32 +2034,44 @@ export class QuizzesService {
    * @param message Log message
    * @param data Additional data to include in the log
    */
-  private logLearningTarget(level: LogLevel, message: string, data?: Record<string, any>): void {
+  private logLearningTarget(
+    level: LogLevel,
+    message: string,
+    data?: Record<string, any>,
+  ): void {
     try {
       // Log dizininin var olduğundan emin ol
       const logDir = 'logs';
       if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir, { recursive: true });
       }
-      
+
       // Log dosyası yoksa oluştur
       if (!fs.existsSync(this.learningTargetLogPath)) {
-        fs.writeFileSync(this.learningTargetLogPath, '[' + new Date().toISOString() + '] Öğrenme hedefleri log dosyası oluşturuldu\n', { encoding: 'utf8' });
+        fs.writeFileSync(
+          this.learningTargetLogPath,
+          '[' +
+            new Date().toISOString() +
+            '] Öğrenme hedefleri log dosyası oluşturuldu\n',
+          { encoding: 'utf8' },
+        );
       }
-      
+
       // Log formatını oluştur
       const timestamp = new Date().toISOString();
       const logData = {
         timestamp,
         level: level.toUpperCase(),
         message,
-        ...data
+        ...data,
       };
-      
+
       // Log'u dosyaya yaz
       const logEntry = JSON.stringify(logData) + '\n';
-      fs.appendFileSync(this.learningTargetLogPath, logEntry, { encoding: 'utf8' });
-      
+      fs.appendFileSync(this.learningTargetLogPath, logEntry, {
+        encoding: 'utf8',
+      });
+
       // Konsola da yaz
       switch (level) {
         case LogLevel.ERROR:
@@ -1889,7 +2088,9 @@ export class QuizzesService {
           break;
       }
     } catch (error) {
-      console.error(`Öğrenme hedefi log hatası: ${error instanceof Error ? error.message : String(error)}`);
+      console.error(
+        `Öğrenme hedefi log hatası: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -1913,7 +2114,10 @@ export class QuizzesService {
     const saveFailedDebugLog = (message: string, data?: any) => {
       const timestamp = new Date().toISOString();
       const logEntry = `[${timestamp}] [SAVE_FAILED_QUESTIONS_DEBUG] ${message}${data ? '\nDATA: ' + JSON.stringify(data, null, 2) : ''}\n`;
-      require('fs').appendFileSync('C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log', logEntry);
+      require('fs').appendFileSync(
+        'C:\\Users\\Ahmet haman\\OneDrive\\Desktop\\Bitirme\\backend\\logs\\kayit.log',
+        logEntry,
+      );
     };
 
     saveFailedDebugLog('=== SAVE FAILED QUESTIONS START ===', {
@@ -1943,42 +2147,45 @@ export class QuizzesService {
         normalizedSubTopic: q.normalizedSubTopic,
         normalizedSubTopicName: q.normalizedSubTopicName,
         difficulty: q.difficulty,
-      }))
+      })),
     });
 
     const failedQuestionRecords = failedQuestions.map((q, index) => {
-      saveFailedDebugLog(`🔍 PROCESSING QUESTION ${index + 1}/${failedQuestions.length}`, {
-        questionIndex: index,
-        originalQuestion: {
-          id: q.id,
-          questionId: q.questionId,
-          questionText: q.questionText,
-          options: q.options,
-          correctAnswer: q.correctAnswer,
-          subTopic: q.subTopic,
-          subTopicName: q.subTopicName,
-          normalizedSubTopic: q.normalizedSubTopic,
-          normalizedSubTopicName: q.normalizedSubTopicName,
-          difficulty: q.difficulty,
-        }
-      });
+      saveFailedDebugLog(
+        `🔍 PROCESSING QUESTION ${index + 1}/${failedQuestions.length}`,
+        {
+          questionIndex: index,
+          originalQuestion: {
+            id: q.id,
+            questionId: q.questionId,
+            questionText: q.questionText,
+            options: q.options,
+            correctAnswer: q.correctAnswer,
+            subTopic: q.subTopic,
+            subTopicName: q.subTopicName,
+            normalizedSubTopic: q.normalizedSubTopic,
+            normalizedSubTopicName: q.normalizedSubTopicName,
+            difficulty: q.difficulty,
+          },
+        },
+      );
 
       const questionId = q.id || q.questionId;
       const userAnswer = userAnswers[q.id] || userAnswers[questionId] || '';
-      
+
       saveFailedDebugLog(`📊 EXTRACTED DATA FOR QUESTION ${index + 1}`, {
         extractedQuestionId: questionId,
         extractedUserAnswer: userAnswer,
         userAnswersForThisId: {
           byId: userAnswers[q.id],
           byQuestionId: userAnswers[questionId],
-        }
+        },
       });
 
       // Fix options field to prevent nested arrays in Firestore
       let processedOptions = [];
       if (Array.isArray(q.options)) {
-        processedOptions = q.options.map(option => {
+        processedOptions = q.options.map((option) => {
           if (typeof option === 'string') {
             return option;
           } else if (typeof option === 'object' && option !== null) {
@@ -1999,20 +2206,26 @@ export class QuizzesService {
         correctAnswer: q.correctAnswer || '',
         userAnswer: userAnswer,
         subTopic: q.subTopic || q.subTopicName || '',
-        normalizedSubTopic: q.normalizedSubTopic || q.normalizedSubTopicName || '',
+        normalizedSubTopic:
+          q.normalizedSubTopic || q.normalizedSubTopicName || '',
         difficulty: q.difficulty || 'medium',
         failedTimestamp: new Date(),
       };
 
-      saveFailedDebugLog(`✅ CREATED RECORD FOR QUESTION ${index + 1}`, { record });
+      saveFailedDebugLog(`✅ CREATED RECORD FOR QUESTION ${index + 1}`, {
+        record,
+      });
 
       // Validate critical fields
       if (!record.questionId) {
-        saveFailedDebugLog(`🚨 CRITICAL ERROR: questionId is undefined for question ${index + 1}`, {
-          originalQ: q,
-          record,
-          possibleIds: { qId: q.id, qQuestionId: q.questionId }
-        });
+        saveFailedDebugLog(
+          `🚨 CRITICAL ERROR: questionId is undefined for question ${index + 1}`,
+          {
+            originalQ: q,
+            record,
+            possibleIds: { qId: q.id, qQuestionId: q.questionId },
+          },
+        );
       }
 
       return record;
@@ -2025,37 +2238,46 @@ export class QuizzesService {
 
     try {
       saveFailedDebugLog('🚀 STARTING FIRESTORE BATCH OPERATION');
-      
+
       const batch = this.firebaseService.firestore.batch();
-      const collectionRef = this.firebaseService.firestore.collection(FIRESTORE_COLLECTIONS.FAILED_QUESTIONS);
-      
+      const collectionRef = this.firebaseService.firestore.collection(
+        FIRESTORE_COLLECTIONS.FAILED_QUESTIONS,
+      );
+
       failedQuestionRecords.forEach((record, index) => {
-        saveFailedDebugLog(`📝 ADDING RECORD ${index + 1} TO BATCH`, { record });
-        
+        saveFailedDebugLog(`📝 ADDING RECORD ${index + 1} TO BATCH`, {
+          record,
+        });
+
         // Final validation before adding to batch
         const invalidFields: string[] = [];
-        if (record.questionId === undefined || record.questionId === null) invalidFields.push('questionId');
+        if (record.questionId === undefined || record.questionId === null)
+          invalidFields.push('questionId');
         if (!record.userId) invalidFields.push('userId');
         if (!record.quizId) invalidFields.push('quizId');
-        
+
         if (invalidFields.length > 0) {
-          saveFailedDebugLog(`🚨 INVALID RECORD DETECTED - WILL CAUSE FIRESTORE ERROR`, {
-            recordIndex: index,
-            invalidFields,
-            record
-          });
+          saveFailedDebugLog(
+            `🚨 INVALID RECORD DETECTED - WILL CAUSE FIRESTORE ERROR`,
+            {
+              recordIndex: index,
+              invalidFields,
+              record,
+            },
+          );
         }
-        
+
         const docRef = collectionRef.doc();
         batch.set(docRef, record);
-        
-        saveFailedDebugLog(`✅ RECORD ${index + 1} ADDED TO BATCH WITH DOC ID: ${docRef.id}`);
+
+        saveFailedDebugLog(
+          `✅ RECORD ${index + 1} ADDED TO BATCH WITH DOC ID: ${docRef.id}`,
+        );
       });
-      
+
       saveFailedDebugLog('💾 COMMITTING BATCH TO FIRESTORE');
       await batch.commit();
       saveFailedDebugLog('🎉 BATCH COMMITTED SUCCESSFULLY');
-      
     } catch (batchError) {
       saveFailedDebugLog('💥 FIRESTORE BATCH ERROR', {
         error: batchError.message,
@@ -2645,7 +2867,7 @@ export class QuizzesService {
         } catch (docError) {
           this.logger.logError(docError, 'QuizzesService.createQuickQuiz', {
             documentId,
-                       userId,
+            userId,
             additionalInfo: 'Belge metni alınırken hata oluştu',
           });
 
@@ -2845,24 +3067,48 @@ export class QuizzesService {
         'QuizzesService.createQuickQuiz',
         __filename,
         undefined,
-        { quizId, userId, questionCount: questions.length }
+        { quizId, userId, questionCount: questions.length },
       );
 
       // Seçilen konular öğrenme hedefi olarak kaydediliyor...
-try {
-  this.logger.info('Seçilen konular öğrenme hedefi olarak kaydediliyor...', 'QuizzesService.createPersonalizedQuiz', __filename);
-  if (Array.isArray(subTopics) && subTopics.length > 0 && courseId && userId) {
-    const topicsForLearningTargets = subTopics.map(topic => ({
-      subTopicName: topic,
-      normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic)
-    }));
-    await this.learningTargetsService.createBatch(courseId, userId, topicsForLearningTargets);
-    this.logger.info(`${topicsForLearningTargets.length} adet yeni öğrenme hedefi başarıyla kaydedildi.`, 'QuizzesService.createPersonalizedQuiz', __filename);
-  }
-} catch (error) {
-  this.logger.error('Öğrenme hedefleri kaydedilirken bir hata oluştu.', 'QuizzesService.createPersonalizedQuiz', __filename, undefined, error);
-  // Hata oluşsa bile sınav oluşturmaya devam etmesi için süreci durdurmuyoruz.
-}
+      try {
+        this.logger.info(
+          'Seçilen konular öğrenme hedefi olarak kaydediliyor...',
+          'QuizzesService.createPersonalizedQuiz',
+          __filename,
+        );
+        if (
+          Array.isArray(subTopics) &&
+          subTopics.length > 0 &&
+          courseId &&
+          userId
+        ) {
+          const topicsForLearningTargets = subTopics.map((topic) => ({
+            subTopicName: topic,
+            normalizedSubTopicName:
+              this.normalizationService.normalizeSubTopicName(topic),
+          }));
+          await this.learningTargetsService.createBatch(
+            courseId,
+            userId,
+            topicsForLearningTargets,
+          );
+          this.logger.info(
+            `${topicsForLearningTargets.length} adet yeni öğrenme hedefi başarıyla kaydedildi.`,
+            'QuizzesService.createPersonalizedQuiz',
+            __filename,
+          );
+        }
+      } catch (error) {
+        this.logger.error(
+          'Öğrenme hedefleri kaydedilirken bir hata oluştu.',
+          'QuizzesService.createPersonalizedQuiz',
+          __filename,
+          undefined,
+          error,
+        );
+        // Hata oluşsa bile sınav oluşturmaya devam etmesi için süreci durdurmuyoruz.
+      }
 
       return quiz;
     } catch (error) {
@@ -2963,7 +3209,9 @@ try {
       );
 
       // 5. Quiz nesnesini oluştur ama veritabanına kaydetme
-      const quizId = this.firebaseService.firestore.collection('quizzes').doc().id;
+      const quizId = this.firebaseService.firestore
+        .collection('quizzes')
+        .doc().id;
       const timestamp = new Date();
 
       // Quiz nesnesini oluştur ancak veritabanına kaydetme - kullanıcı sınavı tamamlayana kadar veritabanına kaydedilmeyecek
@@ -2975,7 +3223,7 @@ try {
         courseId,
         timestamp,
         questions, // Soruları doğrudan ekle
-        selectedSubTopics: subTopics.map(topic => ({ subTopic: topic })),
+        selectedSubTopics: subTopics.map((topic) => ({ subTopic: topic })),
         completed: false,
         score: 0,
         correctCount: 0,
@@ -3013,35 +3261,37 @@ try {
             'QuizzesService.createPersonalizedQuiz',
             __filename,
             undefined,
-            { userId, courseId, subTopicCount: subTopics.length }
+            { userId, courseId, subTopicCount: subTopics.length },
           );
 
           // SubTopics'i LearningTargetsService'in beklediği formata dönüştür
-          const topicsForLearningTargets = subTopics.map(topic => ({
+          const topicsForLearningTargets = subTopics.map((topic) => ({
             subTopicName: topic,
             // Normalize edilmiş adı da ekleyebiliriz, ancak servis kendisi de yapabilir
-            normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(topic)
+            normalizedSubTopicName:
+              this.normalizationService.normalizeSubTopicName(topic),
           }));
 
           // LOG: Öğrenme hedefi oluşturma giriş verileri
-        this.logLearningTarget(
-          LogLevel.INFO,
-          `[${traceId}] [START] Öğrenme hedefi oluşturma girişimi`,
-          {
-            userId,
-            courseId,
-            personalizedQuizType,
-            topicsForLearningTargets,
-            function: 'createPersonalizedQuiz',
-            step: 'input',
-            timestamp: new Date().toISOString()
-          }
-        );
+          this.logLearningTarget(
+            LogLevel.INFO,
+            `[${traceId}] [START] Öğrenme hedefi oluşturma girişimi`,
+            {
+              userId,
+              courseId,
+              personalizedQuizType,
+              topicsForLearningTargets,
+              function: 'createPersonalizedQuiz',
+              step: 'input',
+              timestamp: new Date().toISOString(),
+            },
+          );
 
           // Öğrenme hedeflerini oluştur
           await this.learningTargetsService.createBatch(
             courseId,
-            userId,            topicsForLearningTargets
+            userId,
+            topicsForLearningTargets,
           );
 
           // LOG: Başarılı kayıt
@@ -3052,8 +3302,8 @@ try {
               userId,
               courseId,
               personalizedQuizType,
-              topicsForLearningTargets
-            }
+              topicsForLearningTargets,
+            },
           );
         } catch (learningTargetError) {
           // LOG: Hata kaydı
@@ -3064,10 +3314,14 @@ try {
               userId,
               courseId,
               personalizedQuizType,
-              topicsForLearningTargets, 
-              error: learningTargetError instanceof Error ? learningTargetError.message : String(learningTargetError)
-            })
-        } 
+              topicsForLearningTargets,
+              error:
+                learningTargetError instanceof Error
+                  ? learningTargetError.message
+                  : String(learningTargetError),
+            },
+          );
+        }
       }
 
       const duration = Date.now() - startTime;
@@ -3272,7 +3526,7 @@ try {
     courseId: string,
     userId: string,
     selectedTopics: TopicDto[],
-    personalizedQuizType: string
+    personalizedQuizType: string,
   ): Promise<void> {
     try {
       this.logger.logExamProcess(
@@ -3282,44 +3536,46 @@ try {
           userId,
           personalizedQuizType,
           topicCount: selectedTopics.length,
-          rawSelectedTopics: selectedTopics // Debug için raw veri
-        }
+          rawSelectedTopics: selectedTopics, // Debug için raw veri
+        },
       );
 
       // Alt konuları LearningTargetsService'in beklediği formata çevir
-      const topicsForLearningTargets = selectedTopics.map((topic, index) => {
-        this.logger.logExamProcess(
-          `Topic mapping debug - Index ${index}:`,
-          {
+      const topicsForLearningTargets = selectedTopics
+        .map((topic, index) => {
+          this.logger.logExamProcess(`Topic mapping debug - Index ${index}:`, {
             rawTopic: topic,
             topicType: typeof topic,
             isString: typeof topic === 'string',
-            hasSubTopic: topic && typeof topic === 'object' && 'subTopic' in topic,
-            hasNormalizedSubTopic: topic && typeof topic === 'object' && 'normalizedSubTopic' in topic
-          }
-        );
+            hasSubTopic:
+              topic && typeof topic === 'object' && 'subTopic' in topic,
+            hasNormalizedSubTopic:
+              topic &&
+              typeof topic === 'object' &&
+              'normalizedSubTopic' in topic,
+          });
 
-        return {
-          subTopicName: typeof topic === 'string' ? topic : topic.subTopic,
-          normalizedSubTopicName: typeof topic === 'string' 
-            ? undefined 
-            : topic.normalizedSubTopic
-        };
-      }).filter(topic => topic.subTopicName); // Boş olanları filtrele
+          return {
+            subTopicName: typeof topic === 'string' ? topic : topic.subTopic,
+            normalizedSubTopicName:
+              typeof topic === 'string' ? undefined : topic.normalizedSubTopic,
+          };
+        })
+        .filter((topic) => topic.subTopicName); // Boş olanları filtrele
 
       this.logger.logExamProcess(
         `Mapping tamamlandı. Filtrelenmiş topic sayısı: ${topicsForLearningTargets.length}`,
         {
           topicsForLearningTargets,
           originalCount: selectedTopics.length,
-          filteredCount: topicsForLearningTargets.length
-        }
+          filteredCount: topicsForLearningTargets.length,
+        },
       );
 
       if (topicsForLearningTargets.length === 0) {
         this.logger.logExamProcess(
           `Öğrenme hedefi olarak kaydedilecek geçerli alt konu bulunamadı`,
-          { courseId, userId, personalizedQuizType }
+          { courseId, userId, personalizedQuizType },
         );
         return;
       }
@@ -3330,14 +3586,14 @@ try {
         {
           courseId,
           userId,
-          topicsForLearningTargets
-        }
+          topicsForLearningTargets,
+        },
       );
 
       const savedTargets = await this.learningTargetsService.createBatch(
         courseId,
         userId,
-        topicsForLearningTargets
+        topicsForLearningTargets,
       );
 
       this.logger.logExamProcess(
@@ -3348,20 +3604,27 @@ try {
           personalizedQuizType,
           savedCount: savedTargets.length,
           requestedCount: topicsForLearningTargets.length,
-          savedTargets: savedTargets.map(t => ({ id: t.id, subTopicName: t.subTopicName, status: t.status }))
-        }
+          savedTargets: savedTargets.map((t) => ({
+            id: t.id,
+            subTopicName: t.subTopicName,
+            status: t.status,
+          })),
+        },
       );
-
     } catch (error) {
       // Hata olsa bile sınav oluşturmaya devam et, sadece logla
-      this.logger.logError(error, 'QuizzesService.saveDetectedSubTopicsAsLearningTargets', {
-        courseId,
-        userId,
-        personalizedQuizType,
-        topicCount: selectedTopics.length,
-        additionalInfo: 'Alt konular öğrenme hedefi olarak kaydedilirken hata oluştu - sınav oluşturmaya devam edildi'
-      });
+      this.logger.logError(
+        error,
+        'QuizzesService.saveDetectedSubTopicsAsLearningTargets',
+        {
+          courseId,
+          userId,
+          personalizedQuizType,
+          topicCount: selectedTopics.length,
+          additionalInfo:
+            'Alt konular öğrenme hedefi olarak kaydedilirken hata oluştu - sınav oluşturmaya devam edildi',
+        },
+      );
     }
   }
-
 }

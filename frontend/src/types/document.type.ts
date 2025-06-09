@@ -27,7 +27,7 @@ export interface DocumentType
 /**
  * Yeni belge yükleme için gerekli alanlar (Backend'in beklediği formata uygun)
  */
-export interface DocumentUploadPayload {
+interface DocumentUploadPayload {
   file: File;
   courseId?: string;
 }
@@ -51,7 +51,7 @@ export const DOCUMENT_UPLOAD_CONSTRAINTS = {
 /**
  * Belge ekleme cevabı
  */
-export interface DocumentUploadResponse {
+interface DocumentUploadResponse {
   id: string;
   fileName: string;
   fileType: string;

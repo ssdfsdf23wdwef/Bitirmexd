@@ -32,9 +32,10 @@ export class QuizAnalysisService {
     );
 
     // 1. Fetch the complete quiz data
-    const quiz = await this.firebaseService.getDocumentById<
-      any // Replace 'any' with a proper Quiz interface/type if available
-    >(this.quizzesCollection, quizId);
+    const quiz = await this.firebaseService.getDocumentById<any>( // Replace 'any' with a proper Quiz interface/type if available
+      this.quizzesCollection,
+      quizId,
+    );
 
     if (!quiz || !quiz.questions) {
       this.logger.error(`Quiz not found or has no questions: ${quizId}`);
@@ -44,10 +45,11 @@ export class QuizAnalysisService {
     // 2. Analyze the results using the existing helper method
     // The existing analyzeQuizResults seems to expect userAnswers as Record<string, string>
     // and questions array directly.
-    const { analysisResult, topicScores, failedQuestions } = this.analyzeQuizResults(
-      quiz.questions, // Assuming quiz.questions is an array of question objects
-      submission.answers, // submission.answers should be Record<string, string>
-    );
+    const { analysisResult, topicScores, failedQuestions } =
+      this.analyzeQuizResults(
+        quiz.questions, // Assuming quiz.questions is an array of question objects
+        submission.answers, // submission.answers should be Record<string, string>
+      );
 
     // 3. Persist the submission details (optional, but good practice)
     const submissionData = {
@@ -137,7 +139,10 @@ export class QuizAnalysisService {
       }
 
       // Group results by topic
-      const normalizedSubTopicName = question.normalizedSubTopicName || question.subTopicName || 'unknown_topic';
+      const normalizedSubTopicName =
+        question.normalizedSubTopicName ||
+        question.subTopicName ||
+        'unknown_topic';
       if (!topicResults[normalizedSubTopicName]) {
         topicResults[normalizedSubTopicName] = {
           correct: 0,

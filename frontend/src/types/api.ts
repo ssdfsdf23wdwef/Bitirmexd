@@ -12,7 +12,7 @@ import { Quiz } from "./quiz.type";
 /**
  * Standart API yanıt formatı
  */
-export interface ApiResponse<T> {
+interface ApiResponse<T> {
   success: boolean;
   message?: string;
   data?: T;
@@ -22,20 +22,20 @@ export interface ApiResponse<T> {
 /**
  * Kimlik doğrulama yanıt tipleri
  */
-export interface AuthResponse {
+interface AuthResponse {
   user: User;
   token: string;
   expiresIn?: number;
 }
 
-export interface GoogleAuthResponse extends AuthResponse {
+interface GoogleAuthResponse extends AuthResponse {
   isNewUser: boolean;
 }
 
 /**
  * Kullanıcı API yanıt tipleri
  */
-export interface UserProfileResponse {
+interface UserProfileResponse {
   id: string;
   uid: string;
   firebaseUid: string;
@@ -55,12 +55,12 @@ export interface UserProfileResponse {
 /**
  * Kurs API yanıt tipleri
  */
-export interface CourseListResponse {
+interface CourseListResponse {
   courses: Course[];
   total: number;
 }
 
-export interface CourseDetailResponse {
+interface CourseDetailResponse {
   course: Course;
   learningTargets: LearningTarget[];
 }
@@ -68,7 +68,7 @@ export interface CourseDetailResponse {
 /**
  * Belge API yanıt tipleri
  */
-export interface DocumentListResponse {
+interface DocumentListResponse {
   documents: Document[];
   total: number;
 }
@@ -76,7 +76,7 @@ export interface DocumentListResponse {
 /**
  * Sınav API yanıt tipleri
  */
-export interface QuizListResponse {
+interface QuizListResponse {
   quizzes: Quiz[];
   total: number;
 }

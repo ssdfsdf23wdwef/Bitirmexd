@@ -1,6 +1,6 @@
 export type LearningTargetStatus = 'pending' | 'failed' | 'medium' | 'mastered';
 
-export interface LearningTargetWithQuizzes {
+interface LearningTargetWithQuizzes {
   id: string;
   userId: string;
   status: LearningTargetStatus;
@@ -10,7 +10,11 @@ export interface LearningTargetWithQuizzes {
   mediumCount: number;
   successCount: number;
   lastPersonalizedQuizId?: string;
-  source?: 'user_created' | 'document_extracted' | 'ai_generated_new' | 'legacy';
+  source?:
+    | 'user_created'
+    | 'document_extracted'
+    | 'ai_generated_new'
+    | 'legacy';
   type?: string; // Added type field
   quizzes: Array<{
     id: string;
@@ -23,7 +27,7 @@ export interface LearningTargetWithQuizzes {
   }>;
 }
 
-export interface LearningTarget {
+interface LearningTarget {
   id: string;
   userId: string;
   courseId: string;
@@ -38,7 +42,11 @@ export interface LearningTarget {
   firstEncountered: string; // ISO Date string
   createdAt: admin.firestore.Timestamp | null; // Firestore Timestamp
   updatedAt: admin.firestore.Timestamp | null; // Firestore Timestamp
-  source?: 'user_created' | 'document_extracted' | 'ai_generated_new' | 'legacy'; // Added source field
+  source?:
+    | 'user_created'
+    | 'document_extracted'
+    | 'ai_generated_new'
+    | 'legacy'; // Added source field
   type?: string; // Added type field
   // Optional fields for additional details
   notes?: string;

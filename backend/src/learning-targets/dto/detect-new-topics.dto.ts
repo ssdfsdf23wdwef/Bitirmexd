@@ -3,8 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class DetectNewTopicsDto {
   @ApiProperty({
-    description: 'Kurs ID (opsiyonel, eğer konu tespiti bir ders bağlamında yapılıyorsa)',
-    required: false
+    description:
+      'Kurs ID (opsiyonel, eğer konu tespiti bir ders bağlamında yapılıyorsa)',
+    required: false,
   })
   @IsString()
   @IsOptional()
@@ -20,7 +21,7 @@ export class DetectNewTopicsDto {
 
   @ApiProperty({
     description: 'Eğer courseId yoksa, genel bir metin girdisi',
-    required: false
+    required: false,
   })
   @IsString()
   @IsOptional()

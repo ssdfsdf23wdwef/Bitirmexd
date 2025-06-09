@@ -12,7 +12,10 @@ import { AiService } from '../ai/ai.service';
 import { UpdateLearningTargetDto } from './dto/update-learning-target.dto';
 import { NormalizationService } from '../shared/normalization/normalization.service';
 import { CreateLearningTargetDto } from './dto/create-learning-target.dto';
-import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
+import {
+  LearningTargetWithQuizzes,
+  LearningTarget,
+} from '../common/interfaces';
 import { LearningTargetSource } from '../common/types/learning-target.type';
 import { DetectNewTopicsDto } from './dto/detect-new-topics.dto';
 import { ConfirmNewTopicsDto } from './dto/confirm-new-topics.dto';
@@ -75,20 +78,24 @@ export class LearningTargetsService {
         'LearningTargetsService.createManualLearningTarget',
         __filename,
         undefined,
-        { userId }
+        { userId },
       );
 
       // Create a new document reference
       const db = this.firebaseService.firestore;
-      const targetRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
+      const targetRef = db
+        .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
+        .doc();
       const now = admin.firestore.FieldValue.serverTimestamp();
-      
+
       // Create the learning target object
       const newTarget: Omit<LearningTarget, 'id'> = {
         userId,
         courseId: dto.courseId || '', // Provide default empty string if undefined
         subTopicName: dto.topicName, // Map topicName from DTO to subTopicName for interface
-        normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(dto.topicName), // Generate normalized name
+        normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(
+          dto.topicName,
+        ), // Generate normalized name
         status: dto.status || 'pending',
         failCount: 0,
         mediumCount: 0,
@@ -108,7 +115,7 @@ export class LearningTargetsService {
         'LearningTargetsService.createManualLearningTarget',
         __filename,
         undefined,
-        { targetId: targetRef.id, userId }
+        { targetId: targetRef.id, userId },
       );
 
       // Return the created target
@@ -124,7 +131,7 @@ export class LearningTargetsService {
         'LearningTargetsService.createManualLearningTarget',
         __filename,
         undefined,
-        error
+        error,
       );
       throw error;
     }
@@ -148,20 +155,20 @@ export class LearningTargetsService {
           : 'Tüm öğrenme hedefleri listeleniyor',
         'LearningTargetsService',
       );
-      
+
       this.logger.info(
         'Kullanıcıya ait öğrenme hedefleri getiriliyor',
         'LearningTargetsService.findAllLearningTargetsByUserId',
         __filename,
         undefined,
-        { userId, courseId }
+        { userId, courseId },
       );
 
       // Build query based on whether courseId is provided
       let query = this.firebaseService.firestore
         .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
         .where('userId', '==', userId);
-        
+
       if (courseId) {
         query = query.where('courseId', '==', courseId);
       }
@@ -172,7 +179,7 @@ export class LearningTargetsService {
       const targets: LearningTarget[] = [];
       targetsSnapshot.forEach((doc) => {
         targets.push({
-          ...doc.data() as Omit<LearningTarget, 'id'>,
+          ...(doc.data() as Omit<LearningTarget, 'id'>),
           id: doc.id,
         });
       });
@@ -182,7 +189,7 @@ export class LearningTargetsService {
         'LearningTargetsService.findAllLearningTargetsByUserId',
         __filename,
         undefined,
-        { userId, courseId, targetCount: targets.length }
+        { userId, courseId, targetCount: targets.length },
       );
 
       return targets;
@@ -192,12 +199,12 @@ export class LearningTargetsService {
         'LearningTargetsService.findAllLearningTargetsByUserId',
         __filename,
         undefined,
-        error
+        error,
       );
       throw error;
     }
   }
-  
+
   /**
    * Find learning targets by course ID with quizzes
    * @param courseId The course ID
@@ -251,22 +258,25 @@ export class LearningTargetsService {
               .collection('quizzes')
               .where('learningTargetId', '==', doc.id)
               .get();
-              
-            quizzes = quizzesSnapshot.docs.map(quizDoc => ({
+
+            quizzes = quizzesSnapshot.docs.map((quizDoc) => ({
               id: quizDoc.id,
               ...quizDoc.data(),
             }));
           } catch (quizError) {
-            const errorMessage = quizError instanceof Error ? quizError.message : 'Bilinmeyen hata';
+            const errorMessage =
+              quizError instanceof Error
+                ? quizError.message
+                : 'Bilinmeyen hata';
             this.logger.error(
               `Quizler getirilirken hata oluştu: ${errorMessage}`,
               'LearningTargetsService.findByCourse',
               __filename,
               0,
               quizError instanceof Error ? quizError : new Error(errorMessage),
-              { 
+              {
                 learningTargetId: doc.id,
-                error: errorMessage
+                error: errorMessage,
               },
             );
             // Hata durumunda quiz dizisini boş bırak
@@ -286,7 +296,7 @@ export class LearningTargetsService {
             firstEncountered: data.firstEncountered || new Date(),
             lastPersonalizedQuizId: data.lastPersonalizedQuizId || null,
           } as LearningTargetWithQuizzes;
-        })
+        }),
       );
 
       this.logger.info(
@@ -294,70 +304,70 @@ export class LearningTargetsService {
         'LearningTargetsService.findByCourse',
         __filename,
         0,
-        { courseId, userId, targetCount: learningTargets.length }
+        { courseId, userId, targetCount: learningTargets.length },
       );
 
       return learningTargets;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Bilinmeyen hata';
       const errorContext = {
         courseId,
         userId,
         error: errorMessage,
-        stack: error instanceof Error ? error.stack : undefined
+        stack: error instanceof Error ? error.stack : undefined,
       };
-      
+
       this.logger.error(
         `Öğrenme hedefleri getirilirken hata: ${errorMessage}`,
         'LearningTargetsService.findByCourse',
         __filename,
         0,
         error instanceof Error ? error : new Error(errorMessage),
-        errorContext
+        errorContext,
       );
-      
+
       // Rethrow the error to be handled by the controller
       throw error;
     }
   }
-  
+
   /**
    * Delete a learning target
    * @param targetId ID of the learning target to delete
    * @param userId User ID for verification
    */
   @LogMethod({ trackParams: true })
-  async deleteLearningTarget(
-    targetId: string,
-    userId: string,
-  ): Promise<void> {
+  async deleteLearningTarget(targetId: string, userId: string): Promise<void> {
     try {
       this.flowTracker.trackStep(
         `${targetId} ID'li öğrenme hedefi siliniyor`,
         'LearningTargetsService',
       );
-      
+
       this.logger.info(
         `${targetId} ID'li öğrenme hedefi silme işlemi başlatılıyor`,
         'LearningTargetsService.deleteLearningTarget',
         __filename,
         undefined,
-        { targetId, userId }
+        { targetId, userId },
       );
 
       // Get target to verify ownership
       const targetRef = this.firebaseService.firestore
         .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
         .doc(targetId);
-      
+
       const targetSnapshot = await targetRef.get();
-      
+
       if (!targetSnapshot.exists) {
-        throw new NotFoundException(`${targetId} ID'li öğrenme hedefi bulunamadı`);
+        throw new NotFoundException(
+          `${targetId} ID'li öğrenme hedefi bulunamadı`,
+        );
       }
 
       const targetData = targetSnapshot.data() as LearningTarget;
-      
+
       // Verify ownership
       if (targetData.userId !== userId) {
         throw new ForbiddenException('Bu öğrenme hedefini silme yetkiniz yok');
@@ -371,35 +381,39 @@ export class LearningTargetsService {
         'LearningTargetsService.deleteLearningTarget',
         __filename,
         undefined,
-        { targetId, userId }
+        { targetId, userId },
       );
     } catch (error) {
-      // Enhanced Error Context Logging  
+      // Enhanced Error Context Logging
       console.error(`\n❌ ERROR in deleteLearningTarget:`);
       console.group(`🚨 Service Error Details - Method: deleteLearningTarget`);
       console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
       console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
       console.error(`📛 Error Name: ${error.name || 'N/A'}`);
       console.error(`💬 Error Message: ${error.message || 'No message'}`);
-      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
-      
+      console.error(
+        `🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`,
+      );
+
       // Operation Context
       console.error(`\n📋 Operation Context:`);
       console.error(`  👤 User ID: ${userId}`);
       console.error(`  🎯 Target ID: ${targetId}`);
       console.error(`  🗑️ Operation: Delete Learning Target`);
-      
+
       // Enhanced Stack Trace
       if (error.stack) {
         console.error(`\n📚 Stack Trace:`);
         const stackLines = error.stack.split('\n');
         stackLines.forEach((line, index) => {
-          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+          console.error(
+            `  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`,
+          );
         });
       }
-      
+
       console.groupEnd();
-      
+
       this.logger.error(
         `Öğrenme hedefi silinirken hata: ${error.message}`,
         'LearningTargetsService.deleteLearningTarget',
@@ -409,8 +423,8 @@ export class LearningTargetsService {
           ...error,
           targetId,
           userId,
-          operation: 'delete'
-        }
+          operation: 'delete',
+        },
       );
       throw error;
     }
@@ -426,17 +440,30 @@ export class LearningTargetsService {
   async proposeNewTopics(
     dto: DetectNewTopicsDto,
     userId: string,
-  ): Promise<{ proposedTopics: { tempId: string; name: string; relevance?: string; details?: string }[] }> {
+  ): Promise<{
+    proposedTopics: {
+      tempId: string;
+      name: string;
+      relevance?: string;
+      details?: string;
+    }[];
+  }> {
     const operationId = `service-propose-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n🔍 SERVICE: Propose New Topics - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n🔍 SERVICE: Propose New Topics - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${userId}`);
     console.log(`📋 DTO:`, JSON.stringify(dto, null, 2));
-    console.log(`📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
-    console.log(`📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
-    
+    console.log(
+      `📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`,
+    );
+    console.log(
+      `📝 Context Text Length: ${dto.contextText?.length || 0} characters`,
+    );
+
     try {
       this.flowTracker.trackStep(
         `Yeni konu önerileri tespit ediliyor`,
@@ -448,16 +475,14 @@ export class LearningTargetsService {
         'LearningTargetsService.proposeNewTopics',
         __filename,
         undefined,
-        { userId, existingTopicCount: dto.existingTopicTexts.length }
+        { userId, existingTopicCount: dto.existingTopicTexts.length },
       );
 
       // Get course content if courseId is provided
       let contextText = dto.contextText || '';
       if (dto.courseId && !dto.contextText) {
-        const courseMaterialText = await this.coursesService.getCourseMaterialText(
-          dto.courseId,
-          userId,
-        );
+        const courseMaterialText =
+          await this.coursesService.getCourseMaterialText(dto.courseId, userId);
 
         if (courseMaterialText) {
           contextText = courseMaterialText; // Use course material as the primary context
@@ -479,23 +504,28 @@ export class LearningTargetsService {
         } else {
           contextText = existingTopicsContext; // Use existing topics if no other context
         }
-        console.log(`\n➕ Mevcut konular bağlama eklendi (${existingTopicsContext.length} chars)`);
+        console.log(
+          `\n➕ Mevcut konular bağlama eklendi (${existingTopicsContext.length} chars)`,
+        );
       }
-      
+
       if (!contextText) {
         // Fallback if no contextText, no courseMaterial, and no existingTopicTexts
         // This case should ideally be handled, e.g., by throwing an error or returning empty proposals
-        console.warn('\n⚠️ Uyarı: Yapay zeka için hiçbir bağlam metni oluşturulamadı.');
+        console.warn(
+          '\n⚠️ Uyarı: Yapay zeka için hiçbir bağlam metni oluşturulamadı.',
+        );
         // Depending on desired behavior, you might want to return empty proposedTopics here
-        // return { proposedTopics: [] }; 
+        // return { proposedTopics: [] };
       }
 
       console.log(`\n📝 Final context for AI (${contextText.length} chars)`);
 
-
-      console.log(`\n🚀 Calling TopicDetectionService.detectNewTopicsExclusive...`);
+      console.log(
+        `\n🚀 Calling TopicDetectionService.detectNewTopicsExclusive...`,
+      );
       const aiServiceStartTime = performance.now();
-      
+
       // Call the topic detection service to detect new topics
       const result = await this.topicDetectionService.detectNewTopicsExclusive(
         contextText,
@@ -504,24 +534,29 @@ export class LearningTargetsService {
 
       const aiServiceEndTime = performance.now();
       const aiServiceDuration = aiServiceEndTime - aiServiceStartTime;
-      
-      console.log(`\n✅ AI Service call completed in ${aiServiceDuration.toFixed(2)}ms`);
+
+      console.log(
+        `\n✅ AI Service call completed in ${aiServiceDuration.toFixed(2)}ms`,
+      );
       console.log(`📊 AI Service Result:`, JSON.stringify(result, null, 2));
 
       // Assign temporary IDs to the proposed topics
-      const proposedTopics = result.proposedTopics.map(topic => ({
+      const proposedTopics = result.proposedTopics.map((topic) => ({
         ...topic,
         tempId: uuidv4(), // Generate a unique ID for each proposed topic
       }));
 
       console.log(`\n🎯 Processing Results:`);
       console.log(`📊 Proposed Topics Count: ${proposedTopics.length}`);
-      
+
       if (proposedTopics.length > 0) {
         console.log(`\n📝 Detailed Proposed Topics:`);
         proposedTopics.forEach((topic, index) => {
-          console.log(`  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`);
-          if (topic.relevance) console.log(`     Relevance: ${topic.relevance}`);
+          console.log(
+            `  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`,
+          );
+          if (topic.relevance)
+            console.log(`     Relevance: ${topic.relevance}`);
           if (topic.details) console.log(`     Details: ${topic.details}`);
         });
       }
@@ -531,18 +566,22 @@ export class LearningTargetsService {
         'LearningTargetsService.proposeNewTopics',
         __filename,
         undefined,
-        { userId, proposedTopicCount: proposedTopics.length }
+        { userId, proposedTopicCount: proposedTopics.length },
       );
 
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
 
       return { proposedTopics };
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in propose new topics service after ${errorDuration.toFixed(2)}ms:`);
-      
+      console.error(
+        `\n❌ ERROR in propose new topics service after ${errorDuration.toFixed(2)}ms:`,
+      );
+
       // Enhanced Error Context Logging
       console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
       console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
@@ -550,27 +589,35 @@ export class LearningTargetsService {
       console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
       console.error(`📛 Error Name: ${error.name || 'N/A'}`);
       console.error(`💬 Error Message: ${error.message || 'No message'}`);
-      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
-      
+      console.error(
+        `🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`,
+      );
+
       // Operation Context
       console.error(`\n📋 Operation Context:`);
       console.error(`  👤 User ID: ${userId}`);
-      console.error(`  📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
-      console.error(`  📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+      console.error(
+        `  📝 Context Text Length: ${dto.contextText?.length || 0} characters`,
+      );
+      console.error(
+        `  📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`,
+      );
       console.error(`  🏫 Course ID: ${dto.courseId || 'Not provided'}`);
-      
+
       // Enhanced Stack Trace
       if (error.stack) {
         console.error(`\n📚 Stack Trace:`);
         const stackLines = error.stack.split('\n');
         stackLines.forEach((line, index) => {
-          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+          console.error(
+            `  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`,
+          );
         });
       }
-      
+
       console.groupEnd();
       console.groupEnd();
-      
+
       this.logger.error(
         `Yeni konu önerileri tespiti sırasında hata: ${error.message}`,
         'LearningTargetsService.proposeNewTopics',
@@ -583,7 +630,7 @@ export class LearningTargetsService {
           duration: errorDuration,
           contextLength: dto.contextText?.length || 0,
           existingTopicsCount: dto.existingTopicTexts?.length || 0,
-          courseId: dto.courseId
+          courseId: dto.courseId,
         },
       );
       throw error;
@@ -603,14 +650,16 @@ export class LearningTargetsService {
   ): Promise<LearningTarget[]> {
     const operationId = `service-confirm-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n✅ SERVICE: Confirm and Save Topics - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n✅ SERVICE: Confirm and Save Topics - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${userId}`);
     console.log(`🏫 Course ID: ${dto.courseId}`);
     console.log(`📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
     console.log(`📋 DTO:`, JSON.stringify(dto, null, 2));
-    
+
     try {
       this.flowTracker.trackStep(
         `Seçilen konular öğrenme hedefi olarak kaydediliyor`,
@@ -622,7 +671,7 @@ export class LearningTargetsService {
         'LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets',
         __filename,
         undefined,
-        { userId, selectedTopicCount: dto.selectedTopics.length }
+        { userId, selectedTopicCount: dto.selectedTopics.length },
       );
 
       if (dto.selectedTopics.length === 0) {
@@ -647,8 +696,10 @@ export class LearningTargetsService {
 
       // Create a learning target for each selected topic
       for (const topic of dto.selectedTopics) {
-        const normalizedName = this.normalizationService.normalizeSubTopicName(topic.name || '');
-        
+        const normalizedName = this.normalizationService.normalizeSubTopicName(
+          topic.name || '',
+        );
+
         const newTarget: Omit<LearningTarget, 'id'> = {
           userId,
           courseId: dto.courseId || '', // Provide default empty string if undefined
@@ -666,12 +717,16 @@ export class LearningTargetsService {
         };
 
         // Create a new document reference
-        const targetRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
+        const targetRef = db
+          .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
+          .doc();
         batch.set(targetRef, newTarget);
-        
-        console.log(`  📄 Prepared batch operation for: ${topic.name} -> Document ID: ${targetRef.id}`);
+
+        console.log(
+          `  📄 Prepared batch operation for: ${topic.name} -> Document ID: ${targetRef.id}`,
+        );
         console.log(`     Normalized Name: ${normalizedName}`);
-        
+
         // Add to created targets list with temporary ID for return
         // Add to created targets with a placeholder for timestamps
         // This is a workaround for the Timestamp/FieldValue type issue
@@ -685,16 +740,18 @@ export class LearningTargetsService {
 
       const batchPrepTime = performance.now() - batchStartTime;
       console.log(`\n✅ Batch prepared in ${batchPrepTime.toFixed(2)}ms`);
-      
+
       console.log(`\n💾 Committing batch to Firestore...`);
       const commitStartTime = performance.now();
-      
+
       // Commit the batch
       await batch.commit();
-      
+
       const commitTime = performance.now() - commitStartTime;
-      console.log(`\n✅ Batch committed successfully in ${commitTime.toFixed(2)}ms`);
-      
+      console.log(
+        `\n✅ Batch committed successfully in ${commitTime.toFixed(2)}ms`,
+      );
+
       console.log(`\n🎯 Created Learning Targets Summary:`);
       createdTargets.forEach((target, index) => {
         console.log(`  ${index + 1}. ${target.subTopicName}`);
@@ -709,18 +766,22 @@ export class LearningTargetsService {
         'LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets',
         __filename,
         undefined,
-        { userId, createdCount: createdTargets.length }
+        { userId, createdCount: createdTargets.length },
       );
 
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total service operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
 
       return createdTargets;
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in confirm and save topics service after ${errorDuration.toFixed(2)}ms:`);
-      
+      console.error(
+        `\n❌ ERROR in confirm and save topics service after ${errorDuration.toFixed(2)}ms:`,
+      );
+
       // Enhanced Error Context Logging
       console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
       console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
@@ -728,27 +789,35 @@ export class LearningTargetsService {
       console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
       console.error(`📛 Error Name: ${error.name || 'N/A'}`);
       console.error(`💬 Error Message: ${error.message || 'No message'}`);
-      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
-      
+      console.error(
+        `🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`,
+      );
+
       // Operation Context
       console.error(`\n📋 Operation Context:`);
       console.error(`  👤 User ID: ${userId}`);
       console.error(`  🏫 Course ID: ${dto.courseId || 'Not provided'}`);
-      console.error(`  📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
-      console.error(`  🎯 Target Topics: ${dto.selectedTopics?.map(t => t.name).join(', ') || 'None'}`);
-      
+      console.error(
+        `  📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`,
+      );
+      console.error(
+        `  🎯 Target Topics: ${dto.selectedTopics?.map((t) => t.name).join(', ') || 'None'}`,
+      );
+
       // Enhanced Stack Trace
       if (error.stack) {
         console.error(`\n📚 Stack Trace:`);
         const stackLines = error.stack.split('\n');
         stackLines.forEach((line, index) => {
-          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+          console.error(
+            `  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`,
+          );
         });
       }
-      
+
       console.groupEnd();
       console.groupEnd();
-      
+
       this.logger.error(
         `Öğrenme hedefleri oluşturulurken hata: ${error.message}`,
         'LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets',
@@ -761,7 +830,7 @@ export class LearningTargetsService {
           duration: errorDuration,
           courseId: dto.courseId,
           selectedTopicsCount: dto.selectedTopics?.length || 0,
-          targetTopics: dto.selectedTopics?.map(t => t.name) || []
+          targetTopics: dto.selectedTopics?.map((t) => t.name) || [],
         },
       );
       throw error;
@@ -892,7 +961,7 @@ export class LearningTargetsService {
         'LearningTargetsService.update',
         __filename,
         undefined,
-        { targetId, userId, updateData: dto }
+        { targetId, userId, updateData: dto },
       );
 
       // LOG: Güncelleme girişimi
@@ -900,7 +969,14 @@ export class LearningTargetsService {
         (global as any).logLearningTarget(
           'INFO',
           `[update] Öğrenme hedefi güncelleme girişimi`,
-          { targetId, userId, updateData: dto, function: 'update', step: 'input', timestamp: new Date().toISOString() }
+          {
+            targetId,
+            userId,
+            updateData: dto,
+            function: 'update',
+            step: 'input',
+            timestamp: new Date().toISOString(),
+          },
         );
       }
 
@@ -910,31 +986,35 @@ export class LearningTargetsService {
         .doc(targetId);
 
       const targetSnapshot = await targetRef.get();
-      
+
       if (!targetSnapshot.exists) {
-        throw new NotFoundException(`${targetId} ID'li öğrenme hedefi bulunamadı`);
+        throw new NotFoundException(
+          `${targetId} ID'li öğrenme hedefi bulunamadı`,
+        );
       }
 
       const targetData = targetSnapshot.data() as LearningTarget;
-      
+
       // Verify ownership
       if (targetData.userId !== userId) {
-        throw new ForbiddenException('Bu öğrenme hedefini güncelleme yetkiniz yok');
+        throw new ForbiddenException(
+          'Bu öğrenme hedefini güncelleme yetkiniz yok',
+        );
       }
 
       // Prepare update data
       const updateData: any = {}; // Use any type to allow properties not in the interface
       const now = admin.firestore.FieldValue.serverTimestamp();
-      
+
       // Only update fields that are provided
       if (dto.status !== undefined) {
         updateData.status = dto.status;
       }
-      
+
       if (dto.notes !== undefined) {
         updateData.notes = dto.notes;
       }
-      
+
       // Always update the updatedAt timestamp
       updateData.updatedAt = now;
 
@@ -946,7 +1026,7 @@ export class LearningTargetsService {
         'LearningTargetsService.update',
         __filename,
         undefined,
-        { targetId, userId }
+        { targetId, userId },
       );
 
       // Return the updated target
@@ -1088,7 +1168,7 @@ export class LearningTargetsService {
         'LearningTargetsService.updateLearningTarget',
         __filename,
         undefined,
-        { targetId, userId }
+        { targetId, userId },
       );
 
       // Get the existing target to verify ownership
@@ -1097,16 +1177,20 @@ export class LearningTargetsService {
         .doc(targetId);
 
       const targetSnapshot = await targetRef.get();
-      
+
       if (!targetSnapshot.exists) {
-        throw new NotFoundException(`${targetId} ID'li öğrenme hedefi bulunamadı`);
+        throw new NotFoundException(
+          `${targetId} ID'li öğrenme hedefi bulunamadı`,
+        );
       }
 
       const targetData = targetSnapshot.data() as LearningTarget;
-      
+
       // Verify ownership
       if (targetData.userId !== userId) {
-        throw new ForbiddenException('Bu öğrenme hedefini güncelleme yetkiniz yok');
+        throw new ForbiddenException(
+          'Bu öğrenme hedefini güncelleme yetkiniz yok',
+        );
       }
 
       // Prepare update data
@@ -1131,7 +1215,13 @@ export class LearningTargetsService {
         'LearningTargetsService.updateLearningTarget',
         __filename,
         undefined,
-        { targetId, userId, updateFields: Object.keys(updateData).filter(k => k !== 'updatedAt') }
+        {
+          targetId,
+          userId,
+          updateFields: Object.keys(updateData).filter(
+            (k) => k !== 'updatedAt',
+          ),
+        },
       );
 
       // Return the updated target
@@ -1143,33 +1233,37 @@ export class LearningTargetsService {
         updatedAt: null as any, // Will be set by Firestore
       } as LearningTarget;
     } catch (error) {
-      // Enhanced Error Context Logging  
+      // Enhanced Error Context Logging
       console.error(`\n❌ ERROR in updateLearningTarget:`);
       console.group(`🚨 Service Error Details - Method: updateLearningTarget`);
       console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
       console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
       console.error(`📛 Error Name: ${error.name || 'N/A'}`);
       console.error(`💬 Error Message: ${error.message || 'No message'}`);
-      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
-      
+      console.error(
+        `🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`,
+      );
+
       // Operation Context
       console.error(`\n📋 Operation Context:`);
       console.error(`  👤 User ID: ${userId}`);
       console.error(`  🎯 Target ID: ${targetId}`);
       console.error(`  📝 Update Fields: ${Object.keys(dto).join(', ')}`);
       console.error(`  🔧 Update Data: ${JSON.stringify(dto, null, 2)}`);
-      
+
       // Enhanced Stack Trace
       if (error.stack) {
         console.error(`\n📚 Stack Trace:`);
         const stackLines = error.stack.split('\n');
         stackLines.forEach((line, index) => {
-          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+          console.error(
+            `  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`,
+          );
         });
       }
-      
+
       console.groupEnd();
-      
+
       this.logger.error(
         `Öğrenme hedefi güncellenirken hata: ${error.message}`,
         'LearningTargetsService.updateLearningTarget',
@@ -1180,7 +1274,7 @@ export class LearningTargetsService {
           targetId,
           userId,
           updateFields: Object.keys(dto),
-          updateData: dto
+          updateData: dto,
         },
       );
       throw error;
@@ -1461,7 +1555,7 @@ export class LearningTargetsService {
     userId: string,
   ): Promise<string[]> {
     const traceId = `trace_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     try {
       this.logger.debug(
         `[${traceId}] Belge ID ${documentId} için belge metnini getiriliyor...`,
@@ -1490,7 +1584,9 @@ export class LearningTargetsService {
       }
 
       // Belge metni aldığımızı logla
-      const textPreview = documentTextResponse.text.substring(0, 200) + (documentTextResponse.text.length > 200 ? '...' : '');
+      const textPreview =
+        documentTextResponse.text.substring(0, 200) +
+        (documentTextResponse.text.length > 200 ? '...' : '');
       this.logger.debug(
         `[${traceId}] Belge metni alındı (${documentTextResponse.text.length} karakter) - Önizleme: "${textPreview}"`,
         'LearningTargetsService.analyzeDocumentForTopics',
@@ -1525,16 +1621,19 @@ export class LearningTargetsService {
         'LearningTargetsService.analyzeDocumentForTopics',
         __filename,
         undefined,
-        { 
-          documentId, 
-          userId, 
+        {
+          documentId,
+          userId,
           traceId,
           topicResultExists: !!topicResult,
           topicResultType: typeof topicResult,
           topicsExists: topicResult ? !!topicResult.topics : false,
-          topicsIsArray: topicResult ? Array.isArray(topicResult.topics) : false,
-          topicsLength: topicResult && topicResult.topics ? topicResult.topics.length : 0,
-          fullTopicResult: JSON.stringify(topicResult, null, 2)
+          topicsIsArray: topicResult
+            ? Array.isArray(topicResult.topics)
+            : false,
+          topicsLength:
+            topicResult && topicResult.topics ? topicResult.topics.length : 0,
+          fullTopicResult: JSON.stringify(topicResult, null, 2),
         },
       );
 
@@ -1554,21 +1653,29 @@ export class LearningTargetsService {
             topic: any, // topic'in SubTopic veya benzeri bir yapıda olması beklenir
             index: number,
           ) => {
-            const mappedTopic = topic.subTopicName ||
+            const mappedTopic =
+              topic.subTopicName ||
               topic.normalizedSubTopicName ||
               topic.mainTopic || // Eğer mainTopic de bir olasılıksa
               'Bilinmeyen konu';
-            
+
             this.logger.debug(
               `[${traceId}] Topic ${index}: ${JSON.stringify(topic)} -> "${mappedTopic}"`,
               'LearningTargetsService.analyzeDocumentForTopics',
               __filename,
               undefined,
-              { documentId, userId, traceId, topicIndex: index, originalTopic: topic, mappedTopic },
+              {
+                documentId,
+                userId,
+                traceId,
+                topicIndex: index,
+                originalTopic: topic,
+                mappedTopic,
+              },
             );
-            
+
             return mappedTopic;
-          }
+          },
         );
 
         this.logger.info(
@@ -1588,14 +1695,14 @@ export class LearningTargetsService {
         'LearningTargetsService.analyzeDocumentForTopics',
         __filename,
         undefined,
-        { 
-          documentId, 
-          userId, 
+        {
+          documentId,
+          userId,
           traceId,
-          topicResult: JSON.stringify(topicResult, null, 2)
+          topicResult: JSON.stringify(topicResult, null, 2),
         },
       );
-      
+
       return [];
     } catch (error) {
       this.logger.logError(
@@ -1740,8 +1847,7 @@ export class LearningTargetsService {
         return []; // No new topics to add
       }
 
-
-   const db = this.firebaseService.firestore;
+      const db = this.firebaseService.firestore;
       if (!db) {
         throw new Error('Firestore servisi başlatılamadı');
       }
@@ -1752,17 +1858,18 @@ export class LearningTargetsService {
       // Her bir konu için öğrenme hedefi oluştur
       for (const topic of uniqueTopics) {
         // Eğer normalizedSubTopicName zaten tanımlı değilse, oluştur
-        const normalizedName = topic.normalizedSubTopicName || 
+        const normalizedName =
+          topic.normalizedSubTopicName ||
           this.normalizationService.normalizeSubTopicName(topic.subTopicName);
-        
+
         // Yeni öğrenme hedefi ID'si (Firestore'un benzersiz ID oluşturma metodunu kullanıyoruz)
         const newId = this.firebaseService.generateId();
-        
+
         // Yeni belge referansı
         const newRef = db
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .doc(newId);
-        
+
         // Öğrenme hedefi verisi - tüm hedefler "pending" (beklemede) olarak kaydediliyor
         const newLearningTarget = {
           id: newId,
@@ -1785,20 +1892,22 @@ export class LearningTargetsService {
           firstEncountered: now,
           lastAttempt: null,
         };
-        
+
         // Batch'e ekle
         batch.set(newRef, newLearningTarget);
-        
+
         // Oluşturulan hedefleri izle
         // Use double type assertion to safely convert between incompatible types
-        createdTargets.push(newLearningTarget as unknown as LearningTargetWithQuizzes);
-        
+        createdTargets.push(
+          newLearningTarget as unknown as LearningTargetWithQuizzes,
+        );
+
         this.logger.debug(
           `Yeni öğrenme hedefi oluşturuldu: ${newId} (${topic.subTopicName})`,
           'LearningTargetsService.createBatch',
           __filename,
           500,
-          { targetId: newId, topicName: topic.subTopicName }
+          { targetId: newId, topicName: topic.subTopicName },
         );
       }
 
@@ -1808,21 +1917,21 @@ export class LearningTargetsService {
         'LearningTargetsService.createBatch',
         __filename,
         510,
-        { courseId, userId, count: createdTargets.length }
+        { courseId, userId, count: createdTargets.length },
       );
 
       try {
         // Batch işlemini commit et
         await batch.commit();
-        
+
         this.logger.info(
           `${createdTargets.length} adet yeni öğrenme hedefi başarıyla oluşturuldu`,
           'LearningTargetsService.createBatch',
           __filename,
           520,
-          { courseId, userId, count: createdTargets.length }
+          { courseId, userId, count: createdTargets.length },
         );
-        
+
         return createdTargets;
       } catch (error) {
         this.logger.logError(error, 'LearningTargetsService.createBatch', {
@@ -1913,12 +2022,16 @@ export class LearningTargetsService {
       );
 
       // Filter out duplicates and prepare topics for creation
-      const uniqueTopics: Array<{ subTopicName: string; normalizedSubTopicName: string }> = [];
+      const uniqueTopics: Array<{
+        subTopicName: string;
+        normalizedSubTopicName: string;
+      }> = [];
       const duplicateTopics: string[] = [];
 
       for (const topicName of newTopicNames) {
-        const normalizedName = this.normalizationService.normalizeSubTopicName(topicName);
-        
+        const normalizedName =
+          this.normalizationService.normalizeSubTopicName(topicName);
+
         if (existingNormalizedTopics.includes(normalizedName)) {
           duplicateTopics.push(topicName);
         } else {
@@ -1963,12 +2076,12 @@ export class LearningTargetsService {
       for (const topic of uniqueTopics) {
         // Generate unique ID for the new learning target
         const newId = this.firebaseService.generateId();
-        
+
         // Create document reference
         const newRef = this.firebaseService.firestore
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .doc(newId);
-        
+
         // Create learning target data with AI-generated source
         const newLearningTarget: LearningTarget = {
           id: newId,
@@ -1986,20 +2099,20 @@ export class LearningTargetsService {
           source: 'ai_generated_new', // Default source for AI generated topics
           type: 'unknown', // Default type for AI generated topics
         };
-        
+
         // Add to batch
         batch.set(newRef, newLearningTarget);
-        
+
         // Track created targets
         createdTargets.push(newLearningTarget);
-        
+
         this.logger.debug(
           `AI önerisi konu öğrenme hedefi olarak hazırlandı: ${newId} (${topic.subTopicName})`,
           'LearningTargetsService.confirmAndSaveNewTopics',
           __filename,
           undefined,
-          { 
-            targetId: newId, 
+          {
+            targetId: newId,
             topicName: topic.subTopicName,
           },
         );
@@ -2010,38 +2123,42 @@ export class LearningTargetsService {
         'LearningTargetsService.confirmAndSaveNewTopics',
         __filename,
         undefined,
-        { 
-          courseId, 
-          userId, 
+        {
+          courseId,
+          userId,
           count: createdTargets.length,
         },
       );
 
       // Execute batch operation
       await batch.commit();
-      
+
       this.logger.info(
         `${createdTargets.length} adet AI önerisi konu başarıyla öğrenme hedefi olarak kaydedildi`,
         'LearningTargetsService.confirmAndSaveNewTopics',
         __filename,
         undefined,
-        { 
-          courseId, 
-          userId, 
+        {
+          courseId,
+          userId,
           count: createdTargets.length,
-          topics: createdTargets.map(t => t.subTopicName),
+          topics: createdTargets.map((t) => t.subTopicName),
         },
       );
 
       return createdTargets;
     } catch (error) {
-      this.logger.logError(error, 'LearningTargetsService.confirmAndSaveNewTopics', {
-        courseId,
-        userId,
-        topicCount: newTopicNames?.length || 0,
-        topics: newTopicNames,
-        additionalInfo: 'AI önerisi konular kaydedilirken hata oluştu',
-      });
+      this.logger.logError(
+        error,
+        'LearningTargetsService.confirmAndSaveNewTopics',
+        {
+          courseId,
+          userId,
+          topicCount: newTopicNames?.length || 0,
+          topics: newTopicNames,
+          additionalInfo: 'AI önerisi konular kaydedilirken hata oluştu',
+        },
+      );
       throw error;
     }
   }
@@ -2074,23 +2191,28 @@ export class LearningTargetsService {
    * @returns Update result with success status and count
    */
   @LogMethod({ trackParams: true })
-  async batchUpdate(userId: string, targets: any[]): Promise<{ success: boolean; updatedCount: number }> {
+  async batchUpdate(
+    userId: string,
+    targets: any[],
+  ): Promise<{ success: boolean; updatedCount: number }> {
     const operationId = `batch-update-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const startTime = performance.now();
-    
+
     console.group(`🔄 Service: Batch Update Learning Targets [${operationId}]`);
     console.log(`🕐 Service Start Time: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${userId}`);
     console.log(`📊 Targets Count: ${targets.length}`);
     console.log(`🏷️ Operation ID: ${operationId}`);
-    
+
     if (targets.length > 0) {
       console.log(`📋 Targets to Process:`);
       targets.forEach((target, index) => {
-        console.log(`  ${index + 1}. SubTopic: "${target.subTopic}", Status: "${target.status}", Score: ${target.score}`);
+        console.log(
+          `  ${index + 1}. SubTopic: "${target.subTopic}", Status: "${target.status}", Score: ${target.score}`,
+        );
       });
     }
-    
+
     try {
       this.flowTracker.trackStep(
         `Batch updating ${targets.length} learning targets`,
@@ -2102,7 +2224,7 @@ export class LearningTargetsService {
         'LearningTargetsService.batchUpdate',
         __filename,
         undefined,
-        { userId, targetCount: targets.length }
+        { userId, targetCount: targets.length },
       );
 
       if (targets.length === 0) {
@@ -2122,31 +2244,32 @@ export class LearningTargetsService {
       // Process each target in the array
       console.log(`\n🔍 Processing ${targets.length} targets individually...`);
       const processingStartTime = performance.now();
-      
+
       for (let i = 0; i < targets.length; i++) {
         const target = targets[i];
         const targetStartTime = performance.now();
-        
+
         console.log(`\n📝 Processing Target ${i + 1}/${targets.length}:`);
         console.log(`  🏷️ SubTopic: "${target.subTopic}"`);
         console.log(`  📊 Status: "${target.status}"`);
         console.log(`  🎯 Score: ${target.score}`);
-        
+
         // Normalize the incoming subTopic for querying
-        const normalizedQuerySubTopic = this.normalizationService.normalizeSubTopicName(target.subTopic);
+        const normalizedQuerySubTopic =
+          this.normalizationService.normalizeSubTopicName(target.subTopic);
         console.log(`  🔄 Normalized SubTopic: "${normalizedQuerySubTopic}"`);
 
         // Query for existing record based on userId and normalizedSubTopicName
         console.log(`  🔍 Querying for existing record...`);
         const queryStartTime = performance.now();
-        
+
         const existingQuery = await db
           .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
           .where('userId', '==', userId)
           .where('normalizedSubTopicName', '==', normalizedQuerySubTopic) // Changed to query by normalized name
           .limit(1)
           .get();
-          
+
         const queryDuration = performance.now() - queryStartTime;
         console.log(`  ⏱️ Query Duration: ${queryDuration.toFixed(2)}ms`);
 
@@ -2155,15 +2278,21 @@ export class LearningTargetsService {
           existingTargetsCount++;
           const existingDoc = existingQuery.docs[0];
           const existingData = existingDoc.data();
-          
+
           console.log(`  ✅ Found existing record: ${existingDoc.id}`);
-          console.log(`  📋 Current Status: "${existingData.status}" -> New Status: "${target.status}"`);
-          console.log(`  🔢 Current Counters: fail=${existingData.failCount || 0}, medium=${existingData.mediumCount || 0}, success=${existingData.successCount || 0}`);
-          
+          console.log(
+            `  📋 Current Status: "${existingData.status}" -> New Status: "${target.status}"`,
+          );
+          console.log(
+            `  🔢 Current Counters: fail=${existingData.failCount || 0}, medium=${existingData.mediumCount || 0}, success=${existingData.successCount || 0}`,
+          );
+
           // Convert frontend status to backend status
-          const backendStatus = this.convertFrontendStatusToBackend(target.status);
+          const backendStatus = this.convertFrontendStatusToBackend(
+            target.status,
+          );
           console.log(`  🔄 Backend Status: "${backendStatus}"`);
-          
+
           // Prepare update data
           const updateData: any = {
             status: backendStatus,
@@ -2175,47 +2304,60 @@ export class LearningTargetsService {
           // Update counters based on status
           if (backendStatus === 'failed') {
             updateData.failCount = (existingData.failCount || 0) + 1;
-            console.log(`  ➕ Incrementing fail count: ${existingData.failCount || 0} -> ${updateData.failCount}`);
+            console.log(
+              `  ➕ Incrementing fail count: ${existingData.failCount || 0} -> ${updateData.failCount}`,
+            );
           } else if (backendStatus === 'medium') {
             updateData.mediumCount = (existingData.mediumCount || 0) + 1;
-            console.log(`  ➕ Incrementing medium count: ${existingData.mediumCount || 0} -> ${updateData.mediumCount}`);
+            console.log(
+              `  ➕ Incrementing medium count: ${existingData.mediumCount || 0} -> ${updateData.mediumCount}`,
+            );
           } else if (backendStatus === 'mastered') {
             updateData.successCount = (existingData.successCount || 0) + 1;
-            console.log(`  ➕ Incrementing success count: ${existingData.successCount || 0} -> ${updateData.successCount}`);
+            console.log(
+              `  ➕ Incrementing success count: ${existingData.successCount || 0} -> ${updateData.successCount}`,
+            );
           }
 
           batch.update(existingDoc.ref, updateData);
           updatedCount++;
-          console.log(`  ✅ Queued for update (${updatedCount}/${targets.length})`);
+          console.log(
+            `  ✅ Queued for update (${updatedCount}/${targets.length})`,
+          );
 
           this.logger.debug(
             `Queued update for existing learning target: ${existingDoc.id} (${target.subTopic}) -> ${backendStatus}`,
             'LearningTargetsService.batchUpdate',
             __filename,
             undefined,
-            { 
+            {
               targetId: existingDoc.id,
               subTopic: target.subTopic,
               oldStatus: existingData.status,
               newStatus: backendStatus,
-              score: target.score 
-            }
+              score: target.score,
+            },
           );
         } else {
           // Record doesn't exist - create new one using batch.set()
           newTargetsCount++;
-          const newDocRef = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS).doc();
-          const backendStatus = this.convertFrontendStatusToBackend(target.status);
+          const newDocRef = db
+            .collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS)
+            .doc();
+          const backendStatus = this.convertFrontendStatusToBackend(
+            target.status,
+          );
           const now = admin.firestore.FieldValue.serverTimestamp();
-          
+
           console.log(`  🆕 Creating new record: ${newDocRef.id}`);
           console.log(`  🔄 Backend Status: "${backendStatus}"`);
-          
+
           // Prepare new document data
           const newDocData = {
             userId,
             subTopicName: target.subTopic,
-            normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(target.subTopic),
+            normalizedSubTopicName:
+              this.normalizationService.normalizeSubTopicName(target.subTopic),
             status: backendStatus,
             failCount: backendStatus === 'failed' ? 1 : 0,
             mediumCount: backendStatus === 'medium' ? 1 : 0,
@@ -2227,34 +2369,42 @@ export class LearningTargetsService {
             createdAt: now,
             updatedAt: now,
           };
-          
-          console.log(`  🔢 Initial Counters: fail=${newDocData.failCount}, medium=${newDocData.mediumCount}, success=${newDocData.successCount}`);
+
+          console.log(
+            `  🔢 Initial Counters: fail=${newDocData.failCount}, medium=${newDocData.mediumCount}, success=${newDocData.successCount}`,
+          );
 
           batch.set(newDocRef, newDocData);
           updatedCount++;
-          console.log(`  ✅ Queued for creation (${updatedCount}/${targets.length})`);
+          console.log(
+            `  ✅ Queued for creation (${updatedCount}/${targets.length})`,
+          );
 
           this.logger.debug(
             `Queued creation of new learning target: ${newDocRef.id} (${target.subTopic}) -> ${backendStatus}`,
             'LearningTargetsService.batchUpdate',
             __filename,
             undefined,
-            { 
+            {
               targetId: newDocRef.id,
               subTopic: target.subTopic,
               status: backendStatus,
-              score: target.score 
-            }
+              score: target.score,
+            },
           );
         }
-        
+
         const targetDuration = performance.now() - targetStartTime;
-        console.log(`  ⏱️ Target Processing Duration: ${targetDuration.toFixed(2)}ms`);
+        console.log(
+          `  ⏱️ Target Processing Duration: ${targetDuration.toFixed(2)}ms`,
+        );
       }
-      
+
       const processingDuration = performance.now() - processingStartTime;
       console.log(`\n📊 Processing Summary:`);
-      console.log(`  📈 Total Processing Duration: ${processingDuration.toFixed(2)}ms`);
+      console.log(
+        `  📈 Total Processing Duration: ${processingDuration.toFixed(2)}ms`,
+      );
       console.log(`  🔄 Existing Targets Updated: ${existingTargetsCount}`);
       console.log(`  🆕 New Targets Created: ${newTargetsCount}`);
       console.log(`  ✅ Total Queued Operations: ${updatedCount}`);
@@ -2262,33 +2412,39 @@ export class LearningTargetsService {
       // Execute all batch operations at once
       console.log(`\n🚀 Committing batch operations to Firestore...`);
       const commitStartTime = performance.now();
-      
+
       await batch.commit();
-      
+
       const commitDuration = performance.now() - commitStartTime;
       const totalDuration = performance.now() - startTime;
-      
+
       console.log(`✅ Batch commit completed!`);
       console.log(`⏱️ Commit Duration: ${commitDuration.toFixed(2)}ms`);
       console.log(`⏱️ Total Operation Duration: ${totalDuration.toFixed(2)}ms`);
-      console.log(`📈 Success Rate: ${((updatedCount / targets.length) * 100).toFixed(1)}%`);
+      console.log(
+        `📈 Success Rate: ${((updatedCount / targets.length) * 100).toFixed(1)}%`,
+      );
 
       this.logger.info(
         `Batch update completed: ${updatedCount}/${targets.length} targets processed`,
         'LearningTargetsService.batchUpdate',
         __filename,
         undefined,
-        { userId, requestedCount: targets.length, updatedCount }
+        { userId, requestedCount: targets.length, updatedCount },
       );
 
       console.groupEnd();
       return { success: true, updatedCount };
     } catch (error) {
       const totalDuration = performance.now() - startTime;
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
-      console.error(`❌ Batch Update Error after ${totalDuration.toFixed(2)}ms:`, errorMessage);
-      
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+
+      console.error(
+        `❌ Batch Update Error after ${totalDuration.toFixed(2)}ms:`,
+        errorMessage,
+      );
+
       // Enhanced Error Context Logging
       console.group(`🚨 Service Error Details - Operation ID: ${operationId}`);
       console.error(`📅 Error Timestamp: ${new Date().toISOString()}`);
@@ -2296,27 +2452,36 @@ export class LearningTargetsService {
       console.error(`🏷️ Error Type: ${error.constructor?.name || 'Unknown'}`);
       console.error(`📛 Error Name: ${error.name || 'N/A'}`);
       console.error(`💬 Error Message: ${error.message || 'No message'}`);
-      console.error(`🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`);
-      
+      console.error(
+        `🔢 HTTP Status: ${error.status || error.statusCode || 'N/A'}`,
+      );
+
       // Operation Context
       console.error(`\n📋 Operation Context:`);
       console.error(`  👤 User ID: ${userId}`);
       console.error(`  📊 Total Targets Count: ${targets.length}`);
-      console.error(`  🎯 Target SubTopics: ${targets.map(t => t.subTopic).slice(0, 5).join(', ')}${targets.length > 5 ? '...' : ''}`);
+      console.error(
+        `  🎯 Target SubTopics: ${targets
+          .map((t) => t.subTopic)
+          .slice(0, 5)
+          .join(', ')}${targets.length > 5 ? '...' : ''}`,
+      );
       console.error(`  📈 Processing Progress: Unknown (interrupted)`);
-      
+
       // Enhanced Stack Trace
       if (error.stack) {
         console.error(`\n📚 Stack Trace:`);
         const stackLines = error.stack.split('\n');
         stackLines.forEach((line, index) => {
-          console.error(`  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`);
+          console.error(
+            `  ${String(index + 1).padStart(2, '0')}. ${line.trim()}`,
+          );
         });
       }
-      
+
       console.groupEnd();
       console.groupEnd();
-      
+
       this.logger.error(
         `Batch update failed: ${error.message}`,
         'LearningTargetsService.batchUpdate',
@@ -2328,7 +2493,7 @@ export class LearningTargetsService {
           userId,
           duration: totalDuration,
           totalTargets: targets.length,
-          targetSubTopics: targets.map(t => t.subTopic)
+          targetSubTopics: targets.map((t) => t.subTopic),
         },
       );
       throw error;
@@ -2340,30 +2505,35 @@ export class LearningTargetsService {
    * This method handles bulk operations efficiently
    */
   @LogMethod({ trackParams: true })
-  async batchCreateOrUpdate(userId: string, targets: Array<{
-    subTopicName: string;
-    status: 'pending' | 'failed' | 'medium' | 'mastered';
-    lastScore?: number;
-  }>): Promise<{ success: boolean; processedCount: number }> {
+  async batchCreateOrUpdate(
+    userId: string,
+    targets: Array<{
+      subTopicName: string;
+      status: 'pending' | 'failed' | 'medium' | 'mastered';
+      lastScore?: number;
+    }>,
+  ): Promise<{ success: boolean; processedCount: number }> {
     const operationId = `batch-create-update-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const startTime = performance.now();
-    
+
     try {
       this.logger.info(
         `Batch create/update operation started for ${targets.length} targets`,
         'LearningTargetsService.batchCreateOrUpdate',
         __filename,
         undefined,
-        { userId, targetCount: targets.length, operationId }
+        { userId, targetCount: targets.length, operationId },
       );
 
       // Get Firestore database instance and batch
       const db = this.firebaseService.firestore;
       const batch = db.batch();
-      
+
       // Reference to learning-targets collection
-      const targetsCollection = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS);
-      
+      const targetsCollection = db.collection(
+        FIRESTORE_COLLECTIONS.LEARNING_TARGETS,
+      );
+
       let processedCount = 0;
 
       // Process each target in the array
@@ -2373,9 +2543,9 @@ export class LearningTargetsService {
           .where('userId', '==', userId)
           .where('subTopicName', '==', target.subTopicName)
           .limit(1);
-        
+
         const snapshot = await query.get();
-        
+
         // Prepare status history object
         const newStatusObject = {
           status: target.status,
@@ -2386,7 +2556,7 @@ export class LearningTargetsService {
         if (snapshot.empty) {
           // Target is new - create it using batch.set()
           const newTargetRef = targetsCollection.doc();
-          
+
           const newTargetData = {
             userId,
             ...target,
@@ -2394,11 +2564,14 @@ export class LearningTargetsService {
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
             // DÜZELTME: source ve type alanları eklendi
             source: target.source,
-            type: target.type , // Varsayılan değerler
+            type: target.type, // Varsayılan değerler
             // Daire ve konu gibi diğer potansiyel alanlar da buraya eklenebilir.
-            // details: createLearningTargetDto.details, 
+            // details: createLearningTargetDto.details,
             history: [newStatusObject],
-            normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(target.subTopicName),
+            normalizedSubTopicName:
+              this.normalizationService.normalizeSubTopicName(
+                target.subTopicName,
+              ),
             failCount: target.status === 'failed' ? 1 : 0,
             mediumCount: target.status === 'medium' ? 1 : 0,
             successCount: target.status === 'mastered' ? 1 : 0,
@@ -2406,21 +2579,21 @@ export class LearningTargetsService {
             lastAttempt: admin.firestore.FieldValue.serverTimestamp(),
             firstEncountered: new Date().toISOString(),
           };
-          
+
           batch.set(newTargetRef, newTargetData);
-          
+
           this.logger.debug(
             `Queued creation of new learning target: ${target.subTopicName}`,
             'LearningTargetsService.batchCreateOrUpdate',
             __filename,
             undefined,
-            { targetId: newTargetRef.id, subTopicName: target.subTopicName }
+            { targetId: newTargetRef.id, subTopicName: target.subTopicName },
           );
         } else {
           // Target exists - update it using batch.update()
           const existingDocRef = snapshot.docs[0].ref;
           const existingData = snapshot.docs[0].data();
-          
+
           const updateData: any = {
             status: target.status,
             lastScore: target.lastScore || null,
@@ -2436,39 +2609,44 @@ export class LearningTargetsService {
           } else if (target.status === 'mastered') {
             updateData.successCount = (existingData.successCount || 0) + 1;
           }
-          
+
           batch.update(existingDocRef, updateData);
-          
+
           this.logger.debug(
             `Queued update of existing learning target: ${target.subTopicName}`,
             'LearningTargetsService.batchCreateOrUpdate',
             __filename,
             undefined,
-            { targetId: existingDocRef.id, subTopicName: target.subTopicName }
+            { targetId: existingDocRef.id, subTopicName: target.subTopicName },
           );
         }
-        
+
         processedCount++;
       }
 
       // Commit the batch operation
       await batch.commit();
-      
+
       const totalDuration = performance.now() - startTime;
-      
+
       this.logger.info(
         `Batch create/update operation completed successfully: ${processedCount}/${targets.length} targets processed`,
         'LearningTargetsService.batchCreateOrUpdate',
         __filename,
         undefined,
-        { userId, processedCount, totalTargets: targets.length, duration: totalDuration, operationId }
+        {
+          userId,
+          processedCount,
+          totalTargets: targets.length,
+          duration: totalDuration,
+          operationId,
+        },
       );
 
       return { success: true, processedCount };
-      
     } catch (error) {
       const totalDuration = performance.now() - startTime;
-      
+
       this.logger.error(
         `Batch create/update operation failed: ${error.message}`,
         'LearningTargetsService.batchCreateOrUpdate',
@@ -2480,7 +2658,7 @@ export class LearningTargetsService {
           userId,
           duration: totalDuration,
           totalTargets: targets.length,
-        }
+        },
       );
       throw error;
     }
@@ -2489,7 +2667,9 @@ export class LearningTargetsService {
   /**
    * Convert frontend status format to backend format
    */
-  private convertFrontendStatusToBackend(frontendStatus: string): 'pending' | 'failed' | 'medium' | 'mastered' {
+  private convertFrontendStatusToBackend(
+    frontendStatus: string,
+  ): 'pending' | 'failed' | 'medium' | 'mastered' {
     switch (frontendStatus.toUpperCase()) {
       case 'PENDING':
         return 'pending';

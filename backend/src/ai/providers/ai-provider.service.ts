@@ -95,7 +95,7 @@ export class AIProviderService {
   ): Promise<AIResponse> {
     const operationId = `ai-generate-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const startTime = performance.now();
-    
+
     console.group(`🤖 AI Provider: Generate Content [${operationId}]`);
     console.log(`🕐 AI Start Time: ${new Date().toISOString()}`);
     console.log(`🏷️ Operation ID: ${operationId}`);
@@ -104,13 +104,13 @@ export class AIProviderService {
     console.log(`🧠 Model: ${this.config.model}`);
     console.log(`🌡️ Temperature: ${this.config.temperature}`);
     console.log(`🔢 Max Tokens: ${this.config.maxTokens}`);
-    
+
     if (options) {
       console.log(`⚙️ Request Options:`, JSON.stringify(options, null, 2));
     }
-    
+
     console.log(`📋 Prompt Preview: "${prompt.substring(0, 200)}..."`);
-    
+
     if (!this.activeProvider) {
       console.error(`❌ No active AI provider available`);
       console.groupEnd();
@@ -128,28 +128,29 @@ export class AIProviderService {
       const traceId =
         metadata.traceId ||
         `ai-req-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-        
+
       console.log(`🆔 Trace ID: ${traceId}`);
       console.log(`📊 Metadata:`, JSON.stringify(metadata, null, 2));
 
       // AI'ya gönderilen prompt'u iyileştirmek için yapılandırmayı ayarla
       // Quiz generation için özel prompt template kullanılıyorsa, system instruction override etme
-      const isQuizGeneration = prompt.includes('TEST SORULARI OLUŞTURMA PROMPT') || 
-                               prompt.includes('**📋 TEMEL GÖREV:**') ||
-                               prompt.includes('{{TOPICS}}') ||
-                               metadata.subTopics;
-      
+      const isQuizGeneration =
+        prompt.includes('TEST SORULARI OLUŞTURMA PROMPT') ||
+        prompt.includes('**📋 TEMEL GÖREV:**') ||
+        prompt.includes('{{TOPICS}}') ||
+        metadata.subTopics;
+
       console.log(`🎮 Is Quiz Generation: ${isQuizGeneration}`);
-      
+
       console.log(`\n🔧 Preparing enhanced options...`);
       const optionsStartTime = performance.now();
-      
+
       const enhancedOptions = {
         ...options,
-        systemInstruction: isQuizGeneration 
-          ? (options?.systemInstruction || '') // Quiz generation için mevcut instruction'ı koru
-          : (options?.systemInstruction ||
-          `Sen eğitim içeriği hazırlayan profesyonel bir eğitmensin. 
+        systemInstruction: isQuizGeneration
+          ? options?.systemInstruction || '' // Quiz generation için mevcut instruction'ı koru
+          : options?.systemInstruction ||
+            `Sen eğitim içeriği hazırlayan profesyonel bir eğitmensin. 
           Verilen konulara özel, doğru, kapsamlı ve eğitici sorular hazırla.
           
           Talimatlar:
@@ -174,12 +175,16 @@ export class AIProviderService {
                 "explanation": "Neden bu cevabın doğru olduğunun açıklaması"
               }
             ]
-          }`),
+          }`,
       };
-      
+
       const optionsDuration = performance.now() - optionsStartTime;
-      console.log(`✅ Enhanced options prepared in ${optionsDuration.toFixed(2)}ms`);
-      console.log(`📏 System Instruction Length: ${enhancedOptions.systemInstruction?.length || 0} characters`);
+      console.log(
+        `✅ Enhanced options prepared in ${optionsDuration.toFixed(2)}ms`,
+      );
+      console.log(
+        `📏 System Instruction Length: ${enhancedOptions.systemInstruction?.length || 0} characters`,
+      );
 
       this.logger.log(
         `[${traceId}] AI içerik üretme başlatılıyor (${prompt.length} karakter)`,
@@ -197,7 +202,9 @@ export class AIProviderService {
       // İstek başlangıç zamanını kaydet
       const requestStartTime = Date.now();
       console.log(`\n🚀 Calling active AI provider...`);
-      console.log(`⏰ Request Start Time: ${new Date(requestStartTime).toISOString()}`);
+      console.log(
+        `⏰ Request Start Time: ${new Date(requestStartTime).toISOString()}`,
+      );
 
       // Aktif AI sağlayıcısı ile içerik üret
       const response = await this.activeProvider.generateContent(
@@ -208,16 +215,22 @@ export class AIProviderService {
       // Tamamlanma süresini hesapla
       const requestDuration = Date.now() - requestStartTime;
       const totalDuration = performance.now() - startTime;
-      
+
       console.log(`\n✅ AI Provider response received!`);
       console.log(`⏱️ Request Duration: ${requestDuration}ms`);
       console.log(`⏱️ Total Duration: ${totalDuration.toFixed(2)}ms`);
-      console.log(`📄 Response Text Length: ${response.text?.length || 0} characters`);
+      console.log(
+        `📄 Response Text Length: ${response.text?.length || 0} characters`,
+      );
       console.log(`📊 Usage Statistics:`);
       console.log(`  - Prompt Tokens: ${response.usage?.promptTokens || 0}`);
-      console.log(`  - Completion Tokens: ${response.usage?.completionTokens || 0}`);
+      console.log(
+        `  - Completion Tokens: ${response.usage?.completionTokens || 0}`,
+      );
       console.log(`  - Total Tokens: ${response.usage?.totalTokens || 0}`);
-      console.log(`📝 Response Preview: "${response.text?.substring(0, 200)}..."`);
+      console.log(
+        `📝 Response Preview: "${response.text?.substring(0, 200)}..."`,
+      );
 
       this.logger.log(
         `[${traceId}] AI içerik üretme tamamlandı (${requestDuration}ms, yanıt: ${response.text?.length || 0} karakter)`,
@@ -239,22 +252,31 @@ export class AIProviderService {
       // Yanıt içeriğini kontrol et - JSON sonucu bekleniyorsa ve yanıtta JSON yok ise hata fırlat
       console.log(`\n🔍 Analyzing response content...`);
       const analysisStartTime = performance.now();
-      
+
       const expectingJson =
         prompt.toLowerCase().includes('json') ||
         (enhancedOptions.systemInstruction &&
           enhancedOptions.systemInstruction.toLowerCase().includes('json'));
-          
-      const hasJsonStructure = response.text && response.text.includes('{') && response.text.includes('}');
-      
+
+      const hasJsonStructure =
+        response.text &&
+        response.text.includes('{') &&
+        response.text.includes('}');
+
       console.log(`📋 Content Analysis:`);
       console.log(`  - Expecting JSON: ${expectingJson}`);
       console.log(`  - Has JSON Structure: ${hasJsonStructure}`);
-      console.log(`  - Contains Opening Brace: ${response.text?.includes('{') || false}`);
-      console.log(`  - Contains Closing Brace: ${response.text?.includes('}') || false}`);
+      console.log(
+        `  - Contains Opening Brace: ${response.text?.includes('{') || false}`,
+      );
+      console.log(
+        `  - Contains Closing Brace: ${response.text?.includes('}') || false}`,
+      );
 
       if (expectingJson && response.text && !hasJsonStructure) {
-        console.log(`⚠️ Warning: Expected JSON but no JSON structure found in response`);
+        console.log(
+          `⚠️ Warning: Expected JSON but no JSON structure found in response`,
+        );
         this.logger.warn(
           `[${traceId}] AI yanıtında JSON bekleniyordu, ancak JSON yapısı bulunamadı`,
           'AIProviderService.generateContent',
@@ -265,30 +287,40 @@ export class AIProviderService {
       } else if (expectingJson && hasJsonStructure) {
         console.log(`✅ JSON structure detected as expected`);
       }
-      
+
       const analysisDuration = performance.now() - analysisStartTime;
-      console.log(`⏱️ Content Analysis Duration: ${analysisDuration.toFixed(2)}ms`);
+      console.log(
+        `⏱️ Content Analysis Duration: ${analysisDuration.toFixed(2)}ms`,
+      );
 
       console.log(`\n📈 Final Results:`);
       console.log(`✅ Content generation completed successfully`);
       console.log(`📊 Performance Metrics:`);
       console.log(`  - Total Duration: ${totalDuration.toFixed(2)}ms`);
       console.log(`  - Request Duration: ${requestDuration}ms`);
-      console.log(`  - Response Length: ${response.text?.length || 0} characters`);
-      console.log(`  - Token Usage: ${response.usage?.totalTokens || 0} tokens`);
+      console.log(
+        `  - Response Length: ${response.text?.length || 0} characters`,
+      );
+      console.log(
+        `  - Token Usage: ${response.usage?.totalTokens || 0} tokens`,
+      );
       console.groupEnd();
 
       return response;
     } catch (error) {
       const totalDuration = performance.now() - startTime;
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
-      console.error(`❌ AI Content Generation Error after ${totalDuration.toFixed(2)}ms:`, errorMessage);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+
+      console.error(
+        `❌ AI Content Generation Error after ${totalDuration.toFixed(2)}ms:`,
+        errorMessage,
+      );
       console.error(`📊 Error Details:`, error);
       console.error(`🎯 Provider: ${this.config.provider}`);
       console.error(`🧠 Model: ${this.config.model}`);
       console.groupEnd();
-      
+
       // Hata durumunda detaylı loglama
       this.logger.error(
         `AI içerik üretme hatası: ${error.message}`,

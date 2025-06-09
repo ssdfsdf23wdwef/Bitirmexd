@@ -1,7 +1,7 @@
 // frontend/src/constants/api.constants.ts
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-export const ENDPOINTS = {
+const ENDPOINTS = {
   AUTH: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
@@ -13,7 +13,7 @@ export const ENDPOINTS = {
 };
 
 
-export const DEFAULT_TIMEOUT = 10000; // 10 saniye 
+const DEFAULT_TIMEOUT = 10000; // 10 saniye 
 const API_ENDPOINTS = {
   QUIZZES: "/quizzes",
   FAILED_QUESTIONS: "/failed-questions",

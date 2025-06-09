@@ -6,7 +6,7 @@ export * from './request-with-user.interface';
  * Kullanıcı (User) modelini temsil eden interface
  * @see PRD 7.1
  */
-export interface User {
+interface User {
   id: string;
   uid: string;
   email: string;
@@ -19,7 +19,7 @@ export interface User {
 /**
  * Ders (Course) modelini temsil eden interface (PRD 7.2)
  */
-export interface Course {
+interface Course {
   id: string;
   userId: string;
   name: string;
@@ -69,7 +69,7 @@ export interface Quiz {
   timestamp: Date;
 }
 
-export interface QuizPreferences {
+interface QuizPreferences {
   questionCount: number;
   difficulty: string;
   timeLimit?: number | null;
@@ -80,7 +80,7 @@ export interface QuizPreferences {
  * Soru (Question) modelini temsil eden interface
  * @see PRD 7.5
  */
-export interface Question {
+interface Question {
   id: string;
   questionText: string;
   options: string[];
@@ -126,7 +126,7 @@ export interface AnalysisResult {
  * Başarısız Soru (FailedQuestion) modelini temsil eden interface
  * @see PRD 7.7
  */
-export interface FailedQuestion {
+interface FailedQuestion {
   id: string;
   userId: string;
   quizId: string;

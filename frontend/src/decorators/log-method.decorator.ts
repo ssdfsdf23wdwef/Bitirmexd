@@ -217,7 +217,7 @@ export function LogClass(context: string, category: FlowCategory = FlowCategory.
  * @param hookFn Asıl hook fonksiyonu
  * @returns İzlenen hook
  */
-export function trackHook<T extends (...args: unknown[]) => unknown>(
+function trackHook<T extends (...args: unknown[]) => unknown>(
   hookName: string,
   context: string,
   hookFn: T

@@ -8,7 +8,7 @@ export default () => ({
     port: parseInt(process.env.DATABASE_PORT ?? '5432', 10),
   },
   jwt: {
-    secret: process.env.JWT_SECRET ?? 'default-jwt-secret-for-dev', 
+    secret: process.env.JWT_SECRET ?? 'default-jwt-secret-for-dev',
     expiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
   },
   firebase: {

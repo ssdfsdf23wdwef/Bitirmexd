@@ -3,7 +3,7 @@ import { LoggerService } from '../services/logger.service';
 /**
  * Kullanıcı rolleri için sabitler
  */
-export enum Role {
+enum Role {
   ADMIN = 'admin',
   TEACHER = 'teacher',
   STUDENT = 'student',
@@ -16,7 +16,7 @@ export enum Role {
  * Rol listesini döndürür
  * @returns Tüm rollerin listesi
  */
-export function getAllRoles(): string[] {
+function getAllRoles(): string[] {
   try {
     const logger = LoggerService.getInstance();
     logger.debug(
@@ -37,7 +37,7 @@ export function getAllRoles(): string[] {
 /**
  * Roller için yetki seviyelerini tanımlar
  */
-export const ROLE_PERMISSIONS = {
+const ROLE_PERMISSIONS = {
   [Role.USER]: 1,
   [Role.INSTRUCTOR]: 2,
   [Role.ADMIN]: 10,

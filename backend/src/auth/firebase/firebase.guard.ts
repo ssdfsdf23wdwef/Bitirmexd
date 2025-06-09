@@ -56,7 +56,7 @@ export class FirebaseGuard implements CanActivate {
       context.getClass(),
     ]);
 
-        const isAnonymousAllowed = this.reflector.getAllAndOverride<boolean>(
+    const isAnonymousAllowed = this.reflector.getAllAndOverride<boolean>(
       'anonymousAllowed',
       [context.getHandler(), context.getClass()],
     );
@@ -91,12 +91,14 @@ export class FirebaseGuard implements CanActivate {
         'FirebaseGuard.canActivate',
         __filename,
       );
-      throw new UnauthorizedException('Invalid token format (must be Bearer token)');
+      throw new UnauthorizedException(
+        'Invalid token format (must be Bearer token)',
+      );
     }
     const token = tokenParts[1];
 
-
-    if (!token) { // Should be caught by the split check, but good to have
+    if (!token) {
+      // Should be caught by the split check, but good to have
       this.logger.warn(
         'Token bulunamadı (Authorization başlığından sonra)',
         'FirebaseGuard.canActivate',
@@ -113,19 +115,47 @@ export class FirebaseGuard implements CanActivate {
 
     // Attempt to verify as Firebase ID Token
     try {
-      this.logger.debug('Attempting to verify as Firebase ID Token', 'FirebaseGuard.canActivate', __filename);
+      this.logger.debug(
+        'Attempting to verify as Firebase ID Token',
+        'FirebaseGuard.canActivate',
+        __filename,
+      );
       decodedToken = await this.firebaseService.auth.verifyIdToken(token, true); // true for checkRevoked
       isFirebaseToken = true;
-      this.logger.debug('Successfully verified as Firebase ID Token', 'FirebaseGuard.canActivate', __filename, undefined, undefined, { uid: decodedToken.uid });
+      this.logger.debug(
+        'Successfully verified as Firebase ID Token',
+        'FirebaseGuard.canActivate',
+        __filename,
+        undefined,
+        undefined,
+        { uid: decodedToken.uid },
+      );
     } catch (firebaseError) {
-      this.logger.warn(`Firebase ID Token verification failed: ${firebaseError.message}`, 'FirebaseGuard.canActivate', __filename);
+      this.logger.warn(
+        `Firebase ID Token verification failed: ${firebaseError.message}`,
+        'FirebaseGuard.canActivate',
+        __filename,
+      );
       // If Firebase verification fails, try to verify as custom JWT
       try {
-        this.logger.debug('Attempting to verify as Custom JWT', 'FirebaseGuard.canActivate', __filename);
-        const jwtSecret = this.configService.get<string>('JWT_SECRET') || process.env.JWT_SECRET || 'bitirme_projesi_gizli_anahtar';
+        this.logger.debug(
+          'Attempting to verify as Custom JWT',
+          'FirebaseGuard.canActivate',
+          __filename,
+        );
+        const jwtSecret =
+          this.configService.get<string>('JWT_SECRET') ||
+          process.env.JWT_SECRET ||
+          'bitirme_projesi_gizli_anahtar';
         if (!jwtSecret) {
-            this.logger.error('JWT_SECRET is not defined. Cannot validate custom JWT.', 'FirebaseGuard.canActivate', __filename);
-            throw new UnauthorizedException('Internal server configuration error for JWT validation.');
+          this.logger.error(
+            'JWT_SECRET is not defined. Cannot validate custom JWT.',
+            'FirebaseGuard.canActivate',
+            __filename,
+          );
+          throw new UnauthorizedException(
+            'Internal server configuration error for JWT validation.',
+          );
         }
         decodedToken = jwt.verify(token, jwtSecret) as any;
         isCustomJwt = true;
@@ -133,23 +163,49 @@ export class FirebaseGuard implements CanActivate {
         if (decodedToken.sub && !decodedToken.uid) {
           decodedToken.uid = decodedToken.sub;
         }
-        this.logger.debug('Successfully verified as Custom JWT', 'FirebaseGuard.canActivate', __filename, undefined, undefined, { uid: decodedToken.uid });
+        this.logger.debug(
+          'Successfully verified as Custom JWT',
+          'FirebaseGuard.canActivate',
+          __filename,
+          undefined,
+          undefined,
+          { uid: decodedToken.uid },
+        );
       } catch (jwtError) {
-        this.logger.error(`Custom JWT verification failed: ${jwtError.message}`, 'FirebaseGuard.canActivate', __filename);
-        throw new UnauthorizedException('Invalid token: Verification failed for both Firebase and Custom JWT');
+        this.logger.error(
+          `Custom JWT verification failed: ${jwtError.message}`,
+          'FirebaseGuard.canActivate',
+          __filename,
+        );
+        throw new UnauthorizedException(
+          'Invalid token: Verification failed for both Firebase and Custom JWT',
+        );
       }
     }
 
     if (!decodedToken || !decodedToken.uid) {
-      this.logger.error('Token decoded but UID is missing.', 'FirebaseGuard.canActivate', __filename, undefined, undefined, { decodedTokenString: JSON.stringify(decodedToken) });
-      throw new UnauthorizedException('Invalid token: UID missing after decoding');
+      this.logger.error(
+        'Token decoded but UID is missing.',
+        'FirebaseGuard.canActivate',
+        __filename,
+        undefined,
+        undefined,
+        { decodedTokenString: JSON.stringify(decodedToken) },
+      );
+      throw new UnauthorizedException(
+        'Invalid token: UID missing after decoding',
+      );
     }
-    
+
     const uid = decodedToken.uid;
 
     const now = Math.floor(Date.now() / 1000);
     if (decodedToken.exp && decodedToken.exp < now) {
-      this.logger.warn(`Token expired: User ${uid}, exp: ${decodedToken.exp}, now: ${now}`, 'FirebaseGuard.canActivate', __filename);
+      this.logger.warn(
+        `Token expired: User ${uid}, exp: ${decodedToken.exp}, now: ${now}`,
+        'FirebaseGuard.canActivate',
+        __filename,
+      );
       throw new UnauthorizedException('Authentication token has expired');
     }
 
@@ -162,7 +218,8 @@ export class FirebaseGuard implements CanActivate {
           email: firebaseUser.email || '',
           displayName: firebaseUser.displayName || '',
           firstName: firebaseUser.displayName?.split(' ')[0] || '',
-          lastName: firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
+          lastName:
+            firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
           profileImageUrl: firebaseUser.photoURL || null,
           role: decodedToken.role || 'USER', // Role from Firebase token claims
           createdAt: firebaseUser.metadata.creationTime,
@@ -171,33 +228,46 @@ export class FirebaseGuard implements CanActivate {
           firebaseDecodedToken: decodedToken, // Keep original decoded Firebase token if needed
         };
       } catch (userError) {
-        this.logger.error(`Firebase user info retrieval failed for UID ${uid}: ${userError.message}`, 'FirebaseGuard.canActivate', __filename);
+        this.logger.error(
+          `Firebase user info retrieval failed for UID ${uid}: ${userError.message}`,
+          'FirebaseGuard.canActivate',
+          __filename,
+        );
         // Special handling for refresh-token path might still be needed if a Firebase user record is mandatory even for custom JWTs
         if (path.includes('refresh-token')) {
-             this.logger.warn(`Refresh token isteği için eksik Firebase kullanıcı bilgisi: ${uid}`, 'FirebaseGuard.canActivate', __filename);
-             // For refresh token, we might allow proceeding if the custom JWT is valid,
-             // as the refresh logic itself will validate the refresh token from cookie.
-             // However, if the access token (custom JWT) is invalid, it should fail earlier.
-             // This part depends on whether refresh-token endpoint *also* requires a valid access token.
-             // Assuming for now that if the access token (custom JWT) is valid, we can proceed for refresh.
+          this.logger.warn(
+            `Refresh token isteği için eksik Firebase kullanıcı bilgisi: ${uid}`,
+            'FirebaseGuard.canActivate',
+            __filename,
+          );
+          // For refresh token, we might allow proceeding if the custom JWT is valid,
+          // as the refresh logic itself will validate the refresh token from cookie.
+          // However, if the access token (custom JWT) is invalid, it should fail earlier.
+          // This part depends on whether refresh-token endpoint *also* requires a valid access token.
+          // Assuming for now that if the access token (custom JWT) is valid, we can proceed for refresh.
         } else {
-            throw new UnauthorizedException('Firebase user not found after token verification');
+          throw new UnauthorizedException(
+            'Firebase user not found after token verification',
+          );
         }
         // If we reached here for refresh-token path with a valid custom JWT but no Firebase user,
         // we might need to populate userPrincipal from the custom JWT claims directly.
-        if (isCustomJwt && !userPrincipal.uid) { // If firebaseUser fetch failed but custom JWT was fine
-             userPrincipal = {
-                id: decodedToken.sub || decodedToken.uid,
-                uid: decodedToken.uid || decodedToken.sub,
-                email: decodedToken.email || '',
-                role: decodedToken.role || 'USER',
-                isFirebaseToken: false,
-                customJwtPayload: decodedToken,
-            };
-        } else if (!userPrincipal.uid) { // If still no user principal
-             throw new UnauthorizedException('User context could not be established.');
+        if (isCustomJwt && !userPrincipal.uid) {
+          // If firebaseUser fetch failed but custom JWT was fine
+          userPrincipal = {
+            id: decodedToken.sub || decodedToken.uid,
+            uid: decodedToken.uid || decodedToken.sub,
+            email: decodedToken.email || '',
+            role: decodedToken.role || 'USER',
+            isFirebaseToken: false,
+            customJwtPayload: decodedToken,
+          };
+        } else if (!userPrincipal.uid) {
+          // If still no user principal
+          throw new UnauthorizedException(
+            'User context could not be established.',
+          );
         }
-
       }
     } else if (isCustomJwt) {
       // For custom JWT, claims are already in decodedToken
@@ -206,8 +276,12 @@ export class FirebaseGuard implements CanActivate {
         uid: decodedToken.uid || decodedToken.sub,
         email: decodedToken.email || '',
         displayName: decodedToken.name || '', // Assuming 'name' might be in custom JWT
-        firstName: decodedToken.firstName || decodedToken.name?.split(' ')[0] || '',
-        lastName: decodedToken.lastName || decodedToken.name?.split(' ').slice(1).join(' ') || '',
+        firstName:
+          decodedToken.firstName || decodedToken.name?.split(' ')[0] || '',
+        lastName:
+          decodedToken.lastName ||
+          decodedToken.name?.split(' ').slice(1).join(' ') ||
+          '',
         profileImageUrl: decodedToken.picture || null, // Assuming 'picture' might be in custom JWT
         role: decodedToken.role || 'USER',
         isFirebaseToken: false,
@@ -219,8 +293,12 @@ export class FirebaseGuard implements CanActivate {
     }
 
     if (!userPrincipal.uid) {
-       this.logger.error('User principal could not be established from token after all checks.', 'FirebaseGuard.canActivate', __filename);
-       throw new UnauthorizedException('User identification failed');
+      this.logger.error(
+        'User principal could not be established from token after all checks.',
+        'FirebaseGuard.canActivate',
+        __filename,
+      );
+      throw new UnauthorizedException('User identification failed');
     }
 
     request.user = userPrincipal;
@@ -229,7 +307,7 @@ export class FirebaseGuard implements CanActivate {
       'FirebaseGuard.canActivate',
       __filename,
     );
-    
+
     // Role-based access control (if you use @Roles decorator)
     // const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
     //   context.getHandler(),

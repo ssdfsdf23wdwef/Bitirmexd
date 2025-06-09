@@ -159,8 +159,8 @@ export const colors = {
   transparent: 'transparent',
 } as const;
 
-export type ColorName = keyof typeof colors;
-export type ColorShade = keyof typeof colors.primary;
-export type SurfaceColor = keyof typeof colors.surface;
-export type TextColor = keyof typeof colors.text;
-export type BorderColor = keyof typeof colors.border;
+type ColorName = keyof typeof colors;
+type ColorShade = keyof typeof colors.primary;
+type SurfaceColor = keyof typeof colors.surface;
+type TextColor = keyof typeof colors.text;
+type BorderColor = keyof typeof colors.border;

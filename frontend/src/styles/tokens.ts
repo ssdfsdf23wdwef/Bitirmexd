@@ -52,7 +52,7 @@ export const borderRadius = {
 } as const;
 
 // Z-index scale
-export const zIndex = {
+const zIndex = {
   hide: -1,
   auto: 'auto',
   base: 0,
@@ -80,7 +80,7 @@ export const breakpoints = {
 } as const;
 
 // Component sizes optimized for touch and accessibility
-export const sizes = {
+const sizes = {
   // Button sizes - Touch-friendly with proper tap targets
   button: {
     xs: {
@@ -213,14 +213,14 @@ export const easing = {
   'ease-snappy': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
 } as const;
 
-export type Spacing = keyof typeof spacing;
-export type BorderRadius = keyof typeof borderRadius;
-export type ZIndex = keyof typeof zIndex;
-export type Breakpoint = keyof typeof breakpoints;
-export type Duration = keyof typeof duration;
-export type Easing = keyof typeof easing;
-export type ButtonSize = keyof typeof sizes.button;
-export type InputSize = keyof typeof sizes.input;
-export type AvatarSize = keyof typeof sizes.avatar;
-export type IconSize = keyof typeof sizes.icon;
-export type ContainerSize = keyof typeof sizes.container;
+type Spacing = keyof typeof spacing;
+type BorderRadius = keyof typeof borderRadius;
+type ZIndex = keyof typeof zIndex;
+type Breakpoint = keyof typeof breakpoints;
+type Duration = keyof typeof duration;
+type Easing = keyof typeof easing;
+type ButtonSize = keyof typeof sizes.button;
+type InputSize = keyof typeof sizes.input;
+type AvatarSize = keyof typeof sizes.avatar;
+type IconSize = keyof typeof sizes.icon;
+type ContainerSize = keyof typeof sizes.container;

@@ -39,12 +39,12 @@ export class NormalizationService {
         'NormalizationService.normalizeSubTopicName',
         __filename,
       );
-      
+
       // String olmayan değeri güvenli şekilde stringe dönüştür
       if (name === null || name === undefined) {
         return 'bilinmeyen_konu';
       }
-      
+
       try {
         return String(name)
           .toLowerCase()
@@ -195,10 +195,20 @@ export class NormalizationService {
     return {
       ...data,
       // Only add these properties if they're relevant to the DTO
-      ...((data as any).failCount !== undefined ? { failCount: (data as any).failCount || 0 } : {}),
-      ...((data as any).mediumCount !== undefined ? { mediumCount: (data as any).mediumCount || 0 } : {}),
-      ...((data as any).successCount !== undefined ? { successCount: (data as any).successCount || 0 } : {}),
-      ...((data as any).lastAttemptScorePercent !== undefined ? { lastAttemptScorePercent: (data as any).lastAttemptScorePercent || 0 } : {}),
+      ...((data as any).failCount !== undefined
+        ? { failCount: (data as any).failCount || 0 }
+        : {}),
+      ...((data as any).mediumCount !== undefined
+        ? { mediumCount: (data as any).mediumCount || 0 }
+        : {}),
+      ...((data as any).successCount !== undefined
+        ? { successCount: (data as any).successCount || 0 }
+        : {}),
+      ...((data as any).lastAttemptScorePercent !== undefined
+        ? {
+            lastAttemptScorePercent: (data as any).lastAttemptScorePercent || 0,
+          }
+        : {}),
     };
   }
 

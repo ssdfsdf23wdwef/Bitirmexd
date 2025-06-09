@@ -37,7 +37,7 @@ interface GoogleAuthResponse extends AuthResponse {
 }
 
 // Oturum durumu tipi
-export interface AuthState {
+interface AuthState {
   isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
@@ -1233,4 +1233,4 @@ class AuthService {
 // Singleton instance oluştur ve export et
 const authService = new AuthService();
 export default authService;
-export { authService as AuthService };
+;

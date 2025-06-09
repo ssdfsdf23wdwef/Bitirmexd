@@ -12,7 +12,7 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-export enum DifficultyLevel {
+enum DifficultyLevel {
   EASY = 'easy',
   MEDIUM = 'medium',
   HARD = 'hard',

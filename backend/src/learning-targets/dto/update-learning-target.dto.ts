@@ -8,7 +8,8 @@ export class UpdateLearningTargetDto {
     required: false,
   })
   @IsIn(['pending', 'failed', 'medium', 'mastered'], {
-    message: 'Geçersiz durum değeri. Kabul edilen değerler: pending, failed, medium, mastered',
+    message:
+      'Geçersiz durum değeri. Kabul edilen değerler: pending, failed, medium, mastered',
   })
   @IsOptional()
   status?: 'pending' | 'failed' | 'medium' | 'mastered';

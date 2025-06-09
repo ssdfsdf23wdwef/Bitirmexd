@@ -25,7 +25,7 @@ export enum LogFileCategory {
 }
 
 // Context'e göre dosya kategorisi belirleme mapping'i
-export const CONTEXT_TO_FILE_CATEGORY: Record<string, LogFileCategory> = {
+const CONTEXT_TO_FILE_CATEGORY: Record<string, LogFileCategory> = {
   // Öğrenme hedefleri
   'LearningTargets': LogFileCategory.LEARNING_TARGETS,
   'LearningTargetService': LogFileCategory.LEARNING_TARGETS,
@@ -72,7 +72,7 @@ export const CONTEXT_TO_FILE_CATEGORY: Record<string, LogFileCategory> = {
 };
 
 // Flow kategori ile dosya kategorisi mapping'i
-export const FLOW_TO_FILE_CATEGORY: Record<FlowCategory, LogFileCategory> = {
+const FLOW_TO_FILE_CATEGORY: Record<FlowCategory, LogFileCategory> = {
   [FlowCategory.Navigation]: LogFileCategory.NAVIGATION,
   [FlowCategory.Auth]: LogFileCategory.AUTH,
   [FlowCategory.API]: LogFileCategory.DATA_TRANSFER,
@@ -85,7 +85,7 @@ export const FLOW_TO_FILE_CATEGORY: Record<FlowCategory, LogFileCategory> = {
   [FlowCategory.Custom]: LogFileCategory.GENERAL
 };
 
-export const LOG_LEVEL = process.env.NEXT_PUBLIC_LOG_LEVEL || (process.env.NODE_ENV === 'development' ? 'debug' : 'info');
+const LOG_LEVEL = process.env.NEXT_PUBLIC_LOG_LEVEL || (process.env.NODE_ENV === 'development' ? 'debug' : 'info');
 
 /**
  * Context ve flow kategorisine göre hangi dosyaya yazılacağını belirler

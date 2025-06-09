@@ -18,18 +18,17 @@ export class TopicDetectionService {
   private readonly logger: LoggerService;
   private readonly flowTracker: FlowTrackerService;
   private readonly MAX_RETRIES = 3;
-  
-  
+
   // Sonuç format şeması
   private readonly NEW_TOPICS_RESULT_SCHEMA = {
     type: 'object',
     properties: {
       newly_identified_topics: {
         type: 'array',
-        items: { type: 'string' }
-      }
+        items: { type: 'string' },
+      },
     },
-    required: ['newly_identified_topics']
+    required: ['newly_identified_topics'],
   };
 
   // Varsayılan Türkçe konu tespiti prompt'u
@@ -133,7 +132,6 @@ Sadece JSON döndür, başka açıklama yapma.
           'TopicDetectionService.detectTopics',
           __filename,
         );
-        
       }
 
       // Truncate document text if too long
@@ -346,13 +344,17 @@ Sadece JSON döndür, başka açıklama yapma.
     const processingStartTime = Date.now();
     const operationId = `detect-exclusive-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-    console.group(`🔍 AI Service: Detect Exclusive New Topics [${operationId}]`);
+    console.group(
+      `🔍 AI Service: Detect Exclusive New Topics [${operationId}]`,
+    );
     console.log(`🕐 AI Service Start Time: ${new Date().toISOString()}`);
     console.log(`🏷️ Operation ID: ${operationId}`);
     console.log(`🆔 Trace ID: ${traceId}`);
-    console.log(`📄 Lesson Context Length: ${lessonContext?.length || 0} characters`);
+    console.log(
+      `📄 Lesson Context Length: ${lessonContext?.length || 0} characters`,
+    );
     console.log(`📋 Existing Topics Count: ${existingTopicNames.length}`);
-    
+
     if (existingTopicNames.length > 0) {
       console.log(`📝 Existing Topics List:`);
       existingTopicNames.forEach((topic, index) => {
@@ -372,16 +374,20 @@ Sadece JSON döndür, başka açıklama yapma.
       // Load the exclusive new topics detection prompt
       console.log(`\n🔧 Loading exclusive new topics detection prompt...`);
       const promptLoadStartTime = performance.now();
-      
+
       let promptTemplate: string;
       try {
-        promptTemplate = await this.promptManagerService.loadPrompt('detect_new_topics_exclusive_tr.txt');
+        promptTemplate = await this.promptManagerService.loadPrompt(
+          'detect_new_topics_exclusive_tr.txt',
+        );
         const promptLoadDuration = performance.now() - promptLoadStartTime;
-        
+
         console.log(`✅ Prompt loaded successfully`);
         console.log(`📏 Prompt Length: ${promptTemplate.length} characters`);
-        console.log(`⏱️ Prompt Load Duration: ${promptLoadDuration.toFixed(2)}ms`);
-        
+        console.log(
+          `⏱️ Prompt Load Duration: ${promptLoadDuration.toFixed(2)}ms`,
+        );
+
         this.logger.debug(
           `[${traceId}] Özel yeni konu prompt'u başarıyla yüklendi (${promptTemplate.length} karakter)`,
           'TopicDetectionService.detectExclusiveNewTopics',
@@ -389,11 +395,15 @@ Sadece JSON döndür, başka açıklama yapma.
         );
       } catch (error) {
         const promptLoadDuration = performance.now() - promptLoadStartTime;
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        
-        console.error(`❌ Failed to load prompt after ${promptLoadDuration.toFixed(2)}ms:`, errorMessage);
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+
+        console.error(
+          `❌ Failed to load prompt after ${promptLoadDuration.toFixed(2)}ms:`,
+          errorMessage,
+        );
         console.groupEnd();
-        
+
         this.logger.error(
           `[${traceId}] Özel yeni konu prompt dosyası yüklenemedi: ${error.message}`,
           'TopicDetectionService.detectExclusiveNewTopics',
@@ -406,29 +416,37 @@ Sadece JSON döndür, başka açıklama yapma.
 
       // Prepare variables for prompt compilation
       console.log(`\n🔄 Preparing prompt variables...`);
-      const existingTopicsString = existingTopicNames.length > 0 
-        ? existingTopicNames.join(', ') 
-        : 'Yok';
+      const existingTopicsString =
+        existingTopicNames.length > 0 ? existingTopicNames.join(', ') : 'Yok';
 
       const variables = {
         lessonContext: lessonContext || 'Belirtilmemiş',
         existingTopics: existingTopicsString,
       };
-      
+
       console.log(`📝 Variables Prepared:`);
-      console.log(`  - Lesson Context: ${variables.lessonContext.length} characters`);
+      console.log(
+        `  - Lesson Context: ${variables.lessonContext.length} characters`,
+      );
       console.log(`  - Existing Topics: "${variables.existingTopics}"`);
 
       // Compile the prompt with variables
       console.log(`\n🔧 Compiling prompt with variables...`);
       const promptCompileStartTime = performance.now();
-      
-      const compiledPrompt = this.promptManagerService.compilePrompt(promptTemplate, variables);
+
+      const compiledPrompt = this.promptManagerService.compilePrompt(
+        promptTemplate,
+        variables,
+      );
       const promptCompileDuration = performance.now() - promptCompileStartTime;
-      
+
       console.log(`✅ Prompt compiled successfully`);
-      console.log(`📏 Compiled Prompt Length: ${compiledPrompt.length} characters`);
-      console.log(`⏱️ Prompt Compile Duration: ${promptCompileDuration.toFixed(2)}ms`);
+      console.log(
+        `📏 Compiled Prompt Length: ${compiledPrompt.length} characters`,
+      );
+      console.log(
+        `⏱️ Prompt Compile Duration: ${promptCompileDuration.toFixed(2)}ms`,
+      );
 
       this.logger.debug(
         `[${traceId}] Prompt başarıyla derlendi (${compiledPrompt.length} karakter)`,
@@ -445,38 +463,53 @@ Sadece JSON döndür, başka açıklama yapma.
       // Call AI service with retry mechanism
       console.log(`\n🤖 Calling AI Provider Service with retry mechanism...`);
       const aiCallStartTime = performance.now();
-      
+
       let aiResponse: string;
       try {
-        console.log(`🔄 Starting AI call with retry options:`, this.RETRY_OPTIONS);
-        
+        console.log(
+          `🔄 Starting AI call with retry options:`,
+          this.RETRY_OPTIONS,
+        );
+
         const aiCallResult = await pRetry(async () => {
           const callStartTime = performance.now();
           console.log(`🚀 AI Provider call attempt starting...`);
-          
-          const response = await this.aiProviderService.generateContent(compiledPrompt);
-          
+
+          const response =
+            await this.aiProviderService.generateContent(compiledPrompt);
+
           const callDuration = performance.now() - callStartTime;
-          console.log(`✅ AI Provider call successful in ${callDuration.toFixed(2)}ms`);
-          console.log(`📄 Response Length: ${response.text?.length || 0} characters`);
-          
+          console.log(
+            `✅ AI Provider call successful in ${callDuration.toFixed(2)}ms`,
+          );
+          console.log(
+            `📄 Response Length: ${response.text?.length || 0} characters`,
+          );
+
           return response.text;
         }, this.RETRY_OPTIONS);
 
         aiResponse = aiCallResult;
         const totalAiCallDuration = performance.now() - aiCallStartTime;
-        
+
         console.log(`✅ AI service call completed successfully`);
-        console.log(`⏱️ Total AI Call Duration: ${totalAiCallDuration.toFixed(2)}ms`);
-        console.log(`📊 AI Response Preview: "${aiResponse?.substring(0, 200)}..."`);
-        
+        console.log(
+          `⏱️ Total AI Call Duration: ${totalAiCallDuration.toFixed(2)}ms`,
+        );
+        console.log(
+          `📊 AI Response Preview: "${aiResponse?.substring(0, 200)}..."`,
+        );
       } catch (error) {
         const totalAiCallDuration = performance.now() - aiCallStartTime;
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        
-        console.error(`❌ AI service call failed after ${totalAiCallDuration.toFixed(2)}ms:`, errorMessage);
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+
+        console.error(
+          `❌ AI service call failed after ${totalAiCallDuration.toFixed(2)}ms:`,
+          errorMessage,
+        );
         console.groupEnd();
-        
+
         this.logger.error(
           `[${traceId}] AI servisi çağrısı başarısız oldu: ${error.message}`,
           'TopicDetectionService.detectExclusiveNewTopics',
@@ -490,21 +523,29 @@ Sadece JSON döndür, başka açıklama yapma.
       // Parse AI response with enhanced error handling
       console.log(`\n🔍 Parsing AI response...`);
       const parseStartTime = performance.now();
-      
+
       let parsedResponse: { newly_identified_topics?: string[] };
       try {
         console.log(`🔄 Attempting primary JSON parsing...`);
         // Try to parse the JSON response
-        parsedResponse = this.parseJsonResponse<{ newly_identified_topics?: string[] }>(aiResponse);
-        
+        parsedResponse = this.parseJsonResponse<{
+          newly_identified_topics?: string[];
+        }>(aiResponse);
+
         const parseDuration = performance.now() - parseStartTime;
-        console.log(`✅ Primary JSON parsing successful in ${parseDuration.toFixed(2)}ms`);
-        console.log(`📊 Parsed Response Structure:`, JSON.stringify(parsedResponse, null, 2));
-        
+        console.log(
+          `✅ Primary JSON parsing successful in ${parseDuration.toFixed(2)}ms`,
+        );
+        console.log(
+          `📊 Parsed Response Structure:`,
+          JSON.stringify(parsedResponse, null, 2),
+        );
       } catch (parseError) {
-        console.log(`⚠️ Primary JSON parsing failed, attempting fallback parsing...`);
+        console.log(
+          `⚠️ Primary JSON parsing failed, attempting fallback parsing...`,
+        );
         console.log(`❌ Parse Error:`, parseError.message);
-        
+
         // Enhanced error logging with more context
         this.logger.error(
           `[${traceId}] AI yanıtı JSON parse edilemedi: ${parseError.message}`,
@@ -512,12 +553,12 @@ Sadece JSON döndür, başka açıklama yapma.
           __filename,
           undefined,
           parseError,
-          { 
+          {
             aiResponse: aiResponse?.substring(0, 500),
-            parseErrorStack: parseError.stack
+            parseErrorStack: parseError.stack,
           },
         );
-        
+
         // Attempt to extract JSON manually as a fallback
         try {
           console.log(`🔧 Attempting manual JSON extraction...`);
@@ -525,70 +566,90 @@ Sadece JSON döndür, başka açıklama yapma.
           const jsonMatch = aiResponse.match(/\{[\s\S]*\}/); // Match everything between curly braces
           if (jsonMatch) {
             const jsonStr = jsonMatch[0];
-            console.log(`📝 Extracted JSON String: "${jsonStr.substring(0, 200)}..."`);
-            
+            console.log(
+              `📝 Extracted JSON String: "${jsonStr.substring(0, 200)}..."`,
+            );
+
             // Clean and repair the extracted JSON
             console.log(`🧹 Cleaning and repairing JSON...`);
             const cleanedJson = this.cleanJsonString(jsonStr);
             const balancedJson = this.balanceBrackets(cleanedJson);
             const repairedJson = this.repairJsonString(balancedJson);
-            
-            console.log(`🔧 Repaired JSON: "${repairedJson.substring(0, 200)}..."`);
-            
+
+            console.log(
+              `🔧 Repaired JSON: "${repairedJson.substring(0, 200)}..."`,
+            );
+
             this.logger.info(
               `[${traceId}] JSON parse hatasından sonra düzeltilmiş JSON ile yeniden deneniyor`,
               'TopicDetectionService.detectExclusiveNewTopics',
-              __filename
+              __filename,
             );
-            
+
             // Try parsing the repaired JSON
             parsedResponse = JSON.parse(repairedJson);
-            
+
             const parseDuration = performance.now() - parseStartTime;
-            console.log(`✅ Fallback JSON parsing successful in ${parseDuration.toFixed(2)}ms`);
-            console.log(`📊 Fallback Parsed Response:`, JSON.stringify(parsedResponse, null, 2));
-            
+            console.log(
+              `✅ Fallback JSON parsing successful in ${parseDuration.toFixed(2)}ms`,
+            );
+            console.log(
+              `📊 Fallback Parsed Response:`,
+              JSON.stringify(parsedResponse, null, 2),
+            );
           } else {
             // If no JSON structure is found, create a minimal valid structure
             console.log(`❌ No JSON structure found in AI response`);
             console.groupEnd();
-            
+
             this.logger.warn(
               `[${traceId}] AI yanıtında JSON yapısı bulunamadı, boş sonuç döndürülüyor`,
               'TopicDetectionService.detectExclusiveNewTopics',
-              __filename
+              __filename,
             );
             return [];
           }
         } catch (fallbackError) {
           const parseDuration = performance.now() - parseStartTime;
-          const fallbackErrorMessage = fallbackError instanceof Error ? fallbackError.message : 'Unknown error';
-          
-          console.error(`❌ Fallback JSON parsing also failed after ${parseDuration.toFixed(2)}ms:`, fallbackErrorMessage);
+          const fallbackErrorMessage =
+            fallbackError instanceof Error
+              ? fallbackError.message
+              : 'Unknown error';
+
+          console.error(
+            `❌ Fallback JSON parsing also failed after ${parseDuration.toFixed(2)}ms:`,
+            fallbackErrorMessage,
+          );
           console.groupEnd();
-          
+
           // If fallback parsing also fails, log and return empty array
           this.logger.error(
             `[${traceId}] Düzeltilmiş JSON ile yeniden deneme de başarısız oldu: ${fallbackError.message}`,
             'TopicDetectionService.detectExclusiveNewTopics',
             __filename,
             undefined,
-            fallbackError
+            fallbackError,
           );
-          
+
           // Throw a more descriptive HTTP exception
           throw new BadRequestException(
-            `AI yanıtı parse edilemedi: ${parseError.message}. Lütfen daha sonra tekrar deneyin.`
+            `AI yanıtı parse edilemedi: ${parseError.message}. Lütfen daha sonra tekrar deneyin.`,
           );
         }
       }
 
       // Extract newly identified topics
       console.log(`\n📊 Extracting newly identified topics...`);
-      const newlyIdentifiedTopics = parsedResponse?.newly_identified_topics || [];
-      console.log(`📋 Raw Topics from AI: ${Array.isArray(newlyIdentifiedTopics) ? newlyIdentifiedTopics.length : 'Not an array'}`);
-      
-      if (Array.isArray(newlyIdentifiedTopics) && newlyIdentifiedTopics.length > 0) {
+      const newlyIdentifiedTopics =
+        parsedResponse?.newly_identified_topics || [];
+      console.log(
+        `📋 Raw Topics from AI: ${Array.isArray(newlyIdentifiedTopics) ? newlyIdentifiedTopics.length : 'Not an array'}`,
+      );
+
+      if (
+        Array.isArray(newlyIdentifiedTopics) &&
+        newlyIdentifiedTopics.length > 0
+      ) {
         console.log(`📝 Raw Topics List:`);
         newlyIdentifiedTopics.forEach((topic, index) => {
           console.log(`  ${index + 1}. "${topic}" (type: ${typeof topic})`);
@@ -597,9 +658,11 @@ Sadece JSON döndür, başka açıklama yapma.
 
       // Validate that result is an array
       if (!Array.isArray(newlyIdentifiedTopics)) {
-        console.log(`❌ newly_identified_topics is not an array: ${typeof newlyIdentifiedTopics}`);
+        console.log(
+          `❌ newly_identified_topics is not an array: ${typeof newlyIdentifiedTopics}`,
+        );
         console.groupEnd();
-        
+
         this.logger.warn(
           `[${traceId}] AI yanıtında newly_identified_topics bir dizi değil: ${typeof newlyIdentifiedTopics}`,
           'TopicDetectionService.detectExclusiveNewTopics',
@@ -611,12 +674,14 @@ Sadece JSON döndür, başka açıklama yapma.
       // Filter out invalid entries and clean topic names
       console.log(`\n🧹 Cleaning and filtering topics...`);
       const filterStartTime = performance.now();
-      
+
       const cleanedTopics = newlyIdentifiedTopics
         .filter((topic: any) => {
           const isValid = typeof topic === 'string' && topic.trim().length > 0;
           if (!isValid) {
-            console.log(`🗑️ Filtering out invalid topic: "${topic}" (type: ${typeof topic})`);
+            console.log(
+              `🗑️ Filtering out invalid topic: "${topic}" (type: ${typeof topic})`,
+            );
           }
           return isValid;
         })
@@ -624,7 +689,9 @@ Sadece JSON döndür, başka açıklama yapma.
           const originalTopic = topic;
           const cleanedTopic = this.cleanTopicName(topic);
           if (originalTopic !== cleanedTopic) {
-            console.log(`🧹 Cleaned topic: "${originalTopic}" -> "${cleanedTopic}"`);
+            console.log(
+              `🧹 Cleaned topic: "${originalTopic}" -> "${cleanedTopic}"`,
+            );
           }
           return cleanedTopic;
         })
@@ -637,17 +704,21 @@ Sadece JSON döndür, başka açıklama yapma.
         });
 
       const filterDuration = performance.now() - filterStartTime;
-      console.log(`✅ Topic cleaning completed in ${filterDuration.toFixed(2)}ms`);
+      console.log(
+        `✅ Topic cleaning completed in ${filterDuration.toFixed(2)}ms`,
+      );
       console.log(`📊 Final Cleaned Topics Count: ${cleanedTopics.length}`);
 
       const processingDuration = Date.now() - processingStartTime;
       const totalDuration = performance.now() - processingStartTime;
-      
+
       console.log(`\n📈 Final Results:`);
       console.log(`✅ Detection completed successfully`);
       console.log(`📊 New Topics Found: ${cleanedTopics.length}`);
-      console.log(`⏱️ Total Processing Duration: ${totalDuration.toFixed(2)}ms`);
-      
+      console.log(
+        `⏱️ Total Processing Duration: ${totalDuration.toFixed(2)}ms`,
+      );
+
       this.logger.info(
         `[${traceId}] Özel yeni konu tespiti tamamlandı - ${cleanedTopics.length} yeni konu bulundu (${processingDuration}ms)`,
         'TopicDetectionService.detectExclusiveNewTopics',
@@ -660,7 +731,7 @@ Sadece JSON döndür, başka açıklama yapma.
         cleanedTopics.forEach((topic, index) => {
           console.log(`  ${index + 1}. "${topic}"`);
         });
-        
+
         console.log('\n=== YENİ TESPİT EDİLEN KONULAR ===');
         cleanedTopics.forEach((topic, index) => {
           console.log(`[${index + 1}] ${topic}`);
@@ -673,15 +744,18 @@ Sadece JSON döndür, başka açıklama yapma.
 
       console.groupEnd();
       return cleanedTopics;
-
     } catch (error) {
       const totalDuration = performance.now() - processingStartTime;
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
-      console.error(`❌ Exclusive New Topics Detection Error after ${totalDuration.toFixed(2)}ms:`, errorMessage);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+
+      console.error(
+        `❌ Exclusive New Topics Detection Error after ${totalDuration.toFixed(2)}ms:`,
+        errorMessage,
+      );
       console.error(`📊 Error Details:`, error);
       console.groupEnd();
-      
+
       this.logger.error(
         `[${traceId}] Özel yeni konu tespiti sırasında beklenmeyen hata: ${error.message}`,
         'TopicDetectionService.detectExclusiveNewTopics',
@@ -1251,9 +1325,11 @@ Sadece JSON döndür, başka açıklama yapma.
   async detectNewTopicsExclusive(
     contextText: string,
     existingTopicTexts: string[],
-  ): Promise<{ proposedTopics: { name: string; relevance?: string; details?: string }[] }> {
+  ): Promise<{
+    proposedTopics: { name: string; relevance?: string; details?: string }[];
+  }> {
     const traceId = `ai-new-topics-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    
+
     try {
       this.logger.debug(
         `[${traceId}] Yeni konu tespiti başlatılıyor (${contextText.length} karakter)`,
@@ -1290,9 +1366,9 @@ Sadece JSON döndür, başka açıklama yapma.
         'prompts',
         'detect_new_topics_exclusive_tr.txt',
       );
-      
+
       let promptContent = '';
-      
+
       try {
         promptContent = fs.readFileSync(promptFilePath, 'utf8');
       } catch (error) {
@@ -1303,7 +1379,9 @@ Sadece JSON döndür, başka açıklama yapma.
           undefined,
           error,
         );
-        throw new BadRequestException('Konu tespiti için gerekli prompt dosyası bulunamadı.');
+        throw new BadRequestException(
+          'Konu tespiti için gerekli prompt dosyası bulunamadı.',
+        );
       }
 
       // Replace placeholder variables in the prompt
@@ -1319,74 +1397,71 @@ Sadece JSON döndür, başka açıklama yapma.
       );
 
       // Call AI service with retry mechanism
-      const aiResponse = await pRetry(
-        async () => {
-          const response = await this.aiProviderService.generateContent(
-            fullPrompt,
-            {
-              metadata: { traceId },
-              temperature: 0.3 // Lower temperature for more predictable output
-            }
-          );
-          
-          const aiResponseText = response.text || '';
-          
-          // Log the raw response for debugging
-          this.logger.debug(
-            `[${traceId}] AI servisi yanıtı: ${aiResponseText.substring(0, 500)}...`,
+      const aiResponse = await pRetry(async () => {
+        const response = await this.aiProviderService.generateContent(
+          fullPrompt,
+          {
+            metadata: { traceId },
+            temperature: 0.3, // Lower temperature for more predictable output
+          },
+        );
+
+        const aiResponseText = response.text || '';
+
+        // Log the raw response for debugging
+        this.logger.debug(
+          `[${traceId}] AI servisi yanıtı: ${aiResponseText.substring(0, 500)}...`,
+          'TopicDetectionService.detectNewTopicsExclusive',
+          __filename,
+        );
+
+        // Parse JSON response with improved error handling
+        try {
+          // Try to parse the JSON response using our improved parseJsonResponse method
+          return this.parseJsonResponse<any>(aiResponseText);
+        } catch (parseError) {
+          // Enhanced error logging
+          this.logger.error(
+            `[${traceId}] AI yanıtı JSON olarak parse edilemedi: ${parseError.message}`,
             'TopicDetectionService.detectNewTopicsExclusive',
-            __filename
+            __filename,
+            undefined,
+            parseError,
+            { aiResponse: aiResponseText?.substring(0, 500) }, // Log first 500 chars of response
           );
-          
-          // Parse JSON response with improved error handling
+
+          // Try extracting JSON with regex as fallback
           try {
-            // Try to parse the JSON response using our improved parseJsonResponse method
-            return this.parseJsonResponse<any>(aiResponseText);
-          } catch (parseError) {
-            // Enhanced error logging
+            // Extract JSON from the response if it's embedded within other text
+            const jsonMatch = aiResponseText.match(/\{[\s\S]*\}/); // Match everything between curly braces
+            const jsonStr = jsonMatch ? jsonMatch[0] : aiResponseText;
+
+            // Clean and repair the JSON string before parsing
+            const cleanedJson = this.cleanJsonString(jsonStr);
+            const balancedJson = this.balanceBrackets(cleanedJson);
+            const repairedJson = this.repairJsonString(balancedJson);
+
+            this.logger.info(
+              `[${traceId}] Düzeltilmiş JSON ile parse yeniden deneniyor`,
+              'TopicDetectionService.detectNewTopicsExclusive',
+              __filename,
+            );
+
+            return JSON.parse(repairedJson);
+          } catch (fallbackError) {
             this.logger.error(
-              `[${traceId}] AI yanıtı JSON olarak parse edilemedi: ${parseError.message}`,
+              `[${traceId}] Fallback JSON ayrıştırma da başarısız oldu: ${fallbackError.message}`,
               'TopicDetectionService.detectNewTopicsExclusive',
               __filename,
               undefined,
-              parseError,
-              { aiResponse: aiResponseText?.substring(0, 500) } // Log first 500 chars of response
+              fallbackError,
             );
-            
-            // Try extracting JSON with regex as fallback
-            try {
-              // Extract JSON from the response if it's embedded within other text
-              const jsonMatch = aiResponseText.match(/\{[\s\S]*\}/); // Match everything between curly braces
-              const jsonStr = jsonMatch ? jsonMatch[0] : aiResponseText;
-              
-              // Clean and repair the JSON string before parsing
-              const cleanedJson = this.cleanJsonString(jsonStr);
-              const balancedJson = this.balanceBrackets(cleanedJson);
-              const repairedJson = this.repairJsonString(balancedJson);
-              
-              this.logger.info(
-                `[${traceId}] Düzeltilmiş JSON ile parse yeniden deneniyor`,
-                'TopicDetectionService.detectNewTopicsExclusive',
-                __filename
-              );
-              
-              return JSON.parse(repairedJson);
-            } catch (fallbackError) {
-              this.logger.error(
-                `[${traceId}] Fallback JSON ayrıştırma da başarısız oldu: ${fallbackError.message}`,
-                'TopicDetectionService.detectNewTopicsExclusive',
-                __filename,
-                undefined,
-                fallbackError
-              );
-              
-              // Return a valid but empty result structure to prevent complete failure
-              return { newly_identified_topics: [] };
-            }
+
+            // Return a valid but empty result structure to prevent complete failure
+            return { newly_identified_topics: [] };
           }
-        },
-        this.RETRY_OPTIONS,
-      );
+        }
+      }, this.RETRY_OPTIONS);
 
       this.logger.debug(
         `[${traceId}] AI yanıtı alındı: ${JSON.stringify(aiResponse)}`,
@@ -1396,24 +1471,24 @@ Sadece JSON döndür, başka açıklama yapma.
 
       // Process the response with validation
       const newTopics = aiResponse?.newly_identified_topics || [];
-      
+
       // Validate that newTopics is an array
       if (!Array.isArray(newTopics)) {
         this.logger.warn(
           `[${traceId}] AI yanıtındaki newly_identified_topics bir dizi değil: ${typeof newTopics}`,
           'TopicDetectionService.detectNewTopicsExclusive',
-          __filename
+          __filename,
         );
         return { proposedTopics: [] };
       }
-      
+
       // Format the response as required with type checking
       const proposedTopics = newTopics
-        .filter(topic => typeof topic === 'string' && topic.trim().length > 0)
-        .map(topic => ({
+        .filter((topic) => typeof topic === 'string' && topic.trim().length > 0)
+        .map((topic) => ({
           name: this.cleanTopicName(topic),
-          relevance: 'high', // Default relevance 
-          details: '' // Can be enhanced in future versions
+          relevance: 'high', // Default relevance
+          details: '', // Can be enhanced in future versions
         }));
 
       this.logger.info(

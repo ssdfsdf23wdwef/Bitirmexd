@@ -74,7 +74,7 @@ export class QuizQuestionDto {
 }
 
 // Main DTO for personalized feedback
-export class GeneratePersonalizedFeedbackDto {
+class GeneratePersonalizedFeedbackDto {
   @ApiProperty({
     description: 'The list of quiz questions presented to the user',
     type: [QuizQuestionDto], // Specify the nested type for Swagger

@@ -6,7 +6,7 @@
 /**
  * Kullanıcı rolü tanımları
  */
-export type UserRole = 'user' | 'admin' | 'teacher' | 'student';
+type UserRole = 'user' | 'admin' | 'teacher' | 'student';
 
 /**
  * Temel kullanıcı tipi 
@@ -27,7 +27,7 @@ export interface User {
 /**
  * Genişletilmiş kullanıcı tipi (profil bilgileri dahil)
  */
-export interface UserProfile extends User {
+interface UserProfile extends User {
   phoneNumber?: string;
   bio?: string;
   preferences?: UserPreferences;
@@ -38,7 +38,7 @@ export interface UserProfile extends User {
 /**
  * Kullanıcı tercihleri
  */
-export interface UserPreferences {
+interface UserPreferences {
   theme?: 'light' | 'dark' | 'system';
   notifications?: {
     email?: boolean;
@@ -50,7 +50,7 @@ export interface UserPreferences {
 /**
  * Kullanıcı istatistikleri
  */
-export interface UserStats {
+interface UserStats {
   quizzesTaken?: number;
   quizzesPassed?: number;
   averageScore?: number;
@@ -61,7 +61,7 @@ export interface UserStats {
  * Kullanıcı (User) modelini temsil eden interface
  * @see PRD 7.1
  */
-export interface UserDTO {
+interface UserDTO {
   id: string;
   email: string;
   firstName?: string;
@@ -74,7 +74,7 @@ export interface UserDTO {
 /**
  * Kullanıcı profil güncelleme modeli
  */
-export interface UpdateUserDTO {
+interface UpdateUserDTO {
   firstName?: string;
   lastName?: string;
   profileImageUrl?: string;
@@ -87,7 +87,7 @@ import { User as FirebaseUser } from "firebase/auth";
 /**
  * Kimlik doğrulama durumu
  */
-export interface AuthState {
+interface AuthState {
   user: User | null;
   firebaseUser: FirebaseUser | null; // Firebase User type
   idToken: string | null;
@@ -97,12 +97,12 @@ export interface AuthState {
 }
 
 // Tema tipi - backend'den UserTheme ile uyumlu
-export type UserTheme = "light" | "dark" | "system";
+type UserTheme = "light" | "dark" | "system";
 
 /**
  * Konu bazlı kullanıcı ilerleme durumu
  */
-export interface TopicProgress {
+interface TopicProgress {
   subTopic: string;
   normalizedSubTopic: string;
   status: "weak" | "medium" | "strong";
@@ -114,7 +114,7 @@ export interface TopicProgress {
 /**
  * Zorluk seviyesi bazlı kullanıcı ilerleme durumu
  */
-export interface DifficultyProgress {
+interface DifficultyProgress {
   difficulty: "easy" | "medium" | "hard";
   scorePercent: number;
   questionCount: number;
@@ -124,7 +124,7 @@ export interface DifficultyProgress {
 /**
  * Kullanıcı sınav ilerleme
  */
-export interface UserQuizProgress {
+interface UserQuizProgress {
   totalQuizzes: number;
   averageScore: number;
   quizzesLast30Days: number;
@@ -141,7 +141,7 @@ export interface UserQuizProgress {
 /**
  * Kullanıcı ilerleme durumu
  */
-export interface UserProgress {
+interface UserProgress {
   userId: string;
   totalStudyTime: number;
   studyTimeLast30Days: number;

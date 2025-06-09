@@ -19,7 +19,7 @@ export interface Document {
 /**
  * Belge listeleme için minimal alanlar
  */
-export interface DocumentListItem {
+interface DocumentListItem {
   id: string;
   fileName: string;
   storagePath: string;
@@ -33,7 +33,7 @@ export interface DocumentListItem {
 /**
  * Belge yükleme DTO
  */
-export interface UploadDocumentDto {
+interface UploadDocumentDto {
   fileName: string;
   fileType: string;
   fileSize: number;
@@ -43,7 +43,7 @@ export interface UploadDocumentDto {
 /**
  * Belge güncelleme DTO
  */
-export interface UpdateDocumentDto {
+interface UpdateDocumentDto {
   fileName?: string;
   courseId?: string | null;
 }
@@ -55,7 +55,7 @@ export interface UpdateDocumentDto {
  * (belge ve quiz) kullanıldığı için ayrı tutulmuştur.
  * İçe aktarma çakışmalarını önlemek için index.ts'de özel düzenleme gerekebilir.
  */
-export interface DocumentSource {
+interface DocumentSource {
   documentId: string;
   fileName: string;
   fileType: string;

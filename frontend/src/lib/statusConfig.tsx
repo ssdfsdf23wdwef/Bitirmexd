@@ -10,7 +10,7 @@ import { CheckCircle, Clock, XCircle, AlertCircle } from "lucide-react";
 import { CourseStatus, CourseStatusInfo } from "../types/status.type"; // Güncellendi
 
 // Durum bilgileri için sabit tanımlamalar
-export const STATUS_INFO: Record<CourseStatus, CourseStatusInfo> = {
+const STATUS_INFO: Record<CourseStatus, CourseStatusInfo> = {
   başarılı: {
     label: "başarılı",
     color: "text-state-success",
@@ -46,7 +46,7 @@ export const STATUS_INFO: Record<CourseStatus, CourseStatusInfo> = {
 };
 
 // Durum rengine göre ilerleme çubuğu rengi döndürür
-export const getStatusProgressColor = (
+const getStatusProgressColor = (
   status: CourseStatus,
 ): "default" | "success" | "warning" | "danger" => {
   switch (status) {
@@ -65,7 +65,7 @@ export const getStatusProgressColor = (
  * Öğrenme Hedefi durumlarına karşılık gelen stil ve görsel bilgileri
  * @see PRD 4.5.2 ve 4.7.1
  */
-export const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = { // StatusInfo -> CourseStatusInfo olarak güncellendi
+const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = { // StatusInfo -> CourseStatusInfo olarak güncellendi
   pending: {
     label: "beklemede" as CourseStatus, // Tip uyumu için eklendi
     color: "text-secondary",

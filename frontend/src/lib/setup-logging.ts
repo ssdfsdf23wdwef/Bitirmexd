@@ -1,5 +1,5 @@
 // Frontend'den localStorage'a log yazmak için fonksiyon
-export function writeLogToLocalFile(logData: {
+function writeLogToLocalFile(logData: {
   level: string;
   message: string | object;
   context?: string;

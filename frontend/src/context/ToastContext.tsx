@@ -89,4 +89,3 @@ export function useToast() {
   return context;
 }
 
-export default ToastContext;

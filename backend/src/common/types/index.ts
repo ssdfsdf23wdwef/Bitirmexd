@@ -18,11 +18,5 @@ export * from './question.type';
 // Sınav
 export * from './quiz.type';
 // Belge
-export {
-  Document,
-  DocumentListItem,
-  UploadDocumentDto,
-  UpdateDocumentDto,
-} from './document.type';
 // İstek
 export * from './request.type';

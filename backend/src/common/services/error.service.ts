@@ -6,7 +6,7 @@ import { LogMethod } from '../decorators/log-method.decorator';
 /**
  * Hata ciddiyet seviyeleri
  */
-export enum ErrorSeverity {
+enum ErrorSeverity {
   LOW = 'low', // Düşük önemli hatalar
   MEDIUM = 'medium', // Orta önemli hatalar
   HIGH = 'high', // Yüksek önemli hatalar
@@ -16,7 +16,7 @@ export enum ErrorSeverity {
 /**
  * Hata kaynakları
  */
-export enum ErrorSource {
+enum ErrorSource {
   API = 'api', // API çağrılarından kaynaklanan hatalar
   UI = 'ui', // UI bileşenlerinden kaynaklanan hatalar
   AUTH = 'auth', // Kimlik doğrulama hatalar
@@ -29,7 +29,7 @@ export enum ErrorSource {
 /**
  * Hata bilgisi
  */
-export interface ErrorInfo {
+interface ErrorInfo {
   message: string;
   source: ErrorSource;
   severity: ErrorSeverity;

@@ -253,24 +253,24 @@ export const darkTheme = {
 } as const;
 
 // Generate CSS variable mapping for themes
-export const cssVars = {
+const cssVars = {
   light: createCssVarNames('theme', lightTheme),
   dark: createCssVarNames('theme', darkTheme),
 };
 
 // Helper to get a theme by its mode
-export const getTheme = (mode: ThemeMode = 'light') => {
+const getTheme = (mode: ThemeMode = 'light') => {
   return mode === 'dark' ? darkTheme : lightTheme;
 };
 
 // Helper to get CSS variables value from theme
-export const getCssVar = (themeKey: string, mode: ThemeMode = 'light') => {
+const getCssVar = (themeKey: string, mode: ThemeMode = 'light') => {
   const vars = mode === 'dark' ? cssVars.dark : cssVars.light;
   return vars[themeKey] || '';
 };
 
 // Helper to get a value from the theme using dot notation
-export const getThemeValue = (path: string, mode: ThemeMode = 'light') => {
+const getThemeValue = (path: string, mode: ThemeMode = 'light') => {
   const theme = getTheme(mode);
   const keys = path.split('.');
   let value: unknown = theme;
@@ -288,7 +288,7 @@ export const getThemeValue = (path: string, mode: ThemeMode = 'light') => {
 };
 
 // Media query helpers for responsive design
-export const media = {
+const media = {
   up: (breakpoint: keyof typeof breakpoints) => 
     `@media (min-width: ${breakpoints[breakpoint]})`,
   down: (breakpoint: keyof typeof breakpoints) => 
@@ -298,7 +298,7 @@ export const media = {
 };
 
 // Types
-export type Theme = typeof lightTheme;
-export type ThemeColors = Theme['colors'];
-export type ThemeShadows = Theme['shadows'];
-export type ThemeResponsive = Theme['responsive'];
+type Theme = typeof lightTheme;
+type ThemeColors = Theme['colors'];
+type ThemeShadows = Theme['shadows'];
+type ThemeResponsive = Theme['responsive'];

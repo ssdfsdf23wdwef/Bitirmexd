@@ -26,7 +26,7 @@ export interface Quiz {
 /**
  * Quiz tercihleri
  */
-export interface QuizPreferences {
+interface QuizPreferences {
   questionCount: number;
   difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
   timeLimit?: number | null;
@@ -36,7 +36,7 @@ export interface QuizPreferences {
 /**
  * Doküman kaynak bilgisi (quiz için)
  */
-export interface DocumentSource {
+interface DocumentSource {
   documentId: string;
   fileName: string;
   fileType: string;
@@ -46,7 +46,7 @@ export interface DocumentSource {
 /**
  * Konu seçimi
  */
-export interface TopicSelection {
+interface TopicSelection {
   subTopic: string;
   normalizedSubTopic: string;
   count?: number;
@@ -55,7 +55,7 @@ export interface TopicSelection {
 /**
  * Sınav oluşturma DTO
  */
-export interface GenerateQuizDto {
+interface GenerateQuizDto {
   quizType: 'quick' | 'personalized';
   personalizedQuizType?:
     | 'weakTopicFocused'
@@ -71,7 +71,7 @@ export interface GenerateQuizDto {
 /**
  * Sınav gönderme DTO
  */
-export interface SubmitQuizDto {
+interface SubmitQuizDto {
   quizType: 'quick' | 'personalized' | 'review';
   personalizedQuizType?:
     | 'weakTopicFocused'
@@ -88,7 +88,7 @@ export interface SubmitQuizDto {
 /**
  * Soru DTO (submit için)
  */
-export interface QuestionDto {
+interface QuestionDto {
   id: string;
   text: string;
   options: string[];
@@ -103,7 +103,7 @@ export interface QuestionDto {
  * Sınav Analiz Sonucu
  * @see PRD 7.6
  */
-export interface AnalysisResult {
+interface AnalysisResult {
   overallScore: number;
   performanceBySubTopic: Record<
     string,
@@ -147,7 +147,7 @@ export interface QuizSummary {
 /**
  * Konu performansı
  */
-export interface TopicPerformance {
+interface TopicPerformance {
   subTopic: string;
   normalizedSubTopic: string;
   score: number;
@@ -158,7 +158,7 @@ export interface TopicPerformance {
 /**
  * Quiz sonuç özeti
  */
-export interface QuizResultSummary {
+interface QuizResultSummary {
   correctCount: number;
   totalQuestions: number;
   score: number;

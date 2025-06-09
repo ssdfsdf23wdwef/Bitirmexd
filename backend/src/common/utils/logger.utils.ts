@@ -27,7 +27,7 @@ let loggerInstance: LoggerService | null = null;
  * Logger servisini ayarlar
  * @param logger LoggerService örneği
  */
-export function setLoggerInstance(logger: LoggerService): void {
+function setLoggerInstance(logger: LoggerService): void {
   loggerInstance = logger;
 }
 
@@ -100,7 +100,7 @@ export function logFlow(
 /**
  * Log dosyasını temizle
  */
-export function clearLogFile(): void {
+function clearLogFile(): void {
   if (!loggerInstance) {
     console.warn('Logger servisi başlatılmamış! Log dosyası temizlenemedi.');
     return;
@@ -118,7 +118,7 @@ export function clearLogFile(): void {
  * Log dosyasının içeriğini getirir
  * @returns Log dosyası içeriği
  */
-export function getLogFileContent(): string {
+function getLogFileContent(): string {
   if (!loggerInstance) {
     console.warn(
       'Logger servisi başlatılmamış! Log dosyası içeriği alınamadı.',
@@ -133,7 +133,7 @@ export function getLogFileContent(): string {
  * Log dosyasını indirir
  * @param filename İndirilecek dosya adı
  */
-export function downloadLogFile(filename: string = 'backend-logs.log'): Buffer {
+function downloadLogFile(filename: string = 'backend-logs.log'): Buffer {
   if (!loggerInstance) {
     console.warn('Logger servisi başlatılmamış! Log dosyası indirilemedi.');
     return Buffer.from('');
@@ -151,7 +151,7 @@ export function downloadLogFile(filename: string = 'backend-logs.log'): Buffer {
  * Çalışma zamanında mevcut dosya ve satır bilgisini almak için yardımcı fonksiyon
  * @returns {filePath: string, lineNumber: number} Dosya yolu ve satır numarası
  */
-export function getCurrentFileInfo(): { filePath: string; lineNumber: number } {
+function getCurrentFileInfo(): { filePath: string; lineNumber: number } {
   const stack = new Error().stack || '';
   const stackLines = stack.split('\n');
 
@@ -180,7 +180,7 @@ export function getCurrentFileInfo(): { filePath: string; lineNumber: number } {
  * Çağrıdan dosya adı, satır numarası ve metod adını çıkaran yardımcı fonksiyon
  * @returns Dosya adı, satır numarası ve metod adı
  */
-export function getCallerInfo(): {
+function getCallerInfo(): {
   fileName: string;
   lineNumber: number;
   methodName: string;

@@ -15,10 +15,10 @@ function getLoggerInstance() {
 }
 
 // Toast mesaj tipleri
-export type ToastType = "success" | "error" | "warning" | "info";
+type ToastType = "success" | "error" | "warning" | "info";
 
 // Hata tipleri
-export enum ErrorSeverity {
+enum ErrorSeverity {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
@@ -26,7 +26,7 @@ export enum ErrorSeverity {
 }
 
 // Hata kaynakları
-export enum ErrorSource {
+enum ErrorSource {
   API = 'api',
   UI = 'ui',
   AUTH = 'auth',
@@ -36,7 +36,7 @@ export enum ErrorSource {
 }
 
 // API hata seçenekleri
-export interface ApiErrorOptions {
+interface ApiErrorOptions {
   status?: number;
   code?: string;
   original?: {
@@ -47,7 +47,7 @@ export interface ApiErrorOptions {
 }
 
 // Hata bilgileri arayüzü
-export interface ErrorInfo {
+interface ErrorInfo {
   message: string;
   code?: string | number;
   source: ErrorSource;

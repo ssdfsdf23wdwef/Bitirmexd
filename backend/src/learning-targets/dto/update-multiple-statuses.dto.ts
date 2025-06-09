@@ -10,7 +10,7 @@ import { Type } from 'class-transformer';
 import { LearningTargetStatus } from '../interfaces/learning-target.interface';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TargetUpdateDto {
+class TargetUpdateDto {
   @ApiProperty({
     description: 'Öğrenme hedefi ID',
     example: '507f1f77bcf86cd799439011',
@@ -38,7 +38,7 @@ export class TargetUpdateDto {
   lastAttemptScorePercent: number;
 }
 
-export class UpdateMultipleStatusesDto {
+class UpdateMultipleStatusesDto {
   targets(
     targets: any,
     courseId: any,

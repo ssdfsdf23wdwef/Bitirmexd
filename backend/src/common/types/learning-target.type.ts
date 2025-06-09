@@ -1,7 +1,7 @@
 /**
  * Öğrenme hedefi durumu
  */
-export enum LearningTargetStatus {
+enum LearningTargetStatus {
   NOT_STARTED = 'Not Started',
   IN_PROGRESS = 'In Progress',
   COMPLETED = 'Completed',
@@ -11,9 +11,7 @@ export enum LearningTargetStatus {
  * Öğrenme hedefi kaynağı
  */
 export enum LearningTargetSource {
-  AI_PROPOSAL = 'ai_proposal',
   MANUAL = 'manual',
-  DOCUMENT_IMPORT = 'document_import',
 }
 
 /**
@@ -37,18 +35,22 @@ export interface LearningTarget {
 /**
  * Öğrenme hedefi oluşturma DTO
  */
-export interface CreateLearningTargetDto {
+interface CreateLearningTargetDto {
   courseId: string;
   subTopicName: string;
   normalizedSubTopicName?: string;
   status?: 'pending' | 'failed' | 'medium' | 'mastered';
-  source?: 'user_created' | 'document_extracted' | 'ai_generated_new' | 'legacy';
+  source?:
+    | 'user_created'
+    | 'document_extracted'
+    | 'ai_generated_new'
+    | 'legacy';
 }
 
 /**
  * Öğrenme hedefi güncelleme DTO
  */
-export interface UpdateLearningTargetDto {
+interface UpdateLearningTargetDto {
   status?: 'pending' | 'failed' | 'medium' | 'mastered';
   failCount?: number;
   mediumCount?: number;
@@ -60,7 +62,7 @@ export interface UpdateLearningTargetDto {
 /**
  * Quiz verilerine sahip öğrenme hedefi
  */
-export interface LearningTargetWithQuizzes extends LearningTarget {
+interface LearningTargetWithQuizzes extends LearningTarget {
   quizzes?: Array<{
     id: string;
     type: string;
@@ -76,7 +78,7 @@ export interface LearningTargetWithQuizzes extends LearningTarget {
 /**
  * Öğrenme hedefi durumu güncellemesi
  */
-export interface LearningTargetStatusUpdate {
+interface LearningTargetStatusUpdate {
   id: string;
   status: 'pending' | 'failed' | 'medium' | 'mastered';
   scorePercent: number;

@@ -14,7 +14,7 @@ export interface Course {
 /**
  * Kurs oluşturma DTO
  */
-export interface CreateCourseDto {
+interface CreateCourseDto {
   name: string;
   description?: string;
 }
@@ -22,7 +22,7 @@ export interface CreateCourseDto {
 /**
  * Kurs güncelleme DTO
  */
-export interface UpdateCourseDto {
+interface UpdateCourseDto {
   name?: string;
   description?: string;
 }
@@ -30,7 +30,7 @@ export interface UpdateCourseDto {
 /**
  * Kurs istatistikleri - Frontend ile uyumlu hale getirildi
  */
-export interface CourseStats {
+interface CourseStats {
   courseId: string; // Keep courseId for reference if needed
   totalDocuments: number;
   totalQuizzes: number;
@@ -52,7 +52,7 @@ export interface CourseStats {
 /**
  * Kurs hedef istatistikleri (Bu backend'e özgü kalabilir veya gerekirse ayarlanabilir)
  */
-export interface CourseTargetStats {
+interface CourseTargetStats {
   courseId: string;
   targetStats: {
     pending: number;
@@ -77,7 +77,7 @@ export interface CourseTargetStats {
 /**
  * Kurs Dashboard Veri Yapısı - Frontend ile uyumlu
  */
-export interface CourseDashboardData {
+interface CourseDashboardData {
   course: Course;
   stats: CourseStats; // Re-use the aligned CourseStats
   recentQuizzes: Array<{

@@ -20,7 +20,7 @@ export class FirebaseService implements OnModuleInit {
   constructor(private readonly configService: ConfigService) {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
-    
+
     this.flowTracker.trackStep(
       'Firebase servisini başlatma',
       'FirebaseService',

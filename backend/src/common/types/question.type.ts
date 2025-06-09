@@ -28,7 +28,7 @@ export interface Question {
 /**
  * Soru seçeneği
  */
-export interface QuestionOption {
+interface QuestionOption {
   id: string;
   text: string;
   isCorrect: boolean;
@@ -57,7 +57,7 @@ export interface FailedQuestion {
 /**
  * Soru oluşturma DTO
  */
-export interface CreateQuestionDto {
+interface CreateQuestionDto {
   text: string;
   description?: string | null;
   type:
@@ -82,7 +82,7 @@ export interface CreateQuestionDto {
 /**
  * Soru güncelleme DTO
  */
-export interface UpdateQuestionDto {
+interface UpdateQuestionDto {
   text?: string;
   description?: string | null;
   type?:

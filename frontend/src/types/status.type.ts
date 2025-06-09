@@ -7,7 +7,7 @@ export type CourseStatus = "başarılı" | "orta" | "başarısız" | "beklemede"
 /**
  * Öğrenme Hedefi durumlarına karşılık gelen stil ve görsel bilgileri
  */
-export interface StatusInfo {
+interface StatusInfo {
   label: string;
   color: string;
   bgColor: string;
@@ -29,7 +29,7 @@ export interface CourseStatusInfo {
  * Öğrenme Hedefi durumlarına karşılık gelen başarı yüzdesi aralıkları
  * @see PRD 4.5.2
  */
-export const STATUS_SCORE_RANGES = {
+const STATUS_SCORE_RANGES = {
   failed: { min: 0, max: 49 },
   medium: { min: 50, max: 69 },
   mastered: { min: 70, max: 100 },
@@ -38,7 +38,7 @@ export const STATUS_SCORE_RANGES = {
 /**
  * Başarı yüzdesine göre durum belirleme yardımcı fonksiyonu
  */
-export function getStatusFromScore(scorePercent: number): LearningTargetStatus {
+function getStatusFromScore(scorePercent: number): LearningTargetStatus {
   if (scorePercent >= STATUS_SCORE_RANGES.mastered.min) return LearningTargetStatus.MASTERED;
   if (scorePercent >= STATUS_SCORE_RANGES.medium.min) return LearningTargetStatus.MEDIUM; 
   if (scorePercent >= STATUS_SCORE_RANGES.failed.min) return LearningTargetStatus.FAILED;

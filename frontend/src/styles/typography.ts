@@ -244,5 +244,5 @@ export const typography = {
   },
 } as const;
 
-export type Typography = typeof typography;
-export type TextStyle = keyof typeof typography.textStyles;
+type Typography = typeof typography;
+type TextStyle = keyof typeof typography.textStyles;

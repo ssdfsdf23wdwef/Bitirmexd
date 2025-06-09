@@ -288,30 +288,33 @@ export class SubmitQuizDto {
 
     // Handle nested DTO objects
     if (this.preferences) {
-      plainObj.preferences = this.preferences instanceof QuizPreferencesDto 
-        ? this.preferences.toPlain() 
-        : this.preferences;
+      plainObj.preferences =
+        this.preferences instanceof QuizPreferencesDto
+          ? this.preferences.toPlain()
+          : this.preferences;
     }
-    
+
     // Handle arrays of objects
     if (Array.isArray(this.questions)) {
-      plainObj.questions = this.questions.map(q => ({ ...q }));
+      plainObj.questions = this.questions.map((q) => ({ ...q }));
     }
-    
+
     if (Array.isArray(this.selectedSubTopics)) {
-      plainObj.selectedSubTopics = this.selectedSubTopics.map(st => ({ ...st }));
+      plainObj.selectedSubTopics = this.selectedSubTopics.map((st) => ({
+        ...st,
+      }));
     }
-    
+
     // Handle sourceDocument
     if (this.sourceDocument) {
       plainObj.sourceDocument = { ...this.sourceDocument };
     }
-    
+
     // Handle userAnswers
     if (this.userAnswers) {
       plainObj.userAnswers = { ...this.userAnswers };
     }
-    
+
     return plainObj;
   }
 }

@@ -144,7 +144,7 @@ export function LogMethod(
                 className,
               );
               throw error;
-            }
+            },
           );
         } else {
           // Synchronous method handling

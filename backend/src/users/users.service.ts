@@ -12,8 +12,6 @@ import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 
-
-
 @Injectable()
 export class UsersService {
   private readonly logger: LoggerService;

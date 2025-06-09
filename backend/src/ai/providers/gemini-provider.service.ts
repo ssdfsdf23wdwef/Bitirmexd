@@ -65,8 +65,6 @@ export class GeminiProviderService implements AIProvider {
         options?.metadata?.traceId ||
         `gemini-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
 
-    
-
       // Özel ayarlar varsa onları kullan, yoksa modeldeki ayarları kullan
       const requestParams = options || {};
 
@@ -125,7 +123,6 @@ export class GeminiProviderService implements AIProvider {
         topP: generationConfig.topP,
       });
 
-   
       // API çağrısı
       const response = await this.model.generateContent({
         contents,

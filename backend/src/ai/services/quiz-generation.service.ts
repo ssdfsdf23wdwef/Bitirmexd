@@ -86,12 +86,12 @@ export class QuizGenerationService {
       const turkishReplacements = {
         // Spesifik kelime kalıpları
         'l-k': 'lık',
-        'l-l-k': 'lülük', 
+        'l-l-k': 'lülük',
         'sa-l-k': 'sağlık',
         'g-venlik': 'güvenlik',
         'y-k-ml-l': 'yükümlülük',
         'de-erlendirilmesi': 'değerlendirilmesi',
-        'nlemler': 'önlemler',
+        nlemler: 'önlemler',
         // Yaygın karakter kalıpları
         'tasar-m-': 'tasarım',
         'a-amalar': 'aşamaları',
@@ -293,7 +293,6 @@ export class QuizGenerationService {
       // Prompu hazırla
       const promptText = await this.prepareQuizPrompt(options, metadata);
 
-   
       this.logger.logExamStage(options.userId || 'anon', 'Prompt hazırlandı', {
         traceId,
         promptLength: promptText.length,
@@ -303,9 +302,10 @@ export class QuizGenerationService {
       console.log(
         `[QUIZ_DEBUG] [${traceId}] AI modeline istek gönderiliyor...`,
       );
-      const rawJsonResponse = await this.generateAIContent(promptText, metadata);
-
-  
+      const rawJsonResponse = await this.generateAIContent(
+        promptText,
+        metadata,
+      );
 
       this.logger.logExamStage(options.userId || 'anon', 'AI yanıtı alındı', {
         traceId,
@@ -326,30 +326,34 @@ export class QuizGenerationService {
 
         // Ham yanıtı temizle ve JSON çıkar
         let cleanedResponse = rawJsonResponse;
-        
+
         // Ham yanıtın ilk 100 karakterini logla
-        
+
         // 1. Başlık satırlarını kaldır (## Ham Çıktı: gibi)
         cleanedResponse = cleanedResponse.replace(/^.*?Ham Çıktı:.*?$/m, '');
-        
+
         // 2. Markdown kod bloklarını temizle
         // 2.1 Duplicate ```json etiketlerini düzelt
-        cleanedResponse = cleanedResponse.replace(/```json\s*```json/g, '```json');
-        
+        cleanedResponse = cleanedResponse.replace(
+          /```json\s*```json/g,
+          '```json',
+        );
+
         // 2.2 Kod blok etiketlerini kaldır
         cleanedResponse = cleanedResponse.replace(/```json\s*|\s*```/g, '');
-        
+
         // 3. JSON başlangıcını bul
         const jsonStartIndex = cleanedResponse.indexOf('{');
         if (jsonStartIndex !== -1) {
           cleanedResponse = cleanedResponse.substring(jsonStartIndex);
         }
-        
-        console.log(`[QUIZ_DEBUG] [${traceId}] Temizlenmiş yanıt (ilk 100 karakter): ${cleanedResponse.substring(0, 100)}...`);
+
+        console.log(
+          `[QUIZ_DEBUG] [${traceId}] Temizlenmiş yanıt (ilk 100 karakter): ${cleanedResponse.substring(0, 100)}...`,
+        );
 
         // JSON parse işlemi
         parsedResponse = JSON.parse(cleanedResponse);
-      
       } catch (error) {
         // JSON parse hatası
         this.logger.error(
@@ -358,12 +362,19 @@ export class QuizGenerationService {
           undefined,
           error,
         );
-        
+
         // Validation service'i kullanmaya çalış (son çare)
         try {
-          console.log(`[QUIZ_DEBUG] [${traceId}] QuizValidation servisi ile parse etmeye çalışılıyor...`);
-          parsedResponse = this.quizValidation.parseAIResponseToJSON(rawJsonResponse, metadata);
-          console.log(`[QUIZ_DEBUG] [${traceId}] QuizValidation servisi ile parse başarılı`);
+          console.log(
+            `[QUIZ_DEBUG] [${traceId}] QuizValidation servisi ile parse etmeye çalışılıyor...`,
+          );
+          parsedResponse = this.quizValidation.parseAIResponseToJSON(
+            rawJsonResponse,
+            metadata,
+          );
+          console.log(
+            `[QUIZ_DEBUG] [${traceId}] QuizValidation servisi ile parse başarılı`,
+          );
         } catch (validationError) {
           this.logger.error(
             `[${traceId}] QuizValidation servisi ile parse başarısız: ${validationError.message}`,
@@ -376,7 +387,9 @@ export class QuizGenerationService {
       }
 
       // Zod validasyonu
-      console.log(`[QUIZ_DEBUG] [${traceId}] AI yanıtı Zod ile doğrulanıyor...`);
+      console.log(
+        `[QUIZ_DEBUG] [${traceId}] AI yanıtı Zod ile doğrulanıyor...`,
+      );
       try {
         // QuizResponseSchema veya QuizGenerationResponseSchema ile doğrulama
         const validatedData = this.quizValidation.validateQuizResponseSchema(
@@ -390,14 +403,15 @@ export class QuizGenerationService {
         }
 
         // Doğrulanmış sorular için detaylı işleme
-        const questions = this.processAIResponse(rawJsonResponse, metadata, validatedData);
+        const questions = this.processAIResponse(
+          rawJsonResponse,
+          metadata,
+          validatedData,
+        );
 
         // DETAYLI LOGLAMA EKLE: İşlenen soruları logla
-      
-      
 
         // KONTROL EKLE: İstenen soru sayısı ve dönen soru sayısı karşılaştırması
-       
 
         // Sınav oluşturmayı tamamladığını logla
         this.logger.logExamCompletion(
@@ -417,7 +431,7 @@ export class QuizGenerationService {
           `[${traceId}] Zod validasyonu sırasında hata: ${error.message}`,
           'QuizGenerationService.generateQuizQuestions',
           undefined,
-          error
+          error,
         );
         throw new BadRequestException(`Validation error: ${error.message}`);
       }
@@ -476,7 +490,8 @@ export class QuizGenerationService {
 
     // 1. Kişiselleştirilmiş quiz türüne göre uygun prompt'u seç
     let promptFileName = 'generate-quiz-tr.txt'; // Varsayılan prompt
-    const isNewTopicFocused = metadata.personalizedQuizType === 'newTopicFocused';
+    const isNewTopicFocused =
+      metadata.personalizedQuizType === 'newTopicFocused';
 
     if (isNewTopicFocused) {
       if (options.subTopics && options.subTopics.length > 0) {
@@ -607,9 +622,12 @@ export class QuizGenerationService {
         );
         throw new Error("AI Provider'dan boş yanıt alındı.");
       }
-      
+
       // Boş soru dizisi kontrolü ekleyelim
-      if (result.text.includes('"questions": []') || result.text.includes('"questions":[]')) {
+      if (
+        result.text.includes('"questions": []') ||
+        result.text.includes('"questions":[]')
+      ) {
         this.logger.warn(
           `[${traceId}] AI boş soru dizisi döndürdü. Yeniden denenecek.`,
           'QuizGenerationService.generateAIContent',
@@ -876,7 +894,7 @@ export class QuizGenerationService {
         `[QUIZ_DEBUG] [${traceId}] ADIM 3: Soru dönüştürme ve detaylı validasyon yapılıyor...`,
       );
       console.time(`[QUIZ_DEBUG] [${traceId}] Soru dönüştürme süresi`);
-      
+
       let questions;
       try {
         questions = this.quizValidation.transformAndValidateQuestions(
@@ -893,11 +911,11 @@ export class QuizGenerationService {
           `[${traceId}] AI geçersiz sorular üretti, fallback soruları kullanılacak: ${error.message}`,
           'QuizGenerationService.processAIResponse',
         );
-        
+
         // AI'ın geçersiz içerik ürettiği durumda fallback sorularını döndür
         return this.quizValidation.createFallbackQuestions(metadata);
       }
-      
+
       console.timeEnd(`[QUIZ_DEBUG] [${traceId}] Soru dönüştürme süresi`);
 
       // Dönüştürme sonucu
@@ -907,15 +925,20 @@ export class QuizGenerationService {
 
       // EKLENEN KONTROL: AI'ın anlamsız/geçersiz sorular üretip üretmediğini kontrol et
       if (questions && questions.length > 0) {
-        const invalidQuestionPattern = /verilen metinde.*aktif konu.*bulunmadığı.*için.*soru.*oluşturulamamıştır/i;
-        const genericFailurePattern = /aktif konu yok|bekleyen konu yok|soru oluşturulamaz|konu belirtilmemiş/i;
-        
+        const invalidQuestionPattern =
+          /verilen metinde.*aktif konu.*bulunmadığı.*için.*soru.*oluşturulamamıştır/i;
+        const genericFailurePattern =
+          /aktif konu yok|bekleyen konu yok|soru oluşturulamaz|konu belirtilmemiş/i;
+
         // İlk sorunun içeriğini kontrol et
         const firstQuestion = questions[0];
         if (firstQuestion && firstQuestion.questionText) {
           const questionText = firstQuestion.questionText.toLowerCase();
-          
-          if (invalidQuestionPattern.test(questionText) || genericFailurePattern.test(questionText)) {
+
+          if (
+            invalidQuestionPattern.test(questionText) ||
+            genericFailurePattern.test(questionText)
+          ) {
             console.error(
               `[QUIZ_DEBUG] [${traceId}] AI geçersiz/örnek sorular üretti, fallback kullanılacak`,
             );
@@ -923,7 +946,7 @@ export class QuizGenerationService {
               `[${traceId}] AI geçersiz içerik üretti (örnek: "${firstQuestion.questionText.substring(0, 100)}..."), fallback soruları kullanılacak`,
               'QuizGenerationService.processAIResponse',
             );
-            
+
             // AI'ın geçersiz içerik ürettiği durumda fallback sorularını döndür
             return this.quizValidation.createFallbackQuestions(metadata);
           }
@@ -931,10 +954,6 @@ export class QuizGenerationService {
       }
 
       // İstenen soru sayısıyla karşılaştırma
-    
- 
-
-      
 
       return questions;
     } catch (error) {

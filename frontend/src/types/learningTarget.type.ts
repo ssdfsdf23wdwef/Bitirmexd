@@ -74,7 +74,7 @@ export interface TopicDetectionRequest {
 /**
  * Öğrenme hedefi oluşturma isteği
  */
-export interface CreateLearningTargetRequest {
+interface CreateLearningTargetRequest {
   courseId: string;
   subTopicName: string;
   normalizedSubTopicName: string;
@@ -95,7 +95,7 @@ export interface BatchCreateLearningTargetsRequest {
 /**
  * Öğrenme hedefi durumu güncelleme isteği
  */
-export interface UpdateLearningTargetStatusRequest {
+interface UpdateLearningTargetStatusRequest {
   targetUpdates: Array<{
     id: string;
     status: LearningTargetStatusLiteral;

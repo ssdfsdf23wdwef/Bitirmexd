@@ -113,11 +113,12 @@ export class DocumentsService {
           file.mimetype,
         );
 
-this.logger.info(
+        this.logger.info(
           `📤 Dosya Firebase Storage'a yüklendi: ${fileUrl}`,
           'DocumentsService.uploadDocument',
           __filename,
-        );      } catch (storageError) {
+        );
+      } catch (storageError) {
         // Firebase Storage hatası durumunda loglama yap
         this.logger.error(
           `Firebase Storage yükleme hatası: ${storageError.message}`,
@@ -127,7 +128,7 @@ this.logger.info(
 
         // Hata durumunda geçici bir URL oluştur (gerçek projede farklı bir çözüm gerekebilir)
         fileUrl = `http://localhost:3001/api/documents/temp/${uniqueFileName}`;
-         this.logger.warn(
+        this.logger.warn(
           `⚠️ Firebase Storage hatası. Geçici URL kullanılıyor: ${fileUrl}`,
           'DocumentsService.uploadDocument',
           __filename,
@@ -178,7 +179,7 @@ this.logger.info(
         newDocument,
       );
 
-       this.logger.info(
+      this.logger.info(
         `✅ Döküman başarıyla kaydedildi. ID: ${document.id}`,
         'DocumentsService.uploadDocument',
         __filename,

@@ -3,7 +3,7 @@ import { LoggerService } from '../../common/services/logger.service';
 /**
  * Alt konu arayüzü
  */
-export interface SubTopic {
+interface SubTopic {
   subTopicName: string;
   normalizedSubTopicName: string;
   parentTopic?: string; // Ana konunun adı (eğer bir alt konu ise)
@@ -22,7 +22,7 @@ export interface TopicDetectionResult {
   }>;
 }
 
-export interface TopicDetectionOptions {
+interface TopicDetectionOptions {
   maxTopics?: number;
   useCache?: boolean;
   cacheKey?: string;

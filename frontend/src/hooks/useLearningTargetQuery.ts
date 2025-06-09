@@ -95,14 +95,14 @@ export const useLearningTargets = (courseId?: string) => {
 };
 
 // Mutation hook'ları
-export const useDetectTopics = () => {
+const useDetectTopics = () => {
   return useMutation({
     mutationFn: (request: TopicDetectionRequest) =>
       learningTargetService.detectTopics(request),
   });
 };
 
-export const useCreateBatchLearningTargets = () => {
+const useCreateBatchLearningTargets = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -117,7 +117,7 @@ export const useCreateBatchLearningTargets = () => {
   });
 };
 
-export const useUpdateLearningTarget = () => {
+const useUpdateLearningTarget = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -142,7 +142,7 @@ export const useUpdateLearningTarget = () => {
   });
 };
 
-export const useUpdateLearningTargetStatuses = () => {
+const useUpdateLearningTargetStatuses = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -162,7 +162,7 @@ export const useUpdateLearningTargetStatuses = () => {
   });
 };
 
-export const useDeleteLearningTarget = () => {
+const useDeleteLearningTarget = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -182,11 +182,3 @@ export const useDeleteLearningTarget = () => {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  useLearningTargets,
-  useDetectTopics,
-  useCreateBatchLearningTargets,
-  useUpdateLearningTarget,
-  useUpdateLearningTargetStatuses,
-  useDeleteLearningTarget,
-};

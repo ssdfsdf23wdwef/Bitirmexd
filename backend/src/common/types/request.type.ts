@@ -22,7 +22,7 @@ export interface RequestWithUser extends Request {
 /**
  * Sayfalama parametreleri
  */
-export interface PaginationParams {
+interface PaginationParams {
   page?: number;
   limit?: number;
   sortBy?: string;
@@ -32,7 +32,7 @@ export interface PaginationParams {
 /**
  * Filtreleme parametreleri
  */
-export interface FilterParams {
+interface FilterParams {
   search?: string;
   startDate?: string;
   endDate?: string;

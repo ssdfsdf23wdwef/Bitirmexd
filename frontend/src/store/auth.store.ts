@@ -182,11 +182,11 @@ export const useAuthStore = create<AuthState>()(
 );
 
 // İsteğe bağlı: Tip güvenli selektörleri koru
-export const useAuthLoading = () => useAuthStore((state) => state.isLoading);
+const useAuthLoading = () => useAuthStore((state) => state.isLoading);
 
 // İki ayrı selector kullanarak sonsuz döngü sorununu çözüyoruz
 export const useAuthIsAuthenticated = () => useAuthStore((state) => state.isAuthenticated);
 export const useAuthIsLoading = () => useAuthStore((state) => state.isLoading);
 
 export const useAuthUser = () => useAuthStore((state) => state.user);
-export const useLogoutUserAction = () => useAuthStore((state) => state.logoutUser);
+const useLogoutUserAction = () => useAuthStore((state) => state.logoutUser);

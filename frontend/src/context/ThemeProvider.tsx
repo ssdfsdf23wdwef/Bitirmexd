@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { ThemeMode } from '@/styles/theme';
 
 // Enhanced theme preferences interface
-export interface ThemePreferences {
+interface ThemePreferences {
   mode: ThemeMode;
   fontSize: 'small' | 'medium' | 'large';
   reducedMotion: boolean;

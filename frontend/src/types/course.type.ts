@@ -63,7 +63,7 @@ export interface CourseDashboard {
 /**
  * Derse ilişkin tüm öğeler
  */
-export interface CourseRelatedItems {
+interface CourseRelatedItems {
   documents: DocumentType[];
   learningTargets: LearningTarget[];
   quizzes: Quiz[];
@@ -72,4 +72,4 @@ export interface CourseRelatedItems {
 /**
  * Ders durumunu temsil eden tip (PRD'de belirtildiği gibi)
  */
-export type CourseProgressStatus = "notStarted" | "inProgress" | "completed";
+type CourseProgressStatus = "notStarted" | "inProgress" | "completed";

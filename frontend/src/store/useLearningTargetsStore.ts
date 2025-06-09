@@ -2,14 +2,14 @@ import { create } from 'zustand';
 import { LearningTarget, LearningTargetStatus } from '../types/learning-target.types';
 import { ProposedTopic } from "@/types/learning-target.types";
 // Temporary learning target type for quiz processing
-export interface TemporaryLearningTarget {
+interface TemporaryLearningTarget {
   topic: string;
   subTopic: string;
   status: 'PENDING' | 'FAILED' | 'MEDIUM' | 'MASTERED';
   score: number;
 }
 
-export interface PendingTopic {
+interface PendingTopic {
   name: string;
   status: 'pending';
 }

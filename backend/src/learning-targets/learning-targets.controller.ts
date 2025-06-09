@@ -42,7 +42,10 @@ import {
   BatchCreateUpdateLearningTargetsDto,
 } from './dto'; // DTO'ların yolu doğru varsayılıyor
 import { FirebaseGuard } from '../auth/firebase/firebase.guard';
-import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
+import {
+  LearningTargetWithQuizzes,
+  LearningTarget,
+} from '../common/interfaces';
 import { RequestWithUser } from '../common/types';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
@@ -52,13 +55,13 @@ import { TopicDetectionService } from '../ai/services/topic-detection.service';
 
 // Swagger için response sınıfları
 class LearningTargetResponseDto {
-  @ApiProperty({ description: 'Öğrenme hedefinin ID\'si' })
+  @ApiProperty({ description: "Öğrenme hedefinin ID'si" })
   id: string;
 
-  @ApiProperty({ description: 'Kullanıcı ID\'si' })
+  @ApiProperty({ description: "Kullanıcı ID'si" })
   userId: string;
 
-  @ApiProperty({ description: 'Ders ID\'si' })
+  @ApiProperty({ description: "Ders ID'si" })
   courseId: string;
 
   @ApiProperty({ description: 'Konu adı' })
@@ -101,14 +104,17 @@ class TopicDetectionResponseDto {
   topics: DetectedTopicDto[];
 
   @ApiProperty({
-    description: 'Tespit edilen konuların öğrenme hedefi olarak kaydedilip kaydedilmediği',
+    description:
+      'Tespit edilen konuların öğrenme hedefi olarak kaydedilip kaydedilmediği',
     example: true,
   })
   saved: boolean;
 
   @ApiProperty({
-    description: 'Kaydetme durumu hakkında açıklama (kaydedilmediği durumlarda)',
-    example: 'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi.',
+    description:
+      'Kaydetme durumu hakkında açıklama (kaydedilmediği durumlarda)',
+    example:
+      'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi.',
     required: false,
   })
   message?: string;
@@ -182,7 +188,8 @@ export class LearningTargetsController {
 
   @Get()
   @ApiOperation({
-    summary: 'Kullanıcıya ait tüm öğrenme hedeflerini listeler, opsiyonel olarak bir derse göre filtrelenebilir',
+    summary:
+      'Kullanıcıya ait tüm öğrenme hedeflerini listeler, opsiyonel olarak bir derse göre filtrelenebilir',
   })
   @ApiQuery({
     name: 'courseId',
@@ -206,34 +213,36 @@ export class LearningTargetsController {
         'LearningTargetsController',
       );
 
-      const targets = await this.learningTargetsService.findAllLearningTargetsByUserId(
-        req.user.uid,
-        courseId,
-      );
-      
+      const targets =
+        await this.learningTargetsService.findAllLearningTargetsByUserId(
+          req.user.uid,
+          courseId,
+        );
+
       return targets;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Bilinmeyen hata';
       const errorContext = {
         error: errorMessage,
         courseId,
-        userId: req.user?.uid || 'unknown'
+        userId: req.user?.uid || 'unknown',
       };
-      
+
       this.logger.error(
         `Öğrenme hedefleri listelenirken hata: ${errorMessage}`,
         'LearningTargetsController.findAllByUser',
         __filename,
         0,
         error instanceof Error ? error : new Error(errorMessage),
-        errorContext
+        errorContext,
       );
-      
+
       // Rethrow the error to be handled by the global exception filter
       throw error;
     }
   }
-  
+
   @Get('by-course/:courseId')
   @UseGuards(FirebaseGuard)
   @ApiOperation({
@@ -241,7 +250,7 @@ export class LearningTargetsController {
     description:
       'Belirtilen kursa ait tüm öğrenme hedeflerini ve ilgili sınavları getirir.',
   })
-  @ApiParam({ name: 'courseId', description: 'Kurs ID\'si' })
+  @ApiParam({ name: 'courseId', description: "Kurs ID'si" })
   @ApiResponse({
     status: 200,
     description: 'Öğrenme hedefleri başarıyla getirildi',
@@ -277,22 +286,23 @@ export class LearningTargetsController {
 
       return learningTargets;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Bilinmeyen hata';
       const errorContext = {
         courseId,
         userId: req.user?.uid || 'unknown',
         error: errorMessage,
       };
-      
+
       this.logger.error(
         `Öğrenme hedefleri getirilirken hata: ${errorMessage}`,
         'LearningTargetsController.getByCourse',
         __filename,
         0,
         error instanceof Error ? error : new Error(errorMessage),
-        errorContext
+        errorContext,
       );
-      
+
       throw error;
     }
   }
@@ -330,14 +340,20 @@ export class LearningTargetsController {
   ) {
     const operationId = `propose-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n🔍 BACKEND: Propose New Topics - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n🔍 BACKEND: Propose New Topics - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${req.user.uid}`);
     console.log(`📋 Request Body:`, JSON.stringify(dto, null, 2));
-    console.log(`📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
-    console.log(`📝 Context Text Length: ${dto.contextText?.length || 0} characters`);
-    
+    console.log(
+      `📊 Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`,
+    );
+    console.log(
+      `📝 Context Text Length: ${dto.contextText?.length || 0} characters`,
+    );
+
     try {
       this.flowTracker.trackStep(
         'Yeni konular tespit ediliyor',
@@ -346,60 +362,77 @@ export class LearningTargetsController {
 
       console.log(`\n🚀 Calling LearningTargetsService.proposeNewTopics...`);
       const serviceStartTime = performance.now();
-      
+
       const result = await this.learningTargetsService.proposeNewTopics(
         dto,
         req.user.uid,
       );
-      
+
       const serviceEndTime = performance.now();
       const serviceDuration = serviceEndTime - serviceStartTime;
-      
-      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
-      console.log(`📋 Proposed Topics Result:`, JSON.stringify(result, null, 2));
-      console.log(`📊 Proposed Topics Count: ${result.proposedTopics?.length || 0}`);
-      
+
+      console.log(
+        `\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`,
+      );
+      console.log(
+        `📋 Proposed Topics Result:`,
+        JSON.stringify(result, null, 2),
+      );
+      console.log(
+        `📊 Proposed Topics Count: ${result.proposedTopics?.length || 0}`,
+      );
+
       if (result.proposedTopics && result.proposedTopics.length > 0) {
         console.log(`\n📝 Detailed Proposed Topics:`);
         result.proposedTopics.forEach((topic, index) => {
           console.log(`  ${index + 1}. ${topic.name} (ID: ${topic.tempId})`);
-          if (topic.relevance) console.log(`     Relevance: ${topic.relevance}`);
+          if (topic.relevance)
+            console.log(`     Relevance: ${topic.relevance}`);
           if (topic.details) console.log(`     Details: ${topic.details}`);
         });
       }
-      
+
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
-      
+
       return result;
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in propose new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(
+        `\n❌ ERROR in propose new topics after ${errorDuration.toFixed(2)}ms:`,
+      );
       console.error(`Operation ID: ${operationId}`);
       console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
       console.error(`Error Code: ${error.code || 'N/A'}`);
       console.error(`HTTP Status: ${error.status || 'N/A'}`);
-      
+
       // Enhanced stack trace with context
       if (error.stack) {
         console.error(`\n📍 Full Stack Trace:`);
-        console.error(error.stack.split('\n').map((line, index) => 
-          `  ${index === 0 ? '→' : ' '} ${line}`
-        ).join('\n'));
+        console.error(
+          error.stack
+            .split('\n')
+            .map((line, index) => `  ${index === 0 ? '→' : ' '} ${line}`)
+            .join('\n'),
+        );
       }
-      
+
       // Log request context for debugging
       console.error(`\n🔍 Request Context:`);
       console.error(`  User ID: ${req.user.uid}`);
       console.error(`  Context Text Length: ${dto.contextText?.length || 0}`);
-      console.error(`  Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`);
+      console.error(
+        `  Existing Topics Count: ${dto.existingTopicTexts?.length || 0}`,
+      );
       console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
-      
+
       console.groupEnd();
-      
+
       // Enhanced logger with more context
       this.logger.error(
         `Yeni konular tespit edilirken hata: ${error.message}`,
@@ -415,8 +448,8 @@ export class LearningTargetsController {
           errorDuration: errorDuration.toFixed(2),
           errorType: error.constructor.name,
           errorCode: error.code,
-          httpStatus: error.status
-        }
+          httpStatus: error.status,
+        },
       );
       throw error;
     }
@@ -439,83 +472,101 @@ export class LearningTargetsController {
   ): Promise<LearningTarget[]> {
     const operationId = `confirm-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n✅ BACKEND: Confirm New Topics - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n✅ BACKEND: Confirm New Topics - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${req.user.uid}`);
     console.log(`📋 Request Body:`, JSON.stringify(dto, null, 2));
     console.log(`🏫 Course ID: ${dto.courseId}`);
     console.log(`📊 Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
-    
+
     if (dto.selectedTopics && dto.selectedTopics.length > 0) {
       console.log(`\n📝 Selected Topics Details:`);
       dto.selectedTopics.forEach((topic, index) => {
         console.log(`  ${index + 1}. ${topic.name} (Temp ID: ${topic.tempId})`);
       });
     }
-    
+
     try {
       this.flowTracker.trackStep(
         'Yeni konular öğrenme hedefi olarak kaydediliyor',
         'LearningTargetsController',
       );
 
-      console.log(`\n🚀 Calling LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets...`);
-      const serviceStartTime = performance.now();
-      
-      const result = await this.learningTargetsService.confirmAndSaveNewTopicsAsLearningTargets(
-        dto,
-        req.user.uid,
+      console.log(
+        `\n🚀 Calling LearningTargetsService.confirmAndSaveNewTopicsAsLearningTargets...`,
       );
-      
+      const serviceStartTime = performance.now();
+
+      const result =
+        await this.learningTargetsService.confirmAndSaveNewTopicsAsLearningTargets(
+          dto,
+          req.user.uid,
+        );
+
       const serviceEndTime = performance.now();
       const serviceDuration = serviceEndTime - serviceStartTime;
-      
-      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+
+      console.log(
+        `\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`,
+      );
       console.log(`📊 Created Learning Targets Count: ${result.length}`);
-      
+
       if (result.length > 0) {
         console.log(`\n🎯 Created Learning Targets Details:`);
         result.forEach((target, index) => {
-          console.log(`  ${index + 1}. ${target.subTopicName} (ID: ${target.id})`);
+          console.log(
+            `  ${index + 1}. ${target.subTopicName} (ID: ${target.id})`,
+          );
           console.log(`     Status: ${target.status}`);
           console.log(`     Course ID: ${target.courseId}`);
           console.log(`     Normalized Name: ${target.normalizedSubTopicName}`);
         });
       }
-      
+
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
-      
+
       return result;
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in confirm new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(
+        `\n❌ ERROR in confirm new topics after ${errorDuration.toFixed(2)}ms:`,
+      );
       console.error(`Operation ID: ${operationId}`);
       console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
       console.error(`Error Code: ${error.code || 'N/A'}`);
       console.error(`HTTP Status: ${error.status || 'N/A'}`);
-      
+
       // Enhanced stack trace with context
       if (error.stack) {
         console.error(`\n📍 Full Stack Trace:`);
-        console.error(error.stack.split('\n').map((line, index) => 
-          `  ${index === 0 ? '→' : ' '} ${line}`
-        ).join('\n'));
+        console.error(
+          error.stack
+            .split('\n')
+            .map((line, index) => `  ${index === 0 ? '→' : ' '} ${line}`)
+            .join('\n'),
+        );
       }
-      
+
       // Log request context for debugging
       console.error(`\n🔍 Request Context:`);
       console.error(`  User ID: ${req.user.uid}`);
       console.error(`  Course ID: ${dto.courseId}`);
-      console.error(`  Selected Topics Count: ${dto.selectedTopics?.length || 0}`);
+      console.error(
+        `  Selected Topics Count: ${dto.selectedTopics?.length || 0}`,
+      );
       console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
-      
+
       console.groupEnd();
-      
+
       // Enhanced logger with more context
       this.logger.error(
         `Yeni öğrenme hedefleri oluşturulurken hata: ${error.message}`,
@@ -531,8 +582,8 @@ export class LearningTargetsController {
           errorDuration: errorDuration.toFixed(2),
           errorType: error.constructor.name,
           errorCode: error.code,
-          httpStatus: error.status
-        }
+          httpStatus: error.status,
+        },
       );
       throw error;
     }
@@ -582,7 +633,7 @@ export class LearningTargetsController {
   @ApiParam({
     name: 'id',
     type: String,
-    description: 'Güncellenecek öğrenme hedefinin ID\'si',
+    description: "Güncellenecek öğrenme hedefinin ID'si",
   })
   @ApiBody({ type: UpdateLearningTargetDto })
   @ApiResponse({
@@ -626,7 +677,7 @@ export class LearningTargetsController {
   @ApiParam({
     name: 'id',
     type: String,
-    description: 'Silinecek öğrenme hedefinin ID\'si',
+    description: "Silinecek öğrenme hedefinin ID'si",
   })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -644,10 +695,7 @@ export class LearningTargetsController {
         'LearningTargetsController',
       );
 
-      await this.learningTargetsService.deleteLearningTarget(
-        id,
-        req.user.uid,
-      );
+      await this.learningTargetsService.deleteLearningTarget(id, req.user.uid);
     } catch (error) {
       this.logger.error(
         `Öğrenme hedefi silinirken hata: ${error.message}`,
@@ -755,17 +803,12 @@ export class LearningTargetsController {
       );
     } catch (error) {
       if (!(error instanceof BadRequestException)) {
-        this.logger.logError(
-          error,
-          'LearningTargetsController.findByStatus',
-          {
-            userId,
-            courseId,
-            status,
-            additionalInfo:
-              'Durum bazlı öğrenme hedefleri alınırken hata oluştu',
-          },
-        );
+        this.logger.logError(error, 'LearningTargetsController.findByStatus', {
+          userId,
+          courseId,
+          status,
+          additionalInfo: 'Durum bazlı öğrenme hedefleri alınırken hata oluştu',
+        });
       }
       throw error;
     }
@@ -795,7 +838,7 @@ export class LearningTargetsController {
   ): Promise<TopicDetectionResponseDto> {
     const userId = req.user?.uid || 'anonymous'; // req.user null olabilir
     const isAuthenticated = userId !== 'anonymous';
- let responseMessage: string | undefined;
+    let responseMessage: string | undefined;
     try {
       this.flowTracker.trackStep(
         `${dto.courseId || 'N/A'} ID'li ders için metin içinden konular tespit ediliyor`,
@@ -907,11 +950,12 @@ export class LearningTargetsController {
             saveError,
           );
           saved = false;
-          message = 'Konular tespit edildi ancak öğrenme hedefi olarak kaydedilemedi. Lütfen tekrar deneyin.';
+          message =
+            'Konular tespit edildi ancak öğrenme hedefi olarak kaydedilemedi. Lütfen tekrar deneyin.';
         }
       } else if (!isAuthenticated && dto.courseId) {
         responseMessage =
-          'Kullanıcı oturum açmadığı için tespit edilen konular kaydedilmedi.'; 
+          'Kullanıcı oturum açmadığı için tespit edilen konular kaydedilmedi.';
         this.logger.info(
           `⚠️ UYARI: ${responseMessage} CourseId: ${dto.courseId}`,
           'LearningTargetsController.detectTopics',
@@ -919,8 +963,13 @@ export class LearningTargetsController {
           421, // Manuel güncellendi
         );
         saved = false;
-        message = 'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi. Giriş yapıp tekrar deneyin.';
-      } else if (isAuthenticated && !dto.courseId && detectedRawTopics.length > 0) {
+        message =
+          'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi. Giriş yapıp tekrar deneyin.';
+      } else if (
+        isAuthenticated &&
+        !dto.courseId &&
+        detectedRawTopics.length > 0
+      ) {
         this.logger.info(
           `ℹ️ BİLGİ: CourseId sağlanmadığı için tespit edilen konular öğrenme hedefi olarak kaydedilmedi.`,
           'LearningTargetsController.detectTopics',
@@ -928,10 +977,12 @@ export class LearningTargetsController {
           428, // Manuel güncellendi
         );
         saved = false;
-        message = 'Konular tespit edildi ancak ders ID\'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.';
+        message =
+          "Konular tespit edildi ancak ders ID'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.";
       } else if (!isAuthenticated && !dto.courseId) {
         saved = false;
-        message = 'Konular tespit edildi ancak giriş yapılmadığı ve ders ID\'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.';
+        message =
+          "Konular tespit edildi ancak giriş yapılmadığı ve ders ID'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.";
       }
 
       // Enhanced response construction with proper empty response handling
@@ -940,12 +991,12 @@ export class LearningTargetsController {
         'LearningTargetsController.detectTopics',
         __filename,
         442,
-        { 
-          detectedRawTopics, 
-          saved, 
+        {
+          detectedRawTopics,
+          saved,
           message,
           userId,
-          courseId: dto.courseId 
+          courseId: dto.courseId,
         },
       );
 
@@ -964,11 +1015,11 @@ export class LearningTargetsController {
         'LearningTargetsController.detectTopics',
         __filename,
         457,
-        { 
-          responseTopicsCount: response.topics.length, 
+        {
+          responseTopicsCount: response.topics.length,
           responseStructure: JSON.stringify(response, null, 2),
           userId,
-          courseId: dto.courseId 
+          courseId: dto.courseId,
         },
       );
 
@@ -1000,11 +1051,11 @@ export class LearningTargetsController {
         __filename,
         470,
         error,
-        { userId, documentId: dto.documentId, courseId: dto.courseId }
+        { userId, documentId: dto.documentId, courseId: dto.courseId },
       );
 
       throw new BadRequestException(
-        'Konu tespiti sırasında beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.'
+        'Konu tespiti sırasında beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.',
       );
     }
   }
@@ -1108,11 +1159,13 @@ export class LearningTargetsController {
       // If topicName is provided, create a normalized version of it
       if (updateLearningTargetDto.topicName) {
         // Add a normalized version of the topic name to the DTO
-        const normalizedTopicName = normalizeName(updateLearningTargetDto.topicName);
+        const normalizedTopicName = normalizeName(
+          updateLearningTargetDto.topicName,
+        );
         // Use type assertion to add this property to the DTO
-        (updateLearningTargetDto as any).normalizedTopicName = normalizedTopicName;
+        (updateLearningTargetDto as any).normalizedTopicName =
+          normalizedTopicName;
       }
-
 
       const result = await this.learningTargetsService.update(
         id,
@@ -1125,8 +1178,12 @@ export class LearningTargetsController {
       return {
         ...result,
         // Only include these properties if they exist
-        ...(result['lastAttempt'] ? { lastAttempt: new Date(result['lastAttempt']) } : { lastAttempt: null }),
-        ...(result['firstEncountered'] ? { firstEncountered: new Date(result['firstEncountered']) } : {}),
+        ...(result['lastAttempt']
+          ? { lastAttempt: new Date(result['lastAttempt']) }
+          : { lastAttempt: null }),
+        ...(result['firstEncountered']
+          ? { firstEncountered: new Date(result['firstEncountered']) }
+          : {}),
         // Add missing properties required by LearningTargetWithQuizzes with defaults
         lastAttemptScorePercent: (result as any).lastAttemptScorePercent || 0,
         failCount: (result as any).failCount || 0,
@@ -1208,22 +1265,34 @@ export class LearningTargetsController {
   ): Promise<string[]> {
     const operationId = `detect-new-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n🔍 BACKEND: Detect New Topics - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n🔍 BACKEND: Detect New Topics - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${req.user.uid}`);
     console.log(`🏫 Course ID: ${courseId}`);
-    console.log(`📋 Request Body:`, JSON.stringify(detectNewTopicsDto, null, 2));
-    console.log(`📊 Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`);
-    console.log(`📝 Context Text Length: ${detectNewTopicsDto.contextText?.length || 0} characters`);
-    
-    if (detectNewTopicsDto.existingTopicTexts && detectNewTopicsDto.existingTopicTexts.length > 0) {
+    console.log(
+      `📋 Request Body:`,
+      JSON.stringify(detectNewTopicsDto, null, 2),
+    );
+    console.log(
+      `📊 Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`,
+    );
+    console.log(
+      `📝 Context Text Length: ${detectNewTopicsDto.contextText?.length || 0} characters`,
+    );
+
+    if (
+      detectNewTopicsDto.existingTopicTexts &&
+      detectNewTopicsDto.existingTopicTexts.length > 0
+    ) {
       console.log(`\n📝 Existing Topics List:`);
       detectNewTopicsDto.existingTopicTexts.forEach((topic, index) => {
         console.log(`  ${index + 1}. ${topic}`);
       });
     }
-    
+
     const userId = req.user.uid;
     try {
       this.flowTracker.trackStep(
@@ -1250,9 +1319,11 @@ export class LearningTargetsController {
         throw new BadRequestException(errorMessage);
       }
 
-      console.log(`\n🚀 Calling TopicDetectionService.detectExclusiveNewTopics...`);
+      console.log(
+        `\n🚀 Calling TopicDetectionService.detectExclusiveNewTopics...`,
+      );
       const serviceStartTime = performance.now();
-      
+
       const newTopics =
         await this.topicDetectionService.detectExclusiveNewTopics(
           detectNewTopicsDto.contextText,
@@ -1261,17 +1332,21 @@ export class LearningTargetsController {
 
       const serviceEndTime = performance.now();
       const serviceDuration = serviceEndTime - serviceStartTime;
-      
-      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
+
+      console.log(
+        `\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`,
+      );
       console.log(`📊 New Topics Detected Count: ${newTopics.length}`);
-      
+
       if (newTopics.length > 0) {
         console.log(`\n🎯 Detected New Topics:`);
         newTopics.forEach((topic, index) => {
           console.log(`  ${index + 1}. ${topic}`);
         });
       } else {
-        console.log(`\n ℹ️ No new topics detected (all existing topics covered)`);
+        console.log(
+          `\n ℹ️ No new topics detected (all existing topics covered)`,
+        );
       }
 
       this.logger.info(
@@ -1281,57 +1356,64 @@ export class LearningTargetsController {
         682, // Manuel güncellendi
         { count: newTopics.length },
       );
-      
+
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
-      
+
       return newTopics;
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in detect new topics after ${errorDuration.toFixed(2)}ms:`);
+      console.error(
+        `\n❌ ERROR in detect new topics after ${errorDuration.toFixed(2)}ms:`,
+      );
       console.error(`Operation ID: ${operationId}`);
       console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
       console.error(`Error Code: ${error.code || 'N/A'}`);
       console.error(`HTTP Status: ${error.status || 'N/A'}`);
-      
+
       // Enhanced stack trace with context
       if (error.stack) {
         console.error(`\n📍 Full Stack Trace:`);
-        console.error(error.stack.split('\n').map((line, index) => 
-          `  ${index === 0 ? '→' : ' '} ${line}`
-        ).join('\n'));
+        console.error(
+          error.stack
+            .split('\n')
+            .map((line, index) => `  ${index === 0 ? '→' : ' '} ${line}`)
+            .join('\n'),
+        );
       }
-      
+
       // Log request context for debugging
       console.error(`\n🔍 Request Context:`);
       console.error(`  User ID: ${userId}`);
       console.error(`  Course ID: ${courseId}`);
-      console.error(`  Context Text Length: ${detectNewTopicsDto.contextText?.length || 0}`);
-      console.error(`  Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`);
-      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
-      
-      console.groupEnd();
-      
-      // Enhanced logger with more context
-      this.logger.logError(
-        error,
-        'LearningTargetsController.detectNewTopics',
-        {
-          operationId,
-          userId,
-          courseId,
-          lessonContextLength: detectNewTopicsDto.contextText?.length,
-          existingTopicNamesCount: detectNewTopicsDto.existingTopicTexts?.length,
-          errorDuration: errorDuration.toFixed(2),
-          errorType: error.constructor.name,
-          errorCode: error.code,
-          httpStatus: error.status,
-          additionalInfo: 'Yeni konu tespiti sırasında hata oluştu',
-        },
+      console.error(
+        `  Context Text Length: ${detectNewTopicsDto.contextText?.length || 0}`,
       );
+      console.error(
+        `  Existing Topics Count: ${detectNewTopicsDto.existingTopicTexts?.length || 0}`,
+      );
+      console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
+
+      console.groupEnd();
+
+      // Enhanced logger with more context
+      this.logger.logError(error, 'LearningTargetsController.detectNewTopics', {
+        operationId,
+        userId,
+        courseId,
+        lessonContextLength: detectNewTopicsDto.contextText?.length,
+        existingTopicNamesCount: detectNewTopicsDto.existingTopicTexts?.length,
+        errorDuration: errorDuration.toFixed(2),
+        errorType: error.constructor.name,
+        errorCode: error.code,
+        httpStatus: error.status,
+        additionalInfo: 'Yeni konu tespiti sırasında hata oluştu',
+      });
       throw error;
     }
   }
@@ -1339,11 +1421,12 @@ export class LearningTargetsController {
   @Post('batch-update')
   @ApiOperation({
     summary: 'Öğrenme hedeflerini toplu olarak günceller veya oluşturur',
-    description: 'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller. Mevcut değilse yeni hedef oluşturur.'
+    description:
+      'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller. Mevcut değilse yeni hedef oluşturur.',
   })
-  @ApiBody({ 
+  @ApiBody({
     type: BatchCreateUpdateLearningTargetsDto,
-    description: 'Güncellenecek/oluşturulacak öğrenme hedefleri listesi'
+    description: 'Güncellenecek/oluşturulacak öğrenme hedefleri listesi',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -1352,13 +1435,13 @@ export class LearningTargetsController {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        updatedCount: { type: 'number', example: 5 }
-      }
-    }
+        updatedCount: { type: 'number', example: 5 },
+      },
+    },
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Geçersiz istek verisi'
+    description: 'Geçersiz istek verisi',
   })
   @LogMethod()
   async batchUpdateLearningTargets(
@@ -1367,13 +1450,17 @@ export class LearningTargetsController {
   ): Promise<{ success: boolean; updatedCount: number }> {
     const operationId = `batch-update-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
-    
-    console.group(`\n🔄 BACKEND: Batch Update Learning Targets - Operation ID: ${operationId}`);
+
+    console.group(
+      `\n🔄 BACKEND: Batch Update Learning Targets - Operation ID: ${operationId}`,
+    );
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`👤 User ID: ${req.user.uid}`);
-    console.log(`📊 Targets to Update Count: ${batchUpdateDto.targets?.length || 0}`);
+    console.log(
+      `📊 Targets to Update Count: ${batchUpdateDto.targets?.length || 0}`,
+    );
     console.log(`📋 Request Body:`, JSON.stringify(batchUpdateDto, null, 2));
-    
+
     if (batchUpdateDto.targets && batchUpdateDto.targets.length > 0) {
       console.log(`\n📝 Targets Update Details:`);
       batchUpdateDto.targets.forEach((target, index) => {
@@ -1382,10 +1469,10 @@ export class LearningTargetsController {
         console.log(`     Score: ${target.lastScore}`);
       });
     }
-    
+
     try {
       const userId = req.user.uid;
-      
+
       this.flowTracker.trackStep(
         `Batch updating ${batchUpdateDto.targets.length} learning targets for user ${userId}`,
         'LearningTargetsController.batchUpdateLearningTargets',
@@ -1396,74 +1483,90 @@ export class LearningTargetsController {
         'LearningTargetsController.batchUpdateLearningTargets',
         __filename,
         undefined,
-        { 
-          userId, 
+        {
+          userId,
           targetCount: batchUpdateDto.targets.length,
-          targets: batchUpdateDto.targets.map(t => ({ 
-            subTopicName: t.subTopicName, 
-            status: t.status, 
-            lastScore: t.lastScore 
-          }))
-        }
+          targets: batchUpdateDto.targets.map((t) => ({
+            subTopicName: t.subTopicName,
+            status: t.status,
+            lastScore: t.lastScore,
+          })),
+        },
       );
 
       console.log(`\n🚀 Calling LearningTargetsService.batchCreateOrUpdate...`);
       const serviceStartTime = performance.now();
-      
+
       // Data is already in the correct format for batchCreateOrUpdate
       const result = await this.learningTargetsService.batchCreateOrUpdate(
         userId,
-        batchUpdateDto.targets
+        batchUpdateDto.targets,
       );
-      
+
       const serviceEndTime = performance.now();
       const serviceDuration = serviceEndTime - serviceStartTime;
-      
-      console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
-      console.log(`📊 Batch Create/Update Result:`, JSON.stringify(result, null, 2));
-      console.log(`📈 Processed Count: ${result.processedCount}/${batchUpdateDto.targets.length}`);
-      console.log(`🎯 Success Rate: ${((result.processedCount / batchUpdateDto.targets.length) * 100).toFixed(1)}%`);
+
+      console.log(
+        `\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`,
+      );
+      console.log(
+        `📊 Batch Create/Update Result:`,
+        JSON.stringify(result, null, 2),
+      );
+      console.log(
+        `📈 Processed Count: ${result.processedCount}/${batchUpdateDto.targets.length}`,
+      );
+      console.log(
+        `🎯 Success Rate: ${((result.processedCount / batchUpdateDto.targets.length) * 100).toFixed(1)}%`,
+      );
 
       this.logger.info(
         `Batch create/update completed: ${result.processedCount}/${batchUpdateDto.targets.length} targets processed`,
         'LearningTargetsController.batchUpdateLearningTargets',
         __filename,
         undefined,
-        { userId, ...result }
+        { userId, ...result },
       );
 
       const totalDuration = performance.now() - startTime;
-      console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
+      console.log(
+        `\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`,
+      );
       console.groupEnd();
 
       // Return in the expected format for backward compatibility
       return { success: result.success, updatedCount: result.processedCount };
     } catch (error) {
       const errorDuration = performance.now() - startTime;
-      console.error(`\n❌ ERROR in batch update learning targets after ${errorDuration.toFixed(2)}ms:`);
+      console.error(
+        `\n❌ ERROR in batch update learning targets after ${errorDuration.toFixed(2)}ms:`,
+      );
       console.error(`Operation ID: ${operationId}`);
       console.error(`Error Type: ${error.constructor.name}`);
       console.error(`Error Name: ${error.name}`);
       console.error(`Error Message: ${error.message}`);
       console.error(`Error Code: ${error.code || 'N/A'}`);
       console.error(`HTTP Status: ${error.status || 'N/A'}`);
-      
+
       // Enhanced stack trace with context
       if (error.stack) {
         console.error(`\n📍 Full Stack Trace:`);
-        console.error(error.stack.split('\n').map((line, index) => 
-          `  ${index === 0 ? '→' : ' '} ${line}`
-        ).join('\n'));
+        console.error(
+          error.stack
+            .split('\n')
+            .map((line, index) => `  ${index === 0 ? '→' : ' '} ${line}`)
+            .join('\n'),
+        );
       }
-      
+
       // Log request context for debugging
       console.error(`\n🔍 Request Context:`);
       console.error(`  User ID: ${req.user?.uid || 'unknown'}`);
       console.error(`  Targets Count: ${batchUpdateDto.targets?.length || 0}`);
       console.error(`  Operation Duration: ${errorDuration.toFixed(2)}ms`);
-      
+
       console.groupEnd();
-      
+
       // Enhanced logger with more context
       this.logger.logError(
         error,
@@ -1476,7 +1579,8 @@ export class LearningTargetsController {
           errorType: error.constructor.name,
           errorCode: error.code,
           httpStatus: error.status,
-          additionalInfo: 'Batch öğrenme hedefi güncellemesi sırasında hata oluştu',
+          additionalInfo:
+            'Batch öğrenme hedefi güncellemesi sırasında hata oluştu',
         },
       );
       throw error;

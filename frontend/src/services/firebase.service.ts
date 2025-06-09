@@ -41,7 +41,7 @@ import { db, auth, storage } from "../app/firebase/config";
 
 
 // Firestore koşul tipi
-export interface FirestoreCondition {
+interface FirestoreCondition {
   field: string;
   operator: "==" | ">" | "<" | ">=" | "<=";
   value: string | number | boolean | Date | null;
@@ -52,7 +52,7 @@ const googleProvider = new GoogleAuthProvider();
 
 
 // Firebase Authentication Servisi
-export const firebaseService = {
+const firebaseService = {
   // Mevcut auth nesnesini döndür
   getAuth: (): Auth => auth,
 
@@ -400,7 +400,7 @@ export const firestoreService = {
 };
 
 // Storage servisi
-export const storageService = {
+const storageService = {
   // Dosya yükleme
   uploadFile: async (
     storagePath: string,
@@ -489,8 +489,3 @@ export const storageService = {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  auth: firebaseService,
-  firestore: firestoreService,
-  storage: storageService,
-};

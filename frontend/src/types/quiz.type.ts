@@ -10,7 +10,7 @@ export interface SubTopic {
   name: string;
 }
 
-export interface MainTopic {
+interface MainTopic {
   id?: string; // Optional ID
   name: string;
   subTopics?: SubTopic[];
@@ -21,9 +21,9 @@ export interface SubTopicItem {
   normalizedSubTopic: string;
 }
 
-export type Topics = Record<string, MainTopic>;
+type Topics = Record<string, MainTopic>;
 
-export interface DocumentTopics {
+interface DocumentTopics {
   topics: Topics;
   source: "documentId" | "file" | "text" | "course"; // Added course
 }
@@ -70,7 +70,7 @@ export interface QuizPreferences {
 }
 
 // Option türü - string veya {id,text} formatında olabilir
-export type QuestionOption = string | { id: string; text: string };
+type QuestionOption = string | { id: string; text: string };
 
 export interface Question {
   id: string;
@@ -168,7 +168,7 @@ export interface QuizGenerationOptions {
 /**
  * Quiz sonuçları
  */
-export interface QuizResult {
+interface QuizResult {
   id: string;
   score: number;
   correctCount: number;

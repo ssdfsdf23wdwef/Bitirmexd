@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export const formatDate = (
+const formatDate = (
   dateString: string,
   locale: string = "tr-TR",
 ): string => {
@@ -80,7 +80,7 @@ export const removeAuthCookie = (): void => {
  * @param minRemainingMinutes En az kaç dakika kalan süre olması gerektiği
  * @returns Token'ın yenilenmesi gerekiyorsa true
  */
-export const shouldRefreshToken = (
+const shouldRefreshToken = (
   minRemainingMinutes: number = 10,
 ): boolean => {
   if (typeof window === "undefined") return false;
@@ -102,7 +102,7 @@ export const shouldRefreshToken = (
   }
 };
 
-export const getAverageSuccess = <
+const getAverageSuccess = <
   T extends { lastAttemptScorePercent?: number },
 >(
   items: T[],
@@ -117,12 +117,12 @@ export const getAverageSuccess = <
   return Math.round(avg);
 };
 
-export const truncateText = (text: string, maxLength: number = 100): string => {
+const truncateText = (text: string, maxLength: number = 100): string => {
   if (!text || text.length <= maxLength) return text || "";
   return text.substring(0, maxLength) + "...";
 };
 
-export const getDifficultyValue = (level: "kolay" | "orta" | "zor"): number => {
+const getDifficultyValue = (level: "kolay" | "orta" | "zor"): number => {
   switch (level) {
     case "kolay":
       return 1;
@@ -135,7 +135,7 @@ export const getDifficultyValue = (level: "kolay" | "orta" | "zor"): number => {
   }
 };
 
-export const generateUniqueId = (): string => {
+const generateUniqueId = (): string => {
   return (
     "id-" +
     Math.random().toString(36).substring(2, 9) +

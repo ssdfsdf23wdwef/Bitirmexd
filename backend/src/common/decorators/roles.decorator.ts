@@ -1,7 +1,7 @@
 import { SetMetadata } from '@nestjs/common';
 import { LoggerService } from '../services/logger.service';
 
-export const ROLES_KEY = 'roles';
+const ROLES_KEY = 'roles';
 
 /**
  * Rolü kontrol eden decorator
@@ -9,7 +9,7 @@ export const ROLES_KEY = 'roles';
  * @param roles İzin verilen roller
  * @returns Decorator
  */
-export const Roles = (...roles: string[]) => {
+const Roles = (...roles: string[]) => {
   const logger = LoggerService.getInstance();
   logger.debug(
     `Roles decorator kullanıldı, roles: [${roles.join(', ')}]`,

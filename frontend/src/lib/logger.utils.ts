@@ -41,7 +41,7 @@ export function mapToTrackerCategory(category: FlowCategory): TrackerFlowCategor
  * @param filePath Dosya yolu
  * @returns Dosya adı
  */
-export function extractFileName(filePath: string): string {
+function extractFileName(filePath: string): string {
   if (!filePath) return 'unknown';
   const parts = filePath.split(/[\/\\]/);
   return parts[parts.length - 1];
@@ -52,7 +52,7 @@ export function extractFileName(filePath: string): string {
  * @param options Logger servisi opsiyonları
  * @returns LoggerService instance
  */
-export function setupLogger(options?: any): any {
+function setupLogger(options?: any): any {
   // Ensure we're in client-side environment
   if (typeof window === 'undefined') {
     // Return a mock logger for SSR
@@ -100,7 +100,7 @@ export function setupLogger(options?: any): any {
  * @param options FlowTracker servisi opsiyonları
  * @returns FlowTrackerService instance
  */
-export function setupFlowTracker(options?: any): FlowTrackerService {
+function setupFlowTracker(options?: any): FlowTrackerService {
   // Ensure we're in client-side environment
   if (typeof window === 'undefined') {
     // Return a mock flow tracker for SSR
@@ -411,7 +411,7 @@ export function logInfo(
  * @param line Satır numarası (otomatik olarak alınır)
  * @param metadata Ek metadata
  */
-export function logDebug(
+function logDebug(
   message: string,
   context: string,
   file?: string,

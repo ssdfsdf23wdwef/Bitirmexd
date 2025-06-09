@@ -10,7 +10,7 @@ export enum LearningTargetStatus {
 /**
  * Learning target source type
  */
-export type LearningTargetSource = 'ai_proposal' | 'manual' | 'document_import';
+type LearningTargetSource = 'ai_proposal' | 'manual' | 'document_import';
 
 /**
  * Learning target interface
@@ -32,7 +32,7 @@ export interface LearningTarget {
 /**
  * Learning target with additional quiz data
  */
-export interface LearningTargetWithQuizzes extends LearningTarget {
+interface LearningTargetWithQuizzes extends LearningTarget {
   quizzes: string[]; // Quiz IDs
   lastAttempt: Date | null;
   lastAttemptScorePercent: number | null;
@@ -45,7 +45,7 @@ export interface LearningTargetWithQuizzes extends LearningTarget {
 /**
  * Create learning target DTO
  */
-export interface CreateLearningTargetDto {
+interface CreateLearningTargetDto {
   courseId?: string;
   topicName: string;
   status?: LearningTargetStatus;
@@ -55,7 +55,7 @@ export interface CreateLearningTargetDto {
 /**
  * Update learning target DTO
  */
-export interface UpdateLearningTargetDto {
+interface UpdateLearningTargetDto {
   topicName?: string;
   status?: LearningTargetStatus;
   notes?: string;
@@ -64,7 +64,7 @@ export interface UpdateLearningTargetDto {
 /**
  * Detect new topics DTO
  */
-export interface DetectNewTopicsDto {
+interface DetectNewTopicsDto {
   courseId?: string;
   existingTopicTexts: string[];
   contextText?: string;
@@ -83,7 +83,7 @@ export interface ProposedTopic {
 /**
  * Confirm new topics DTO
  */
-export interface ConfirmNewTopicsDto {
+interface ConfirmNewTopicsDto {
   courseId: string;
   selectedTopics: ProposedTopic[];
 }
@@ -91,7 +91,7 @@ export interface ConfirmNewTopicsDto {
 /**
  * Standardized API response format
  */
-export interface StandardizedApiResponse<T> {
+interface StandardizedApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
@@ -100,7 +100,7 @@ export interface StandardizedApiResponse<T> {
 /**
  * Detect new topics API response data
  */
-export interface DetectNewTopicsResponseData {
+interface DetectNewTopicsResponseData {
   proposedTopics: ProposedTopic[];
 }
 

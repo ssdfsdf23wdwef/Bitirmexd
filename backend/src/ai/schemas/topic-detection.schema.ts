@@ -44,7 +44,7 @@ export const TopicDetectionAiResponseSchema = z.object({
 });
 
 // Normalizasyon SONRASI beklediğimiz iç yapı
-export const NormalizedTopicStructureSchema = z.object({
+const NormalizedTopicStructureSchema = z.object({
   subTopicName: z.string(),
   normalizedSubTopicName: z.string(),
   parentTopic: z.string().optional(),

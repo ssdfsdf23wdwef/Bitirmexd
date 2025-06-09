@@ -30,7 +30,7 @@ interface LogEntry {
 /**
  * Logger yapılandırma seçenekleri
  */
-export interface LoggerOptions {
+interface LoggerOptions {
   enabled?: boolean;
   logToConsole?: boolean;
   logToFile?: boolean;
@@ -68,7 +68,6 @@ export class LoggerService {
    * Sınav olu�Yturma i�Ylemlerini loglamak için kullanılan logger
    */
   public examProcessLogger: any;
-
 
   public learningTargetLogger: any;
 
@@ -160,10 +159,18 @@ export class LoggerService {
       }
 
       // �-�Yrenme hedefleri log dosyasını kontrol et ve gerekirse olu�Ytur
-      const learningTargetLogPath = path.join(this.logDir, 'ö�Yrenme_hedef.log');
+      const learningTargetLogPath = path.join(
+        this.logDir,
+        'ö�Yrenme_hedef.log',
+      );
       if (!fs.existsSync(learningTargetLogPath)) {
-        fs.writeFileSync(learningTargetLogPath, '', { encoding: 'utf8', mode: 0o666 });
-        console.log(`�Y"? �-�Yrenme hedefleri log dosyası olu�Yturuldu: ${learningTargetLogPath}`);
+        fs.writeFileSync(learningTargetLogPath, '', {
+          encoding: 'utf8',
+          mode: 0o666,
+        });
+        console.log(
+          `�Y"? �-�Yrenme hedefleri log dosyası olu�Yturuldu: ${learningTargetLogPath}`,
+        );
       } else {
         // Dosya var ama yazılabilir mi kontrol et
         try {
@@ -209,7 +216,10 @@ export class LoggerService {
 
       console.log(`�Y'� �-�Yrenme hedefleri logger'ı ba�Yarıyla olu�Yturuldu`);
     } catch (error) {
-      console.error('�?O �-�Yrenme hedefleri logger olu�Yturulurken hata:', error);
+      console.error(
+        '�?O �-�Yrenme hedefleri logger olu�Yturulurken hata:',
+        error,
+      );
     }
   }
 
@@ -974,7 +984,9 @@ export class LoggerService {
         const frontendLogPath = this.getFrontendLogPath();
         fs.writeFileSync(frontendLogPath, '', { encoding: 'utf8' });
         if (this.logToConsole) {
-          console.log(`�Y�� Frontend log dosyası temizlendi: ${frontendLogPath}`);
+          console.log(
+            `�Y�� Frontend log dosyası temizlendi: ${frontendLogPath}`,
+          );
         }
       } catch (err) {
         console.error('Frontend log dosyası temizlenirken hata olu�Ytu:', err);
@@ -1162,4 +1174,3 @@ export class LoggerService {
     );
   }
 }
-

@@ -33,12 +33,12 @@ export interface UpdateUserDto {
  * Tema tipi
  * @see ThemeType enum
  */
-export type UserTheme = 'light' | 'dark' | 'system';
+type UserTheme = 'light' | 'dark' | 'system';
 
 /**
  * Kullanıcı istatistikleri
  */
-export interface UserStats {
+interface UserStats {
   completedQuizzes: number;
   averageScore: number;
   totalCourses: number;
@@ -48,7 +48,7 @@ export interface UserStats {
 /**
  * Kullanıcı tercihleri
  */
-export interface UserPreferences {
+interface UserPreferences {
   theme: UserTheme;
   notifications: boolean;
   language: string;
@@ -57,7 +57,7 @@ export interface UserPreferences {
 /**
  * Konu bazlı kullanıcı ilerleme durumu
  */
-export interface TopicProgress {
+interface TopicProgress {
   subTopic: string;
   normalizedSubTopic: string;
   status: 'weak' | 'medium' | 'strong';
@@ -69,7 +69,7 @@ export interface TopicProgress {
 /**
  * Zorluk seviyesi bazlı kullanıcı ilerleme durumu
  */
-export interface DifficultyProgress {
+interface DifficultyProgress {
   difficulty: 'easy' | 'medium' | 'hard';
   scorePercent: number;
   questionCount: number;
@@ -79,7 +79,7 @@ export interface DifficultyProgress {
 /**
  * Kullanıcı sınav ilerleme
  */
-export interface UserQuizProgress {
+interface UserQuizProgress {
   totalQuizzes: number;
   averageScore: number;
   quizzesLast30Days: number;
@@ -96,7 +96,7 @@ export interface UserQuizProgress {
 /**
  * Kullanıcı ilerleme durumu
  */
-export interface UserProgress {
+interface UserProgress {
   userId: string;
   totalStudyTime: number;
   studyTimeLast30Days: number;

@@ -54,7 +54,7 @@ interface LearningTargetAnalysis {
 }
 
 // Durum dağılımı tipi
-export interface StatusDistribution {
+interface StatusDistribution {
   pending: number;
   failed: number;
   medium: number;
@@ -75,7 +75,7 @@ interface TargetProgress {
 }
 
 // Panel veri tipi
-export interface DashboardData {
+interface DashboardData {
   courseId: string;
   overallProgress: StatusDistribution;
   recentQuizzes: Array<{
@@ -92,7 +92,7 @@ export interface DashboardData {
 }
 
 // İlişkili öğe sayıları tipi
-export interface RelatedItemsCount {
+interface RelatedItemsCount {
   courseId: string;
   learningTargets: number;
   quizzes: number;
@@ -789,13 +789,16 @@ export class CoursesService {
     }
   }
 
-    /**
+  /**
    * Retrieve concatenated material text for a course by aggregating
    * the extracted text of all documents belonging to the course.
    * This will be used to provide lesson context when proposing new topics.
    */
   @LogMethod({ trackParams: true })
-  async getCourseMaterialText(courseId: string, userId: string): Promise<string> {
+  async getCourseMaterialText(
+    courseId: string,
+    userId: string,
+  ): Promise<string> {
     try {
       this.flowTracker.trackStep(
         `${courseId} ID'li kursun materyal metni getiriliyor`,

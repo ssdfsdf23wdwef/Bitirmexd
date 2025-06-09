@@ -13,7 +13,7 @@ logger.debug(
 /**
  * Kullanıcı bilgilerini içeren temel arayüz
  */
-export interface User {
+interface User {
   id: string;
   uid: string;
   email: string;
@@ -26,7 +26,7 @@ export interface User {
 /**
  * Firebase kullanıcı bilgilerini de içeren genişletilmiş kullanıcı arayüzü
  */
-export interface PrismaUserWithFirebase extends User {
+interface PrismaUserWithFirebase extends User {
   firebaseUser: DecodedIdToken;
 }
 

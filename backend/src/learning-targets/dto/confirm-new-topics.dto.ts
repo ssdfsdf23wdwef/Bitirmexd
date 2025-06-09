@@ -1,4 +1,11 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, ArrayNotEmpty, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ArrayNotEmpty,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -19,7 +26,7 @@ class SelectedTopic {
 export class ConfirmNewTopicsDto {
   @ApiProperty({
     description: 'Kurs ID (opsiyonel)',
-    required: false
+    required: false,
   })
   @IsString()
   @IsOptional()

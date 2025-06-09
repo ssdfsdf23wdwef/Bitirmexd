@@ -80,7 +80,7 @@ interface ApiQuestion {
   [key: string]: unknown;
 }
 
-export interface ApiAnalysisResult {
+interface ApiAnalysisResult {
   overallScore: number;
   performanceBySubTopic: Record<
     string,
@@ -147,7 +147,7 @@ export interface ApiFailedQuestion {
 }
 
 // API Request DTO Interfaces
-export interface ApiQuizGenerationOptionsDto {
+interface ApiQuizGenerationOptionsDto {
   quizType: "quick" | "personalized";
   personalizedQuizType?:
     | "weakTopicFocused"
@@ -200,7 +200,7 @@ interface SubmitTopicDto {
 
 // END AH: Added helper DTOs
 
-export interface ApiQuizSubmissionPayloadDto {
+interface ApiQuizSubmissionPayloadDto {
   // quizId: string; // REMOVED - Not expected by backend at the root
   userAnswers: Record<string, string>;
   elapsedTime?: number | null;

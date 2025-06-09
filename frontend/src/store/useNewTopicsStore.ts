@@ -49,7 +49,7 @@ interface NewTopicsActions {  // Yeni konu önerileri yükle
 }
 
 // PendingTopic arayüzü
-export interface PendingTopic {
+interface PendingTopic {
   name: string;
   status: 'BEKLEMEDE';
 }
@@ -359,12 +359,12 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
 );
 
 // Selector hooks
-export const useNewTopicsLoading = () => {
+const useNewTopicsLoading = () => {
   const { isLoadingSuggestedTopics, isConfirmingTopics } = useNewTopicsStore();
   return isLoadingSuggestedTopics || isConfirmingTopics;
 };
 
-export const useNewTopicsErrors = () => {
+const useNewTopicsErrors = () => {
   const { errorLoadingSuggestedTopics, errorConfirmingTopics } = useNewTopicsStore();
   return {
     loadingError: errorLoadingSuggestedTopics,
@@ -373,12 +373,12 @@ export const useNewTopicsErrors = () => {
   };
 };
 
-export const useSelectedTopicsCount = () => {
+const useSelectedTopicsCount = () => {
   const { selectedNewTopicsForConfirmation } = useNewTopicsStore();
   return selectedNewTopicsForConfirmation.length;
 };
 
-export const useCanConfirmTopics = () => {
+const useCanConfirmTopics = () => {
   const { selectedNewTopicsForConfirmation, isConfirmingTopics } = useNewTopicsStore();
   return selectedNewTopicsForConfirmation.length > 0 && !isConfirmingTopics;
 };

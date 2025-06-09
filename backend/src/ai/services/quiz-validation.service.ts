@@ -113,7 +113,6 @@ export class QuizValidationService {
         Object.keys(parsedJson),
       );
 
-
       return parsedJson as T;
     } catch (error) {
       console.log(
@@ -125,7 +124,6 @@ export class QuizValidationService {
     const jsonContent = this.extractJsonFromAIResponse(processedText);
 
     if (!jsonContent) {
-     
       return this.createFallbackData<T>(text, metadata);
     }
 
@@ -300,7 +298,6 @@ export class QuizValidationService {
       }
     }
 
-  
     // Hiç geçerli JSON objesi bulunamadıysa fallback data döndür
     if (validJsonObjects.length === 0) {
       console.log(
@@ -1613,9 +1610,8 @@ export class QuizValidationService {
       const result = QuizResponseSchema.safeParse(response);
 
       if (result.success) {
-       
         return result.data;
-      } 
+      }
 
       return null;
     } catch (e) {
@@ -1640,11 +1636,8 @@ export class QuizValidationService {
   ) {
     const { traceId } = metadata;
 
-   
-
     try {
       // Zod şeması ile validasyon
-    
 
       // Önce QuizResponseSchema ile doğrulamayı deneyelim (daha katı şema)
       const fullValidationResult = this.tryQuizResponseValidation(
@@ -1667,7 +1660,6 @@ export class QuizValidationService {
 
         // Veri yapısına göre işle
         if (Array.isArray(validationResult.data)) {
-        
           return { questions: validationResult.data };
         }
         console.log(
@@ -1678,8 +1670,6 @@ export class QuizValidationService {
 
       // Validasyon başarısız - hata detaylarını inceleyip alternatif çözümler dene
       const validationError = validationResult.error;
-     
-
 
       // Yanıt içinde questions yoksa (ama doğrudan soru listesi içerik olabilir)
       if (!parsedJson.questions) {
@@ -1705,7 +1695,6 @@ export class QuizValidationService {
         );
 
         if (containsQuestionProperties) {
-         
           this.logger.debug(
             `[${traceId}] JSON içinde soru benzeri nesneler tespit edildi, bunları işlemeye çalışılacak`,
             'QuizValidationService.validateQuizResponseSchema',
@@ -1793,12 +1782,8 @@ export class QuizValidationService {
         }
 
         if (foundQuestions.length > 0) {
-        
           return { questions: foundQuestions };
         }
-
-
-     
 
         // Örnek içerik tespit edildi mi kontrol et
         const containsExamples = this.detectExampleContent(rawResponse);
@@ -1899,9 +1884,6 @@ export class QuizValidationService {
   ): QuizQuestion[] {
     const { traceId } = metadata;
 
-
-
-
     // Soru dizisini al
     const questionsArray = Array.isArray(validatedData)
       ? validatedData
@@ -1931,8 +1913,6 @@ export class QuizValidationService {
 
     // AI modelinden gelen veriyi dönüştür (format uyumsuzluklarını ele al)
     try {
-   
-
       // Her soru için AI modeli tarafından döndürülen formatı uyumlu hale getir
       for (let i = 0; i < validatedData.questions.length; i++) {
         const question = validatedData.questions[i];
@@ -2037,8 +2017,6 @@ export class QuizValidationService {
             );
         }
       }
-
-   
     } catch (error) {
       this.logger.error(
         `[${traceId}] Soru formatı dönüştürme hatası: ${error.message}`,
@@ -2101,9 +2079,6 @@ export class QuizValidationService {
         questionsArray.length < requestedCount
           ? `UYARI: İstenen soru sayısı (${requestedCount}) karşılanamadı! Sadece ${questionsArray.length} soru bulundu.`
           : `BİLGİ: İstenen soru sayısından (${requestedCount}) daha fazla (${questionsArray.length}) soru bulundu.`;
-
-
-  
     }
 
     // Soru validasyonu
@@ -2146,11 +2121,9 @@ export class QuizValidationService {
           );
         } else if (typeof q_input.topic === 'string' && q_input.topic) {
           subTopicNameFromInput = q_input.topic;
-        
         } else {
           // Varsayılan alt konu adı
           subTopicNameFromInput = 'Bilinmeyen Konu';
-         
         }
 
         // Alt konu adını normalize et
@@ -2160,9 +2133,7 @@ export class QuizValidationService {
             this.normalizationService.normalizeSubTopicName(
               subTopicNameFromInput,
             );
-         
         } catch (normError) {
-          
           normalizedSubTopicName = subTopicNameFromInput
             .toLowerCase()
             .replace(/\s+/g, '_');
@@ -2177,10 +2148,14 @@ export class QuizValidationService {
         );
 
         // Seçenekleri ve doğru cevabı belirle
-        const options = q_input.options || ['A', 'B', 'C', 'D'].map((o) => `Seçenek ${o}`);
-        const correctAnswerId = q_input.correctAnswerId || 
-          (q_input.options && q_input.options.length > 0 ? q_input.options[0].id : 'option_1');
-        
+        const options =
+          q_input.options || ['A', 'B', 'C', 'D'].map((o) => `Seçenek ${o}`);
+        const correctAnswerId =
+          q_input.correctAnswerId ||
+          (q_input.options && q_input.options.length > 0
+            ? q_input.options[0].id
+            : 'option_1');
+
         // correctAnswer'ı belirle - options array'inden correctAnswerId'ye göre
         let correctAnswer: string;
         if (Array.isArray(options) && options.length > 0) {
@@ -2189,8 +2164,12 @@ export class QuizValidationService {
             correctAnswer = q_input.correctAnswer || options[0];
           } else {
             // Yeni format: options objesi {id, text}
-            const correctOption = options.find((opt: any) => opt.id === correctAnswerId);
-            correctAnswer = correctOption ? correctOption.text : (options[0]?.text || options[0]);
+            const correctOption = options.find(
+              (opt: any) => opt.id === correctAnswerId,
+            );
+            correctAnswer = correctOption
+              ? correctOption.text
+              : options[0]?.text || options[0];
           }
         } else {
           correctAnswer = q_input.correctAnswer || 'Doğru cevap eksik';
@@ -2226,10 +2205,7 @@ export class QuizValidationService {
         // Zod şeması ile doğrula
         QuizQuestionSchema.parse(questionData);
         validQuestions.push(questionData as QuizQuestion);
-       
       } catch (questionValidationError) {
-      
-
         this.logger.warn(
           `[${traceId}] Soru validasyon hatası (ID: ${q_input.id || `q_${i}`}): ${questionValidationError.message}`,
           'QuizValidationService.transformAndValidateQuestions',
@@ -2260,8 +2236,6 @@ export class QuizValidationService {
 
     // İstenen soru sayısı karşılanmadı mı uyarısı
     if (validQuestions.length < requestedCount) {
-   
-
       this.logger.warn(
         `[${traceId}] İstenen soru sayısı (${requestedCount}) karşılanamadı. Sadece ${validQuestions.length} soru üretilebildi.`,
         'QuizValidationService.transformAndValidateQuestions',
