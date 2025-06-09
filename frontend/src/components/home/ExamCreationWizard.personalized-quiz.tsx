@@ -29,12 +29,12 @@ import {
 import { toast } from "react-hot-toast";
 import quizService from "@/services/quiz.service";
 import authService from "@/services/auth.service";
+import { useAuth } from "@/hooks/auth/useAuth";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { LearningTarget } from "@/types/learningTarget.type";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ApiError } from "@/services/error.service"; 
 import { Quiz } from "@/types";
-import { downloadExamAsMarkdown } from "@/lib/examFileUtils";
 
 interface ExamCreationWizardProps {
   quizType: "quick" | "personalized"; // Dışarıdan gelen sınav türü
@@ -76,6 +76,9 @@ export default function ExamCreationWizard({
   onComplete,
 }: ExamCreationWizardProps) {
   const router = useRouter();
+  
+  // Authentication state
+  const { user, token, isAuthenticated, isLoading: authLoading } = useAuth();
 
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);
@@ -909,6 +912,31 @@ export default function ExamCreationWizard({
     try {
       console.log(`[ECW detectTopicsFromUploadedFile] 📂 Dosya konu tespiti başlatılıyor: ${file.name}`);
       
+      // Authentication check for personalized quizzes
+      if (quizType === "personalized") {
+        if (authLoading) {
+          console.log(`[ECW detectTopicsFromUploadedFile] ⏳ Kimlik doğrulama durumu kontrol ediliyor...`);
+          ErrorService.showToast("Kimlik doğrulama durumu kontrol ediliyor...", "info");
+          return;
+        }
+        
+        if (!isAuthenticated || !user || !token) {
+          console.error(`[ECW detectTopicsFromUploadedFile] ❌ Kimlik doğrulama hatası:`, {
+            isAuthenticated,
+            hasUser: !!user,
+            hasToken: !!token
+          });
+          ErrorService.showToast(
+            "Kişiselleştirilmiş sınav oluşturabilmek için giriş yapmalısınız.",
+            "error"
+          );
+          setTopicDetectionStatus("error");
+          return;
+        }
+        
+        console.log(`[ECW detectTopicsFromUploadedFile] ✅ Kimlik doğrulama başarılı. Kullanıcı: ${user.email}`);
+      }
+      
       let uploadedDocument = null;
       try {
         uploadedDocument = await documentService.uploadDocument(
@@ -960,13 +988,92 @@ export default function ExamCreationWizard({
           
           console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
           
-          const response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
+          // Debug authentication state before API call
+          if (quizType === "personalized") {
+            console.log(`[ECW detectTopicsFromUploadedFile] 🔐 Auth Debug:`, {
+              isAuthenticated,
+              hasUser: !!user,
+              userEmail: user?.email,
+              hasToken: !!token,
+              tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
+            });
+          }
+          
+          // Enhanced API call with better error handling
+          let response: any;
+          try {
+            response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
+            console.log(`[ECW detectTopicsFromUploadedFile] ✅ API çağrısı başarılı. Response:`, {
+              hasResponse: !!response,
+              status: response?.status,
+              statusText: response?.statusText,
+              hasData: !!response?.data,
+              dataType: typeof response?.data,
+              responseKeys: response ? Object.keys(response) : 'no response'
+            });
+          } catch (apiError: any) {
+            console.error(`[ECW detectTopicsFromUploadedFile] ❌ API çağrısı hatası:`, {
+              error: apiError,
+              errorMessage: apiError?.message,
+              errorName: apiError?.name,
+              errorResponse: apiError?.response,
+              errorStatus: apiError?.response?.status,
+              errorData: apiError?.response?.data,
+              errorStack: apiError?.stack
+            });
+            
+            // Check if it's a specific HTTP error
+            if (apiError?.response) {
+              const errorStatus = apiError.response.status;
+              const errorData = apiError.response.data;
+              console.error(`[ECW detectTopicsFromUploadedFile] ❌ HTTP Hata ${errorStatus}:`, errorData);
+              
+              if (errorStatus === 401) {
+                ErrorService.showToast("Kimlik doğrulama hatası. Lütfen tekrar giriş yapın.", "error");
+              } else if (errorStatus === 400) {
+                ErrorService.showToast(`Geçersiz istek: ${errorData?.message || 'Bilinmeyen hata'}`, "error");
+              } else if (errorStatus >= 500) {
+                ErrorService.showToast("Sunucu hatası. Lütfen daha sonra tekrar deneyin.", "error");
+              } else {
+                ErrorService.showToast(`API Hatası (${errorStatus}): ${errorData?.message || 'Bilinmeyen hata'}`, "error");
+              }
+            } else if (apiError?.request) {
+              console.error(`[ECW detectTopicsFromUploadedFile] ❌ Ağ hatası - istek gönderildi ama yanıt alınamadı:`, apiError.request);
+              ErrorService.showToast("Ağ bağlantı hatası. İnternet bağlantınızı kontrol edin.", "error");
+            } else {
+              console.error(`[ECW detectTopicsFromUploadedFile] ❌ İstek yapılandırma hatası:`, apiError?.message || 'Bilinmeyen hata');
+              ErrorService.showToast(`İstek hatası: ${apiError?.message || 'Bilinmeyen hata'}`, "error");
+            }
+            
+            setTopicDetectionStatus("error");
+            return;
+          }
+          
+          // Check if response exists
+          if (!response) {
+            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Response objesi undefined!`);
+            ErrorService.showToast("API yanıtı alınamadı. Lütfen tekrar deneyin.", "error");
+            setTopicDetectionStatus("error");
+            return;
+          }
+          
           console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı. Durum kodu: ${response.status}`);
           console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response.data));
           
           if (!response.data) {
             console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş yanıt alındı!`);
-            ErrorService.showToast("Yanıt alınamadı. Lütfen tekrar deneyin.", "error");
+            console.error(`[ECW detectTopicsFromUploadedFile] 📊 Response detayları:`, {
+              status: response?.status,
+              statusText: response?.statusText,
+              headers: response?.headers,
+              data: response?.data,
+              dataType: typeof response?.data,
+              dataIsNull: response?.data === null,
+              dataIsUndefined: response?.data === undefined,
+              dataIsEmptyObject: response?.data && typeof response?.data === 'object' && Object.keys(response?.data).length === 0,
+              fullResponse: JSON.stringify(response, null, 2)
+            });
+            ErrorService.showToast("Boş yanıt alındı! Backend'den gelen yanıt geçersiz. Lütfen tekrar deneyin.", "error");
             setTopicDetectionStatus("error");
             return;
           }
@@ -1932,6 +2039,44 @@ export default function ExamCreationWizard({
       setCurrentStep(step);
     }
   };
+
+  // Authentication check for personalized quizzes
+  if (quizType === "personalized") {
+    if (authLoading) {
+      return (
+        <div className="w-full h-full bg-background flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">Kimlik doğrulama kontrol ediliyor...</p>
+          </div>
+        </div>
+      );
+    }
+    
+    if (!isAuthenticated || !user) {
+      return (
+        <div className="w-full h-full bg-background flex items-center justify-center">
+          <div className="text-center">
+            <div className="mb-4">
+              <FiTarget className="mx-auto h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+              Giriş Yapmanız Gerekiyor
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Kişiselleştirilmiş sınav oluşturabilmek için giriş yapmalısınız.
+            </p>
+            <button
+              onClick={() => router.push('/auth/login')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Giriş Yap
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
 
   // Render
   return (

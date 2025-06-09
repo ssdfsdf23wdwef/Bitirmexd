@@ -45,7 +45,6 @@ export const checkApiAvailability = async (
   retryPorts = true,
 ): Promise<string> => {
   const logger = getLogger();
-  const flowTracker = getFlowTracker();
   
   
   const initialRetryDelay = 100; 
@@ -206,6 +205,46 @@ const TOKEN_CACHE = {
 };
 
 /**
+ * Firebase Auth'un hazır olmasını bekleyen fonksiyon
+ */
+const waitForAuthReady = async (timeoutMs: number = 5000): Promise<boolean> => {
+  return new Promise((resolve) => {
+    if (typeof window === "undefined") {
+      resolve(false);
+      return;
+    }
+
+    let timeoutId: NodeJS.Timeout;
+    let unsubscribe: (() => void) | null = null;
+
+    const cleanup = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      if (unsubscribe) unsubscribe();
+    };
+
+    // Timeout ayarla
+    timeoutId = setTimeout(() => {
+      cleanup();
+      console.log("🔐 Firebase Auth hazır olma timeout");
+      resolve(false);
+    }, timeoutMs);
+
+    try {
+      // Auth state değişikliklerini dinle
+      unsubscribe = auth.onAuthStateChanged((user) => {
+        console.log("🔐 Auth state değişikliği:", !!user);
+        cleanup();
+        resolve(true);
+      });
+    } catch (error) {
+      console.error("🔐 Auth state listener hatası:", error);
+      cleanup();
+      resolve(false);
+    }
+  });
+};
+
+/**
  * Kimlik doğrulama token'ını alma fonksiyonu
  * Firebase kullanıcısından ID token alır veya önbellekten döndürür
  * @returns Firebase ID Token
@@ -248,15 +287,41 @@ const getAuthToken = async (): Promise<string | null> => {
   // Yeni bir token isteği başlat ve önbelleğe kaydet
   TOKEN_CACHE.waitingPromise = (async () => {
     try {
+      console.log("🔐 Token alınıyor...");
+      
+      // Firebase auth durumunu kontrol et
+      console.log("🔐 Firebase auth durumu:", {
+        authExists: !!auth,
+        currentUserExists: !!auth?.currentUser,
+        currentUserUid: auth?.currentUser?.uid,
+        currentUserEmail: auth?.currentUser?.email,
+        currentUserEmailVerified: auth?.currentUser?.emailVerified,
+        currentUserProviderData: auth?.currentUser?.providerData,
+      });
+
       const currentUser = auth.currentUser;
       if (!currentUser) {
+        console.log("🔐 Kullanıcı bulunamadı, localStorage'dan token deneniyor...");
         // Kullanıcı yoksa localStorage'dan token'ı dene
         TOKEN_CACHE.token = (typeof window !== "undefined" ? localStorage.getItem("auth_token") : null);
+        console.log("🔐 localStorage token:", TOKEN_CACHE.token ? "var" : "yok");
         return TOKEN_CACHE.token;
       }
 
-      // Firebase'den token al
+      console.log("🔐 Firebase'den fresh token alınıyor...");
+      
+      // Firebase'den token al - önce force refresh ile
       const token = await currentUser.getIdToken(true);
+      
+      console.log("🔐 Token alındı:", {
+        tokenLength: token?.length || 0,
+        tokenPrefix: token?.substring(0, 20) + "...",
+        tokenExists: !!token
+      });
+
+      if (!token) {
+        throw new Error("Firebase'den alınan token boş");
+      }
 
       // Token'ı önbelleğe kaydet
       TOKEN_CACHE.token = token;
@@ -264,12 +329,26 @@ const getAuthToken = async (): Promise<string | null> => {
       // Token süresini 50 dakika olarak ayarla (Firebase token'ları genelde 1 saat geçerli)
       TOKEN_CACHE.expiresAt = now + 50 * 60 * 1000;
 
+      // localStorage'a da kaydet
+      if (typeof window !== "undefined") {
+        localStorage.setItem("auth_token", token);
+      }
+
+      console.log("🔐 Token başarıyla alındı ve kaydedildi");
       return token;
     } catch (error) {
-      console.error("Token alma hatası:", error);
+      console.error("🔐 Token alma hatası:", error);
+      console.error("🔐 Hata detayları:", {
+        errorMessage: error instanceof Error ? error.message : "Bilinmeyen hata",
+        errorCode: (error as any)?.code,
+        errorDetails: (error as any)?.details,
+        currentUserExists: !!auth?.currentUser,
+        authExists: !!auth,
+      });
 
       // Hata durumunda localStorage'dan token'ı dene
       TOKEN_CACHE.token = (typeof window !== "undefined" ? localStorage.getItem("auth_token") : null);
+      console.log("🔐 Hata sonrası localStorage token:", TOKEN_CACHE.token ? "var" : "yok");
       return TOKEN_CACHE.token;
     } finally {
       // Token yenileme işlemini sonlandır

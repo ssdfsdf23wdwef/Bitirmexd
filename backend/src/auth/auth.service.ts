@@ -453,13 +453,7 @@ export class AuthService {
           __filename,
         );
       } catch (jwtError) {
-        this.logger.error(
-          `[AuthService] JWT token creation failed for user ${user?.id}.`,
-          'AuthService.refreshToken',
-          __filename,
-          undefined,
-          { errorMessage: jwtError instanceof Error ? jwtError.message : String(jwtError) }
-        );
+       
         throw new InternalServerErrorException('Token oluşturulamadı');
       }
 
@@ -705,25 +699,9 @@ export class AuthService {
         storedTokenId: storedToken.id,
       };
 
-      this.logger.info(
-        `[AuthService] Refresh token successfully validated. User ID: ${validTokenInfo.user.id}, DB Token ID: ${validTokenInfo.storedTokenId}`,
-        'AuthService.validateAndGetUserByRefreshToken',
-        __filename 
-      );
+  
       return validTokenInfo;
     } catch (error) {
-      this.logger.error(
-        `[AuthService] Error in validateAndGetUserByRefreshToken. Token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}. Error: ${error.message}`,
-        'AuthService.validateAndGetUserByRefreshToken',
-        __filename,
-        undefined,
-        {
-          errorName: error.name,
-          errorMessage: error.message,
-          // stack: error.stack,
-          errorContext: 'Refresh token doğrulama sırasında genel hata',
-        }
-      );
       return null;
     }
   }

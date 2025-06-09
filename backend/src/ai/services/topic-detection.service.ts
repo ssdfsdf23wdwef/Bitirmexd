@@ -18,7 +18,7 @@ export class TopicDetectionService {
   private readonly logger: LoggerService;
   private readonly flowTracker: FlowTrackerService;
   private readonly MAX_RETRIES = 3;
-  private static topicCache: Map<string, TopicDetectionResult> = new Map();
+  
   
   // Sonuç format şeması
   private readonly NEW_TOPICS_RESULT_SCHEMA = {
@@ -133,15 +133,7 @@ Sadece JSON döndür, başka açıklama yapma.
           'TopicDetectionService.detectTopics',
           __filename,
         );
-        const cached = TopicDetectionService.topicCache.get(cacheKey);
-        if (cached) {
-          this.logger.debug(
-            `[${traceId}] Önbellekten sonuç bulundu: ${cacheKey}`,
-            'TopicDetectionService.detectTopics',
-            __filename,
-          );
-          return cached;
-        }
+        
       }
 
       // Truncate document text if too long
@@ -326,14 +318,7 @@ Sadece JSON döndür, başka açıklama yapma.
         console.log('Hiçbir konu tespit edilemedi.');
       }
       console.log('\n============================\n');
- if (cacheKey) {
-        TopicDetectionService.topicCache.set(cacheKey, result);
-        this.logger.debug(
-          `[${traceId}] Sonuç önbelleğe kaydedildi: ${cacheKey}`,
-          'TopicDetectionService.detectTopics',
-          __filename,
-        );
-      }
+
       return result;
     } catch (error) {
       this.logger.error(

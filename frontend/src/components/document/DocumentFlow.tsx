@@ -73,7 +73,7 @@ export default function DocumentFlow({
   const handleFileUpload = useCallback(async (file: File) => {
     try {
       logInfo(
-        `Dosya yükleme başlatıldı: ${file.name} (${file.size} bytes)`,
+       `Dosya yükleme başlatıldı: ${file.name} (${file.size} bytes)`,
         "DocumentFlow.handleFileUpload"
       );
       

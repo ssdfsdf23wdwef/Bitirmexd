@@ -1460,13 +1460,15 @@ export class LearningTargetsService {
     documentId: string,
     userId: string,
   ): Promise<string[]> {
+    const traceId = `trace_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
     try {
       this.logger.debug(
-        `Belge ID ${documentId} için belge metnini getiriliyor...`,
+        `[${traceId}] Belge ID ${documentId} için belge metnini getiriliyor...`,
         'LearningTargetsService.analyzeDocumentForTopics',
         __filename,
         undefined,
-        { documentId, userId },
+        { documentId, userId, traceId },
       );
 
       // Belge ID kullanarak belge metnini al
@@ -1478,35 +1480,38 @@ export class LearningTargetsService {
       // Belge metni dönüş tipini kontrol et
       if (!documentTextResponse || !documentTextResponse.text) {
         this.logger.warn(
-          `Belge metni alınamadı veya boş (ID: ${documentId})`,
+          `[${traceId}] Belge metni alınamadı veya boş (ID: ${documentId})`,
           'LearningTargetsService.analyzeDocumentForTopics',
           __filename,
           undefined,
-          { documentId, userId },
+          { documentId, userId, traceId, documentTextResponse },
         );
         throw new BadRequestException('Geçerli bir belge metni bulunamadı.');
       }
 
       // Belge metni aldığımızı logla
+      const textPreview = documentTextResponse.text.substring(0, 200) + (documentTextResponse.text.length > 200 ? '...' : '');
       this.logger.debug(
-        `Belge metni alındı (${documentTextResponse.text.length} karakter)`,
+        `[${traceId}] Belge metni alındı (${documentTextResponse.text.length} karakter) - Önizleme: "${textPreview}"`,
         'LearningTargetsService.analyzeDocumentForTopics',
         __filename,
         undefined,
         {
           documentId,
           userId,
+          traceId,
           textLength: documentTextResponse.text.length,
+          textPreview,
         },
       );
 
       // Belge metninden konuları tespit et
       this.logger.debug(
-        'AI servisi kullanılarak konular tespit ediliyor...',
+        `[${traceId}] AI servisi kullanılarak konular tespit ediliyor...`,
         'LearningTargetsService.analyzeDocumentForTopics',
         __filename,
         undefined,
-        { documentId, userId },
+        { documentId, userId, traceId },
       );
 
       // AI servisini kullanarak metinden konuları tespit et
@@ -1514,21 +1519,83 @@ export class LearningTargetsService {
         documentTextResponse.text,
       );
 
+      // AI servis yanıtını detaylı logla
+      this.logger.debug(
+        `[${traceId}] AI servisi yanıtı alındı`,
+        'LearningTargetsService.analyzeDocumentForTopics',
+        __filename,
+        undefined,
+        { 
+          documentId, 
+          userId, 
+          traceId,
+          topicResultExists: !!topicResult,
+          topicResultType: typeof topicResult,
+          topicsExists: topicResult ? !!topicResult.topics : false,
+          topicsIsArray: topicResult ? Array.isArray(topicResult.topics) : false,
+          topicsLength: topicResult && topicResult.topics ? topicResult.topics.length : 0,
+          fullTopicResult: JSON.stringify(topicResult, null, 2)
+        },
+      );
+
       // topicResult.topics dizisindeki her bir topic nesnesinden (SubTopic bekliyoruz)
       // subTopicName veya alternatiflerini alarak string dizisi oluştur
       if (topicResult && Array.isArray(topicResult.topics)) {
-        return topicResult.topics.map(
+        this.logger.debug(
+          `[${traceId}] ${topicResult.topics.length} adet topic bulundu, string dizisine dönüştürülüyor...`,
+          'LearningTargetsService.analyzeDocumentForTopics',
+          __filename,
+          undefined,
+          { documentId, userId, traceId, topics: topicResult.topics },
+        );
+
+        const mappedTopics = topicResult.topics.map(
           (
             topic: any, // topic'in SubTopic veya benzeri bir yapıda olması beklenir
-          ) =>
-            topic.subTopicName ||
-            topic.normalizedSubTopicName ||
-            topic.mainTopic || // Eğer mainTopic de bir olasılıksa
-            'Bilinmeyen konu',
+            index: number,
+          ) => {
+            const mappedTopic = topic.subTopicName ||
+              topic.normalizedSubTopicName ||
+              topic.mainTopic || // Eğer mainTopic de bir olasılıksa
+              'Bilinmeyen konu';
+            
+            this.logger.debug(
+              `[${traceId}] Topic ${index}: ${JSON.stringify(topic)} -> "${mappedTopic}"`,
+              'LearningTargetsService.analyzeDocumentForTopics',
+              __filename,
+              undefined,
+              { documentId, userId, traceId, topicIndex: index, originalTopic: topic, mappedTopic },
+            );
+            
+            return mappedTopic;
+          }
         );
+
+        this.logger.info(
+          `[${traceId}] Toplam ${mappedTopics.length} konu başarıyla tespit edildi: ${mappedTopics.join(', ')}`,
+          'LearningTargetsService.analyzeDocumentForTopics',
+          __filename,
+          undefined,
+          { documentId, userId, traceId, mappedTopics },
+        );
+
+        return mappedTopics;
       }
 
       // Eğer topics dizisi yoksa boş dizi dön
+      this.logger.warn(
+        `[${traceId}] AI servisi geçerli topics dizisi döndürmedi - boş dizi dönülüyor`,
+        'LearningTargetsService.analyzeDocumentForTopics',
+        __filename,
+        undefined,
+        { 
+          documentId, 
+          userId, 
+          traceId,
+          topicResult: JSON.stringify(topicResult, null, 2)
+        },
+      );
+      
       return [];
     } catch (error) {
       this.logger.logError(
@@ -1537,6 +1604,7 @@ export class LearningTargetsService {
         {
           userId,
           documentId,
+          traceId,
           additionalInfo: 'Belge analizinde hata oluştu',
         },
       );

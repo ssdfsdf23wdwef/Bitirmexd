@@ -639,18 +639,63 @@ export default function ExamCreationWizard({
           
           console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
           
-          const response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
-          console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı. Durum kodu: ${response.status}`);
-          console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response.data));
+          let response;
+          try {
+            response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
+            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı.`);
+            console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response));
+          } catch (apiError: any) {
+            console.error(`[ECW detectTopicsFromUploadedFile] ❌ API çağrısı hatası:`, apiError);
+            
+            // HTTP durum kodlarına göre özel hata mesajları
+            if (axios.isAxiosError(apiError)) {
+              const status = apiError.response?.status;
+              const errorData = apiError.response?.data;
+              
+              console.error(`[ECW detectTopicsFromUploadedFile] 🔍 HTTP Hata Detayları:`, {
+                status,
+                statusText: apiError.response?.statusText,
+                data: errorData,
+                message: apiError.message,
+                code: apiError.code
+              });
+              
+              if (status === 401) {
+                console.error(`[ECW detectTopicsFromUploadedFile] 🔐 Yetkilendirme hatası - kullanıcı giriş yapmamış olabilir`);
+              } else if (status === 400) {
+                console.error(`[ECW detectTopicsFromUploadedFile] 📝 Geçersiz istek - belge ID veya parametreler hatalı olabilir`);
+              } else if (status && status >= 500) {
+                console.error(`[ECW detectTopicsFromUploadedFile] 🔧 Sunucu hatası - backend servisi çalışmıyor olabilir`);
+              }
+            } else if (apiError.code === 'NETWORK_ERROR' || !navigator.onLine) {
+              console.error(`[ECW detectTopicsFromUploadedFile] 🌐 Ağ bağlantısı hatası`);
+            }
+            
+            setTopicDetectionStatus("error");
+            return;
+          }
           
-          if (!response.data) {
-            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş yanıt alındı!`);
+          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Response nesnesi kontrolü:`, {
+            responseExists: !!response,
+            responseType: typeof response,
+            hasTopics: response && 'topics' in response,
+            topicsExists: response && response.topics !== undefined,
+            topicsType: response && typeof response.topics,
+            topicsIsNull: response && response.topics === null,
+            topicsIsUndefined: response && response.topics === undefined
+          });
+          
+          if (!response || response.topics === undefined || response.topics === null) {
+            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş veya tanımsız yanıt alındı!`, {
+              response: !!response,
+              topics: response?.topics
+            });
             setTopicDetectionStatus("error");
             return;
           }
           
           let processedTopics: DetectedSubTopic[] = [];
-          const responseData = response.data as TopicsResponseData | DetectedSubTopic[] | string[];
+          const responseData = response as TopicsResponseData | DetectedSubTopic[] | string[];
           console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Yanıt formatı değerlendiriliyor:`, { isObject: typeof responseData === 'object', hasTopics: responseData && 'topics' in responseData, isArray: Array.isArray(responseData), type: typeof responseData });
           
           const generateId = (base: string = 'generated') => `${base}-${Math.random().toString(36).substring(2, 9)}`;
@@ -792,15 +837,21 @@ export default function ExamCreationWizard({
               setCurrentStep(2);
           }
         } catch (error: unknown) {
+          console.error(`[ECW detectTopicsFromUploadedFile] ❌ Genel hata:`, error);
           setTopicDetectionStatus("error");
           
           // Hata AxiosError tipinde mi kontrol et
           const isAxiosError = axios.isAxiosError(error);
-          
-     
+          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Hata analizi:`, {
+            isAxiosError,
+            errorType: typeof error,
+            errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+            errorStack: error instanceof Error ? error.stack : undefined
+          });
           
           // Hızlı sınav için hatasız devam et (PRD'ye göre hata toleransı yüksek olmalı)
           if (quizType === "quick") {
+            console.log(`[ECW detectTopicsFromUploadedFile] 🔄 Hızlı sınav modu: varsayılan konularla devam ediliyor`);
             const defaultTopics = generateDefaultTopicsFromFileName(file.name);
             setDetectedTopics(defaultTopics);
             setTopicDetectionStatus("success");

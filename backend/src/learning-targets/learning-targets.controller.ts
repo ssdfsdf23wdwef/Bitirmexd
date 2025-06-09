@@ -934,6 +934,21 @@ export class LearningTargetsController {
         message = 'Konular tespit edildi ancak giriş yapılmadığı ve ders ID\'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.';
       }
 
+      // Enhanced response construction with proper empty response handling
+      this.logger.debug(
+        `Constructing response with ${detectedRawTopics.length} topics, saved: ${saved}`,
+        'LearningTargetsController.detectTopics',
+        __filename,
+        442,
+        { 
+          detectedRawTopics, 
+          saved, 
+          message,
+          userId,
+          courseId: dto.courseId 
+        },
+      );
+
       const response: TopicDetectionResponseDto = {
         topics: detectedRawTopics.map((topicName) => ({
           subTopicName: topicName,
@@ -942,6 +957,20 @@ export class LearningTargetsController {
         saved,
         message,
       };
+
+      // Always log the response structure before returning
+      this.logger.info(
+        `Topic detection response ready - Topics: ${response.topics.length}, Saved: ${response.saved}, Message: ${response.message || 'none'}`,
+        'LearningTargetsController.detectTopics',
+        __filename,
+        457,
+        { 
+          responseTopicsCount: response.topics.length, 
+          responseStructure: JSON.stringify(response, null, 2),
+          userId,
+          courseId: dto.courseId 
+        },
+      );
 
       return response;
     } catch (error) {
@@ -957,7 +986,26 @@ export class LearningTargetsController {
           stack: error.stack, // Geliştirme ortamında loglanabilir
         },
       });
-      throw error;
+
+      // Check if this is a BadRequestException (expected error) or unexpected error
+      if (error instanceof BadRequestException) {
+        // Re-throw BadRequestException as-is to maintain proper HTTP status
+        throw error;
+      }
+
+      // For unexpected errors, log additional context and throw a generic BadRequestException
+      this.logger.error(
+        `Unexpected error during topic detection: ${error.message}`,
+        'LearningTargetsController.detectTopics',
+        __filename,
+        470,
+        error,
+        { userId, documentId: dto.documentId, courseId: dto.courseId }
+      );
+
+      throw new BadRequestException(
+        'Konu tespiti sırasında beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.'
+      );
     }
   }
 
