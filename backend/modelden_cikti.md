@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T14:30:59.039Z
-Trace ID: quiz-1749479444717-2n35c
-Yanıt Uzunluğu: 7916 karakter
+Tarih: 2025-06-09T17:06:21.153Z
+Trace ID: quiz-1749488767336-55yjv
+Yanıt Uzunluğu: 7721 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 7916 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayarların temel özelliklerinden biridir?",
+      "questionText": "Aşağıdakilerden hangisi biyolojik risk etmenlerinin tanımında yer almaz?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Saniyede 10^9 hesaplama yapabilme",
-        "Petaskala sistemlerden yaklaşık 100 kat daha güçlü olma",
-        "Saniyede 10^18 hesaplama yapabilme",
-        "Saniyede 10^12 hesaplama yapabilme"
+        "Enfeksiyona neden olabilen mikrobiyolojik varlıklar",
+        "Alerjiye neden olabilen mikrobiyolojik varlıklar",
+        "Zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
+        "Radyasyona neden olabilen mikrobiyolojik varlıklar"
       ],
-      "correctAnswer": "Saniyede 10^18 hesaplama yapabilme",
-      "explanation": "Eksaskala bilgisayarlar, saniyede 10^18 hesaplama yapabilen sistemlerdir. Sunu içeriğinde bu bilgi açıkça belirtilmiştir.",
-      "subTopicName": "Eksaskala Bilgisayar Sistemleri",
-      "normalizedSubTopicName": "eksaskala_bilgisayar_sistemleri",
+      "correctAnswer": "Radyasyona neden olabilen mikrobiyolojik varlıklar",
+      "explanation": "Biyolojik etkenler enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklardır. Radyasyon fiziksel bir risk etmenidir, biyolojik değil.",
+      "subTopicName": "Biyolojik Risk Etmenleri Tanımı",
+      "normalizedSubTopicName": "biyolojik_risk_etmenleri_tanimi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "2023 itibariyle en güncel eksaskala bilgisayar modeli hangisidir ve yaklaşık performansı nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Summit (saniyede 1.1 exaflop)",
-        "Sierra (saniyede 2 exaflop)",
-        "Frontier (saniyede 2 exaflop)",
-        "El Capitan (saniyede 2 exaflop)"
-      ],
-      "correctAnswer": "El Capitan (saniyede 2 exaflop)",
-      "explanation": "Sunu içeriğine göre, El Capitan (2023) saniyede 2 exaflop performansıyla güncel bir eksaskala bilgisayar modelidir.",
-      "subTopicName": "Eksaskala Bilgisayar Sistemleri",
-      "normalizedSubTopicName": "eksaskala_bilgisayar_sistemleri",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "Eksaskala bilgisayarların petaskala sistemlere göre yaklaşık kaç kat daha güçlü olduğu söylenebilir?",
+      "questionText": "Biyolojik risk etmenleri tanımına göre, aşağıdakilerden hangisi bu kapsama dahildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "10 kat",
-        "100 kat",
-        "1000 kat",
-        "10000 kat"
+        "Ağır metaller",
+        "Genetik olarak değiştirilmiş mikroorganizmalar",
+        "Yüksek sıcaklık",
+        "Gürültü"
       ],
-      "correctAnswer": "1000 kat",
-      "explanation": "Eksaskala bilgisayarlar, petaskala sistemlerden yaklaşık 1000 kat daha güçlüdür. Bu bilgi sunu içeriğinde belirtilmiştir.",
-      "subTopicName": "Eksaskala Bilgisayar Tanımı Ve Performansı",
-      "normalizedSubTopicName": "eksaskala_bilgisayar_tanimi_ve_performansi",
+      "correctAnswer": "Genetik olarak değiştirilmiş mikroorganizmalar",
+      "explanation": "Biyolojik etkenler, genetik olarak değiştirilmiş olanlar da dâhil olmak üzere mikroorganizmalar, hücre kültürleri ve insan endoparazitlerinden oluşmaktadır.",
+      "subTopicName": "Biyolojik Risk Etmenleri Tanımı",
+      "normalizedSubTopicName": "biyolojik_risk_etmenleri_tanimi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q3",
+      "questionText": "Aşağıdakilerden hangisi 'Biyolojik Etken' tanımını en doğru şekilde ifade eder?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Sadece virüsler ve bakteriler",
+        "Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
+        "Sadece insan endoparazitleri",
+        "Sadece hücre kültürleri"
+      ],
+      "correctAnswer": "Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
+      "explanation": "Biyolojik etkenler, herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen hücresel veya hücresel olmayan mikrobiyolojik varlıklar olarak tanımlanır.",
+      "subTopicName": "Biyolojik Etkenlerin Tanımı",
+      "normalizedSubTopicName": "biyolojik_etkenlerin_tanimi",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Eksaskala bilgisayarların saniyede yapabildiği işlem sayısı hangi aralıktadır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "10^12",
-        "10^15",
-        "10^18",
-        "10^21"
-      ],
-      "correctAnswer": "10^18",
-      "explanation": "Eksaskala bilgisayarlar saniyede 10^18 işlem yapabilir. Metinde bu bilgiye yer verilmiştir.",
-      "subTopicName": "Eksaskala Bilgisayar Tanımı Ve Performansı",
-      "normalizedSubTopicName": "eksaskala_bilgisayar_tanimi_ve_performansi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q5",
-      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayarların avantajlarından biri değildir?",
+      "questionText": "Hücre kültürü nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Doğal afetlerin daha etkili yönetilmesi",
-        "Akıllı şehirlerin gelişiminin hızlandırılması",
-        "Yapay zeka ve büyük veri analitiği uygulamalarından daha hızlı ve verimli sonuçlar elde edilmesi",
-        "Enerji tüketiminin azaltılması"
+        "Tek hücreli organizmaların geliştirilmesi",
+        "Çok hücreli organizmalardan türetilmiş hücrelerin in-vitro olarak geliştirilmesi",
+        "Sadece bakteri üretimi",
+        "Sadece virüs üretimi"
       ],
-      "correctAnswer": "Enerji tüketiminin azaltılması",
-      "explanation": "Sunu içeriğinde eksaskala bilgisayarların avantajları arasında enerji tüketiminin azaltılması yer almamaktadır. Diğer seçenekler belirtilen avantajlardandır.",
-      "subTopicName": "Eksaskala Bilgisayarların Avantajları",
-      "normalizedSubTopicName": "eksaskala_bilgisayarlarin_avantajlari",
+      "correctAnswer": "Çok hücreli organizmalardan türetilmiş hücrelerin in-vitro olarak geliştirilmesi",
+      "explanation": "Hücre kültürü, çok hücreli organizmalardan türetilmiş hücrelerin in-vitro (laboratuvar ortamında) olarak geliştirilmesini ifade eder.",
+      "subTopicName": "Biyolojik Etkenlerin Tanımı",
+      "normalizedSubTopicName": "biyolojik_etkenlerin_tanimi",
       "difficulty": "medium"
     },
     {
+      "id": "q5",
+      "questionText": "Biyolojik etkenler enfeksiyon yapma risk düzeyine göre kaç risk grubunda sınıflandırılır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "4",
+      "explanation": "Biyolojik etkenler enfeksiyon yapma risk düzeyine göre 4 risk grubunda sınıflandırılır.",
+      "subTopicName": "Biyolojik Risk Grupları",
+      "normalizedSubTopicName": "biyolojik_risk_gruplari",
+      "difficulty": "easy"
+    },
+    {
       "id": "q6",
-      "questionText": "Eksaskala bilgisayarların STEM alanları üzerindeki etkisi en doğru nasıl ifade edilebilir?",
+      "questionText": "Biyolojik risk gruplarının sınıflandırılmasında temel alınan faktör nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "STEM alanlarındaki bilimsel okuryazarlığı azaltır.",
-        "STEM alanlarıyla ilgili bilimsel okuryazarlığı artırır.",
-        "STEM alanlarına olan ilgiyi azaltır.",
-        "STEM alanlarındaki eğitim kalitesini düşürür."
+        "Etkenin boyutu",
+        "Etkenin yayılma hızı",
+        "Etkenin enfeksiyon yapma riski",
+        "Etkenin rengi"
       ],
-      "correctAnswer": "STEM alanlarıyla ilgili bilimsel okuryazarlığı artırır.",
-      "explanation": "Eksaskala bilgisayarların en önemli avantajlarından biri, STEM (Fen, Teknoloji, Mühendislik, Matematik) alanları ile ilgili bilimsel okuryazarlığın artırılmasıdır.",
-      "subTopicName": "Eksaskala Bilgisayarların Avantajları",
-      "normalizedSubTopicName": "eksaskala_bilgisayarlarin_avantajlari",
-      "difficulty": "easy"
+      "correctAnswer": "Etkenin enfeksiyon yapma riski",
+      "explanation": "Biyolojik risk etmenleri, enfeksiyon yapma risk düzeyine göre sınıflandırılır.",
+      "subTopicName": "Biyolojik Risk Grupları",
+      "normalizedSubTopicName": "biyolojik_risk_gruplari",
+      "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Von Neumann mimarisinin temel özelliği nedir?",
+      "questionText": "Aşağıdakilerden hangisi biyolojik risklere maruz kalınabilecek iş alanlarına örnek olarak verilemez?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Program komutları ve verilerin ayrı belleklerde saklanması",
-        "Sadece veri işleme odaklı olması",
-        "Program komutları ve verilerin aynı bellekte saklanması",
-        "Sadece komut işleme odaklı olması"
+        "Sağlık hizmetleri",
+        "Atık yönetimi",
+        "Gıda üretimi",
+        "Otomotiv üretimi"
       ],
-      "correctAnswer": "Program komutları ve verilerin aynı bellekte saklanması",
-      "explanation": "Von Neumann mimarisinde program komutları ve veriler aynı bellek içinde saklanır. Bu mimarinin temel özelliğidir.",
-      "subTopicName": "Von Neumann Mimarisi",
-      "normalizedSubTopicName": "von_neumann_mimarisi",
-      "difficulty": "easy"
+      "correctAnswer": "Otomotiv üretimi",
+      "explanation": "Sağlık hizmetleri, atık yönetimi ve gıda üretimi biyolojik risklerin yüksek olduğu iş alanlarıdır. Otomotiv üretimi daha çok fiziksel ve kimyasal riskler içerir.",
+      "subTopicName": "Riskli İ Ş Alanları",
+      "normalizedSubTopicName": "riskli_i_s_alanlari",
+      "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Von Neumann mimarisinin performansı hangi faktörle sınırlıdır?",
+      "questionText": "Biyolojik risklerin bulunduğu iş alanlarında, çalışanların sağlığını korumak için hangi öncelikli adım atılmalıdır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "İşlemci hızı",
-        "Bellek kapasitesi",
-        "Bellek ile işlemci arasındaki veri aktarım hızı",
-        "Giriş/Çıkış cihazlarının hızı"
+        "Çalışanlara yüksek maaş vermek",
+        "Riskleri belirlemek ve değerlendirmek",
+        "Çalışanlara daha fazla izin vermek",
+        "İşe alım süreçlerini hızlandırmak"
       ],
-      "correctAnswer": "Bellek ile işlemci arasındaki veri aktarım hızı",
-      "explanation": "Von Neumann mimarisinde bellek ile işlemci arasındaki veri aktarım hızı, sistemin performansını sınırlar.",
-      "subTopicName": "Von Neumann Mimarisi",
-      "normalizedSubTopicName": "von_neumann_mimarisi",
+      "correctAnswer": "Riskleri belirlemek ve değerlendirmek",
+      "explanation": "Biyolojik risklerin bulunduğu iş alanlarında öncelikle risklerin belirlenmesi ve değerlendirilmesi gerekmektedir. Bu değerlendirme sonucunda uygun kontrol önlemleri alınabilir.",
+      "subTopicName": "Riskli İ Ş Alanları",
+      "normalizedSubTopicName": "riskli_i_s_alanlari",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak işlem sürecine dahil edilen heterojen hesaplama kaynakları nelerdir?",
+      "questionText": "Biyolojik risk değerlendirme sürecinin ilk adımı aşağıdakilerden hangisidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sadece CPU",
-        "Sadece GPU",
-        "GPU ve TPU",
-        "Sadece TPU"
+        "Riskleri azaltma",
+        "Tehlikeleri belirleme",
+        "Hijyen kurallarını uygulama",
+        "Eğitim ve belgelendirme"
       ],
-      "correctAnswer": "GPU ve TPU",
-      "explanation": "Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak CPU'nun yanı sıra GPU ve TPU gibi hızlandırıcılar da işlem sürecine dahil edilir.",
-      "subTopicName": "Gpu Ve Tpu Hızlandırıcıları",
-      "normalizedSubTopicName": "gpu_ve_tpu_hizlandiricilari",
-      "difficulty": "medium"
+      "correctAnswer": "Tehlikeleri belirleme",
+      "explanation": "Risk değerlendirme sürecinin ilk adımı, iş yerindeki tehlikelerin belirlenmesidir.",
+      "subTopicName": "Risk Değerlendirme Süreci",
+      "normalizedSubTopicName": "risk_degerlendirme_sureci",
+      "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi GPU'nun temel özelliklerinden biridir?",
+      "questionText": "Risk değerlendirme sürecinde, tehlikeler belirlendikten sonraki aşama nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Tek çekirdeğe sahip olması",
-        "CPU'dan daha yavaş hesaplama yapması",
-        "Aynı anda birçok görevi yürüterek paralel işlem yapabilmesi",
-        "Sadece ofis uygulamalarında kullanılması"
+        "Riskleri tamamen ortadan kaldırmak",
+        "Kimlerin nasıl zarar görebileceğini saptamak",
+        "İş akışını değiştirmek",
+        "Çalışan sayısını azaltmak"
       ],
-      "correctAnswer": "Aynı anda birçok görevi yürüterek paralel işlem yapabilmesi",
-      "explanation": "GPU'lar binlerce çekirdeğe sahiptir ve aynı anda birçok görevi yürüterek paralel işlem yapabilirler. Bu özellikleri sayesinde CPU'dan daha hızlı hesaplamalar yapabilirler.",
-      "subTopicName": "Gpu Ve Tpu Hızlandırıcıları",
-      "normalizedSubTopicName": "gpu_ve_tpu_hizlandiricilari",
+      "correctAnswer": "Kimlerin nasıl zarar görebileceğini saptamak",
+      "explanation": "Tehlikeler belirlendikten sonra, kimlerin bu tehlikelerden nasıl zarar görebileceği saptanmalıdır. Bu, risk analizinin önemli bir parçasıdır.",
+      "subTopicName": "Risk Değerlendirme Süreci",
+      "normalizedSubTopicName": "risk_degerlendirme_sureci",
       "difficulty": "medium"
     }
   ]

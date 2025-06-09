@@ -920,21 +920,9 @@ export default function ExamCreationWizard({
           return;
         }
         
-        if (!isAuthenticated || !user || !token) {
-          console.error(`[ECW detectTopicsFromUploadedFile] ❌ Kimlik doğrulama hatası:`, {
-            isAuthenticated,
-            hasUser: !!user,
-            hasToken: !!token
-          });
-          ErrorService.showToast(
-            "Kişiselleştirilmiş sınav oluşturabilmek için giriş yapmalısınız.",
-            "error"
-          );
-          setTopicDetectionStatus("error");
-          return;
-        }
+       
         
-        console.log(`[ECW detectTopicsFromUploadedFile] ✅ Kimlik doğrulama başarılı. Kullanıcı: ${user.email}`);
+       
       }
       
       let uploadedDocument = null;
@@ -1005,10 +993,7 @@ export default function ExamCreationWizard({
             response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
             console.log(`[ECW detectTopicsFromUploadedFile] ✅ API çağrısı başarılı. Response:`, {
               hasResponse: !!response,
-              status: response?.status,
-              statusText: response?.statusText,
-              hasData: !!response?.data,
-              dataType: typeof response?.data,
+              dataType: typeof response,
               responseKeys: response ? Object.keys(response) : 'no response'
             });
           } catch (apiError: any) {
@@ -1057,20 +1042,18 @@ export default function ExamCreationWizard({
             return;
           }
           
-          console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı. Durum kodu: ${response.status}`);
-          console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response.data));
+          console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı.`);
+          console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response));
           
-          if (!response.data) {
+          if (!response || response.topics === undefined) {
             console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş yanıt alındı!`);
             console.error(`[ECW detectTopicsFromUploadedFile] 📊 Response detayları:`, {
-              status: response?.status,
-              statusText: response?.statusText,
-              headers: response?.headers,
-              data: response?.data,
-              dataType: typeof response?.data,
-              dataIsNull: response?.data === null,
-              dataIsUndefined: response?.data === undefined,
-              dataIsEmptyObject: response?.data && typeof response?.data === 'object' && Object.keys(response?.data).length === 0,
+              hasResponse: !!response,
+              hasTopics: response && 'topics' in response,
+              topicsValue: response?.topics,
+              topicsType: typeof response?.topics,
+              topicsIsNull: response?.topics === null,
+              topicsIsUndefined: response?.topics === undefined,
               fullResponse: JSON.stringify(response, null, 2)
             });
             ErrorService.showToast("Boş yanıt alındı! Backend'den gelen yanıt geçersiz. Lütfen tekrar deneyin.", "error");
@@ -1079,7 +1062,7 @@ export default function ExamCreationWizard({
           }
           
           let processedTopics: DetectedSubTopic[] = [];
-          const responseData = response.data as TopicsResponseData | DetectedSubTopic[] | string[];
+          const responseData = response as TopicsResponseData | DetectedSubTopic[] | string[];
           console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Yanıt formatı değerlendiriliyor:`, { isObject: typeof responseData === 'object', hasTopics: responseData && 'topics' in responseData, isArray: Array.isArray(responseData), type: typeof responseData });
           
           const generateId = (base: string = 'generated') => `${base}-${Math.random().toString(36).substring(2, 9)}`;
@@ -2053,29 +2036,7 @@ export default function ExamCreationWizard({
       );
     }
     
-    if (!isAuthenticated || !user) {
-      return (
-        <div className="w-full h-full bg-background flex items-center justify-center">
-          <div className="text-center">
-            <div className="mb-4">
-              <FiTarget className="mx-auto h-12 w-12 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-              Giriş Yapmanız Gerekiyor
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Kişiselleştirilmiş sınav oluşturabilmek için giriş yapmalısınız.
-            </p>
-            <button
-              onClick={() => router.push('/auth/login')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              Giriş Yap
-            </button>
-          </div>
-        </div>
-      );
-    }
+   
   }
 
   // Render

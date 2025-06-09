@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T14:30:44.754Z
+## Tarih: 2025-06-09T17:06:07.351Z
 
-## Trace ID: quiz-1749479444717-2n35c
+## Trace ID: quiz-1749488767336-55yjv
 
-## Alt Konular (10 adet):
+## Alt Konular (6 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Eksaskala Bilgisayar Sistemleri** (2 soru)
-2. **Eksaskala Bilgisayar Tanımı Ve Performansı** (2 soru)
-3. **Eksaskala Bilgisayarların Avantajları** (2 soru)
-4. **Von Neumann Mimarisi** (2 soru)
-5. **Gpu Ve Tpu Hızlandırıcıları** (2 soru)
+1. **Biyolojik Risk Etmenleri Tanımı** (2 soru)
+2. **Biyolojik Etkenlerin Tanımı** (2 soru)
+3. **Biyolojik Risk Grupları** (2 soru)
+4. **Riskli İ Ş Alanları** (2 soru)
+5. **Risk Değerlendirme Süreci** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,11 +22,7 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Simd Ve Mimd Paralelleştirme Teknikleri
-2. Hbm High Bandwidth Memory
-3. 3d Bellek Yığınlama
-4. Fat Tree Topolojisi
-5. Dragonfly Topolojisi
+1. Sağlık Çalışanlarında Enfeksiyonlar
 
 ```
 
@@ -52,11 +48,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Eksaskala Bilgisayar Sistemleri** (2 soru)
-2. **Eksaskala Bilgisayar Tanımı Ve Performansı** (2 soru)
-3. **Eksaskala Bilgisayarların Avantajları** (2 soru)
-4. **Von Neumann Mimarisi** (2 soru)
-5. **Gpu Ve Tpu Hızlandırıcıları** (2 soru)
+1. **Biyolojik Risk Etmenleri Tanımı** (2 soru)
+2. **Biyolojik Etkenlerin Tanımı** (2 soru)
+3. **Biyolojik Risk Grupları** (2 soru)
+4. **Riskli İ Ş Alanları** (2 soru)
+5. **Risk Değerlendirme Süreci** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -64,198 +60,162 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Simd Ve Mimd Paralelleştirme Teknikleri
-2. Hbm High Bandwidth Memory
-3. 3d Bellek Yığınlama
-4. Fat Tree Topolojisi
-5. Dragonfly Topolojisi
+1. Sağlık Çalışanlarında Enfeksiyonlar
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
-Bilgisayar Mühendisliği Bölümü
-Bahar –2025(ÖÖ.,İÖ.)
-MBM7-452 -Eksaskala Bilgisayar Sistemleri
-(Sunu 2)
-Dr. Öğr. Üyesi Esra Çelik
 
-Eksaskala Bilgisayarlar
-•Exascale bilgisayarlar,
-•saniyedeퟏퟎ
-ퟏퟖ
-hesaplama yapabilen sistemlerdir.
-•Petaskalasistemlerden yaklaşık 1000 kat daha güçlüdür.
-•Günümüzün en güncel eksaskala bilgisayar modelleri
-•Frontier(2022–saniyede 1.1 exaflopperformans) ve
-•El Capitan (2023-saniyede 2exaflopperformans)’dır.
 
-Eksaskala Bilgisayarlar
-Doğal afetlerin daha etkili yönetilmesi
-Akıllı şehirlerin gelişimini hızlandırılması
-Yapay zeka ve büyük veri analitiği uygulamalarından daha
-hızlı ve verimli sonuçlar elde edilmesi
-STEM (Fen, Teknoloji, Mühendislik, Matematik) alanları ile ilgili
-bilimsel okuryazarlığın artırıması
-1
-2
-3
-4
-Eksaskala bilgisayarların en önemli avantajları aşağıda listelenir:
+ÜNİTE
+5
 
-Günün Sorusu
-Eksaskala bilgisayarları son kullanıcı
-dizüstü/masaüstü bilgisayarlardan
-daha hızlı yapan temel faktörler
-nelerdir?
+İÇİNDEKİLER
+•Biyolojik Risk Tanımı
+• Biyolojik Risklere Maruz
+Kalınabilecek İşler
+•Risklerin Belirlenmesi ve
+Değerlendirilmesi
+•Risklere Karşı Alınacak
+Önlemler
+HEDEFLER
+•Bu üniteyi çalıştıktan sonra;
+•Biyolojik risklerin tanımını
+yapabilecek,
+•Biyolojik risk düzeyleri ve
+sınıfları hakkında bilgi sahibi
+olabilecek,
+•Biyolojik risk altındaki meslek
+gruplarını öğrenebilecek,
+•Biyolojik risk etmenlerine karşı
+alınması gereken önlemler
+hakkında bilgi sahibi olabilecek,
+•Bu konudaki yönetmelik
+hakkında bilgi sahibi
+olabileceksiniz.
 
-Eksaskala Bilgisayarlarda İşlemciler
-•Von Neumann Mimarisi
-•Program komutları ve veriler aynı bellekiçinde saklanır.
-•İşlemci, komutları bellekte sırayla alır, işler ve yürütür.
-•Komutlar, bellekte saklanan yazılımlar aracılığıyla yürütülür.
-•Programlar ve veriler aynı hafızada saklanabildiği için esnekliksağlar.
-•Genel amaçlı bilgisayarlar (PC, dizüstüvb.)için uygundur.
-•Bellek ile işlemci arasındaki veri aktarım hızı, sistemin performansını sınırlar.
-Input
-Device
-Output
-Device
-Central Processing Unit
-(CPU)
-Memory Unit
-Arithmetic/Logic Unit
-(ALU)
-Control Unit (CU)
 
-Eksaskala Bilgisayarlarda İşlemciler
-•Eksaskala bilgisayarlarda,
-•geleneksel Von Neumann mimarisinden farklı olarak
-•CPU’nun yanı sıra
-•heterojen hesaplama kaynakları olan GPU, TPUgibi hızlandırıcılar
-daişlem sürecine dahil edilir.
-Input
-Device
-Output
-Device
-Central Processing Unit
-(CPU)
-Memory Unit
-Graphics Processing Unit
-(GPU)
-Tensor Processing Units
-(TPU)
-
-GPU ve TPU
-nedir?
+Prof. Dr.
+Elif ÇADIRCI
 
-Eksaskala Bilgisayarlarda İşlemciler
-Input
-Device
-Output
-Device
-Central Processing Unit
-(CPU)
-Memory Unit
-Graphics Processing Unit
-(GPU)
-Tensor Processing Units
-(TPU)
-•Grafik İşleme Birimi (GPU),
-•CPU ile birlikte çalışan, grafik ve hesaplama işlemlerini hızlandıran özel
-işlemcidir.
-•Binlerce çekirdeğe sahiptir.
-•Yüksek işlem gücü ile CPU’dan daha hızlı hesaplamalar yapabilirler.
-•Aynı anda birçok görevi yürüterek paralel işlem yapabilir.
-•Büyük matris işlemlerini hızlandırarak süper bilgisayarlar için kritik rol oynar.
-•Grafik işleme, video oluşturma, yapay zekaalanlarında sıkça kullanılır.
 
-Eksaskala Bilgisayarlarda İşlemciler
-Input
-Device
-Output
-Device
-Central Processing Unit
-(CPU)
-Memory Unit
-Graphics Processing Unit
-(GPU)
-Tensor Processing Units
-(TPU)
-•Tensor İşleme Birimi (TPU),
-•Google tarafından makine öğrenmesi için özel olarak tasarlanmış
-işlemcilerdir.
-•GPU’lardan daha hızlı ve enerji verimli çalışabilir.
-•Yoğun vektör ve matris hesaplamaları için optimize edilmiştir.
-•Aşırı paralel hesaplama kapasitesine sahiptir.
+İŞ SAĞLIĞI VE GÜVENLİĞİ
 
-Eksaskala Bilgisayarlarda İşlemciler
-•Eksaskala bilgisayarlarda,
-•geleneksel Von Neumann mimarisindeki sıralı işlem yapısından
-farklı olarak
-•SIMD ve MIMD gibi paralelleştirme teknikleri kullanılarak
-•büyük ölçekli işlemler aynı anda çalıştırılabilir.
-
-SIMD ve MIMD
-teknikleri nedir?
 
-Eksaskala Bilgisayarlarda İşlemciler
-•Tek Komut Çoklu Veri(Single Instruction Multiple Data-SIMD),
-•Tek bir komut aynı anda birden fazla veri üzerinde çalışır.Buna veri paralelliği denir.
-•Vektör işlemciler ve GPU tarafından kullanılır.
-•Paralelleştirme ile büyük veri setlerinde yüksek verimlilik sağlar.
-•Örneğin,
-•1, 2 ve 3 verilerinin (çoklu veri)
-•aynı anda (paralel)
-•4 katının hesaplanması işlemi (tek komut)
-•SIMD tekniği ile aşağıdaki gibi gerçekleştirilebilir:
-123
-x4
-4812
-Çoklu Veri
-Tek Komut
-Sonuç
-Tüm çıktılar
-tek seferde
-alınır.
 
-Eksaskala Bilgisayarlarda İşlemciler
-•ÇokluKomut Çoklu Veri(MultipleInstruction Multiple Data-MIMD),
-•Farklı komutlar aynı anda farklı veriler üzerinde çalıştırılır. Buna görev paralelliği denir.
-•Çok çekirdekli CPU’lar ve süper bilgisayarlar bu yapıyı kullanır.
-•Karmaşık işlemleri paralelşekilde gerçekleştirebilir.
-•Örneğin,
-•1, 2ve 3verilerinin (çoklu veri)
-•aynı anda (paralel)
-•4 katının, 5 fazlasının, 3 eksiğinin hesaplanması işlemi (çoklu komut)
-•MIMD tekniği ile aşağıdaki gibi gerçekleştirilebilir:
-123
-x4
-470
-Çoklu Veri
-Çoklu Komut
-Sonuç
-Tüm çıktılar
-tek seferde
-alınır.
-+5-3
+© Bu ünitenin tüm yayın hakları Atatürk Üniversitesi Açıköğretim Fakültesi’ne aittir. Yazılı izin alınmadan
+ünitenin tümünün veya bir kısmının elektronik, mekanik ya da fotokopi yoluyla basımı, yayımı, çoğaltımı ve
+dağıtımı yapılamaz.
+BİYOLOJİK RİSK ETMENLERİ
 
-Eksaskala Bilgisayarlarda Bellek Mimarileri
-•Eksaskala bilgisayarlarda,
-•geleneksel Von Neumann mimarisindeki tek bellek yolundan farklı
-olarak
-•HBM (High Bandwidth Memory)ve
-•3D bellek yığınlamagibi
-•yüksek hızlı bellek teknolojilerini kullanır.
-
-HBM ve 3D bellek
-yığınlama nedir?
+Biyolojik Risk Etmenleri
 
-Eksaskala Bilgisayarlarda Bellek Mimarileri
-•Yüksek Bant Genişlikli Bellek(High Bandwidth Memory-HBM),
-•bellek ile işlemci arasındaki veri aktarım hızını artırmak için kullanılan bir bellek teknolojisidir.
-•HBM, geleneksel belleklere göre,
-•bellek yongalarını yatay yerleştirerekdaha yüksek bant genişliği sağlar. Bu yatay ölçeklemenin bir
-tür...(Kısaltıldı)
+Atatürk Üniversitesi Açıköğretim Fakültesi 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Biyolojik Risk
+Etmenleri
+Önlemler
+- Biyolojik Risk
+-Biyolojik risk altındaki
+sektörleri
+-Enfeksiyon Riski
+- Parazitler
+- Mantarlar
+- Virüsler
+- Bakteriler
+-Çalınan Aldığı Önlemler
+-İşverenin
+-Aldığı Önlemler
+-Risklerin Belirlenmesi
+-İkame
+-Riskleri Azaltma
+-Hijyen ve Kişisel Korunma
+-Eğitim ve Belgilendirme
+
+Biyolojik Risk Etmenleri
+
+Atatürk Üniversitesi Açıköğretim Fakültesi 3
+GİRİŞ
+İş sağlığı ve güvenliğinde karşımıza çıkan en önemli sorunlardan biri çalışma
+ortamında karşılaşılabilecek, çalışanın sağlığını ve güvenliğini tehlikeye atabilecek
+çeşitli risk etmenleridir. Genel olarak bu risk etmenleri çalışanlarda anlık veya
+devamlı maruz kalma sonucunda meslek hastalıklarına, çalışamaz hâle gelmeye ve
+hatta ölüme bile neden olabilir. Bunu önlemek için işçinin çalışma ortamından
+kaynaklı ve işçinin sağlık ve güvenliğini tehlikeye atacak tehlikeler ve bu
+tehlikelerin meydana getirdiği risk kaynakları neyse o kaynağa uygun sağlık ve
+güvenlik gözetimi planlanmalıdır. Bunun için de öncelikle iş yerindeki tehlikeler
+belirlenmeli, kimlerin nasıl zarar görebileceği saptanmalı, risklerin analizi
+yapılmalı, bunun sonucuna göre alınacak kontrol önlemlerine karar verilmeli ve
+önlemler uygulamaya konulmalıdır.
+Meslek hastalıklarına neden olabilecek ve iş yerinde çalışma güvenliğini
+tehdit edebilecek etmenler gürültü, titreşim, yüksek ve alçak basınçlarda çalışma,
+soğuk ve sıcakta çalışma, tozlar ve radyasyon gibi fiziksel risk etmenleri; ağır
+metaller, gazlar ve çözücüler gibi kimyasal risk etmenleri; virüsler, bakteriler,
+mantarlar ve parazitler gibi biyolojik risk etmenleri, psikolojik risk etmenleri ve
+ergonomiye özensizlikten kaynaklanan risk etmenleri olarak sınıflandırılabilir.
+Bu bölümde biyolojik kaynaklı risk etmenlerinin genel tanımı ve biyolojik
+risk grupları, hangi çalışanlarda tehlike oluşturdukları ve görülebilecekleri çalışma
+ortamları, çalışma ortamlarında ve/veya laboratuvarlarda biyolojik risklerin
+azaltılmasına, tanınmasına, bulaşmasına vs. yönelik alınması gereken güvenlik
+önlemleri hakkında genel bilgi mevcuttur.
+BİYOLOJİK RİSK TANIMI
+Yeni adıyla Aile, Çalışma ve Sosyal Hizmetler (AÇSH) Bakanlığının 2013 tarihli
+Biyolojik Etkenlere Maruziyet Risklerinin Önlenmesi Hakkındaki Yönetmeliği’ne
+göre biyolojik etkenler herhangi bir enfeksiyon, alerji veya zehirlenmeye neden
+olabilen hücresel veya hücresel olmayan mikrobiyolojik varlıklar olarak
+tanımlanmıştır. Bu mikro biyolojik varlıklar, genetik olarak değiştirilmiş olanlar da
+dâhil olmak üzere, mikroorganizmalar, hücre kültürleri ve
+insan endoparazitlerinden oluşmaktadırlar. Burada, hücre kültürü “çok hücreli
+organizmalardan türetilmiş hücrelerin in–vitro olarak geliştirilmesini” ve
+mikroorganizma ise “genetik materyalini replikasyon veya aktarma yeteneğinde
+olan mikrobiyolojik varlıkları” temsil etmektedir. Buna göre genel bir tanım ile
+biyolojik etmenler , yaşayan organizmalar ve/veya (genetik olarak değiştirilmiş
+olanlar da dâhil ) bu organizmaların ürünlerinden oluşur. Biyolojik risk etmenleri
+ise virüsler, bakteriler, mantarlar ve bunların metabolizmaları sonucu ortaya
+çıkardıkları ürünlerin yanı sıra vücutta iç ve dış parazit olarak yerleşebilen
+asalaklar ile bitkileri de kapsar. Aynı zamanda son zamanlarda biyoteknolojik
+ürünler de biyolojik kaynaklı risk etmenleri arasına dâhil edilmektedir.
+
+
+Biyolojik risk etmenleri
+virüsler, bakteriler,
+mantarlar, insan
+parazitleri ve bunların
+ürünleridir.
+
+
+Biyolojik Risk Etmenleri
+
+Atatürk Üniversitesi Açıköğretim Fakültesi 4
+Biyolojik Risk Grupları
+Türkiye Cumhuriyeti AÇSH Bakanlığının 2013 tarihli Biyolojik Etkenlere
+Maruziyet Risklerinin Önlenmesi Hakkındaki Yönetmeliği’ne [1] göre biyolojik risk
+etmenleri enfeksiyon yapma risk düzeyine göre 4 risk grubunda sınıflandırılabilir
+(Tablo 5.1 ). Biyolojik bir etkenin sağlıklı kişide hastalığa yol açması; etkenin hasta
+etme yetisinin yüksekliğine (patojenite-virülans) , b ulaşma yollarına (temas, ortak
+kullanılan cansız maddeler, hava ve vektörler), k onakçı adı verilen kişinin
+duyarlılığına, çevre etmenlerine (ısı değişikl...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -430,42 +390,42 @@ tür...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Eksaskala Bilgisayar Sistemleri: 2 soru
-  - Eksaskala Bilgisayar Tanımı Ve Performansı: 2 soru
-  - Eksaskala Bilgisayarların Avantajları: 2 soru
-  - Von Neumann Mimarisi: 2 soru
-  - Gpu Ve Tpu Hızlandırıcıları: 2 soru
+  - Biyolojik Risk Etmenleri Tanımı: 2 soru
+  - Biyolojik Etkenlerin Tanımı: 2 soru
+  - Biyolojik Risk Grupları: 2 soru
+  - Riskli İ Ş Alanları: 2 soru
+  - Risk Değerlendirme Süreci: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Eksaskala Bilgisayar Sistemleri:
-- Soru: Aşağıdakilerden hangisi eksaskala bilgisayarların temel özelliklerinden biridir?
-- Seçenekler: Saniyede 10^9 hesaplama yapabilme | Petaskala sistemlerden yaklaşık 100 kat daha güçlü olma | Saniyede 10^18 hesaplama yapabilme | Saniyede 10^12 hesaplama yapabilme
-- Doğru Cevap: Saniyede 10^18 hesaplama yapabilme
+#### Biyolojik Risk Etmenleri Tanımı:
+- Soru: Aşağıdakilerden hangisi biyolojik risk etmenlerinin tanımında yer almaz?
+- Seçenekler: Enfeksiyona neden olabilen mikrobiyolojik varlıklar | Alerjiye neden olabilen mikrobiyolojik varlıklar | Zehirlenmeye neden olabilen mikrobiyolojik varlıklar | Radyasyona neden olabilen mikrobiyolojik varlıklar
+- Doğru Cevap: Radyasyona neden olabilen mikrobiyolojik varlıklar
 - Zorluk: easy
 
-#### Eksaskala Bilgisayar Tanımı Ve Performansı:
-- Soru: Eksaskala bilgisayarların petaskala sistemlere göre yaklaşık kaç kat daha güçlü olduğu söylenebilir?
-- Seçenekler: 10 kat | 100 kat | 1000 kat | 10000 kat
-- Doğru Cevap: 1000 kat
+#### Biyolojik Etkenlerin Tanımı:
+- Soru: Aşağıdakilerden hangisi 'Biyolojik Etken' tanımını en doğru şekilde ifade eder?
+- Seçenekler: Sadece virüsler ve bakteriler | Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar | Sadece insan endoparazitleri | Sadece hücre kültürleri
+- Doğru Cevap: Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar
 - Zorluk: easy
 
-#### Eksaskala Bilgisayarların Avantajları:
-- Soru: Aşağıdakilerden hangisi eksaskala bilgisayarların avantajlarından biri değildir?
-- Seçenekler: Doğal afetlerin daha etkili yönetilmesi | Akıllı şehirlerin gelişiminin hızlandırılması | Yapay zeka ve büyük veri analitiği uygulamalarından daha hızlı ve verimli sonuçlar elde edilmesi | Enerji tüketiminin azaltılması
-- Doğru Cevap: Enerji tüketiminin azaltılması
+#### Biyolojik Risk Grupları:
+- Soru: Biyolojik etkenler enfeksiyon yapma risk düzeyine göre kaç risk grubunda sınıflandırılır?
+- Seçenekler: 2 | 3 | 4 | 5
+- Doğru Cevap: 4
+- Zorluk: easy
+
+#### Riskli İ Ş Alanları:
+- Soru: Aşağıdakilerden hangisi biyolojik risklere maruz kalınabilecek iş alanlarına örnek olarak verilemez?
+- Seçenekler: Sağlık hizmetleri | Atık yönetimi | Gıda üretimi | Otomotiv üretimi
+- Doğru Cevap: Otomotiv üretimi
 - Zorluk: medium
 
-#### Von Neumann Mimarisi:
-- Soru: Von Neumann mimarisinin temel özelliği nedir?
-- Seçenekler: Program komutları ve verilerin ayrı belleklerde saklanması | Sadece veri işleme odaklı olması | Program komutları ve verilerin aynı bellekte saklanması | Sadece komut işleme odaklı olması
-- Doğru Cevap: Program komutları ve verilerin aynı bellekte saklanması
+#### Risk Değerlendirme Süreci:
+- Soru: Biyolojik risk değerlendirme sürecinin ilk adımı aşağıdakilerden hangisidir?
+- Seçenekler: Riskleri azaltma | Tehlikeleri belirleme | Hijyen kurallarını uygulama | Eğitim ve belgelendirme
+- Doğru Cevap: Tehlikeleri belirleme
 - Zorluk: easy
-
-#### Gpu Ve Tpu Hızlandırıcıları:
-- Soru: Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak işlem sürecine dahil edilen heterojen hesaplama kaynakları nelerdir?
-- Seçenekler: Sadece CPU | Sadece GPU | GPU ve TPU | Sadece TPU
-- Doğru Cevap: GPU ve TPU
-- Zorluk: medium
 

@@ -33,7 +33,7 @@ interface FlowTrackerOptions {
   consoleOutput?: boolean;
   logger?: LoggerService;
   allowedContexts?: string[]; // İzin verilen context'ler listesi
-  sendLogsToApi?: boolean; // API'ye log gönderme seçeneği
+  writeToLocalFile?: boolean; // Yerel dosyaya log yazma seçeneği
 }
 
 /**
@@ -129,7 +129,7 @@ export class FlowTrackerService {
   private timingMarks: Map<string, number> = new Map();
   private apiQueue: FlowStep[] = [];
   private apiDebounceTimer: number | NodeJS.Timeout | null = null;
-  private configSendLogsToApi: boolean;
+  private configWriteToLocalFile: boolean;
   
   private constructor(options: FlowTrackerOptions = {}) {
     // Safe logger initialization - handle SSR case
@@ -175,7 +175,7 @@ export class FlowTrackerService {
     this.traceStateChanges = options.traceStateChanges ?? true;
     this.traceApiCalls = options.traceApiCalls ?? true;
     this.captureTimings = options.captureTimings ?? true;
-    this.configSendLogsToApi = options.sendLogsToApi ?? false; // API'ye log göndermeyi varsayılan olarak kapatıyorum
+    this.configWriteToLocalFile = options.writeToLocalFile ?? true; // Yerel dosyaya yazımı varsayılan olarak açıyorum
     
     if (this.traceRenders && typeof window !== 'undefined' && 'PerformanceObserver' in window) {
       this.setupPerformanceObserver();
@@ -313,8 +313,8 @@ export class FlowTrackerService {
     // LocalStorage'a flow kaydı
     this.saveToLocalStorage(step);
 
-    if (this.configSendLogsToApi) {
-      this.scheduleSendToBackend(step);
+    if (this.configWriteToLocalFile) {
+      this.scheduleWriteToLocalFile(step);
     }
   }
   
@@ -802,7 +802,7 @@ export class FlowTrackerService {
     if (options.traceApiCalls !== undefined) this.traceApiCalls = options.traceApiCalls;
     if (options.captureTimings !== undefined) this.captureTimings = options.captureTimings;
     if (options.consoleOutput !== undefined) this.consoleOutput = options.consoleOutput;
-    if (options.sendLogsToApi !== undefined) this.configSendLogsToApi = options.sendLogsToApi;
+    if (options.writeToLocalFile !== undefined) this.configWriteToLocalFile = options.writeToLocalFile;
     
     if (options.logger) {
       this.logger = options.logger;
@@ -866,7 +866,7 @@ export class FlowTrackerService {
         }
   }
 
-  private scheduleSendToBackend(entry: FlowStep): void {
+  private scheduleWriteToLocalFile(entry: FlowStep): void {
     this.apiQueue.push(entry);
     if (this.apiDebounceTimer) {
       clearTimeout(this.apiDebounceTimer);
@@ -874,53 +874,53 @@ export class FlowTrackerService {
     // window.setTimeout kullanmak yerine NodeJS.Timeout tipini kullanmak için typeof window kontrolü
     if (typeof window !== 'undefined') {
         this.apiDebounceTimer = window.setTimeout(() => {
-            this.sendQueuedLogsToBackend();
+            this.writeQueuedLogsToLocalFile();
         }, 3000); // 3 saniye debounce
     } else {
         // Node.js ortamı için (test vb.), setTimeout doğrudan kullanılabilir
         this.apiDebounceTimer = setTimeout(() => {
-            this.sendQueuedLogsToBackend();
-        }, 3000); // "as any" kaldırıldı
+            this.writeQueuedLogsToLocalFile();
+        }, 3000);
     }
   }
 
-  private async sendQueuedLogsToBackend(): Promise<void> {
-    if (!this.configSendLogsToApi || this.apiQueue.length === 0) {
+  private async writeQueuedLogsToLocalFile(): Promise<void> {
+    if (!this.configWriteToLocalFile || this.apiQueue.length === 0) {
       return;
     }
 
     try {
-    const logsToSend = [...this.apiQueue];
+    const logsToWrite = [...this.apiQueue];
     this.apiQueue = []; // Kuyruğu temizle
 
-      // Logları API endpoint'e gönder
-      const response = await fetch('/api/logs', {
+      // Logları yerel dosyaya yazmak için API endpoint'e gönder
+      const response = await fetch('/api/logs/frontend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(logsToSend.map(step => ({
+        body: JSON.stringify(logsToWrite.map(step => ({
           timestamp: new Date(step.timestamp).toISOString(),
           level: step.category === FlowCategory.Error ? 'error' : 'info',
-          message: step.message,
-          context: step.context,
+          message: `[${step.category}] [${step.context}] ${step.message}`,
+          context: `FlowTracker.${step.category}.${step.context}`,
           metadata: step.metadata
         }))),
       });
 
       if (!response.ok) {
         const responseText = await response.text();
-        console.warn(`[FlowTrackerService] Flow logları dosyaya kaydedilemedi. Status: ${response.status}`, responseText);
+        console.warn(`[FlowTrackerService] Flow logları yerel dosyaya kaydedilemedi. Status: ${response.status}`, responseText);
       } else {
         if (this.logger) {
            this.logger.debug(
-            `FlowTrackerService: ${logsToSend.length} flow log başarıyla dosyaya kaydedildi.`,
-            'FlowTrackerService.sendQueuedLogsToBackend'
+            `FlowTrackerService: ${logsToWrite.length} flow log başarıyla yerel dosyaya kaydedildi.`,
+            'FlowTrackerService.writeQueuedLogsToLocalFile'
           );
         } else {
-          console.debug(`[FlowTrackerService] ${logsToSend.length} flow log başarıyla dosyaya kaydedildi.`);
+          console.debug(`[FlowTrackerService] ${logsToWrite.length} flow log başarıyla yerel dosyaya kaydedildi.`);
         }
       }
     } catch (error) {
-      console.error('[FlowTrackerService] Flow loglar dosyaya kaydedilirken hata oluştu:', error);
+      console.error('[FlowTrackerService] Flow loglar yerel dosyaya kaydedilirken hata oluştu:', error);
     }
   }
 }

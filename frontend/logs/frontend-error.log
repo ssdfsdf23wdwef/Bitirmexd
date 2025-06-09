@@ -84,3 +84,1759 @@ Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/nex
 ------------------------------------------------------------
 [2025-06-09T16:31:34.451Z] [info] [LogSetup] Frontend log sistemi başlatıldı
 ------------------------------------------------------------
+[2025-06-09T16:43:31.752Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:43:31.747Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:44:48.945Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:44:48.948Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:45:17.140Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:45:17.143Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:45:45.110Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:45:45.115Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:55:44.637Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T16:55:44.566Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:02:57.359Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:02:57.357Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:05:17.831Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.833Z] [info] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.835Z] [warn] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+Details: {"file":"/index.js","line":"34"}
+------------------------------------------------------------
+[2025-06-09T17:05:17.879Z] [info] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+Details: {"file":"/index.js","line":"116"}
+------------------------------------------------------------
+[2025-06-09T17:05:17.883Z] [info] [FirebaseConfig] Firebase başarıyla başlatıldı
+Details: {"file":"/index.js","line":"167"}
+------------------------------------------------------------
+[2025-06-09T17:05:17.829Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.885Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başarıyla başlatıldı
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.888Z] [info] [FirebaseConfig] [FLOW] Firebase başarıyla başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.897Z] [info] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+Details: {"file":"/index.js","line":"208"}
+------------------------------------------------------------
+[2025-06-09T17:05:17.902Z] [info] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+Details: {"file":"/index.js","line":"242"}
+------------------------------------------------------------
+[2025-06-09T17:05:17.918Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.920Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.921Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.923Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.20ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.19999998807907104}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.924Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.19999998807907104,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.926Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.928Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.928Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.929Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.930Z] [info] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.933Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (11.90ms)
+Details: {"meta":{"flowCategory":"Custom","timing":11.900000005960464}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.935Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":11.900000005960464,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.936Z] [info] [ErrorService.constructor] ErrorService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.937Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.937Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.949Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:17.950Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:17.968Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:05:19.186Z] [info] [FlowTracker.Navigation.Browser] Flow: Sayfa yüklendi
+Details: {"meta":{"flowCategory":"Navigation","url":"http://localhost:3000/?wizard=personalized","title":""}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.200Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:19.628Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"AuthStateMonitoring"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.642Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AppStartup
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.643Z] [info] [FlowTracker.Navigation.Flow:AppStartup] Flow: Uygulama başlangıç bileşenleri yüklendi
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_2","flowName":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.664Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: PageLoad
+Details: {"meta":{"sequenceId":"flow_seq_3","name":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.666Z] [info] [FlowTracker.Navigation.Flow:PageLoad] Flow: DOM zaten yüklü
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_3","flowName":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.677Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:05:19.685Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:05:19.814Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:19.815Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.819Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.862Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:19.871Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:05:19.876Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:05:20.215Z] [info] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+Details: {"file":"/index.js","line":"322","meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:05:20.216Z] [info] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:05:20.219Z] [info] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+Details: {"meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:05:21.635Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /auth/login-via-idtoken
+Details: {"meta":{"flowCategory":"API","endpoint":"/auth/login-via-idtoken","method":"POST","dataSize":979}}
+------------------------------------------------------------
+[2025-06-09T17:05:21.640Z] [debug] [ApiService.post] POST isteği başlatıldı: /auth/login-via-idtoken
+Details: {"meta":{"dataKeys":["idToken"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.843Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/auth/login-via-idtoken tamamlandı (6205.00ms)
+Details: {"meta":{"flowCategory":"API","timing":6205}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.844Z] [debug] [ApiService.post] POST isteği tamamlandı: /auth/login-via-idtoken
+Details: {"meta":{"status":200}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.845Z] [info] [FlowTracker.Auth.AuthContext.onAuthStateChange] Flow: Kullanıcı oturumu açık
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.846Z] [info] [AuthContext.onAuthStateChange] [FLOW] Kullanıcı oturumu açık
+Details: {"meta":{"email":"ahmetmanwedwed100@gmail.com"}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.848Z] [debug] [AuthContext.onAuthStateChange] Profil bilgileri isteniyor: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":287}
+------------------------------------------------------------
+[2025-06-09T17:05:27.849Z] [info] [FlowTracker.API.AuthContext.onAuthStateChange] Flow: Profil bilgileri isteniyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.850Z] [info] [AuthContext.onAuthStateChange] [FLOW] Profil bilgileri isteniyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:27.851Z] [info] [FlowTracker.Auth.AuthService.getProfile] Flow: Kullanıcı profili getiriliyor
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:05:27.852Z] [info] [AuthService.getProfile] [FLOW] Kullanıcı profili getiriliyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:27.852Z] [debug] [AuthService.getProfile] Kullanıcı profili isteniyor
+Details: {"file":"/index.js","line":286}
+------------------------------------------------------------
+[2025-06-09T17:05:27.853Z] [debug] [AuthService.getProfile.attemptProfileFetch] Profil bilgisi isteniyor (Deneme: 1/3)
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:05:27.855Z] [debug] [ApiService.get] GET /users/profile isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:27.856Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:28.942Z] [debug] [ApiService.get] GET /users/profile isteği tamamlandı (1086ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:28.942Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:28.943Z] [debug] [AuthService.getProfile] Kullanıcı profili başarıyla alındı
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:05:28.945Z] [info] [AuthContext.onAuthStateChange] Profil bilgileri alındı: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":299,"meta":{"userId":"3P472ynKXanmhqqSdcQJ"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.001Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.002Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.003Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_4","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.004Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.005Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:29.005Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:29.006Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.011Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.012Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.013Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_5","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.016Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:29.019Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:29.020Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:29.021Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.251Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (1245ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:30.251Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.252Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.253Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_4","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.254Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_4","name":"CourseService.getAllCourses","duration":1251,"stepsCount":6}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.254Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (1241.50ms)
+Details: {"meta":{"flowCategory":"API","timing":1241.5}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.255Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1241.5,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.285Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.256Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.286Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.287Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.288Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:05:30.289Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.289Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.290Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.291Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:30.292Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:05:30.293Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:30.294Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.327Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (2306ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:31.328Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.330Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.331Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_5","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.334Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_5","name":"CourseService.getAllCourses","duration":2321,"stepsCount":11}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.335Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:31.336Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.751Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (3458ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:33.752Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.753Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (3462.50ms)
+Details: {"meta":{"flowCategory":"API","timing":3462.5}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.753Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=9
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":9,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3462.5}]}
+------------------------------------------------------------
+[2025-06-09T17:05:33.754Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (3463.80ms)
+Details: {"meta":{"flowCategory":"API","timing":3463.800000011921}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.754Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3463.800000011921,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.755Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.755Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (3468.60ms)
+Details: {"meta":{"flowCategory":"API","timing":3468.5999999940395}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.756Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (3469.90ms)
+Details: {"meta":{"flowCategory":"API","timing":3469.899999976158}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.756Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=9
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":9,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3468.5999999940395}]}
+------------------------------------------------------------
+[2025-06-09T17:05:33.757Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3469.899999976158,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:33.757Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.578Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object","undefined","function"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.579Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object","undefined","function"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.580Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: DocumentService.uploadDocument
+Details: {"meta":{"sequenceId":"flow_seq_6","name":"DocumentService.uploadDocument"}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.581Z] [info] [FlowTracker.API.DocumentService.uploadDocument] Flow: Uploading document: 5. unite BİYOLOJİK RİSK ETMENLERİ.pdf
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.584Z] [info] [DocumentService.uploadDocument] [FLOW] Uploading document: 5. unite BİYOLOJİK RİSK ETMENLERİ.pdf
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:39.585Z] [debug] [DocumentService.uploadDocument] Belge yükleme isteği gönderiliyor
+Details: {"file":"/index.js","line":221,"meta":{"fileName":"5. unite BİYOLOJİK RİSK ETMENLERİ.pdf"}}
+------------------------------------------------------------
+[2025-06-09T17:05:39.803Z] [info] [FlowTracker.API.DocumentService.uploadDocument] Flow: Belge yükleme: %100
+Details: {"meta":{"flowCategory":"API","fileName":"5. unite BİYOLOJİK RİSK ETMENLERİ.pdf","percentage":100}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.461Z] [info] [DocumentService.uploadDocument] Belge başarıyla yüklendi: 5. unite BİYOLOJİK RİSK ETMENLERİ.pdf
+Details: {"file":"/index.js","meta":{"fileName":"5. unite BİYOLOJİK RİSK ETMENLERİ.pdf","duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.462Z] [info] [FlowTracker.API.Flow:DocumentService.uploadDocument] Flow: Successfully uploaded document
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_6","flowName":"DocumentService.uploadDocument","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.463Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: DocumentService.uploadDocument
+Details: {"meta":{"sequenceId":"flow_seq_6","name":"DocumentService.uploadDocument","duration":8883,"stepsCount":3}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.464Z] [info] [FlowTracker.Timing.DocumentService] Timing: DocumentService.uploadDocument tamamlandı (8884.10ms)
+Details: {"meta":{"flowCategory":"API","timing":8884.09999999404}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.464Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":8884.09999999404,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.465Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.466Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.466Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.467Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: DocumentService.getDocumentText
+Details: {"meta":{"sequenceId":"flow_seq_7","name":"DocumentService.getDocumentText"}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.467Z] [info] [FlowTracker.API.DocumentService.getDocumentText] Flow: Fetching document text for ID: gV7xhxscJrCSMkqtBC9J
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:48.468Z] [info] [DocumentService.getDocumentText] [FLOW] Fetching document text for ID: gV7xhxscJrCSMkqtBC9J
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:48.469Z] [debug] [ApiService.get] GET /documents/gV7xhxscJrCSMkqtBC9J/text isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:48.469Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /documents/gV7xhxscJrCSMkqtBC9J/text isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.819Z] [debug] [ApiService.get] GET /documents/gV7xhxscJrCSMkqtBC9J/text isteği tamamlandı (1350ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:05:49.824Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /documents/gV7xhxscJrCSMkqtBC9J/text isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.828Z] [debug] [DocumentService.getDocumentText] Belge metni getirildi: gV7xhxscJrCSMkqtBC9J
+Details: {"file":"/index.js","meta":{"id":"gV7xhxscJrCSMkqtBC9J","textLength":38707,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.829Z] [info] [FlowTracker.API.Flow:DocumentService.getDocumentText] Flow: Successfully fetched document text
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_7","flowName":"DocumentService.getDocumentText","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.834Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: DocumentService.getDocumentText
+Details: {"meta":{"sequenceId":"flow_seq_7","name":"DocumentService.getDocumentText","duration":1367,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.838Z] [info] [FlowTracker.Timing.DocumentService] Timing: DocumentService.getDocumentText tamamlandı (1371.20ms)
+Details: {"meta":{"flowCategory":"API","timing":1371.199999988079}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.843Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1371.199999988079,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.844Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.846Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /learning-targets/detect-topics
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/detect-topics","method":"POST","dataSize":71}}
+------------------------------------------------------------
+[2025-06-09T17:05:49.847Z] [debug] [ApiService.post] POST isteği başlatıldı: /learning-targets/detect-topics
+Details: {"meta":{"dataKeys":["documentId","courseId"]}}
+------------------------------------------------------------
+[2025-06-09T17:05:56.846Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/learning-targets/detect-topics tamamlandı (6998.70ms)
+Details: {"meta":{"flowCategory":"API","timing":6998.699999988079}}
+------------------------------------------------------------
+[2025-06-09T17:05:56.846Z] [debug] [ApiService.post] POST isteği tamamlandı: /learning-targets/detect-topics
+Details: {"meta":{"status":200}}
+------------------------------------------------------------
+[2025-06-09T17:05:56.849Z] [error] [ErrorService.showToast] 6 konu tespit edildi.
+Details: {"meta":{"title":"Hata","description":"6 konu tespit edildi.","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:05:56.855Z] [error] [ErrorService.showToast] 6 alt konu tespit edildi. Şimdi istediğiniz alt konuları seçebilirsiniz.
+Details: {"meta":{"title":"Hata","description":"6 alt konu tespit edildi. Şimdi istediğiniz alt konuları seçebilirsiniz.","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:06:02.234Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /quizzes/personalized
+Details: {"meta":{"flowCategory":"API","endpoint":"/quizzes/personalized","method":"POST","dataSize":5678}}
+------------------------------------------------------------
+[2025-06-09T17:06:02.235Z] [debug] [ApiService.post] POST isteği başlatıldı: /quizzes/personalized
+Details: {"meta":{"dataKeys":["title","description","userId","courseId","documentId","documentText","personalizedQuizType","subTopics","questionCount","difficulty","timeLimit","prioritizeWeakTopics"]}}
+------------------------------------------------------------
+[2025-06-09T17:06:21.261Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/quizzes/personalized tamamlandı (19026.40ms)
+Details: {"meta":{"flowCategory":"API","timing":19026.399999976158}}
+------------------------------------------------------------
+[2025-06-09T17:06:21.262Z] [debug] [ApiService.post] POST isteği tamamlandı: /quizzes/personalized
+Details: {"meta":{"status":201}}
+------------------------------------------------------------
+[2025-06-09T17:06:34.335Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:34.469Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:34.470Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:35.375Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:06:34.324Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:35.947Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:35.996Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:06:35.998Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:06:35.994Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.007Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.009Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.015Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.276Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.277Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.279Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_8","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.283Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.288Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.290Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.291Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.314Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.315Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.316Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_9","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.318Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:36.320Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.322Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:36.323Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.948Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (1626ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:37.949Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.951Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.952Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_9","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.956Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_9","name":"CourseService.getAllCourses","duration":1640,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.956Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (1640.90ms)
+Details: {"meta":{"flowCategory":"API","timing":1640.9000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.957Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1640.9000000059605,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.957Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.991Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.992Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.993Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.995Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:06:37.996Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.996Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.997Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:37.998Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:37.999Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:06:38.000Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:38.001Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.885Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (4595ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:40.886Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.886Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.887Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_8","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.888Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_8","name":"CourseService.getAllCourses","duration":4609,"stepsCount":13}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.889Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:40.889Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.405Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (5404ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:06:43.405Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.406Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (5408.90ms)
+Details: {"meta":{"flowCategory":"API","timing":5408.9000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.407Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":5408.9000000059605}]}
+------------------------------------------------------------
+[2025-06-09T17:06:43.407Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (5410.30ms)
+Details: {"meta":{"flowCategory":"API","timing":5410.300000011921}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.408Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":5410.300000011921,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.408Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.409Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (5415.80ms)
+Details: {"meta":{"flowCategory":"API","timing":5415.800000011921}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.409Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":5415.800000011921}]}
+------------------------------------------------------------
+[2025-06-09T17:06:43.410Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (5417.10ms)
+Details: {"meta":{"flowCategory":"API","timing":5417.0999999940395}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.410Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":5417.0999999940395,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:06:43.411Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:00.599Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:00.602Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:00.604Z] [info] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:00.613Z] [warn] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+Details: {"file":"/index.js","line":"34"}
+------------------------------------------------------------
+[2025-06-09T17:07:00.839Z] [info] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+Details: {"file":"/index.js","line":"116"}
+------------------------------------------------------------
+[2025-06-09T17:07:00.841Z] [info] [FirebaseConfig] Mevcut Firebase uygulaması kullanılıyor
+Details: {"file":"/index.js","line":"198"}
+------------------------------------------------------------
+[2025-06-09T17:07:01.061Z] [info] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+Details: {"file":"/index.js","line":"208"}
+------------------------------------------------------------
+[2025-06-09T17:07:01.063Z] [info] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+Details: {"file":"/index.js","line":"242"}
+------------------------------------------------------------
+[2025-06-09T17:07:01.091Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.111Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.210Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.221Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (7.00ms)
+Details: {"meta":{"flowCategory":"Custom","timing":7}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.234Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":7,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.237Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.236Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.241Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.250Z] [info] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.253Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (140.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":140.09999999403954}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.239Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.254Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":140.09999999403954,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.254Z] [info] [ErrorService.constructor] ErrorService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.256Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.256Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.265Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.268Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.309Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:07:01.471Z] [info] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+Details: {"file":"/index.js","line":"322","meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.472Z] [info] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.474Z] [info] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+Details: {"meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.547Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.620Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.622Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.623Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.630Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:01.633Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:01.638Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.091Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.094Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.098Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.099Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.100Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:02.106Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:02.109Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.139Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.147Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.149Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.163Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:02.168Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:02.184Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:02.184Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.402Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (2218ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:04.403Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.404Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.407Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_2","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.409Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses","duration":2260,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.410Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (2261.60ms)
+Details: {"meta":{"flowCategory":"API","timing":2261.5999999940395}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.412Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":2261.5999999940395,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.415Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.453Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.462Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.468Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:07:04.474Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.464Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.480Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.484Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.488Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:04.491Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:04.492Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:04.494Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.507Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (3401ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:05.508Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.513Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.514Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_1","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.516Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses","duration":3418,"stepsCount":13}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.519Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:05.520Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.619Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.handleUIError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.620Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object","string","string","object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.621Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object","string","string","object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.625Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.626Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.630Z] [error] [ErrorService.captureError.ui] Invalid or unexpected token
+Details: {"file":"/index.js","line":79,"meta":{"severity":"high","context":{"fileName":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineNumber":1602,"columnNumber":29}}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.636Z] [info] [FlowTracker.Error.ErrorService.ui] Flow: Hata: Invalid or unexpected token
+Details: {"meta":{"flowCategory":"Error"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.638Z] [info] [ErrorService.ui] [FLOW] Hata: Invalid or unexpected token
+Details: {"meta":{"severity":"high"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.647Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.logErrorToFile
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.650Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.mapSeverityToLogLevel
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.652Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.mapSeverityToLogLevel tamamlandı (0.60ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.5999999940395355}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.655Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.mapSeverityToLogLevel
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.5999999940395355,"resultType":"string"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.657Z] [error] [ErrorService.ui] [UI] Invalid or unexpected token
+Details: {"meta":{"severity":"high","fileName":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineNumber":1602,"columnNumber":29}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.670Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.logErrorToFile tamamlandı (20.20ms)
+Details: {"meta":{"flowCategory":"Custom","timing":20.19999998807907}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.673Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.logErrorToFile
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":20.19999998807907,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.680Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.showErrorToUser
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.681Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.formatUserErrorMessage
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.684Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.formatUserErrorMessage tamamlandı (1.30ms)
+Details: {"meta":{"flowCategory":"Custom","timing":1.300000011920929}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.687Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.formatUserErrorMessage
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":1.300000011920929,"resultType":"string"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.688Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.showToast
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string","string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.722Z] [error] [ErrorService.showToast] Invalid or unexpected token
+Details: {"meta":{"title":"Hata","description":"Invalid or unexpected token","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.744Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.showToast tamamlandı (36.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":36.099999994039536}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.748Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.showToast
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":36.099999994039536,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.750Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.showErrorToUser tamamlandı (69.30ms)
+Details: {"meta":{"flowCategory":"Custom","timing":69.30000001192093}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.752Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.showErrorToUser
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":69.30000001192093,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.756Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.reportError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.757Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.captureError tamamlandı (128.10ms)
+Details: {"meta":{"flowCategory":"Error","timing":128.09999999403954}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.758Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":70,"meta":{"duration":128.09999999403954,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.762Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.763Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.captureException tamamlandı (140.40ms)
+Details: {"meta":{"flowCategory":"Error","timing":140.40000000596046}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.764Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":70,"meta":{"duration":140.40000000596046,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.764Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.767Z] [info] [FlowTracker.Error.ErrorService.handleUIError] Flow: UI Hatası: Uncaught SyntaxError: Invalid or unexpected token
+Details: {"meta":{"flowCategory":"Error"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.772Z] [info] [ErrorService.handleUIError] [FLOW] UI Hatası: Uncaught SyntaxError: Invalid or unexpected token
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:06.775Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.handleUIError tamamlandı (155.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":155.09999999403954}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.777Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.handleUIError
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":155.09999999403954,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.788Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.reportError tamamlandı (30.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":30.099999994039536}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.789Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.reportError
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":30.099999994039536,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.791Z] [error] [Providers] Yakalanmayan global hata: Uncaught SyntaxError: Invalid or unexpected token
+Details: {"file":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","line":"1602","meta":{"errorName":"SyntaxError","filename":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineno":1602,"colno":29,"stack":"SyntaxError: Invalid or unexpected token"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.805Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught SyntaxError: Invalid or unexpected token
+Details: {"filename":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineno":1602,"colno":29,"error":"SyntaxError: Invalid or unexpected token"}
+------------------------------------------------------------
+[2025-06-09T17:07:06.809Z] [error] [Window.onerror] Global hata: Uncaught SyntaxError: Invalid or unexpected token
+Details: {"source":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","line":1602,"column":29,"stack":"SyntaxError: Invalid or unexpected token"}
+------------------------------------------------------------
+[2025-06-09T17:07:06.812Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.handleUIError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.816Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object","string","string","object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.817Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object","string","string","object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.819Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.820Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.823Z] [error] [ErrorService.captureError.ui] Invalid or unexpected token
+Details: {"file":"/index.js","line":79,"meta":{"severity":"high","context":{"fileName":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineNumber":1602,"columnNumber":29}}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.831Z] [info] [FlowTracker.Error.ErrorService.ui] Flow: Hata: Invalid or unexpected token
+Details: {"meta":{"flowCategory":"Error"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.833Z] [info] [ErrorService.ui] [FLOW] Hata: Invalid or unexpected token
+Details: {"meta":{"severity":"high"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.833Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.logErrorToFile
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.834Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.mapSeverityToLogLevel
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.836Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.mapSeverityToLogLevel tamamlandı (0.40ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.3999999761581421}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.837Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.mapSeverityToLogLevel
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.3999999761581421,"resultType":"string"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.838Z] [error] [ErrorService.ui] [UI] Invalid or unexpected token
+Details: {"meta":{"severity":"high","fileName":"http://localhost:3000/_next/static/chunks/app/exams/%5Bid%5D/page.js","lineNumber":1602,"columnNumber":29}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.847Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.logErrorToFile tamamlandı (13.00ms)
+Details: {"meta":{"flowCategory":"Custom","timing":13}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.848Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.logErrorToFile
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":13,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.849Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.showErrorToUser
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.851Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.formatUserErrorMessage
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.853Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.formatUserErrorMessage tamamlandı (0.20ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.19999998807907104}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.854Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.formatUserErrorMessage
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.19999998807907104,"resultType":"string"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.855Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.showToast
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string","string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.858Z] [error] [ErrorService.showToast] Invalid or unexpected token
+Details: {"meta":{"title":"Hata","description":"Invalid or unexpected token","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.867Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.showToast tamamlandı (11.40ms)
+Details: {"meta":{"flowCategory":"Custom","timing":11.400000005960464}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.868Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.showToast
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":11.400000005960464,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.870Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.showErrorToUser tamamlandı (18.30ms)
+Details: {"meta":{"flowCategory":"Custom","timing":18.30000001192093}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.872Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.showErrorToUser
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":18.30000001192093,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.873Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.reportError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.882Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.captureError tamamlandı (60.10ms)
+Details: {"meta":{"flowCategory":"Error","timing":60.099999994039536}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.885Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":70,"meta":{"duration":60.099999994039536,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.886Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.892Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.captureException tamamlandı (74.30ms)
+Details: {"meta":{"flowCategory":"Error","timing":74.2999999821186}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.893Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":70,"meta":{"duration":74.2999999821186,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.895Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.captureException
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.900Z] [info] [FlowTracker.Error.ErrorService.handleUIError] Flow: UI Hatası: Uncaught SyntaxError: Invalid or unexpected token
+Details: {"meta":{"flowCategory":"Error"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.919Z] [info] [ErrorService.handleUIError] [FLOW] UI Hatası: Uncaught SyntaxError: Invalid or unexpected token
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:06.921Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.handleUIError tamamlandı (105.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":105.09999999403954}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.924Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.handleUIError
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":105.09999999403954,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.931Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.reportError tamamlandı (49.80ms)
+Details: {"meta":{"flowCategory":"Custom","timing":49.80000001192093}}
+------------------------------------------------------------
+[2025-06-09T17:07:06.932Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.reportError
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":49.80000001192093,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.221Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (3729ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:08.226Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.228Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (3744.20ms)
+Details: {"meta":{"flowCategory":"API","timing":3744.199999988079}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.230Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3744.199999988079}]}
+------------------------------------------------------------
+[2025-06-09T17:07:08.233Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (3748.90ms)
+Details: {"meta":{"flowCategory":"API","timing":3748.9000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.234Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3748.9000000059605,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.235Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.236Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (3771.60ms)
+Details: {"meta":{"flowCategory":"API","timing":3771.600000023842}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.237Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3771.600000023842}]}
+------------------------------------------------------------
+[2025-06-09T17:07:08.239Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (3774.40ms)
+Details: {"meta":{"flowCategory":"API","timing":3774.4000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.242Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3774.4000000059605,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:08.243Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.129Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.131Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.132Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.128Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.135Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.70ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.699999988079071}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.136Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.699999988079071,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.137Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.138Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.140Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.140Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.141Z] [info] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.142Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (9.90ms)
+Details: {"meta":{"flowCategory":"Custom","timing":9.900000005960464}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.143Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":9.900000005960464,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.143Z] [info] [ErrorService.constructor] ErrorService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.144Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.145Z] [info] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.146Z] [warn] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+Details: {"file":"/index.js","line":"34"}
+------------------------------------------------------------
+[2025-06-09T17:07:24.150Z] [info] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+Details: {"file":"/index.js","line":"116"}
+------------------------------------------------------------
+[2025-06-09T17:07:24.151Z] [info] [FirebaseConfig] Mevcut Firebase uygulaması kullanılıyor
+Details: {"file":"/index.js","line":"198"}
+------------------------------------------------------------
+[2025-06-09T17:07:24.153Z] [info] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+Details: {"file":"/index.js","line":"208"}
+------------------------------------------------------------
+[2025-06-09T17:07:24.154Z] [info] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+Details: {"file":"/index.js","line":"242"}
+------------------------------------------------------------
+[2025-06-09T17:07:24.155Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.155Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.157Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.159Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.161Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:07:24.173Z] [info] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+Details: {"file":"/index.js","line":"322","meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.175Z] [info] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.177Z] [info] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+Details: {"meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.234Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.244Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.246Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.247Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.251Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.253Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.254Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.427Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.428Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.429Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.430Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.432Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.433Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.435Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.449Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.450Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.452Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.456Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:24.460Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.465Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:24.467Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.185Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (1720ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:26.186Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.187Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.187Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_2","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.188Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses","duration":1737,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.189Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (1737.40ms)
+Details: {"meta":{"flowCategory":"API","timing":1737.4000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.189Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1737.4000000059605,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.190Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.196Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.196Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.197Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.198Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:07:26.199Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.199Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.200Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.201Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:26.202Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:26.202Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:26.203Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.550Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (3117ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:27.551Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.557Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.558Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_1","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.561Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses","duration":3132,"stepsCount":13}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.567Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:27.573Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.252Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (3049ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:29.252Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.256Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (3056.40ms)
+Details: {"meta":{"flowCategory":"API","timing":3056.399999976158}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.258Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3056.399999976158}]}
+------------------------------------------------------------
+[2025-06-09T17:07:29.260Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (3060.20ms)
+Details: {"meta":{"flowCategory":"API","timing":3060.199999988079}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.264Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3060.199999988079,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.265Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.269Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (3071.80ms)
+Details: {"meta":{"flowCategory":"API","timing":3071.7999999821186}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.271Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":3071.7999999821186}]}
+------------------------------------------------------------
+[2025-06-09T17:07:29.286Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (3088.60ms)
+Details: {"meta":{"flowCategory":"API","timing":3088.5999999940395}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.287Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":3088.5999999940395,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:29.291Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.904Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.905Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.910Z] [info] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.911Z] [warn] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+Details: {"file":"/index.js","line":"34"}
+------------------------------------------------------------
+[2025-06-09T17:07:30.916Z] [info] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+Details: {"file":"/index.js","line":"116"}
+------------------------------------------------------------
+[2025-06-09T17:07:30.917Z] [info] [FirebaseConfig] Mevcut Firebase uygulaması kullanılıyor
+Details: {"file":"/index.js","line":"198"}
+------------------------------------------------------------
+[2025-06-09T17:07:30.918Z] [info] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+Details: {"file":"/index.js","line":"208"}
+------------------------------------------------------------
+[2025-06-09T17:07:30.919Z] [info] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+Details: {"file":"/index.js","line":"242"}
+------------------------------------------------------------
+[2025-06-09T17:07:30.922Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.924Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.925Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.928Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.30ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.30000001192092896}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.930Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.30000001192092896,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.930Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.931Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.932Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.938Z] [info] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.939Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (13.90ms)
+Details: {"meta":{"flowCategory":"Custom","timing":13.900000005960464}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.940Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":13.900000005960464,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.943Z] [info] [ErrorService.constructor] ErrorService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.944Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.946Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.953Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:30.954Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.961Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:07:30.979Z] [info] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+Details: {"file":"/index.js","line":"322","meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.979Z] [info] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:07:30.981Z] [info] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+Details: {"meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.068Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.072Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.073Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.074Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.081Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.083Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.086Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.219Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.220Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.221Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.222Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.222Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.223Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.224Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.230Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.231Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.232Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.235Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:31.237Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.240Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:31.241Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.546Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (1306ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:32.550Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.552Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.553Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_2","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.566Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"CourseService.getAllCourses","duration":1334,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.573Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (1340.70ms)
+Details: {"meta":{"flowCategory":"API","timing":1340.7000000178814}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.591Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1340.7000000178814,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.593Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.608Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.609Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.610Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.612Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:07:32.612Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.614Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.617Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.618Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:32.625Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:07:32.626Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:32.627Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.569Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (2346ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:33.570Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.576Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.577Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_1","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.580Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"CourseService.getAllCourses","duration":2359,"stepsCount":13}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.584Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:33.587Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.193Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (2567ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:35.194Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.209Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (2591.90ms)
+Details: {"meta":{"flowCategory":"API","timing":2591.9000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.211Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":2591.9000000059605}]}
+------------------------------------------------------------
+[2025-06-09T17:07:35.227Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (2610.30ms)
+Details: {"meta":{"flowCategory":"API","timing":2610.300000011921}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.228Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":2610.300000011921,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.232Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.236Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (2625.40ms)
+Details: {"meta":{"flowCategory":"API","timing":2625.4000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.238Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=15
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":15,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":2625.4000000059605}]}
+------------------------------------------------------------
+[2025-06-09T17:07:35.241Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (2631.40ms)
+Details: {"meta":{"flowCategory":"API","timing":2631.4000000059605}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.243Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":2631.4000000059605,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:35.244Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.938Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.939Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:07:38.939Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.940Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.941Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.942Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.943Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.944Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.944Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.946Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:07:38.950Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (9.90ms)
+Details: {"meta":{"flowCategory":"Custom","timing":9.900000005960464}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.347Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.352Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureError
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.335Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureNetworkError
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.341Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.captureNetworkError
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object"]}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.353Z] [error] [ErrorService.captureError.network] Fetch hatası: Failed to fetch
+Details: {"file":"/index.js","line":79,"meta":{"severity":"high","context":{"originalError":{"error":{},"request":{"url":"/api/logs/frontend","options":{"method":"POST","headers":{"Content-Type":"application/json"},"body":"{\"level\":\"debug\",\"message\":\"🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api\",\"context\":\"ApiService\",\"timestamp\":\"2025-06-09T17:07:39.043Z\",\"details\":{}}"}}}}}}
+------------------------------------------------------------
+[2025-06-09T17:07:42.357Z] [info] [FlowTracker.Error.ErrorService.network] Flow: Hata: Fetch hatası: Failed to fetch
+Details: {"meta":{"flowCategory":"Error"}}
+------------------------------------------------------------
