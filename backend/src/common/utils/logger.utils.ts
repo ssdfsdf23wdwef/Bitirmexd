@@ -11,14 +11,23 @@ import {
 import * as path from 'path';
 import * as fs from 'fs';
 
-const logger = LoggerService.getInstance();
-const flowTracker = FlowTrackerService.getInstance();
+// Lazy initialization - services will be instantiated only when needed
+let logger: LoggerService;
+let flowTracker: FlowTrackerService;
 
-flowTracker.trackCategory(
-  FlowCategory.Custom,
-  'Logger utils yükleniyor',
-  'logger.utils',
-);
+function getLoggerInstance(): LoggerService {
+  if (!logger) {
+    logger = LoggerService.getInstance();
+  }
+  return logger;
+}
+
+function getFlowTrackerInstance(): FlowTrackerService {
+  if (!flowTracker) {
+    flowTracker = FlowTrackerService.getInstance();
+  }
+  return flowTracker;
+}
 
 // Singleton logger instance
 let loggerInstance: LoggerService | null = null;
@@ -72,6 +81,7 @@ export function logError(
   );
 
   // Hata akışını takip et
+  const flowTracker = getFlowTrackerInstance();
   flowTracker.trackCategory(FlowCategory.Error, errorMessage, context);
 }
 
@@ -86,6 +96,7 @@ export function logFlow(
   context: string,
   category: FlowCategory = FlowCategory.Custom,
 ): void {
+  const flowTracker = getFlowTrackerInstance();
   if (!flowTracker) {
     console.log(
       `[AKIŞ] [${category}] [${context}] ${message} (FlowTracker servisi başlatılmamış)`,
@@ -107,6 +118,7 @@ function clearLogFile(): void {
   }
 
   loggerInstance.clearLogFile();
+  const flowTracker = getFlowTrackerInstance();
   flowTracker.trackCategory(
     FlowCategory.Custom,
     'Log dosyası temizlendi',
@@ -139,6 +151,7 @@ function downloadLogFile(filename: string = 'backend-logs.log'): Buffer {
     return Buffer.from('');
   }
 
+  const flowTracker = getFlowTrackerInstance();
   flowTracker.trackCategory(
     FlowCategory.Custom,
     `Log dosyası indiriliyor: ${filename}`,

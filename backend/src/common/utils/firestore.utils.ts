@@ -1,7 +1,6 @@
 import {
   CollectionReference,
   DocumentReference,
-  getFirestore,
   Firestore,
   WriteBatch,
   WhereFilterOp,
@@ -11,13 +10,27 @@ import {
   WithFieldValue,
   PartialWithFieldValue,
 } from 'firebase-admin/firestore';
+import * as admin from 'firebase-admin';
 import { LoggerService } from '../services/logger.service';
 import { FlowTrackerService } from '../services/flow-tracker.service';
 
-const logger = LoggerService.getInstance();
-const flowTracker = FlowTrackerService.getInstance();
+// Lazy initialization - services will be instantiated only when needed
+let logger: LoggerService;
+let flowTracker: FlowTrackerService;
 
-flowTracker.track('Firestore utils yükleniyor', 'firestore.utils');
+function getLoggerInstance(): LoggerService {
+  if (!logger) {
+    logger = LoggerService.getInstance();
+  }
+  return logger;
+}
+
+function getFlowTrackerInstance(): FlowTrackerService {
+  if (!flowTracker) {
+    flowTracker = FlowTrackerService.getInstance();
+  }
+  return flowTracker;
+}
 
 /**
  * Firestore işlemleri için yardımcı fonksiyonlar
@@ -54,6 +67,7 @@ const handleBatchOperation = async <T>(
         const chunk = items.slice(i, i + BATCH_SIZE);
         chunk.forEach((item) => operation(tempBatch, item));
         await tempBatch.commit();
+        const logger = getLoggerInstance();
         logger.debug(
           `Batch işlemi tamamlandı: ${i} - ${i + chunk.length} / ${items.length}`,
           'firestore.utils.handleBatchOperation',
@@ -64,6 +78,7 @@ const handleBatchOperation = async <T>(
       }
     }
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       `Batch işlemi sırasında hata: ${error.message}`,
       'firestore.utils.handleBatchOperation',
@@ -98,6 +113,7 @@ const entityExists = async (
 
     return !snapshot.empty;
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       `Entity kontrol sırasında hata: ${error.message}`,
       'firestore.utils.entityExists',
@@ -157,6 +173,7 @@ export const cascadeDelete = async (
           transaction.delete(doc.ref);
         });
 
+        const logger = getLoggerInstance();
         logger.debug(
           `Cascade delete: ${related.collection} içinde ${snapshot.size} belge silindi`,
           'firestore.utils.cascadeDelete',
@@ -170,6 +187,7 @@ export const cascadeDelete = async (
       transaction.delete(parentRef);
     });
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       `Cascade silme sırasında hata: ${error.message}`,
       'firestore.utils.cascadeDelete',
@@ -243,6 +261,7 @@ const paginateFirestore = async <T>(
           : null,
     };
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       `Paginate işlemi sırasında hata: ${error.message}`,
       'firestore.utils.paginateFirestore',
@@ -262,16 +281,23 @@ function getCollection<T = any>(
   collectionPath: string,
 ): CollectionReference<T> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath} koleksiyonu alınıyor`,
       'firestore.utils',
     );
 
-    const firestore = getFirestore();
+    // Lazy loading - admin'in başlatılmış olduğundan emin ol
+    if (!admin.apps.length) {
+      throw new Error('Firebase Admin henüz başlatılmamış');
+    }
+    
+    const firestore = admin.firestore();
     const collection = firestore.collection(
       collectionPath,
     ) as CollectionReference<T>;
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath} koleksiyonu başarıyla alındı`,
       'firestore.utils.getCollection',
@@ -281,6 +307,7 @@ function getCollection<T = any>(
 
     return collection;
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.getCollection', {
       additionalInfo: `${collectionPath} koleksiyonu alınırken hata oluştu`,
       collectionPath,
@@ -300,6 +327,7 @@ function getDocument<T extends DocumentData = DocumentData>(
   documentId: string,
 ): DocumentReference<T> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath}/${documentId} belgesi alınıyor`,
       'firestore.utils',
@@ -308,6 +336,7 @@ function getDocument<T extends DocumentData = DocumentData>(
     const collection = getCollection<T>(collectionPath);
     const document = collection.doc(documentId) as DocumentReference<T>;
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath}/${documentId} belgesi başarıyla alındı`,
       'firestore.utils.getDocument',
@@ -317,6 +346,7 @@ function getDocument<T extends DocumentData = DocumentData>(
 
     return document;
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.getDocument', {
       additionalInfo: `${collectionPath}/${documentId} belgesi alınırken hata oluştu`,
       collectionPath,
@@ -337,6 +367,7 @@ async function readDocument<T extends DocumentData = DocumentData>(
   documentId: string,
 ): Promise<T | null> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath}/${documentId} belgesi okunuyor`,
       'firestore.utils',
@@ -346,6 +377,7 @@ async function readDocument<T extends DocumentData = DocumentData>(
     const snapshot = await docRef.get();
 
     if (!snapshot.exists) {
+      const logger = getLoggerInstance();
       logger.info(
         `${collectionPath}/${documentId} belgesi bulunamadı`,
         'firestore.utils.readDocument',
@@ -355,6 +387,7 @@ async function readDocument<T extends DocumentData = DocumentData>(
       return null;
     }
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath}/${documentId} belgesi başarıyla okundu`,
       'firestore.utils.readDocument',
@@ -364,6 +397,7 @@ async function readDocument<T extends DocumentData = DocumentData>(
 
     return snapshot.data() as T;
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.readDocument', {
       additionalInfo: `${collectionPath}/${documentId} belgesi okunurken hata oluştu`,
       collectionPath,
@@ -388,6 +422,7 @@ async function writeDocument<T extends DocumentData = DocumentData>(
   merge = true,
 ): Promise<void> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath}/${documentId} belgesi yazılıyor`,
       'firestore.utils',
@@ -396,6 +431,7 @@ async function writeDocument<T extends DocumentData = DocumentData>(
     const docRef = getDocument(collectionPath, documentId);
     await docRef.set(data, { merge });
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath}/${documentId} belgesi başarıyla yazıldı`,
       'firestore.utils.writeDocument',
@@ -404,6 +440,7 @@ async function writeDocument<T extends DocumentData = DocumentData>(
       { merge },
     );
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.writeDocument', {
       additionalInfo: `${collectionPath}/${documentId} belgesi yazılırken hata oluştu`,
       collectionPath,
@@ -425,6 +462,7 @@ async function deleteDocument(
   documentId: string,
 ): Promise<void> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath}/${documentId} belgesi siliniyor`,
       'firestore.utils',
@@ -433,6 +471,7 @@ async function deleteDocument(
     const docRef = getDocument(collectionPath, documentId);
     await docRef.delete();
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath}/${documentId} belgesi başarıyla silindi`,
       'firestore.utils.deleteDocument',
@@ -440,6 +479,7 @@ async function deleteDocument(
       184,
     );
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.deleteDocument', {
       additionalInfo: `${collectionPath}/${documentId} belgesi silinirken hata oluştu`,
       collectionPath,
@@ -456,6 +496,7 @@ async function deleteDocument(
  */
 async function getAllDocuments<T = any>(collectionPath: string): Promise<T[]> {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackStep(
       `${collectionPath} koleksiyonundaki tüm belgeler alınıyor`,
       'firestore.utils',
@@ -472,6 +513,7 @@ async function getAllDocuments<T = any>(collectionPath: string): Promise<T[]> {
         }) as unknown as T,
     );
 
+    const logger = getLoggerInstance();
     logger.debug(
       `${collectionPath} koleksiyonundan ${documents.length} belge başarıyla alındı`,
       'firestore.utils.getAllDocuments',
@@ -481,6 +523,7 @@ async function getAllDocuments<T = any>(collectionPath: string): Promise<T[]> {
 
     return documents;
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.logError(error, 'firestore.utils.getAllDocuments', {
       additionalInfo: `${collectionPath} koleksiyonundaki belgeler alınırken hata oluştu`,
       collectionPath,
@@ -544,6 +587,7 @@ const ensureFirestoreSafe = <T>(data: T): T => {
     return JSON.parse(JSON.stringify(data));
   } catch (error) {
     // If that fails, use the more detailed toPlainObject function
+    const logger = getLoggerInstance();
     logger.warn(
       `JSON.stringify failed, using toPlainObject: ${error.message}`,
       'firestore.utils.ensureFirestoreSafe',

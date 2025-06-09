@@ -71,6 +71,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "eslint-config-prettier": "^10.1.2",
+    "jscpd": "^4.0.5",
     "knip": "^5.60.2",
     "tailwindcss": "^4",
     "typescript": "^5"
@@ -78,7 +79,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": [
+        "src/*"
+      ],
       "@common/*": [
         "common/*"
       ],
