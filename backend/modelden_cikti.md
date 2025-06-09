@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T17:06:21.153Z
-Trace ID: quiz-1749488767336-55yjv
-Yanıt Uzunluğu: 7721 karakter
+Tarih: 2025-06-09T17:10:40.079Z
+Trace ID: quiz-1749489025365-iouna
+Yanıt Uzunluğu: 8416 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,165 @@ Yanıt Uzunluğu: 7721 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi biyolojik risk etmenlerinin tanımında yer almaz?",
+      "questionText": "Aşağıdakilerden hangisi meslek hastalığının tanımında yer almaz?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Enfeksiyona neden olabilen mikrobiyolojik varlıklar",
-        "Alerjiye neden olabilen mikrobiyolojik varlıklar",
-        "Zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
-        "Radyasyona neden olabilen mikrobiyolojik varlıklar"
+        "Çalışanın yaptığı işten kaynaklanması",
+        "İş ortamından kaynaklanması",
+        "Sürekli tekrarlanan bir sebeple oluşması",
+        "Çok etkenli (multi-etyolojik) nedenlere sahip olması"
       ],
-      "correctAnswer": "Radyasyona neden olabilen mikrobiyolojik varlıklar",
-      "explanation": "Biyolojik etkenler enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklardır. Radyasyon fiziksel bir risk etmenidir, biyolojik değil.",
-      "subTopicName": "Biyolojik Risk Etmenleri Tanımı",
-      "normalizedSubTopicName": "biyolojik_risk_etmenleri_tanimi",
+      "correctAnswer": "Çok etkenli (multi-etyolojik) nedenlere sahip olması",
+      "explanation": "Meslek hastalıkları genellikle tek bir etkene bağlıdır. Çok etkenli nedenlere sahip hastalıklar işle ilgili hastalıklardır, meslek hastalığı değildir. Bkz: Meslek Hastalıklarının Tanımı",
+      "subTopicName": "Meslek Hastalıklarının Tanımı",
+      "normalizedSubTopicName": "meslek_hastaliklarinin_tanimi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Biyolojik risk etmenleri tanımına göre, aşağıdakilerden hangisi bu kapsama dahildir?",
+      "questionText": "5510 sayılı SS-GSS Kanunu'na göre meslek hastalığı aşağıdakilerden hangisi ile tanımlanır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Ağır metaller",
-        "Genetik olarak değiştirilmiş mikroorganizmalar",
-        "Yüksek sıcaklık",
-        "Gürültü"
+        "Sigortalının genetik yatkınlığı sonucu ortaya çıkan hastalıklar",
+        "Sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple uğradığı hastalıklar",
+        "Sigortalının yaşam tarzı seçimleri sonucu ortaya çıkan hastalıklar",
+        "Sigortalının ailesinde görülen kronik hastalıklar"
       ],
-      "correctAnswer": "Genetik olarak değiştirilmiş mikroorganizmalar",
-      "explanation": "Biyolojik etkenler, genetik olarak değiştirilmiş olanlar da dâhil olmak üzere mikroorganizmalar, hücre kültürleri ve insan endoparazitlerinden oluşmaktadır.",
-      "subTopicName": "Biyolojik Risk Etmenleri Tanımı",
-      "normalizedSubTopicName": "biyolojik_risk_etmenleri_tanimi",
+      "correctAnswer": "Sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple uğradığı hastalıklar",
+      "explanation": "5510 sayılı SS-GSS Kanunu, meslek hastalığını sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple veya işin yürütüm şartları yüzünden uğradığı hastalık olarak tanımlar. Bkz: Meslek Hastalıklarının Tanımı",
+      "subTopicName": "Meslek Hastalıklarının Tanımı",
+      "normalizedSubTopicName": "meslek_hastaliklarinin_tanimi",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdakilerden hangisi 'Biyolojik Etken' tanımını en doğru şekilde ifade eder?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Sadece virüsler ve bakteriler",
-        "Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
-        "Sadece insan endoparazitleri",
-        "Sadece hücre kültürleri"
-      ],
-      "correctAnswer": "Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar",
-      "explanation": "Biyolojik etkenler, herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen hücresel veya hücresel olmayan mikrobiyolojik varlıklar olarak tanımlanır.",
-      "subTopicName": "Biyolojik Etkenlerin Tanımı",
-      "normalizedSubTopicName": "biyolojik_etkenlerin_tanimi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Hücre kültürü nedir?",
+      "questionText": "Aşağıdakilerden hangisi meslek hastalığı ile işle ilgili hastalık arasındaki temel bir farktır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Tek hücreli organizmaların geliştirilmesi",
-        "Çok hücreli organizmalardan türetilmiş hücrelerin in-vitro olarak geliştirilmesi",
-        "Sadece bakteri üretimi",
-        "Sadece virüs üretimi"
+        "Meslek hastalıklarının tedavisinin daha kolay olması",
+        "İşle ilgili hastalıkların daha hızlı ilerlemesi",
+        "Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması",
+        "İşle ilgili hastalıkların daha ölümcül olması"
       ],
-      "correctAnswer": "Çok hücreli organizmalardan türetilmiş hücrelerin in-vitro olarak geliştirilmesi",
-      "explanation": "Hücre kültürü, çok hücreli organizmalardan türetilmiş hücrelerin in-vitro (laboratuvar ortamında) olarak geliştirilmesini ifade eder.",
-      "subTopicName": "Biyolojik Etkenlerin Tanımı",
-      "normalizedSubTopicName": "biyolojik_etkenlerin_tanimi",
+      "correctAnswer": "Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması",
+      "explanation": "Meslek hastalıkları genellikle iş ortamına doğrudan bağlıdır ve tek bir nedene sahiptir. İşle ilgili hastalıklar ise çok çeşitli faktörlerin bir araya gelmesiyle ortaya çıkar. Bkz: Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
+      "subTopicName": "Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
+      "normalizedSubTopicName": "meslek_hastaligi_ve_i_sle_i_lgili_hastalik_ayrimi",
       "difficulty": "medium"
     },
     {
-      "id": "q5",
-      "questionText": "Biyolojik etkenler enfeksiyon yapma risk düzeyine göre kaç risk grubunda sınıflandırılır?",
+      "id": "q4",
+      "questionText": "Meslek hastalıkları ve işle ilgili hastalıklar arasındaki kavram karmaşasının yaşanmasının temel nedeni nedir?",
       "questionType": "multiple_choice",
+      "cognitiveDomain": "analyzing",
+      "options": [
+        "Hekimlerin bu konudaki bilgisizliği",
+        "Yasal düzenlemelerin yetersizliği",
+        "Hastalıkların belirtilerinin benzerliği ve çok etkenli olabilmesi",
+        "İşverenlerin konuya ilgisizliği"
+      ],
+      "correctAnswer": "Hastalıkların belirtilerinin benzerliği ve çok etkenli olabilmesi",
+      "explanation": "Meslek hastalıkları ve işle ilgili hastalıkların belirtileri bazen benzer olabilir ve işle ilgili hastalıkların çok etkenli olması, ayrımı zorlaştırabilir. Bu durum, kavram karmaşasına yol açmaktadır. Bkz: Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
+      "subTopicName": "Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
+      "normalizedSubTopicName": "meslek_hastaligi_ve_i_sle_i_lgili_hastalik_ayrimi",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q5",
+      "questionText": "Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
+      "questionType": "true_false",
       "cognitiveDomain": "remembering",
       "options": [
-        "2",
-        "3",
-        "4",
-        "5"
+        "True",
+        "False"
       ],
-      "correctAnswer": "4",
-      "explanation": "Biyolojik etkenler enfeksiyon yapma risk düzeyine göre 4 risk grubunda sınıflandırılır.",
-      "subTopicName": "Biyolojik Risk Grupları",
-      "normalizedSubTopicName": "biyolojik_risk_gruplari",
+      "correctAnswer": "True",
+      "explanation": "Verilen metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
+      "subTopicName": "Meslek Hastalıkları Alanındaki Öncüler",
+      "normalizedSubTopicName": "meslek_hastaliklari_alanindaki_onculer",
       "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "Biyolojik risk gruplarının sınıflandırılmasında temel alınan faktör nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "questionText": "Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
+      "questionType": "true_false",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Etkenin boyutu",
-        "Etkenin yayılma hızı",
-        "Etkenin enfeksiyon yapma riski",
-        "Etkenin rengi"
+        "True",
+        "False"
       ],
-      "correctAnswer": "Etkenin enfeksiyon yapma riski",
-      "explanation": "Biyolojik risk etmenleri, enfeksiyon yapma risk düzeyine göre sınıflandırılır.",
-      "subTopicName": "Biyolojik Risk Grupları",
-      "normalizedSubTopicName": "biyolojik_risk_gruplari",
-      "difficulty": "medium"
+      "correctAnswer": "True",
+      "explanation": "Verilen metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
+      "subTopicName": "Meslek Hastalıkları Alanındaki Öncüler",
+      "normalizedSubTopicName": "meslek_hastaliklari_alanindaki_onculer",
+      "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdakilerden hangisi biyolojik risklere maruz kalınabilecek iş alanlarına örnek olarak verilemez?",
+      "questionText": "2012 tarihinde çıkarılan kanunla ilgili aşağıdakilerden hangisi doğrudur?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sağlık hizmetleri",
-        "Atık yönetimi",
-        "Gıda üretimi",
-        "Otomotiv üretimi"
+        "Önceki kanunun kapsamı daraltılmıştır.",
+        "İş güvenliği ve meslek hastalıkları konusunda daha az koruyucu yasalar yürürlüğe girmiştir.",
+        "Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.",
+        "Sadece belirli sektörleri kapsamaktadır."
       ],
-      "correctAnswer": "Otomotiv üretimi",
-      "explanation": "Sağlık hizmetleri, atık yönetimi ve gıda üretimi biyolojik risklerin yüksek olduğu iş alanlarıdır. Otomotiv üretimi daha çok fiziksel ve kimyasal riskler içerir.",
-      "subTopicName": "Riskli İ Ş Alanları",
-      "normalizedSubTopicName": "riskli_i_s_alanlari",
+      "correctAnswer": "Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.",
+      "explanation": "2012 tarihinde çıkarılan kanunla önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir. Bkz: Türkiyedeki Yasal Düzenlemeler",
+      "subTopicName": "Türkiyedeki Yasal Düzenlemeler",
+      "normalizedSubTopicName": "turkiyedeki_yasal_duzenlemeler",
       "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Biyolojik risklerin bulunduğu iş alanlarında, çalışanların sağlığını korumak için hangi öncelikli adım atılmalıdır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
-      "options": [
-        "Çalışanlara yüksek maaş vermek",
-        "Riskleri belirlemek ve değerlendirmek",
-        "Çalışanlara daha fazla izin vermek",
-        "İşe alım süreçlerini hızlandırmak"
-      ],
-      "correctAnswer": "Riskleri belirlemek ve değerlendirmek",
-      "explanation": "Biyolojik risklerin bulunduğu iş alanlarında öncelikle risklerin belirlenmesi ve değerlendirilmesi gerekmektedir. Bu değerlendirme sonucunda uygun kontrol önlemleri alınabilir.",
-      "subTopicName": "Riskli İ Ş Alanları",
-      "normalizedSubTopicName": "riskli_i_s_alanlari",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q9",
-      "questionText": "Biyolojik risk değerlendirme sürecinin ilk adımı aşağıdakilerden hangisidir?",
+      "questionText": "Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 hangi tarihte yürürlüğe girmiştir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Riskleri azaltma",
-        "Tehlikeleri belirleme",
-        "Hijyen kurallarını uygulama",
-        "Eğitim ve belgelendirme"
+        "1.3.2011",
+        "1.3.2012",
+        "1.3.2013",
+        "1.3.2014"
       ],
-      "correctAnswer": "Tehlikeleri belirleme",
-      "explanation": "Risk değerlendirme sürecinin ilk adımı, iş yerindeki tehlikelerin belirlenmesidir.",
-      "subTopicName": "Risk Değerlendirme Süreci",
-      "normalizedSubTopicName": "risk_degerlendirme_sureci",
+      "correctAnswer": "1.3.2012",
+      "explanation": "Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 tarih: 1.3.2012'dir. Bkz: Türkiyedeki Yasal Düzenlemeler",
+      "subTopicName": "Türkiyedeki Yasal Düzenlemeler",
+      "normalizedSubTopicName": "turkiyedeki_yasal_duzenlemeler",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q9",
+      "questionText": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
+      "questionType": "true_false",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
+      "subTopicName": "Tanı Kriterleri",
+      "normalizedSubTopicName": "tani_kriterleri",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Risk değerlendirme sürecinde, tehlikeler belirlendikten sonraki aşama nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "questionText": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
+      "questionType": "true_false",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Riskleri tamamen ortadan kaldırmak",
-        "Kimlerin nasıl zarar görebileceğini saptamak",
-        "İş akışını değiştirmek",
-        "Çalışan sayısını azaltmak"
+        "True",
+        "False"
       ],
-      "correctAnswer": "Kimlerin nasıl zarar görebileceğini saptamak",
-      "explanation": "Tehlikeler belirlendikten sonra, kimlerin bu tehlikelerden nasıl zarar görebileceği saptanmalıdır. Bu, risk analizinin önemli bir parçasıdır.",
-      "subTopicName": "Risk Değerlendirme Süreci",
-      "normalizedSubTopicName": "risk_degerlendirme_sureci",
-      "difficulty": "medium"
+      "correctAnswer": "True",
+      "explanation": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
+      "subTopicName": "Tanı Kriterleri",
+      "normalizedSubTopicName": "tani_kriterleri",
+      "difficulty": "easy"
     }
   ]
 }

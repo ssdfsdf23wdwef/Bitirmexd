@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Frontend'den backend'e log göndermek için fonksiyon
-export async function sendLogToBackend(logData: {
+// Frontend'den yerel dosyaya log yazmak için fonksiyon
+export async function writeLogToLocalFile(logData: {
   level: string;
   message: string | object;
   context?: string;
@@ -21,7 +21,7 @@ export async function sendLogToBackend(logData: {
     await axios.post('/api/logs/frontend', formattedLogData);
   } catch (error) {
     // API hatası durumunda sadece konsola yaz (döngüye girmemek için API'yi tekrar çağırma)
-    console.error('Log gönderme hatası:', error);
+    console.error('Yerel dosyaya log yazma hatası:', error);
   }
 }
 
@@ -44,7 +44,7 @@ const safeConsoleOverride = () => {
   // Sadece desteklenen metodları override et
   console.error = function(...args: any[]) {
     originalError.apply(console, args);
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'error',
       message: args[0] || '',
       context: 'Console',
@@ -54,7 +54,7 @@ const safeConsoleOverride = () => {
   
   console.warn = function(...args: any[]) {
     originalWarn.apply(console, args);
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'warn',
       message: args[0] || '',
       context: 'Console',
@@ -64,7 +64,7 @@ const safeConsoleOverride = () => {
   
   console.info = function(...args: any[]) {
     originalInfo.apply(console, args);
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'info',
       message: args[0] || '',
       context: 'Console',
@@ -74,7 +74,7 @@ const safeConsoleOverride = () => {
   
   console.debug = function(...args: any[]) {
     originalDebug.apply(console, args);
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'debug',
       message: args[0] || '',
       context: 'Console',
@@ -92,7 +92,7 @@ export function configureLogging() {
   
   // Global hata yakalayıcı ekle
   window.addEventListener('error', (event) => {
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'error',
       message: `Yakalanmamış hata: ${event.message}`,
       context: 'Window.onerror',
@@ -107,7 +107,7 @@ export function configureLogging() {
   
   // Promise rejection yakalayıcı
   window.addEventListener('unhandledrejection', (event) => {
-    sendLogToBackend({
+    writeLogToLocalFile({
       level: 'error',
       message: 'Yakalanmamış Promise hatası',
       context: 'UnhandledPromiseRejection',
@@ -124,23 +124,23 @@ export function configureLogging() {
   // Logger servisini global olarak ayarla
   window.appLogger = {
     error: (message: string | object, context?: string, details?: any) => {
-      sendLogToBackend({ level: 'error', message, context, details });
+      writeLogToLocalFile({ level: 'error', message, context, details });
     },
     warn: (message: string | object, context?: string, details?: any) => {
-      sendLogToBackend({ level: 'warn', message, context, details });
+      writeLogToLocalFile({ level: 'warn', message, context, details });
     },
     info: (message: string | object, context?: string, details?: any) => {
-      sendLogToBackend({ level: 'info', message, context, details });
+      writeLogToLocalFile({ level: 'info', message, context, details });
     },
     debug: (message: string | object, context?: string, details?: any) => {
-      sendLogToBackend({ level: 'debug', message, context, details });
+      writeLogToLocalFile({ level: 'debug', message, context, details });
     }
   };
   
   // Başlangıç logu
-  sendLogToBackend({
+  writeLogToLocalFile({
     level: 'info',
-    message: 'Frontend log sistemi başlatıldı',
+    message: 'Frontend yerel log sistemi başlatıldı',
     context: 'LogSetup'
   });
   

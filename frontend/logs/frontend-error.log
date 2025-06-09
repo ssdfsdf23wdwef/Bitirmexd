@@ -1840,3 +1840,995 @@ Details: {"file":"/index.js","line":79,"meta":{"severity":"high","context":{"ori
 [2025-06-09T17:07:42.357Z] [info] [FlowTracker.Error.ErrorService.network] Flow: Hata: Fetch hatası: Failed to fetch
 Details: {"meta":{"flowCategory":"Error"}}
 ------------------------------------------------------------
+[2025-06-09T17:08:07.598Z] [info] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.604Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.607Z] [info] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.611Z] [warn] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+Details: {"file":"/index.js","line":"34"}
+------------------------------------------------------------
+[2025-06-09T17:08:07.676Z] [info] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+Details: {"file":"/index.js","line":"116"}
+------------------------------------------------------------
+[2025-06-09T17:08:07.679Z] [info] [FirebaseConfig] Firebase başarıyla başlatıldı
+Details: {"file":"/index.js","line":"167"}
+------------------------------------------------------------
+[2025-06-09T17:08:07.682Z] [info] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başarıyla başlatıldı
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.684Z] [info] [FirebaseConfig] [FLOW] Firebase başarıyla başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.730Z] [info] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+Details: {"file":"/index.js","line":"208"}
+------------------------------------------------------------
+[2025-06-09T17:08:07.746Z] [info] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+Details: {"file":"/index.js","line":"242"}
+------------------------------------------------------------
+[2025-06-09T17:08:07.803Z] [debug] [ErrorService.constructor] Hata servisi başlatıldı
+Details: {"meta":{"environment":"development","reportingEnabled":false}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.804Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.805Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.808Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.50ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.5}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.810Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.5,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.813Z] [debug] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.815Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+Details: {"meta":{"flowCategory":"Custom","timing":0.09999999403953552}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.815Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":0.09999999403953552,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.816Z] [info] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+Details: {"meta":{"flowCategory":"Custom"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.820Z] [info] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.822Z] [info] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (16.70ms)
+Details: {"meta":{"flowCategory":"Custom","timing":16.69999998807907}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.822Z] [debug] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+Details: {"file":"log-method.decorator.ts","line":170,"meta":{"duration":16.69999998807907,"resultType":"undefined"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.823Z] [info] [ErrorService.constructor] ErrorService başlatıldı.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.825Z] [debug] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.827Z] [debug] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.842Z] [info] [ApiService.constructor] ApiService başlatıldı
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:07.843Z] [info] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:07.854Z] [info] [AuthService.constructor] AuthService başlatıldı
+Details: {"file":"/index.js","line":14}
+------------------------------------------------------------
+[2025-06-09T17:08:08.083Z] [info] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:08.766Z] [info] [FlowTracker.Navigation.Browser] Flow: Sayfa yüklendi
+Details: {"meta":{"flowCategory":"Navigation","url":"http://localhost:3000/","title":""}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.863Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"AuthStateMonitoring"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.865Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AppStartup
+Details: {"meta":{"sequenceId":"flow_seq_2","name":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.867Z] [info] [FlowTracker.Navigation.Flow:AppStartup] Flow: Uygulama başlangıç bileşenleri yüklendi
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_2","flowName":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.868Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: PageLoad
+Details: {"meta":{"sequenceId":"flow_seq_3","name":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.869Z] [info] [FlowTracker.Navigation.Flow:PageLoad] Flow: DOM zaten yüklü
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_3","flowName":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.870Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:08:08.873Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:08:08.886Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_1","name":"AuthStateMonitoring","duration":23,"stepsCount":2}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.894Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_4","name":"AuthStateMonitoring"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.919Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AppStartup
+Details: {"meta":{"sequenceId":"flow_seq_5","name":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.920Z] [info] [FlowTracker.Navigation.Flow:AppStartup] Flow: Uygulama başlangıç bileşenleri yüklendi
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_5","flowName":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.923Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: PageLoad
+Details: {"meta":{"sequenceId":"flow_seq_6","name":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.924Z] [info] [FlowTracker.Navigation.Flow:PageLoad] Flow: DOM zaten yüklü
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_6","flowName":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.926Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:08:08.928Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T17:08:08.991Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:08.992Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:08:08.993Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:08:09.000Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:09.002Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:08:09.004Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:08:09.544Z] [info] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:08:09.545Z] [info] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+Details: {"meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:08:10.849Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /auth/login-via-idtoken
+Details: {"meta":{"flowCategory":"API","endpoint":"/auth/login-via-idtoken","method":"POST","dataSize":979}}
+------------------------------------------------------------
+[2025-06-09T17:08:10.851Z] [debug] [ApiService.post] POST isteği başlatıldı: /auth/login-via-idtoken
+Details: {"meta":{"dataKeys":["idToken"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.740Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/auth/login-via-idtoken tamamlandı (2890.10ms)
+Details: {"meta":{"flowCategory":"API","timing":2890.0999999940395}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.741Z] [debug] [ApiService.post] POST isteği tamamlandı: /auth/login-via-idtoken
+Details: {"meta":{"status":200}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.742Z] [info] [FlowTracker.Auth.AuthContext.onAuthStateChange] Flow: Kullanıcı oturumu açık
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.743Z] [info] [AuthContext.onAuthStateChange] [FLOW] Kullanıcı oturumu açık
+Details: {"meta":{"email":"ahmetmanwedwed100@gmail.com"}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.744Z] [debug] [AuthContext.onAuthStateChange] Profil bilgileri isteniyor: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":287}
+------------------------------------------------------------
+[2025-06-09T17:08:13.745Z] [info] [FlowTracker.API.AuthContext.onAuthStateChange] Flow: Profil bilgileri isteniyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.746Z] [info] [AuthContext.onAuthStateChange] [FLOW] Profil bilgileri isteniyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:13.747Z] [info] [FlowTracker.Auth.AuthService.getProfile] Flow: Kullanıcı profili getiriliyor
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:08:13.747Z] [info] [AuthService.getProfile] [FLOW] Kullanıcı profili getiriliyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:13.748Z] [debug] [AuthService.getProfile] Kullanıcı profili isteniyor
+Details: {"file":"/index.js","line":286}
+------------------------------------------------------------
+[2025-06-09T17:08:13.749Z] [debug] [AuthService.getProfile.attemptProfileFetch] Profil bilgisi isteniyor (Deneme: 1/3)
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:08:13.750Z] [debug] [ApiService.get] GET /users/profile isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:13.751Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:14.878Z] [debug] [ApiService.get] GET /users/profile isteği tamamlandı (1128ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:14.878Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:14.879Z] [debug] [AuthService.getProfile] Kullanıcı profili başarıyla alındı
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:08:14.880Z] [info] [AuthContext.onAuthStateChange] Profil bilgileri alındı: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":299,"meta":{"userId":"3P472ynKXanmhqqSdcQJ"}}
+------------------------------------------------------------
+[2025-06-09T17:08:36.065Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:08:09.543Z] [info] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+Details: {"file":"/index.js","line":"322","meta":{"uid":"Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"}}
+------------------------------------------------------------
+[2025-06-09T17:08:36.073Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 18 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:42.313Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_4","name":"AuthStateMonitoring","duration":33419,"stepsCount":12}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.320Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_7","name":"AuthStateMonitoring"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.322Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AppStartup
+Details: {"meta":{"sequenceId":"flow_seq_8","name":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.322Z] [info] [FlowTracker.Navigation.Flow:AppStartup] Flow: Uygulama başlangıç bileşenleri yüklendi
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_8","flowName":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.327Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: PageLoad
+Details: {"meta":{"sequenceId":"flow_seq_9","name":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.329Z] [info] [FlowTracker.Navigation.Flow:PageLoad] Flow: DOM zaten yüklü
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_9","flowName":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.359Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_7","name":"AuthStateMonitoring","duration":39,"stepsCount":2}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.364Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AuthStateMonitoring
+Details: {"meta":{"sequenceId":"flow_seq_10","name":"AuthStateMonitoring"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.370Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: AppStartup
+Details: {"meta":{"sequenceId":"flow_seq_11","name":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.371Z] [info] [FlowTracker.Navigation.Flow:AppStartup] Flow: Uygulama başlangıç bileşenleri yüklendi
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_11","flowName":"AppStartup"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.378Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: PageLoad
+Details: {"meta":{"sequenceId":"flow_seq_12","name":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.383Z] [info] [FlowTracker.Navigation.Flow:PageLoad] Flow: DOM zaten yüklü
+Details: {"meta":{"flowCategory":"Navigation","flowId":"flow_seq_12","flowName":"PageLoad"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.460Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:42.461Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.463Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.477Z] [info] [Navigation] Sayfa değişti: /
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:42.485Z] [info] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /
+Details: {"meta":{"flowCategory":"Navigation"}}
+------------------------------------------------------------
+[2025-06-09T17:08:42.489Z] [info] [Navigation] [FLOW] Sayfaya gezinti: /
+Details: {"meta":{"previousPath":"/","currentPath":"/"}}
+------------------------------------------------------------
+[2025-06-09T17:08:44.706Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /auth/login-via-idtoken
+Details: {"meta":{"flowCategory":"API","endpoint":"/auth/login-via-idtoken","method":"POST","dataSize":979}}
+------------------------------------------------------------
+[2025-06-09T17:08:44.707Z] [debug] [ApiService.post] POST isteği başlatıldı: /auth/login-via-idtoken
+Details: {"meta":{"dataKeys":["idToken"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.229Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/auth/login-via-idtoken tamamlandı (3521.50ms)
+Details: {"meta":{"flowCategory":"API","timing":3521.5}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.234Z] [debug] [ApiService.post] POST isteği tamamlandı: /auth/login-via-idtoken
+Details: {"meta":{"status":200}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.235Z] [info] [FlowTracker.Auth.AuthContext.onAuthStateChange] Flow: Kullanıcı oturumu açık
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.237Z] [info] [AuthContext.onAuthStateChange] [FLOW] Kullanıcı oturumu açık
+Details: {"meta":{"email":"ahmetmanwedwed100@gmail.com"}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.239Z] [debug] [AuthContext.onAuthStateChange] Profil bilgileri isteniyor: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":287}
+------------------------------------------------------------
+[2025-06-09T17:08:48.240Z] [info] [FlowTracker.API.AuthContext.onAuthStateChange] Flow: Profil bilgileri isteniyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.241Z] [info] [AuthContext.onAuthStateChange] [FLOW] Profil bilgileri isteniyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:48.241Z] [info] [FlowTracker.Auth.AuthService.getProfile] Flow: Kullanıcı profili getiriliyor
+Details: {"meta":{"flowCategory":"Auth"}}
+------------------------------------------------------------
+[2025-06-09T17:08:48.254Z] [info] [AuthService.getProfile] [FLOW] Kullanıcı profili getiriliyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:48.258Z] [debug] [AuthService.getProfile] Kullanıcı profili isteniyor
+Details: {"file":"/index.js","line":286}
+------------------------------------------------------------
+[2025-06-09T17:08:48.260Z] [debug] [AuthService.getProfile.attemptProfileFetch] Profil bilgisi isteniyor (Deneme: 1/3)
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:08:48.263Z] [debug] [ApiService.get] GET /users/profile isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:48.265Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:49.315Z] [debug] [ApiService.get] GET /users/profile isteği tamamlandı (1052ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:49.316Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /users/profile isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:49.323Z] [debug] [AuthService.getProfile] Kullanıcı profili başarıyla alındı
+Details: {"file":"/index.js","line":297}
+------------------------------------------------------------
+[2025-06-09T17:08:49.325Z] [info] [AuthContext.onAuthStateChange] Profil bilgileri alındı: ahmetmanwedwed100@gmail.com
+Details: {"file":"AuthContext.tsx","line":299,"meta":{"userId":"3P472ynKXanmhqqSdcQJ"}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.901Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:08:55.410Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.411Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.413Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_13","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.413Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.414Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:55.415Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:55.415Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.422Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.421Z] [debug] [CourseService] Metot başlangıcı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":[]}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.422Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_14","name":"CourseService.getAllCourses"}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.425Z] [info] [FlowTracker.API.CourseService.getAllCourses] Flow: Fetching all courses
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:55.427Z] [info] [CourseService.getAllCourses] [FLOW] Fetching all courses
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:55.429Z] [debug] [ApiService.get] GET /courses isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:55.430Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.703Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (1289ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:56.704Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.706Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.706Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_13","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.707Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_13","name":"CourseService.getAllCourses","duration":1294,"stepsCount":6}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.709Z] [info] [FlowTracker.Timing.CourseService] Timing: CourseService.getCourses tamamlandı (1286.20ms)
+Details: {"meta":{"flowCategory":"API","timing":1286.2000000178814}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.709Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1286.2000000178814,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.711Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.739Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.740Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.742Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargets] Flow: Uyumluluk metoduyla öğrenme hedefleri getiriliyor
+Details: {"meta":{"flowCategory":"API","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.743Z] [info] [LEARNING_TARGET] Eski API uyumluluğu için getLearningTargets çağrılıyor: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"courseId":"g57XhqwX0FSn5ulF9lU1"}]}
+------------------------------------------------------------
+[2025-06-09T17:08:56.745Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.746Z] [debug] [LearningTargetService] Metot başlangıcı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.748Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.749Z] [info] [LearningTargetService.getLearningTargetsByCourse] [FLOW] Fetching learning targets by course ID: g57XhqwX0FSn5ulF9lU1
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:56.750Z] [info] [FlowTracker.API.LearningTargetService.getLearningTargetsByCourse] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/by-course/g57XhqwX0FSn5ulF9lU1","method":"GET","courseId":"g57XhqwX0FSn5ulF9lU1"}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.753Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:57.672Z] [debug] [CourseService.getCourses] 1 kurs getirildi
+Details: {"file":"/index.js","line":30,"meta":{"count":1,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:08:56.753Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:57.670Z] [debug] [ApiService.get] GET /courses isteği tamamlandı (2241ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:57.670Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /courses isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:57.673Z] [info] [FlowTracker.API.Flow:CourseService.getAllCourses] Flow: Successfully fetched all courses
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_14","flowName":"CourseService.getAllCourses","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:08:57.675Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: CourseService.getAllCourses
+Details: {"meta":{"sequenceId":"flow_seq_14","name":"CourseService.getAllCourses","duration":2253,"stepsCount":11}}
+------------------------------------------------------------
+[2025-06-09T17:08:57.680Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:57.681Z] [debug] [CourseService] Metot tamamlandı: CourseService.getCourses
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.912Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 12 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:58.993Z] [debug] [ApiService.get] GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı (2240ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:08:58.993Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /learning-targets/by-course/g57XhqwX0FSn5ulF9lU1 isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.996Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargets_g57XhqwX0FSn5ulF9lU1 tamamlandı (2248.30ms)
+Details: {"meta":{"flowCategory":"API","timing":2248.300000011921}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.997Z] [info] [LEARNING_TARGET] Öğrenme hedefleri getirildi: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=0
+Details: {"meta":["debug","LearningTargetService.getLearningTargetsByCourse",{"count":0,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":2248.300000011921}]}
+------------------------------------------------------------
+[2025-06-09T17:08:58.998Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargetsByCourse tamamlandı (2250.20ms)
+Details: {"meta":{"flowCategory":"API","timing":2250.2000000178814}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.998Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":2250.2000000178814,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:58.999Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargetsByCourse
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:59.000Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: getLearningTargetsCompat_g57XhqwX0FSn5ulF9lU1 tamamlandı (2258.00ms)
+Details: {"meta":{"flowCategory":"API","timing":2258}}
+------------------------------------------------------------
+[2025-06-09T17:08:59.000Z] [info] [LEARNING_TARGET] Uyumluluk metodu başarılı: Kurs=g57XhqwX0FSn5ulF9lU1, Hedef sayısı=0
+Details: {"meta":["debug","LearningTargetService.getLearningTargets",{"count":0,"courseId":"g57XhqwX0FSn5ulF9lU1","duration":2258}]}
+------------------------------------------------------------
+[2025-06-09T17:08:59.001Z] [info] [FlowTracker.Timing.LearningTargetService] Timing: LearningTargetService.getLearningTargets tamamlandı (2259.50ms)
+Details: {"meta":{"flowCategory":"API","timing":2259.5}}
+------------------------------------------------------------
+[2025-06-09T17:08:59.002Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":2259.5,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:08:59.003Z] [debug] [LearningTargetService] Metot tamamlandı: LearningTargetService.getLearningTargets
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:09:02.963Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:09:02.974Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 13 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:07.122Z] [debug] [DocumentService.uploadDocument] Belge yükleme isteği gönderiliyor
+Details: {"file":"/index.js","line":221,"meta":{"fileName":"7.unite MESLEK HASTALIKLARI.pdf"}}
+------------------------------------------------------------
+[2025-06-09T17:09:07.121Z] [info] [DocumentService.uploadDocument] [FLOW] Uploading document: 7.unite MESLEK HASTALIKLARI.pdf
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:07.334Z] [info] [FlowTracker.API.DocumentService.uploadDocument] Flow: Belge yükleme: %100
+Details: {"meta":{"flowCategory":"API","fileName":"7.unite MESLEK HASTALIKLARI.pdf","percentage":100}}
+------------------------------------------------------------
+[2025-06-09T17:09:07.116Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: DocumentService.uploadDocument
+Details: {"meta":{"sequenceId":"flow_seq_15","name":"DocumentService.uploadDocument"}}
+------------------------------------------------------------
+[2025-06-09T17:09:07.117Z] [info] [FlowTracker.API.DocumentService.uploadDocument] Flow: Uploading document: 7.unite MESLEK HASTALIKLARI.pdf
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:09:07.115Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["object","undefined","function"]}}
+------------------------------------------------------------
+[2025-06-09T17:09:07.114Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["object","undefined","function"]}}
+------------------------------------------------------------
+[2025-06-09T17:09:10.396Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:09:10.401Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 2 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:17.619Z] [info] [FlowTracker.API.Flow:DocumentService.uploadDocument] Flow: Successfully uploaded document
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_15","flowName":"DocumentService.uploadDocument","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.620Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: DocumentService.uploadDocument
+Details: {"meta":{"sequenceId":"flow_seq_15","name":"DocumentService.uploadDocument","duration":10504,"stepsCount":3}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.621Z] [info] [FlowTracker.Timing.DocumentService] Timing: DocumentService.uploadDocument tamamlandı (10505.30ms)
+Details: {"meta":{"flowCategory":"API","timing":10505.299999982119}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.622Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":10505.299999982119,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.622Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.uploadDocument
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.618Z] [info] [DocumentService.uploadDocument] Belge başarıyla yüklendi: 7.unite MESLEK HASTALIKLARI.pdf
+Details: {"file":"/index.js","meta":{"fileName":"7.unite MESLEK HASTALIKLARI.pdf","duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.623Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":130,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.623Z] [debug] [DocumentService] Metot başlangıcı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":30,"meta":{"args":["string"]}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.624Z] [info] [FlowTracker.Sequence] Flow sekansı başladı: DocumentService.getDocumentText
+Details: {"meta":{"sequenceId":"flow_seq_16","name":"DocumentService.getDocumentText"}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.625Z] [info] [FlowTracker.API.DocumentService.getDocumentText] Flow: Fetching document text for ID: KWKc1Norsu9F9iAyawLr
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:09:17.626Z] [info] [DocumentService.getDocumentText] [FLOW] Fetching document text for ID: KWKc1Norsu9F9iAyawLr
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:17.626Z] [debug] [ApiService.get] GET /documents/KWKc1Norsu9F9iAyawLr/text isteği başlatılıyor
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:17.627Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /documents/KWKc1Norsu9F9iAyawLr/text isteği başlatılıyor
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.121Z] [debug] [ApiService.get] GET /documents/KWKc1Norsu9F9iAyawLr/text isteği tamamlandı (1495ms)
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:19.122Z] [info] [FlowTracker.API.ApiService.get] Flow: GET /documents/KWKc1Norsu9F9iAyawLr/text isteği tamamlandı
+Details: {"meta":{"flowCategory":"API"}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.123Z] [debug] [DocumentService.getDocumentText] Belge metni getirildi: KWKc1Norsu9F9iAyawLr
+Details: {"file":"/index.js","meta":{"id":"KWKc1Norsu9F9iAyawLr","textLength":51152,"duration":0}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.124Z] [info] [FlowTracker.API.Flow:DocumentService.getDocumentText] Flow: Successfully fetched document text
+Details: {"meta":{"flowCategory":"API","flowId":"flow_seq_16","flowName":"DocumentService.getDocumentText","status":"completed"}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.125Z] [info] [FlowTracker.Sequence] Flow sekansı tamamlandı: DocumentService.getDocumentText
+Details: {"meta":{"sequenceId":"flow_seq_16","name":"DocumentService.getDocumentText","duration":1501,"stepsCount":4}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.125Z] [info] [FlowTracker.Timing.DocumentService] Timing: DocumentService.getDocumentText tamamlandı (1501.20ms)
+Details: {"meta":{"flowCategory":"API","timing":1501.199999988079}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.126Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":48,"meta":{"duration":1501.199999988079,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.126Z] [debug] [DocumentService] Metot tamamlandı: DocumentService.getDocumentText
+Details: {"file":"log-method.decorator.ts","line":148,"meta":{"duration":0,"resultType":"object"}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.127Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /learning-targets/detect-topics
+Details: {"meta":{"flowCategory":"API","endpoint":"/learning-targets/detect-topics","method":"POST","dataSize":71}}
+------------------------------------------------------------
+[2025-06-09T17:09:19.128Z] [debug] [ApiService.post] POST isteği başlatıldı: /learning-targets/detect-topics
+Details: {"meta":{"dataKeys":["documentId","courseId"]}}
+------------------------------------------------------------
+[2025-06-09T17:09:22.244Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:09:22.249Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 6 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:09:27.491Z] [info] [FlowTracker.Timing.ApiService.post] Timing: POST_/learning-targets/detect-topics tamamlandı (8362.90ms)
+Details: {"meta":{"flowCategory":"API","timing":8362.90000000596}}
+------------------------------------------------------------
+[2025-06-09T17:09:27.492Z] [debug] [ApiService.post] POST isteği tamamlandı: /learning-targets/detect-topics
+Details: {"meta":{"status":200}}
+------------------------------------------------------------
+[2025-06-09T17:09:27.495Z] [error] [ErrorService.showToast] 8 konu tespit edildi.
+Details: {"meta":{"title":"Hata","description":"8 konu tespit edildi.","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:09:27.503Z] [error] [ErrorService.showToast] 8 alt konu tespit edildi. Şimdi istediğiniz alt konuları seçebilirsiniz.
+Details: {"meta":{"title":"Hata","description":"8 alt konu tespit edildi. Şimdi istediğiniz alt konuları seçebilirsiniz.","context":"Bilinmeyen"}}
+------------------------------------------------------------
+[2025-06-09T17:10:22.383Z] [info] [FlowTracker.API.ApiService.post] Flow: POST /quizzes/personalized
+Details: {"meta":{"flowCategory":"API","endpoint":"/quizzes/personalized","method":"POST","dataSize":5763}}
+------------------------------------------------------------
+[2025-06-09T17:10:22.385Z] [debug] [ApiService.post] POST isteği başlatıldı: /quizzes/personalized
+Details: {"meta":{"dataKeys":["title","description","userId","courseId","documentId","documentText","personalizedQuizType","subTopics","questionCount","difficulty","timeLimit","prioritizeWeakTopics"]}}
+------------------------------------------------------------
+[2025-06-09T17:10:25.505Z] [undefined] [Frontend] undefined
+------------------------------------------------------------
+[2025-06-09T17:10:25.511Z] [debug] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 1 flow log başarıyla yerel dosyaya kaydedildi.
+Details: {}
+------------------------------------------------------------
+[2025-06-09T17:10:40.159Z] [INFO] [FlowTracker.Timing.ApiService.post] Timing: POST_/quizzes/personalized tamamlandı (17774.10ms)
+  Details: {
+  "meta": {
+    "flowCategory": "API",
+    "timing": 17774.09999999404
+  }
+}
+[2025-06-09T17:10:40.160Z] [DEBUG] [ApiService.post] POST isteği tamamlandı: /quizzes/personalized
+  Details: {
+  "meta": {
+    "status": 201
+  }
+}
+[2025-06-09T17:10:51.075Z] [INFO] [FlowTracker.Navigation.History] Flow: Sayfa geçişi yapıldı
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation",
+    "url": "http://localhost:3000/exams/hEZTtuJoFrCIZtCBBIlj?mode=attempt"
+  }
+}
+[2025-06-09T17:10:51.152Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {}
+[2025-06-09T17:10:51.152Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:10:51.154Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "previousPath": "",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj"
+  }
+}
+[2025-06-09T17:10:51.075Z] [INFO] [FlowTracker.Navigation.History] [Navigation] [History] Sayfa geçişi yapıldı
+  Metadata: {
+  "url": "http://localhost:3000/exams/hEZTtuJoFrCIZtCBBIlj?mode=attempt"
+}
+[2025-06-09T17:10:51.152Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+[2025-06-09T17:10:54.320Z] [DEBUG] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 2 flow log başarıyla yerel dosyaya kaydedildi.
+  Details: {}
+[2025-06-09T17:11:07.769Z] [INFO] [FlowTracker.API.ApiService.post] Flow: POST /quizzes/hEZTtuJoFrCIZtCBBIlj/submit
+  Details: {
+  "meta": {
+    "flowCategory": "API",
+    "endpoint": "/quizzes/hEZTtuJoFrCIZtCBBIlj/submit",
+    "method": "POST",
+    "dataSize": 8143
+  }
+}
+[2025-06-09T17:11:07.771Z] [DEBUG] [ApiService.post] POST isteği başlatıldı: /quizzes/hEZTtuJoFrCIZtCBBIlj/submit
+  Details: {
+  "meta": {
+    "dataKeys": [
+      "userAnswers",
+      "elapsedTime",
+      "quizType",
+      "personalizedQuizType",
+      "courseId",
+      "sourceDocument",
+      "selectedSubTopics",
+      "preferences",
+      "questions"
+    ]
+  }
+}
+[2025-06-09T17:11:09.885Z] [INFO] [FlowTracker.Timing.ApiService.post] Timing: POST_/quizzes/hEZTtuJoFrCIZtCBBIlj/submit tamamlandı (2114.40ms)
+  Details: {
+  "meta": {
+    "flowCategory": "API",
+    "timing": 2114.4000000059605
+  }
+}
+[2025-06-09T17:11:09.886Z] [DEBUG] [ApiService.post] POST isteği tamamlandı: /quizzes/hEZTtuJoFrCIZtCBBIlj/submit
+  Details: {
+  "meta": {
+    "status": 200
+  }
+}
+[2025-06-09T17:11:07.769Z] [INFO] [FlowTracker.API.ApiService.post] [API] [ApiService.post] POST /quizzes/hEZTtuJoFrCIZtCBBIlj/submit
+  Metadata: {
+  "endpoint": "/quizzes/hEZTtuJoFrCIZtCBBIlj/submit",
+  "method": "POST",
+  "dataSize": 8143
+}
+[2025-06-09T17:11:11.564Z] [DEBUG] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 1 flow log başarıyla yerel dosyaya kaydedildi.
+  Details: {}
+[2025-06-09T17:11:20.443Z] [DEBUG] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+  Details: {}
+[2025-06-09T17:11:20.444Z] [DEBUG] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+  Details: {}
+[2025-06-09T17:11:20.450Z] [INFO] [ApiService.constructor] ApiService başlatıldı
+  Details: {}
+[2025-06-09T17:11:20.453Z] [INFO] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+  Details: {
+  "meta": {
+    "flowCategory": "API"
+  }
+}
+[2025-06-09T17:11:20.494Z] [INFO] [AuthService.constructor] AuthService başlatıldı
+  Details: {
+  "file": "/index.js",
+  "line": 14
+}
+[2025-06-09T17:11:20.933Z] [INFO] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+  Details: {}
+[2025-06-09T17:11:21.105Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {}
+[2025-06-09T17:11:21.120Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:11:21.124Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "previousPath": "",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj"
+  }
+}
+[2025-06-09T17:11:21.143Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {}
+[2025-06-09T17:11:21.146Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:11:21.153Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+  Details: {
+  "meta": {
+    "previousPath": "/exams/hEZTtuJoFrCIZtCBBIlj",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj"
+  }
+}
+[2025-06-09T17:11:20.453Z] [INFO] [FlowTracker.API.ApiService.constructor] [API] [ApiService.constructor] ApiService başlatıldı
+[2025-06-09T17:11:21.120Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+[2025-06-09T17:11:21.146Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj
+[2025-06-09T17:11:24.700Z] [DEBUG] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 3 flow log başarıyla yerel dosyaya kaydedildi.
+  Details: {}
+[2025-06-09T17:11:29.165Z] [INFO] [FlowTracker.Navigation.History] Flow: Sayfa geçişi yapıldı
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation",
+    "url": "http://localhost:3000/exams/hEZTtuJoFrCIZtCBBIlj/results"
+  }
+}
+[2025-06-09T17:11:29.250Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:11:29.252Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "previousPath": "",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj/results"
+  }
+}
+[2025-06-09T17:11:29.249Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {}
+[2025-06-09T17:11:29.165Z] [INFO] [FlowTracker.Navigation.History] [Navigation] [History] Sayfa geçişi yapıldı
+  Metadata: {
+  "url": "http://localhost:3000/exams/hEZTtuJoFrCIZtCBBIlj/results"
+}
+[2025-06-09T17:11:29.250Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+[2025-06-09T17:11:33.123Z] [DEBUG] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 2 flow log başarıyla yerel dosyaya kaydedildi.
+  Details: {}
+[2025-06-09T17:11:58.737Z] [INFO] [FlowTracker.Custom.FirebaseConfig] Flow: Firebase başlatılıyor
+  Details: {
+  "meta": {
+    "flowCategory": "Custom"
+  }
+}
+[2025-06-09T17:11:58.739Z] [INFO] [FirebaseConfig] [FLOW] Firebase başlatılıyor
+  Details: {}
+[2025-06-09T17:11:58.740Z] [WARN] [FirebaseConfig] Firebase yapılandırmasında eksik alanlar: apiKey, authDomain, projectId, storageBucket, appId
+  Details: {
+  "file": "/index.js",
+  "line": "34"
+}
+[2025-06-09T17:11:58.857Z] [INFO] [FirebaseConfig] Eksik Firebase alanları geliştirme değerleriyle dolduruldu
+  Details: {
+  "file": "/index.js",
+  "line": "116"
+}
+[2025-06-09T17:11:58.857Z] [INFO] [FirebaseConfig] Mevcut Firebase uygulaması kullanılıyor
+  Details: {
+  "file": "/index.js",
+  "line": "198"
+}
+[2025-06-09T17:11:58.736Z] [INFO] [FlowTrackerService.constructor] FlowTrackerService başlatıldı.
+  Details: {}
+[2025-06-09T17:11:58.859Z] [INFO] [FirebaseConfig] Firestore ve Storage başarıyla başlatıldı
+  Details: {
+  "file": "/index.js",
+  "line": "208"
+}
+[2025-06-09T17:11:58.860Z] [INFO] [FirebaseConfig] Firebase Auth tarayıcı tarafında başlatıldı
+  Details: {
+  "file": "/index.js",
+  "line": "242"
+}
+[2025-06-09T17:11:58.866Z] [DEBUG] [ErrorService.constructor] Hata servisi başlatıldı
+  Details: {
+  "meta": {
+    "environment": "development",
+    "reportingEnabled": false
+  }
+}
+[2025-06-09T17:11:58.868Z] [DEBUG] [ErrorService] Metot başlangıcı: ErrorService.setupGlobalErrorHandlers
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 130,
+  "meta": {
+    "args": []
+  }
+}
+[2025-06-09T17:11:58.869Z] [DEBUG] [ErrorService] Metot başlangıcı: ErrorService.interceptFetchAPI
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 130,
+  "meta": {
+    "args": []
+  }
+}
+[2025-06-09T17:11:58.870Z] [INFO] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptFetchAPI tamamlandı (0.10ms)
+  Details: {
+  "meta": {
+    "flowCategory": "Custom",
+    "timing": 0.09999999403953552
+  }
+}
+[2025-06-09T17:11:58.871Z] [DEBUG] [ErrorService] Metot tamamlandı: ErrorService.interceptFetchAPI
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 170,
+  "meta": {
+    "duration": 0.09999999403953552,
+    "resultType": "undefined"
+  }
+}
+[2025-06-09T17:11:58.871Z] [DEBUG] [ErrorService] Metot başlangıcı: ErrorService.interceptXHR
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 130,
+  "meta": {
+    "args": []
+  }
+}
+[2025-06-09T17:11:58.872Z] [INFO] [FlowTracker.Timing.ErrorService] Timing: ErrorService.interceptXHR tamamlandı (0.10ms)
+  Details: {
+  "meta": {
+    "flowCategory": "Custom",
+    "timing": 0.09999999403953552
+  }
+}
+[2025-06-09T17:11:58.873Z] [DEBUG] [ErrorService] Metot tamamlandı: ErrorService.interceptXHR
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 170,
+  "meta": {
+    "duration": 0.09999999403953552,
+    "resultType": "undefined"
+  }
+}
+[2025-06-09T17:11:58.873Z] [INFO] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] Flow: Global hata yakalayıcıları kuruldu
+  Details: {
+  "meta": {
+    "flowCategory": "Custom"
+  }
+}
+[2025-06-09T17:11:58.874Z] [INFO] [ErrorService.setupGlobalErrorHandlers] [FLOW] Global hata yakalayıcıları kuruldu
+  Details: {}
+[2025-06-09T17:11:58.875Z] [INFO] [FlowTracker.Timing.ErrorService] Timing: ErrorService.setupGlobalErrorHandlers tamamlandı (5.60ms)
+  Details: {
+  "meta": {
+    "flowCategory": "Custom",
+    "timing": 5.5999999940395355
+  }
+}
+[2025-06-09T17:11:58.875Z] [DEBUG] [ErrorService] Metot tamamlandı: ErrorService.setupGlobalErrorHandlers
+  Details: {
+  "file": "log-method.decorator.ts",
+  "line": 170,
+  "meta": {
+    "duration": 5.5999999940395355,
+    "resultType": "undefined"
+  }
+}
+[2025-06-09T17:11:58.876Z] [INFO] [ErrorService.constructor] ErrorService başlatıldı.
+  Details: {}
+[2025-06-09T17:11:58.877Z] [DEBUG] [ApiService] 🔍 API URL (başlangıç): http://localhost:3001/api
+  Details: {}
+[2025-06-09T17:11:58.877Z] [DEBUG] [ApiService] 🔄 LocalStorage'dan alınan API URL: http://localhost:3001/api
+  Details: {}
+[2025-06-09T17:11:58.881Z] [INFO] [ApiService.constructor] ApiService başlatıldı
+  Details: {}
+[2025-06-09T17:11:58.882Z] [INFO] [FlowTracker.API.ApiService.constructor] Flow: ApiService başlatıldı
+  Details: {
+  "meta": {
+    "flowCategory": "API"
+  }
+}
+[2025-06-09T17:11:58.886Z] [INFO] [AuthService.constructor] AuthService başlatıldı
+  Details: {
+  "file": "/index.js",
+  "line": 14
+}
+[2025-06-09T17:11:58.970Z] [INFO] [FirebaseConfig] Firebase Auth: Kullanıcı oturum açtı
+  Details: {
+  "file": "/index.js",
+  "line": "322",
+  "meta": {
+    "uid": "Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"
+  }
+}
+[2025-06-09T17:11:58.971Z] [INFO] [FlowTracker.Auth.FirebaseConfig] Flow: Kullanıcı oturum açtı
+  Details: {
+  "meta": {
+    "flowCategory": "Auth"
+  }
+}
+[2025-06-09T17:11:58.972Z] [INFO] [FirebaseConfig] [FLOW] Kullanıcı oturum açtı
+  Details: {
+  "meta": {
+    "uid": "Ysdxvc3hjVfP01mt2j7Gr8iuqpu2"
+  }
+}
+[2025-06-09T17:11:59.013Z] [INFO] [checkApiAvailability] Önceki başarılı API port'u kullanıldı: 3001
+  Details: {}
+[2025-06-09T17:11:59.061Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {}
+[2025-06-09T17:11:59.062Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:11:59.064Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "previousPath": "",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj/results"
+  }
+}
+[2025-06-09T17:11:59.087Z] [INFO] [Navigation] Sayfa değişti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {}
+[2025-06-09T17:11:59.091Z] [INFO] [FlowTracker.Navigation.Navigation] Flow: Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "flowCategory": "Navigation"
+  }
+}
+[2025-06-09T17:11:59.096Z] [INFO] [Navigation] [FLOW] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+  Details: {
+  "meta": {
+    "previousPath": "/exams/hEZTtuJoFrCIZtCBBIlj/results",
+    "currentPath": "/exams/hEZTtuJoFrCIZtCBBIlj/results"
+  }
+}
+[2025-06-09T17:11:58.737Z] [INFO] [FlowTracker.Custom.FirebaseConfig] [Custom] [FirebaseConfig] Firebase başlatılıyor
+[2025-06-09T17:11:58.873Z] [INFO] [FlowTracker.Custom.ErrorService.setupGlobalErrorHandlers] [Custom] [ErrorService.setupGlobalErrorHandlers] Global hata yakalayıcıları kuruldu
+[2025-06-09T17:11:58.882Z] [INFO] [FlowTracker.API.ApiService.constructor] [API] [ApiService.constructor] ApiService başlatıldı
+[2025-06-09T17:11:58.971Z] [INFO] [FlowTracker.Auth.FirebaseConfig] [Auth] [FirebaseConfig] Kullanıcı oturum açtı
+[2025-06-09T17:11:59.062Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+[2025-06-09T17:11:59.091Z] [INFO] [FlowTracker.Navigation.Navigation] [Navigation] [Navigation] Sayfaya gezinti: /exams/hEZTtuJoFrCIZtCBBIlj/results
+[2025-06-09T17:12:03.227Z] [DEBUG] [FlowTrackerService.writeQueuedLogsToLocalFile] FlowTrackerService: 6 flow log başarıyla yerel dosyaya kaydedildi.
+  Details: {}

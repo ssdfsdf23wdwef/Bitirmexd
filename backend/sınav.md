@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T17:06:07.351Z
+## Tarih: 2025-06-09T17:10:25.395Z
 
-## Trace ID: quiz-1749488767336-55yjv
+## Trace ID: quiz-1749489025365-iouna
 
-## Alt Konular (6 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Biyolojik Risk Etmenleri Tanımı** (2 soru)
-2. **Biyolojik Etkenlerin Tanımı** (2 soru)
-3. **Biyolojik Risk Grupları** (2 soru)
-4. **Riskli İ Ş Alanları** (2 soru)
-5. **Risk Değerlendirme Süreci** (2 soru)
+1. **Meslek Hastalıklarının Tanımı** (2 soru)
+2. **Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı** (2 soru)
+3. **Meslek Hastalıkları Alanındaki Öncüler** (2 soru)
+4. **Türkiyedeki Yasal Düzenlemeler** (2 soru)
+5. **Tanı Kriterleri** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,7 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sağlık Çalışanlarında Enfeksiyonlar
+1. Korunma Yöntemleri
+2. Klinik Ve Laboratuvar Değerlendirmeleri
+3. Bildirim Yükümlülüğü
 
 ```
 
@@ -48,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Biyolojik Risk Etmenleri Tanımı** (2 soru)
-2. **Biyolojik Etkenlerin Tanımı** (2 soru)
-3. **Biyolojik Risk Grupları** (2 soru)
-4. **Riskli İ Ş Alanları** (2 soru)
-5. **Risk Değerlendirme Süreci** (2 soru)
+1. **Meslek Hastalıklarının Tanımı** (2 soru)
+2. **Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı** (2 soru)
+3. **Meslek Hastalıkları Alanındaki Öncüler** (2 soru)
+4. **Türkiyedeki Yasal Düzenlemeler** (2 soru)
+5. **Tanı Kriterleri** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -60,43 +62,66 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sağlık Çalışanlarında Enfeksiyonlar
+1. Korunma Yöntemleri
+2. Klinik Ve Laboratuvar Değerlendirmeleri
+3. Bildirim Yükümlülüğü
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ÜNİTE
-5
+7
 
 İÇİNDEKİLER
-•Biyolojik Risk Tanımı
-• Biyolojik Risklere Maruz
-Kalınabilecek İşler
-•Risklerin Belirlenmesi ve
-Değerlendirilmesi
-•Risklere Karşı Alınacak
-Önlemler
+•Meslek Hastalıklarının Tanımı
+•Meslek Hastalıklarının Tarihi
+Gelişimi
+•Meslek Hastalıklarının
+Özellikleri, Tanı Kriterleri ve
+Korunma Yöntemleri
+•Meslek Hastalıklarının
+Sınıflandırılması
 HEDEFLER
 •Bu üniteyi çalıştıktan sonra;
-•Biyolojik risklerin tanımını
+•Meslek hastalıklarının ayırımını
 yapabilecek,
-•Biyolojik risk düzeyleri ve
-sınıfları hakkında bilgi sahibi
+•Meslek hastalıklarının çeşitliliğini
+ve sınıflandırılmasını
+yapabilecek,
+•Meslek hastalıklarının hukuksal
+boyutu konusunda bilgi sahibi
 olabilecek,
-•Biyolojik risk altındaki meslek
-gruplarını öğrenebilecek,
-•Biyolojik risk etmenlerine karşı
-alınması gereken önlemler
-hakkında bilgi sahibi olabilecek,
-•Bu konudaki yönetmelik
-hakkında bilgi sahibi
-olabileceksiniz.
-
-
+•Meslek hastalıklarından
+korunma yöntemleri hakkında
+bilgi sahibi olabileceksiniz.
 Prof. Dr.
-Elif ÇADIRCI
+Zekai HALICI
 
 
 İŞ SAĞLIĞI VE GÜVENLİĞİ
@@ -106,9 +131,10 @@ Elif ÇADIRCI
 © Bu ünitenin tüm yayın hakları Atatürk Üniversitesi Açıköğretim Fakültesi’ne aittir. Yazılı izin alınmadan
 ünitenin tümünün veya bir kısmının elektronik, mekanik ya da fotokopi yoluyla basımı, yayımı, çoğaltımı ve
 dağıtımı yapılamaz.
-BİYOLOJİK RİSK ETMENLERİ
+MESLEK HASTALIKLARI
 
-Biyolojik Risk Etmenleri
+Meslek Hastalıkları
+
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 2
 
@@ -122,100 +148,79 @@ Atatürk Üniversitesi Açıköğretim Fakültesi 2
 
 
 
+MESLEK HASTALIKLARI
+•Meslek Hastalıklarının Tarihçesi
+•Meslek Hastalıklarının Tanımı Ve Özellikleri
+Meslek Hastalıklarının Sınıflandırılması
+•Farklı Meslek Hastalıklarının İşyeri Özelliğine Göre
+Açıklanması
+•Meslek Hastalıklarından Korunma Ve Önleme
+Meslek Hastalıklarının Hukuksal Boyutu
 
+Meslek Hastalıkları
 
-
-
-
-
-
-
-
-
-
-Biyolojik Risk
-Etmenleri
-Önlemler
-- Biyolojik Risk
--Biyolojik risk altındaki
-sektörleri
--Enfeksiyon Riski
-- Parazitler
-- Mantarlar
-- Virüsler
-- Bakteriler
--Çalınan Aldığı Önlemler
--İşverenin
--Aldığı Önlemler
--Risklerin Belirlenmesi
--İkame
--Riskleri Azaltma
--Hijyen ve Kişisel Korunma
--Eğitim ve Belgilendirme
-
-Biyolojik Risk Etmenleri
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 3
 GİRİŞ
-İş sağlığı ve güvenliğinde karşımıza çıkan en önemli sorunlardan biri çalışma
-ortamında karşılaşılabilecek, çalışanın sağlığını ve güvenliğini tehlikeye atabilecek
-çeşitli risk etmenleridir. Genel olarak bu risk etmenleri çalışanlarda anlık veya
-devamlı maruz kalma sonucunda meslek hastalıklarına, çalışamaz hâle gelmeye ve
-hatta ölüme bile neden olabilir. Bunu önlemek için işçinin çalışma ortamından
-kaynaklı ve işçinin sağlık ve güvenliğini tehlikeye atacak tehlikeler ve bu
-tehlikelerin meydana getirdiği risk kaynakları neyse o kaynağa uygun sağlık ve
-güvenlik gözetimi planlanmalıdır. Bunun için de öncelikle iş yerindeki tehlikeler
-belirlenmeli, kimlerin nasıl zarar görebileceği saptanmalı, risklerin analizi
-yapılmalı, bunun sonucuna göre alınacak kontrol önlemlerine karar verilmeli ve
-önlemler uygulamaya konulmalıdır.
-Meslek hastalıklarına neden olabilecek ve iş yerinde çalışma güvenliğini
-tehdit edebilecek etmenler gürültü, titreşim, yüksek ve alçak basınçlarda çalışma,
-soğuk ve sıcakta çalışma, tozlar ve radyasyon gibi fiziksel risk etmenleri; ağır
-metaller, gazlar ve çözücüler gibi kimyasal risk etmenleri; virüsler, bakteriler,
-mantarlar ve parazitler gibi biyolojik risk etmenleri, psikolojik risk etmenleri ve
-ergonomiye özensizlikten kaynaklanan risk etmenleri olarak sınıflandırılabilir.
-Bu bölümde biyolojik kaynaklı risk etmenlerinin genel tanımı ve biyolojik
-risk grupları, hangi çalışanlarda tehlike oluşturdukları ve görülebilecekleri çalışma
-ortamları, çalışma ortamlarında ve/veya laboratuvarlarda biyolojik risklerin
-azaltılmasına, tanınmasına, bulaşmasına vs. yönelik alınması gereken güvenlik
-önlemleri hakkında genel bilgi mevcuttur.
-BİYOLOJİK RİSK TANIMI
-Yeni adıyla Aile, Çalışma ve Sosyal Hizmetler (AÇSH) Bakanlığının 2013 tarihli
-Biyolojik Etkenlere Maruziyet Risklerinin Önlenmesi Hakkındaki Yönetmeliği’ne
-göre biyolojik etkenler herhangi bir enfeksiyon, alerji veya zehirlenmeye neden
-olabilen hücresel veya hücresel olmayan mikrobiyolojik varlıklar olarak
-tanımlanmıştır. Bu mikro biyolojik varlıklar, genetik olarak değiştirilmiş olanlar da
-dâhil olmak üzere, mikroorganizmalar, hücre kültürleri ve
-insan endoparazitlerinden oluşmaktadırlar. Burada, hücre kültürü “çok hücreli
-organizmalardan türetilmiş hücrelerin in–vitro olarak geliştirilmesini” ve
-mikroorganizma ise “genetik materyalini replikasyon veya aktarma yeteneğinde
-olan mikrobiyolojik varlıkları” temsil etmektedir. Buna göre genel bir tanım ile
-biyolojik etmenler , yaşayan organizmalar ve/veya (genetik olarak değiştirilmiş
-olanlar da dâhil ) bu organizmaların ürünlerinden oluşur. Biyolojik risk etmenleri
-ise virüsler, bakteriler, mantarlar ve bunların metabolizmaları sonucu ortaya
-çıkardıkları ürünlerin yanı sıra vücutta iç ve dış parazit olarak yerleşebilen
-asalaklar ile bitkileri de kapsar. Aynı zamanda son zamanlarda biyoteknolojik
-ürünler de biyolojik kaynaklı risk etmenleri arasına dâhil edilmektedir.
+İnsanoğlu son yüzyılda baş döndürücü bir şekilde teknolojik ve sosyal
+gelişim içine girmiştir. Bu gelişmeyi hayatımızın her anında görmekteyiz. Bu
+gelişimle beraber toplumların sağlık anlayışı da değişmiş ve birçok yeni tanımlar
+ortaya çıkmıştır. Dünya Sağlık Örgütünün (WHO) tanımına göre sağlık, kişinin
+bedensel, ruhsal ve toplumsal olarak tam iyilik hâlidir. Sağlık anlayışı ve tanımları
+değişirken tabii ki iş yeri güvenliği, işçi sağlığı ve bu konuda da birçok önemli ve
+faydalı değişiklikler olmuştur. Bundan 30-40 sene önce kişisel elbiseleriyle hiçbir
+tedbir almadan fabrikalarda çalışan işçiler bulunurken son yıllarda işçi sağlığı
+konusunda çok önemli gelişmeler olmuştur. İşçi sağlığı konusunu irdelerken iş ve
+işçi sağlığı hizmetlerinden bahsetmemiz gerekmektedir. Bu hizmetlerin amacı tüm
+çalışanların sağlıklı bir ortamda çalışmalarını sürdürme ve onları sağlıklı tutma,
+çalışanları çalıştıkları ortam ne koşulda olursa olsun kaynaklanabilecek sağlık
+zararlarından koruma ve aynı zamanda çalışanın fizyolojik ve psikolojik durumuna
+uygun işe yerleştirmektir. Bu kavramı ise kısaca “işe uygun insan, insana uygun iş”
+olarak ifade edebiliriz. Gelişen sanayi ile birlikte çalışanların iş alanları her geçen
+gün artmakla beraber karşılaşabilecekleri fiziksel ve psikolojik mesleki risk
+faktörleri de artmaktadır. Artık çalışma alanlarında 100.000’den fazla kimyasal
+madde bulunmakta bunların 700’den fazlası ise kanserojendir. Mesleki biyolojik
+risk etmenlerinin sayısı şu an itibariyle 200’den fazla olmakla birlikte her geçen
+gün bu sayı artmaktadır. Biyolojik ve kimyasal risklerden farklı olarak ise 20’den
+fazla ergonomik sorun çalışanların sağlığını tehdit etmektedir.
+Tüm bu risk etmenlerini bir araya koyduğumuzda artık karşımıza meslek
+hastalıkları çıkmaktadır. Meslek hastalıklarının tanımı ve ayırıcı özelliklerinin
+bilinmesi oldukça önemlidir. Çünkü meslek hastalıkları ile işle ilgili hastalıklar
+karıştırılmaktadır. İşle ilgili hastalıklar meslek hastalıkları gibi direkt iş ortamına
+bağlı olmayıp karışık multi-etyolojik (çok etkenli) nedenlere sahiptir. Bu iki
+konunun kişisel ve sağlık probleminin yanında aynı zamanda da hukuksal boyutu
+da bulunmaktadır.
+Son yıllarda mahkemelerde birçok dava dosyası bulunmakta olup meslek
+hastalıkları ve işle ilgili hastalıklar arasında kavram karmaşası yaşanmaktadır. Tüm
+bu sebeplerden dolayı meslek hastalıklarının sınıflandırılması ve ayırıcı tanımının
+yapılması hem işveren hem de çalışan için elzemdir.
+MESLEK HASTALIKLARININ TANIMI
+Meslek hastalığı, bir iş yerinde çalışanın yaptığı iş veya iş ortamından
+kaynaklanan ve sürekli tekrarlanan bir sebeple uğradığı geçici veya sürekli hastalık,
+bedensel veya ruhsal özürlülük hâlleridir. Etyolojisi (etkeni) tanımlanabilir ve
+genellikle tek olmalıdır. Buradan da anlaşılacağı gibi meslek hastalığındaki esas
+neden iş veya işle ilgili nedenler olmalıdır. 5510 sayılı SS-GSS (2006) Kanunu2na
+göre meslek hastalığı, sigortalının çalıştığı veya yaptığı işin niteliğinden dolayı
+tekrarlanan bir sebeple veya işin yürütüm şartları yüzünden uğradığı geçici veya
+sürekli hastalık, bedensel veya ruhsal özürlülük hâlleridir [1]. Aynı zamanda 2012
+tarihinde çıkarılan yeni bir kanunla önceki kanunun kapsamı genişletilmiş ve iş
 
+Meslek hastalığı,
+çalışanın yaptığı iş veya
+iş ortamından
+kaynaklanan bir
+sebeple uğradığı geçici
+veya sürekli hastalık,
+bedensel veya ruhsal
+özürlülük hâlleridir.
 
-Biyolojik risk etmenleri
-virüsler, bakteriler,
-mantarlar, insan
-parazitleri ve bunların
-ürünleridir.
+Meslek Hastalıkları
 
-
-Biyolojik Risk Etmenleri
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 4
-Biyolojik Risk Grupları
-Türkiye Cumhuriyeti AÇSH Bakanlığının 2013 tarihli Biyolojik Etkenlere
-Maruziyet Risklerinin Önlenmesi Hakkındaki Yönetmeliği’ne [1] göre biyolojik risk
-etmenleri enfeksiyon yapma risk düzeyine göre 4 risk grubunda sınıflandırılabilir
-(Tablo 5.1 ). Biyolojik bir etkenin sağlıklı kişide hastalığa yol açması; etkenin hasta
-etme yetisinin yüksekliğine (patojenite-virülans) , b ulaşma yollarına (temas, ortak
-kullanılan cansız maddeler, hava ve vektörler), k onakçı adı verilen kişinin
-duyarlılığına, çevre etmenlerine (ısı değişikl...(Kısaltıldı)
+güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar
+yürürlüğe geçirilmiştir (Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda
+Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 tarih: 1.3.2012)...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -390,42 +395,42 @@ duyarlılığına, çevre etmenlerine (ısı değişikl...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Biyolojik Risk Etmenleri Tanımı: 2 soru
-  - Biyolojik Etkenlerin Tanımı: 2 soru
-  - Biyolojik Risk Grupları: 2 soru
-  - Riskli İ Ş Alanları: 2 soru
-  - Risk Değerlendirme Süreci: 2 soru
+  - Meslek Hastalıklarının Tanımı: 2 soru
+  - Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı: 2 soru
+  - Meslek Hastalıkları Alanındaki Öncüler: 2 soru
+  - Türkiyedeki Yasal Düzenlemeler: 2 soru
+  - Tanı Kriterleri: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Biyolojik Risk Etmenleri Tanımı:
-- Soru: Aşağıdakilerden hangisi biyolojik risk etmenlerinin tanımında yer almaz?
-- Seçenekler: Enfeksiyona neden olabilen mikrobiyolojik varlıklar | Alerjiye neden olabilen mikrobiyolojik varlıklar | Zehirlenmeye neden olabilen mikrobiyolojik varlıklar | Radyasyona neden olabilen mikrobiyolojik varlıklar
-- Doğru Cevap: Radyasyona neden olabilen mikrobiyolojik varlıklar
+#### Meslek Hastalıklarının Tanımı:
+- Soru: Aşağıdakilerden hangisi meslek hastalığının tanımında yer almaz?
+- Seçenekler: Çalışanın yaptığı işten kaynaklanması | İş ortamından kaynaklanması | Sürekli tekrarlanan bir sebeple oluşması | Çok etkenli (multi-etyolojik) nedenlere sahip olması
+- Doğru Cevap: Çok etkenli (multi-etyolojik) nedenlere sahip olması
 - Zorluk: easy
 
-#### Biyolojik Etkenlerin Tanımı:
-- Soru: Aşağıdakilerden hangisi 'Biyolojik Etken' tanımını en doğru şekilde ifade eder?
-- Seçenekler: Sadece virüsler ve bakteriler | Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar | Sadece insan endoparazitleri | Sadece hücre kültürleri
-- Doğru Cevap: Herhangi bir enfeksiyon, alerji veya zehirlenmeye neden olabilen mikrobiyolojik varlıklar
-- Zorluk: easy
-
-#### Biyolojik Risk Grupları:
-- Soru: Biyolojik etkenler enfeksiyon yapma risk düzeyine göre kaç risk grubunda sınıflandırılır?
-- Seçenekler: 2 | 3 | 4 | 5
-- Doğru Cevap: 4
-- Zorluk: easy
-
-#### Riskli İ Ş Alanları:
-- Soru: Aşağıdakilerden hangisi biyolojik risklere maruz kalınabilecek iş alanlarına örnek olarak verilemez?
-- Seçenekler: Sağlık hizmetleri | Atık yönetimi | Gıda üretimi | Otomotiv üretimi
-- Doğru Cevap: Otomotiv üretimi
+#### Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı:
+- Soru: Aşağıdakilerden hangisi meslek hastalığı ile işle ilgili hastalık arasındaki temel bir farktır?
+- Seçenekler: Meslek hastalıklarının tedavisinin daha kolay olması | İşle ilgili hastalıkların daha hızlı ilerlemesi | Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması | İşle ilgili hastalıkların daha ölümcül olması
+- Doğru Cevap: Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması
 - Zorluk: medium
 
-#### Risk Değerlendirme Süreci:
-- Soru: Biyolojik risk değerlendirme sürecinin ilk adımı aşağıdakilerden hangisidir?
-- Seçenekler: Riskleri azaltma | Tehlikeleri belirleme | Hijyen kurallarını uygulama | Eğitim ve belgelendirme
-- Doğru Cevap: Tehlikeleri belirleme
+#### Meslek Hastalıkları Alanındaki Öncüler:
+- Soru: Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.
+- Seçenekler: True | False
+- Doğru Cevap: True
+- Zorluk: easy
+
+#### Türkiyedeki Yasal Düzenlemeler:
+- Soru: 2012 tarihinde çıkarılan kanunla ilgili aşağıdakilerden hangisi doğrudur?
+- Seçenekler: Önceki kanunun kapsamı daraltılmıştır. | İş güvenliği ve meslek hastalıkları konusunda daha az koruyucu yasalar yürürlüğe girmiştir. | Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir. | Sadece belirli sektörleri kapsamaktadır.
+- Doğru Cevap: Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.
+- Zorluk: medium
+
+#### Tanı Kriterleri:
+- Soru: Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.
+- Seçenekler: True | False
+- Doğru Cevap: True
 - Zorluk: easy
 

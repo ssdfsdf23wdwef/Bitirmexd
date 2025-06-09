@@ -846,6 +846,21 @@ export class FlowTrackerService {
     try {
       localStorage.removeItem('frontend-flow-tracker.log');
       console.log('[FlowTracker] Tüm flow logları temizlendi');
+      
+      // Yerel dosyalardaki logları da temizle
+      if (this.configWriteToLocalFile) {
+        fetch('/api/logs/frontend', {
+          method: 'DELETE'
+        }).then(response => {
+          if (response.ok) {
+            console.log('[FlowTracker] Yerel log dosyaları da temizlendi');
+          } else {
+            console.warn('[FlowTracker] Yerel log dosyaları temizlenirken hata oluştu');
+          }
+        }).catch(error => {
+          console.error('[FlowTracker] Yerel log dosyaları temizlenirken hata:', error);
+        });
+      }
     } catch (error) {
       console.error('[FlowTracker] Log temizleme hatası:', error);
     }

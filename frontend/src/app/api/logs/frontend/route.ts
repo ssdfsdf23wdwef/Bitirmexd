@@ -17,37 +17,57 @@ export async function POST(req: NextRequest) {
     const logData = await req.json();
     
     // Log verisini doğrula
-    if (!logData || typeof logData !== 'object') {
-      return NextResponse.json({ error: 'Geçersiz log formatı' }, { status: 400 });
+    if (!logData) {
+      return NextResponse.json({ error: 'Log verisi bulunamadı' }, { status: 400 });
     }
     
-    // Log mesajını formatlayarak dosyaya yaz
-    const { level, message, context, timestamp, details } = logData;
+    // Birden fazla log girişi mi yoksa tek bir giriş mi kontrol et
+    const logs = Array.isArray(logData) ? logData : [logData];
     
-    // Zaman damgası yoksa şu anki zamanı kullan
-    const logTime = timestamp || new Date().toISOString();
+    let allLogEntries = '';
     
-    // Log mesajını oluştur
-    let logEntry = `[${logTime}] [${level}] [${context || 'Frontend'}] `;
-    
-    // Mesaj bir obje ise JSON string'e çevir
-    if (typeof message === 'object') {
-      logEntry += JSON.stringify(message);
-    } else {
-      logEntry += message;
+    for (const log of logs) {
+      if (!log || typeof log !== 'object') {
+        console.warn('Geçersiz log formatı atlandı:', log);
+        continue;
+      }
+      
+      // Log mesajını formatlayarak dosyaya yaz
+      const { level, message, context, timestamp, details, metadata } = log;
+      
+      // Zaman damgası yoksa şu anki zamanı kullan
+      const logTime = timestamp || new Date().toISOString();
+      
+      // Log mesajını oluştur
+      let logEntry = `[${logTime}] [${(level || 'info').toUpperCase()}] [${context || 'Frontend'}] `;
+      
+      // Mesaj bir obje ise JSON string'e çevir
+      if (typeof message === 'object') {
+        logEntry += JSON.stringify(message);
+      } else {
+        logEntry += message || 'Boş mesaj';
+      }
+      
+      // Detaylar varsa ekle
+      if (details) {
+        logEntry += `\n  Details: ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}`;
+      }
+      
+      // Metadata varsa ekle
+      if (metadata && typeof metadata === 'object' && Object.keys(metadata).length > 0) {
+        logEntry += `\n  Metadata: ${JSON.stringify(metadata, null, 2)}`;
+      }
+      
+      logEntry += '\n';
+      allLogEntries += logEntry;
     }
     
-    // Detaylar varsa ekle
-    if (details) {
-      logEntry += `\nDetails: ${typeof details === 'object' ? JSON.stringify(details) : details}`;
+    if (allLogEntries) {
+      // Tüm log girişlerini dosyaya yaz
+      fs.appendFileSync(FRONTEND_LOG_PATH, allLogEntries);
     }
     
-    logEntry += '\n------------------------------------------------------------\n';
-    
-    // Log dosyasına yaz
-    fs.appendFileSync(FRONTEND_LOG_PATH, logEntry);
-    
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, processedLogs: logs.length });
   } catch (error) {
     console.error('Frontend log yazma hatası:', error);
     return NextResponse.json({ error: 'Log yazılamadı' }, { status: 500 });
