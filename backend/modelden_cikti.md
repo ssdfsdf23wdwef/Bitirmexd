@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T01:46:28.874Z
-Trace ID: quiz-1749433574199-oxxdf
-Yanıt Uzunluğu: 9445 karakter
+Tarih: 2025-06-09T10:47:44.683Z
+Trace ID: quiz-1749466051534-fyos2
+Yanıt Uzunluğu: 7849 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 9445 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreci nasıldır?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım ve yazılım eş zamanlı ve birlikte geliştirilir.",
-        "Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.",
-        "Önce yazılım geliştirilir, sonra donanıma uyarlanır.",
-        "Donanım ve yazılım sürekli olarak birbirini günceller."
+        "Ağ arayüzlerini devre dışı bırakmak.",
+        "Ağ arayüzlerini görüntülemek ve yapılandırmak.",
+        "DNS sunucularını sorgulamak.",
+        "Ağ bağlantılarının hızını test etmek."
       ],
-      "correctAnswer": "Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.",
-      "explanation": "Geleneksel sistemlerde tasarım, donanım ve yazılımın ayrı ayrı geliştirilip entegre edilmesi sürecidir. Bu yaklaşımda, her iki bileşen bağımsız olarak çalışır. (Sunu 5, Geleneksel Sistem Tasarımı)",
-      "subTopicName": "Geleneksel Sistem Tasarımı",
-      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
+      "correctAnswer": "Ağ arayüzlerini görüntülemek ve yapılandırmak.",
+      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Metinde 'Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.' ifadesi yer almaktadır.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme_komutlari",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Geleneksel sistem tasarımında, donanım ve yazılım arasındaki ayrımın temel sonucu aşağıdakilerden hangisidir?",
+      "questionText": "'netstat -i' komutu hangi bilgiyi görüntüler?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "İletişimin optimize edilmesi ve verimliliğin artması",
-        "Değişikliklerin kolay ve hızlı bir şekilde uygulanabilmesi",
-        "Donanım ve yazılım bileşenlerinin bağımsız çalışabilmesi",
-        "Entegrasyon sürecinde maliyetlerin düşmesi"
+        "Aktif TCP bağlantılarını",
+        "Ağ arayüzlerinin IP adreslerini",
+        "Ağ istatistiklerini",
+        "Dinlenen soketleri"
       ],
-      "correctAnswer": "Donanım ve yazılım bileşenlerinin bağımsız çalışabilmesi",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki bileşenin bağımsız çalışmasını sağlar. Ancak bu durum, iletişimde optimizasyon eksikliğine ve verimlilik kayıplarına yol açabilir. (Sunu 5, Geleneksel Sistem Tasarımı)",
-      "subTopicName": "Geleneksel Sistem Tasarımı",
-      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
+      "correctAnswer": "Ağ istatistiklerini",
+      "explanation": "'netstat -i' komutu ağ istatistiklerini görüntülemek için kullanılır. Metinde 'netstat -i Ağ istatistiklerini görüntüleme' ifadesi yer almaktadır.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme Komutları",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme_komutlari",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Geleneksel sistem tasarımının aşamalarından hangisi, sistem gereksinimlerinin ayrı ayrı belirlenmesini içerir?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzünü etkinleştirmek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "applying",
       "options": [
-        "Entegrasyon",
-        "Donanım Tasarım Adımları",
-        "Yazılım Tasarım Adımları",
-        "Gereksinimler ve Özellikler"
+        "sudo ip link set eth0 down",
+        "ifconfig eth0",
+        "sudo ip link set eth0 up",
+        "ping 10.112.0.1"
       ],
-      "correctAnswer": "Gereksinimler ve Özellikler",
-      "explanation": "Geleneksel sistem tasarımının 'Gereksinimler ve Özellikler' aşamasında, sistemin donanım ve yazılım gereksinimleri ayrı ayrı önceden belirlenir. (Sunu 5, Geleneksel Sistem Tasarımı Aşamaları)",
-      "subTopicName": "Aşamalar",
-      "normalizedSubTopicName": "asamalar",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Geleneksel sistem tasarımında entegrasyon aşaması hangi adımlardan sonra gelir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Sadece donanım tasarım adımlarından sonra",
-        "Donanım ve yazılım gereksinimlerinin belirlenmesinden hemen sonra",
-        "Donanım ve yazılım tasarım adımlarının tamamlanmasından sonra",
-        "Sadece yazılım tasarım adımlarından sonra"
-      ],
-      "correctAnswer": "Donanım ve yazılım tasarım adımlarının tamamlanmasından sonra",
-      "explanation": "Geleneksel sistem tasarımında entegrasyon aşaması, donanım tasarım adımları ve yazılım tasarım adımları tamamlandıktan sonra gelir. Bu aşamada donanım ve yazılım birleştirilir. (Sunu 5, Geleneksel Sistem Tasarımı Aşamaları)",
-      "subTopicName": "Aşamalar",
-      "normalizedSubTopicName": "asamalar",
+      "correctAnswer": "sudo ip link set eth0 up",
+      "explanation": "'sudo ip link set eth0 up' komutu, 'eth0' adlı ağ arayüzünü etkinleştirmek için kullanılır. Metinde 'sudo ip link set eth0 up Ağ arayüzünü etkinleştirme' ifadesi yer almaktadır.",
+      "subTopicName": "Arayüz Yapılandırması",
+      "normalizedSubTopicName": "arayuz_yapilandirmasi",
       "difficulty": "medium"
     },
     {
-      "id": "q5",
-      "questionText": "Geleneksel sistem tasarımının temel eksikliklerinden biri aşağıdakilerden hangisidir?",
+      "id": "q4",
+      "questionText": "'ip addr show' komutu ne işe yarar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım ve yazılım arasında tam uyumun sağlanması",
-        "Yeni teknolojilere hızlı uyum sağlama yeteneği",
-        "Entegrasyon sürecinin kısalması ve maliyetin düşmesi",
-        "Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi"
+        "Ağ arayüzlerini devre dışı bırakır.",
+        "Ağ arayüzlerini listeler.",
+        "Ağ bağlantılarını test eder.",
+        "Ağ yönlendirme tablosunu görüntüler."
       ],
-      "correctAnswer": "Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için, donanım ve yazılım uyumsuzluğu ortaya çıkabilir. Bu, sistem performansını olumsuz etkileyebilir. (Sunu 5, Geleneksel Sistem Tasarımı Eksikleri)",
-      "subTopicName": "Eksiklikler",
-      "normalizedSubTopicName": "eksiklikler",
+      "correctAnswer": "Ağ arayüzlerini listeler.",
+      "explanation": "'ip addr show' komutu, ağ arayüzlerini listelemek için kullanılır. Metinde 'ip addr show Ağ arayüzlerini listeleme' ifadesi yer almaktadır.",
+      "subTopicName": "Arayüz Yapılandırması",
+      "normalizedSubTopicName": "arayuz_yapilandirmasi",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q5",
+      "questionText": "Aşağıdakilerden hangisi 'ip' komutunun kullanım amaçlarından biri değildir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Ağ arayüzlerini listeleme",
+        "Ağ arayüzünü etkinleştirme",
+        "Ağ arayüzünü devre dışı bırakma",
+        "DNS sunucusuna alan adı sorgulama"
+      ],
+      "correctAnswer": "DNS sunucusuna alan adı sorgulama",
+      "explanation": "'ip' komutu ağ arayüzlerini listeleme, etkinleştirme ve devre dışı bırakma işlemlerinde kullanılır. DNS sorgulama 'nslookup' veya 'dig' komutlarıyla yapılır. Metinde 'ip addr show Ağ arayüzlerini listeleme', 'sudo ip link set eth0 up Ağ arayüzünü etkinleştirme', 'sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma' ifadeleri yer almaktadır.",
+      "subTopicName": "Ağ Yapılandırması",
+      "normalizedSubTopicName": "ag_yapilandirmasi",
       "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "Aşağıdakilerden hangisi geleneksel sistem tasarımının bir dezavantajı değildir?",
+      "questionText": "Bir ağ arayüzünü devre dışı bırakmak için hangi 'ip' komutu kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Entegrasyon sürecinin uzaması ve maliyeti artırması",
-        "Donanım ve yazılımın ayrı ayrı optimize edilmesi nedeniyle sistem genelinde verimlilik kaybı",
-        "Donanım ve yazılım gereksinimlerinin eş zamanlı belirlenmesi",
-        "Yeni teknolojilere hızlıca uyum sağlayamaması"
+        "ip addr show",
+        "sudo ip link set eth0 up",
+        "sudo ip link set eth0 down",
+        "ping 10.112.0.1"
       ],
-      "correctAnswer": "Donanım ve yazılım gereksinimlerinin eş zamanlı belirlenmesi",
-      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım gereksinimleri ayrı ayrı belirlenir, bu da eş zamanlı bir yaklaşım değildir. Bu durum, uyumsuzluklara ve verimlilik kayıplarına yol açabilir. (Sunu 5, Geleneksel Sistem Tasarımı Eksikleri)",
-      "subTopicName": "Eksiklikler",
-      "normalizedSubTopicName": "eksiklikler",
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "'sudo ip link set eth0 down' komutu, belirtilen ağ arayüzünü devre dışı bırakmak için kullanılır. Metinde 'sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma' ifadesi yer almaktadır.",
+      "subTopicName": "Ağ Yapılandırması",
+      "normalizedSubTopicName": "ag_yapilandirmasi",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Co-Design yaklaşımının temel tanımı nedir?",
+      "questionText": "'ping' komutu hangi protokolü kullanarak ağ bağlantısını test eder?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Donanım ve yazılımın ayrı ayrı tasarlanıp sonradan birleştirilmesi",
-        "Donanımın önceden tasarlanıp yazılımın ona uyarlanması",
-        "Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması",
-        "Sadece yazılımın tasarlanıp donanımın ihmal edilmesi"
+        "TCP",
+        "UDP",
+        "ICMP",
+        "HTTP"
       ],
-      "correctAnswer": "Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması",
-      "explanation": "Co-Design, donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve birlikte tasarlanması yaklaşımıdır. Bu yaklaşım, özellikle karmaşık sistemlerde yüksek performans ve enerji verimliliği sağlar. (Sunu 5, Ortak Tasarım (Co-Design))",
-      "subTopicName": "Tanımı Ve Önemi",
-      "normalizedSubTopicName": "tanimi_ve_onemi",
+      "correctAnswer": "ICMP",
+      "explanation": "'ping' komutu, hedefe ICMP Echo istekleri göndererek ağ bağlantısını test eder. Metinde 'Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.' ifadesi yer almaktadır.",
+      "subTopicName": "Ağ Bağlantı Testi",
+      "normalizedSubTopicName": "ag_baglanti_testi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Co-Design yaklaşımının önemi nedir?",
+      "questionText": "'ping -c 4 10.112.0.1' komutu ne yapar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Geleneksel sistemlerde donanımın daha hızlı tasarlanmasını sağlaması",
-        "Yazılımın donanıma uyarlanma sürecini ortadan kaldırması ve ihtiyaçların senkronize edilmesini sağlaması",
-        "Sadece yazılım geliştirme maliyetlerini düşürmesi",
-        "Donanım ve yazılım ekipleri arasındaki iletişimi azaltması"
+        "10.112.0.1 adresine sürekli ping gönderir.",
+        "10.112.0.1 adresine 4 adet ping gönderir.",
+        "10.112.0.1 adresinden 4 adet dosya indirir.",
+        "10.112.0.1 adresini 4 farklı porttan test eder."
       ],
-      "correctAnswer": "Yazılımın donanıma uyarlanma sürecini ortadan kaldırması ve ihtiyaçların senkronize edilmesini sağlaması",
-      "explanation": "Co-design, donanım ve yazılım ihtiyaçlarının başından itibaren senkronize edilmesini sağlar. Bu, özellikle eksaskala sistemler gibi karmaşık yapılarda yüksek performans ve enerji verimliliği için önemlidir. (Sunu 5, Ortak Tasarım (Co-Design))",
-      "subTopicName": "Tanımı Ve Önemi",
-      "normalizedSubTopicName": "tanimi_ve_onemi",
+      "correctAnswer": "10.112.0.1 adresine 4 adet ping gönderir.",
+      "explanation": "'ping -c 4 10.112.0.1' komutu, 10.112.0.1 adresine 4 adet ping gönderir. Metinde 'ping -c 4 10.112.0.1 Belirli sayıda ping gönderme' ifadesi yer almaktadır.",
+      "subTopicName": "Ağ Bağlantı Testi",
+      "normalizedSubTopicName": "ag_baglanti_testi",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Co-Design yaklaşımının ilk aşaması nedir?",
+      "questionText": "'netstat' komutu hangi tür bilgileri sağlar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Donanım Tasarım Adımları",
-        "Yazılım Tasarım Adımları",
-        "Gereksinimler ve Özellikler",
-        "Sürekli Geri Bildirim Döngüsü"
+        "Sadece aktif ağ bağlantılarını",
+        "Sadece ağ istatistiklerini",
+        "Ağ bağlantıları ve istatistikleri hakkında bilgi",
+        "Sadece DNS sunucu bilgilerini"
       ],
-      "correctAnswer": "Gereksinimler ve Özellikler",
-      "explanation": "Co-Design yaklaşımının ilk aşaması 'Gereksinimler ve Özellikler'dir. Bu aşamada, sistemin donanım ve yazılım gereksinimleri birlikte ve eş zamanlı olarak belirlenir. (Sunu 5, Ortak Tasarım (Co-Design) Aşamaları)",
-      "subTopicName": "Aşamaları",
-      "normalizedSubTopicName": "asamalari",
+      "correctAnswer": "Ağ bağlantıları ve istatistikleri hakkında bilgi",
+      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Metinde 'Ağ bağlantıları ve istatistikleri hakkında bilgi verir.' ifadesi yer almaktadır.",
+      "subTopicName": "Bağlantı İ Statistikleri",
+      "normalizedSubTopicName": "baglanti_i_istatistikleri",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Co-Design aşamalarından hangisi, donanım ve yazılımın hangi görevleri üstleneceği ve birbirleriyle nasıl iletişim kuracaklarının planlanmasını içerir?",
+      "questionText": "'netstat -tuln' komutu neyi listeler?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Gereksinimler ve Özellikler",
-        "Donanım ve Yazılım Co-Design Adımları",
-        "Donanım Tasarım Adımları",
-        "Yazılım Tasarım Adımları"
+        "Tüm aktif ağ bağlantılarını",
+        "Belirli bir portu dinleyen süreçleri",
+        "Ağ arayüzlerinin IP adreslerini",
+        "Ağ yönlendirme tablosunu"
       ],
-      "correctAnswer": "Donanım ve Yazılım Co-Design Adımları",
-      "explanation": "Co-Design'da 'Donanım ve Yazılım Co-Design Adımları' aşamasında, donanım ve yazılımın hangi görevleri üstleneceği, birbirleriyle nasıl iletişim kuracakları planlanır. Bu aşamada hem donanım hem de yazılım mimarisi paralel düşünülür. (Sunu 5, Ortak Tasarım (Co-Design) Aşamaları)",
-      "subTopicName": "Aşamaları",
-      "normalizedSubTopicName": "asamalari",
+      "correctAnswer": "Belirli bir portu dinleyen süreçleri",
+      "explanation": "'netstat -tuln' komutu, belirli bir portu dinleyen süreçleri listeler. Metinde 'netstat -tuln Belirli bir portu dinleyen süreçleri listeleme' ifadesi yer almaktadır.",
+      "subTopicName": "Bağlantı İ Statistikleri",
+      "normalizedSubTopicName": "baglanti_i_istatistikleri",
       "difficulty": "medium"
     }
   ]

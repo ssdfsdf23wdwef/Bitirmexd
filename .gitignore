@@ -4,4 +4,5 @@ backend/secrets/
 
 # Firebase/Google Cloud gizli anahtarları
 *.json.key
-*firebase-adminsdk*.json 
+*firebase-adminsdk*.json
+!firestore.indexes.json

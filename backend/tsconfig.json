@@ -37,5 +37,6 @@
     },
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "exclude": ["node_modules", "dist", "*.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "examples", "*.ts"]
 }

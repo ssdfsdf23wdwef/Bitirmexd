@@ -1,8 +1,8 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T01:46:14.242Z
+## Tarih: 2025-06-09T10:47:31.548Z
 
-## Trace ID: quiz-1749433574199-oxxdf
+## Trace ID: quiz-1749466051534-fyos2
 
 ## Alt Konular (10 adet):
 ```
@@ -10,11 +10,11 @@
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Geleneksel Sistem Tasarımı** (2 soru)
-2. **Aşamalar** (2 soru)
-3. **Eksiklikler** (2 soru)
-4. **Tanımı Ve Önemi** (2 soru)
-5. **Aşamaları** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme Komutları** (2 soru)
+2. **Arayüz Yapılandırması** (2 soru)
+3. **Ağ Yapılandırması** (2 soru)
+4. **Ağ Bağlantı Testi** (2 soru)
+5. **Bağlantı İ Statistikleri** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,11 +22,11 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Artıları
-2. Co Design Yaklaşımı
-3. Eksaskala Süper Bilgisayar
-4. Akıllı Saat
-5. Drone
+1. Soket İ Statistikleri
+2. Yol Takibi
+3. Dns Sorgulama
+4. Detaylı Dns Bilgisi
+5. Yönlendirme Tablosu
 
 ```
 
@@ -52,11 +52,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Geleneksel Sistem Tasarımı** (2 soru)
-2. **Aşamalar** (2 soru)
-3. **Eksiklikler** (2 soru)
-4. **Tanımı Ve Önemi** (2 soru)
-5. **Aşamaları** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme Komutları** (2 soru)
+2. **Arayüz Yapılandırması** (2 soru)
+3. **Ağ Yapılandırması** (2 soru)
+4. **Ağ Bağlantı Testi** (2 soru)
+5. **Bağlantı İ Statistikleri** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -64,221 +64,114 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Artıları
-2. Co Design Yaklaşımı
-3. Eksaskala Süper Bilgisayar
-4. Akıllı Saat
-5. Drone
+1. Soket İ Statistikleri
+2. Yol Takibi
+3. Dns Sorgulama
+4. Detaylı Dns Bilgisi
+5. Yönlendirme Tablosu
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
-Bilgisayar Mühendisliği Bölümü
-Bahar –2025(ÖÖ.,İÖ.)
-MBM7-452 -Eksaskala Bilgisayar Sistemleri
-(Sunu 5)
-Dr. Öğr. Üyesi Esra Çelik
 
-Günün Sorusu
-Donanım ve yazılım arasında
-oluşabilecek işbirliği neden önemlidir?
+BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
+BAHAR DÖNEMİ 2025
+Öğretim Üyesi: Dr. Bilal USANMAZ
+bilal@atauni.edu.tr
 
-Geleneksel Sistem Tasarımı
-•Geleneksel sistemlerde tasarım,
-•donanım ve yazılımın ayrı ayrı geliştirilip entegre edilmesi
-sürecidir.
-•Donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki
-bileşenin bağımsız çalışmasını sağlar.
-•Ancak, bu yaklaşımda iletişim optimize edilmez, değişiklikler zor ve
-zaman alıcı olabilir.
-•Ayrıca, entegrasyon sırasında verimlilik kayıpları yaşanabilir.
 
-Geleneksel Sistem Tasarımı Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılım
-gereksinimleri ayrı ayrıönceden
-belirlenir.
-Yazılım
-Gereksinimleri
-ve Özellikleri
-Donanım
-Gereksinimleri
-ve Özellikleri
 
-Geleneksel Sistem Tasarımı Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılım
-gereksinimleri ayrı ayrıönceden
-belirlenir.
-•Donanım Tasarım Adımları
-•Önce donanım tasarımı adım adım
-yapılır.
-Yazılım
-Gereksinimleri
-ve Özellikleri
-Donanım
-Tasarım Adımları
-...
-Donanım
-Gereksinimleri
-ve Özellikleri
+3.Hafta
 
-Geleneksel Sistem Tasarımı Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılım
-gereksinimleri ayrı ayrıönceden
-belirlenir.
-•Donanım Tasarım Adımları
-•Önce donanım tasarımı adım adım
-yapılır.
-•Yazılım Tasarım Adımları
-•Ardından yazılım tasarımı adım adım
-yapılır.
-Yazılım
-Gereksinimleri
-ve Özellikleri
-Donanım
-Tasarım Adımları
-...
-Yazılım Tasarım
-Adımları
-...
-Donanım
-Gereksinimleri
-ve Özellikleri
 
-Geleneksel Sistem Tasarımı Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılım
-gereksinimleri ayrı ayrıönceden
-belirlenir.
-•Donanım Tasarım Adımları
-•Önce donanım tasarımı adım adım
-yapılır.
-•Yazılım Tasarım Adımları
-•Ardından yazılım tasarımı adım adım
-yapılır.
-•Entegrasyon
-•Donanım ve yazılım son aşamada
-birleştirilir.
-Yazılım
-Gereksinimleri
-ve Özellikleri
-Donanım
-Tasarım Adımları
-...
-Yazılım Tasarım
-Adımları
-...
-Entegrasyon
-Donanım
-Gereksinimleri
-ve Özellikleri
+Temel Linux Komutları-3
 
-Geleneksel Sistem Tasarımı Eksikleri
-Donanım ve yazılım uyumsuzluğu ortaya çıkar.
-Yeni teknolojilere hızlıca uyum sağlayamaz.
-Entegrasyon süreci uzar ve maliyetiartır.
-Donanım ve yazılım ayrı ayrı optimize edilir, bu da sistem
-genelinde verimlilik kaybına yol açar.
-1
-2
-3
-4
-Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı
-geliştirildiği için:
+Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
+duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
 
-
-Ortak Tasarım (Co-Design)
-nedir?
+3. Ağ yönetimi ve izleme
+●
+ifconfig
+(İnterface Configuration)
+Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
+Örnek: ifconfig (Ağ arayüzlerini listeleme)
+Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
+●
+ip
+(Ağ yapılandırması)
+Örnek: ip addr show Ağ arayüzlerini listeleme
+Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
+Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
+●
+ping
+(Ağ Bağlantısını Test Etme)
+Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
+Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
+Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
+●
+netstat
+(Ağ Bağlantılarını Görüntüleme)
+Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
+Örnek: netstat Mevcut bağlantıları listeleme
 
-Ortak Tasarım (Co-Design)
-•Co-Design,
-•donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve
-birlikte tasarlanmasıyaklaşımıdır.
-•Neden Önemli?
-•Geleneksel sistemlerde donanım öncedentasarlanır, yazılım
-sonradanuyarlanır.
-•Co-design, iki tarafın ihtiyaçlarının başından itibaren senkronize
-edilmesini sağlar.
-•Özellikle eksaskala sistemler, süper bilgisayarlar gibi karmaşık
-yapılarda yüksek performans ve enerji verimliliği için zorunludur.
 
-Ortak Tasarım (Co-Design) Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılımgereksinimleri
-birlikte veeşzamanlıbelirlenir.
-Donanım ve Yazılım Gereksinimleri ve
-Özellikleri
+Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
+Örnek: netstat -i Ağ istatistiklerini görüntüleme
+●
+ss
+(Socket Statistiği)
+ss
+komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
+netstat
+komutunun
+modern bir alternatifi olarak kabul edilir.
+Örnek: ss -t Mevcut TCP bağlantılarını listeleme
+Örnek: ss -l Dinleyen soketleri listeleme
+Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
 
-Ortak Tasarım (Co-Design) Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılımgereksinimleri
-birlikte veeşzamanlıbelirlenir.
-•Donanım ve Yazılım Co-Design Adımları
-•Donanım ve yazılımın hangi görevleri
-üstleneceği, birbirleriyle nasıl iletişim
-kuracakları planlanır.
-•Hem donanım hem yazılım mimarisi paralel
-düşünülür.
-Donanım ve Yazılım Co-DesignAdımları 1
-...
-Donanım ve Yazılım Co-DesignAdımları n
-Donanım ve Yazılım Gereksinimleri ve
-Özellikleri
+●
+traceroute
+(Yol Takibi)
+Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
+Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
+●
+nslookup
+(DNS Sorgulama)
+DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
+Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
+●
+dig
+(Domain Information Groper)
+dig
+, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
+Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
+Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
+●
+route
+(Yönlendirme Tablosu)
+Ağ yönlendirme tablosunu yönetmek için kullanılır.
+Örnek: route -n Yönlendirme tablosunu görüntüleme
+●
+curl
+(Ağ İstekleri)
+Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
 
-Ortak Tasarım (Co-Design) Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılımgereksinimleri
-birlikte veeşzamanlıbelirlenir.
-•Donanım ve Yazılım Co-Design Adımları
-•Donanım ve yazılımın hangi görevleri
-üstleneceği, birbirleriyle nasıl iletişim
-kuracakları planlanır.
-•Hem donanım hem yazılım mimarisi paralel
-düşünülür.
-•Donanım Tasarım Adımları
-•Donanım ekibi, yazılımın ihtiyaçlarını
-dikkate alarak tasarım yapar.
-•Yazılım Tasarım Adımları
-•Yazılım ekibi, donanımın özelliklerine göre
-en verimli şekilde kod yazar.
-Donanım ve Yazılım Co-DesignAdımları 1
-...
-Donanım ve Yazılım Co-DesignAdımları n
-Donanım ve Yazılım Gereksinimleri ve
-Özellikleri
-Donanım
-Tasarım Adımları
-...
-Yazılım Tasarım
-Adımları
-...
 
-Ortak Tasarım (Co-Design) Aşamaları
-•Gereksinimler ve Özellikler
-•Sistemin donanım ve yazılımgereksinimleri
-birlikte veeşzamanlıbelirlenir.
-•Donanım ve Yazılım Co-Design Adımları
-•Donanım ve yazılımın hangi görevleri
-üstleneceği, birbirleriyle nasıl iletişim
-kuracakları planlanır.
-•Hem donanım hem yazılım mimarisi paralel
-düşünülür.
-•Donanım Tasarım Adımları
-•Donanım ekibi, yazılımın ihtiyaçlarını
-dikkate alarak tasarım yapar.
-•Yazılım Tasarım Adımları
-•Yazılım ekibi, donanımın özelliklerine göre
-en verimli şekilde kod yazar.
-•Sürekli Geri Bildirim Döngüsü
-•Sistemin, anlık performans verilerine
-dayanarak dinamik bir şekilde optimizasyon
-yapar.
-Donanım ve Yazılım Co-DesignAdımları 1
-...
-Donanım ve Yazılım Co-DesignAdımları n
-Dona...(Kısaltıldı)
+Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
+●
+wget
+(Dosya İndirme)
+Ağ üzerinden dosya indirmek için kullanılan komut.
+wget
+https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
+020/07/Akademik-Takvim_2024_2025_17052024.pdf
+●
+mtr
+(Ping ve Traceroute Kombinasyonu)
+Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
+Örnek: mtr google.com
+Hedefe mtr ile izleme
+
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -453,42 +346,42 @@ Dona...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Geleneksel Sistem Tasarımı: 2 soru
-  - Aşamalar: 2 soru
-  - Eksiklikler: 2 soru
-  - Tanımı Ve Önemi: 2 soru
-  - Aşamaları: 2 soru
+  - Ağ Yönetimi Ve İ Zleme Komutları: 2 soru
+  - Arayüz Yapılandırması: 2 soru
+  - Ağ Yapılandırması: 2 soru
+  - Ağ Bağlantı Testi: 2 soru
+  - Bağlantı İ Statistikleri: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Geleneksel Sistem Tasarımı:
-- Soru: Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreci nasıldır?
-- Seçenekler: Donanım ve yazılım eş zamanlı ve birlikte geliştirilir. | Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir. | Önce yazılım geliştirilir, sonra donanıma uyarlanır. | Donanım ve yazılım sürekli olarak birbirini günceller.
-- Doğru Cevap: Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.
+#### Ağ Yönetimi Ve İ Zleme Komutları:
+- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
+- Seçenekler: Ağ arayüzlerini devre dışı bırakmak. | Ağ arayüzlerini görüntülemek ve yapılandırmak. | DNS sunucularını sorgulamak. | Ağ bağlantılarının hızını test etmek.
+- Doğru Cevap: Ağ arayüzlerini görüntülemek ve yapılandırmak.
 - Zorluk: easy
 
-#### Aşamalar:
-- Soru: Geleneksel sistem tasarımının aşamalarından hangisi, sistem gereksinimlerinin ayrı ayrı belirlenmesini içerir?
-- Seçenekler: Entegrasyon | Donanım Tasarım Adımları | Yazılım Tasarım Adımları | Gereksinimler ve Özellikler
-- Doğru Cevap: Gereksinimler ve Özellikler
-- Zorluk: easy
-
-#### Eksiklikler:
-- Soru: Geleneksel sistem tasarımının temel eksikliklerinden biri aşağıdakilerden hangisidir?
-- Seçenekler: Donanım ve yazılım arasında tam uyumun sağlanması | Yeni teknolojilere hızlı uyum sağlama yeteneği | Entegrasyon sürecinin kısalması ve maliyetin düşmesi | Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi
-- Doğru Cevap: Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi
+#### Arayüz Yapılandırması:
+- Soru: Aşağıdaki komutlardan hangisi bir ağ arayüzünü etkinleştirmek için kullanılır?
+- Seçenekler: sudo ip link set eth0 down | ifconfig eth0 | sudo ip link set eth0 up | ping 10.112.0.1
+- Doğru Cevap: sudo ip link set eth0 up
 - Zorluk: medium
 
-#### Tanımı Ve Önemi:
-- Soru: Co-Design yaklaşımının temel tanımı nedir?
-- Seçenekler: Donanım ve yazılımın ayrı ayrı tasarlanıp sonradan birleştirilmesi | Donanımın önceden tasarlanıp yazılımın ona uyarlanması | Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması | Sadece yazılımın tasarlanıp donanımın ihmal edilmesi
-- Doğru Cevap: Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması
+#### Ağ Yapılandırması:
+- Soru: Aşağıdakilerden hangisi 'ip' komutunun kullanım amaçlarından biri değildir?
+- Seçenekler: Ağ arayüzlerini listeleme | Ağ arayüzünü etkinleştirme | Ağ arayüzünü devre dışı bırakma | DNS sunucusuna alan adı sorgulama
+- Doğru Cevap: DNS sunucusuna alan adı sorgulama
+- Zorluk: medium
+
+#### Ağ Bağlantı Testi:
+- Soru: 'ping' komutu hangi protokolü kullanarak ağ bağlantısını test eder?
+- Seçenekler: TCP | UDP | ICMP | HTTP
+- Doğru Cevap: ICMP
 - Zorluk: easy
 
-#### Aşamaları:
-- Soru: Co-Design yaklaşımının ilk aşaması nedir?
-- Seçenekler: Donanım Tasarım Adımları | Yazılım Tasarım Adımları | Gereksinimler ve Özellikler | Sürekli Geri Bildirim Döngüsü
-- Doğru Cevap: Gereksinimler ve Özellikler
+#### Bağlantı İ Statistikleri:
+- Soru: 'netstat' komutu hangi tür bilgileri sağlar?
+- Seçenekler: Sadece aktif ağ bağlantılarını | Sadece ağ istatistiklerini | Ağ bağlantıları ve istatistikleri hakkında bilgi | Sadece DNS sunucu bilgilerini
+- Doğru Cevap: Ağ bağlantıları ve istatistikleri hakkında bilgi
 - Zorluk: easy
 

@@ -3,11 +3,10 @@
  * @description Frontend loglama yardımcı fonksiyonları
  */
 
-import { LoggerService } from '../services/logger.service';
 import { FlowTrackerService, FlowCategory as TrackerFlowCategory } from '../services/flow-tracker.service';
 import { FlowCategory } from "@/constants/logging.constants";
 
-let loggerInstance: LoggerService | null = null;
+let loggerInstance: any | null = null;
 let flowTrackerInstance: FlowTrackerService | null = null;
 
 export function mapToTrackerCategory(category: FlowCategory): TrackerFlowCategory {
@@ -52,7 +51,7 @@ export function extractFileName(filePath: string): string {
  * @param options Logger servisi opsiyonları
  * @returns LoggerService instance
  */
-export function setupLogger(options?: any): LoggerService {
+export function setupLogger(options?: any): any {
   // Ensure we're in client-side environment
   if (typeof window === 'undefined') {
     // Return a mock logger for SSR
@@ -72,6 +71,8 @@ export function setupLogger(options?: any): LoggerService {
   }
 
   try {
+    // Dynamic import to avoid circular dependency
+    const { LoggerService } = require('../services/logger.service');
     loggerInstance = LoggerService.getInstance();
     if (options && loggerInstance) {
       loggerInstance.setConfig(options);
@@ -172,7 +173,7 @@ export function setupLogging(options?: {
  * Logger instance alır, yoksa oluşturur
  * @returns LoggerService instance
  */
-export function getLogger(): LoggerService | null {
+export function getLogger(): any | null {
   if (!loggerInstance) {
     try {
       // Check if we're in SSR environment
@@ -203,6 +204,7 @@ export function getLogger(): LoggerService | null {
       }
 
       // Check if LoggerService is available (it might be undefined in SSR)
+      const { LoggerService } = require('../services/logger.service');
       if (typeof LoggerService === 'undefined') {
         throw new Error('LoggerService is not available in this environment');
       }
