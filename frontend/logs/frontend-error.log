@@ -1692,3 +1692,60 @@ Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/
 ------------------------------------------------------------
 [2025-06-09T11:22:41.366Z] [info] [LogSetup] Frontend log sistemi başlatıldı
 ------------------------------------------------------------
+[2025-06-09T11:29:49.067Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:29:49.063Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:32:28.076Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:32:28.061Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:40:41.219Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:40:41.217Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:40:48.178Z] [error] [UnhandledPromiseRejection] Yakalanmamış Promise hatası
+Details: {"reason":"TypeError: file.split is not a function\n    at LoggerService.addLogEntry (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:48:42)\n    at LoggerService.error (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:61:14)\n    at ApiService.handleError (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:615:21)\n    at ApiService.get (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:460:18)\n    at async LearningTargetService.getLearningTargetsByCourse (webpack-internal:///(app-pages-browser)/./src/services/learningTarget.service.ts:44:29)\n    at async LearningTargetService.getLearningTargets (webpack-internal:///(app-pages-browser)/./src/services/learningTarget.service.ts:73:29)"}
+------------------------------------------------------------
+[2025-06-09T11:41:57.635Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:41:57.658Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:42:13.481Z] [error] [UnhandledPromiseRejection] Yakalanmamış Promise hatası
+Details: {"reason":"TypeError: file.split is not a function\n    at LoggerService.addLogEntry (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:48:42)\n    at LoggerService.error (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:61:14)\n    at ApiService.handleError (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:615:21)\n    at ApiService.get (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:460:18)\n    at async CourseService.getCourses (webpack-internal:///(app-pages-browser)/./src/services/course.service.ts:119:29)"}
+------------------------------------------------------------
+[2025-06-09T11:42:15.484Z] [error] [UnhandledPromiseRejection] Yakalanmamış Promise hatası
+Details: {"reason":"TypeError: file.split is not a function\n    at LoggerService.addLogEntry (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:48:42)\n    at LoggerService.error (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:61:14)\n    at ApiService.handleError (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:615:21)\n    at ApiService.get (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:460:18)\n    at async CourseService.getCourses (webpack-internal:///(app-pages-browser)/./src/services/course.service.ts:119:29)"}
+------------------------------------------------------------
+[2025-06-09T11:43:35.450Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:43:35.455Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:43:57.982Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:43:57.977Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:44:17.014Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:44:17.018Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:51:57.118Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:51:57.122Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:55:59.478Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:55:59.474Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:58:41.132Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:58:41.137Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T12:02:50.833Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T12:02:50.829Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T12:06:38.180Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T12:06:38.175Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------

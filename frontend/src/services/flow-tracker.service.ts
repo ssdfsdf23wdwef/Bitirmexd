@@ -3,7 +3,7 @@
  * @description Frontend uygulama durum akışını ve yaşam döngüsünü izleyen servis
  */
 
-import { LoggerService, LogLevel } from './logger.service';
+import LoggerService from './logger.service'; // Changed from { LoggerService, LogLevel }
 
 /**
  * İzlenebilecek akış kategorileri
@@ -923,4 +923,4 @@ export class FlowTrackerService {
       console.error('[FlowTrackerService] Flow loglar dosyaya kaydedilirken hata oluştu:', error);
     }
   }
-} 
+}

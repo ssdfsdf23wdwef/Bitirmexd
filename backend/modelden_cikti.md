@@ -1,7 +1,7 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T11:24:03.365Z
-Trace ID: quiz-1749468230090-jizz1
+Tarih: 2025-06-09T12:01:00.999Z
+Trace ID: quiz-1749470447120-920ii
 Yanıt Uzunluğu: 7701 karakter
 
 ## Ham Çıktı:
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 7701 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?",
+      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım maliyetlerini artırmak",
-        "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
-        "Yazılım karmaşıklığını azaltmak",
-        "Enerji tüketimini artırmak"
+        "Ağ arayüzlerini listelemek ve yapılandırmak",
+        "DNS sunucularına sorgu göndermek",
+        "Ağ üzerindeki dosya indirme işlemlerini gerçekleştirmek",
+        "Ağ bağlantılarının istatistiklerini görüntülemek"
       ],
-      "correctAnswer": "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
-      "explanation": "Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir. Diğer seçenekler sanallaştırmanın amaçlarıyla çelişmektedir.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
+      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
+      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Diğer seçenekler farklı komutlarla gerçekleştirilir.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Sanallaştırma teknolojisi, bilgisayar donanımı üzerinde ne tür bir katman oluşturur?",
+      "questionText": "Hangi komut, bir ağ arayüzünü etkinleştirmek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "Fiziksel katman",
-        "Soyutlama katmanı",
-        "Güvenlik katmanı",
-        "Ağ katmanı"
+        "sudo ip link set eth0 down",
+        "ping 10.112.0.1",
+        "sudo ip link set eth0 up",
+        "netstat -tuln"
       ],
-      "correctAnswer": "Soyutlama katmanı",
-      "explanation": "Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı kullanır. Bu katman, donanımın daha verimli kullanılmasını sağlar.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "Sanallaştırmanın temel amacı nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Tek bir işletim sistemini birden fazla donanım üzerinde çalıştırmak",
-        "Donanım kaynaklarını daha verimli kullanarak maliyetleri düşürmek ve esnekliği artırmak",
-        "İşletim sistemlerini donanımlardan bağımsız hale getirmek",
-        "Yazılım geliştirme süreçlerini hızlandırmak"
-      ],
-      "correctAnswer": "Donanım kaynaklarını daha verimli kullanarak maliyetleri düşürmek ve esnekliği artırmak",
-      "explanation": "Sanallaştırmanın temel amacı, donanım kaynaklarını daha verimli kullanarak maliyetleri düşürmek ve sistemlerin daha esnek olmasını sağlamaktır.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
+      "correctAnswer": "sudo ip link set eth0 up",
+      "explanation": "'sudo ip link set eth0 up' komutu, 'eth0' adlı ağ arayüzünü etkinleştirmek için kullanılır. 'down' parametresi ise arayüzü devre dışı bırakır.",
+      "subTopicName": "Ağ Yönetimi Ve İ Zleme",
+      "normalizedSubTopicName": "ag_yonetimi_ve_i_zleme",
       "difficulty": "medium"
     },
     {
-      "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın bir avantajı değildir?",
+      "id": "q3",
+      "questionText": "Aşağıdaki komutlardan hangisi bir ağ arayüzüne ait IP adresini görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım maliyetlerinde azalma",
-        "Kaynak kullanımında verimlilik artışı",
-        "Sistem yönetiminde kolaylık",
-        "Donanım bağımlılığının tamamen ortadan kalkması"
+        "ifconfig eth0",
+        "ping eth0",
+        "netstat eth0",
+        "ss eth0"
       ],
-      "correctAnswer": "Donanım bağımlılığının tamamen ortadan kalkması",
-      "explanation": "Sanallaştırma donanım bağımlılığını azaltır ancak tamamen ortadan kaldırmaz. Hala fiziksel donanım gereklidir.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
+      "correctAnswer": "ifconfig eth0",
+      "explanation": "'ifconfig eth0' komutu, 'eth0' adlı ağ arayüzüne ait IP adresini ve diğer ağ yapılandırma bilgilerini görüntülemek için kullanılır.",
+      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
+      "normalizedSubTopicName": "ag_arayuzu_yapilandirmasi_ifconfigiip",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q4",
+      "questionText": "Aşağıdaki 'ip' komutlarından hangisi, bir ağ arayüzünün devre dışı bırakılmasını sağlar?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "applying",
+      "options": [
+        "sudo ip link set eth0 up",
+        "ip addr show",
+        "sudo ip link set eth0 down",
+        "ip route show"
+      ],
+      "correctAnswer": "sudo ip link set eth0 down",
+      "explanation": "'sudo ip link set eth0 down' komutu, belirtilen 'eth0' ağ arayüzünü devre dışı bırakır. 'up' komutu ise arayüzü etkinleştirir.",
+      "subTopicName": "Ağ Arayüzü Yapılandırması İfconfiğiip",
+      "normalizedSubTopicName": "ag_arayuzu_yapilandirmasi_ifconfigiip",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Sanal makine (VM) nedir?",
+      "questionText": "'ping' komutu hangi amaçla kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Fiziksel bir sunucunun birebir kopyası",
-        "Tek bir fiziksel sunucu içinde çalışan ayrı bir sanal bilgisayar",
-        "Bir işletim sistemi türü",
-        "Bir ağ protokolü"
+        "Ağ bağlantısını test etmek",
+        "DNS sunucusuna sorgu göndermek",
+        "Ağ arayüzlerini yapılandırmak",
+        "Dosya indirme işlemlerini gerçekleştirmek"
       ],
-      "correctAnswer": "Tek bir fiziksel sunucu içinde çalışan ayrı bir sanal bilgisayar",
-      "explanation": "Sanal makineler (VM'ler), tek bir fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder ve fiziksel sunucunun kaynaklarını paylaşır.",
-      "subTopicName": "Sanal Makine Vm Kavramı",
-      "normalizedSubTopicName": "sanal_makine_vm_kavramı",
+      "correctAnswer": "Ağ bağlantısını test etmek",
+      "explanation": "'ping' komutu, bir ağdaki hedefe ICMP Echo istekleri göndererek ağ bağlantısını test etmek için kullanılır.",
+      "subTopicName": "Ağ Bağlantısı Testi Ping",
+      "normalizedSubTopicName": "ag_baglantisi_testi_ping",
       "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "Sanal makineler (VM'ler) hangi yazılımı kullanarak fiziksel sunucunun kaynaklarını paylaşır ve tahsis eder?",
+      "questionText": "Aşağıdaki 'ping' komutlarından hangisi, belirli bir IP adresine 4 adet ping isteği göndermek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "applying",
       "options": [
-        "İşletim sistemi",
-        "Hypervisor",
-        "Veritabanı yönetim sistemi",
-        "Ağ protokolü"
+        "ping 10.112.0.1",
+        "ping -c 4 10.112.0.1",
+        "ping -t 10.112.0.1",
+        "ping -n 4 10.112.0.1"
       ],
-      "correctAnswer": "Hypervisor",
-      "explanation": "Sanal makineler, fiziksel sunucunun kaynaklarını paylaşmak ve tahsis etmek için hypervisor adı verilen yazılımı kullanır.",
-      "subTopicName": "Sanal Makine Vm Kavramı",
-      "normalizedSubTopicName": "sanal_makine_vm_kavramı",
-      "difficulty": "easy"
+      "correctAnswer": "ping -c 4 10.112.0.1",
+      "explanation": "'ping -c 4 10.112.0.1' komutu, '-c' parametresi ile belirtilen sayıda (bu durumda 4) ping isteği gönderir.",
+      "subTopicName": "Ağ Bağlantısı Testi Ping",
+      "normalizedSubTopicName": "ag_baglantisi_testi_ping",
+      "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Hypervisor'un temel işlevi nedir?",
+      "questionText": "'netstat' komutu hangi bilgileri sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
-        "Fiziksel donanımı yönetmek",
-        "Ağ trafiğini yönlendirmek",
-        "Veritabanı işlemlerini gerçekleştirmek"
+        "Sadece aktif ağ bağlantılarını",
+        "Ağ bağlantıları ve istatistikleri hakkında bilgi",
+        "Sadece DNS sunucu bilgilerini",
+        "Sadece dosya indirme hızlarını"
       ],
-      "correctAnswer": "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
-      "explanation": "Hypervisor, sanal makineleri (VM'ler) oluşturan ve çalıştıran bir yazılımdır. Ayrıca, VM'lerin kaynaklarını yönetir ve izole eder.",
-      "subTopicName": "Hypervisorun Rolü Ve İ Şlevi",
-      "normalizedSubTopicName": "hypervisorun_rolü_ve_i_şlevi",
-      "difficulty": "medium"
+      "correctAnswer": "Ağ bağlantıları ve istatistikleri hakkında bilgi",
+      "explanation": "'netstat' komutu, ağ bağlantıları ve istatistikleri hakkında bilgi verir. Mevcut bağlantıları listeleme, belirli bir portu dinleyen süreçleri listeleme ve ağ istatistiklerini görüntüleme gibi işlevlere sahiptir.",
+      "subTopicName": "Ağ Bağlantılarını Görüntüleme Netstat Ss",
+      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme_netstat_ss",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Hypervisor tarafından yönetilen fiziksel donanıma ne ad verilir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Guest",
-        "Host",
-        "Pool",
-        "Kernel"
-      ],
-      "correctAnswer": "Host",
-      "explanation": "Hypervisor yüklü fiziksel donanıma host adı verilir. Guest ise bunun üzerindeki sanal makinelere verilen isimdir.",
-      "subTopicName": "Hypervisorun Rolü Ve İ Şlevi",
-      "normalizedSubTopicName": "hypervisorun_rolü_ve_i_şlevi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q9",
-      "questionText": "Tip 1 hypervisor'ler için aşağıdaki ifadelerden hangisi doğrudur?",
+      "questionText": "'ss' komutu, 'netstat' komutuna göre hangi avantaja sahiptir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "İşletim sistemi üzerinde uygulama olarak çalışır.",
-        "Doğrudan donanım üzerinde çalışır.",
-        "Kişisel bilgisayarlarda daha yaygın kullanılır.",
-        "Kaynakları ana işletim sistemi üzerinden yönetir."
+        "Daha eski bir komut olması",
+        "'netstat' komutunun modern bir alternatifi olarak kabul edilmesi",
+        "Sadece UDP bağlantılarını listelemesi",
+        "Daha az bilgi sağlaması"
       ],
-      "correctAnswer": "Doğrudan donanım üzerinde çalışır.",
-      "explanation": "Tip-1 hypervisor'ler (bare metal), doğrudan donanım üzerinde çalışır ve guest işletim sistemlerini yönetir. Bu, daha yüksek performans ve güvenlik sağlar.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "correctAnswer": "'netstat' komutunun modern bir alternatifi olarak kabul edilmesi",
+      "explanation": "'ss' komutu, 'netstat' komutunun modern bir alternatifi olarak kabul edilir ve aktif ağ bağlantılarını ve soket bilgilerini görüntüler.",
+      "subTopicName": "Ağ Bağlantılarını Görüntüleme Netstat Ss",
+      "normalizedSubTopicName": "ag_baglantilarini_goruntuleme_netstat_ss",
       "difficulty": "medium"
     },
     {
-      "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi Tip 1 hypervisor örneğidir?",
+      "id": "q9",
+      "questionText": "'nslookup' komutu ne işe yarar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "VMware Workstation",
-        "Oracle VirtualBox",
-        "KVM",
-        "VMware Player"
+        "Bir alan adının IP adresini DNS sunucusu üzerinden sorgular",
+        "Ağ bağlantısını test eder",
+        "Ağ arayüzlerini yapılandırır",
+        "Dosya indirme işlemlerini gerçekleştirir"
       ],
-      "correctAnswer": "KVM",
-      "explanation": "KVM, Microsoft Hyper-V ve VMware vSphere tip-1 hypervisor örnekleridir. VMware Workstation ve Oracle VirtualBox ise tip-2 hypervisor örnekleridir.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "correctAnswer": "Bir alan adının IP adresini DNS sunucusu üzerinden sorgular",
+      "explanation": "'nslookup' komutu, DNS sunucusu üzerinden bir alan adının IP adresini sorgulamak için kullanılır.",
+      "subTopicName": "Dns Sorgulama Nslookup Dig",
+      "normalizedSubTopicName": "dns_sorgulama_nslookup_dig",
       "difficulty": "easy"
+    },
+    {
+      "id": "q10",
+      "questionText": "'dig google.com MX' komutu hangi bilgiyi sağlar?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "google.com alan adının IP adresini",
+        "google.com alan adının MX kayıtlarını",
+        "google.com alan adının NS kayıtlarını",
+        "google.com alan adının SOA kayıtlarını"
+      ],
+      "correctAnswer": "google.com alan adının MX kayıtlarını",
+      "explanation": "'dig google.com MX' komutu, google.com alan adının MX (Mail Exchange) kayıtlarını sorgular. MX kayıtları, e-posta sunucularının yönlendirilmesi için kullanılır.",
+      "subTopicName": "Dns Sorgulama Nslookup Dig",
+      "normalizedSubTopicName": "dns_sorgulama_nslookup_dig",
+      "difficulty": "medium"
     }
   ]
 }

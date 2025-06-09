@@ -108,7 +108,9 @@ export class ErrorService {
     getLogger().debug(
       'Hata servisi başlatıldı',
       'ErrorService.constructor',
-      { 
+      undefined, // file
+      undefined, // line
+      { // meta
         environment: process.env.NODE_ENV,
         reportingEnabled: !!this.reportingEndpoint 
       }
@@ -452,19 +454,30 @@ export class ErrorService {
   captureNetworkError(error: Record<string, unknown>, context?: Record<string, unknown>): ErrorInfo {
     // Axios hatası mı kontrol et
     const isAxiosError = error && error.isAxiosError;
-    
+
     // Hata mesajını belirle
     let message = 'Ağ hatası';
     let code: string | number | undefined;
     let severity = ErrorSeverity.MEDIUM;
-    
+
+    // Try to get a more specific message from the error object
+    if (error && typeof error.message === 'string' && error.message) {
+      message = error.message as string;
+    }
+
     if (isAxiosError) {
       // Axios hata detayları
       const response = error.response as { status?: number; data?: { message?: string } } | undefined;
       const status = response?.status;
       code = status || (error.code as string | number | undefined);
-      message = response?.data?.message || (error.message as string) || message;
-      
+      // Use response message if available and more specific, otherwise keep the already set message
+      if (response?.data?.message) {
+        message = response.data.message;
+      } else if (error.message && typeof error.message === 'string') {
+        // Keep the general error.message if no specific Axios response message
+        message = error.message as string;
+      }
+
       // Durum koduna göre ciddiyet belirle
       if (status) {
         if (status >= 500) {
@@ -475,17 +488,26 @@ export class ErrorService {
           severity = ErrorSeverity.LOW;
         }
       }
-      
+
       // Bağlantı hatalarını yüksek ciddiyette işaretle
       if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
         severity = ErrorSeverity.HIGH;
+        // Provide a more user-friendly message for common network issues
+        message = 'Sunucuya bağlanırken bir sorun oluştu. Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.';
       }
-    } else if ((error.error instanceof TypeError) && (error.error as TypeError).message.includes('fetch')) {
+    } else if (error.error instanceof Error && typeof (error.error as Error).message === 'string' && (error.error as Error).message.includes('fetch')) {
       // Fetch API hatası
-      message = `Fetch hatası: ${(error.error as TypeError).message}`;
+      message = `Fetch hatası: ${(error.error as Error).message}`;
       severity = ErrorSeverity.HIGH;
+    } else if (error instanceof Error && error.message) {
+      // General Error object
+      message = error.message;
+      if (error.name === 'TypeError') { // Example: Failed to fetch
+        severity = ErrorSeverity.HIGH;
+      }
     }
-    
+
+
     return this.captureError({
       message,
       code,
@@ -493,9 +515,10 @@ export class ErrorService {
       severity,
       context: {
         ...context,
-        url: isAxiosError ? (error.config as { url?: string })?.url : undefined,
-        method: isAxiosError ? (error.config as { method?: string })?.method : undefined,
-        status: isAxiosError ? (error.response as { status?: number })?.status : undefined
+        originalError: error, // Ensure the original error object is logged
+        url: isAxiosError ? (error.config as { url?: string })?.url : (context?.url as string || undefined),
+        method: isAxiosError ? (error.config as { method?: string })?.method : (context?.method as string || undefined),
+        status: isAxiosError ? (error.response as { status?: number })?.status : (context?.status as number || undefined)
       }
     });
   }
@@ -840,12 +863,12 @@ export class ErrorService {
       if (typeof error === 'object' && error !== null) {
         try {
           const errorStr = JSON.stringify(error);
-          getLoggerInstance().error(errorStr, "ErrorService.showToast", { title, description, context: sourceContext });
+          getLoggerInstance().error(errorStr, "ErrorService.showToast", undefined, undefined, { title, description, context: sourceContext });
         } catch (_ignored) {
-          getLoggerInstance().error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
+          getLoggerInstance().error(String(error), "ErrorService.showToast", undefined, undefined, { title, description, context: sourceContext });
         }
       } else {
-        getLoggerInstance().error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
+        getLoggerInstance().error(String(error), "ErrorService.showToast", undefined, undefined, { title, description, context: sourceContext });
       }
       
       // Belge metni hatalarına özel mesajlar
@@ -919,4 +942,4 @@ export class ErrorService {
 
 // Singleton instance oluştur ve export et
 const errorService = new ErrorService();
-export default errorService; 
+export default errorService;

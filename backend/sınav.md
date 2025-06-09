@@ -1,8 +1,8 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T11:23:50.128Z
+## Tarih: 2025-06-09T12:00:47.173Z
 
-## Trace ID: quiz-1749468230090-jizz1
+## Trace ID: quiz-1749470447120-920ii
 
 ## Alt Konular (8 adet):
 ```
@@ -10,11 +10,11 @@
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm Kavramı** (2 soru)
-4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
+2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
+3. **Ağ Bağlantısı Testi Ping** (2 soru)
+4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
+5. **Dns Sorgulama Nslookup Dig** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Yol Takibi Traceroute
+2. Ağ İ Stekleri Curl
+3. Dosya İ Ndirme Wget
 
 ```
 
@@ -50,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm Kavramı** (2 soru)
-4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Ağ Yönetimi Ve İ Zleme** (2 soru)
+2. **Ağ Arayüzü Yapılandırması İfconfiğiip** (2 soru)
+3. **Ağ Bağlantısı Testi Ping** (2 soru)
+4. **Ağ Bağlantılarını Görüntüleme Netstat Ss** (2 soru)
+5. **Dns Sorgulama Nslookup Dig** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,9 +62,9 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Yol Takibi Traceroute
+2. Ağ İ Stekleri Curl
+3. Dosya İ Ndirme Wget
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -77,111 +77,97 @@ bilal@atauni.edu.tr
 
 
 
-4. Hafta
+3.Hafta
 
 
-Sanallaştırma Nedir?
+Temel Linux Komutları-3
 
-Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir.
+Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
+duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
 
-Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı
-kullanır ve tek bir bilgisayarın donanım parçalarının (işlemciler, bellek, depolama vb.) sanal
-makineler (VM'ler) olarak da bilinen birkaç sanal bilgisayara ayrılmasına olanak tanır [1] .
-
-Sanal Makine Nedir ?
-
-Sanal makineler (VM'ler), sanallaştırma teknolojisinin önemli bir parçasıdır ve esasen tek bir
-fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder. Fiziksel sunucunun bellek ve
-işlem gücü gibi kaynaklarını farklı VM'ler arasında paylaşmak ve tahsis etmek için
-hypervisor
-verilen yazılımı kullanırlar [2].
-
-Hypervisor Nedir ?
-
-Hypervisor, sanal makineler (VM'ler) oluşturan ve çalıştıran bir yazılımdır. Bir hypervisor,
-hypervisor işletim sistemini ve kaynaklarını sanal makinelerden izole eder ve bu VM'lerin
-oluşturulmasını ve yönetilmesini sağlar.
-Hypervisor yüklü fiziksel donanıma host ve bunun üzerindeki sanal makinelere de guest adı
-verilir.
-Hypervisor tarafından tahsis edilmek üzere kullanabileceği işlemci, bellek, depolama gibi
-kaynaklara
-pool ismi verilir.
-Tüm hypervisor’lerin, VM'leri çalıştırmak için bellek yöneticisi, işlem zamanlayıcı, giriş/çıkış (G/Ç)
-yığını, aygıt sürücüleri, güvenlik yöneticisi, ağ yığını ve daha fazlası gibi bazı işletim sistemi
-düzeyindeki bileşenlere ihtiyacı vardır.
-Hypervisor, her sanal makineye kaynak tahsis eder ve VM kaynaklarının fiziksel kaynaklara göre
-zamanlamasını yönetir.Yürütmeyi hala fiziksel donanım yapıyor, dolayısıyla hypervisor programı
-yönetirken fiziksel CPU hala VM'ler tarafından talep edildiği şekilde CPU talimatlarını yürütür.
+3. Ağ yönetimi ve izleme
+●
+ifconfig
+(İnterface Configuration)
+Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
+Örnek: ifconfig (Ağ arayüzlerini listeleme)
+Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
+●
+ip
+(Ağ yapılandırması)
+Örnek: ip addr show Ağ arayüzlerini listeleme
+Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
+Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
+●
+ping
+(Ağ Bağlantısını Test Etme)
+Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
+Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
+Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
+●
+netstat
+(Ağ Bağlantılarını Görüntüleme)
+Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
+Örnek: netstat Mevcut bağlantıları listeleme
 
 
-Birden fazla farklı işletim sistemi yan yana çalışabilir ve aynı sanallaştırılmış donanım
-kaynaklarını bir hypervisor sayesinde paylaşabilir. Bu, sanallaştırmanın önemli bir avantajıdır.
-Sanallaştırma olmadan donanım üzerinde yalnızca 1 işletim sistemi çalıştırılabilir.
-Hypervisor yazılımının ticari ve açık kaynak kodlu olmak üzere farklı seçenekleri mevcuttur.
-VMware, sanallaştırma için popüler bir ticari yazılımdır ve ESXi hypervisor yazılımını ve vSphere
-sanallaştırma platformunu sunmaktadır.
-Kernel-based Virtual Machine (KVM) bir açık kaynak hypervisor seçeneğidir. Linux çekirdeği ile
-birlikte gelmektedir. Ayrıca Xen ve Microsoft Hyper-V diğer hypervisor seneçekleridir.
+Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
+Örnek: netstat -i Ağ istatistiklerini görüntüleme
+●
+ss
+(Socket Statistiği)
+ss
+komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
+netstat
+komutunun
+modern bir alternatifi olarak kabul edilir.
+Örnek: ss -t Mevcut TCP bağlantılarını listeleme
+Örnek: ss -l Dinleyen soketleri listeleme
+Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
 
-Hypervisor Tipleri
-Sanallaştırmada kullanılan hypervisor ler 2 tiptir. Bunlar; tip-1 ve tip-2 olarak ayrılmaktadır.
-Tip-1 Hypervisor
-Tip-1 hypervisor aynı zamanda native yada bare metal olarakta isimlendirilmektedir. Direk host
-üzerinde çalışır ve guest işletim sistemlerini yönetir. Host üzerindeki donanım kaynakları
-hypervisor tarafından yönetilir
-Tip-1 hypervisor türü daha çok kurumsal veri merkezlerinde veya benzeri sunucu tabanlı
-ortamlarda yaygın olarak kullanılmaktadır.
-KVM, Microsoft Hyper-V, ve VMware vSphere tip-1 hypervisor örnekleridir. KVM 2007 yılında
-linux ile tümleşik dağıtılmaya başlanmıştır.
-
-Şekil-1: Tip-1 Sanallaştırma mimarisi
-
-
-
-Tip-2
-Tip-2 hypervisor, hosted hypervisor olarak da bilinmektedir. Tip-2 hypervisor, geleneksel
-işletim sistemleri üzerinde bir yazılım katmanı yada uygulama olarak çalışmaktadır.
-Konuk işletim sistemlerini ana işletim sisteminden soyutlayarak çalışır.
-Tip-2 hypervisor, kişisel bilgisayarda birden fazla işletim sistemini çalıştırmak isteyen bireysel
-kullanıcılar için iyi bir seçenektir.
-VMware Workstation ve Oracle VirtualBox tip-2 hypervisor için iki örnektir [3].
-
-
-Şekil-2: Tip-2 Sanallaştırma mimarisi
-Sanallaştırma Türleri
-
-● Desktop virtualization
-● Storage virtualization
-● Network virtualization
-● Data virtualization
-● Application virtualization
-● Data center virtualization
-● CPU virtualization
-● GPU virtualization
-● Linux virtualization
-● Cloud virtualization
+●
+traceroute
+(Yol Takibi)
+Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
+Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
+●
+nslookup
+(DNS Sorgulama)
+DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
+Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
+●
+dig
+(Domain Information Groper)
+dig
+, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
+Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
+Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
+●
+route
+(Yönlendirme Tablosu)
+Ağ yönlendirme tablosunu yönetmek için kullanılır.
+Örnek: route -n Yönlendirme tablosunu görüntüleme
+●
+curl
+(Ağ İstekleri)
+Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
 
 
+Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
+●
+wget
+(Dosya İndirme)
+Ağ üzerinden dosya indirmek için kullanılan komut.
+wget
+https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
+020/07/Akademik-Takvim_2024_2025_17052024.pdf
+●
+mtr
+(Ping ve Traceroute Kombinasyonu)
+Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
+Örnek: mtr google.com
+Hedefe mtr ile izleme
 
-Desktop virtualization (Masaüstü Sanallaştırma)
-
-Masaüstü sanallaştırma teknolojisi fiziksel istemci cihazından masaüstü ortamını ayırır. Fiziksel
-cihaz olarak bir kişisel bilgisayar yada thin client kullanılabilirken kullanıcının masaüstü merkezi
-bir sunucuda barındırılmaktadır. Bu teknoloji, kullanıcıların çeşitli cihaz ve konumlardan
-masaüstlerine erişmesine ve bunlarla etkileşime girmesine olanak tanır [4].
-
-Masaüstü sanallaştırma iki farklı biçime sahiptir:
-1. Virtual desktop infrastructure (VDI): Birden fazla masaüstü merkezi sunucularda
-barındırılan sanal makineler üzerinde çalışır ve onlara thin client lar üzerinden erişmek
-isteyen kullanıcılara servis edilir. Bu şekilde VDI, bir kuruluşun kullanıcılarına, herhangi
-bir cihaza işletim sistemi kurmadan, herhangi bir cihazdan çeşitli işletim sistemlerine
-erişim sağlamasını imkan verir [1].
-
-
-Şekil-3: VDI tipi masaüstü sanallaştırma
-
-2. Local Desktop virtualization: Yerel bir bilgisayarda bir hypervisor çalıştırarak kullanıcının
-o bilgisayarda ...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -356,42 +342,42 @@ o bilgisayarda ...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Sanallaştırma Temelıkavramları: 2 soru
-  - Sanallaştırma Tanımı Ve Amacı: 2 soru
-  - Sanal Makine Vm Kavramı: 2 soru
-  - Hypervisorun Rolü Ve İ Şlevi: 2 soru
-  - Tip 1 Hypervisor Bare Metal: 2 soru
+  - Ağ Yönetimi Ve İ Zleme: 2 soru
+  - Ağ Arayüzü Yapılandırması İfconfiğiip: 2 soru
+  - Ağ Bağlantısı Testi Ping: 2 soru
+  - Ağ Bağlantılarını Görüntüleme Netstat Ss: 2 soru
+  - Dns Sorgulama Nslookup Dig: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Sanallaştırma Temelıkavramları:
-- Soru: Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?
-- Seçenekler: Donanım maliyetlerini artırmak | Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak | Yazılım karmaşıklığını azaltmak | Enerji tüketimini artırmak
-- Doğru Cevap: Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak
+#### Ağ Yönetimi Ve İ Zleme:
+- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
+- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucularına sorgu göndermek | Ağ üzerindeki dosya indirme işlemlerini gerçekleştirmek | Ağ bağlantılarının istatistiklerini görüntülemek
+- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
 - Zorluk: easy
 
-#### Sanallaştırma Tanımı Ve Amacı:
-- Soru: Sanallaştırmanın temel amacı nedir?
-- Seçenekler: Tek bir işletim sistemini birden fazla donanım üzerinde çalıştırmak | Donanım kaynaklarını daha verimli kullanarak maliyetleri düşürmek ve esnekliği artırmak | İşletim sistemlerini donanımlardan bağımsız hale getirmek | Yazılım geliştirme süreçlerini hızlandırmak
-- Doğru Cevap: Donanım kaynaklarını daha verimli kullanarak maliyetleri düşürmek ve esnekliği artırmak
-- Zorluk: medium
-
-#### Sanal Makine Vm Kavramı:
-- Soru: Sanal makine (VM) nedir?
-- Seçenekler: Fiziksel bir sunucunun birebir kopyası | Tek bir fiziksel sunucu içinde çalışan ayrı bir sanal bilgisayar | Bir işletim sistemi türü | Bir ağ protokolü
-- Doğru Cevap: Tek bir fiziksel sunucu içinde çalışan ayrı bir sanal bilgisayar
+#### Ağ Arayüzü Yapılandırması İfconfiğiip:
+- Soru: Aşağıdaki komutlardan hangisi bir ağ arayüzüne ait IP adresini görüntülemek için kullanılır?
+- Seçenekler: ifconfig eth0 | ping eth0 | netstat eth0 | ss eth0
+- Doğru Cevap: ifconfig eth0
 - Zorluk: easy
 
-#### Hypervisorun Rolü Ve İ Şlevi:
-- Soru: Hypervisor'un temel işlevi nedir?
-- Seçenekler: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak | Fiziksel donanımı yönetmek | Ağ trafiğini yönlendirmek | Veritabanı işlemlerini gerçekleştirmek
-- Doğru Cevap: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak
-- Zorluk: medium
+#### Ağ Bağlantısı Testi Ping:
+- Soru: 'ping' komutu hangi amaçla kullanılır?
+- Seçenekler: Ağ bağlantısını test etmek | DNS sunucusuna sorgu göndermek | Ağ arayüzlerini yapılandırmak | Dosya indirme işlemlerini gerçekleştirmek
+- Doğru Cevap: Ağ bağlantısını test etmek
+- Zorluk: easy
 
-#### Tip 1 Hypervisor Bare Metal:
-- Soru: Tip 1 hypervisor'ler için aşağıdaki ifadelerden hangisi doğrudur?
-- Seçenekler: İşletim sistemi üzerinde uygulama olarak çalışır. | Doğrudan donanım üzerinde çalışır. | Kişisel bilgisayarlarda daha yaygın kullanılır. | Kaynakları ana işletim sistemi üzerinden yönetir.
-- Doğru Cevap: Doğrudan donanım üzerinde çalışır.
-- Zorluk: medium
+#### Ağ Bağlantılarını Görüntüleme Netstat Ss:
+- Soru: 'netstat' komutu hangi bilgileri sağlar?
+- Seçenekler: Sadece aktif ağ bağlantılarını | Ağ bağlantıları ve istatistikleri hakkında bilgi | Sadece DNS sunucu bilgilerini | Sadece dosya indirme hızlarını
+- Doğru Cevap: Ağ bağlantıları ve istatistikleri hakkında bilgi
+- Zorluk: easy
+
+#### Dns Sorgulama Nslookup Dig:
+- Soru: 'nslookup' komutu ne işe yarar?
+- Seçenekler: Bir alan adının IP adresini DNS sunucusu üzerinden sorgular | Ağ bağlantısını test eder | Ağ arayüzlerini yapılandırır | Dosya indirme işlemlerini gerçekleştirir
+- Doğru Cevap: Bir alan adının IP adresini DNS sunucusu üzerinden sorgular
+- Zorluk: easy
 

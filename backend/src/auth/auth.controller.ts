@@ -420,7 +420,7 @@ export class AuthController {
     res.cookie('access_token', token, {
       httpOnly: true,
       secure: this.authService.isProduction(),
-      sameSite: 'lax',
+      sameSite: 'lax', // Remains 'lax'
       maxAge: this.authService.getAccessTokenExpiresInMs(),
       path: '/',
     });
@@ -430,9 +430,10 @@ export class AuthController {
     res.cookie('refresh_token', token, {
       httpOnly: true,
       secure: this.authService.isProduction(),
-      sameSite: 'strict',
+      sameSite: 'lax', // Changed from 'strict' to 'lax'
       maxAge: this.authService.getRefreshTokenExpiresInMs(),
-      path: '/api/auth/refresh-token',
+      // path: '/api/auth/refresh-token', // Path changed to '/'
+      path: '/', // Changed path to '/' for broader applicability
     });
   }
 
@@ -440,28 +441,31 @@ export class AuthController {
     res.clearCookie('access_token', {
       httpOnly: true,
       secure: this.authService.isProduction(),
-      sameSite: 'lax',
+      sameSite: 'lax', // Remains 'lax'
       path: '/',
     });
     res.clearCookie('refresh_token', {
       httpOnly: true,
       secure: this.authService.isProduction(),
-      sameSite: 'strict',
-      path: '/api/auth/refresh-token',
+      sameSite: 'lax', // Changed from 'strict' to 'lax'
+      // path: '/api/auth/refresh-token', // Path changed to '/'
+      path: '/', // Ensure this matches the set path
     });
 
     // Ek olarak kök yolda da refresh_token'ı temizleyelim (tarayıcıda kalma sorunu için)
+    // This second clear for refresh_token might be redundant now if the primary path is '/'
+    // but keeping it for now to ensure thorough clearing.
     res.clearCookie('refresh_token', {
       httpOnly: true,
       secure: this.authService.isProduction(),
-      sameSite: 'lax',
+      sameSite: 'lax', // Ensures consistency
       path: '/',
     });
 
     res.clearCookie('auth_session', {
       httpOnly: false,
       secure: this.authService.isProduction(),
-      sameSite: 'lax',
+      sameSite: 'lax', // Remains 'lax'
       path: '/',
     });
 

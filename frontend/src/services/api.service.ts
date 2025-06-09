@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosInstance } from "axios";
 import { auth } from "@/app/firebase/config";
-import { ErrorService } from "./error.service";
-import { FlowCategory, FlowTrackerService } from "./flow-tracker.service"; 
+import ErrorService from "./error.service"; // Changed from { ErrorService }
+import { FlowCategory } from "./flow-tracker.service"; // Removed FlowTrackerService import
 import { getLogger, getFlowTracker } from "../lib/logger.utils";
-import { LoggerService } from "./logger.service";
+import LoggerService from "./logger.service"; // Changed from { LoggerService }
 
 let API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 // Hata ayıklama için API URL logla
@@ -47,7 +47,6 @@ export const checkApiAvailability = async (
   const logger = getLogger();
   const flowTracker = getFlowTracker();
   
-  flowTracker.trackStep(FlowCategory.API, 'API erişilebilirlik kontrolü başladı', 'checkApiAvailability'); // Use FlowCategory
   
   const initialRetryDelay = 100; 
   const maxRetries = 8; 
@@ -152,7 +151,6 @@ export const checkApiAvailability = async (
   const errorMsg = "API sunucusuna erişilemiyor. Lütfen backend servisinin çalıştığından emin olun.";
   ErrorService.showToast(errorMsg, "error");
   logger.error(errorMsg, 'checkApiAvailability', new Error(errorMsg)); // Pass an Error object
-  flowTracker.trackStep(FlowCategory.API, 'Hiçbir API portu aktif değil!', 'checkApiAvailability'); // Use FlowCategory
   
   // This function must return a string as per its signature.
   // If no API is available after all checks, returning the initial/default API_URL 
@@ -213,6 +211,9 @@ const TOKEN_CACHE = {
  * @returns Firebase ID Token
  */
 const getAuthToken = async (): Promise<string | null> => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   const now = Date.now();
 
   // Eğer başka bir token yenileme işlemi devam ediyorsa, o işlemin tamamlanmasını bekle
@@ -237,7 +238,7 @@ const getAuthToken = async (): Promise<string | null> => {
       'ApiService.getAuthToken',
     );
     // Önbellekteki token varsa kullan, yoksa localStorage'dan oku
-    return TOKEN_CACHE.token || localStorage.getItem("auth_token");
+    return TOKEN_CACHE.token || (typeof window !== "undefined" ? localStorage.getItem("auth_token") : null);
   }
 
   // Token yenileme işlemi başlat
@@ -250,7 +251,7 @@ const getAuthToken = async (): Promise<string | null> => {
       const currentUser = auth.currentUser;
       if (!currentUser) {
         // Kullanıcı yoksa localStorage'dan token'ı dene
-        TOKEN_CACHE.token = localStorage.getItem("auth_token");
+        TOKEN_CACHE.token = (typeof window !== "undefined" ? localStorage.getItem("auth_token") : null);
         return TOKEN_CACHE.token;
       }
 
@@ -268,7 +269,7 @@ const getAuthToken = async (): Promise<string | null> => {
       console.error("Token alma hatası:", error);
 
       // Hata durumunda localStorage'dan token'ı dene
-      TOKEN_CACHE.token = localStorage.getItem("auth_token");
+      TOKEN_CACHE.token = (typeof window !== "undefined" ? localStorage.getItem("auth_token") : null);
       return TOKEN_CACHE.token;
     } finally {
       // Token yenileme işlemini sonlandır
@@ -532,7 +533,7 @@ class ApiService {
    */
   private readonly client: AxiosInstance;
   private readonly logger: LoggerService;
-  private readonly flowTracker: FlowTrackerService;
+  private readonly flowTracker: any; // Changed from FlowTrackerService to any
 
   constructor(client: AxiosInstance) {
     this.client = client;
@@ -542,7 +543,9 @@ class ApiService {
     this.logger.info(
       'ApiService başlatıldı',
       'ApiService.constructor',
-      0
+      undefined, // file
+      undefined, // line
+      undefined // meta
     );
     
     this.flowTracker.trackStep(FlowCategory.API, 'ApiService başlatıldı', 'ApiService.constructor');
@@ -567,7 +570,9 @@ class ApiService {
     this.logger.debug(
       `GET ${endpoint} isteği başlatılıyor`,
       'ApiService.get',
-    
+      undefined, // file
+      undefined, // line
+      undefined // meta
     );
     
     this.flowTracker.trackStep(FlowCategory.API, `GET ${endpoint} isteği başlatılıyor`, 'ApiService.get');
@@ -593,7 +598,9 @@ class ApiService {
       this.logger.debug(
         `GET ${endpoint} isteği tamamlandı (${Math.round(endTime - startTime)}ms)`,
         'ApiService.get',
-        
+        undefined, // file
+        undefined, // line
+        undefined // meta
       );
       
       this.flowTracker.trackStep(FlowCategory.API, `GET ${endpoint} isteği tamamlandı`, 'ApiService.get');
@@ -630,7 +637,8 @@ class ApiService {
       this.logger.debug(
         `POST isteği başlatıldı: ${endpoint}`,
         'ApiService.post',
-        410,
+        undefined, // file
+        undefined, // line
         { dataKeys: typeof data === 'object' ? Object.keys(data) : 'array' }
       );
       
@@ -675,8 +683,8 @@ class ApiService {
       this.logger.debug(
         `POST isteği tamamlandı: ${endpoint}`,
         'ApiService.post',
-      
-        420,
+        undefined, // file
+        undefined, // line
         { status: response.status }
       );
       
@@ -735,8 +743,8 @@ class ApiService {
       this.logger.debug(
         `PUT isteği başlatıldı: ${endpoint}`,
         'ApiService.put',
-      
-        447,
+        undefined, // file
+        undefined, // line
         { dataKeys: typeof data === 'object' ? Object.keys(data) : 'array' }
       );
       
@@ -747,8 +755,8 @@ class ApiService {
       this.logger.debug(
         `PUT isteği tamamlandı: ${endpoint}`,
         'ApiService.put',
-     
-        457,
+        undefined, // file
+        undefined, // line
         { status: response.status }
       );
       
@@ -773,8 +781,9 @@ class ApiService {
       this.logger.debug(
         `DELETE isteği başlatıldı: ${endpoint}`,
         'ApiService.delete',
-   
-        '478'
+        undefined, // file
+        undefined, // line
+        undefined // meta
       );
       
       const response = await this.client.delete<T>(endpoint);
@@ -784,8 +793,8 @@ class ApiService {
       this.logger.debug(
         `DELETE isteği tamamlandı: ${endpoint}`,
         'ApiService.delete',
-       
-        '487',
+        undefined, // file
+        undefined, // line
         { status: response.status }
       );
       
@@ -806,8 +815,8 @@ class ApiService {
     this.logger.error(
       `API hatası: ${context}`,
       'ApiService.handleError',
-    
-      508,
+      undefined, // file
+      undefined, // line
       { error: this.formatError(error) }
     );
     
@@ -823,8 +832,8 @@ class ApiService {
         this.logger.warn(
           `Yetkilendirme hatası: ${status}`,
           'ApiService.handleError',
-     
-          521,
+          undefined, // file
+          undefined, // line
           { endpoint: error.config?.url }
         );
         
@@ -929,7 +938,7 @@ class ApiService {
           // Hızlı sınav API'si için temel bir yanıt sağlayın
           return {
             id: `mock_quiz_${Date.now()}`,
-            questions: this.createMockQuestions(),
+            questions: [], // Removed this.createMockQuestions() call
             timestamp: new Date().toISOString(),
             quizType: 'quick',
             status: 'Unauthorized but continuing',
@@ -941,9 +950,7 @@ class ApiService {
           const currentPath = window.location.pathname + window.location.search;
           sessionStorage.setItem('redirectAfterLogin', currentPath);
           // Client-side yönlendirme için toast ekle
-          if (this.toast) {
-            this.toast.error("Oturum süreniz dolmuş. Giriş sayfasına yönlendiriliyorsunuz.");
-          }
+          ErrorService.showToast("Oturum süreniz dolmuş. Giriş sayfasına yönlendiriliyorsunuz.", "error"); // Replaced this.toast.error
           
           // Yönlendirmeyi zamanlı yap
           setTimeout(() => {
@@ -968,7 +975,7 @@ class ApiService {
         console.warn("[ApiService.handleAxiosError] Hızlı sınav için network hatası yok sayılıyor");
         return {
           id: `offline_quiz_${Date.now()}`,
-          questions: this.createMockQuestions(),
+          questions: [], // Removed this.createMockQuestions() call
           timestamp: new Date().toISOString(),
           quizType: 'quick',
           status: 'Offline mode',

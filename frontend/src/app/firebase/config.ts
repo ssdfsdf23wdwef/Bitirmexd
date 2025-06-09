@@ -12,7 +12,7 @@ import {
 import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage, FirebaseStorage, connectStorageEmulator } from "firebase/storage";
 
-import { LoggerService } from "@/services/logger.service";
+import LoggerService from "@/services/logger.service"; // Changed from { LoggerService }
 import { trackFlow } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
 

@@ -20,7 +20,7 @@ import documentService from "@/services/document.service";
 import { useRouter } from "next/navigation";
 import ErrorService from "@/services/error.service";
 import { DetectedSubTopic } from "@/types/learningTarget.type";
-import { trackFlow, prettyLogError, logInfo, logDebug } from "@/lib/logger.utils";
+import { trackFlow, prettyLogError, logInfo } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
 
 export enum DocumentFlowStep {
@@ -94,18 +94,7 @@ export default function DocumentFlow({
       const endTime = performance.now();
       const duration = endTime - startTime;
       
-      logDebug(
-        `Belge yüklendi ve konular tespit edildi (${duration.toFixed(2)}ms)`,
-        "DocumentFlow.handleFileUpload",
-        __filename,
-        undefined,
-        { 
-          documentId: result.document.id,
-          fileName: result.document.fileName,
-          topicCount: result.topics.length,
-          duration: `${duration.toFixed(2)}ms` 
-        }
-      );
+    
       
       setUploadedDocument(result.document);
       
@@ -149,17 +138,7 @@ export default function DocumentFlow({
         selectedTopicIds.includes(topic.id || topic.normalizedSubTopicName)
       );
       
-      logDebug(
-        `Konu seçimi tamamlandı: ${filteredTopics.length} konu seçildi`,
-        "DocumentFlow.handleTopicsSelected",
-        __filename,
-        undefined,
-        { 
-          totalTopicCount: selectedTopics.length,
-          selectedTopicCount: filteredTopics.length,
-          selectedTopics: filteredTopics.map(t => t.subTopicName)
-        }
-      );
+     
       
       trackFlow(
         `${filteredTopics.length} konu seçildi`,
@@ -223,11 +202,7 @@ export default function DocumentFlow({
       // Sınav oluşturma başlangıç zamanı
       const startTime = performance.now();
       
-      logDebug(
-        `QuizzesService.createQuiz API isteği gönderiliyor`,
-        "DocumentFlow.handleCreateQuiz",
-        __filename
-      );
+     
       
       // Sınav oluşturma isteği
       const result = await documentService.createQuizFromDocument(
@@ -270,11 +245,7 @@ export default function DocumentFlow({
         const resultAsRecord: Record<string, unknown> = { ...result };
         onComplete(resultAsRecord);
         
-        logDebug(
-          `onComplete callback çağrıldı`,
-          "DocumentFlow.handleCreateQuiz",
-          __filename
-        );
+       
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "Sınav oluşturulurken bir hata oluştu.";
@@ -327,13 +298,7 @@ export default function DocumentFlow({
 
   // İlk yükleme sırasında loglama
   useEffect(() => {
-    logDebug(
-      `DocumentFlow bileşeni yüklendi`,
-      "DocumentFlow.useEffect",
-      __filename,
-      undefined,
-      { courseId, step: currentStep }
-    );
+    
     
     trackFlow(
       `Belge yükleme ve sınav oluşturma akışı başlatıldı`,
@@ -648,4 +613,4 @@ export default function DocumentFlow({
       </CardBody>
     </Card>
   );
-} 
+}

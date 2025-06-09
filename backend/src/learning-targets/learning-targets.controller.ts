@@ -297,8 +297,6 @@ export class LearningTargetsController {
     }
   }
 
-  // Removed duplicate findByCourse method - use getByCourse instead
-  
   @Post('propose-new')
   @ApiOperation({
     summary: 'Yeni konular önermek için AI kullanır',
@@ -658,48 +656,6 @@ export class LearningTargetsController {
         undefined,
         error,
       );
-      throw error;
-    }
-  }
-
-  @Get('by-course/:courseId')
-  @ApiOperation({
-    summary:
-      'Bir derse ait tüm öğrenme hedeflerini listeler (path parametresi ile)',
-  })
-  @ApiParam({ name: 'courseId', description: "Ders ID'si", type: String })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Öğrenme hedefleri başarıyla listelendi',
-    schema: {
-      type: 'array',
-      items: { $ref: getSchemaPath(LearningTargetWithQuizzesResponse) },
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Ders bulunamadı',
-  })
-  @LogMethod()
-  async findByCourse(
-    @Param('courseId') courseId: string,
-    @Req() req: RequestWithUser,
-  ) {
-    try {
-      this.flowTracker.trackStep(
-        `${courseId} ID'li derse ait öğrenme hedefleri alınıyor`,
-        'LearningTargetsController.findByCourse',
-      );
-      return await this.learningTargetsService.findByCourse(
-        courseId,
-        req.user.uid,
-      );
-    } catch (error) {
-      this.logger.logError(error, 'LearningTargetsController.findByCourse', {
-        userId: req.user.uid,
-        courseId,
-        additionalInfo: 'Derse ait öğrenme hedefleri alınırken hata oluştu',
-      });
       throw error;
     }
   }

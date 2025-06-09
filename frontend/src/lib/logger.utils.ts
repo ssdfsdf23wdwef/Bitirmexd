@@ -374,3 +374,93 @@ export function startFlow(category: FlowCategory, name: string): any {
     };
   }
 }
+
+// Add exports for logInfo, logDebug, and prettyLogError
+
+/**
+ * Bilgilendirme mesajı loglar
+ * @param message Log mesajı
+ * @param context Log konteksti (dosya adı veya bileşen adı)
+ * @param file Dosya adı (otomatik olarak alınır)
+ * @param line Satır numarası (otomatik olarak alınır)
+ * @param metadata Ek metadata
+ */
+export function logInfo(
+  message: string,
+  context: string,
+  file?: string,
+  line?: string,
+  metadata?: any
+): void {
+  try {
+    const logger = getLogger();
+    if (logger) {
+      logger.info(message, context, file, line, metadata);
+    }
+  } catch (error) {
+    // Fallback to console logging if logger is not available
+    console.info(`[INFO] [${context}] ${message}`, metadata || '');
+  }
+}
+
+/**
+ * Hata ayıklama mesajı loglar
+ * @param message Log mesajı
+ * @param context Log konteksti (dosya adı veya bileşen adı)
+ * @param file Dosya adı (otomatik olarak alınır)
+ * @param line Satır numarası (otomatik olarak alınır)
+ * @param metadata Ek metadata
+ */
+export function logDebug(
+  message: string,
+  context: string,
+  file?: string,
+  line?: string,
+  metadata?: any
+): void {
+  try {
+    const logger = getLogger();
+    if (logger) {
+      logger.debug(message, context, file, line, metadata);
+    }
+  } catch (error) {
+    // Fallback to console logging if logger is not available
+    console.debug(`[DEBUG] [${context}] ${message}`, metadata || '');
+  }
+}
+
+/**
+ * Hata mesajını loglar ve opsiyonel olarak kullanıcıya gösterir
+ * @param error Hata nesnesi
+ * @param context Hata konteksti (dosya adı veya bileşen adı)
+ * @param metadata Ek metadata
+ * @param showErrorToast Kullanıcıya toast mesajı gösterilsin mi?
+ */
+export function prettyLogError(
+  error: Error,
+  context: string,
+  metadata?: any,
+  showErrorToast = false
+): void {
+  try {
+    const logger = getLogger();
+    if (logger) {
+      logger.error(error.message, context, undefined, undefined, {
+        stack: error.stack,
+        ...metadata,
+      });
+    }
+
+    if (showErrorToast) {
+      // ErrorService.showToast(error.message, "error"); // ErrorService dependency removed to avoid circular deps
+      console.error(`[Toast Error] ${error.message}`); // Fallback to console
+    }
+  } catch (loggingError) {
+    // Fallback to console logging if logger is not available
+    console.error(`[ERROR] [${context}] ${error.message}`, {
+      stack: error.stack,
+      ...metadata,
+      loggingError,
+    });
+  }
+}
