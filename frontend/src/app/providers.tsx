@@ -15,21 +15,24 @@ import { FlowCategory } from "@/constants/logging.constants";
 // Initialize logging only on client side
 let logger: any = null;
 if (typeof window !== 'undefined') {
+  const isProd = process.env.NODE_ENV === 'production';
   // Loglama ve akış izleme servislerini başlat
   const logSetup = setupLogging({
     loggerOptions: {
       level: 'info', // Use string instead of LogLevel.INFO to avoid SSR issues
-      enabled: true,
+      enabled: !isProd,
       consoleOutput: false,
-      sendLogsToApi: true,
+      sendLogsToApi: !isProd,
+      writeToLocalFile: !isProd,
     },
     flowTrackerOptions: {
-      enabled: true,
-      traceApiCalls: true,
-      traceStateChanges: true,
-      captureTimings: true,
+        enabled: !isProd,
+      traceApiCalls: !isProd,
+      traceStateChanges: !isProd,
+      captureTimings: !isProd,
       consoleOutput: false,
-      sendLogsToApi: true,
+      sendLogsToApi: !isProd,
+      writeToLocalFile: !isProd,
     }
   });
   logger = logSetup.logger;
