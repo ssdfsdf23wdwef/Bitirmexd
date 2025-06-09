@@ -1490,35 +1490,7 @@ export default function ExamPage() {
           ))}
         </div>
         
-        {/* Submit section at bottom */}
-        <div className="sticky bottom-6 flex justify-center mt-8 pb-4">
-          {allAnswered ? (
-            <button
-              onClick={handleSubmit} // This is the existing submit logic
-              disabled={isSubmitting}
-              className={`
-                px-10 py-4 rounded-xl font-bold text-lg shadow-2xl transition-all duration-200 flex items-center
-                bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white
-                ${isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:scale-105"}
-                ring-2 ring-brand-primary/30 hover:ring-4
-              `}
-              style={{ minWidth: 280 }}
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                  Gönderiliyor...
-                </>
-              ) : (
-                "Sınavı Tamamla ve Gönder"
-              )}
-            </button>
-          ) : (
-            <div className="px-8 py-3 rounded-lg bg-yellow-100 text-yellow-800 font-semibold shadow text-center animate-pulse">
-              Tüm soruları cevaplamadan sınavı tamamlayamazsınız.
-            </div>
-          )}
-        </div>
+    
 
         {/* New "Sınavı Bitir" button as per Prompt 3 */}
         <div className="flex justify-center">

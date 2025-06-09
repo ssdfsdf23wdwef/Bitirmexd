@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { determineLogFileCategory, getLogFileName, LogFileCategory, FlowCategory } from '@/constants/logging.constants';
 
 // Log dosyasının yolu
 const LOG_DIR = path.join(process.cwd(), 'logs');
-const FRONTEND_LOG_PATH = path.join(LOG_DIR, 'frontend-error.log');
 
 // Log dizininin varlığını kontrol et, yoksa oluştur
 if (!fs.existsSync(LOG_DIR)) {
@@ -24,7 +24,15 @@ export async function POST(req: NextRequest) {
     // Birden fazla log girişi mi yoksa tek bir giriş mi kontrol et
     const logs = Array.isArray(logData) ? logData : [logData];
     
-    let allLogEntries = '';
+    // Kategorilere göre logları grupla
+    const categorizedLogs: Record<LogFileCategory, any[]> = {
+      [LogFileCategory.LEARNING_TARGETS]: [],
+      [LogFileCategory.EXAM_CREATION]: [],
+      [LogFileCategory.AUTH]: [],
+      [LogFileCategory.DATA_TRANSFER]: [],
+      [LogFileCategory.NAVIGATION]: [],
+      [LogFileCategory.GENERAL]: []
+    };
     
     for (const log of logs) {
       if (!log || typeof log !== 'object') {
@@ -32,42 +40,77 @@ export async function POST(req: NextRequest) {
         continue;
       }
       
-      // Log mesajını formatlayarak dosyaya yaz
-      const { level, message, context, timestamp, details, metadata } = log;
-      
-      // Zaman damgası yoksa şu anki zamanı kullan
-      const logTime = timestamp || new Date().toISOString();
-      
-      // Log mesajını oluştur
-      let logEntry = `[${logTime}] [${(level || 'info').toUpperCase()}] [${context || 'Frontend'}] `;
-      
-      // Mesaj bir obje ise JSON string'e çevir
-      if (typeof message === 'object') {
-        logEntry += JSON.stringify(message);
-      } else {
-        logEntry += message || 'Boş mesaj';
+      // Flow kategorisini string'den enum'a dönüştür
+      let flowCategory: FlowCategory | undefined;
+      if (log.metadata?.flowCategory && typeof log.metadata.flowCategory === 'string') {
+        flowCategory = log.metadata.flowCategory as FlowCategory;
       }
       
-      // Detaylar varsa ekle
-      if (details) {
-        logEntry += `\n  Details: ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}`;
-      }
+      // Hangi kategoriye ait olduğunu belirle
+      const fileCategory = determineLogFileCategory(
+        log.context,
+        flowCategory,
+        log.message
+      );
       
-      // Metadata varsa ekle
-      if (metadata && typeof metadata === 'object' && Object.keys(metadata).length > 0) {
-        logEntry += `\n  Metadata: ${JSON.stringify(metadata, null, 2)}`;
-      }
-      
-      logEntry += '\n';
-      allLogEntries += logEntry;
+      categorizedLogs[fileCategory].push(log);
     }
     
-    if (allLogEntries) {
-      // Tüm log girişlerini dosyaya yaz
-      fs.appendFileSync(FRONTEND_LOG_PATH, allLogEntries);
+    let totalProcessed = 0;
+    
+    // Her kategori için ayrı dosyaya yaz
+    for (const [category, categoryLogs] of Object.entries(categorizedLogs)) {
+      if (categoryLogs.length === 0) continue;
+      
+      const fileName = getLogFileName(category as LogFileCategory);
+      const filePath = path.join(LOG_DIR, fileName);
+      
+      let allLogEntries = '';
+      
+      for (const log of categoryLogs) {
+        const { level, message, context, timestamp, details, metadata } = log;
+        
+        // Zaman damgası yoksa şu anki zamanı kullan
+        const logTime = timestamp || new Date().toISOString();
+        
+        // Log mesajını oluştur
+        let logEntry = `[${logTime}] [${(level || 'info').toUpperCase()}] [${context || 'Frontend'}] `;
+        
+        // Mesaj bir obje ise JSON string'e çevir
+        if (typeof message === 'object') {
+          logEntry += JSON.stringify(message);
+        } else {
+          logEntry += message || 'Boş mesaj';
+        }
+        
+        // Detaylar varsa ekle
+        if (details) {
+          logEntry += `\n  Details: ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}`;
+        }
+        
+        // Metadata varsa ekle
+        if (metadata && typeof metadata === 'object' && Object.keys(metadata).length > 0) {
+          logEntry += `\n  Metadata: ${JSON.stringify(metadata, null, 2)}`;
+        }
+        
+        logEntry += '\n';
+        allLogEntries += logEntry;
+      }
+      
+      if (allLogEntries) {
+        // Bu kategorideki tüm log girişlerini dosyaya yaz
+        fs.appendFileSync(filePath, allLogEntries);
+        totalProcessed += categoryLogs.length;
+      }
     }
     
-    return NextResponse.json({ success: true, processedLogs: logs.length });
+    return NextResponse.json({ 
+      success: true, 
+      processedLogs: totalProcessed,
+      categorizedCounts: Object.fromEntries(
+        Object.entries(categorizedLogs).map(([cat, logs]) => [cat, logs.length])
+      )
+    });
   } catch (error) {
     console.error('Frontend log yazma hatası:', error);
     return NextResponse.json({ error: 'Log yazılamadı' }, { status: 500 });
@@ -75,10 +118,29 @@ export async function POST(req: NextRequest) {
 }
 
 // Log dosyasını temizlemek için endpoint
-export async function DELETE() {
+export async function DELETE(req: NextRequest) {
   try {
-    fs.writeFileSync(FRONTEND_LOG_PATH, '');
-    return NextResponse.json({ success: true });
+    // Query parametresinden kategori alınabilir
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category');
+    
+    if (category && Object.values(LogFileCategory).includes(category as LogFileCategory)) {
+      // Belirli bir kategoriyi temizle
+      const fileName = getLogFileName(category as LogFileCategory);
+      const filePath = path.join(LOG_DIR, fileName);
+      fs.writeFileSync(filePath, '');
+      return NextResponse.json({ success: true, clearedCategory: category });
+    } else {
+      // Tüm kategorileri temizle
+      for (const cat of Object.values(LogFileCategory)) {
+        const fileName = getLogFileName(cat);
+        const filePath = path.join(LOG_DIR, fileName);
+        if (fs.existsSync(filePath)) {
+          fs.writeFileSync(filePath, '');
+        }
+      }
+      return NextResponse.json({ success: true, clearedCategories: 'all' });
+    }
   } catch (error) {
     console.error('Frontend log dosyası temizleme hatası:', error);
     return NextResponse.json({ error: 'Log dosyası temizlenemedi' }, { status: 500 });
@@ -86,14 +148,39 @@ export async function DELETE() {
 }
 
 // Log dosyasını okumak için endpoint
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    if (!fs.existsSync(FRONTEND_LOG_PATH)) {
-      return NextResponse.json({ logs: '' });
-    }
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category');
     
-    const logs = fs.readFileSync(FRONTEND_LOG_PATH, 'utf-8');
-    return NextResponse.json({ logs });
+    if (category && Object.values(LogFileCategory).includes(category as LogFileCategory)) {
+      // Belirli bir kategoriyi oku
+      const fileName = getLogFileName(category as LogFileCategory);
+      const filePath = path.join(LOG_DIR, fileName);
+      
+      if (!fs.existsSync(filePath)) {
+        return NextResponse.json({ logs: '', category });
+      }
+      
+      const logs = fs.readFileSync(filePath, 'utf-8');
+      return NextResponse.json({ logs, category });
+    } else {
+      // Tüm kategorilerdeki logları oku
+      const allLogs: Record<string, string> = {};
+      
+      for (const cat of Object.values(LogFileCategory)) {
+        const fileName = getLogFileName(cat);
+        const filePath = path.join(LOG_DIR, fileName);
+        
+        if (fs.existsSync(filePath)) {
+          allLogs[cat] = fs.readFileSync(filePath, 'utf-8');
+        } else {
+          allLogs[cat] = '';
+        }
+      }
+      
+      return NextResponse.json({ logs: allLogs });
+    }
   } catch (error) {
     console.error('Frontend log dosyası okuma hatası:', error);
     return NextResponse.json({ error: 'Log dosyası okunamadı' }, { status: 500 });

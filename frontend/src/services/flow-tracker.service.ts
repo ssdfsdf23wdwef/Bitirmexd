@@ -846,21 +846,6 @@ export class FlowTrackerService {
     try {
       localStorage.removeItem('frontend-flow-tracker.log');
       console.log('[FlowTracker] Tüm flow logları temizlendi');
-      
-      // Yerel dosyalardaki logları da temizle
-      if (this.configWriteToLocalFile) {
-        fetch('/api/logs/frontend', {
-          method: 'DELETE'
-        }).then(response => {
-          if (response.ok) {
-            console.log('[FlowTracker] Yerel log dosyaları da temizlendi');
-          } else {
-            console.warn('[FlowTracker] Yerel log dosyaları temizlenirken hata oluştu');
-          }
-        }).catch(error => {
-          console.error('[FlowTracker] Yerel log dosyaları temizlenirken hata:', error);
-        });
-      }
     } catch (error) {
       console.error('[FlowTracker] Log temizleme hatası:', error);
     }
@@ -899,43 +884,30 @@ export class FlowTrackerService {
     }
   }
 
-  private async writeQueuedLogsToLocalFile(): Promise<void> {
+  private writeQueuedLogsToLocalFile(): void {
     if (!this.configWriteToLocalFile || this.apiQueue.length === 0) {
       return;
     }
 
     try {
-    const logsToWrite = [...this.apiQueue];
-    this.apiQueue = []; // Kuyruğu temizle
+      const logsToWrite = [...this.apiQueue];
+      this.apiQueue = []; // Kuyruğu temizle
 
-      // Logları yerel dosyaya yazmak için API endpoint'e gönder
-      const response = await fetch('/api/logs/frontend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(logsToWrite.map(step => ({
-          timestamp: new Date(step.timestamp).toISOString(),
-          level: step.category === FlowCategory.Error ? 'error' : 'info',
-          message: `[${step.category}] [${step.context}] ${step.message}`,
-          context: `FlowTracker.${step.category}.${step.context}`,
-          metadata: step.metadata
-        }))),
-      });
+      // Her log adımını localStorage'a kaydet
+      for (const step of logsToWrite) {
+        this.saveToLocalStorage(step);
+      }
 
-      if (!response.ok) {
-        const responseText = await response.text();
-        console.warn(`[FlowTrackerService] Flow logları yerel dosyaya kaydedilemedi. Status: ${response.status}`, responseText);
+      if (this.logger) {
+        this.logger.debug(
+          `FlowTrackerService: ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`,
+          'FlowTrackerService.writeQueuedLogsToLocalFile'
+        );
       } else {
-        if (this.logger) {
-           this.logger.debug(
-            `FlowTrackerService: ${logsToWrite.length} flow log başarıyla yerel dosyaya kaydedildi.`,
-            'FlowTrackerService.writeQueuedLogsToLocalFile'
-          );
-        } else {
-          console.debug(`[FlowTrackerService] ${logsToWrite.length} flow log başarıyla yerel dosyaya kaydedildi.`);
-        }
+        console.debug(`[FlowTrackerService] ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`);
       }
     } catch (error) {
-      console.error('[FlowTrackerService] Flow loglar yerel dosyaya kaydedilirken hata oluştu:', error);
+      console.error('[FlowTrackerService] Flow loglar localStorage\'a kaydedilirken hata oluştu:', error);
     }
   }
 }

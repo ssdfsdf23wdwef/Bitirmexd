@@ -56,14 +56,78 @@ class LoggerService {
   }
 
   /**
-   * Log kaydını yerel dosyaya yazar
+   * Context ve mesaja göre log kategorisini belirler
    */
-  private async writeToLocalFile(entry: LogEntry): Promise<void> {
+  private determineLogCategory(context?: string, message?: string): string {
+    if (!context && !message) return 'general';
+
+    // Context bazlı kategori belirleme
+    if (context) {
+      const contextLower = context.toLowerCase();
+      
+      // Öğrenme hedefleri
+      if (contextLower.includes('learning') || contextLower.includes('target') || contextLower.includes('hedef')) {
+        return 'learning-targets';
+      }
+      
+      // Sınav oluşturma
+      if (contextLower.includes('exam') || contextLower.includes('quiz') || contextLower.includes('sinav')) {
+        return 'exam-creation';
+      }
+      
+      // Auth işlemleri
+      if (contextLower.includes('auth') || contextLower.includes('login') || contextLower.includes('logout')) {
+        return 'auth';
+      }
+      
+      // API/Data transfer
+      if (contextLower.includes('api') || contextLower.includes('data') || contextLower.includes('upload')) {
+        return 'data-transfer';
+      }
+      
+      // Navigation
+      if (contextLower.includes('navigation') || contextLower.includes('router') || contextLower.includes('history')) {
+        return 'navigation';
+      }
+    }
+
+    // Mesaj bazlı kategori belirleme
+    if (message) {
+      const messageLower = message.toLowerCase();
+      
+      if (messageLower.includes('öğrenme') || messageLower.includes('hedef') || messageLower.includes('learning')) {
+        return 'learning-targets';
+      }
+      if (messageLower.includes('sınav') || messageLower.includes('quiz') || messageLower.includes('exam')) {
+        return 'exam-creation';
+      }
+      if (messageLower.includes('giriş') || messageLower.includes('login') || messageLower.includes('auth')) {
+        return 'auth';
+      }
+      if (messageLower.includes('api') || messageLower.includes('upload') || messageLower.includes('data')) {
+        return 'data-transfer';
+      }
+      if (messageLower.includes('navigation') || messageLower.includes('gezinti') || messageLower.includes('route')) {
+        return 'navigation';
+      }
+    }
+
+    return 'general';
+  }
+
+  /**
+   * Log kaydını yerel localStorage'a yazar
+   */
+  private writeToLocalFile(entry: LogEntry): void {
     if (!this.config.writeToLocalFile || typeof window === 'undefined') {
       return;
     }
 
     try {
+      // Kategori belirleme
+      const category = this.determineLogCategory(entry.context, entry.message);
+      const storageKey = `frontend-logs-${category}`;
+      
       const timestamp = entry.timestamp.toISOString();
       const fileName = entry.file ? entry.file.split(/[\\/]/).pop() : '';
       const lineInfo = entry.line ? `:${entry.line}` : '';
@@ -72,27 +136,51 @@ class LoggerService {
       
       const logLine = `[${timestamp}] [${entry.level}]${entry.context ? ' [' + entry.context + ']' : ''}: ${entry.message}${fileContext}${metaString}\n`;
 
-      // API endpoint'e log gönder (yerel dosyaya yazılması için)
-      await fetch('/api/logs/frontend', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          level: entry.level.toLowerCase(),
-          message: entry.message,
-          context: entry.context || 'Unknown',
-          timestamp: timestamp,
-          details: {
-            file: entry.file,
-            line: entry.line,
-            meta: entry.meta
-          }
-        }),
-      });
+      // Mevcut logları al
+      let existingLogs = '';
+      try {
+        existingLogs = localStorage.getItem(storageKey) || '';
+      } catch (error) {
+        console.warn('LocalStorage okuma hatası:', error);
+        existingLogs = '';
+      }
+
+      // Yeni log satırını ekle
+      const updatedLogs = existingLogs + logLine;
+
+      // Boyut kontrolü (max 1MB per kategori)
+      const MAX_SIZE = 1024 * 1024; // 1MB
+      let finalLogs = updatedLogs;
+      
+      if (finalLogs.length > MAX_SIZE) {
+        // Son 500KB'ı koru
+        const PRESERVE_SIZE = 500 * 1024;
+        finalLogs = finalLogs.substring(finalLogs.length - PRESERVE_SIZE);
+        
+        // İlk tam satırın başlangıcını bul
+        const firstLineIndex = finalLogs.indexOf('\n') + 1;
+        if (firstLineIndex > 0) {
+          finalLogs = finalLogs.substring(firstLineIndex);
+        }
+        
+        // Kesme bilgisini ekle
+        finalLogs = `[${timestamp}] [SYSTEM] Log dosyası boyut sınırına ulaştı, eski loglar temizlendi.\n` + finalLogs;
+      }
+
+      // localStorage'a kaydet
+      try {
+        localStorage.setItem(storageKey, finalLogs);
+      } catch (error) {
+        console.warn('LocalStorage yazma hatası, eski loglar temizleniyor:', error);
+        try {
+          localStorage.removeItem(storageKey);
+          localStorage.setItem(storageKey, `[${timestamp}] [SYSTEM] Log alanı temizlendi.\n${logLine}`);
+        } catch (finalError) {
+          console.error('LocalStorage yazma başarısız:', finalError);
+        }
+      }
     } catch (error) {
-      // Dosya yazma hatası durumunda sadece konsola log yaz
-      console.error('Log dosyasına yazma hatası:', error);
+      console.error('Log yazma hatası:', error);
     }
   }
 
@@ -160,12 +248,15 @@ class LoggerService {
   public clearAllLogs(): void {
     this.clearHistory();
     
-    // Yerel log dosyasını da temizle
+    // Tüm localStorage log kategorilerini temizle
     if (typeof window !== 'undefined') {
-      fetch('/api/logs/frontend', {
-        method: 'DELETE',
-      }).catch(error => {
-        console.error('Log dosyası temizleme hatası:', error);
+      const categories = ['learning-targets', 'exam-creation', 'auth', 'data-transfer', 'navigation', 'general'];
+      categories.forEach(category => {
+        try {
+          localStorage.removeItem(`frontend-logs-${category}`);
+        } catch (error) {
+          console.error(`Log kategorisi temizleme hatası (${category}):`, error);
+        }
       });
     }
   }
@@ -178,46 +269,63 @@ class LoggerService {
   }
 
   /**
-   * Yerel log dosyasından tüm logları okur
+   * Yerel localStorage'dan logları okur (kategori bazlı)
    */
-  public async getLocalLogFileContent(): Promise<string> {
+  public getLocalLogFileContent(category?: string): string {
     if (typeof window === 'undefined') {
       return '';
     }
 
     try {
-      const response = await fetch('/api/logs/frontend', {
-        method: 'GET',
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        return data.logs || '';
+      if (category) {
+        // Belirli bir kategori için
+        const storageKey = `frontend-logs-${category}`;
+        return localStorage.getItem(storageKey) || '';
+      } else {
+        // Tüm kategoriler için
+        const categories = ['learning-targets', 'exam-creation', 'auth', 'data-transfer', 'navigation', 'general'];
+        const allLogs: Record<string, string> = {};
+        
+        categories.forEach(cat => {
+          const storageKey = `frontend-logs-${cat}`;
+          const logs = localStorage.getItem(storageKey) || '';
+          if (logs) {
+            allLogs[cat] = logs;
+          }
+        });
+        
+        // Tüm kategorileri birleştirilmiş string olarak döndür
+        return Object.entries(allLogs)
+          .map(([cat, logs]) => `=== ${cat.toUpperCase()} LOGS ===\n${logs}\n`)
+          .join('\n');
       }
-      return '';
     } catch (error) {
-      console.error('Log dosyası okuma hatası:', error);
+      console.error('Log okuma hatası:', error);
       return '';
     }
   }
 
   /**
-   * Log dosyasını indirir
+   * Log dosyasını indirir (kategori bazlı)
    */
-  public async downloadLogFile(): Promise<void> {
+  public downloadLogFile(category?: string): void {
     try {
-      const logs = await this.getLocalLogFileContent();
+      const logs = this.getLocalLogFileContent(category);
       if (!logs) {
         console.warn('İndirilebilecek log bulunamadı.');
         return;
       }
+      
+      const filename = category ? 
+        `frontend-${category}-logs-${new Date().toISOString().replace(/:/g, '-')}.log` :
+        `frontend-all-logs-${new Date().toISOString().replace(/:/g, '-')}.log`;
       
       const blob = new Blob([logs], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.style.display = 'none';
       a.href = url;
-      a.download = `frontend-logs-${new Date().toISOString().replace(/:/g, '-')}.log`;
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       
