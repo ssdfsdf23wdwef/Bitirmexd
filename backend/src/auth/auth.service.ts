@@ -393,6 +393,7 @@ export class AuthService {
   async refreshToken(
     refreshToken: string,
   ): Promise<{ accessToken: string; newRefreshToken?: string }> {
+    this.logger.debug(`[AuthService] Attempting to refresh token. Received token (first 10 chars): ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'NONE'}`, 'AuthService.refreshToken', __filename); 
     this.logger.debug(
       `Token yenileme isteği: Token: ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'Yok'}`,
       'AuthService.refreshToken',
@@ -400,12 +401,11 @@ export class AuthService {
       218,
     );
     try {
-      // Yeni doğrulama metodunu kullan
       const validationResult =
         await this.validateAndGetUserByRefreshToken(refreshToken);
       if (!validationResult) {
         this.logger.warn(
-          'Geçersiz refresh token veya eşleşen kayıt bulunamadı',
+          `[AuthService] Refresh token validation failed. Token (first 10 chars): ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'NONE'}. No valid user or token found in DB.`,
           'AuthService.refreshToken',
           __filename,
         );
@@ -414,13 +414,15 @@ export class AuthService {
         );
       }
 
-      const { user, storedTokenId } = validationResult; // Artık null değil, güvenle erişebiliriz
+      const { user, storedTokenId } = validationResult; 
 
       if (!user || !user.firebaseUid) {
         this.logger.error(
-          `Refresh token doğrulandı fakat kullanıcı veya firebaseUid bulunamadı: ${JSON.stringify(user)}`,
+          `[AuthService] Refresh token validated (DB ID: ${storedTokenId}), but user data or firebaseUid is missing.`,
           'AuthService.refreshToken',
           __filename,
+          undefined,
+          { userJson: JSON.stringify(user) }
         );
         throw new UnauthorizedException('Kullanıcı verisi bulunamadı');
       }
@@ -452,18 +454,20 @@ export class AuthService {
         );
       } catch (jwtError) {
         this.logger.error(
-          `JWT token oluşturma hatası: ${jwtError instanceof Error ? jwtError.message : String(jwtError)}`,
+          `[AuthService] JWT token creation failed for user ${user?.id}.`,
           'AuthService.refreshToken',
           __filename,
+          undefined,
+          { errorMessage: jwtError instanceof Error ? jwtError.message : String(jwtError) }
         );
         throw new InternalServerErrorException('Token oluşturulamadı');
       }
 
       this.logger.info(
-        `Kullanıcı ${user.id} için JWT token yenilendi`,
+        `[AuthService] JWT token successfully refreshed for user ${user.id}. DB Token ID: ${storedTokenId}`,
         'AuthService.refreshToken',
         __filename,
-        242,
+        '242', // Preserving original line number as string
       );
 
       return {
@@ -471,10 +475,19 @@ export class AuthService {
         // newRefreshToken: newRefreshTokenString // Rotasyon aktifse
       };
     } catch (error) {
-      this.logger.logError(error, 'AuthService.refreshToken', {
-        hasRefreshToken: !!refreshToken,
-        errorContext: 'Token yenileme sırasında hata',
-      });
+      this.logger.error(
+        `[AuthService] Error during refreshToken process. Token (first 10 chars): ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'NONE'}. Error: ${error.message}`,
+        'AuthService.refreshToken',
+        __filename,
+        undefined,
+        {
+          hasRefreshToken: !!refreshToken,
+          errorName: error.name,
+          errorMessage: error.message,
+          // stack: error.stack, // Stack can be very verbose
+          errorContext: 'Token yenileme sırasında hata',
+        }
+      );
       if (error instanceof UnauthorizedException) {
         throw error;
       }
@@ -631,6 +644,7 @@ export class AuthService {
   private async validateAndGetUserByRefreshToken(
     token: string,
   ): Promise<{ user: any; storedTokenId: string } | null> {
+    this.logger.debug(`[AuthService] validateAndGetUserByRefreshToken called. Received token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
     this.logger.debug(
       `validateAndGetUserByRefreshToken çağrıldı: Token: ${token ? token.substring(0, 10) + '...' : 'Yok'}`,
       'AuthService.validateAndGetUserByRefreshToken',
@@ -639,9 +653,10 @@ export class AuthService {
     );
     try {
      
-      // Şimdilik, süresi dolmamış tüm tokenları getiriyoruz.
       const now = admin.firestore.Timestamp.now();
       const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+      this.logger.debug(`[AuthService] Generated SHA256 hash for received token: ${tokenHash}`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
+
       const potentialTokens =
          await this.firebaseService.findMany<UserRefreshToken>(
           FIRESTORE_COLLECTIONS.REFRESH_TOKENS,
@@ -652,28 +667,35 @@ export class AuthService {
           undefined,
           1,
         );
+      
+      this.logger.debug(`[AuthService] Found ${potentialTokens ? potentialTokens.length : 0} potential token(s) in DB matching hash and expiry.`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
 
       if (!potentialTokens || potentialTokens.length === 0) {
         this.logger.warn(
-          'Veritabanında geçerli refresh token bulunamadı',
+          `[AuthService] No active refresh token found in DB for hash: ${tokenHash}. Token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}`,
           'AuthService.validateAndGetUserByRefreshToken',
           __filename,
         );
         return null;
       }
-const storedToken = potentialTokens[0];
+      const storedToken = potentialTokens[0];
+      this.logger.debug(`[AuthService] Potential token found in DB. ID: ${storedToken.id}, UserID: ${storedToken.userId}, HashedToken (bcrypt): ${storedToken.hashedToken ? storedToken.hashedToken.substring(0,10) + '...': 'N/A'}`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
+
       const isValid = await bcrypt.compare(token, storedToken.hashedToken);
+      this.logger.debug(`[AuthService] bcrypt.compare result for received token against DB token (ID: ${storedToken.id}): ${isValid}`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
+
       if (!isValid) {
+        this.logger.warn(`[AuthService] bcrypt.compare failed for DB token ID: ${storedToken.id}. Received token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'} did not match stored hashedToken.`, 'AuthService.validateAndGetUserByRefreshToken', __filename); 
         return null;
    
       }
       const user = await this.usersService.findById(storedToken.userId);
       if (!user) {
         this.logger.error(
-          `Refresh token (${storedToken.id}) geçerli ancak ilişkili kullanıcı (${storedToken.userId}) bulunamadı!`,
+          `[AuthService] Refresh token (DB ID: ${storedToken.id}) is valid, but associated user (ID: ${storedToken.userId}) not found in users collection.`,
           'AuthService.validateAndGetUserByRefreshToken',
           __filename,
-          350,
+          '350', // Preserving original line number as string
         );
         return null;
       }
@@ -683,18 +705,24 @@ const storedToken = potentialTokens[0];
         storedTokenId: storedToken.id,
       };
 
-      this.logger.debug(
-        `Refresh token başarıyla doğrulandı: Kullanıcı ID ${validTokenInfo.user.id}`,
+      this.logger.info(
+        `[AuthService] Refresh token successfully validated. User ID: ${validTokenInfo.user.id}, DB Token ID: ${validTokenInfo.storedTokenId}`,
         'AuthService.validateAndGetUserByRefreshToken',
+        __filename 
       );
       return validTokenInfo;
     } catch (error) {
-      this.logger.logError(
-        error,
+      this.logger.error(
+        `[AuthService] Error in validateAndGetUserByRefreshToken. Token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}. Error: ${error.message}`,
         'AuthService.validateAndGetUserByRefreshToken',
+        __filename,
+        undefined,
         {
+          errorName: error.name,
+          errorMessage: error.message,
+          // stack: error.stack,
           errorContext: 'Refresh token doğrulama sırasında genel hata',
-        },
+        }
       );
       return null;
     }
@@ -791,6 +819,7 @@ const storedToken = potentialTokens[0];
    * Refresh token'ı silmek için kullanılır (logout işlemi sırasında)
    */
   async removeRefreshToken(userId: string, token: string): Promise<void> {
+    this.logger.debug(`[AuthService] removeRefreshToken called. UserID: ${userId}, Token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}`, 'AuthService.removeRefreshToken', __filename); 
     this.logger.debug(
       `removeRefreshToken çağrıldı: Kullanıcı ID: ${userId}, Token: ${token ? token.substring(0, 10) + '...' : 'Yok'}`,
       'AuthService.removeRefreshToken',
@@ -798,54 +827,67 @@ const storedToken = potentialTokens[0];
       353, // Satır numarasını kontrol et
     );
     try {
-      // Kullanıcının tüm refresh token'larını getir
+      const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+      this.logger.debug(`[AuthService] removeRefreshToken: Generated SHA256 hash for received token: ${tokenHash} (UserID: ${userId})`, 'AuthService.removeRefreshToken', __filename);
+
       const tokens = await this.firebaseService.findMany<UserRefreshToken>(
         FIRESTORE_COLLECTIONS.REFRESH_TOKENS,
         [
-          {
-            field: 'userId',
-            operator: '==',
-            value: userId,
-          },
+          { field: 'userId', operator: '==', value: userId },
+          // It would be better to also match on tokenHash if we store it consistently
+          // For now, we iterate as per existing logic.
         ],
       );
+      
+      this.logger.debug(`[AuthService] removeRefreshToken: Found ${tokens ? tokens.length : 0} tokens in DB for UserID: ${userId}.`, 'AuthService.removeRefreshToken', __filename);
 
-      // Eşleşen token'ı bul
-      for (const refreshToken of tokens) {
+      let tokenFoundAndDeleted = false;
+      for (const storedToken of tokens) {
+        this.logger.debug(`[AuthService] removeRefreshToken: Checking DB token ID: ${storedToken.id} (UserID: ${userId}). Comparing with received token.`, 'AuthService.removeRefreshToken', __filename);
         try {
-          const isValid = await bcrypt.compare(token, refreshToken.hashedToken);
+          const isValid = await bcrypt.compare(token, storedToken.hashedToken);
+          this.logger.debug(`[AuthService] removeRefreshToken: bcrypt.compare result for DB token ID ${storedToken.id} (UserID: ${userId}): ${isValid}`, 'AuthService.removeRefreshToken', __filename);
           if (isValid) {
-            // Bulunan token'ı sil
+            this.logger.debug(`[AuthService] removeRefreshToken: Match found! Deleting DB token ID: ${storedToken.id} (UserID: ${userId}).`, 'AuthService.removeRefreshToken', __filename);
             await this.firebaseService.delete(
               FIRESTORE_COLLECTIONS.REFRESH_TOKENS,
-              refreshToken.id,
+              storedToken.id,
             );
-            break;
+            tokenFoundAndDeleted = true;
+            this.logger.info(`[AuthService] Successfully removed refresh token from DB. Token ID: ${storedToken.id}, User ID: ${userId}.`, 'AuthService.removeRefreshToken', __filename);
+            break; 
           }
-        } catch (error) {
-          // Hash karşılaştırma hatası, devam et
+        } catch (compareError) {
+          this.logger.warn(`[AuthService] removeRefreshToken: bcrypt.compare failed for DB token ID ${storedToken.id} (UserID: ${userId}). Error: ${compareError.message}. Skipping this token.`, 'AuthService.removeRefreshToken', __filename);
           continue;
         }
       }
+      if (!tokenFoundAndDeleted && tokens && tokens.length > 0) {
+          this.logger.warn(`[AuthService] removeRefreshToken: No matching token found to delete for UserID: ${userId} after checking ${tokens.length} DB tokens. Received token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}`, 'AuthService.removeRefreshToken', __filename);
+      } else if (!tokens || tokens.length === 0) {
+          this.logger.warn(`[AuthService] removeRefreshToken: No tokens found in DB for UserID: ${userId}. Nothing to delete.`, 'AuthService.removeRefreshToken', __filename);
+      }
+
     } catch (error) {
       this.logger.error(
-        `Refresh token silme hatası: ${error instanceof Error ? error.message : String(error)}`,
+        `[AuthService] Error in removeRefreshToken for UserID: ${userId}. Token (first 10 chars): ${token ? token.substring(0, 10) + '...' : 'NONE'}. Error: ${error.message}`,
         'AuthService.removeRefreshToken',
         __filename,
-        385, // Satır numarasını kontrol et
-        error instanceof Error ? error : undefined,
+        '385', // Preserving original line number as string
+        {
+            errorName: error.name,
+            errorMessage: error.message,
+            // stack: error.stack,
+        }
       );
-      // Sessizce başarısız ol - kullanıcı deneyimini etkilememek için
     }
   }
 
-  /**
-   * Kullanıcı çıkış işlemi
-   */
   async logout(
     userId: string,
     refreshToken: string,
   ): Promise<{ success: boolean }> {
+    this.logger.debug(`[AuthService] logout called. UserID: ${userId}, Token (first 10 chars): ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'NONE'}`, 'AuthService.logout', __filename); 
     this.logger.debug(
       `logout çağrıldı: Kullanıcı ID: ${userId}, Token: ${refreshToken ? refreshToken.substring(0, 10) + '...' : 'Yok'}`,
       'AuthService.logout',
@@ -855,9 +897,20 @@ const storedToken = potentialTokens[0];
     try {
       // Refresh token'ı sil
       await this.removeRefreshToken(userId, refreshToken);
+      this.logger.info(`[AuthService] Logout successful for UserID: ${userId}. Refresh token removal attempted.`, 'AuthService.logout', __filename);
       return { success: true };
     } catch (error) {
-      this.logger.error(`Çıkış işlemi hatası: ${error.message}`, error.stack);
+      this.logger.error(
+        `[AuthService] Error during logout for UserID: ${userId}. Error: ${error.message}`, 
+        'AuthService.logout',
+        __filename,
+        undefined,
+        {
+            errorName: error.name,
+            errorMessage: error.message,
+            // stack: error.stack,
+        }
+        );
       return { success: false };
     }
   }

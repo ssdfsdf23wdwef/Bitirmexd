@@ -41,7 +41,7 @@ import {
   BatchUpdateLearningTargetsDto,
   BatchCreateUpdateLearningTargetsDto,
 } from './dto'; // DTO'ların yolu doğru varsayılıyor
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { FirebaseGuard } from '../auth/firebase/firebase.guard';
 import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
 import { RequestWithUser } from '../common/types';
 import { LoggerService } from '../common/services/logger.service';
@@ -158,7 +158,7 @@ function normalizeName(name: string): string {
 
 @ApiTags('Öğrenme Hedefleri')
 @ApiBearerAuth('Firebase JWT') // Swagger UI'da Authorize butonu için Bearer token (JWT) şeması
-@UseGuards(JwtAuthGuard) // Tüm endpoint'ler için JWT koruması (anonymousAllowed ile override edilebilir)
+@UseGuards(FirebaseGuard) // Tüm endpoint'ler için JWT/Firebase koruması (anonymousAllowed ile override edilebilir)
 @Controller('learning-targets')
 export class LearningTargetsController {
   private readonly logger: LoggerService;
@@ -235,7 +235,7 @@ export class LearningTargetsController {
   }
   
   @Get('by-course/:courseId')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(FirebaseGuard)
   @ApiOperation({
     summary: 'Kursa ait öğrenme hedeflerini getirir',
     description:
