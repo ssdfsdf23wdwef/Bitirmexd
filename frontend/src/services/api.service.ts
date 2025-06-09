@@ -300,6 +300,9 @@ axiosInstance.interceptors.request.use(
         // Firebase ID token'ını Authorization header'ına ekle
         // Not: Backend, hem bu header'ı hem de HttpOnly cookie'leri destekler
         config.headers.Authorization = `Bearer ${token}`;
+        console.log(`🔑 Auth token eklendi: ${token.substring(0, 20)}...`);
+      } else {
+        console.warn(`⚠️ Auth token bulunamadı!`);
       }
 
       console.log(`🌐 API İsteği: ${config.method?.toUpperCase()} ${config.url}`);

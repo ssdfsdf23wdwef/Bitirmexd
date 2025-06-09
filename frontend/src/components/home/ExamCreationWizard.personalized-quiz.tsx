@@ -1372,29 +1372,36 @@ export default function ExamCreationWizard({
     }));
     setLearningTargets(updatedTargets);
     console.log('[ECW handleFinalSubmit] Sınav sonrası öğrenme hedefleri güncellendi:', updatedTargets);
+    
     // 3. Backend'e batch gönderim (GERÇEK API)
-    try {
-      console.log('[ECW] Backend\'e öğrenme hedefleri gönderiliyor:', updatedTargets);
-      
-      // Convert learning targets to the format expected by the new API
-      const convertedTargets = updatedTargets.map(target => ({
-        subTopicName: target.subTopicName,
-        status: target.status?.toLowerCase() as 'pending' | 'failed' | 'medium' | 'mastered',
-        lastScore: target.lastAttemptScorePercent
-      }));
-      
-      const batchResult = await learningTargetService.batchUpdateTargets(convertedTargets);
-      
-      if (batchResult.success) {
-        console.log('[ECW] Öğrenme hedefleri başarıyla backend\'e kaydedildi:', batchResult);
-        toast(`Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.processedCount} hedef)`, { icon: '✅' });
-      } else {
-        console.warn('[ECW] Backend güncellemesi başarısız oldu');
-        toast('Öğrenme hedefleri güncellenirken bir sorun oluştu.', { icon: '⚠️' });
+    // Eğer öğrenme hedefleri yoksa, API çağrısı yapmayalım
+    if (updatedTargets.length === 0) {
+      console.log('[ECW] Öğrenme hedefi bulunmadığı için API çağrısı yapılmıyor.');
+      toast('Sınav tamamlandı! Öğrenme hedefi bulunmadığı için güncelleme yapılmadı.', { icon: 'ℹ️' });
+    } else {
+      try {
+        console.log('[ECW] Backend\'e öğrenme hedefleri gönderiliyor:', updatedTargets);
+        
+        // Convert learning targets to the format expected by the new API
+        const convertedTargets = updatedTargets.map(target => ({
+          subTopicName: target.subTopicName,
+          status: target.status?.toLowerCase() as 'pending' | 'failed' | 'medium' | 'mastered',
+          lastScore: target.lastAttemptScorePercent
+        }));
+        
+        const batchResult = await learningTargetService.batchUpdateTargets(convertedTargets);
+        
+        if (batchResult.success) {
+          console.log('[ECW] Öğrenme hedefleri başarıyla backend\'e kaydedildi:', batchResult);
+          toast(`Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.processedCount} hedef)`, { icon: '✅' });
+        } else {
+          console.warn('[ECW] Backend güncellemesi başarısız oldu');
+          toast('Öğrenme hedefleri güncellenirken bir sorun oluştu.', { icon: '⚠️' });
+        }
+      } catch (error) {
+        console.error('[ECW] Backend güncelleme hatası:', error);
+        toast('Öğrenme hedefleri kaydedilirken hata oluştu.', { icon: '❌' });
       }
-    } catch (error) {
-      console.error('[ECW] Backend güncelleme hatası:', error);
-      toast('Öğrenme hedefleri kaydedilirken hata oluştu.', { icon: '❌' });
     }
 
     if (isSubmitting) return;

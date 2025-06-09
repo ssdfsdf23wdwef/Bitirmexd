@@ -5,6 +5,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
 import { FirebaseService } from '../firebase/firebase.service';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
@@ -384,9 +385,9 @@ export class AuthService {
   }
 
   /**
-   * Refresh token kullanarak yeni bir access token (Firebase Custom Token) oluşturur
+   * Refresh token kullanarak yeni bir access token (JWT Token) oluşturur
    * @param refreshToken Cookie'den alınan orijinal (hashlenmemiş) refresh token
-   * @returns Yeni access token (Firebase Custom Token)
+   * @returns Yeni access token (JWT Token)
    */
   async refreshToken(
     refreshToken: string,
@@ -423,16 +424,34 @@ export class AuthService {
         throw new UnauthorizedException('Kullanıcı verisi bulunamadı');
       }
 
-      // Firebase'den yeni bir özel token (custom token) oluştur
-      let customToken;
+      // JWT Token oluştur (Firebase Custom Token yerine)
+      let jwtToken;
       try {
-        customToken = await this.firebaseService.auth.createCustomToken(
-          user.firebaseUid,
-          { role: user.role || 'USER' }, // Role bilgisini token claims'e ekle
+        // JWT Secret'i al
+        const jwtSecret = this.configService.get<string>('JWT_SECRET') || 
+                         process.env.JWT_SECRET || 
+                         'bitirme_projesi_gizli_anahtar';
+        
+        // JWT Payload'ı hazırla
+        const payload = {
+          sub: user.firebaseUid, // Subject - kullanıcının Firebase UID'si
+          email: user.email,
+          role: user.role || 'USER',
+          iat: Math.floor(Date.now() / 1000), // Issued at
+        };
+
+        // JWT Token'ı imzala
+        const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN', '1h');
+        jwtToken = jwt.sign(payload, jwtSecret, { expiresIn });
+
+        this.logger.debug(
+          `JWT token oluşturuldu: Kullanıcı ${user.id}, Geçerlilik süresi: ${expiresIn}`,
+          'AuthService.refreshToken',
+          __filename,
         );
-      } catch (firebaseError) {
+      } catch (jwtError) {
         this.logger.error(
-          `Custom token oluşturma hatası: ${firebaseError instanceof Error ? firebaseError.message : String(firebaseError)}`,
+          `JWT token oluşturma hatası: ${jwtError instanceof Error ? jwtError.message : String(jwtError)}`,
           'AuthService.refreshToken',
           __filename,
         );
@@ -440,14 +459,14 @@ export class AuthService {
       }
 
       this.logger.info(
-        `Kullanıcı ${user.id} için token yenilendi`,
+        `Kullanıcı ${user.id} için JWT token yenilendi`,
         'AuthService.refreshToken',
         __filename,
         242,
       );
 
       return {
-        accessToken: customToken,
+        accessToken: jwtToken,
         // newRefreshToken: newRefreshTokenString // Rotasyon aktifse
       };
     } catch (error) {
