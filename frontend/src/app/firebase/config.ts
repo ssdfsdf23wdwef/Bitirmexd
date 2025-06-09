@@ -100,7 +100,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
     getLoggerInstance()?.warn(
       `Firebase yapılandırmasında eksik alanlar: ${missingFields.join(', ')}`,
       'FirebaseConfig',
-      __filename,
+      'firebase/config.ts',
       "34"
     );
     
@@ -114,7 +114,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
       getLoggerInstance()?.info(
         'Eksik Firebase alanları geliştirme değerleriyle dolduruldu',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "116"
       );
     } else {
@@ -122,7 +122,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
       getLoggerInstance()?.error(
         `Üretim ortamında eksik Firebase yapılandırma alanları: ${missingFields.join(', ')}`,
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "125"
       );
     }
@@ -133,7 +133,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
     getLoggerInstance()?.error(
       'Firebase API Key tanımlanmamış! Firebase işlevselliği çalışmayabilir.',
       'FirebaseConfig',
-      __filename,
+      'firebase/config.ts',
       "140"
     );
     
@@ -165,7 +165,7 @@ try {
       getLoggerInstance()?.info(
         'Firebase başarıyla başlatıldı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "167"
       );
       trackFlow('Firebase başarıyla başlatıldı', 'FirebaseConfig', FlowCategory.Custom);
@@ -173,7 +173,7 @@ try {
       getLoggerInstance()?.error(
         `Firebase başlatılamadı: ${initError instanceof Error ? initError.message : 'Bilinmeyen hata'}`,
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "173",
         { error: initError }
       );
@@ -187,7 +187,7 @@ try {
       getLoggerInstance()?.warn(
         'Firebase minimum yapılandırma ile başlatıldı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "186"
       );
     }
@@ -196,7 +196,7 @@ try {
     getLoggerInstance()?.info(
       'Mevcut Firebase uygulaması kullanılıyor',
       'FirebaseConfig',
-      __filename,
+      'firebase/config.ts',
       "198"
     );
   }
@@ -208,14 +208,14 @@ try {
     getLoggerInstance()?.info(
       'Firestore ve Storage başarıyla başlatıldı',
       'FirebaseConfig',
-      __filename,
+      'firebase/config.ts',
       "208"
     );
   } catch (dbError) {
     getLoggerInstance()?.error(
       'Firebase servislerini başlatma hatası',
       'FirebaseConfig',
-      __filename,
+      'firebase/config.ts',
       "218",
       { error: dbError }
     );
@@ -239,14 +239,14 @@ try {
       getLoggerInstance()?.info(
         'Firebase Auth tarayıcı tarafında başlatıldı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "242"
       );
     } catch (authInitError) {
       getLoggerInstance()?.error(
         'Firebase Auth özel başlatma hatası, standart yönteme dönülüyor',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "249",
         { error: authInitError }
       );
@@ -261,14 +261,14 @@ try {
       getLoggerInstance()?.info(
         'Firebase Auth sunucu tarafında başlatıldı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "264"
       );
     } catch (serverAuthError) {
       getLoggerInstance()?.error(
         'Firebase Auth sunucu taraflı başlatma hatası',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "272",
         { error: serverAuthError }
       );
@@ -283,7 +283,7 @@ try {
       getLoggerInstance()?.info(
         'Firebase emülatörleri yapılandırılıyor',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "286"
       );
       
@@ -295,8 +295,8 @@ try {
       getLoggerInstance()?.info(
         'Firebase emülatörleri başarıyla yapılandırıldı',
         'FirebaseConfig',
-        __filename,
-   
+        'firebase/config.ts',
+        "299"
       );
       
      
@@ -304,7 +304,7 @@ try {
       getLoggerInstance()?.error(
         'Firebase emülatörleri yapılandırılamadı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "307",
         { error: emulatorError instanceof Error ? emulatorError.message : 'Bilinmeyen hata' }
       );
@@ -319,7 +319,7 @@ try {
           getLoggerInstance()?.info(
             'Firebase Auth: Kullanıcı oturum açtı',
             'FirebaseConfig',
-            __filename,
+            'firebase/config.ts',
             "322",
             { uid: user.uid }
           );
@@ -329,7 +329,7 @@ try {
           getLoggerInstance()?.info(
             'Firebase Auth: Kullanıcı oturumu kapalı',
             'FirebaseConfig',
-            __filename,
+            'firebase/config.ts',
             "332"
           );
           
@@ -340,7 +340,7 @@ try {
         getLoggerInstance()?.error(
           'Firebase Auth hata',
           'FirebaseConfig',
-          __filename,
+          'firebase/config.ts',
           "343",
           { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
         );
@@ -353,7 +353,7 @@ try {
   getLoggerInstance()?.error(
     'Firebase başlatma hatası',
     'FirebaseConfig',
-    __filename,
+    'firebase/config.ts',
     "357",
     { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
   );
@@ -377,14 +377,14 @@ try {
       getLoggerInstance()?.warn(
         'Firebase minimum yapılandırma ile başlatıldı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "381"
       );
     } catch (fallbackError) {
       getLoggerInstance()?.error(
         'Firebase minimum yapılandırma ile bile başlatılamadı',
         'FirebaseConfig',
-        __filename,
+        'firebase/config.ts',
         "388",
         { error: fallbackError instanceof Error ? fallbackError.message : 'Bilinmeyen hata' }
       );

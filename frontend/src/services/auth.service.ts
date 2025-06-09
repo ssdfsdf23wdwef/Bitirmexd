@@ -68,7 +68,7 @@ class AuthService {
       this.logger.debug(
         'ID Token ile backend login isteği gönderiliyor',
         'AuthService.loginWithIdToken',
-        __filename,
+        'auth.service.ts',
         141
       );
       
@@ -85,7 +85,7 @@ class AuthService {
       this.logger.info(
         'ID Token ile login başarılı',
         'AuthService.loginWithIdToken',
-        __filename,
+        'auth.service.ts',
         149,
         { userId: response.user.id }
       );
@@ -99,7 +99,7 @@ class AuthService {
       this.logger.error(
         'ID Token ile giriş hatası',
         'AuthService.loginWithIdToken',
-        __filename,
+        'auth.service.ts',
         166,
         { error: this.formatFirebaseError(error) }
       );
@@ -115,7 +115,7 @@ class AuthService {
     this.logger.info(
       'AuthService başlatıldı',
       'AuthService.constructor',
-      __filename,
+      'auth.service.ts',
       14
     );
   }
@@ -137,7 +137,7 @@ class AuthService {
       this.logger.info(
         'Kullanıcı kaydı başlatılıyor',
         'AuthService.register',
-        __filename,
+        'auth.service.ts',
         50,
         { email }
       );
@@ -154,7 +154,7 @@ class AuthService {
         this.logger.error(
           'Şifre eksik',
           'AuthService.register',
-          __filename,
+          'auth.service.ts',
           64,
           { error }
         );
@@ -186,14 +186,14 @@ class AuthService {
           this.logger.info(
             'Firebase kullanıcı profili (displayName) güncellendi.',
             'AuthService.register',
-            __filename,
+            'auth.service.ts',
             100 // Satır numarasını kontrol edin
           );
         } catch (profileError) {
           this.logger.warn(
             'Firebase kullanıcı profili (displayName) güncellenemedi.',
             'AuthService.register',
-            __filename,
+            'auth.service.ts',
             106, // Satır numarasını kontrol edin
             { error: this.formatFirebaseError(profileError) }
           );
@@ -214,7 +214,7 @@ class AuthService {
       this.logger.error(
         'Kayıt hatası',
         'AuthService.register',
-        __filename,
+        'auth.service.ts',
         92,
         { error: this.formatFirebaseError(error) }
       );
@@ -236,33 +236,24 @@ class AuthService {
         FlowCategory.Auth,
         { email }
       );
-      this.flowTracker.markStart('login');
       
       this.logger.info(
         `Kullanıcı girişi deneniyor: ${email}`,
         'AuthService.login',
-        __filename,
+        'auth.service.ts',
         116
       );
       
       const result = await signInWithEmailAndPassword(auth, email, password);
       
-      // Ölç ve logla
-      const duration = this.flowTracker.markEnd('login', mapToTrackerCategory(FlowCategory.Auth), 'AuthService.login');
-      this.logger.info(
-        `Kullanıcı girişi başarılı: ${email}`,
-        'AuthService.login',
-        __filename,
-        126,
-        { duration, uid: result.user.uid }
-      );
+     
       
       // ID token al
       const idToken = await result.user.getIdToken();
       this.logger.debug(
         'Firebase ID token alındı',
         'AuthService.login',
-        __filename,
+        'auth.service.ts',
         135
       );
 
@@ -270,7 +261,7 @@ class AuthService {
       this.logger.debug(
         'Backend login isteği gönderiliyor',
         'AuthService.login',
-        __filename,
+        'auth.service.ts',
         141
       );
       
@@ -281,7 +272,7 @@ class AuthService {
       this.logger.info(
         'Backend login başarılı',
         'AuthService.login',
-        __filename,
+        'auth.service.ts',
         149,
         { userId: response.user.id }
       );
@@ -298,7 +289,7 @@ class AuthService {
       this.logger.error(
         'Giriş hatası',
         'AuthService.login',
-        __filename,
+        'auth.service.ts',
         166,
         { error: this.formatFirebaseError(error) }
       );
@@ -309,7 +300,7 @@ class AuthService {
         this.logger.error(
           'API Hatası',
           'AuthService.login',
-          __filename,
+          'auth.service.ts',
           176,
           { 
             code: axiosError.code, 
@@ -352,7 +343,7 @@ class AuthService {
       this.logger.info(
         'Google ile giriş başarılı',
         'AuthService.loginWithGoogle',
-        __filename,
+        'auth.service.ts',
         228,
         { userId: response.user.id, isNewUser: response.isNewUser }
       );
@@ -366,7 +357,7 @@ class AuthService {
       this.logger.error(
         'Google ile giriş hatası',
         'AuthService.loginWithGoogle',
-        __filename,
+        'auth.service.ts',
         242,
         { error: this.formatFirebaseError(error) }
       );
@@ -389,7 +380,7 @@ class AuthService {
       this.logger.info(
         'Kullanıcı çıkışı yapılıyor',
         'AuthService.signOut',
-        __filename,
+        'auth.service.ts',
         246
       );
       
@@ -413,7 +404,7 @@ class AuthService {
       this.logger.error(
         'Çıkış hatası',
         'AuthService.signOut',
-        __filename,
+        'auth.service.ts',
         274,
         { error: this.formatFirebaseError(error) }
       );
@@ -436,7 +427,7 @@ class AuthService {
       this.logger.debug(
         'Kullanıcı profili isteniyor',
         'AuthService.getProfile',
-        __filename,
+        'auth.service.ts',
         286
       );
       
@@ -448,7 +439,7 @@ class AuthService {
           this.logger.debug(
             `Profil bilgisi isteniyor (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
             'AuthService.getProfile.attemptProfileFetch',
-            __filename,
+            'auth.service.ts',
             297
           );
           
@@ -458,7 +449,7 @@ class AuthService {
           this.logger.debug(
             'Kullanıcı profili başarıyla alındı',
             'AuthService.getProfile',
-            __filename,
+            'auth.service.ts',
             297
           );
           
@@ -471,7 +462,7 @@ class AuthService {
               this.logger.warn(
                 `Ağ hatası - Backend bağlantısı kurulamadı (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
                 'AuthService.getProfile',
-                __filename,
+                'auth.service.ts',
                 308
               );
               
@@ -487,7 +478,7 @@ class AuthService {
               this.logger.warn(
                 `401 Unauthorized hatası, token yenileme deneniyor (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
                 'AuthService.getProfile',
-                __filename,
+                'auth.service.ts',
                 307
               );
               
@@ -510,7 +501,7 @@ class AuthService {
                 this.logger.debug(
                   `Token yenilendi, profil bilgisi tekrar isteniyor (${retryCount}/${MAX_RETRY})`,
                   'AuthService.getProfile',
-                  __filename,
+                  'auth.service.ts',
                   325
                 );
                 
@@ -523,7 +514,7 @@ class AuthService {
                 this.logger.error(
                   'Token yenileme sırasında hata oluştu',
                   'AuthService.getProfile',
-                  __filename,
+                  'auth.service.ts',
                   335,
                   { error: tokenError }
                 );
@@ -543,7 +534,7 @@ class AuthService {
       this.logger.error(
         'Profil getirme hatası',
         'AuthService.getProfile',
-        __filename,
+        'auth.service.ts',
         343,
         { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
       );
@@ -575,7 +566,7 @@ class AuthService {
       this.logger.debug(
         'Profil güncelleme başlatılıyor',
         'AuthService.updateProfile',
-        __filename,
+        'auth.service.ts',
         540,
         { updateData: JSON.stringify(profileData) }
       );
@@ -586,7 +577,7 @@ class AuthService {
         this.logger.error(
           'Kullanıcı oturumu bulunamadı',
           'AuthService.updateProfile',
-          __filename,
+          'auth.service.ts',
           550
         );
         throw new Error("Kullanıcı oturumu bulunamadı");
@@ -604,7 +595,7 @@ class AuthService {
         this.logger.debug(
           'Firebase displayName güncelleniyor',
           'AuthService.updateProfile',
-          __filename,
+          'auth.service.ts',
           564,
           { displayName }
         );
@@ -617,14 +608,14 @@ class AuthService {
           this.logger.debug(
             'Firebase displayName güncellendi',
             'AuthService.updateProfile',
-            __filename,
+            'auth.service.ts',
             574
           );
         } catch (firebaseError) {
           this.logger.warn(
             'Firebase displayName güncellenemedi',
             'AuthService.updateProfile',
-            __filename,
+            'auth.service.ts',
             580,
             { error: firebaseError }
           );
@@ -636,7 +627,7 @@ class AuthService {
         this.logger.debug(
           'Firebase photoURL güncelleniyor',
           'AuthService.updateProfile',
-          __filename,
+          'auth.service.ts',
           591,
           { photoURL: profileData.profileImageUrl }
         );
@@ -649,14 +640,14 @@ class AuthService {
           this.logger.debug(
             'Firebase photoURL güncellendi',
             'AuthService.updateProfile',
-            __filename,
+            'auth.service.ts',
             601
           );
         } catch (firebaseError) {
           this.logger.warn(
             'Firebase photoURL güncellenemedi',
             'AuthService.updateProfile',
-            __filename,
+            'auth.service.ts',
             607,
             { error: firebaseError }
           );
@@ -670,7 +661,7 @@ class AuthService {
       this.logger.debug(
         'Backend profil güncelleme isteği gönderiliyor',
         'AuthService.updateProfile',
-        __filename,
+        'auth.service.ts',
         618,
         { backendData: JSON.stringify(backendProfileData) }
       );
@@ -685,7 +676,7 @@ class AuthService {
         this.logger.info(
           'Profil başarıyla güncellendi',
           'AuthService.updateProfile',
-          __filename,
+          'auth.service.ts',
           629,
           { userId: updatedBackendUser.id }
         );
@@ -702,7 +693,7 @@ class AuthService {
         this.logger.error(
           'Backend profil güncelleme hatası',
           'AuthService.updateProfile',
-          __filename,
+          'auth.service.ts',
           644,
           { 
             error: apiError instanceof Error ? apiError.message : 'Bilinmeyen hata',
@@ -717,7 +708,7 @@ class AuthService {
           this.logger.error(
             'Axios hatası detayları',
             'AuthService.updateProfile',
-            __filename, 
+            'auth.service.ts', 
             656,
             {
               status: axiosError.response?.status,
@@ -741,7 +732,7 @@ class AuthService {
       this.logger.error(
         'Profil güncelleme hatası',
         'AuthService.updateProfile',
-        __filename,
+        'auth.service.ts',
         677,
         { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
       );
@@ -929,7 +920,7 @@ class AuthService {
         this.logger.debug(
           'Token localStorage\'dan alındı',
           'AuthService.getAuthToken',
-          __filename,
+          'auth.service.ts',
           0
         );
         return storedToken;
@@ -941,7 +932,7 @@ class AuthService {
         this.logger.debug(
           'Firebase kullanıcısı bulunamadı',
           'AuthService.getAuthToken',
-          __filename,
+          'auth.service.ts',
           0
         );
         return null;
@@ -957,7 +948,7 @@ class AuthService {
         this.logger.debug(
           'Token Firebase\'den alındı ve localStorage\'a kaydedildi',
           'AuthService.getAuthToken',
-          __filename,
+          'auth.service.ts',
           0
         );
         
@@ -969,7 +960,7 @@ class AuthService {
       this.logger.error(
         'Token alma hatası',
         'AuthService.getAuthToken',
-        __filename,
+        'auth.service.ts',
         0,
         { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
       );
@@ -1097,7 +1088,7 @@ class AuthService {
       this.logger.info(
         'Token yenileme işlemi başlatılıyor',
         'AuthService.refreshToken',
-        __filename,
+        'auth.service.ts',
         725
       );
       
@@ -1122,7 +1113,7 @@ class AuthService {
         this.logger.info(
           'Token başarıyla yenilendi',
           'AuthService.refreshToken',
-          __filename,
+          'auth.service.ts',
           748
         );
         
@@ -1141,7 +1132,7 @@ class AuthService {
         this.logger.error(
           'Refresh token yanıtında token bulunamadı',
           'AuthService.refreshToken',
-          __filename,
+          'auth.service.ts',
           764,
           { response }
         );
@@ -1158,7 +1149,7 @@ class AuthService {
       this.logger.error(
         'Token yenileme hatası',
         'AuthService.refreshToken',
-        __filename,
+        'auth.service.ts',
         779,
         { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
       );
@@ -1177,7 +1168,7 @@ class AuthService {
           this.logger.info(
             'Firebase kullanıcısı mevcut, otomatik token yenileme deneniyor',
             'AuthService.refreshToken',
-            __filename,
+            'auth.service.ts',
             800
           );
           
@@ -1191,7 +1182,7 @@ class AuthService {
             this.logger.info(
               'Firebase token ile yenileme başarılı',
               'AuthService.refreshToken',
-              __filename,
+              'auth.service.ts',
               811
             );
             
@@ -1202,7 +1193,7 @@ class AuthService {
         this.logger.error(
           'Firebase token ile yenileme hatası',
           'AuthService.refreshToken',
-          __filename,
+          'auth.service.ts',
           821,
           { error: firebaseError }
         );
@@ -1219,7 +1210,7 @@ class AuthService {
         this.logger.warn(
           'Token yenileme sonrası Firebase çıkış hatası',
           'AuthService.refreshToken',
-          __filename,
+          'auth.service.ts',
           799,
           { error: signOutError }
         );
