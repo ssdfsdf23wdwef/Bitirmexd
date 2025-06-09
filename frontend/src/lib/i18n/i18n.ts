@@ -24,8 +24,8 @@ i18n
     },
     // Varsayılan dil (fallback)
     fallbackLng: "tr",
-    // Debug modunu sadece geliştirme ortamında etkinleştir
-    debug: process.env.NODE_ENV === "development",
+    // Debug modunu devre dışı bırak
+    debug: false,
     // Algılama seçenekleri
     detection: {
       order: ["localStorage", "navigator", "htmlTag"],

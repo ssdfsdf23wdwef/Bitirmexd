@@ -37,7 +37,7 @@ import { FlowTrackerService } from './common/services/flow-tracker.service';
     SharedModule,
     AiModule,
   ],
-  controllers: [LogsController],
+  controllers: [],
   providers: [
     AppService,
     {

@@ -199,6 +199,7 @@ function getCallerInfo(): {
   methodName: string;
 } {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackCategory(
       FlowCategory.Custom,
       'Çağrı bilgileri alınıyor',
@@ -223,6 +224,7 @@ function getCallerInfo(): {
       const fileName = path.basename(filePath);
       const lineNumber = parseInt(lineStr, 10);
 
+      const logger = getLoggerInstance();
       logger.debug(
         'Çağrı bilgileri başarıyla alındı',
         'logger.utils.getCallerInfo',
@@ -235,6 +237,7 @@ function getCallerInfo(): {
     }
 
     // Eşleşme bulunamazsa varsayılan değerler
+    const logger = getLoggerInstance();
     logger.warn(
       'Çağrı bilgileri alınamadı, varsayılan değerler kullanılıyor',
       'logger.utils.getCallerInfo',
@@ -248,6 +251,7 @@ function getCallerInfo(): {
       methodName: 'unknown',
     };
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       'Çağrı bilgileri alınırken hata oluştu',
       'logger.utils.getCallerInfo',
@@ -274,6 +278,7 @@ function getCallerInfo(): {
  */
 export function safeStringify(obj: any, maxLength: number = 1000): string {
   try {
+    const flowTracker = getFlowTrackerInstance();
     flowTracker.trackCategory(
       FlowCategory.Custom,
       "Nesne güvenli biçimde string'e çevriliyor",
@@ -314,6 +319,7 @@ export function safeStringify(obj: any, maxLength: number = 1000): string {
 
     // Çok büyükse kısalt
     if (stringified && stringified.length > maxLength) {
+      const logger = getLoggerInstance();
       logger.debug(
         'Nesne uzunluğu kısaltıldı',
         'logger.utils.safeStringify',
@@ -330,6 +336,7 @@ export function safeStringify(obj: any, maxLength: number = 1000): string {
 
     return stringified || '{}';
   } catch (error) {
+    const logger = getLoggerInstance();
     logger.error(
       "Nesne string'e çevrilirken hata oluştu",
       'logger.utils.safeStringify',

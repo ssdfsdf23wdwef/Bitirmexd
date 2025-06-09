@@ -6,8 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ToastProvider } from "../context/ToastContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/lib/i18n/i18n";
+
 import dynamic from "next/dynamic";
 import { setupLogging, setupGlobalErrorHandling, startFlow } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
@@ -67,13 +66,8 @@ interface ProvidersProps {
  * Bu bileşen, RootLayout içerisinde tüm uygulamayı sarmalar
  */
 export function Providers({ children }: ProvidersProps) {
-  // Tarayıcıda çalıştığında i18n'i başlat (SSR'daki uyumsuzluklardan kaçınmak için)
+
   useEffect(() => {
-    // i18next'in hazır olduğundan emin ol
-    if (!i18n.isInitialized) {
-      i18n.init();
-    }
-    
     // Uygulama başladı flowunu izle
     const appFlow = startFlow(FlowCategory.Navigation, 'AppStartup');
     appFlow.trackStep('Uygulama başlangıç bileşenleri yüklendi');
@@ -146,7 +140,6 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <I18nextProvider i18n={i18n}>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
               <ToastProvider>
@@ -155,7 +148,6 @@ export function Providers({ children }: ProvidersProps) {
               </ToastProvider>
             </ThemeProvider>
           </QueryClientProvider>
-        </I18nextProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

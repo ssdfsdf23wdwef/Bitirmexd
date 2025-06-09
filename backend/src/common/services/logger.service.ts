@@ -72,66 +72,54 @@ export class LoggerService {
   public learningTargetLogger: any;
 
   /**
+   * Lazy loading için exam process logger getter
+   */
+  private getExamProcessLogger() {
+    if (!this.examProcessLogger) {
+      this.examProcessLogger = this.initExamProcessLogger();
+    }
+    return this.examProcessLogger;
+  }
+
+  /**
+   * Lazy loading için learning target logger getter
+   */
+  private getLearningTargetLogger() {
+    if (!this.learningTargetLogger) {
+      this.learningTargetLogger = this.initLearningTargetLogger();
+    }
+    return this.learningTargetLogger;
+  }
+
+  /**
    * Sınav olu�Yturma a�Yamalarını kaydetmek için özel bir logger
    */
   private initExamProcessLogger() {
-    // �-nce log dizininin var oldu�Yundan emin olalım
+    // Sadece basit file transport kullan, performans için
     try {
       if (!fs.existsSync(this.logDir)) {
         fs.mkdirSync(this.logDir, { recursive: true, mode: 0o777 });
-        console.log(`�Y"? Log dizini olu�Yturuldu: ${this.logDir}`);
       }
 
-      // Sınav log dosyasını kontrol et ve gerekirse olu�Ytur
       const sinavLogPath = path.join(this.logDir, 'sinav-olusturma.log');
       if (!fs.existsSync(sinavLogPath)) {
         fs.writeFileSync(sinavLogPath, '', { encoding: 'utf8', mode: 0o666 });
-        console.log(`�Y"" Sınav log dosyası olu�Yturuldu: ${sinavLogPath}`);
-      } else {
-        // Dosya var ama yazılabilir mi kontrol et
-        try {
-          fs.accessSync(sinavLogPath, fs.constants.W_OK);
-        } catch (err) {
-          console.error(
-            `�?O Sınav log dosyası yazılabilir de�Yil: ${sinavLogPath}`,
-            err,
-          );
-          // Dosya izinlerini düzeltmeye çalı�Y
-          fs.chmodSync(sinavLogPath, 0o666);
-          console.log(
-            `�Y"� Sınav log dosyası izinleri düzeltildi: ${sinavLogPath}`,
-          );
-        }
       }
     } catch (err) {
-      console.error(
-        '�?O Sınav log dizini veya dosyası hazırlanırken hata:',
-        err,
-      );
+      // Silent error handling
     }
 
-    // Logger'ı olu�Ytur
+    // Basit logger konfigürasyonu
     return createLogger({
-      level: 'debug',
-      format: format.combine(
-        format.timestamp(),
-        format.printf(({ timestamp, level, message }) => {
-          return `[${timestamp}] [${level.toUpperCase()}] ${message}`;
-        }),
-      ),
+      level: 'info',
+      format: format.printf(({ level, message }) => {
+        return `[${new Date().toISOString()}] [${level.toUpperCase()}] ${message}`;
+      }),
       transports: [
         new transports.File({
           filename: path.join(this.logDir, 'sinav-olusturma.log'),
-          maxsize: 5242880, // 5MB
-          maxFiles: 5,
-          tailable: true,
-          handleExceptions: true,
-          // Dosya eri�Yim sorunlarını çözmek için ek ayarlar
-          options: {
-            flags: 'a',
-            encoding: 'utf8',
-            mode: 0o666,
-          },
+          maxsize: 1048576, // 1MB
+          maxFiles: 3,
         }),
       ],
     });
@@ -141,14 +129,12 @@ export class LoggerService {
    * �-�Yrenme hedefleri i�Ylemlerini kaydetmek için özel bir logger
    */
   private initLearningTargetLogger() {
-    // �-nce log dizininin var oldu�Yundan emin olalım
+    // Sadece basit file transport kullan, performans için
     try {
       if (!fs.existsSync(this.logDir)) {
         fs.mkdirSync(this.logDir, { recursive: true, mode: 0o777 });
-        console.log(`�Y"? Log dizini olu�Yturuldu: ${this.logDir}`);
       }
 
-      // �-�Yrenme hedefleri log dosyasını kontrol et ve gerekirse olu�Ytur
       const learningTargetLogPath = path.join(
         this.logDir,
         'ö�Yrenme_hedef.log',
@@ -158,49 +144,25 @@ export class LoggerService {
           encoding: 'utf8',
           mode: 0o666,
         });
-        console.log(
-          `�Y"? �-�Yrenme hedefleri log dosyası olu�Yturuldu: ${learningTargetLogPath}`,
-        );
-      } else {
-        // Dosya var ama yazılabilir mi kontrol et
-        try {
-          fs.accessSync(learningTargetLogPath, fs.constants.W_OK);
-        } catch (err) {
-          console.error(
-            `�?O �-�Yrenme hedefleri log dosyası yazılabilir de�Yil: ${learningTargetLogPath}`,
-            err,
-          );
-          // Dosya izinlerini düzeltmeye çalı�Y
-          fs.chmodSync(learningTargetLogPath, 0o666);
-          console.log(
-            `�Y"� �-�Yrenme hedefleri log dosyası izinleri düzeltildi: ${learningTargetLogPath}`,
-          );
-        }
       }
 
-      // �-�Yrenme hedefleri logger'ını olu�Ytur
+      // Basit logger konfigürasyonu
       this.learningTargetLogger = createLogger({
-        level: 'debug',
-        format: format.combine(
-          format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-          format.printf(({ level, message, timestamp, ...meta }) => {
-            return `[${timestamp}] [${level.toUpperCase().padEnd(5)}] ${message} ${Object.keys(meta).length > 0 ? JSON.stringify(meta, null, 2) : ''}`;
-          }),
-        ),
+        level: 'info',
+        format: format.printf(({ level, message }) => {
+          return `[${new Date().toISOString()}] [${level.toUpperCase()}] ${message}`;
+        }),
         transports: [
           new transports.File({
             filename: learningTargetLogPath,
-            level: 'debug',
+            maxsize: 1048576, // 1MB
+            maxFiles: 3,
           }),
         ],
       });
 
-      console.log(`�Y'� �-�Yrenme hedefleri logger'ı ba�Yarıyla olu�Yturuldu`);
     } catch (error) {
-      console.error(
-        '�?O �-�Yrenme hedefleri logger olu�Yturulurken hata:',
-        error,
-      );
+      // Silent error handling
     }
   }
 
@@ -222,11 +184,9 @@ export class LoggerService {
       fs.mkdirSync(this.logDir, { recursive: true });
     }
 
-    // Sınav süreci logger'ını ba�Ylat
-    this.examProcessLogger = this.initExamProcessLogger();
-
-    // �-�Yrenme hedefleri logger'ını ba�Ylat
-    this.learningTargetLogger = this.initLearningTargetLogger();
+    // Logger'ları lazy olarak başlat - constructor'da başlatma
+    // this.examProcessLogger = this.initExamProcessLogger();
+    // this.learningTargetLogger = this.initLearningTargetLogger();
 
     // Uygulama ba�Ylatıldı�Yında log dosyasını temizle
     if (this.logToFile && (options?.clearLogsOnStartup ?? true)) {
@@ -1045,18 +1005,19 @@ export class LoggerService {
     }
 
     // Log seviyesine göre kaydet
+    const examLogger = this.getExamProcessLogger();
     switch (level) {
       case 'debug':
-        this.examProcessLogger.debug(logText);
+        examLogger.debug(logText);
         break;
       case 'warn':
-        this.examProcessLogger.warn(logText);
+        examLogger.warn(logText);
         break;
       case 'error':
-        this.examProcessLogger.error(logText);
+        examLogger.error(logText);
         break;
       default:
-        this.examProcessLogger.info(logText);
+        examLogger.info(logText);
     }
 
     // Kritik loglar için ayrıca normal log sistemine de kaydet
