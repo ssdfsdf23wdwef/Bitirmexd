@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { createTrackedStore } from "./zustand.middleware";
-import { getLogger, getFlowTracker } from "../lib/getLoggerInstance().utils";
+import { getLogger, getFlowTracker } from "../lib/logger.utils";
 
 interface DocumentState {
   // State

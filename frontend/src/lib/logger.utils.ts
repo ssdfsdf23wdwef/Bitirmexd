@@ -64,6 +64,10 @@ export function setupLogger(options?: any): LoggerService {
       logLearningTarget: () => {},
       setConfig: () => {},
       getConfig: () => ({}),
+      getLogHistory: () => [],
+      clearHistory: () => {},
+      clearAllLogs: () => {},
+      getAllErrorLogs: () => '',
     } as any;
   }
 
@@ -84,6 +88,10 @@ export function setupLogger(options?: any): LoggerService {
       logLearningTarget: (msg: string) => console.info(`[LEARNING] ${msg}`),
       setConfig: () => {},
       getConfig: () => ({}),
+      getLogHistory: () => [],
+      clearHistory: () => {},
+      clearAllLogs: () => {},
+      getAllErrorLogs: () => '',
     } as any;
   }
 }
@@ -185,7 +193,11 @@ export function getLogger(): LoggerService | null {
           },
           logLearningTarget: (msg: string, ...args: any[]) => {
             // Silent in SSR to avoid noise
-          }
+          },
+          getLogHistory: () => [],
+          clearHistory: () => {},
+          clearAllLogs: () => {},
+          getAllErrorLogs: () => '',
         } as any;
         return loggerInstance;
       }
@@ -202,7 +214,13 @@ export function getLogger(): LoggerService | null {
         warn: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.warn(`[${ctx}] ${msg}`, meta || ''),
         error: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.error(`[${ctx}] ${msg}`, meta || ''),
         debug: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.debug(`[${ctx}] ${msg}`, meta || ''),
-        logLearningTarget: (msg: string, ...args: any[]) => console.info(`[LEARNING] ${msg}`, ...args)
+        logLearningTarget: (msg: string, ...args: any[]) => console.info(`[LEARNING] ${msg}`, ...args),
+        getLogHistory: () => [],
+        clearHistory: () => {},
+        clearAllLogs: () => {},
+        getAllErrorLogs: () => '',
+        setConfig: () => {},
+        getConfig: () => ({})
       } as any;
     }
   }
