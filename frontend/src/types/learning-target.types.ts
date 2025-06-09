@@ -87,3 +87,26 @@ export interface ConfirmNewTopicsDto {
   courseId: string;
   selectedTopics: ProposedTopic[];
 }
+
+/**
+ * Standardized API response format
+ */
+export interface StandardizedApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+/**
+ * Detect new topics API response data
+ */
+export interface DetectNewTopicsResponseData {
+  proposedTopics: ProposedTopic[];
+}
+
+/**
+ * Complete detect new topics API response
+ */
+export interface DetectNewTopicsResponse extends StandardizedApiResponse<DetectNewTopicsResponseData> {
+  data: DetectNewTopicsResponseData;
+}

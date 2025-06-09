@@ -2,8 +2,9 @@ import apiService from "./api.service";
 import { 
   LearningTarget, 
   TopicDetectionResult, 
-  LearningTargetStatusLiteral 
+  LearningTargetStatusLiteral
 } from "@/types/learningTarget.type";
+import { DetectNewTopicsResponse } from "@/types/learning-target.types";
 import { getLogger, getFlowTracker, trackFlow, mapToTrackerCategory } from "@/lib/logger.utils";
 // Logger instance
 const logger = getLogger();
@@ -834,7 +835,7 @@ class LearningTargetService {
       });
 
       const startTime = performance.now();
-      const newTopics = await apiService.post<string[]>(
+      const response = await apiService.post<DetectNewTopicsResponse>(
         `/learning-targets/${courseId}/detect-new-topics`,
         {
           lessonContext,
@@ -844,9 +845,17 @@ class LearningTargetService {
       const endTime = performance.now();
       const apiDuration = endTime - startTime;
 
+      // Extract the proposed topics from the standardized response
+      const proposedTopics = response.data.proposedTopics;
+      const newTopics = proposedTopics.map(topic => topic.name);
+
       console.log('✅ API başarılı! Sonuçlar:', {
+        success: response.success,
+        message: response.message,
+        proposedTopicsCount: proposedTopics.length,
         newTopicsCount: newTopics.length,
         newTopics: newTopics.slice(0, 10),
+        proposedTopics: proposedTopics.slice(0, 5), // Show first 5 with details
         apiDuration: `${apiDuration.toFixed(2)}ms`,
         allNewTopics: newTopics,
         timestamp: new Date().toISOString()

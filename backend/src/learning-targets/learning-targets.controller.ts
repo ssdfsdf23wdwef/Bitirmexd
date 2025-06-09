@@ -99,6 +99,19 @@ class TopicDetectionResponseDto {
     description: 'Tespit edilen konuların listesi',
   })
   topics: DetectedTopicDto[];
+
+  @ApiProperty({
+    description: 'Tespit edilen konuların öğrenme hedefi olarak kaydedilip kaydedilmediği',
+    example: true,
+  })
+  saved: boolean;
+
+  @ApiProperty({
+    description: 'Kaydetme durumu hakkında açıklama (kaydedilmediği durumlarda)',
+    example: 'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi.',
+    required: false,
+  })
+  message?: string;
 }
 
 // LearningTargetWithQuizzes arayüzünün Swagger'da şema olarak kullanılabilmesi için dummy sınıf
@@ -826,7 +839,7 @@ export class LearningTargetsController {
   ): Promise<TopicDetectionResponseDto> {
     const userId = req.user?.uid || 'anonymous'; // req.user null olabilir
     const isAuthenticated = userId !== 'anonymous';
-
+ let responseMessage: string | undefined;
     try {
       this.flowTracker.trackStep(
         `${dto.courseId || 'N/A'} ID'li ders için metin içinden konular tespit ediliyor`,
@@ -901,6 +914,9 @@ export class LearningTargetsController {
       }
 
       // Tespit edilen konuları öğrenme hedefi olarak kaydetme (eğer kimlik doğrulanmış ve courseId varsa)
+      let saved = false;
+      let message: string | undefined;
+
       if (isAuthenticated && dto.courseId && detectedRawTopics.length > 0) {
         this.logger.info(
           `✨ KONU TESPİTİ: ${detectedRawTopics.length} konu tespit edildi, ${dto.courseId} ID'li ders için öğrenme hedefleri olarak kaydediliyor`,
@@ -925,6 +941,7 @@ export class LearningTargetsController {
             __filename,
             404, // Manuel güncellendi
           );
+          saved = true;
         } catch (saveError) {
           this.logger.error(
             `❌ HATA: Öğrenme hedefleri kaydedilirken hata oluştu: ${saveError.message}`,
@@ -933,15 +950,20 @@ export class LearningTargetsController {
             411, // Manuel güncellendi
             saveError,
           );
-          // Kaydetme hatası olsa bile tespit edilen konuları döndürmeye devam et
+          saved = false;
+          message = 'Konular tespit edildi ancak öğrenme hedefi olarak kaydedilemedi. Lütfen tekrar deneyin.';
         }
-      } else if (dto.courseId && !isAuthenticated) {
+      } else if (!isAuthenticated && dto.courseId) {
+        responseMessage =
+          'Kullanıcı oturum açmadığı için tespit edilen konular kaydedilmedi.'; 
         this.logger.info(
-          `⚠️ UYARI: Kullanıcı giriş yapmadığı için ${dto.courseId} dersine öğrenme hedefleri kaydedilmedi`,
+          `⚠️ UYARI: ${responseMessage} CourseId: ${dto.courseId}`,
           'LearningTargetsController.detectTopics',
           __filename,
           421, // Manuel güncellendi
         );
+        saved = false;
+        message = 'Konular tespit edildi ancak giriş yapılmadığı için öğrenme hedefi olarak kaydedilmedi. Giriş yapıp tekrar deneyin.';
       } else if (isAuthenticated && !dto.courseId && detectedRawTopics.length > 0) {
         this.logger.info(
           `ℹ️ BİLGİ: CourseId sağlanmadığı için tespit edilen konular öğrenme hedefi olarak kaydedilmedi.`,
@@ -949,15 +971,23 @@ export class LearningTargetsController {
           __filename,
           428, // Manuel güncellendi
         );
+        saved = false;
+        message = 'Konular tespit edildi ancak ders ID\'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.';
+      } else if (!isAuthenticated && !dto.courseId) {
+        saved = false;
+        message = 'Konular tespit edildi ancak giriş yapılmadığı ve ders ID\'si sağlanmadığı için öğrenme hedefi olarak kaydedilmedi.';
       }
 
-
-      return {
+      const response: TopicDetectionResponseDto = {
         topics: detectedRawTopics.map((topicName) => ({
           subTopicName: topicName,
           normalizedSubTopicName: normalizeName(topicName), // Düzeltilmiş ve tutarlı normalleştirme
         })),
+        saved,
+        message,
       };
+
+      return response;
     } catch (error) {
       this.logger.logError(error, 'LearningTargetsController.detectTopics', {
         userId,

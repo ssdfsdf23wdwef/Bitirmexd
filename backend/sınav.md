@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T00:51:48.866Z
+## Tarih: 2025-06-09T01:23:05.986Z
 
-## Trace ID: quiz-1749430308852-59mc3
+## Trace ID: quiz-1749432185972-397wg
 
-## Alt Konular (7 adet):
+## Alt Konular (8 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
-2. **Uygulama Paketleme Ve Dağıtımı** (2 soru)
-3. **İ Şletim Sistemi Seviyesinde Sanallaştırma** (2 soru)
-4. **Taşınabilirlik Ve Platform Bağımsızlığı** (2 soru)
-5. **Hız Ve Verimlilik** (2 soru)
+1. **Sanallaştırma Temelıkavramları** (2 soru)
+2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
+3. **Sanal Makine Vm Kavramı** (2 soru)
+4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
+5. **Tip 1 Hypervisor Bare Metal** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ölçeklenebilirlik Ve Yönetim Kolaylığı
-2. Yazılım Geliştirme Ve Devops
+1. Tip 2 Hypervisor Hosted
+2. Masaüstü Sanallaştırma Desktop Virtualization
+3. Depolama Sanallaştırma Storage Virtualization
 
 ```
 
@@ -49,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
-2. **Uygulama Paketleme Ve Dağıtımı** (2 soru)
-3. **İ Şletim Sistemi Seviyesinde Sanallaştırma** (2 soru)
-4. **Taşınabilirlik Ve Platform Bağımsızlığı** (2 soru)
-5. **Hız Ve Verimlilik** (2 soru)
+1. **Sanallaştırma Temelıkavramları** (2 soru)
+2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
+3. **Sanal Makine Vm Kavramı** (2 soru)
+4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
+5. **Tip 1 Hypervisor Bare Metal** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,8 +62,9 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Ölçeklenebilirlik Ve Yönetim Kolaylığı
-2. Yazılım Geliştirme Ve Devops
+1. Tip 2 Hypervisor Hosted
+2. Masaüstü Sanallaştırma Desktop Virtualization
+3. Depolama Sanallaştırma Storage Virtualization
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -75,105 +77,111 @@ bilal@atauni.edu.tr
 
 
 
-6.Hafta
+4. Hafta
+
+
+Sanallaştırma Nedir?
+
+Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir.
+
+Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı
+kullanır ve tek bir bilgisayarın donanım parçalarının (işlemciler, bellek, depolama vb.) sanal
+makineler (VM'ler) olarak da bilinen birkaç sanal bilgisayara ayrılmasına olanak tanır [1] .
+
+Sanal Makine Nedir ?
+
+Sanal makineler (VM'ler), sanallaştırma teknolojisinin önemli bir parçasıdır ve esasen tek bir
+fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder. Fiziksel sunucunun bellek ve
+işlem gücü gibi kaynaklarını farklı VM'ler arasında paylaşmak ve tahsis etmek için
+hypervisor
+verilen yazılımı kullanırlar [2].
+
+Hypervisor Nedir ?
+
+Hypervisor, sanal makineler (VM'ler) oluşturan ve çalıştıran bir yazılımdır. Bir hypervisor,
+hypervisor işletim sistemini ve kaynaklarını sanal makinelerden izole eder ve bu VM'lerin
+oluşturulmasını ve yönetilmesini sağlar.
+Hypervisor yüklü fiziksel donanıma host ve bunun üzerindeki sanal makinelere de guest adı
+verilir.
+Hypervisor tarafından tahsis edilmek üzere kullanabileceği işlemci, bellek, depolama gibi
+kaynaklara
+pool ismi verilir.
+Tüm hypervisor’lerin, VM'leri çalıştırmak için bellek yöneticisi, işlem zamanlayıcı, giriş/çıkış (G/Ç)
+yığını, aygıt sürücüleri, güvenlik yöneticisi, ağ yığını ve daha fazlası gibi bazı işletim sistemi
+düzeyindeki bileşenlere ihtiyacı vardır.
+Hypervisor, her sanal makineye kaynak tahsis eder ve VM kaynaklarının fiziksel kaynaklara göre
+zamanlamasını yönetir.Yürütmeyi hala fiziksel donanım yapıyor, dolayısıyla hypervisor programı
+yönetirken fiziksel CPU hala VM'ler tarafından talep edildiği şekilde CPU talimatlarını yürütür.
+
+
+Birden fazla farklı işletim sistemi yan yana çalışabilir ve aynı sanallaştırılmış donanım
+kaynaklarını bir hypervisor sayesinde paylaşabilir. Bu, sanallaştırmanın önemli bir avantajıdır.
+Sanallaştırma olmadan donanım üzerinde yalnızca 1 işletim sistemi çalıştırılabilir.
+Hypervisor yazılımının ticari ve açık kaynak kodlu olmak üzere farklı seçenekleri mevcuttur.
+VMware, sanallaştırma için popüler bir ticari yazılımdır ve ESXi hypervisor yazılımını ve vSphere
+sanallaştırma platformunu sunmaktadır.
+Kernel-based Virtual Machine (KVM) bir açık kaynak hypervisor seçeneğidir. Linux çekirdeği ile
+birlikte gelmektedir. Ayrıca Xen ve Microsoft Hyper-V diğer hypervisor seneçekleridir.
+
+Hypervisor Tipleri
+Sanallaştırmada kullanılan hypervisor ler 2 tiptir. Bunlar; tip-1 ve tip-2 olarak ayrılmaktadır.
+Tip-1 Hypervisor
+Tip-1 hypervisor aynı zamanda native yada bare metal olarakta isimlendirilmektedir. Direk host
+üzerinde çalışır ve guest işletim sistemlerini yönetir. Host üzerindeki donanım kaynakları
+hypervisor tarafından yönetilir
+Tip-1 hypervisor türü daha çok kurumsal veri merkezlerinde veya benzeri sunucu tabanlı
+ortamlarda yaygın olarak kullanılmaktadır.
+KVM, Microsoft Hyper-V, ve VMware vSphere tip-1 hypervisor örnekleridir. KVM 2007 yılında
+linux ile tümleşik dağıtılmaya başlanmıştır.
+
+Şekil-1: Tip-1 Sanallaştırma mimarisi
 
 
 
-Şekil: VM ve konteyner mimarileri
+Tip-2
+Tip-2 hypervisor, hosted hypervisor olarak da bilinmektedir. Tip-2 hypervisor, geleneksel
+işletim sistemleri üzerinde bir yazılım katmanı yada uygulama olarak çalışmaktadır.
+Konuk işletim sistemlerini ana işletim sisteminden soyutlayarak çalışır.
+Tip-2 hypervisor, kişisel bilgisayarda birden fazla işletim sistemini çalıştırmak isteyen bireysel
+kullanıcılar için iyi bir seçenektir.
+VMware Workstation ve Oracle VirtualBox tip-2 hypervisor için iki örnektir [3].
 
 
-Şekil: Nvidia konteyner örnek gösterimi
+Şekil-2: Tip-2 Sanallaştırma mimarisi
+Sanallaştırma Türleri
 
-
-
-
-Konteynerizasyon nedir?
-
-Konteynerleştirme, bir uygulamanın kodunu herhangi bir altyapıda çalıştırmak için ihtiyaç
-duyduğu tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir.
-Geleneksel olarak bilgisayarınızda herhangi bir uygulamayı çalıştırmak için makinenin işletim
-sistemiyle eşleşen sürümünün yüklenmesi gerekmektedir. Örneğin, bir yazılım paketinin
-Windows sürümünü bir Windows makinesine yüklemeniz gerekiyordu. Ancak
-konteynerleştirmeyle her tür cihaz ve işletim sisteminde çalışan tek bir yazılım paketi veya
-konteyner oluşturabilir[1].
-
-Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve
-aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir
-sanallaştırma türüdür[3].
-
-Yazılım mühendisliğinde konteynerleştirme, yazılım uygulamalarının türü veya satıcısı ne olursa
-olsun herhangi bir bulut veya bulut dışı ortamda konteyner adı verilen yalıtılmış kullanıcı
-alanlarında çalışabilmesi için işletim sistemi düzeyinde sanallaştırma veya birden fazla ağ
-kaynağı üzerinden uygulama düzeyinde sanallaştırmadır[4].
-
-Konteynerleştirme, yazılım kodunun kütüphaneler, framework ler ve diğer bağımlılıklar gibi
-gerekli tüm bileşenlerle birlikte paketlenmesidir[5].
-
-
-Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını (kütüphaneler, çerçeveler vb.)
-konteyner adı verilen standart bir birime paketleyen bir yazılım dağıtım yöntemidir. Bu
-konteyner, uygulamayı izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapı
-üzerinde tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik,
-konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
+● Desktop virtualization
+● Storage virtualization
+● Network virtualization
+● Data virtualization
+● Application virtualization
+● Data center virtualization
+● CPU virtualization
+● GPU virtualization
+● Linux virtualization
+● Cloud virtualization
 
 
 
+Desktop virtualization (Masaüstü Sanallaştırma)
+
+Masaüstü sanallaştırma teknolojisi fiziksel istemci cihazından masaüstü ortamını ayırır. Fiziksel
+cihaz olarak bir kişisel bilgisayar yada thin client kullanılabilirken kullanıcının masaüstü merkezi
+bir sunucuda barındırılmaktadır. Bu teknoloji, kullanıcıların çeşitli cihaz ve konumlardan
+masaüstlerine erişmesine ve bunlarla etkileşime girmesine olanak tanır [4].
+
+Masaüstü sanallaştırma iki farklı biçime sahiptir:
+1. Virtual desktop infrastructure (VDI): Birden fazla masaüstü merkezi sunucularda
+barındırılan sanal makineler üzerinde çalışır ve onlara thin client lar üzerinden erişmek
+isteyen kullanıcılara servis edilir. Bu şekilde VDI, bir kuruluşun kullanıcılarına, herhangi
+bir cihaza işletim sistemi kurmadan, herhangi bir cihazdan çeşitli işletim sistemlerine
+erişim sağlamasını imkan verir [1].
 
 
+Şekil-3: VDI tipi masaüstü sanallaştırma
 
-
-
-
-
-Konteyner teknolojisi, son yıllarda yazılım geliştirme ve dağıtımı için oldukça popüler hale
-gelmiştir. Bu popülerliğin arkasında yatan birçok neden var:
-1. Taşınabilirlik: Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir
-konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği
-anlamına gelir. Bu taşınabilirlik, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda
-kolayca dağıtmalarını ve çalıştırmalarını sağlar.
-2. Hız: Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve
-durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve
-dağıtılmasına yardımcı olur.
-3. Verimlilik: Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde
-kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına
-gelir.
-4. Ölçeklenebilirlik: Konteynerler, otomatik olarak ölçeklendirilebilir. Bu, uygulamanızın trafik
-yükü arttıkça veya azaldıkça otomatik olarak daha fazla veya daha az konteyner başlatarak veya
-durdurarak kaynaklarınızı optimize edebileceğiniz anlamına gelir.
-5. Güvenlik: Konteynerler, her uygulama için ayrı bir izolasyon katmanı sağlayarak güvenliği
-artırır. Bu, bir uygulamadaki bir güvenlik açıklığının diğer uygulamaları etkilemesini önler.
-6. Kolay Yönetim: Konteynerler, Docker gibi araçlarla kolayca yönetilebilir. Bu, birden fazla
-konteynerden oluşan karmaşık uygulamaları bile kolayca yönetmenize ve izlemenize yardımcı
-olur.
-
-Konteyner Teknolojisinin Kullanım Alanları:
-Konteyner teknolojisi, çeşitli alanlarda kullanılmaktadır:
-● Yazılım Geliştirme: Konteynerler, geliştiricilerin uygulamaları yerel ortamlarında test
-etmelerini ve dağıtmadan önce hata ayıklamalarını sağlar.
-● DevOps: Konteynerler, CI/CD (Sürekli Entegrasyon/Sürekli Dağıtım) süreçlerini
-otomatikleştirmeye ve hızlandırmaya yardımcı olur.
-● Mikroservisler: Konteynerler, mikroservis mimarisini uygulamak için idealdir.
-● Bulut Bilişim: Konteynerler, bulut ortamında uygulamaları dağıtmak ve yönetmek için
-idealdir.
-
-
-Uygulama
-01_konteyner_kurulumu.txt
-02_konteyner_calistirma.txt
-
-
-
-
-Kaynaklar:
-
-https://aws.amazon.com/what-is/containerization/
-https://www.ibm.com/topics/containerization
-https://www.checkpoint.com/cyber-hub/cloud-security/what-is-container-security/what-is-cont
-ainerization/
-https://en.wikipedia.org/wiki/Containerization_(computing)
-https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
-
-
+2. Local Desktop virtualization: Yerel bir bilgisayarda bir hypervisor çalıştırarak kullanıcının
+o bilgisayarda ...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -348,42 +356,42 @@ https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Konteynerizasyonun Tanımı Ve İşlevi: 2 soru
-  - Uygulama Paketleme Ve Dağıtımı: 2 soru
-  - İşletim Sistemi Seviyesinde Sanallaştırma: 2 soru
-  - Taşınabilirlik Ve Platform Bağımsızlığı: 2 soru
-  - Hız Ve Verimlilik: 2 soru
+  - Sanallaştırma Temelıkavramları: 2 soru
+  - Sanallaştırma Tanımı Ve Amacı: 2 soru
+  - Sanal Makine Vm Kavramı: 2 soru
+  - Hypervisorun Rolü Ve İ Şlevi: 2 soru
+  - Tip 1 Hypervisor Bare Metal: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Konteynerizasyonun Tanımı Ve İşlevi:
-- Soru: Konteynerizasyonun temel amacı nedir?
-- Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını optimize etmek
-- Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
+#### Sanallaştırma Temelıkavramları:
+- Soru: Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?
+- Seçenekler: Donanım maliyetlerini artırmak | Donanım kaynaklarının daha verimli kullanılmasını sağlamak | Sistem karmaşıklığını azaltmak | Yazılım uyumluluğunu ortadan kaldırmak
+- Doğru Cevap: Donanım kaynaklarının daha verimli kullanılmasını sağlamak
 - Zorluk: easy
 
-#### Uygulama Paketleme Ve Dağıtımı:
-- Soru: Konteynerleştirme sürecinde, bir uygulamanın bağımlılıkları ve gerekli bileşenleri hangi birimde paketlenir?
-- Seçenekler: Sanal Makine (VM) | Konteyner | Çekirdek (Kernel) | Sürücü (Driver)
-- Doğru Cevap: Konteyner
+#### Sanallaştırma Tanımı Ve Amacı:
+- Soru: Sanallaştırmanın temel amacı nedir?
+- Seçenekler: Yazılım geliştirmeyi hızlandırmak | Donanım kaynaklarını daha verimli kullanmak | Ağ güvenliğini artırmak | Veri depolama maliyetlerini düşürmek
+- Doğru Cevap: Donanım kaynaklarını daha verimli kullanmak
 - Zorluk: easy
 
-#### İşletim Sistemi Seviyesinde Sanallaştırma:
-- Soru: Konteynerleştirme, hangi düzeyde sanallaştırma sağlar?
-- Seçenekler: Donanım | İşletim Sistemi | Uygulama | Ağ
-- Doğru Cevap: İşletim Sistemi
+#### Sanal Makine Vm Kavramı:
+- Soru: Sanal makine (VM) nedir?
+- Seçenekler: Fiziksel bir sunucunun birebir kopyası | Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar | Bir ağ cihazının sanal temsili | Bir depolama biriminin sanal kopyası
+- Doğru Cevap: Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar
 - Zorluk: easy
 
-#### Taşınabilirlik Ve Platform Bağımsızlığı:
-- Soru: Konteynerlerin taşınabilirliği ne anlama gelir?
-- Seçenekler: Sadece belirli Linux dağıtımlarında çalışabilme | Sadece Windows işletim sistemlerinde çalışabilme | İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme | Sadece bulut ortamlarında çalışabilme
-- Doğru Cevap: İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme
+#### Hypervisorun Rolü Ve İ Şlevi:
+- Soru: Hypervisor'ün temel işlevi nedir?
+- Seçenekler: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak | Ağ trafiğini yönetmek | Veri tabanı işlemlerini hızlandırmak | Güvenlik duvarı işlevi görmek
+- Doğru Cevap: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak
 - Zorluk: easy
 
-#### Hız Ve Verimlilik:
-- Soru: Konteynerler, sanal makinelere (VM'ler) kıyasla nasıl bir hız avantajı sunar?
-- Seçenekler: Daha yavaş başlatılır ve durdurulur | VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir | Aynı hızda başlatılır ve durdurulur | Hız konusunda bir fark yoktur
-- Doğru Cevap: VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir
+#### Tip 1 Hypervisor Bare Metal:
+- Soru: Tip 1 hypervisor'ler için kullanılan diğer isimler nelerdir?
+- Seçenekler: Hosted ve native | Native ve bare metal | Bare metal ve hosted | Sadece hosted
+- Doğru Cevap: Native ve bare metal
 - Zorluk: easy
 
