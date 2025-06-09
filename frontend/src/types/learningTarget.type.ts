@@ -102,3 +102,13 @@ export interface UpdateLearningTargetStatusRequest {
     lastAttemptScorePercent: number;
   }>;
 }
+
+/**
+ * Proposed topic from AI
+ */
+export interface ProposedTopic {
+  tempId: string;
+  name: string;
+  relevance?: string;
+  details?: string;
+}

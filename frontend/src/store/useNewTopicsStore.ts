@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { LearningTarget } from "@/types/learningTarget.type";
+import { LearningTarget, ProposedTopic } from "@/types/learningTarget.type";
 import learningTargetService from "@/services/learningTarget.service";
 
 /**
  * Yeni Konular State arayüzü
  */
 interface NewTopicsState {
-  suggestedNewTopics: string[];
-  selectedNewTopicsForConfirmation: string[];
+  suggestedNewTopics: ProposedTopic[];
+  selectedNewTopicsForConfirmation: ProposedTopic[];
   confirmedNewLearningTargets: LearningTarget[];
   
   isLoadingSuggestedTopics: boolean;
@@ -22,8 +22,7 @@ interface NewTopicsState {
 /**
  * Yeni Konular Actions arayüzü
  */
-interface NewTopicsActions {
-  // Yeni konu önerileri yükle
+interface NewTopicsActions {  // Yeni konu önerileri yükle
   loadSuggestedNewTopics: (
     courseId: string, 
     lessonContext: string, 
@@ -31,7 +30,7 @@ interface NewTopicsActions {
   ) => Promise<void>;
   
   // Bir konuyu onay listesine ekle/çıkar
-  toggleTopicForConfirmation: (topicName: string) => void;
+  toggleTopicForConfirmation: (topic: ProposedTopic) => void;
   
   // Önerilen konuları temizle
   clearSuggestedTopics: () => void;
@@ -144,16 +143,15 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
       } finally {
         console.groupEnd();
       }
-    },
-      toggleTopicForConfirmation: (topicName: string) => {
+    },      toggleTopicForConfirmation: (topic: ProposedTopic) => {
       console.group('🔄 [NewTopicsStore] toggleTopicForConfirmation - BAŞLADI');
       console.log('📋 Parametreler:', {
-        topicName,
+        topic,
         timestamp: new Date().toISOString()
       });
 
       const currentState = get();
-      const currentIndex = currentState.selectedNewTopicsForConfirmation.indexOf(topicName);
+      const currentIndex = currentState.selectedNewTopicsForConfirmation.findIndex(t => t.tempId === topic.tempId);
       const isCurrentlySelected = currentIndex >= 0;
 
       console.log('🔍 Mevcut durum:', {
@@ -165,15 +163,15 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
       });
 
       set((state) => {
-        const updatedIndex = state.selectedNewTopicsForConfirmation.indexOf(topicName);
+        const updatedIndex = state.selectedNewTopicsForConfirmation.findIndex(t => t.tempId === topic.tempId);
         if (updatedIndex >= 0) {
           // Konu seçili ise, listeden çıkar
-          console.log('➖ Konu listeden çıkarılıyor:', topicName);
+          console.log('➖ Konu listeden çıkarılıyor:', topic.name);
           state.selectedNewTopicsForConfirmation.splice(updatedIndex, 1);
         } else {
           // Konu seçili değilse, listeye ekle
-          console.log('➕ Konu listeye ekleniyor:', topicName);
-          state.selectedNewTopicsForConfirmation.push(topicName);
+          console.log('➕ Konu listeye ekleniyor:', topic.name);
+          state.selectedNewTopicsForConfirmation.push(topic);
         }
 
         console.log('✅ Güncellenmiş seçili konular:', {
@@ -231,19 +229,15 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
 
       try {
         console.log('🔍 API çağrısı yapılıyor...');
-        const startTime = performance.now();
-        
-        const confirmedTargets = await learningTargetService.confirmNewTopics(
+        const startTime = performance.now();        const confirmedTargets = await learningTargetService.confirmNewTopics(
           courseId,
           selectedTopics
         );
 
         const endTime = performance.now();
-        const duration = endTime - startTime;
-
-        console.log('✅ API başarılı! Sonuçlar:', {
+        const duration = endTime - startTime;        console.log('✅ API başarılı! Sonuçlar:', {
           confirmedTargetsCount: confirmedTargets.length,
-          confirmedTargets: confirmedTargets.map(t => ({ id: t.id, name: t.name })),
+          confirmedTargets: confirmedTargets.map(t => ({ id: t.id, name: t.subTopicName })),
           duration: `${duration.toFixed(2)}ms`,
           timestamp: new Date().toISOString()
         });

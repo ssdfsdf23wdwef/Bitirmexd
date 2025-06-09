@@ -6,7 +6,8 @@ import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import * as path from 'path';
 import { toPlainObject } from '../common/utils/firestore.utils';
-
+import { ConfigService } from '@nestjs/config';
+import * as fs from 'fs';
 @Injectable()
 export class FirebaseService implements OnModuleInit {
   public auth: admin.auth.Auth;
@@ -16,9 +17,10 @@ export class FirebaseService implements OnModuleInit {
   private readonly logger: LoggerService;
   private readonly flowTracker: FlowTrackerService;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
+    
     this.flowTracker.trackStep(
       'Firebase servisini başlatma',
       'FirebaseService',

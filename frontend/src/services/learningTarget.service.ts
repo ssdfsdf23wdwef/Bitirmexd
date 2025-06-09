@@ -2,7 +2,8 @@ import apiService from "./api.service";
 import { 
   LearningTarget, 
   TopicDetectionResult, 
-  LearningTargetStatusLiteral
+  LearningTargetStatusLiteral,
+  ProposedTopic
 } from "@/types/learningTarget.type";
 import { DetectNewTopicsResponse } from "@/types/learning-target.types";
 import { getLogger, getFlowTracker, trackFlow, mapToTrackerCategory } from "@/lib/logger.utils";
@@ -798,7 +799,7 @@ class LearningTargetService {
     courseId: string, 
     lessonContext: string, 
     existingTopicNames: string[]
-  ): Promise<string[]> {
+  ): Promise<ProposedTopic[]> {
     console.group('🔍 [LearningTargetService] detectNewTopics - BAŞLADI');
     console.log('📋 Parametreler:', {
       courseId,
@@ -862,17 +863,13 @@ class LearningTargetService {
 
       // Extract the proposed topics from the standardized response
       const proposedTopics = response.data.proposedTopics;
-      const newTopics = proposedTopics.map(topic => topic.name);
 
       console.log('✅ API başarılı! Sonuçlar:', {
         success: response.success,
         message: response.message,
         proposedTopicsCount: proposedTopics.length,
-        newTopicsCount: newTopics.length,
-        newTopics: newTopics.slice(0, 10),
         proposedTopics: proposedTopics.slice(0, 5), // Show first 5 with details
         apiDuration: `${apiDuration.toFixed(2)}ms`,
-        allNewTopics: newTopics,
         timestamp: new Date().toISOString()
       });
       
@@ -882,21 +879,21 @@ class LearningTargetService {
       
       console.log('📝 Başarı logger mesajı kaydediliyor...');
       getLoggerInstance().logLearningTarget(
-        `Yeni konu tespiti tamamlandı: Kurs=${courseId}, Tespit edilen yeni konu sayısı=${newTopics.length}`,
+        `Yeni konu tespiti tamamlandı: Kurs=${courseId}, Tespit edilen yeni konu sayısı=${proposedTopics.length}`,
         'LearningTargetService.detectNewTopics',
         __filename,
         810,
         { 
           courseId, 
-          newTopicsCount: newTopics.length,
-          newTopics: newTopics.slice(0, 10), // İlk 10 yeni konu için loglama
+          newTopicsCount: proposedTopics.length,
+          newTopics: proposedTopics.map(t => t.name).slice(0, 10), // İlk 10 yeni konu için loglama
           duration 
         }
       );
       
       console.log('🎉 detectNewTopics BAŞARIYLA TAMAMLANDI');
       console.groupEnd();
-      return newTopics;
+      return proposedTopics;
 
     } catch (error) {
       console.error('❌ API HATASI:', {
@@ -927,12 +924,12 @@ class LearningTargetService {
 
   // Yeni konuları onayla ve kaydet
   @LogMethod('LearningTargetService', FlowCategory.API)
-  async confirmNewTopics(courseId: string, newTopicNames: string[]): Promise<LearningTarget[]> {
+  async confirmNewTopics(courseId: string, selectedTopics: ProposedTopic[]): Promise<LearningTarget[]> {
     console.group('✅ [LearningTargetService] confirmNewTopics - BAŞLADI');
     console.log('📋 Parametreler:', {
       courseId,
-      newTopicNamesCount: newTopicNames.length,
-      newTopicNames: newTopicNames,
+      selectedTopicsCount: selectedTopics.length,
+      selectedTopics: selectedTopics,
       timestamp: new Date().toISOString()
     });
 
@@ -941,28 +938,28 @@ class LearningTargetService {
     try {
       console.log('📊 Flow tracking başlatılıyor...');
       trackFlow(
-        `Confirming ${newTopicNames.length} new topics for course ${courseId}`,
+        `Confirming ${selectedTopics.length} new topics for course ${courseId}`,
         "LearningTargetService.confirmNewTopics",
         FlowCategory.API
       );
       
       getFlowTrackerInstance().trackApiCall(
-        `/learning-targets/${courseId}/confirm-new-topics`,
+        `/learning-targets/confirm-new`,
         'POST',
         'LearningTargetService.confirmNewTopics',
-        { courseId, topicsCount: newTopicNames.length }
+        { courseId, topicsCount: selectedTopics.length }
       );
       
       console.log('📝 Logger mesajı kaydediliyor...');
       getLoggerInstance().logLearningTarget(
-        `Yeni konular onaylanıyor: Kurs=${courseId}, Onaylanacak konu sayısı=${newTopicNames.length}`,
+        `Yeni konular onaylanıyor: Kurs=${courseId}, Onaylanacak konu sayısı=${selectedTopics.length}`,
         'LearningTargetService.confirmNewTopics',
         __filename,
         850,
         { 
           courseId, 
-          topicsCount: newTopicNames.length,
-          topicNames: newTopicNames.slice(0, 10) // İlk 10 konu adı için loglama
+          topicsCount: selectedTopics.length,
+          topicNames: selectedTopics.map(t => t.name).slice(0, 10) // İlk 10 konu adı için loglama
         }
       );
       
@@ -970,7 +967,11 @@ class LearningTargetService {
         endpoint: `/learning-targets/confirm-new`,
         method: 'POST',
         requestBody: {
-          newTopicNames: newTopicNames
+          courseId,
+          selectedTopics: selectedTopics.map(topic => ({
+            tempId: topic.tempId,
+            name: topic.name
+          }))
         }
       });
 
@@ -978,8 +979,11 @@ class LearningTargetService {
       const confirmedTargets = await apiService.post<LearningTarget[]>(
         `/learning-targets/confirm-new`,
         {
-           courseId,
-          selectedTopics: newTopicNames
+          courseId,
+          selectedTopics: selectedTopics.map(topic => ({
+            tempId: topic.tempId,
+            name: topic.name
+          }))
         }
       );
       const endTime = performance.now();
@@ -1024,8 +1028,8 @@ class LearningTargetService {
         errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
         errorStack: error instanceof Error ? error.stack : 'Stack yok',
         courseId,
-        newTopicNamesCount: newTopicNames.length,
-        newTopicNames,
+        selectedTopicsCount: selectedTopics.length,
+        selectedTopics,
         timestamp: new Date().toISOString()
       });
 
@@ -1036,7 +1040,7 @@ class LearningTargetService {
         'LearningTargetService.confirmNewTopics',
         __filename,
         890,
-        { courseId, topicsCount: newTopicNames.length, topicNames: newTopicNames, error }
+        { courseId, topicsCount: selectedTopics.length, topicNames: selectedTopics.map(t => t.name), error }
       );
 
       console.error('💥 confirmNewTopics HATA İLE SONLANDI');
