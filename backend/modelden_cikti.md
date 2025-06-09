@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T12:34:53.398Z
-Trace ID: quiz-1749472479682-sebx8
-Yanıt Uzunluğu: 7981 karakter
+Tarih: 2025-06-09T13:16:06.624Z
+Trace ID: quiz-1749474952863-x4jr8
+Yanıt Uzunluğu: 7642 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 7981 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Ağ arayüzlerini listelemek ve yapılandırmak",
-        "DNS sunucusu üzerinden alan adının IP adresini sorgulamak",
-        "Ağ bağlantılarının istatistiklerini görüntülemek",
-        "Web sunucularına HTTP istekleri göndermek"
-      ],
-      "correctAnswer": "Ağ arayüzlerini listelemek ve yapılandırmak",
-      "explanation": "'ifconfig' komutu, ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır. Diğer seçenekler farklı komutların işlevleridir (nslookup, netstat, curl).",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q2",
-      "questionText": "'ifconfig eth0' komutu hangi işlevi yerine getirir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Tüm ağ arayüzlerini listeler.",
-        "Sadece 'eth0' arayüzünün IP adresini görüntüler.",
-        "Ağ istatistiklerini gösterir.",
-        "DNS sunucusuna sorgu gönderir."
-      ],
-      "correctAnswer": "Sadece 'eth0' arayüzünün IP adresini görüntüler.",
-      "explanation": "'ifconfig eth0' komutu, belirtilen 'eth0' arayüzünün IP adresini görüntülemek için kullanılır. Genel ağ arayüzlerini listelemek için sadece 'ifconfig' kullanılır.",
-      "subTopicName": "Ağ Arayüzü Yönetimi",
-      "normalizedSubTopicName": "ag_arayuzu_yonetimi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü etkinleştirmek için kullanılır?",
+      "questionText": "Aşağıdaki komutlardan hangisi, iki dosyanın içeriğini birleştirip yeni bir dosyaya kaydetmek için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "applying",
       "options": [
-        "sudo ip link set eth0 down",
-        "ip addr show",
-        "sudo ip link set eth0 up",
-        "ip route show"
+        "less file1.txt file2.txt > file3.txt",
+        "cat file1.txt file2.txt > file3.txt",
+        "nano file1.txt file2.txt > file3.txt",
+        "vi file1.txt file2.txt > file3.txt"
       ],
-      "correctAnswer": "sudo ip link set eth0 up",
-      "explanation": "'sudo ip link set eth0 up' komutu, 'eth0' arayüzünü etkinleştirmek için kullanılır. 'down' seçeneği arayüzü devre dışı bırakır.",
-      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
-      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
+      "correctAnswer": "cat file1.txt file2.txt > file3.txt",
+      "explanation": "cat komutu, belirtilen dosyaların içeriğini birleştirir. '>' işareti ise bu birleştirilmiş içeriği yeni bir dosyaya yönlendirir. Bu örnekte, file1.txt ve file2.txt'nin içeriği birleştirilerek file3.txt dosyasına kaydedilir. less, nano ve vi komutları dosya görüntüleme ve düzenleme amaçlıdır, birleştirme işlemi yapmazlar.",
+      "subTopicName": "Dosya İçeriği Birleştirme",
+      "normalizedSubTopicName": "dosya_içeriği_birleştirme",
       "difficulty": "medium"
     },
     {
-      "id": "q4",
-      "questionText": "'sudo ip link set eth0 down' komutunun işlevi nedir?",
+      "id": "q2",
+      "questionText": "Aşağıdaki komutlardan hangisi 'example' kelimesini içeren satırları 'file.txt' içinde bulmak için kullanılır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "applying",
+      "options": [
+        "head file.txt",
+        "tail file.txt",
+        "grep \"example\" file.txt",
+        "less file.txt"
+      ],
+      "correctAnswer": "grep \"example\" file.txt",
+      "explanation": "grep komutu, belirtilen deseni (bu durumda 'example' kelimesi) bir dosya içinde arar ve eşleşen satırları görüntüler. head ve tail komutları dosyanın başını ve sonunu gösterir, less ise dosyayı etkileşimli olarak görüntüler.",
+      "subTopicName": "Dosya İçeriği Birleştirme",
+      "normalizedSubTopicName": "dosya_içeriği_birleştirme",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q3",
+      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini ileri ve geri gezinme özelliği ile etkileşimli olarak görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "eth0 arayüzünün IP adresini gösterir.",
-        "eth0 arayüzünü devre dışı bırakır.",
-        "eth0 arayüzünü etkinleştirir.",
-        "Ağ istatistiklerini gösterir."
+        "cat",
+        "less",
+        "nano",
+        "vi"
       ],
-      "correctAnswer": "eth0 arayüzünü devre dışı bırakır.",
-      "explanation": "'sudo ip link set eth0 down' komutu, belirtilen 'eth0' ağ arayüzünü devre dışı bırakmak için kullanılır.",
-      "subTopicName": "İfconfiğiile Arayüz Yapılandırması",
-      "normalizedSubTopicName": "ifconfigiile_arayuz_yapilandirmasi",
+      "correctAnswer": "less",
+      "explanation": "less komutu, bir dosyanın içeriğini etkileşimli olarak görüntülemek için kullanılır. Bu, kullanıcının dosya içinde ileri ve geri hareket etmesine olanak tanır. cat komutu dosyanın tamamını bir defada görüntülerken, nano ve vi metin düzenleyicileridir.",
+      "subTopicName": "Etkileşimli Dosya Görüntüleme",
+      "normalizedSubTopicName": "etkileşimli_dosya_görüntüleme",
       "difficulty": "easy"
     },
     {
+      "id": "q4",
+      "questionText": "'less' komutu ile bir dosyayı görüntülerken, aşağıdakilerden hangisi yapılamaz?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Dosya içinde yukarı ve aşağı hareket etmek",
+        "Dosyayı düzenlemek",
+        "Dosyanın sonuna gitmek",
+        "Dosyanın başına gitmek"
+      ],
+      "correctAnswer": "Dosyayı düzenlemek",
+      "explanation": "less komutu sadece dosya görüntüleme amaçlıdır, dosya içeriğini düzenleme yeteneği yoktur. Dosya içinde yukarı ve aşağı hareket edilebilir, dosyanın başına ve sonuna gidilebilir.",
+      "subTopicName": "Etkileşimli Dosya Görüntüleme",
+      "normalizedSubTopicName": "etkileşimli_dosya_görüntüleme",
+      "difficulty": "medium"
+    },
+    {
       "id": "q5",
-      "questionText": "Aşağıdaki 'ip' komutlarından hangisi ağ arayüzlerini listelemek için kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi basit bir metin düzenleyicisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "ip addr show",
-        "ip link set eth0 up",
-        "ip link set eth0 down",
-        "ip route"
+        "vi",
+        "grep",
+        "nano",
+        "cat"
       ],
-      "correctAnswer": "ip addr show",
-      "explanation": "'ip addr show' komutu, sistemdeki tüm ağ arayüzlerini listelemek için kullanılır.",
-      "subTopicName": "İp Komutu İle Arayüz Yönetimi",
-      "normalizedSubTopicName": "ip_komutu_ile_arayuz_yonetimi",
+      "correctAnswer": "nano",
+      "explanation": "nano, kullanımı kolay ve basit bir metin düzenleyicisidir. vi daha gelişmiş bir düzenleyicidir. grep dosya içinde arama yapar, cat ise dosya içeriğini görüntüler.",
+      "subTopicName": "Text Editör Kullanımı",
+      "normalizedSubTopicName": "text_editör_kullanımı",
       "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "'ip' komutu ile 'ifconfig' komutu arasındaki temel fark nedir?",
+      "questionText": "Hangi komut, bir dosyayı düzenlemek için kullanılabilecek gelişmiş bir metin editörüdür?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
+      "cognitiveDomain": "remembering",
       "options": [
-        "'ip' komutu sadece arayüzleri listeler, 'ifconfig' yapılandırır.",
-        "'ifconfig' komutu sadece arayüzleri listeler, 'ip' yapılandırır.",
-        "'ip' komutu 'ifconfig' komutuna göre daha modern ve çok yönlüdür.",
-        "'ifconfig' komutu 'ip' komutuna göre daha modern ve çok yönlüdür."
+        "head",
+        "tail",
+        "nano",
+        "vi"
       ],
-      "correctAnswer": "'ip' komutu 'ifconfig' komutuna göre daha modern ve çok yönlüdür.",
-      "explanation": "'ip' komutu, 'ifconfig' komutuna göre daha gelişmiş özelliklere sahip ve daha modern bir alternatiftir. Daha fazla yapılandırma seçeneği sunar.",
-      "subTopicName": "İp Komutu İle Arayüz Yönetimi",
-      "normalizedSubTopicName": "ip_komutu_ile_arayuz_yonetimi",
-      "difficulty": "medium"
+      "correctAnswer": "vi",
+      "explanation": "vi, gelişmiş özelliklere sahip bir metin editörüdür. head ve tail komutları dosyanın başını ve sonunu gösterir, nano ise basit bir metin editörüdür.",
+      "subTopicName": "Text Editör Kullanımı",
+      "normalizedSubTopicName": "text_editör_kullanımı",
+      "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "'ping 10.112.0.1' komutu ne işe yarar?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "10.112.0.1 adresine belirli sayıda ping isteği gönderir.",
-        "10.112.0.1 adresine sürekli ping isteği gönderir.",
-        "10.112.0.1 adresine bir ICMP Echo isteği gönderir.",
-        "10.112.0.1 adresinden dosya indirir."
+        "ps",
+        "df",
+        "cat",
+        "free"
       ],
-      "correctAnswer": "10.112.0.1 adresine bir ICMP Echo isteği gönderir.",
-      "explanation": "'ping 10.112.0.1' komutu, belirtilen IP adresine bir ICMP Echo isteği göndererek ağ bağlantısının olup olmadığını test eder.",
-      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
+      "correctAnswer": "cat",
+      "explanation": "cat komutu, bir dosyanın içeriğini terminal ekranında görüntülemek için kullanılır. ps çalışan süreçleri, df disk alanı kullanımını, free ise bellek kullanımını gösterir.",
+      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
+      "normalizedSubTopicName": "dosya_görüntüleme_ve_düzenleme",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "'ping -c 4 10.112.0.1' komutu ne anlama gelir?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın son 10 satırını görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "10.112.0.1 adresine 4 adet ping isteği gönder.",
-        "10.112.0.1 adresine sürekli ping isteği gönder.",
-        "10.112.0.1 adresine 4 saniye boyunca ping isteği gönder.",
-        "10.112.0.1 adresinden 4 adet dosya indir."
+        "head",
+        "tail",
+        "less",
+        "grep"
       ],
-      "correctAnswer": "10.112.0.1 adresine 4 adet ping isteği gönder.",
-      "explanation": "'ping -c 4 10.112.0.1' komutu, 10.112.0.1 adresine toplamda 4 adet ping isteği göndereceği anlamına gelir. '-c' parametresi gönderilecek ping sayısını belirtir.",
-      "subTopicName": "Pinğiile Ağ Bağlantısı Testi",
-      "normalizedSubTopicName": "pingiile_ag_baglantisi_testi",
+      "correctAnswer": "tail",
+      "explanation": "tail komutu, bir dosyanın son satırlarını (varsayılan olarak son 10 satırı) görüntülemek için kullanılır. head ilk satırları, less etkileşimli görüntüleme, grep ise desen arama için kullanılır.",
+      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
+      "normalizedSubTopicName": "dosya_görüntüleme_ve_düzenleme",
       "difficulty": "easy"
     },
     {
       "id": "q9",
-      "questionText": "'traceroute google.com' komutu ne işe yarar?",
+      "questionText": "Linux sistemlerde çalışan süreçler hakkında bilgi almak için hangi komut kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "google.com adresine giden yolu izler.",
-        "google.com adresinden dosya indirir.",
-        "google.com adresinin IP adresini sorgular.",
-        "google.com adresine ping isteği gönderir."
+        "df",
+        "free",
+        "ps",
+        "du"
       ],
-      "correctAnswer": "google.com adresine giden yolu izler.",
-      "explanation": "'traceroute google.com' komutu, belirtilen hedefe (google.com) giden yolun hangi ağ cihazları üzerinden geçtiğini gösterir.",
-      "subTopicName": "Traceroute İle Yol Takibi",
-      "normalizedSubTopicName": "traceroute_ile_yol_takibi",
+      "correctAnswer": "ps",
+      "explanation": "ps komutu, çalışan süreçler hakkında bilgi verir. Örneğin, 'ps aux' komutu tüm çalışan süreçleri detaylı bir şekilde listeler. df disk alanı kullanımını, free bellek kullanımını, du ise dosya alanı kullanımını gösterir.",
+      "subTopicName": "Çalışan Süreçleri Görüntüleme",
+      "normalizedSubTopicName": "çalışan_süreçleri_görüntüleme",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi 'traceroute' komutunun temel işlevidir?",
+      "questionText": "Hangi komut, tüm çalışan süreçleri detaylı bir şekilde listelemek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Bir hedefe giden veri paketlerinin izlediği yolu belirlemek",
-        "Ağ arayüzlerini yapılandırmak",
-        "DNS sunucularını sorgulamak",
-        "Ağ bağlantı hızını test etmek"
+        "ps",
+        "ps aux",
+        "ps -h",
+        "ps -s"
       ],
-      "correctAnswer": "Bir hedefe giden veri paketlerinin izlediği yolu belirlemek",
-      "explanation": "'traceroute' komutu, bir hedefe ulaşmak için veri paketlerinin hangi ağ cihazlarından geçtiğini göstererek yol takibi yapar.",
-      "subTopicName": "Traceroute İle Yol Takibi",
-      "normalizedSubTopicName": "traceroute_ile_yol_takibi",
+      "correctAnswer": "ps aux",
+      "explanation": "ps aux komutu, tüm çalışan süreçleri kullanıcı, PID, CPU kullanımı gibi detaylı bilgilerle birlikte listeler. Diğer seçenekler ps komutunun farklı kullanımlarını temsil eder, ancak tüm süreçleri detaylı listeleme işlevini 'ps aux' sağlar.",
+      "subTopicName": "Çalışan Süreçleri Görüntüleme",
+      "normalizedSubTopicName": "çalışan_süreçleri_görüntüleme",
       "difficulty": "easy"
     }
   ]

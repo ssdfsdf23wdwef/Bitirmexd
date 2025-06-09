@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T12:34:39.702Z
+## Tarih: 2025-06-09T13:15:52.890Z
 
-## Trace ID: quiz-1749472479682-sebx8
+## Trace ID: quiz-1749474952863-x4jr8
 
-## Alt Konular (9 adet):
+## Alt Konular (7 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Arayüzü Yönetimi** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Arayüz Yönetimi** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Traceroute İle Yol Takibi** (2 soru)
+1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
+2. **Dosya İçeriği Birleştirme** (2 soru)
+3. **Etkileşimli Dosya Görüntüleme** (2 soru)
+4. **Text Editör Kullanımı** (2 soru)
+5. **Çalışan Süreçleri Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,10 +22,8 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Nslookup İle Dns Sorgulama
-2. Diğiile Detaylı Dns Bilgisi
-3. Netstat İle Ağ İstatistikleri
-4. Ss İle Soket İstatistikleri
+1. Disk Alanı Kullanımını Görüntüleme
+2. Bellek Kullanımını Görüntüleme
 
 ```
 
@@ -51,11 +49,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Ağ Arayüzü Yönetimi** (2 soru)
-2. **İfconfiğiile Arayüz Yapılandırması** (2 soru)
-3. **İp Komutu İle Arayüz Yönetimi** (2 soru)
-4. **Pinğiile Ağ Bağlantısı Testi** (2 soru)
-5. **Traceroute İle Yol Takibi** (2 soru)
+1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
+2. **Dosya İçeriği Birleştirme** (2 soru)
+3. **Etkileşimli Dosya Görüntüleme** (2 soru)
+4. **Text Editör Kullanımı** (2 soru)
+5. **Çalışan Süreçleri Görüntüleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -63,10 +61,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Nslookup İle Dns Sorgulama
-2. Diğiile Detaylı Dns Bilgisi
-3. Netstat İle Ağ İstatistikleri
-4. Ss İle Soket İstatistikleri
+1. Disk Alanı Kullanımını Görüntüleme
+2. Bellek Kullanımını Görüntüleme
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -79,96 +75,91 @@ bilal@atauni.edu.tr
 
 
 
-3.Hafta
+2.Hafta
 
 
-Temel Linux Komutları-3
+Temel Linux Komutları-2
 
 Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
 duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
 
-3. Ağ yönetimi ve izleme
+2. Dosya Görüntüleme ve Düzenleme
+Dosyaların içeriklerini görüntülemek veya düzenlemek için kullanılan komutlar.
 ●
-ifconfig
-(İnterface Configuration)
-Ağ arayüzlerini görüntülemek ve yapılandırmak için kullanılır.
-Örnek: ifconfig (Ağ arayüzlerini listeleme)
-Örnek: ifconfig eth0 (Belirli bir arayüzün IP adresini görüntüleme)
-●
-ip
-(Ağ yapılandırması)
-Örnek: ip addr show Ağ arayüzlerini listeleme
-Örnek: sudo ip link set eth0 up Ağ arayüzünü etkinleştirme
-Örnek: sudo ip link set eth0 down Ağ arayüzünü devre dışı bırakma
-●
-ping
-(Ağ Bağlantısını Test Etme)
-Bir ağdaki hedefe (genellikle başka bir cihaz veya sunucu) ICMP Echo istekleri gönderir.
-Örnek: ping 10.112.0.1 Bir IP adresine ping gönderme
-Örnek: ping -c 4 10.112.0.1 Belirli sayıda ping gönderme
-●
-netstat
-(Ağ Bağlantılarını Görüntüleme)
-Ağ bağlantıları ve istatistikleri hakkında bilgi verir.
-Örnek: netstat Mevcut bağlantıları listeleme
-
-
-Örnek: netstat -tuln Belirli bir portu dinleyen süreçleri listeleme
-Örnek: netstat -i Ağ istatistiklerini görüntüleme
-●
-ss
-(Socket Statistiği)
-ss
-komutu, aktif ağ bağlantılarını ve soket bilgilerini görüntüler ve
-netstat
-komutunun
-modern bir alternatifi olarak kabul edilir.
-Örnek: ss -t Mevcut TCP bağlantılarını listeleme
-Örnek: ss -l Dinleyen soketleri listeleme
-Örnek: ss -tuln Belirli bir portu dinleyen bağlantıları listeleme
+cat
+: Dosya içeriğini birleştirir ve görüntüler.
+○ Örnek:
+cat file1.txt
+(file1.txt'nin içeriğini görüntüler)
+○
+cat file1.txt file2.txt > file3.txt
 
 ●
-traceroute
-(Yol Takibi)
-Bir hedefe giden yolun hangi ağ cihazları (router) üzerinden geçtiğini gösterir.
-Örnek: traceroute google.com Bir hedefe doğru giden yolu izleme
+less
+: Geriye doğru gezinme ile dosya içeriğini etkileşimli olarak görüntüler
+○ Örnek:
+less file1.txt
+(file1.txt dosyasını ileri ve geri gezinme ile görüntüler)
 ●
-nslookup
-(DNS Sorgulama)
-DNS sunucusu üzerinden bir alan adının IP adresini sorgular.
-Örnek: nslookup google.com Bir alan adının IP adresini sorgulama
+nano
+: Basit bir text editörü
+○ Örnek:
+nano file1.txt
+(file1.txt dosyasını editler)
 ●
-dig
-(Domain Information Groper)
-dig
-, DNS sorguları yaparak bir alan adıyla ilgili daha ayrıntılı bilgi sağlar.
-Örnek: dig google.com Bir alan adı için DNS sorgusu yapma
-Örnek: dig google.com MX Alan adının MX kayıtlarını sorgulama
+vi
+/
+vim
+: Gelişmiş text editörü
+○ Örnek:
+vi file1.txt
+(file1.txt dosyasını editler)
 ●
-route
-(Yönlendirme Tablosu)
-Ağ yönlendirme tablosunu yönetmek için kullanılır.
-Örnek: route -n Yönlendirme tablosunu görüntüleme
+head
+: Bir dosyanın ilk kısmını çıktı olarak alır.
+○ Örnek:
+head file1.txt
+(file1.txt dosyasının ilk 10 satırını gösterir)
 ●
-curl
-(Ağ İstekleri)
-Web sunucularına HTTP, HTTPS, FTP vb. protokollerle istekler gönderir.
+tail
+: Bir dosyanın son kısmını çıktı olarak alır.
+○ Örnek:
+tail file1.txt
+(file1.txt dosyasının son 10 satırını gösterir)
+●
+grep
+: Dosyalar içinde arama yapar
+○ Örnek:
+grep "test" file1.txt
 
 
-Örnek: curl https://www.atauni.edu.tr Bir URL'ye HTTP isteği gönderme
-●
-wget
-(Dosya İndirme)
-Ağ üzerinden dosya indirmek için kullanılan komut.
-wget
-https://birimler.atauni.edu.tr/ogrenci-isleri-daire-baskanligi/wp-content/uploads/sites/18/2
-020/07/Akademik-Takvim_2024_2025_17052024.pdf
-●
-mtr
-(Ping ve Traceroute Kombinasyonu)
-Ağ bağlantısının durumunu izler, ping ve traceroute'un birleşimi gibi çalışır.
-Örnek: mtr google.com
-Hedefe mtr ile izleme
+
+
+
+
+
+
+3. Sistem Bilgisi ve İzleme
+Sistem durumunu ve gerçek zamanlı izlemeyi sağlayan komutlar.
+● ps: Çalışan işlemler hakkında bilgi verir.
+○ Örnek: ps aux (tüm çalışan prosesleri gösterir)
+● df: Disk alanı kullanımını görüntüler
+○ Örnek: df -h (disk alanı bilgilerini insan tarafından okunabilir bir biçimde
+gösterir)
+● du: Dosya alanı kullanımını gösterir
+○ Örnek: du -sh * (geçerli dizindeki her dosyanın/klasörün boyutunu
+gösterir)
+● free: Bellek kullanımını gösterir
+○ Örnek: free -h (bellek kullanımını insan tarafından okunabilir bir
+biçimde gösterir)
+● uptime: Sistem çalışma süresini ve yük ortalamasını gösterir
+○ Örnek: uptime
+● dmesg: Kernel mesajlarını gösterir
+○ Örnek: dmesg | grep error (sistem mesajlarında "error" arar)
+● vmstat: Sanal bellek istatistiklerini gösterir
+○ Örnek: vmstat (sistem performansını ve bellek kullanımını gösterir)
+
+
 
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
@@ -344,42 +335,42 @@ Hedefe mtr ile izleme
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Ağ Arayüzü Yönetimi: 2 soru
-  - İfconfiğiile Arayüz Yapılandırması: 2 soru
-  - İp Komutu İle Arayüz Yönetimi: 2 soru
-  - Pinğiile Ağ Bağlantısı Testi: 2 soru
-  - Traceroute İle Yol Takibi: 2 soru
+  - Dosya İçeriği Birleştirme: 2 soru
+  - Etkileşimli Dosya Görüntüleme: 2 soru
+  - Text Editör Kullanımı: 2 soru
+  - Dosya Görüntüleme Ve Düzenleme: 2 soru
+  - Çalışan Süreçleri Görüntüleme: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Ağ Arayüzü Yönetimi:
-- Soru: Aşağıdakilerden hangisi 'ifconfig' komutunun temel kullanım amaçlarından biridir?
-- Seçenekler: Ağ arayüzlerini listelemek ve yapılandırmak | DNS sunucusu üzerinden alan adının IP adresini sorgulamak | Ağ bağlantılarının istatistiklerini görüntülemek | Web sunucularına HTTP istekleri göndermek
-- Doğru Cevap: Ağ arayüzlerini listelemek ve yapılandırmak
-- Zorluk: easy
-
-#### İfconfiğiile Arayüz Yapılandırması:
-- Soru: Aşağıdaki 'ip' komutlarından hangisi 'eth0' arayüzünü etkinleştirmek için kullanılır?
-- Seçenekler: sudo ip link set eth0 down | ip addr show | sudo ip link set eth0 up | ip route show
-- Doğru Cevap: sudo ip link set eth0 up
+#### Dosya İçeriği Birleştirme:
+- Soru: Aşağıdaki komutlardan hangisi, iki dosyanın içeriğini birleştirip yeni bir dosyaya kaydetmek için kullanılır?
+- Seçenekler: less file1.txt file2.txt > file3.txt | cat file1.txt file2.txt > file3.txt | nano file1.txt file2.txt > file3.txt | vi file1.txt file2.txt > file3.txt
+- Doğru Cevap: cat file1.txt file2.txt > file3.txt
 - Zorluk: medium
 
-#### İp Komutu İle Arayüz Yönetimi:
-- Soru: Aşağıdaki 'ip' komutlarından hangisi ağ arayüzlerini listelemek için kullanılır?
-- Seçenekler: ip addr show | ip link set eth0 up | ip link set eth0 down | ip route
-- Doğru Cevap: ip addr show
+#### Etkileşimli Dosya Görüntüleme:
+- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini ileri ve geri gezinme özelliği ile etkileşimli olarak görüntülemek için kullanılır?
+- Seçenekler: cat | less | nano | vi
+- Doğru Cevap: less
 - Zorluk: easy
 
-#### Pinğiile Ağ Bağlantısı Testi:
-- Soru: 'ping 10.112.0.1' komutu ne işe yarar?
-- Seçenekler: 10.112.0.1 adresine belirli sayıda ping isteği gönderir. | 10.112.0.1 adresine sürekli ping isteği gönderir. | 10.112.0.1 adresine bir ICMP Echo isteği gönderir. | 10.112.0.1 adresinden dosya indirir.
-- Doğru Cevap: 10.112.0.1 adresine bir ICMP Echo isteği gönderir.
+#### Text Editör Kullanımı:
+- Soru: Aşağıdakilerden hangisi basit bir metin düzenleyicisidir?
+- Seçenekler: vi | grep | nano | cat
+- Doğru Cevap: nano
 - Zorluk: easy
 
-#### Traceroute İle Yol Takibi:
-- Soru: 'traceroute google.com' komutu ne işe yarar?
-- Seçenekler: google.com adresine giden yolu izler. | google.com adresinden dosya indirir. | google.com adresinin IP adresini sorgular. | google.com adresine ping isteği gönderir.
-- Doğru Cevap: google.com adresine giden yolu izler.
+#### Dosya Görüntüleme Ve Düzenleme:
+- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini görüntülemek için kullanılır?
+- Seçenekler: ps | df | cat | free
+- Doğru Cevap: cat
+- Zorluk: easy
+
+#### Çalışan Süreçleri Görüntüleme:
+- Soru: Linux sistemlerde çalışan süreçler hakkında bilgi almak için hangi komut kullanılır?
+- Seçenekler: df | free | ps | du
+- Doğru Cevap: ps
 - Zorluk: easy
 

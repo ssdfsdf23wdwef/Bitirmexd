@@ -96,6 +96,8 @@ export class LearningTargetsService {
         lastAttemptScorePercent: null,
         lastAttempt: null,
         firstEncountered: new Date().toISOString(),
+        source: dto.source || 'user_created', // Added source with default value
+        type: dto.type || 'unknown', // Added type with default value
       };
 
       // Save to Firestore
@@ -659,6 +661,8 @@ export class LearningTargetsService {
           lastAttemptScorePercent: null,
           lastAttempt: null,
           firstEncountered: new Date().toISOString(),
+          source: 'ai_generated_new', // Default source for AI generated topics
+          type: 'unknown', // Default type for AI generated topics
         };
 
         // Create a new document reference
@@ -1276,6 +1280,7 @@ export class LearningTargetsService {
         createdAt: now as any,
         updatedAt: now as any,
         source: LearningTargetSource.MANUAL,
+        type: 'unknown', // Default type for manually created targets
         firstEncountered: now, // Adding required property
       };
 
@@ -1707,6 +1712,8 @@ export class LearningTargetsService {
           quizzes: [], // İlişkili sınavlar başlangıçta boş
           createdAt: now as any, // Type assertion for Firestore Timestamp
           updatedAt: now as any, // Type assertion for Firestore Timestamp
+          source: LearningTargetSource.MANUAL,
+          type: 'unknown', // Default type for manually created targets
           firstEncountered: now,
           lastAttempt: null,
         };
@@ -1908,6 +1915,8 @@ export class LearningTargetsService {
           lastAttemptScorePercent: null,
           lastAttempt: null,
           firstEncountered: now.toISOString(),
+          source: 'ai_generated_new', // Default source for AI generated topics
+          type: 'unknown', // Default type for AI generated topics
         };
         
         // Add to batch
@@ -2315,6 +2324,11 @@ export class LearningTargetsService {
             ...target,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            // DÜZELTME: source ve type alanları eklendi
+            source: target.source,
+            type: target.type , // Varsayılan değerler
+            // Daire ve konu gibi diğer potansiyel alanlar da buraya eklenebilir.
+            // details: createLearningTargetDto.details, 
             history: [newStatusObject],
             normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(target.subTopicName),
             failCount: target.status === 'failed' ? 1 : 0,

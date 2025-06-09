@@ -1351,7 +1351,7 @@ export default function ExamCreationWizard({
         uploadedDocumentId,
         // Gerekirse başka önemli state'ler de eklenebilir
       };
-      downloadExamAsMarkdown(examData, "giden_sinav.md");
+      
     } catch (err) {
       console.error("Sınav verisi markdown indirme sırasında hata:", err);
     }
