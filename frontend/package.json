@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/geist": "^5.2.5",
     "@nestjs/cache-manager": "^3.0.1",
+    "@next/bundle-analyzer": "^15.3.3",
     "@nextui-org/react": "^2.6.11",
     "@ntegral/nestjs-sentry": "^4.0.1",
     "@sentry/node": "^9.17.0",

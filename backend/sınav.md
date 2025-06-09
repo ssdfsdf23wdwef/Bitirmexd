@@ -1,8 +1,8 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T17:10:25.395Z
+## Tarih: 2025-06-09T20:10:38.189Z
 
-## Trace ID: quiz-1749489025365-iouna
+## Trace ID: quiz-1749499838157-gpfd5
 
 ## Alt Konular (8 adet):
 ```
@@ -10,11 +10,11 @@
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Meslek Hastalıklarının Tanımı** (2 soru)
-2. **Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı** (2 soru)
-3. **Meslek Hastalıkları Alanındaki Öncüler** (2 soru)
-4. **Türkiyedeki Yasal Düzenlemeler** (2 soru)
-5. **Tanı Kriterleri** (2 soru)
+1. **Kimyasal Maddelerde Sağlık Ve Güvenlik** (2 soru)
+2. **İ Şveren Yükümlülükleri** (2 soru)
+3. **Risk Değerlendirilmesi** (2 soru)
+4. **Akut Ve Kronik Sağlık Riskleri** (2 soru)
+5. **Tehlikeli Kimyasal Maddeler** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,9 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Korunma Yöntemleri
-2. Klinik Ve Laboratuvar Değerlendirmeleri
-3. Bildirim Yükümlülüğü
+1. Gbfnin Önemi
+2. Depolama Ve Etiketleme
+3. Mak Değeri Tanımı
 
 ```
 
@@ -50,11 +50,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Meslek Hastalıklarının Tanımı** (2 soru)
-2. **Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı** (2 soru)
-3. **Meslek Hastalıkları Alanındaki Öncüler** (2 soru)
-4. **Türkiyedeki Yasal Düzenlemeler** (2 soru)
-5. **Tanı Kriterleri** (2 soru)
+1. **Kimyasal Maddelerde Sağlık Ve Güvenlik** (2 soru)
+2. **İ Şveren Yükümlülükleri** (2 soru)
+3. **Risk Değerlendirilmesi** (2 soru)
+4. **Akut Ve Kronik Sağlık Riskleri** (2 soru)
+5. **Tehlikeli Kimyasal Maddeler** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,66 +62,50 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Korunma Yöntemleri
-2. Klinik Ve Laboratuvar Değerlendirmeleri
-3. Bildirim Yükümlülüğü
+1. Gbfnin Önemi
+2. Depolama Ve Etiketleme
+3. Mak Değeri Tanımı
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ÜNİTE
-7
+4
 
 İÇİNDEKİLER
-•Meslek Hastalıklarının Tanımı
-•Meslek Hastalıklarının Tarihi
-Gelişimi
-•Meslek Hastalıklarının
-Özellikleri, Tanı Kriterleri ve
-Korunma Yöntemleri
-•Meslek Hastalıklarının
-Sınıflandırılması
+•Kimyasal Maddelerle
+Çalışmalarda Sağlık ve Güvenlik
+Önlemleri
+•İşverenin Yükümlülüğü
+•Kimyasalların Özellikleri
+(Kimyasal Tehlikeler)
+•Malzeme Güvenlik Bilgi Formu
+•Kimyasal Atıkların Depolanması
+ve Etiketlenmesi
 HEDEFLER
 •Bu üniteyi çalıştıktan sonra;
-•Meslek hastalıklarının ayırımını
-yapabilecek,
-•Meslek hastalıklarının çeşitliliğini
-ve sınıflandırılmasını
-yapabilecek,
-•Meslek hastalıklarının hukuksal
-boyutu konusunda bilgi sahibi
-olabilecek,
-•Meslek hastalıklarından
-korunma yöntemleri hakkında
-bilgi sahibi olabileceksiniz.
-Prof. Dr.
-Zekai HALICI
+•İş yerindeki sağlığı ve güvenliği
+olumsuz etkileyen kimyasal risk
+etmenlerine karşı alınması gereken
+iş sağlığı ve güvenliği tedbirlerinin
+öğrenilmesi sağlanabilecek,
+•Standartlarda müsade edilen
+değerler tanımlanabilecek,
+•Kimyasal risk etmenlerinin
+kontrolü ve iş verenin bu konudaki
+görevlerini belirleyebilecek,
+•İş yerlerinde çalışanların sağlığını
+olumsuz etkileyen kimyasal
+etmenler tanımlanabilecek,
+•Kimyasal atıkların depolanması ve
+etiketlenmesini anlayabileceksiniz.
+
+
+Dr. Öğr. Üyesi
+Fatma BAYRAKÇEKEN
+NİŞANCI
 
 
 İŞ SAĞLIĞI VE GÜVENLİĞİ
@@ -131,10 +115,9 @@ Zekai HALICI
 © Bu ünitenin tüm yayın hakları Atatürk Üniversitesi Açıköğretim Fakültesi’ne aittir. Yazılı izin alınmadan
 ünitenin tümünün veya bir kısmının elektronik, mekanik ya da fotokopi yoluyla basımı, yayımı, çoğaltımı ve
 dağıtımı yapılamaz.
-MESLEK HASTALIKLARI
+KİMYASAL RİSK ETMENLERİ
 
-Meslek Hastalıkları
-
+Kimyasal Risk Etmenleri
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 2
 
@@ -147,80 +130,82 @@ Atatürk Üniversitesi Açıköğretim Fakültesi 2
 
 
 
+Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik
+Önlemleri
+Çeşitli Kimyasal Maddelerin Çalışma Ortamında Bulunması
+İş Veren Yükümlülüğü
+Risk Değerlendirilmesi
+Genel Önlemler
+Özel Koruyucu ve Önleyici Önlemler
+Kaza ve Acil Durumlar
+İşçilerin Eğitimi ve Bilgilendirilmesi
+Kimyasal Özellikleri/Kimyasal Tehlikeleri
+Akut Sağlık Riski Diğer Fiziksel Risk
+Kronik Sağlık Riski Tehlikeli Kimyasallar
+Ekotoksit Risk Gaz ve Dumaların Akut,Kronik Etkileri
+Sağlık Kontrolleri
+Malzeme Güvenlik Bilgi Formu
+Çalışanların Patlayıcı Ortamların Tehlikelerinden Korunması
+Kimyasal Atıkların Depolanması, Etiketlenmesi ve İmha
+Edilmesi
 
-MESLEK HASTALIKLARI
-•Meslek Hastalıklarının Tarihçesi
-•Meslek Hastalıklarının Tanımı Ve Özellikleri
-Meslek Hastalıklarının Sınıflandırılması
-•Farklı Meslek Hastalıklarının İşyeri Özelliğine Göre
-Açıklanması
-•Meslek Hastalıklarından Korunma Ve Önleme
-Meslek Hastalıklarının Hukuksal Boyutu
-
-Meslek Hastalıkları
-
+Kimyasal Risk Etmenleri
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 3
 GİRİŞ
-İnsanoğlu son yüzyılda baş döndürücü bir şekilde teknolojik ve sosyal
-gelişim içine girmiştir. Bu gelişmeyi hayatımızın her anında görmekteyiz. Bu
-gelişimle beraber toplumların sağlık anlayışı da değişmiş ve birçok yeni tanımlar
-ortaya çıkmıştır. Dünya Sağlık Örgütünün (WHO) tanımına göre sağlık, kişinin
-bedensel, ruhsal ve toplumsal olarak tam iyilik hâlidir. Sağlık anlayışı ve tanımları
-değişirken tabii ki iş yeri güvenliği, işçi sağlığı ve bu konuda da birçok önemli ve
-faydalı değişiklikler olmuştur. Bundan 30-40 sene önce kişisel elbiseleriyle hiçbir
-tedbir almadan fabrikalarda çalışan işçiler bulunurken son yıllarda işçi sağlığı
-konusunda çok önemli gelişmeler olmuştur. İşçi sağlığı konusunu irdelerken iş ve
-işçi sağlığı hizmetlerinden bahsetmemiz gerekmektedir. Bu hizmetlerin amacı tüm
-çalışanların sağlıklı bir ortamda çalışmalarını sürdürme ve onları sağlıklı tutma,
-çalışanları çalıştıkları ortam ne koşulda olursa olsun kaynaklanabilecek sağlık
-zararlarından koruma ve aynı zamanda çalışanın fizyolojik ve psikolojik durumuna
-uygun işe yerleştirmektir. Bu kavramı ise kısaca “işe uygun insan, insana uygun iş”
-olarak ifade edebiliriz. Gelişen sanayi ile birlikte çalışanların iş alanları her geçen
-gün artmakla beraber karşılaşabilecekleri fiziksel ve psikolojik mesleki risk
-faktörleri de artmaktadır. Artık çalışma alanlarında 100.000’den fazla kimyasal
-madde bulunmakta bunların 700’den fazlası ise kanserojendir. Mesleki biyolojik
-risk etmenlerinin sayısı şu an itibariyle 200’den fazla olmakla birlikte her geçen
-gün bu sayı artmaktadır. Biyolojik ve kimyasal risklerden farklı olarak ise 20’den
-fazla ergonomik sorun çalışanların sağlığını tehdit etmektedir.
-Tüm bu risk etmenlerini bir araya koyduğumuzda artık karşımıza meslek
-hastalıkları çıkmaktadır. Meslek hastalıklarının tanımı ve ayırıcı özelliklerinin
-bilinmesi oldukça önemlidir. Çünkü meslek hastalıkları ile işle ilgili hastalıklar
-karıştırılmaktadır. İşle ilgili hastalıklar meslek hastalıkları gibi direkt iş ortamına
-bağlı olmayıp karışık multi-etyolojik (çok etkenli) nedenlere sahiptir. Bu iki
-konunun kişisel ve sağlık probleminin yanında aynı zamanda da hukuksal boyutu
-da bulunmaktadır.
-Son yıllarda mahkemelerde birçok dava dosyası bulunmakta olup meslek
-hastalıkları ve işle ilgili hastalıklar arasında kavram karmaşası yaşanmaktadır. Tüm
-bu sebeplerden dolayı meslek hastalıklarının sınıflandırılması ve ayırıcı tanımının
-yapılması hem işveren hem de çalışan için elzemdir.
-MESLEK HASTALIKLARININ TANIMI
-Meslek hastalığı, bir iş yerinde çalışanın yaptığı iş veya iş ortamından
-kaynaklanan ve sürekli tekrarlanan bir sebeple uğradığı geçici veya sürekli hastalık,
-bedensel veya ruhsal özürlülük hâlleridir. Etyolojisi (etkeni) tanımlanabilir ve
-genellikle tek olmalıdır. Buradan da anlaşılacağı gibi meslek hastalığındaki esas
-neden iş veya işle ilgili nedenler olmalıdır. 5510 sayılı SS-GSS (2006) Kanunu2na
-göre meslek hastalığı, sigortalının çalıştığı veya yaptığı işin niteliğinden dolayı
-tekrarlanan bir sebeple veya işin yürütüm şartları yüzünden uğradığı geçici veya
-sürekli hastalık, bedensel veya ruhsal özürlülük hâlleridir [1]. Aynı zamanda 2012
-tarihinde çıkarılan yeni bir kanunla önceki kanunun kapsamı genişletilmiş ve iş
+Geçmişten günümüze kadar yapılan araştırmaların çoğu, iş hastalığı ile
+çalışma ortamı arasında önemsenmeyecek bir etkileşimin olduğunu
+göstermektedir [1]. Günlük hayatımızda ve çalışma ortamında kimyasal
+maddelerle iç içe yaşanmaktadır ve bu kimyasal maddelerin bir kısmı canlılar için
+çok gerekli iken bazıları da canlı yaşamı için son derece tehlikeli olabilmektedir.
+Kimyasal tehlikeler, çalışanlara yönelik en önemli tehlike gruplarından
+olduğundan, çalışanların eğitimi ve sağlık kontrolü, ‘Kanserojen veya Mutajen
+Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ Yönetmeliği’nin iş güvenliği
+uzmanına ve iş yeri hekimine verdiği görevler arasındadır.
+Çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi,
+sanayi türüne, kişinin zararlı maddelere maruziyet sınırı, bulunduğu ortama göre
+değişim göstermektedir. Ayrıca çalışanların tehlikeli kimyasal maddeler ile yüz
+yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal
+maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere
+maruz kalındığına bağlıdır. Dünyada bilinen 5 ile 7 milyon farklı türde kimyasal
+bulunmaktadır. Bu kimyasal maddelerin 5000-7000 arasındakilerinin zararlı
+etkileri olup bunların da içinden 3000 kadarının kanserojen özellik taşıdığı
+bilinmektedir. Bunları üreten ve bunlarla çalışmak durumunda olan çalışanlar, iş
+sağlığı açısından tehlikelere en fazla maruz kalan gruptur. Tarım, tekstil, metal
+endüstrisi, kimyasal üretimi, temizlik işleri, kozmetik endüstrisi, kimyasal
+maddelerin depolanma ve taşınması işleri bu gruba girmektedir.
+İş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenleri arasında
+tozlar (organik ve inorganik tozlar), gaz, buhar ve dumanlar, pestisitler,
+kanserojen, mutajen ve oksit parlayıcı, patlayıcı, tehlikeli ve zararlı maddeler,
+solventler, asit ve bazlar, metaller ve tuzlar sayılabilir.
+Ülkemizde tehlikeli kimyasal maddelerin üretilmesi, kullanımı, depolanması,
+nakliyesi konularında değişik yasal düzenlemeler yapılmıştır. Bu yasal
+düzenlemelerden yeni adıyla Aile, Çalışma ve Sosyal Hizmetler Bakanlığı tarafından
+2013 tarihinde yayınlanan ‘Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik
+Önlemleri’ adlı yönetmenliğin amacı, iş yerinde mevcut olan, kullanılan kimyasal
+maddelerde oluşabilecek risklerden çalışanların sağlığının korunması ve güvenlik
+çalışma şartlarının belirlenmesidir. Bu yönetmelik kapsamına, kimyasal maddelerin
+bulunduğu, kullanıldığı veya işlem gördüğü tüm iş yerleri, radyoaktif maddelerle
+çalışmalar, zararlı kimyasal maddelerin iş yeri dışına taşınması girmektedir [2].
+Mevzuatlar bazı kimyasal maddelerin kullanımına sınır getirirken bazılarının
+üretimi ve kullanımını yasaklanmıştır.
 
-Meslek hastalığı,
-çalışanın yaptığı iş veya
-iş ortamından
-kaynaklanan bir
-sebeple uğradığı geçici
-veya sürekli hastalık,
-bedensel veya ruhsal
-özürlülük hâlleridir.
 
-Meslek Hastalıkları
 
+
+Kimyasal tehlikeler,
+günümüzde işçilerin
+sağlığı için en ciddi
+risktir.
+
+Kimyasal Risk Etmenleri
 
 Atatürk Üniversitesi Açıköğretim Fakültesi 4
-güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar
-yürürlüğe geçirilmiştir (Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda
-Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 tarih: 1.3.2012)...(Kısaltıldı)
+KİMYASAL MADDELERLE ÇALIŞMALARDA SAĞLIK VE
+GÜVENLİK ÖNLEMLERİ
+2013 tarihinde yayınlanan ‘Kanserojen veya Mutajen Maddelerle Çalışmalarda
+Sağlık ve Güvenlik Önlemleri’ yönetmeliğinde, iş yerinde bulunan kanserojen ve
+mutajen maddeler ile ilgili hükümleri uygulanır ...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -395,42 +380,42 @@ Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 tarih: 1.3.2012)...(Kısal
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Meslek Hastalıklarının Tanımı: 2 soru
-  - Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı: 2 soru
-  - Meslek Hastalıkları Alanındaki Öncüler: 2 soru
-  - Türkiyedeki Yasal Düzenlemeler: 2 soru
-  - Tanı Kriterleri: 2 soru
+  - Kimyasal Maddelerde Sağlık Ve Güvenlik: 2 soru
+  - İ Şveren Yükümlülükleri: 2 soru
+  - Risk Değerlendirilmesi: 2 soru
+  - Akut Ve Kronik Sağlık Riskleri: 2 soru
+  - Tehlikeli Kimyasal Maddeler: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Meslek Hastalıklarının Tanımı:
-- Soru: Aşağıdakilerden hangisi meslek hastalığının tanımında yer almaz?
-- Seçenekler: Çalışanın yaptığı işten kaynaklanması | İş ortamından kaynaklanması | Sürekli tekrarlanan bir sebeple oluşması | Çok etkenli (multi-etyolojik) nedenlere sahip olması
-- Doğru Cevap: Çok etkenli (multi-etyolojik) nedenlere sahip olması
+#### Kimyasal Maddelerde Sağlık Ve Güvenlik:
+- Soru: Aşağıdakilerden hangisi 'Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri' yönetmeliğinin amaçlarından biridir?
+- Seçenekler: Çalışanların ücretlerinin artırılması | İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması | İş yerindeki makinelerin modernizasyonu | Çalışanların izin günlerinin düzenlenmesi
+- Doğru Cevap: İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması
 - Zorluk: easy
 
-#### Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı:
-- Soru: Aşağıdakilerden hangisi meslek hastalığı ile işle ilgili hastalık arasındaki temel bir farktır?
-- Seçenekler: Meslek hastalıklarının tedavisinin daha kolay olması | İşle ilgili hastalıkların daha hızlı ilerlemesi | Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması | İşle ilgili hastalıkların daha ölümcül olması
-- Doğru Cevap: Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması
-- Zorluk: medium
-
-#### Meslek Hastalıkları Alanındaki Öncüler:
-- Soru: Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.
-- Seçenekler: True | False
-- Doğru Cevap: True
+#### İ Şveren Yükümlülükleri:
+- Soru: 2013 tarihinde yayınlanan hangi yönetmelik, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümleri içerir?
+- Seçenekler: Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği | İş Ekipmanlarının Kullanımında Sağlık ve Güvenlik Şartları Yönetmeliği | Elle Taşıma İşleri Yönetmeliği | Gürültü Yönetmeliği
+- Doğru Cevap: Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği
 - Zorluk: easy
 
-#### Türkiyedeki Yasal Düzenlemeler:
-- Soru: 2012 tarihinde çıkarılan kanunla ilgili aşağıdakilerden hangisi doğrudur?
-- Seçenekler: Önceki kanunun kapsamı daraltılmıştır. | İş güvenliği ve meslek hastalıkları konusunda daha az koruyucu yasalar yürürlüğe girmiştir. | Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir. | Sadece belirli sektörleri kapsamaktadır.
-- Doğru Cevap: Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.
+#### Risk Değerlendirilmesi:
+- Soru: Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi öncelikle nelere bağlıdır?
+- Seçenekler: İş yerinin büyüklüğüne ve konumuna | Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine | Çalışanların kişisel tercihlerine ve alışkanlıklarına | Devletin ekonomik politikalarına
+- Doğru Cevap: Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine
 - Zorluk: medium
 
-#### Tanı Kriterleri:
-- Soru: Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.
-- Seçenekler: True | False
-- Doğru Cevap: True
+#### Akut Ve Kronik Sağlık Riskleri:
+- Soru: Aşağıdakilerden hangisi akut sağlık riskine örnek olarak verilebilir?
+- Seçenekler: Uzun süreli maruz kalma sonucu ortaya çıkan kronik bronşit | Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme | Yıllar sonra ortaya çıkan kanser | Tekrarlayan hareketler sonucu oluşan kas-iskelet sistemi rahatsızlıkları
+- Doğru Cevap: Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme
+- Zorluk: medium
+
+#### Tehlikeli Kimyasal Maddeler:
+- Soru: Aşağıdakilerden hangisi tehlikeli kimyasal maddelere örnek olarak verilemez?
+- Seçenekler: Asitler | Bazlar | Solventler | Vitaminler
+- Doğru Cevap: Vitaminler
 - Zorluk: easy
 

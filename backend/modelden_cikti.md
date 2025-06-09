@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T17:10:40.079Z
-Trace ID: quiz-1749489025365-iouna
-Yanıt Uzunluğu: 8416 karakter
+Tarih: 2025-06-09T20:10:53.581Z
+Trace ID: quiz-1749499838157-gpfd5
+Yanıt Uzunluğu: 9292 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,165 +11,168 @@ Yanıt Uzunluğu: 8416 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi meslek hastalığının tanımında yer almaz?",
+      "questionText": "Aşağıdakilerden hangisi 'Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri' yönetmeliğinin amaçlarından biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Çalışanın yaptığı işten kaynaklanması",
-        "İş ortamından kaynaklanması",
-        "Sürekli tekrarlanan bir sebeple oluşması",
-        "Çok etkenli (multi-etyolojik) nedenlere sahip olması"
+        "Çalışanların ücretlerinin artırılması",
+        "İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması",
+        "İş yerindeki makinelerin modernizasyonu",
+        "Çalışanların izin günlerinin düzenlenmesi"
       ],
-      "correctAnswer": "Çok etkenli (multi-etyolojik) nedenlere sahip olması",
-      "explanation": "Meslek hastalıkları genellikle tek bir etkene bağlıdır. Çok etkenli nedenlere sahip hastalıklar işle ilgili hastalıklardır, meslek hastalığı değildir. Bkz: Meslek Hastalıklarının Tanımı",
-      "subTopicName": "Meslek Hastalıklarının Tanımı",
-      "normalizedSubTopicName": "meslek_hastaliklarinin_tanimi",
+      "correctAnswer": "İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması",
+      "explanation": "2013 tarihinde yayınlanan ‘Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ adlı yönetmenliğin amacı, iş yerinde mevcut olan, kullanılan kimyasal maddelerde oluşabilecek risklerden çalışanların sağlığının korunması ve güvenlik çalışma şartlarının belirlenmesidir.",
+      "subTopicName": "Kimyasal Maddelerde Sağlık Ve Güvenlik",
+      "normalizedSubTopicName": "kimyasal_maddelerde_sağlık_ve_güvenlik",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "5510 sayılı SS-GSS Kanunu'na göre meslek hastalığı aşağıdakilerden hangisi ile tanımlanır?",
+      "questionText": "Aşağıdakilerden hangisi iş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenlerinden biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Sigortalının genetik yatkınlığı sonucu ortaya çıkan hastalıklar",
-        "Sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple uğradığı hastalıklar",
-        "Sigortalının yaşam tarzı seçimleri sonucu ortaya çıkan hastalıklar",
-        "Sigortalının ailesinde görülen kronik hastalıklar"
-      ],
-      "correctAnswer": "Sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple uğradığı hastalıklar",
-      "explanation": "5510 sayılı SS-GSS Kanunu, meslek hastalığını sigortalının çalıştığı işin niteliğinden dolayı tekrarlanan bir sebeple veya işin yürütüm şartları yüzünden uğradığı hastalık olarak tanımlar. Bkz: Meslek Hastalıklarının Tanımı",
-      "subTopicName": "Meslek Hastalıklarının Tanımı",
-      "normalizedSubTopicName": "meslek_hastaliklarinin_tanimi",
-      "difficulty": "medium"
+      "cognitiveDomain": "remembering",
+      "options": ["Tozlar", "Gazlar", "Buharlar", "Radyo dalgaları"],
+      "correctAnswer": "Radyo dalgaları",
+      "explanation": "İş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenleri arasında tozlar (organik ve inorganik tozlar), gaz, buhar ve dumanlar, pestisitler, kanserojen, mutajen ve oksit parlayıcı, patlayıcı, tehlikeli ve zararlı maddeler, solventler, asit ve bazlar, metaller ve tuzlar sayılabilir.",
+      "subTopicName": "Kimyasal Maddelerde Sağlık Ve Güvenlik",
+      "normalizedSubTopicName": "kimyasal_maddelerde_sağlık_ve_güvenlik",
+      "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "Aşağıdakilerden hangisi meslek hastalığı ile işle ilgili hastalık arasındaki temel bir farktır?",
+      "questionText": "2013 tarihinde yayınlanan hangi yönetmelik, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümleri içerir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Meslek hastalıklarının tedavisinin daha kolay olması",
-        "İşle ilgili hastalıkların daha hızlı ilerlemesi",
-        "Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması",
-        "İşle ilgili hastalıkların daha ölümcül olması"
+        "Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği",
+        "İş Ekipmanlarının Kullanımında Sağlık ve Güvenlik Şartları Yönetmeliği",
+        "Elle Taşıma İşleri Yönetmeliği",
+        "Gürültü Yönetmeliği"
       ],
-      "correctAnswer": "Meslek hastalıklarının direkt olarak iş ortamına bağlı olması, işle ilgili hastalıkların ise çok etkenli nedenlere sahip olması",
-      "explanation": "Meslek hastalıkları genellikle iş ortamına doğrudan bağlıdır ve tek bir nedene sahiptir. İşle ilgili hastalıklar ise çok çeşitli faktörlerin bir araya gelmesiyle ortaya çıkar. Bkz: Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
-      "subTopicName": "Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
-      "normalizedSubTopicName": "meslek_hastaligi_ve_i_sle_i_lgili_hastalik_ayrimi",
-      "difficulty": "medium"
+      "correctAnswer": "Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği",
+      "explanation": "2013 tarihinde yayınlanan ‘Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ yönetmeliğinde, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümler uygulanır.",
+      "subTopicName": "İ Şveren Yükümlülükleri",
+      "normalizedSubTopicName": "i_veren_yukumlulukleri",
+      "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Meslek hastalıkları ve işle ilgili hastalıklar arasındaki kavram karmaşasının yaşanmasının temel nedeni nedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
-      "options": [
-        "Hekimlerin bu konudaki bilgisizliği",
-        "Yasal düzenlemelerin yetersizliği",
-        "Hastalıkların belirtilerinin benzerliği ve çok etkenli olabilmesi",
-        "İşverenlerin konuya ilgisizliği"
-      ],
-      "correctAnswer": "Hastalıkların belirtilerinin benzerliği ve çok etkenli olabilmesi",
-      "explanation": "Meslek hastalıkları ve işle ilgili hastalıkların belirtileri bazen benzer olabilir ve işle ilgili hastalıkların çok etkenli olması, ayrımı zorlaştırabilir. Bu durum, kavram karmaşasına yol açmaktadır. Bkz: Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
-      "subTopicName": "Meslek Hastalığı Ve İ Şle İ Lgili Hastalık Ayrımı",
-      "normalizedSubTopicName": "meslek_hastaligi_ve_i_sle_i_lgili_hastalik_ayrimi",
-      "difficulty": "hard"
-    },
-    {
-      "id": "q5",
-      "questionText": "Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
-      "questionType": "true_false",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "True",
-        "False"
-      ],
-      "correctAnswer": "True",
-      "explanation": "Verilen metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
-      "subTopicName": "Meslek Hastalıkları Alanındaki Öncüler",
-      "normalizedSubTopicName": "meslek_hastaliklari_alanindaki_onculer",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q6",
-      "questionText": "Metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
-      "questionType": "true_false",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "True",
-        "False"
-      ],
-      "correctAnswer": "True",
-      "explanation": "Verilen metinde Meslek Hastalıkları alanındaki öncüler ile ilgili bir bilgi bulunmamaktadır.",
-      "subTopicName": "Meslek Hastalıkları Alanındaki Öncüler",
-      "normalizedSubTopicName": "meslek_hastaliklari_alanindaki_onculer",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q7",
-      "questionText": "2012 tarihinde çıkarılan kanunla ilgili aşağıdakilerden hangisi doğrudur?",
+      "questionText": "İşverenlerin yükümlülükleri kapsamında, çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi neye göre değişiklik gösterir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Önceki kanunun kapsamı daraltılmıştır.",
-        "İş güvenliği ve meslek hastalıkları konusunda daha az koruyucu yasalar yürürlüğe girmiştir.",
-        "Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.",
-        "Sadece belirli sektörleri kapsamaktadır."
+        "Çalışanların yaşına",
+        "Sanayi türüne, kişinin zararlı maddelere maruziyet sınırına ve bulunduğu ortama",
+        "Çalışanların eğitim seviyesine",
+        "Çalışanların medeni durumuna"
       ],
-      "correctAnswer": "Önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir.",
-      "explanation": "2012 tarihinde çıkarılan kanunla önceki kanunun kapsamı genişletilmiş ve iş güvenliği ve meslek hastalıkları konusunda çok daha kapsamlı ve koruyucu yasalar yürürlüğe geçirilmiştir. Bkz: Türkiyedeki Yasal Düzenlemeler",
-      "subTopicName": "Türkiyedeki Yasal Düzenlemeler",
-      "normalizedSubTopicName": "turkiyedeki_yasal_duzenlemeler",
+      "correctAnswer": "Sanayi türüne, kişinin zararlı maddelere maruziyet sınırına ve bulunduğu ortama",
+      "explanation": "Çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi, sanayi türüne, kişinin zararlı maddelere maruziyet sınırı, bulunduğu ortama göre değişim göstermektedir.",
+      "subTopicName": "İ Şveren Yükümlülükleri",
+      "normalizedSubTopicName": "i_veren_yukumlulukleri",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q5",
+      "questionText": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi öncelikle nelere bağlıdır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "İş yerinin büyüklüğüne ve konumuna",
+        "Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine",
+        "Çalışanların kişisel tercihlerine ve alışkanlıklarına",
+        "Devletin ekonomik politikalarına"
+      ],
+      "correctAnswer": "Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine",
+      "explanation": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere maruz kalındığına bağlıdır.",
+      "subTopicName": "Risk Değerlendirilmesi",
+      "normalizedSubTopicName": "risk_degerlendirilmesi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q6",
+      "questionText": "Risk değerlendirmesi sürecinde, çalışanların sağlığını ve güvenliğini etkileyebilecek tehlikelerin belirlenmesinde aşağıdakilerden hangisi dikkate alınmaz?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Kimyasal maddelerin özellikleri",
+        "Maruziyetin türü, şiddeti ve süresi",
+        "Çalışanların hobileri",
+        "Çalışma ortamının koşulları"
+      ],
+      "correctAnswer": "Çalışanların hobileri",
+      "explanation": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere maruz kalındığına bağlıdır. Bu değerlendirmede çalışanların hobileri dikkate alınmaz.",
+      "subTopicName": "Risk Değerlendirilmesi",
+      "normalizedSubTopicName": "risk_degerlendirilmesi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q7",
+      "questionText": "Aşağıdakilerden hangisi akut sağlık riskine örnek olarak verilebilir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Uzun süreli maruz kalma sonucu ortaya çıkan kronik bronşit",
+        "Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme",
+        "Yıllar sonra ortaya çıkan kanser",
+        "Tekrarlayan hareketler sonucu oluşan kas-iskelet sistemi rahatsızlıkları"
+      ],
+      "correctAnswer": "Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme",
+      "explanation": "Akut sağlık riskleri, ani ve kısa süreli maruz kalma sonucu ortaya çıkan sağlık sorunlarını ifade eder. Zehirlenme, bu tür bir riske örnektir.",
+      "subTopicName": "Akut Ve Kronik Sağlık Riskleri",
+      "normalizedSubTopicName": "akut_ve_kronik_saglik_riskleri",
       "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 hangi tarihte yürürlüğe girmiştir?",
+      "questionText": "Kronik sağlık riskleri hangi tür maruziyet sonucu ortaya çıkar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "1.3.2011",
-        "1.3.2012",
-        "1.3.2013",
-        "1.3.2014"
+        "Kısa süreli ve yoğun maruziyet",
+        "Uzun süreli ve tekrarlayan maruziyet",
+        "Sadece tek bir defalık maruziyet",
+        "Maruziyetin olmadığı durumlar"
       ],
-      "correctAnswer": "1.3.2012",
-      "explanation": "Sosyal Sigortalar Ve Genel Sağlık Sigortası Kanununda Değişiklik Yapılmasına Dair Kanun, Kanun No. 6283 tarih: 1.3.2012'dir. Bkz: Türkiyedeki Yasal Düzenlemeler",
-      "subTopicName": "Türkiyedeki Yasal Düzenlemeler",
-      "normalizedSubTopicName": "turkiyedeki_yasal_duzenlemeler",
-      "difficulty": "easy"
+      "correctAnswer": "Uzun süreli ve tekrarlayan maruziyet",
+      "explanation": "Kronik sağlık riskleri, genellikle uzun süreli ve tekrarlayan maruziyetler sonucu ortaya çıkar. Örneğin, yıllar süren kimyasal madde maruziyeti sonucu gelişen bir hastalık kronik bir risktir.",
+      "subTopicName": "Akut Ve Kronik Sağlık Riskleri",
+      "normalizedSubTopicName": "akut_ve_kronik_saglik_riskleri",
+      "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
-      "questionType": "true_false",
+      "questionText": "Aşağıdakilerden hangisi tehlikeli kimyasal maddelere örnek olarak verilemez?",
+      "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "True",
-        "False"
+        "Asitler",
+        "Bazlar",
+        "Solventler",
+        "Vitaminler"
       ],
-      "correctAnswer": "True",
-      "explanation": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
-      "subTopicName": "Tanı Kriterleri",
-      "normalizedSubTopicName": "tani_kriterleri",
+      "correctAnswer": "Vitaminler",
+      "explanation": "Asitler, bazlar ve solventler tehlikeli kimyasal maddeler sınıfına girerken, vitaminler genellikle bu sınıfa dahil edilmez.",
+      "subTopicName": "Tehlikeli Kimyasal Maddeler",
+      "normalizedSubTopicName": "tehlikeli_kimyasal_maddeler",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
-      "questionType": "true_false",
-      "cognitiveDomain": "remembering",
+      "questionText": "Tehlikeli kimyasal maddelerle çalışırken alınması gereken önlemlerden biri aşağıdakilerden hangisi değildir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
       "options": [
-        "True",
-        "False"
+        "Uygun kişisel koruyucu ekipman kullanımı",
+        "Yeterli havalandırma sağlanması",
+        "Kimyasal maddelerin rastgele karıştırılması",
+        "Güvenlik bilgi formlarının (GBF) okunması"
       ],
-      "correctAnswer": "True",
-      "explanation": "Metinde meslek hastalıkları tanı kriterleri ile ilgili detaylı bir bilgi bulunmamaktadır.",
-      "subTopicName": "Tanı Kriterleri",
-      "normalizedSubTopicName": "tani_kriterleri",
-      "difficulty": "easy"
+      "correctAnswer": "Kimyasal maddelerin rastgele karıştırılması",
+      "explanation": "Tehlikeli kimyasal maddelerle çalışırken, maddelerin rastgele karıştırılması tehlikeli reaksiyonlara neden olabileceği için kesinlikle kaçınılması gereken bir durumdur.",
+      "subTopicName": "Tehlikeli Kimyasal Maddeler",
+      "normalizedSubTopicName": "tehlikeli_kimyasal_maddeler",
+      "difficulty": "medium"
     }
   ]
 }
