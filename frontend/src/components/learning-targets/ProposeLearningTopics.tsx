@@ -25,6 +25,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
 import { useLearningTargetsStore } from '../../store/useLearningTargetsStore';
 import { ProposedTopic } from '../../types/learning-target.types';
+import learningTargetService from '../../services/learningTarget.service';
+import { toast } from 'react-hot-toast';
 
 interface ProposeLearningTopicsProps {
   open: boolean;
@@ -47,13 +49,30 @@ const mockAiSuggestTopics = async (context: string, existingTopics: string[]): P
   ];
 };
 
-// Mock function to simulate confirming topics and creating learning targets
-const mockConfirmTopics = async (courseId: string, selectedTopics: ProposedTopic[]): Promise<void> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
-  
-  // In a real implementation, this would call the backend API
-  console.log('Confirmed topics:', { courseId, selectedTopics });
+// Function to confirm topics and create learning targets via API
+const confirmTopics = async (courseId: string, selectedTopics: ProposedTopic[]): Promise<void> => {
+  try {
+    // Convert topics to the format expected by the new API
+    const targetData = selectedTopics.map(topic => ({
+      subTopicName: topic.name,
+      status: 'pending' as const,
+      lastScore: null
+    }));
+    
+    console.log('Confirming topics via API:', { courseId, targetData });
+    
+    const result = await learningTargetService.batchUpdateTargets(targetData);
+    
+    if (result.success) {
+      toast.success(`${result.processedCount} öğrenme hedefi başarıyla oluşturuldu!`);
+    } else {
+      throw new Error('Backend API call failed');
+    }
+  } catch (error) {
+    console.error('Error confirming topics:', error);
+    toast.error('Öğrenme hedefleri oluşturulurken bir hata oluştu.');
+    throw error;
+  }
 };
 
 const ProposeLearningTopics: React.FC<ProposeLearningTopicsProps> = ({
@@ -226,15 +245,15 @@ const ProposeLearningTopics: React.FC<ProposeLearningTopicsProps> = ({
     setError(null);
     
     try {
-      console.log('🌐 Mock confirm service çağrısı yapılıyor...', {
+      console.log('🌐 Real API service çağrısı yapılıyor...', {
         courseId,
         selectedTopicsCount: selectedTopics.length,
-        service: 'mockConfirmTopics'
+        service: 'confirmTopics'
       });
 
-      // In a real implementation, this would call your backend API
+      // Call the real backend API
       const startTime = performance.now();
-      await mockConfirmTopics(courseId, selectedTopics);
+      await confirmTopics(courseId, selectedTopics);
       const endTime = performance.now();
       const apiDuration = endTime - startTime;
 

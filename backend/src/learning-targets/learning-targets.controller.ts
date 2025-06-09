@@ -39,6 +39,7 @@ import {
   ConfirmNewTopicsDto,
   CreateLearningTargetDto,
   BatchUpdateLearningTargetsDto,
+  BatchCreateUpdateLearningTargetsDto,
 } from './dto'; // DTO'ların yolu doğru varsayılıyor
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { LearningTargetWithQuizzes, LearningTarget } from '../common/interfaces';
@@ -1301,14 +1302,14 @@ export class LearningTargetsController {
     }
   }
 
-  @Patch('batch-update')
+  @Post('batch-update')
   @ApiOperation({
-    summary: 'Öğrenme hedeflerini toplu olarak günceller',
-    description: 'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller'
+    summary: 'Öğrenme hedeflerini toplu olarak günceller veya oluşturur',
+    description: 'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller. Mevcut değilse yeni hedef oluşturur.'
   })
   @ApiBody({ 
-    type: BatchUpdateLearningTargetsDto,
-    description: 'Güncellenecek öğrenme hedefleri listesi'
+    type: BatchCreateUpdateLearningTargetsDto,
+    description: 'Güncellenecek/oluşturulacak öğrenme hedefleri listesi'
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -1328,7 +1329,7 @@ export class LearningTargetsController {
   @LogMethod()
   async batchUpdateLearningTargets(
     @Request() req: RequestWithUser,
-    @Body() batchUpdateDto: BatchUpdateLearningTargetsDto,
+    @Body() batchUpdateDto: BatchCreateUpdateLearningTargetsDto,
   ): Promise<{ success: boolean; updatedCount: number }> {
     const operationId = `batch-update-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const startTime = performance.now();
@@ -1342,9 +1343,9 @@ export class LearningTargetsController {
     if (batchUpdateDto.targets && batchUpdateDto.targets.length > 0) {
       console.log(`\n📝 Targets Update Details:`);
       batchUpdateDto.targets.forEach((target, index) => {
-        console.log(`  ${index + 1}. ${target.subTopic}`);
+        console.log(`  ${index + 1}. ${target.subTopicName}`);
         console.log(`     Status: ${target.status}`);
-        console.log(`     Score: ${target.score}`);
+        console.log(`     Score: ${target.lastScore}`);
       });
     }
     
@@ -1365,17 +1366,18 @@ export class LearningTargetsController {
           userId, 
           targetCount: batchUpdateDto.targets.length,
           targets: batchUpdateDto.targets.map(t => ({ 
-            subTopic: t.subTopic, 
+            subTopicName: t.subTopicName, 
             status: t.status, 
-            score: t.score 
+            lastScore: t.lastScore 
           }))
         }
       );
 
-      console.log(`\n🚀 Calling LearningTargetsService.batchUpdate...`);
+      console.log(`\n🚀 Calling LearningTargetsService.batchCreateOrUpdate...`);
       const serviceStartTime = performance.now();
       
-      const result = await this.learningTargetsService.batchUpdate(
+      // Data is already in the correct format for batchCreateOrUpdate
+      const result = await this.learningTargetsService.batchCreateOrUpdate(
         userId,
         batchUpdateDto.targets
       );
@@ -1384,12 +1386,12 @@ export class LearningTargetsController {
       const serviceDuration = serviceEndTime - serviceStartTime;
       
       console.log(`\n✅ Service call completed in ${serviceDuration.toFixed(2)}ms`);
-      console.log(`📊 Batch Update Result:`, JSON.stringify(result, null, 2));
-      console.log(`📈 Updated Count: ${result.updatedCount}/${batchUpdateDto.targets.length}`);
-      console.log(`🎯 Success Rate: ${((result.updatedCount / batchUpdateDto.targets.length) * 100).toFixed(1)}%`);
+      console.log(`📊 Batch Create/Update Result:`, JSON.stringify(result, null, 2));
+      console.log(`📈 Processed Count: ${result.processedCount}/${batchUpdateDto.targets.length}`);
+      console.log(`🎯 Success Rate: ${((result.processedCount / batchUpdateDto.targets.length) * 100).toFixed(1)}%`);
 
       this.logger.info(
-        `Batch update completed: ${result.updatedCount}/${batchUpdateDto.targets.length} targets updated`,
+        `Batch create/update completed: ${result.processedCount}/${batchUpdateDto.targets.length} targets processed`,
         'LearningTargetsController.batchUpdateLearningTargets',
         __filename,
         undefined,
@@ -1400,7 +1402,8 @@ export class LearningTargetsController {
       console.log(`\n🎯 Total operation completed in ${totalDuration.toFixed(2)}ms`);
       console.groupEnd();
 
-      return result;
+      // Return in the expected format for backward compatibility
+      return { success: result.success, updatedCount: result.processedCount };
     } catch (error) {
       const errorDuration = performance.now() - startTime;
       console.error(`\n❌ ERROR in batch update learning targets after ${errorDuration.toFixed(2)}ms:`);

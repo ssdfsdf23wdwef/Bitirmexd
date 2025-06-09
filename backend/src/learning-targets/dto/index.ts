@@ -6,3 +6,4 @@ export * from './detect-new-topics.dto';
 export * from './confirm-new-topics.dto';
 export * from './create-learning-target.dto';
 export * from './batch-update-learning-targets.dto';
+export * from './batch-create-update.dto';
