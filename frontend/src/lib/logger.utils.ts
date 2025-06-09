@@ -53,11 +53,39 @@ export function extractFileName(filePath: string): string {
  * @returns LoggerService instance
  */
 export function setupLogger(options?: any): LoggerService {
-  loggerInstance = LoggerService.getInstance();
-  if (options) {
-    loggerInstance.setConfig(options);
+  // Ensure we're in client-side environment
+  if (typeof window === 'undefined') {
+    // Return a mock logger for SSR
+    return {
+      info: () => {},
+      warn: () => {},
+      error: () => {},
+      debug: () => {},
+      logLearningTarget: () => {},
+      setConfig: () => {},
+      getConfig: () => ({}),
+    } as any;
   }
-  return loggerInstance;
+
+  try {
+    loggerInstance = LoggerService.getInstance();
+    if (options && loggerInstance) {
+      loggerInstance.setConfig(options);
+    }
+    return loggerInstance;
+  } catch (error) {
+    console.error('[setupLogger] Error initializing logger:', error);
+    // Return a fallback logger
+    return {
+      info: (msg: string, ctx: string) => console.info(`[${ctx}] ${msg}`),
+      warn: (msg: string, ctx: string) => console.warn(`[${ctx}] ${msg}`),
+      error: (msg: string, ctx: string) => console.error(`[${ctx}] ${msg}`),
+      debug: (msg: string, ctx: string) => console.debug(`[${ctx}] ${msg}`),
+      logLearningTarget: (msg: string) => console.info(`[LEARNING] ${msg}`),
+      setConfig: () => {},
+      getConfig: () => ({}),
+    } as any;
+  }
 }
 
 /**
@@ -66,8 +94,55 @@ export function setupLogger(options?: any): LoggerService {
  * @returns FlowTrackerService instance
  */
 export function setupFlowTracker(options?: any): FlowTrackerService {
-  flowTrackerInstance = FlowTrackerService.getInstance();
-  return flowTrackerInstance;
+  // Ensure we're in client-side environment
+  if (typeof window === 'undefined') {
+    // Return a mock flow tracker for SSR
+    return {
+      trackStep: () => {},
+      trackTiming: () => {},
+      trackComponent: () => {},
+      trackStateChange: () => {},
+      trackApiCall: () => {},
+      trackUserInteraction: () => {},
+      startSequence: () => '',
+      endSequence: () => undefined,
+      markStart: () => {},
+      markEnd: () => {},
+      configure: () => {},
+      getSteps: () => [],
+      getSequences: () => [],
+      clearHistory: () => {},
+      getAllFlowLogs: () => '',
+      clearAllLogs: () => {}
+    } as any;
+  }
+
+  try {
+    flowTrackerInstance = FlowTrackerService.getInstance();
+    return flowTrackerInstance;
+  } catch (error) {
+    console.error('[setupFlowTracker] Error initializing flow tracker:', error);
+    // Return a fallback flow tracker
+    return {
+      trackStep: (category: any, message: string, context: string) => 
+        console.log(`[FLOW] [${category}] [${context}] ${message}`),
+      trackTiming: () => {},
+      trackComponent: () => {},
+      trackStateChange: () => {},
+      trackApiCall: () => {},
+      trackUserInteraction: () => {},
+      startSequence: () => '',
+      endSequence: () => undefined,
+      markStart: () => {},
+      markEnd: () => {},
+      configure: () => {},
+      getSteps: () => [],
+      getSequences: () => [],
+      clearHistory: () => {},
+      getAllFlowLogs: () => '',
+      clearAllLogs: () => {}
+    } as any;
+  }
 }
 
 /**
@@ -136,11 +211,58 @@ export function getLogger(): LoggerService | null {
 
 /**
  * FlowTracker instance alır, yoksa oluşturur
- * @returns FlowTrackerService instance
+ * @returns FlowTrackerService instance or null in SSR
  */
-export function getFlowTracker(): FlowTrackerService {
+export function getFlowTracker(): FlowTrackerService | null {
   if (!flowTrackerInstance) {
-    flowTrackerInstance = FlowTrackerService.getInstance();
+    try {
+      flowTrackerInstance = FlowTrackerService.getInstance();
+    } catch (error) {
+      // If FlowTrackerService is not available (SSR case), create a mock instance
+      if (typeof window === 'undefined') {
+        // Server-side: create a minimal mock flow tracker
+        flowTrackerInstance = {
+          trackStep: () => {},
+          trackTiming: () => {},
+          trackComponent: () => {},
+          trackStateChange: () => {},
+          trackApiCall: () => {},
+          trackUserInteraction: () => {},
+          startSequence: () => '',
+          endSequence: () => undefined,
+          markStart: () => {},
+          markEnd: () => {},
+          configure: () => {},
+          getSteps: () => [],
+          getSequences: () => [],
+          clearHistory: () => {},
+          getAllFlowLogs: () => '',
+          clearAllLogs: () => {}
+        } as any;
+      } else {
+        console.error('[FlowTracker] FlowTracker initialization failed:', error);
+        // Create a minimal client-side fallback
+        flowTrackerInstance = {
+          trackStep: (category: any, message: string, context: string) => 
+            console.log(`[FLOW] [${category}] [${context}] ${message}`),
+          trackTiming: () => {},
+          trackComponent: () => {},
+          trackStateChange: () => {},
+          trackApiCall: () => {},
+          trackUserInteraction: () => {},
+          startSequence: () => '',
+          endSequence: () => undefined,
+          markStart: () => {},
+          markEnd: () => {},
+          configure: () => {},
+          getSteps: () => [],
+          getSequences: () => [],
+          clearHistory: () => {},
+          getAllFlowLogs: () => '',
+          clearAllLogs: () => {}
+        } as any;
+      }
+    }
   }
   return flowTrackerInstance;
 }

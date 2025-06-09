@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { createTrackedStore } from "./zustand.middleware";
-import { getLogger, getFlowTracker } from "../lib/logger.utils";
+import { getLogger, getFlowTracker } from "../lib/getLoggerInstance().utils";
 
 interface DocumentState {
   // State
@@ -14,9 +14,23 @@ interface DocumentState {
   resetStore: () => void;
 }
 
-// Logger ve flowTracker nesnelerini elde et
-const logger = getLogger();
-const flowTracker = getFlowTracker();
+// Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
+let logger: any = null;
+let flowTracker: any = null;
+
+function getLoggerInstance() {
+  if (!logger) {
+    logger = getLogger();
+  }
+  return logger;
+}
+
+function getFlowTrackerInstance() {
+  if (!flowTracker) {
+    flowTracker = getFlowTracker();
+  }
+  return flowTracker;
+}
 
 // DocumentStore implementasyonu
 const documentStoreImpl = (set, get, api) => {
@@ -28,14 +42,14 @@ const documentStoreImpl = (set, get, api) => {
 
     // Actions
     setSelectedDocument: api.trackAction('setSelectedDocument', (id) => {
-      logger.debug(
+      getLoggerInstance().debug(
         `Seçili belge değiştiriliyor: ${id}`,
         'DocumentStore.setSelectedDocument',
         'useDocumentStore.ts',
         30
       );
       
-      flowTracker.trackStateChange(
+      getFlowTrackerInstance().trackStateChange(
         'selectedDocumentId', 
         'DocumentStore', 
         get().selectedDocumentId, 
@@ -48,7 +62,7 @@ const documentStoreImpl = (set, get, api) => {
     }),
 
     setIsLoading: api.trackAction('setIsLoading', (loading) => {
-      logger.debug(
+      getLoggerInstance().debug(
         `Yükleme durumu değiştiriliyor: ${loading}`,
         'DocumentStore.setIsLoading',
         'useDocumentStore.ts',
@@ -61,14 +75,14 @@ const documentStoreImpl = (set, get, api) => {
     }),
 
     resetStore: api.trackAction('resetStore', () => {
-      logger.debug(
+      getLoggerInstance().debug(
         'Document store sıfırlanıyor',
         'DocumentStore.resetStore',
         'useDocumentStore.ts',
         58
       );
       
-      flowTracker.trackStep(
+      getFlowTrackerInstance().trackStep(
         'State', 
         'Belge store sıfırlandı', 
         'DocumentStore'

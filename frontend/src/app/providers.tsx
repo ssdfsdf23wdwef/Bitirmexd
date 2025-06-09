@@ -11,25 +11,29 @@ import i18n from "@/lib/i18n/i18n";
 import dynamic from "next/dynamic";
 import { setupLogging, setupGlobalErrorHandling, startFlow } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
-import { LogLevel } from "@/services/logger.service";
 
-// Loglama ve akış izleme servislerini başlat
-const { logger } = setupLogging({
-  loggerOptions: {
-    level: LogLevel.INFO,
-    enabled: true,
-    consoleOutput: false,
-    sendLogsToApi: true,
-  },
-  flowTrackerOptions: {
-    enabled: true,
-    traceApiCalls: true,
-    traceStateChanges: true,
-    captureTimings: true,
-    consoleOutput: false,
-    sendLogsToApi: true,
-  }
-});
+// Initialize logging only on client side
+let logger: any = null;
+if (typeof window !== 'undefined') {
+  // Loglama ve akış izleme servislerini başlat
+  const logSetup = setupLogging({
+    loggerOptions: {
+      level: 'info', // Use string instead of LogLevel.INFO to avoid SSR issues
+      enabled: true,
+      consoleOutput: false,
+      sendLogsToApi: true,
+    },
+    flowTrackerOptions: {
+      enabled: true,
+      traceApiCalls: true,
+      traceStateChanges: true,
+      captureTimings: true,
+      consoleOutput: false,
+      sendLogsToApi: true,
+    }
+  });
+  logger = logSetup.logger;
+}
 
 // Dynamic imports for better performance
 const AnalyticsComponent = dynamic(
@@ -79,11 +83,12 @@ export function Providers({ children }: ProvidersProps) {
       logger.error(
         `Yakalanmayan Promise reddi: ${event.reason}`,
         'Providers',
-        event.reason instanceof Error ? event.reason : undefined,
-        event.reason instanceof Error ? event.reason.stack : undefined,
+        'providers.tsx',
+        '69',
         { 
           reason: event.reason?.toString(), 
-          stack: event.reason?.stack 
+          stack: event.reason instanceof Error ? event.reason.stack : undefined,
+          errorObject: event.reason instanceof Error ? event.reason.toString() : event.reason
         }
       );
     };
@@ -92,13 +97,14 @@ export function Providers({ children }: ProvidersProps) {
       logger.error(
         `Yakalanmayan global hata: ${event.message}`,
         'Providers',
-        event.error,
-        event.error?.stack,
+        event.filename || 'providers.tsx',
+        event.lineno?.toString() || '80',
         { 
           errorName: event.error?.name,
           filename: event.filename,
           lineno: event.lineno,
-          colno: event.colno
+          colno: event.colno,
+          stack: event.error?.stack
         }
       );
     };

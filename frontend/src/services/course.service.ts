@@ -5,9 +5,23 @@ import { LogClass, LogMethod } from "@/decorators/log-method.decorator";
 import { FlowCategory } from "@/constants/logging.constants";
 import { trackFlow, startFlow as startAppFlow, mapToTrackerCategory } from "../lib/logger.utils";
 
-// Logger ve flowTracker nesnelerini elde et
-const logger = getLogger();
-const flowTracker = getFlowTracker();
+// Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
+let logger: any = null;
+let flowTracker: any = null;
+
+function getLoggerInstance() {
+  if (!logger) {
+    logger = getLogger();
+  }
+  return logger;
+}
+
+function getFlowTrackerInstance() {
+  if (!flowTracker) {
+    flowTracker = getFlowTracker();
+  }
+  return flowTracker;
+}
 
 /**
  * Kurs servisi
@@ -36,7 +50,7 @@ class CourseService {
       
       if (isDuplicate) {
         const errorMessage = `"${courseData.name}" adlı bir ders zaten mevcut. Lütfen farklı bir isim seçin.`;
-        logger.warn(
+        getLoggerInstance().warn(
           errorMessage,
           'CourseService.createCourse',
           __filename,
@@ -59,8 +73,8 @@ class CourseService {
       const newCourse = await apiService.post<Course>('/courses', courseData);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `Kurs oluşturuldu: ${newCourse.name}`,
         'CourseService.createCourse',
         __filename,
@@ -77,7 +91,7 @@ class CourseService {
       }
       
       // Diğer hatalar
-      flowTracker.markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error creating course: ${(error as Error).message}`,
         "CourseService.createCourse",
@@ -107,8 +121,8 @@ class CourseService {
       await apiService.delete(`/courses/${id}`);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `Kurs silindi: ${id}`,
         'CourseService.deleteCourse',
         __filename,
@@ -120,7 +134,7 @@ class CourseService {
       return true;
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error deleting course with ID ${id}: ${(error as Error).message}`,
         "CourseService.deleteCourse",
@@ -149,8 +163,8 @@ class CourseService {
       const courses = await apiService.get<Course[]>("/courses");
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd('getCourses', mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd('getCourses', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `${courses.length} kurs getirildi`,
         'CourseService.getCourses',
         __filename,
@@ -162,7 +176,7 @@ class CourseService {
       return courses;
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd('getCourses', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd('getCourses', mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error fetching all courses: ${(error as Error).message}`,
         "CourseService.getAllCourses",
@@ -193,8 +207,8 @@ class CourseService {
       const course = await apiService.get<Course>(`/courses/${id}`);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd(`getCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd(`getCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `Kurs getirildi: ${id}`,
         'CourseService.getCourseById',
         __filename,
@@ -206,7 +220,7 @@ class CourseService {
       return course;
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd(`getCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`getCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error fetching course by ID ${id}: ${(error as Error).message}`,
         "CourseService.getCourseById",
@@ -233,8 +247,8 @@ class CourseService {
         FlowCategory.API
       );
       const stats = await apiService.get<CourseStats>(`/courses/${id}/stats`);
-      const duration = flowTracker.markEnd(`getCourseStats_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd(`getCourseStats_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `Kurs istatistikleri getirildi: ${id}`,
         'CourseService.getCourseStats',
         __filename, 
@@ -244,7 +258,7 @@ class CourseService {
       flow.end("Successfully fetched course stats");
       return stats;
     } catch (error) {
-      flowTracker.markEnd(`getCourseStats_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`getCourseStats_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error fetching course stats for ID ${id}: ${(error as Error).message}`,
         "CourseService.getCourseStats",
@@ -271,8 +285,8 @@ class CourseService {
         FlowCategory.API
       );
       const dashboardData = await apiService.get<CourseDashboard>(`/courses/${id}/dashboard`);
-      const duration = flowTracker.markEnd(`getCourseDashboard_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd(`getCourseDashboard_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `Kurs dashboard bilgileri getirildi: ${id}`,
         'CourseService.getCourseDashboard',
         __filename, 
@@ -282,7 +296,7 @@ class CourseService {
       flow.end("Successfully fetched course dashboard");
       return dashboardData;
     } catch (error) {
-      flowTracker.markEnd(`getCourseDashboard_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`getCourseDashboard_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error fetching course dashboard for ID ${id}: ${(error as Error).message}`,
         "CourseService.getCourseDashboard",
@@ -309,8 +323,8 @@ class CourseService {
         FlowCategory.API
       );
       const counts = await apiService.get<RelatedItemsCountResponse>(`/courses/${id}/related-items`);
-      const duration = flowTracker.markEnd(`getRelatedItemsCount_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.debug(
+      const duration = getFlowTrackerInstance().markEnd(`getRelatedItemsCount_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().debug(
         `İlişkili öğe sayıları getirildi: ${id}`,
         'CourseService.getRelatedItemsCount',
         __filename, 
@@ -320,7 +334,7 @@ class CourseService {
       flow.end("Successfully fetched related items count");
       return counts;
     } catch (error) {
-      flowTracker.markEnd(`getRelatedItemsCount_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`getRelatedItemsCount_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error fetching related items count for ID ${id}: ${(error as Error).message}`,
         "CourseService.getRelatedItemsCount",
@@ -348,7 +362,7 @@ class CourseService {
         FlowCategory.API
       );
       
-      logger.debug(
+      getLoggerInstance().debug(
         'Kurs oluşturma isteği gönderiliyor',
         'CourseService.createCourse',
         __filename,
@@ -359,8 +373,8 @@ class CourseService {
       const course = await apiService.post<Course>("/courses", courseData);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.info(
+      const duration = getFlowTrackerInstance().markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().info(
         `Kurs başarıyla oluşturuldu: ${course.name}`,
         'CourseService.createCourse',
         __filename,
@@ -372,7 +386,7 @@ class CourseService {
       return course;
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd('createCourse', mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error creating course: ${(error as Error).message}`,
         "CourseService.createCourse",
@@ -401,7 +415,7 @@ class CourseService {
         FlowCategory.API
       );
       
-      logger.debug(
+      getLoggerInstance().debug(
         `Kurs güncelleme isteği gönderiliyor: ${id}`,
         'CourseService.updateCourse',
         __filename,
@@ -412,8 +426,8 @@ class CourseService {
       const course = await apiService.put<Course>(`/courses/${id}`, courseData);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd(`updateCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.info(
+      const duration = getFlowTrackerInstance().markEnd(`updateCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().info(
         `Kurs başarıyla güncellendi: ${id}`,
         'CourseService.updateCourse',
         __filename,
@@ -425,7 +439,7 @@ class CourseService {
       return course;
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd(`updateCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`updateCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error updating course ID ${id}: ${(error as Error).message}`,
         "CourseService.updateCourse",
@@ -453,7 +467,7 @@ class CourseService {
         FlowCategory.API
       );
       
-      logger.debug(
+      getLoggerInstance().debug(
         `Kurs silme isteği gönderiliyor: ${id}`,
         'CourseService.deleteCourse',
         __filename,
@@ -464,8 +478,8 @@ class CourseService {
       await apiService.delete(`/courses/${id}`);
       
       // Başarılı sonuç
-      const duration = flowTracker.markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
-      logger.info(
+      const duration = getFlowTrackerInstance().markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getLoggerInstance().info(
         `Kurs başarıyla silindi: ${id}`,
         'CourseService.deleteCourse',
         __filename,
@@ -476,7 +490,7 @@ class CourseService {
       flow.end("Successfully deleted course");
     } catch (error) {
       // Hata durumu
-      flowTracker.markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
+      getFlowTrackerInstance().markEnd(`deleteCourse_${id}`, mapToTrackerCategory(FlowCategory.API), 'CourseService');
       trackFlow(
         `Error deleting course ID ${id}: ${(error as Error).message}`,
         "CourseService.deleteCourse",

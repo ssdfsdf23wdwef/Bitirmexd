@@ -4,8 +4,8 @@ import { type StateCreator, create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { User } from "@/types/user.type";
 import { User as FirebaseUser } from "firebase/auth";
-import { LoggerService } from "../services/logger.service";
-import { FlowTrackerService, FlowCategory } from "../services/flow-tracker.service";
+import { getLogger, getFlowTracker } from "@/lib/getLoggerInstance().utils";
+import { FlowCategory } from "../services/flow-tracker.service";
 
 // AuthState tipini dışa aktarıyoruz, böylece diğer dosyalardan kullanılabilir
 export interface AuthState {
@@ -23,9 +23,23 @@ export interface AuthState {
   logoutUser: () => void;
 }
 
-// Logger ve flowTracker nesnelerini elde et
-const logger = LoggerService.getInstance();
-const flowTracker = FlowTrackerService.getInstance();
+// Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
+let logger: any = null;
+let flowTracker: any = null;
+
+function getLoggerInstance() {
+  if (!logger) {
+    logger = getLogger();
+  }
+  return logger;
+}
+
+function getFlowTrackerInstance() {
+  if (!flowTracker) {
+    flowTracker = getFlowTracker();
+  }
+  return flowTracker;
+}
 
 // Tarayıcı ortamı kontrolü
 const isBrowser = typeof window !== 'undefined';
@@ -39,15 +53,17 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
   lastAuthenticatedAt: null,
   
   setUser: (user) => {
-    if (isBrowser) {
-      logger.debug(
+    if (isBrowser && logger) {
+      getLoggerInstance().debug(
         `Kullanıcı ayarlanıyor: ${user ? user.email : 'null'}`,
         'AuthStore.setUser',
         'auth.store.ts',
-        29
+        '29'
       );
-      
-      flowTracker.trackStateChange('user', 'AuthStore', get().user, user);
+    }
+    
+    if (isBrowser && flowTracker) {
+      getFlowTrackerInstance().trackStateChange('user', 'AuthStore', get().user, user);
     }
     
     set({ 
@@ -56,8 +72,8 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
       lastAuthenticatedAt: user ? Date.now() : null
     });
     
-    if (isBrowser && user) {
-      flowTracker.trackStep(FlowCategory.Auth, 'Kullanıcı oturumu kuruldu', 'AuthStore', {
+    if (isBrowser && user && flowTracker) {
+      getFlowTrackerInstance().trackStep(FlowCategory.Auth, 'Kullanıcı oturumu kuruldu', 'AuthStore', {
         userId: user.id,
         email: user.email
       });
@@ -65,12 +81,12 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
   },
   
   setFirebaseUser: (firebaseUser) => {
-    if (isBrowser) {
-      logger.debug(
+    if (isBrowser && logger) {
+      getLoggerInstance().debug(
         `Firebase kullanıcısı ayarlanıyor: ${firebaseUser ? firebaseUser.email : 'null'}`,
         'AuthStore.setFirebaseUser',
         'auth.store.ts',
-        49
+        '49'
       );
     }
     
@@ -78,12 +94,12 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
   },
   
   setLoading: (isLoading) => {
-    if (isBrowser) {
-      logger.debug(
+    if (isBrowser && logger) {
+      getLoggerInstance().debug(
         `Yükleme durumu ayarlanıyor: ${isLoading}`,
         'AuthStore.setLoading',
         'auth.store.ts',
-        59
+        '59'
       );
     }
     
@@ -91,12 +107,12 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
   },
   
   updateLocalUser: (updates) => {
-    if (isBrowser) {
-      logger.debug(
+    if (isBrowser && logger) {
+      getLoggerInstance().debug(
         'Yerel kullanıcı güncelleniyor',
         'AuthStore.updateLocalUser',
         'auth.store.ts',
-        69,
+        '69',
         { updatedFields: Object.keys(updates) }
       );
     }
@@ -104,8 +120,8 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
     const currentUser = get().user;
     const updatedUser = currentUser ? { ...currentUser, ...updates } : null;
     
-    if (isBrowser) {
-      flowTracker.trackStateChange('user', 'AuthStore', currentUser, updatedUser);
+    if (isBrowser && flowTracker) {
+      getFlowTrackerInstance().trackStateChange('user', 'AuthStore', currentUser, updatedUser);
     }
     
     set({
@@ -114,15 +130,17 @@ const createAuthSlice: StateCreator<AuthState> = (set, get) => ({
   },
   
   logoutUser: () => {
-    if (isBrowser) {
-      logger.info(
+    if (isBrowser && logger) {
+      getLoggerInstance().info(
         'Kullanıcı oturumu kapatılıyor',
         'AuthStore.logoutUser',
         'auth.store.ts',
-        87
+        '87'
       );
-      
-      flowTracker.trackStep(FlowCategory.Auth, 'Kullanıcı oturumu kapatıldı', 'AuthStore');
+    }
+    
+    if (isBrowser && flowTracker) {
+      getFlowTrackerInstance().trackStep(FlowCategory.Auth, 'Kullanıcı oturumu kapatıldı', 'AuthStore');
     }
     
     set({

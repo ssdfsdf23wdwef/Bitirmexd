@@ -1,11 +1,18 @@
 import { LogClass, LogMethod } from "@/decorators/log-method.decorator";
 import { toast } from "react-hot-toast";
-import { getLogger, trackFlow } from "@/lib/logger.utils";
+import { getLogger, trackFlow } from "@/lib/getLoggerInstance().utils";
 import { FlowCategory } from "@/constants/logging.constants";
 
 
-// Logger nesnesi elde et
-const logger = getLogger();
+// Logger nesnesi lazy-load et (SSR safe)
+let logger: any = null;
+
+function getLoggerInstance() {
+  if (!logger) {
+    logger = getLogger();
+  }
+  return logger;
+}
 
 // Toast mesaj tipleri
 export type ToastType = "success" | "error" | "warning" | "info";
@@ -292,13 +299,13 @@ export class ErrorService {
     
     // Hatayı logla
     const logMethodMap = {
-      [ErrorSeverity.LOW]: logger.debug.bind(logger),
-      [ErrorSeverity.MEDIUM]: logger.warn.bind(logger),
-      [ErrorSeverity.HIGH]: logger.error.bind(logger),
-      [ErrorSeverity.CRITICAL]: logger.error.bind(logger)
+      [ErrorSeverity.LOW]: getLoggerInstance().debug.bind(logger),
+      [ErrorSeverity.MEDIUM]: getLoggerInstance().warn.bind(logger),
+      [ErrorSeverity.HIGH]: getLoggerInstance().error.bind(logger),
+      [ErrorSeverity.CRITICAL]: getLoggerInstance().error.bind(logger)
     };
     
-    const logMethod = logMethodMap[errorInfo.severity] || logger.error.bind(logger);
+    const logMethod = logMethodMap[errorInfo.severity] || getLoggerInstance().error.bind(logger);
     
     logMethod(
       errorInfo.message,
@@ -363,7 +370,7 @@ export class ErrorService {
       };
       
       // Logger servisini kullanarak dosyaya kaydet
-      logger.error(
+      getLoggerInstance().error(
         errorFormatted.message,
         errorFormatted.context,
         undefined,
@@ -529,15 +536,15 @@ export class ErrorService {
    */
   clearErrorHistory(): void {
     this.errors = [];
-    logger.debug('Hata geçmişi temizlendi', 'ErrorService.clearErrorHistory', __filename, 220);
+    getLoggerInstance().debug('Hata geçmişi temizlendi', 'ErrorService.clearErrorHistory', __filename, 220);
   }
   
   /**
    * Hata dosyasını indirme
    */
   downloadErrorLog(): void {
-    logger.downloadLogFile('error-logs.log');
-    logger.debug('Hata log dosyası indirildi', 'ErrorService.downloadErrorLog', __filename);
+    getLoggerInstance().downloadLogFile('error-logs.log');
+    getLoggerInstance().debug('Hata log dosyası indirildi', 'ErrorService.downloadErrorLog', __filename);
   }
   
   /**
@@ -554,7 +561,7 @@ export class ErrorService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_unused) {
       // Toast servisi hataları sessizce ele al
-      logger.warn(
+      getLoggerInstance().warn(
         'Hata bildirimi gösterilirken sorun oluştu',
         'ErrorService.showErrorToUser',
         __filename,
@@ -613,7 +620,7 @@ export class ErrorService {
       });
       
       if (!response.ok) {
-        logger.warn(
+        getLoggerInstance().warn(
           `Hata raporlama başarısız: ${response.status}`,
           'ErrorService.reportError',
           __filename,
@@ -624,7 +631,7 @@ export class ErrorService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_unused) {
       // Raporlama sırasındaki hatalar sessizce ele alınır
-      logger.warn(
+      getLoggerInstance().warn(
         'Hata raporlama sırasında hata oluştu',
         'ErrorService.reportError',
         __filename, 
@@ -638,7 +645,7 @@ export class ErrorService {
    */
   saveErrorsToLogFile(): void {
     try {
-      logger.debug(
+      getLoggerInstance().debug(
         'Hata kayıtları log dosyasına yazılıyor',
         'ErrorService.saveErrorsToLogFile',
         __filename,
@@ -654,7 +661,7 @@ export class ErrorService {
         switch (error.severity) {
           case ErrorSeverity.CRITICAL:
           case ErrorSeverity.HIGH:
-            logger.error(logMessage, context, __filename, undefined, {
+            getLoggerInstance().error(logMessage, context, __filename, undefined, {
               code: error.code,
               userId: error.userId,
               timestamp: new Date(error.timestamp).toISOString(),
@@ -663,7 +670,7 @@ export class ErrorService {
             });
             break;
           case ErrorSeverity.MEDIUM:
-            logger.warn(logMessage, context, __filename, undefined, {
+            getLoggerInstance().warn(logMessage, context, __filename, undefined, {
               code: error.code,
               userId: error.userId,
               timestamp: new Date(error.timestamp).toISOString(),
@@ -671,7 +678,7 @@ export class ErrorService {
             });
             break;
           case ErrorSeverity.LOW:
-            logger.debug(logMessage, context, __filename, undefined, {
+            getLoggerInstance().debug(logMessage, context, __filename, undefined, {
               code: error.code,
               userId: error.userId,
               timestamp: new Date(error.timestamp).toISOString(),
@@ -688,7 +695,7 @@ export class ErrorService {
       );
       
     } catch (error) {
-      logger.error(
+      getLoggerInstance().error(
         'Hataları log dosyasına kaydetme hatası',
         'ErrorService.saveErrorsToLogFile',
         __filename,
@@ -833,17 +840,17 @@ export class ErrorService {
       if (typeof error === 'object' && error !== null) {
         try {
           const errorStr = JSON.stringify(error);
-          logger.error(errorStr, "ErrorService.showToast", { title, description, context: sourceContext });
+          getLoggerInstance().error(errorStr, "ErrorService.showToast", { title, description, context: sourceContext });
         } catch (_ignored) {
-          logger.error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
+          getLoggerInstance().error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
         }
       } else {
-        logger.error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
+        getLoggerInstance().error(String(error), "ErrorService.showToast", { title, description, context: sourceContext });
       }
       
       // Belge metni hatalarına özel mesajlar
       if (typeof error === 'string' && error.includes('Belge metni çok kısa')) {
-        logger.info("Belge metni hatası tespit edildi, kullanıcıya daha açıklayıcı mesaj gösteriliyor", "ErrorService.showToast");
+        getLoggerInstance().info("Belge metni hatası tespit edildi, kullanıcıya daha açıklayıcı mesaj gösteriliyor", "ErrorService.showToast");
         description = "Belge metni çok kısa. Daha uzun bir belge kullanın veya farklı bir konu seçin.";
       }
       

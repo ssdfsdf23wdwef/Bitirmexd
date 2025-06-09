@@ -132,7 +132,16 @@ export class FlowTrackerService {
   private configSendLogsToApi: boolean;
   
   private constructor(options: FlowTrackerOptions = {}) {
-    this.logger = options.logger || LoggerService.getInstance();
+    // Safe logger initialization - handle SSR case
+    try {
+      this.logger = options.logger || (typeof window !== 'undefined' ? LoggerService.getInstance() : undefined);
+    } catch (error) {
+      this.logger = undefined;
+      if (typeof window !== 'undefined') {
+        console.warn('[FlowTrackerService] Logger initialization failed:', error);
+      }
+    }
+
     this.consoleOutput = options.consoleOutput ?? false; // Konsol çıktısını varsayılan olarak aktif yapıyorum
     this.enabled = options.enabled ?? process.env.NODE_ENV !== 'production';
     this.enabledCategories = new Set(options.categories || [
@@ -154,7 +163,8 @@ export class FlowTrackerService {
           allowedContextsArray = JSON.parse(storedContexts);
         } catch (e) {
           if (this.logger) {
-            this.logger.error('Flow tracker allowed contexts parse hatası:', 'FlowTrackerService.constructor', e instanceof Error ? e : new Error(String(e)));
+            const errorMessage = e instanceof Error ? e.message : String(e);
+            this.logger.error(errorMessage, 'FlowTrackerService.constructor', undefined, undefined, { originalError: e });
           }
         }
       }
@@ -176,8 +186,8 @@ export class FlowTrackerService {
 
     if (this.logger) {
         this.logger.info('FlowTrackerService başlatıldı.', 'FlowTrackerService.constructor');
-    } else {
-        console.info('[FlowTrackerService] FlowTrackerService logger olmadan başlatıldı (Bu bir sorun olabilir).');
+    } else if (typeof window !== 'undefined') {
+        console.info('[FlowTrackerService] FlowTrackerService logger olmadan başlatıldı.');
     }
   }
   
@@ -900,7 +910,7 @@ export class FlowTrackerService {
         const responseText = await response.text();
         console.warn(`[FlowTrackerService] Flow logları dosyaya kaydedilemedi. Status: ${response.status}`, responseText);
       } else {
-        if (this.logger && this.logger.shouldLog(LogLevel.DEBUG)) {
+        if (this.logger) {
            this.logger.debug(
             `FlowTrackerService: ${logsToSend.length} flow log başarıyla dosyaya kaydedildi.`,
             'FlowTrackerService.sendQueuedLogsToBackend'
