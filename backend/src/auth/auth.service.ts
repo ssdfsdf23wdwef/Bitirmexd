@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { UserRefreshToken } from '../common/types/user-refresh-token.type';
 import { v4 as uuidv4 } from 'uuid';
+import * as crypto from 'crypto';
 import * as admin from 'firebase-admin';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { logError, logFlow } from '../common/utils/logger.utils';
@@ -509,7 +510,10 @@ export class AuthService {
 
       // Token'ı hashle
       const hashedToken = await bcrypt.hash(originalToken, this.SALT_ROUNDS);
-
+      const tokenHash = crypto
+        .createHash('sha256')
+        .update(originalToken)
+        .digest('hex');
       // Geçerlilik tarihini hesapla
       const expiresAtDate = new Date();
       expiresAtDate.setDate(
@@ -520,6 +524,7 @@ export class AuthService {
       const refreshToken: UserRefreshToken = {
         userId,
         hashedToken,
+         tokenHash,
         expiresAt: admin.firestore.Timestamp.fromDate(expiresAtDate),
         createdAt: admin.firestore.Timestamp.now(),
       };
@@ -633,19 +638,19 @@ export class AuthService {
       308, // Satır numarasını kontrol et
     );
     try {
-      // TODO: Daha verimli hale getirilebilir. Örneğin, token'ın bir kısmını veya hash'ini kullanarak filtreleme yapılabilir.
+     
       // Şimdilik, süresi dolmamış tüm tokenları getiriyoruz.
       const now = admin.firestore.Timestamp.now();
+      const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
       const potentialTokens =
-        await this.firebaseService.findMany<UserRefreshToken>(
+         await this.firebaseService.findMany<UserRefreshToken>(
           FIRESTORE_COLLECTIONS.REFRESH_TOKENS,
           [
-            {
-              field: 'expiresAt',
-              operator: '>=',
-              value: now,
-            },
+            { field: 'tokenHash', operator: '==', value: tokenHash },
+            { field: 'expiresAt', operator: '>=', value: now },
           ],
+          undefined,
+          1,
         );
 
       if (!potentialTokens || potentialTokens.length === 0) {
@@ -656,47 +661,27 @@ export class AuthService {
         );
         return null;
       }
-
-      // Gelen token ile eşleşen hash'i bul
-      let validTokenInfo: { user: any; storedTokenId: string } | null = null;
-      for (const storedToken of potentialTokens) {
-        try {
-          const isValid = await bcrypt.compare(token, storedToken.hashedToken);
-          if (isValid) {
-            // Eşleşme bulundu! Kullanıcıyı getir.
-            const user = await this.usersService.findById(storedToken.userId);
-            if (user) {
-              validTokenInfo = { user, storedTokenId: storedToken.id };
-              break; // İlk eşleşmeyi bulduktan sonra döngüden çık
-            } else {
-              // Token geçerli ama kullanıcı bulunamadı? Bu bir tutarsızlık.
-              this.logger.error(
-                `Refresh token (${storedToken.id}) geçerli ancak ilişkili kullanıcı (${storedToken.userId}) bulunamadı!`,
-                'AuthService.validateAndGetUserByRefreshToken',
-                __filename,
-                350,
-              );
-            }
-          }
-        } catch (compareError) {
-          // bcrypt.compare hatası (nadir)
-          this.logger.error(
-            `bcrypt.compare hatası: ${compareError.message}`,
-            'AuthService.validateAndGetUserByRefreshToken',
-            __filename,
-          );
-          continue; // Diğer tokenları kontrol etmeye devam et
-        }
+const storedToken = potentialTokens[0];
+      const isValid = await bcrypt.compare(token, storedToken.hashedToken);
+      if (!isValid) {
+        return null;
+   
       }
-
-      if (!validTokenInfo) {
-        this.logger.warn(
-          'Sağlanan refresh token ile eşleşen geçerli token bulunamadı',
+      const user = await this.usersService.findById(storedToken.userId);
+      if (!user) {
+        this.logger.error(
+          `Refresh token (${storedToken.id}) geçerli ancak ilişkili kullanıcı (${storedToken.userId}) bulunamadı!`,
           'AuthService.validateAndGetUserByRefreshToken',
           __filename,
+          350,
         );
         return null;
       }
+
+      const validTokenInfo: { user: any; storedTokenId: string } = {
+        user,
+        storedTokenId: storedToken.id,
+      };
 
       this.logger.debug(
         `Refresh token başarıyla doğrulandı: Kullanıcı ID ${validTokenInfo.user.id}`,

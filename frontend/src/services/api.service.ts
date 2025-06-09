@@ -7,15 +7,14 @@ import { LoggerService } from "./logger.service";
 
 let API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 // Hata ayıklama için API URL logla
-console.log("🔍 API URL (başlangıç):", API_URL);
-
+const moduleLogger = getLogger();
+moduleLogger?.debug(`🔍 API URL (başlangıç): ${API_URL}`, 'ApiService');
 // LocalStorage'da kayıtlı API URL kontrolü - sadece istemci tarafında çalışırken
 if (typeof window !== "undefined") {
   const savedApiUrl = localStorage.getItem("api_base_url");
   if (savedApiUrl) {
     API_URL = savedApiUrl;
-    console.log("🔄 LocalStorage'dan alınan API URL:", API_URL);
-  }
+moduleLogger?.debug(`🔄 LocalStorage'dan alınan API URL: ${API_URL}`, 'ApiService');  }
 }
 
 // API istek konfigürasyonu
@@ -233,8 +232,9 @@ const getAuthToken = async (): Promise<string | null> => {
 
   // Rate limiting - son token isteğinden sonra en az 5 saniye bekle
   if (now - TOKEN_CACHE.lastRefreshAttempt < 5000) {
-    console.log(
-      "🚫 Token istekleri çok sık yapılıyor, önbellekteki token kullanılıyor",
+     moduleLogger?.warn(
+      '🚫 Token istekleri çok sık yapılıyor, önbellekteki token kullanılıyor',
+      'ApiService.getAuthToken',
     );
     // Önbellekteki token varsa kullan, yoksa localStorage'dan oku
     return TOKEN_CACHE.token || localStorage.getItem("auth_token");
@@ -774,7 +774,7 @@ class ApiService {
         `DELETE isteği başlatıldı: ${endpoint}`,
         'ApiService.delete',
    
-        478
+        '478'
       );
       
       const response = await this.client.delete<T>(endpoint);
@@ -785,7 +785,7 @@ class ApiService {
         `DELETE isteği tamamlandı: ${endpoint}`,
         'ApiService.delete',
        
-        487,
+        '487',
         { status: response.status }
       );
       

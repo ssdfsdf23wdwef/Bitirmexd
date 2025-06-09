@@ -1606,3 +1606,89 @@ Details: {"reason":"AxiosError: Request failed with status code 401\n    at sett
 [2025-06-09T10:46:06.842Z] [error] [UnhandledPromiseRejection] Yakalanmamış Promise hatası
 Details: {"reason":"AxiosError: Request failed with status code 401\n    at settle (webpack-internal:///(app-pages-browser)/./node_modules/axios/lib/core/settle.js:24:12)\n    at XMLHttpRequest.onloadend (webpack-internal:///(app-pages-browser)/./node_modules/axios/lib/adapters/xhr.js:73:66)\n    at Axios.request (webpack-internal:///(app-pages-browser)/./node_modules/axios/lib/core/Axios.js:57:41)\n    at async Axios.request (webpack-internal:///(app-pages-browser)/./node_modules/axios/lib/core/Axios.js:52:14)\n    at async eval (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:449:34)\n    at async retryRequest (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:152:16)\n    at async ApiService.get (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:448:20)\n    at async LearningTargetService.getLearningTargetsByCourse (webpack-internal:///(app-pages-browser)/./src/services/learningTarget.service.ts:44:29)\n    at async LearningTargetService.getLearningTargets (webpack-internal:///(app-pages-browser)/./src/services/learningTarget.service.ts:73:29)"}
 ------------------------------------------------------------
+[2025-06-09T10:50:22.612Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T10:50:22.610Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T10:50:36.750Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T10:50:36.748Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T10:53:32.391Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T10:53:32.383Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:01:57.701Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:01:59.205Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:01:59.216Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:01:57.696Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:02:11.907Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:02:11.914Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:02:12.441Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:02:12.446Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:02:29.529Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:02:29.562Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:02:29.927Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:02:29.931Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:04:03.420Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:04:03.701Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:04:03.704Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:04:03.416Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:04:12.862Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:04:12.870Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:04:13.260Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:04:13.266Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:10:56.982Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:10:56.993Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:10:57.252Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:10:57.255Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:11:09.061Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:11:09.066Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:11:09.294Z] [error] [Window.onerror] Yakalanmamış hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"filename":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","lineno":83,"colno":50,"error":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:11:09.298Z] [error] [Window.onerror] Global hata: Uncaught Error: appFlow.trackStep is not a function
+Details: {"source":"webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/react-client-callbacks/error-boundary-callbacks.js","line":83,"column":50,"stack":"TypeError: appFlow.trackStep is not a function\n    at Providers.useEffect (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:89:21)\n    at RootLayout (rsc://React/Server/webpack-internal:///(rsc)/./src/app/layout.tsx?7:108:106)"}
+------------------------------------------------------------
+[2025-06-09T11:22:41.376Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T11:22:41.366Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------

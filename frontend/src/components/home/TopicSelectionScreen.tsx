@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useTheme } from "../../context/ThemeProvider";
 import {
   FiCheck,
@@ -130,6 +130,12 @@ export default function TopicSelectionScreen({
     onTopicSelectionChange(ids);
   }, [onTopicSelectionChange]);
 
+  // Ref to store the latest callback to avoid dependency cycle
+  const handleTopicSelectionChangeRef = useRef(handleTopicSelectionChange);
+  useEffect(() => {
+    handleTopicSelectionChangeRef.current = handleTopicSelectionChange;
+  }, [handleTopicSelectionChange]);
+
   // --- YENİ: İlk yüklemede ve detectedTopics değiştiğinde seçimleri güncelle ---
   useEffect(() => {
     if (isLoading) return;
@@ -167,8 +173,8 @@ export default function TopicSelectionScreen({
       }
       setOnInitialLoad(false);
     } else {
-      // Eğer parent bir state tutuyorsa, onunla senkronize ol
-      initialSelectionIds = selectedTopicIds.length > 0 ? selectedTopicIds : baseTopicsRaw.map(t => t.id);
+      // Burada selectedTopicIds kullanmayarak circular dependency'yi kırıyoruz
+      initialSelectionIds = baseTopicsRaw.map(t => t.id);
     }
 
     // --- YENİ: filteredTopics'i oluştur ve seçimleri uygula ---
@@ -176,10 +182,13 @@ export default function TopicSelectionScreen({
       ...topic,
       isSelected: initialSelectionIds.includes(topic.id),
     }));
+    
     setFilteredTopics(finalTopicsWithSelection);
+    
     // --- YENİ: Seçim değişimini parent'a bildir ---
-    handleTopicSelectionChange(initialSelectionIds);
-  }, [detectedTopics, existingTopics, quizType, personalizedQuizType, isLoading, initialSelectedTopicIds, onInitialLoad, setOnInitialLoad, selectedTopicIds, handleTopicSelectionChange]);
+    // Circular dependency'yi önlemek için ref kullanıyoruz
+    handleTopicSelectionChangeRef.current(initialSelectionIds);
+  }, [detectedTopics, existingTopics, quizType, personalizedQuizType, isLoading, initialSelectedTopicIds, onInitialLoad, setOnInitialLoad]);
 
   // --- YENİ: Seçimi güncelleyen fonksiyonlar ---
   const handleToggleAll = useCallback((selectAll: boolean) => {
@@ -189,8 +198,8 @@ export default function TopicSelectionScreen({
     }));
     setFilteredTopics(updatedTopics);
     const selectedIds = selectAll ? updatedTopics.map(t => t.id) : [];
-    handleTopicSelectionChange(selectedIds);
-  }, [filteredTopics, handleTopicSelectionChange]);
+    handleTopicSelectionChangeRef.current(selectedIds);
+  }, [filteredTopics]);
 
   const handleTopicToggle = useCallback((id: string) => {
     const updatedTopics = filteredTopics.map(topic => {
@@ -201,8 +210,8 @@ export default function TopicSelectionScreen({
     });
     setFilteredTopics(updatedTopics);
     const selectedIds = updatedTopics.filter(t => t.isSelected).map(t => t.id);
-    handleTopicSelectionChange(selectedIds);
-  }, [filteredTopics, handleTopicSelectionChange]);
+    handleTopicSelectionChangeRef.current(selectedIds);
+  }, [filteredTopics]);
 
   const handleCourseChange = useCallback(
     (courseId: string) => {

@@ -24,7 +24,7 @@ import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import { DocumentsService } from '../documents/documents.service';
-
+import { CoursesService } from '../courses/courses.service';
 // Legacy type - will be gradually replaced with the LearningTargetStatus enum
 type LegacyLearningTargetStatus = 'pending' | 'failed' | 'medium' | 'mastered';
 
@@ -41,6 +41,7 @@ export class LearningTargetsService {
     private documentsService: DocumentsService,
     @Inject(forwardRef(() => TopicDetectionService))
     private topicDetectionService: TopicDetectionService,
+    private coursesService: CoursesService,
   ) {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
@@ -451,7 +452,21 @@ export class LearningTargetsService {
       // Get course content if courseId is provided
       let contextText = dto.contextText || '';
       if (dto.courseId && !dto.contextText) {
-        // TODO: If needed, get course content from course service
+       contextText = await this.coursesService.getCourseMaterialText(
+          dto.courseId,
+          userId,
+        );
+
+        if (!contextText) {
+          contextText = dto.existingTopicTexts.join('. ');
+          console.log(
+            `\n📝 Ders içeriği bulunamadı, mevcut konular kullanıldı (${contextText.length} chars)`,
+          );
+        } else {
+          console.log(
+            `\n📝 Course material loaded (${contextText.length} chars)`,
+          );
+        }
         // For now, just use the existing topics as context if no explicit context is provided
         contextText = dto.existingTopicTexts.join('. ');
         console.log(`\n📝 No context text provided, using existing topics as context (${contextText.length} chars)`);

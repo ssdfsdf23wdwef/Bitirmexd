@@ -24,11 +24,18 @@ export type GenericMiddleware<T, M extends [StoreMutatorIdentifier, unknown][] =
 
 
 export const loggerMiddleware = <T extends object>(storeName: string): Middleware<T> => {
-  return (config) => (set, get, api) => {
+  return (config) => (
+    set: Parameters<StateCreator<T, [], []>>[0],
+    get: Parameters<StateCreator<T, [], []>>[1],
+    api: Parameters<StateCreator<T, [], []>>[2]
+  ) => {
     const logger = getLogger();
     const flowTracker = getFlowTracker();
-      return config(
-      (partial, replace) => {
+     return config(
+      (
+        partial: T | Partial<T> | ((state: T) => T | Partial<T>),
+        replace?: boolean
+      ) => {
         const previousState = get();
         
         // Handle the overloaded set function properly
@@ -41,14 +48,14 @@ export const loggerMiddleware = <T extends object>(storeName: string): Middlewar
         const nextState = get();
         
         // Değişimleri belirle
-        const changes: Record<string, { from: any; to: any }> = {};
+        const changes: Record<string, { from: unknown; to: unknown }> = {};
         const isPartialFunction = typeof partial === 'function';
         const updatedKeys: string[] = [];
         
         // Safely access object properties with proper typing
-        Object.keys(nextState as Record<string, any>).forEach((key) => {
-          const prevState = previousState as Record<string, any>;
-          const currentState = nextState as Record<string, any>;
+Object.keys(nextState as Record<string, unknown>).forEach((key) => {
+          const prevState = previousState as Record<string, unknown>;
+          const currentState = nextState as Record<string, unknown>;
           
           if (prevState[key] !== currentState[key]) {
             changes[key] = { from: prevState[key], to: currentState[key] };
@@ -62,6 +69,13 @@ export const loggerMiddleware = <T extends object>(storeName: string): Middlewar
           'ZustandStore',
           previousState,
           nextState
+        );
+        
+        // Loglama
+        logger.debug(
+          `Store degisimi: ${JSON.stringify(changes)}`,
+          'ZustandStore',
+          'zustand.middleware.ts',
         );
         
     
@@ -81,7 +95,13 @@ export const loggerMiddleware = <T extends object>(storeName: string): Middlewar
  * @returns Middleware
  */
 export const performanceMiddleware = <T extends object>(storeName: string): Middleware<T> => {
-  return (config) => (set, get, api) => {
+ return (
+    config: StateCreator<T, [], [], T>
+  ) => (
+    set: any,
+    get: any,
+    api: any
+  ) => {
     const logger = getLogger();
     const flowTracker = getFlowTracker();
     
@@ -91,11 +111,11 @@ export const performanceMiddleware = <T extends object>(storeName: string): Midd
     // Yeni API - Aksiyonları izlemek için imzalanmış metodlar ekler
     const trackedApi = Object.assign({}, api, {
       // Track fonksiyonu ekle
-      trackAction: <F extends (...args: any[]) => any>(
+       trackAction: <Args extends unknown[], Return>(
         actionName: string,
-        fn: F
-      ): F => {
-        return ((...args: any[]) => {
+        fn: (...args: Args) => Return
+      ): ((...args: Args) => Return) => {
+        return ((...args: Args) => {
           actionCounter++;
           const actionId = `${storeName}:${actionName}:${actionCounter}`;
           
@@ -116,23 +136,21 @@ export const performanceMiddleware = <T extends object>(storeName: string): Midd
                 },
                 // Hata
                 (error) => {
-                  const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
                   
                   throw error;
                 }
               );
             }            
             // Senkron işlem
-            const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
             
             return result;
           } catch (error) {
             // Hata durumunda
-            const duration = flowTracker.markEnd(actionId, FlowCategory.State, `${storeName}.${actionName}`);
             
             throw error;
           }
-        }) as F;
+            }) as (...args: Args) => Return;
+
       }
     });
     
@@ -153,7 +171,13 @@ export const persistMiddleware = <T extends object>(
   storeName: string,
   whitelist?: (keyof T)[]
 ): Middleware<T> => {
-  return (config) => (set, get, api) => {
+  return (
+    config: StateCreator<T, [], [], T>
+  ) => (
+    set: Parameters<StateCreator<T, [], []>>[0],
+    get: Parameters<StateCreator<T, [], []>>[1],
+    api: Parameters<StateCreator<T, [], []>>[2]
+  ) => {
     // İlk yüklemede localStorage'dan verileri al
     const localStorageKey = `zustand_${storeName}`;
     const logger = getLogger();
@@ -194,7 +218,10 @@ export const persistMiddleware = <T extends object>(
       );
     }
       return config(
-      (partial, replace) => {
+      (
+        partial: T | Partial<T> | ((state: T) => T | Partial<T>),
+        replace?: boolean
+      ) => {
         // Handle the overloaded set function properly 
         if (replace === true) {
           set(partial as T, replace);
@@ -307,7 +334,13 @@ export const createTrackedStore = <
   
   // Store oluşturucu fonksiyonunu döndür
   return (storeCreator: StateCreator<T, [], M, T>) => {
-    return createStore(composedMiddleware((set, get, api) => {
+     return createStore(
+      composedMiddleware(
+        (
+          set: any,
+          get: any,
+          api: any
+        ) => {
       // Store initi izle
       const flowTracker = getFlowTracker();
       const logger = getLogger();
@@ -320,7 +353,11 @@ export const createTrackedStore = <
         { storeName }
       );
       
-      flowTracker.trackStep(FlowCategory.State, `${storeName} store başlatıldı`, 'ZustandStore');
+     flowTracker?.trackStep(
+        FlowCategory.State,
+        `${storeName} store başlatıldı`,
+        'ZustandStore'
+      );
       
       // Store'un gerçek implementasyonunu çağır
       return {

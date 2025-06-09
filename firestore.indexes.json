@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "refreshTokens",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tokenHash", "order": "ASCENDING" },
+        { "fieldPath": "expiresAt", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

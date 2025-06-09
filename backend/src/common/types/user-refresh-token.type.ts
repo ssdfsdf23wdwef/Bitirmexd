@@ -4,6 +4,7 @@ export interface UserRefreshToken {
   id?: string; // Firestore document ID
   userId: string;
   hashedToken: string;
+   tokenHash: string; 
   expiresAt: admin.firestore.Timestamp;
   createdAt: admin.firestore.Timestamp;
   ipAddress?: string;

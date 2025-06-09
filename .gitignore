@@ -6,3 +6,7 @@ backend/secrets/
 *.json.key
 *firebase-adminsdk*.json
 !firestore.indexes.json
+
+# Build artifacts
+backend/dist/
+tsconfig.*.tsbuildinfo

@@ -4,7 +4,7 @@
  */
 
 import { FlowTrackerService, FlowCategory as TrackerFlowCategory } from '../services/flow-tracker.service';
-import LoggerService from '../services/logger.service';
+import { LoggerService } from '../services/logger.service';
 import { FlowCategory } from "@/constants/logging.constants";
 
 let loggerInstance: any | null = null;
@@ -69,8 +69,10 @@ export function setupLogger(options?: any): any {
       clearAllLogs: () => {},
       getAllErrorLogs: () => '',
     } as any;
-  }  try {
-    // Try to get the LoggerService instance
+  }
+
+  try {
+    // Use the imported LoggerService directly for client-side
     loggerInstance = LoggerService.getInstance();
     if (options && loggerInstance) {
       loggerInstance.setConfig(options);
@@ -123,6 +125,7 @@ export function setupFlowTracker(options?: any): FlowTrackerService {
       clearAllLogs: () => {}
     } as any;
   }
+
   try {
     flowTrackerInstance = FlowTrackerService.getInstance();
     return flowTrackerInstance;
@@ -198,7 +201,9 @@ export function getLogger(): any | null {
           getAllErrorLogs: () => '',
         } as any;
         return loggerInstance;
-      }      // Try to use the LoggerService
+      }
+
+      // Use the imported LoggerService directly
       loggerInstance = LoggerService.getInstance();
     } catch (error) {
       // Client-side: create a minimal fallback logger
@@ -290,87 +295,18 @@ export function setupGlobalErrorHandling(): void {
 }
 
 /**
- * Akış izleme fonksiyonu - FlowTracker servisini kullanarak akış adımlarını izler
- * @param message Akış mesajı
- * @param context Akış konteksti (dosya adı veya bileşen adı)
- * @param category Akış kategorisi
- * @param metadata Ek metadata
- */
-export function trackFlow(
-  message: string,
-  context: string,
-  category: FlowCategory,
-  metadata?: any
-): void {
-  try {
-    const flowTracker = getFlowTracker();
-    if (flowTracker) {
-      const trackerCategory = mapToTrackerCategory(category);
-      flowTracker.trackStep(trackerCategory, message, context);
-      
-      // Logger'a da kaydet
-      const logger = getLogger();
-      if (logger) {
-        logger.info(`[FLOW] ${message}`, context, undefined, undefined, metadata);
-      }
-    }
-  } catch (error) {
-    // Fallback to console logging if services are not available
-    console.log(`[FLOW] [${category}] [${context}] ${message}`, metadata || '');
-  }
-}
-
-/**
  * Yeni bir akış başlatır
  * @param category Akış kategorisi
  * @param name Akış adı
  * @returns FlowTracker instance
  */
 export function startFlow(category: FlowCategory, name: string): any {
-  const flowTracker = getFlowTracker();
-  
-  if (flowTracker) {
-    const flowId = flowTracker.startSequence(name);
-    return {
-      id: flowId,
-      category,
-      name,
-      trackStep: (message: string, metadata?: any) => {
-        const trackerCategory = mapToTrackerCategory(category);
-        flowTracker.trackStep(trackerCategory, message, `Flow:${name}`, {
-          flowId,
-          flowName: name,
-          ...metadata
-        });
-      },
-      end: (summary?: string) => {
-        const trackerCategory = mapToTrackerCategory(category);
-        flowTracker.trackStep(
-          trackerCategory,
-          summary || `Flow tamamlandı: ${name}`,
-          `Flow:${name}`,
-          {
-            flowId,
-            flowName: name,
-            status: 'completed'
-          }
-        );
-        flowTracker.endSequence(flowId);
-      }
-    };
+  if (flowTrackerInstance) {
+    const flowId = flowTrackerInstance.startSequence(name);
+    return { id: flowId, category, name };
   } else {
     const flowId = `flow_dummy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     console.warn(`[FlowTracker Utils] FlowTrackerService başlatılmamış. Akış başlatılıyor: ${name} (dummy ID: ${flowId})`);
-    return {
-      id: flowId,
-      category,
-      name,
-      trackStep: (message: string, metadata?: any) => {
-        console.log(`[FLOW] [${category}] [Flow:${name}] ${message}`, metadata || '');
-      },
-      end: (summary?: string) => {
-        console.log(`[FLOW] [${category}] [Flow:${name}] ${summary || 'Flow tamamlandı'}`);
-      }
-    };
+    return { id: flowId, category, name };
   }
 }

@@ -789,12 +789,53 @@ export class CoursesService {
     }
   }
 
-  /**
-   * Kullanıcının kurs üzerinde yetki sahibi olup olmadığını kontrol eder
-   * @param course Kurs nesnesi
-   * @param userId Kullanıcı ID'si
-   * @throws ForbiddenException Kullanıcı kursa erişim yetkisine sahip değilse
+    /**
+   * Retrieve concatenated material text for a course by aggregating
+   * the extracted text of all documents belonging to the course.
+   * This will be used to provide lesson context when proposing new topics.
    */
+  @LogMethod({ trackParams: true })
+  async getCourseMaterialText(courseId: string, userId: string): Promise<string> {
+    try {
+      this.flowTracker.trackStep(
+        `${courseId} ID'li kursun materyal metni getiriliyor`,
+        'CoursesService',
+      );
+
+      // Ensure the course exists and user has access
+      await this.findById(courseId, userId);
+
+      const documents = await this.firebaseService.findMany<Document>(
+        FIRESTORE_COLLECTIONS.DOCUMENTS,
+        [
+          { field: 'courseId', operator: '==', value: courseId },
+          { field: 'userId', operator: '==', value: userId },
+        ],
+      );
+
+      const combinedText = documents
+        .map((doc) => doc.extractedText || '')
+        .filter(Boolean)
+        .join('\n');
+
+      this.logger.debug(
+        `Kurs materyal metni uzunluğu: ${combinedText.length}`,
+        'CoursesService.getCourseMaterialText',
+        __filename,
+        undefined,
+        { courseId, userId, textLength: combinedText.length },
+      );
+
+      return combinedText;
+    } catch (error) {
+      this.logger.logError(error, 'CoursesService.getCourseMaterialText', {
+        courseId,
+        userId,
+      });
+      throw error;
+    }
+  }
+
   private validateCourseOwnership(course: Course, userId: string): void {
     if (course.userId !== userId) {
       throw new ForbiddenException('Bu işlem için yetkiniz bulunmamaktadır.');

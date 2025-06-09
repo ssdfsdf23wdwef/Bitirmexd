@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { createTrackedStore } from "./zustand.middleware";
 import { getLogger, getFlowTracker } from "../lib/logger.utils";
-
+import type { LoggerService } from "../services/logger.service";
+import type { FlowTrackerService } from "../services/flow-tracker.service";
 interface DocumentState {
   // State
   isLoading: boolean; // Sadece UI state (örn: mutation loading) için kullanılabilir
@@ -15,8 +16,8 @@ interface DocumentState {
 }
 
 // Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
-let logger: any = null;
-let flowTracker: any = null;
+let logger: LoggerService | null = null;
+let flowTracker: FlowTrackerService | null = null;
 
 function getLoggerInstance() {
   if (!logger) {
