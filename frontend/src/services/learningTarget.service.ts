@@ -288,7 +288,10 @@ class LearningTargetService {
   @LogMethod('LearningTargetService', FlowCategory.API)
   async createBatchLearningTargets(
     courseId: string,
-    targets: Omit<LearningTarget, "id" | "courseId" | "userId">[],
+    topics: Array<{
+      subTopicName: string;
+      normalizedSubTopicName?: string;
+    }>,
   ): Promise<LearningTarget[]> {
     flowTracker.markStart(`createBatchTargets_${courseId}`);
     
@@ -297,24 +300,24 @@ class LearningTargetService {
         "/learning-targets/batch",
         'POST',
         'LearningTargetService.createBatchLearningTargets',
-        { courseId, targetCount: targets.length }
+        { courseId, targetCount: topics.length }
       );
       
       logger.logLearningTarget(
-        `Toplu öğrenme hedefi oluşturuluyor: Kurs=${courseId}, Hedef sayısı=${targets.length}`,
+        `Toplu öğrenme hedefi oluşturuluyor: Kurs=${courseId}, Hedef sayısı=${topics.length}`,
         'LearningTargetService.createBatchLearningTargets',
         __filename,
         267,
         { 
           courseId, 
-          count: targets.length,
-          topics: targets.map(t => t.subTopicName)
+          count: topics.length,
+          topics: topics.map(t => t.subTopicName)
         }
       );
       
       const createdTargets = await apiService.post<LearningTarget[]>("/learning-targets/batch", {
         courseId,
-        targets,
+        topics,
       });
       
       // Başarılı sonuç
@@ -340,10 +343,10 @@ class LearningTargetService {
         'LearningTargetService.createBatchLearningTargets',
         __filename,
         299,
-        { 
-          courseId, 
-          targetCount: targets.length,
-          error 
+         {
+          courseId,
+          targetCount: topics.length,
+          error
         }
       );
       throw error;

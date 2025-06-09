@@ -3,7 +3,7 @@
  * @description Frontend loglama yardımcı fonksiyonları
  */
 
-import loggerService, { LoggerService } from '../services/logger.service';
+import { LoggerService } from '../services/logger.service';
 import { FlowTrackerService, FlowCategory as TrackerFlowCategory } from '../services/flow-tracker.service';
 import { FlowCategory } from "@/constants/logging.constants";
 
@@ -89,15 +89,46 @@ export function setupLogging(options?: {
  * Logger instance alır, yoksa oluşturur
  * @returns LoggerService instance
  */
-export function getLogger(): LoggerService {
+export function getLogger(): LoggerService | null {
   if (!loggerInstance) {
     try {
+      // Check if we're in SSR environment
+      if (typeof window === 'undefined') {
+        // Server-side: create a mock logger that just console logs
+        loggerInstance = {
+          info: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+            // Silent in SSR to avoid noise
+          },
+          warn: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+            // Silent in SSR to avoid noise
+          },
+          error: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+            // Silent in SSR to avoid noise
+          },
+          debug: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+            // Silent in SSR to avoid noise
+          },
+          logLearningTarget: (msg: string, ...args: any[]) => {
+            // Silent in SSR to avoid noise
+          }
+        } as any;
+        return loggerInstance;
+      }
+
+      // Check if LoggerService is available (it might be undefined in SSR)
+      if (typeof LoggerService === 'undefined') {
+        throw new Error('LoggerService is not available in this environment');
+      }
       loggerInstance = LoggerService.getInstance();
     } catch (error) {
-      console.error('LoggerService getInstance hatası:', error);
-      // Singleton pattern kullanıldığından fallback yapamayız
-      // Bu durumda exception'ı yeniden fırlat
-      throw new Error('LoggerService başlatılamadı: ' + (error instanceof Error ? error.message : String(error)));
+      // Client-side: create a minimal fallback logger
+      loggerInstance = {
+        info: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.info(`[${ctx}] ${msg}`, meta || ''),
+        warn: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.warn(`[${ctx}] ${msg}`, meta || ''),
+        error: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.error(`[${ctx}] ${msg}`, meta || ''),
+        debug: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.debug(`[${ctx}] ${msg}`, meta || ''),
+        logLearningTarget: (msg: string, ...args: any[]) => console.info(`[LEARNING] ${msg}`, ...args)
+      } as any;
     }
   }
   return loggerInstance;
@@ -129,7 +160,7 @@ export function logError(error: Error | string, context: string, metadata?: Reco
   if (typeof error === 'string') {
     loggerInstance.error(error, context, undefined, undefined, metadata);
   } else {
-    loggerInstance.error(error.message, context, error, error.stack, metadata);
+    loggerInstance.error(error.message, context, error.name, error.stack, metadata);
   }
 }
 
@@ -232,7 +263,7 @@ export function getLogFileContent(): string {
     return '';
   }
   
-  return loggerInstance.getAllErrorLogs();
+  return loggerInstance.getAllErrorLogs().join('\n');
 }
 
 /**
@@ -579,7 +610,7 @@ export function prettyErrorLog(error: Error, info?: Record<string, unknown>): vo
     const context = info?.componentName ? String(info.componentName) : 
                    info?.context ? String(info.context) : 'ErrorHandler';
                    
-    loggerInstance.error(error.message, context, error);
+    loggerInstance.error(error.message, context, error.name, error.stack);
   }
 }
 
@@ -618,7 +649,7 @@ export function setupGlobalErrorHandling(): void {
     }
     
     if (loggerInstance) {
-      loggerInstance.warn('Yakalanmamış Promise Hatası', 'GlobalErrorHandler', error instanceof Error ? error : undefined, undefined, { reason: error?.toString() });
+      loggerInstance.warn('Yakalanmamış Promise Hatası', 'GlobalErrorHandler', error instanceof Error ? error.name : undefined, undefined, { reason: error?.toString() });
     } else {
       console.warn('[GlobalErrorHandler] LoggerInstance yok. Yakalanmamış Promise Hatası:', error);
     }

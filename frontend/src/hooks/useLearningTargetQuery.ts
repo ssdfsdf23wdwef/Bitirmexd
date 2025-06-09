@@ -10,6 +10,7 @@ import {
 // Api endpoint'leri
 const API_ENDPOINTS = {
   BASE: "/learning-targets",
+  BATCH: "/learning-targets/batch",
   BY_COURSE: (courseId: string) => `/learning-targets?courseId=${courseId}`,
   DETECT_TOPICS: "/learning-targets/detect-topics",
   UPDATE_STATUSES: "/learning-targets/update-statuses",
@@ -42,7 +43,7 @@ const learningTargetService = {
   createBatchLearningTargets: async (
     request: BatchCreateLearningTargetsRequest,
   ) => {
-    return apiService.post<LearningTarget[]>(API_ENDPOINTS.BASE, { ...request });
+    return apiService.post<LearningTarget[]>(API_ENDPOINTS.BATCH, { ...request });
   },
 
   /**

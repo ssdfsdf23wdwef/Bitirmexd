@@ -13,6 +13,8 @@ import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/fire
 import { getStorage, FirebaseStorage, connectStorageEmulator } from "firebase/storage";
 
 import { LoggerService } from "@/services/logger.service";
+import { trackFlow } from "@/lib/logger.utils";
+import { FlowCategory } from "@/constants/logging.constants";
 
 // Firebase config logging - use LoggerService
 const getLoggerInstance = () => {
@@ -99,7 +101,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
       `Firebase yapılandırmasında eksik alanlar: ${missingFields.join(', ')}`,
       'FirebaseConfig',
       __filename,
-      34
+      "34"
     );
     
     // Geliştirme ortamında eksik alanlar için yedek değerler kullan
@@ -113,7 +115,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
         'Eksik Firebase alanları geliştirme değerleriyle dolduruldu',
         'FirebaseConfig',
         __filename,
-        52
+        "116"
       );
     } else {
       // Üretim ortamında eksik alanlar için uyarı logla
@@ -121,7 +123,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
         `Üretim ortamında eksik Firebase yapılandırma alanları: ${missingFields.join(', ')}`,
         'FirebaseConfig',
         __filename,
-        59
+        "125"
       );
     }
   }
@@ -132,7 +134,7 @@ const validateFirebaseConfig = (): FirebaseConfigType => {
       'Firebase API Key tanımlanmamış! Firebase işlevselliği çalışmayabilir.',
       'FirebaseConfig',
       __filename,
-      68
+      "140"
     );
     
     // Geliştirme ortamında yedek API key kullan
@@ -164,7 +166,7 @@ try {
         'Firebase başarıyla başlatıldı',
         'FirebaseConfig',
         __filename,
-        96
+        "167"
       );
       trackFlow('Firebase başarıyla başlatıldı', 'FirebaseConfig', FlowCategory.Custom);
     } catch (initError) {
@@ -172,7 +174,7 @@ try {
         `Firebase başlatılamadı: ${initError instanceof Error ? initError.message : 'Bilinmeyen hata'}`,
         'FirebaseConfig',
         __filename,
-        103,
+        "173",
         { error: initError }
       );
       
@@ -186,7 +188,7 @@ try {
         'Firebase minimum yapılandırma ile başlatıldı',
         'FirebaseConfig',
         __filename,
-        116
+        "186"
       );
     }
   } else {
@@ -195,7 +197,7 @@ try {
       'Mevcut Firebase uygulaması kullanılıyor',
       'FirebaseConfig',
       __filename,
-      124
+      "198"
     );
   }
   
@@ -207,14 +209,14 @@ try {
       'Firestore ve Storage başarıyla başlatıldı',
       'FirebaseConfig',
       __filename,
-      135
+      "208"
     );
   } catch (dbError) {
     getLoggerInstance()?.error(
       'Firebase servislerini başlatma hatası',
       'FirebaseConfig',
       __filename,
-      140,
+      "218",
       { error: dbError }
     );
     // Minimum yeniden başlatma girişimi
@@ -238,14 +240,14 @@ try {
         'Firebase Auth tarayıcı tarafında başlatıldı',
         'FirebaseConfig',
         __filename,
-        162
+        "242"
       );
     } catch (authInitError) {
       getLoggerInstance()?.error(
         'Firebase Auth özel başlatma hatası, standart yönteme dönülüyor',
         'FirebaseConfig',
         __filename,
-        168,
+        "249",
         { error: authInitError }
       );
       
@@ -260,14 +262,14 @@ try {
         'Firebase Auth sunucu tarafında başlatıldı',
         'FirebaseConfig',
         __filename,
-        180
+        "264"
       );
     } catch (serverAuthError) {
       getLoggerInstance()?.error(
         'Firebase Auth sunucu taraflı başlatma hatası',
         'FirebaseConfig',
         __filename,
-        186,
+        "272",
         { error: serverAuthError }
       );
       // Geri dönüş - getAuth kullan
@@ -282,7 +284,7 @@ try {
         'Firebase emülatörleri yapılandırılıyor',
         'FirebaseConfig',
         __filename,
-        199
+        "286"
       );
       
       // Auth, Firestore ve Storage servislerinin varlığını kontrol et
@@ -294,7 +296,7 @@ try {
         'Firebase emülatörleri başarıyla yapılandırıldı',
         'FirebaseConfig',
         __filename,
-        208
+   
       );
       
      
@@ -303,7 +305,7 @@ try {
         'Firebase emülatörleri yapılandırılamadı',
         'FirebaseConfig',
         __filename,
-        216,
+        "307",
         { error: emulatorError instanceof Error ? emulatorError.message : 'Bilinmeyen hata' }
       );
     }
@@ -318,7 +320,7 @@ try {
             'Firebase Auth: Kullanıcı oturum açtı',
             'FirebaseConfig',
             __filename,
-            230,
+            "322",
             { uid: user.uid }
           );
           
@@ -328,7 +330,7 @@ try {
             'Firebase Auth: Kullanıcı oturumu kapalı',
             'FirebaseConfig',
             __filename,
-            238
+            "332"
           );
           
           trackFlow('Kullanıcı oturumu kapalı', 'FirebaseConfig', FlowCategory.Auth);
@@ -339,7 +341,7 @@ try {
           'Firebase Auth hata',
           'FirebaseConfig',
           __filename,
-          247,
+          "343",
           { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
         );
         
@@ -352,7 +354,7 @@ try {
     'Firebase başlatma hatası',
     'FirebaseConfig',
     __filename,
-    258,
+    "357",
     { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
   );
   
@@ -376,14 +378,14 @@ try {
         'Firebase minimum yapılandırma ile başlatıldı',
         'FirebaseConfig',
         __filename,
-        280
+        "381"
       );
     } catch (fallbackError) {
       getLoggerInstance()?.error(
         'Firebase minimum yapılandırma ile bile başlatılamadı',
         'FirebaseConfig',
         __filename,
-        285,
+        "388",
         { error: fallbackError instanceof Error ? fallbackError.message : 'Bilinmeyen hata' }
       );
       
