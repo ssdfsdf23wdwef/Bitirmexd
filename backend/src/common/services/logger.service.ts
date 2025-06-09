@@ -133,16 +133,6 @@ export class LoggerService {
             mode: 0o666,
           },
         }),
-        // Konsola da yazdırmak için
-        new transports.Console({
-          format: format.combine(
-            format.colorize(),
-            format.timestamp(),
-            format.printf(({ timestamp, level, message }) => {
-              return `[SINAV] [${timestamp}] [${level}] ${message}`;
-            }),
-          ),
-        }),
       ],
     });
   }
@@ -201,15 +191,6 @@ export class LoggerService {
           new transports.File({
             filename: learningTargetLogPath,
             level: 'debug',
-          }),
-          // Konsola da yazmak için
-          new transports.Console({
-            format: format.combine(
-              format.colorize(),
-              format.printf(({ level, message, timestamp, ...meta }) => {
-                return `[�-�Yrenme Hedef] [${timestamp}] [${level}] ${message} ${Object.keys(meta).length > 0 ? JSON.stringify(meta) : ''}`;
-              }),
-            ),
           }),
         ],
       });
