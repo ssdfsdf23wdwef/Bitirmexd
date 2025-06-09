@@ -3,7 +3,7 @@
  * @description Frontend loglama yardımcı fonksiyonları
  */
 
-import { LoggerService } from '../services/logger.service';
+import loggerService, { LoggerService } from '../services/logger.service';
 import { FlowTrackerService, FlowCategory as TrackerFlowCategory } from '../services/flow-tracker.service';
 import { FlowCategory } from "@/constants/logging.constants";
 
@@ -52,10 +52,11 @@ export function extractFileName(filePath: string): string {
  * @param options Logger servisi opsiyonları
  * @returns LoggerService instance
  */
-export function setupLogger(options?: Parameters<typeof LoggerService.getInstance>[0]): LoggerService {
-  loggerInstance = LoggerService.getInstance({
-    ...options
-  });
+export function setupLogger(options?: any): LoggerService {
+  loggerInstance = LoggerService.getInstance();
+  if (options) {
+    loggerInstance.setConfig(options);
+  }
   return loggerInstance;
 }
 
@@ -64,11 +65,8 @@ export function setupLogger(options?: Parameters<typeof LoggerService.getInstanc
  * @param options FlowTracker servisi opsiyonları
  * @returns FlowTrackerService instance
  */
-export function setupFlowTracker(options?: Parameters<typeof FlowTrackerService.getInstance>[0]): FlowTrackerService {
-  flowTrackerInstance = FlowTrackerService.getInstance({
-    ...options,
-    logger: loggerInstance || undefined
-  });
+export function setupFlowTracker(options?: any): FlowTrackerService {
+  flowTrackerInstance = FlowTrackerService.getInstance();
   return flowTrackerInstance;
 }
 
@@ -77,15 +75,12 @@ export function setupFlowTracker(options?: Parameters<typeof FlowTrackerService.
  * @returns Logger ve FlowTracker instanları
  */
 export function setupLogging(options?: {
-  loggerOptions?: Parameters<typeof LoggerService.getInstance>[0];
-  flowTrackerOptions?: Parameters<typeof FlowTrackerService.getInstance>[0];
+  loggerOptions?: any;
+  flowTrackerOptions?: any;
 }) {
   // Sırayla LoggerService ve FlowTrackerService'i başlat
   const logger = setupLogger(options?.loggerOptions);
-  const flowTracker = setupFlowTracker({
-    ...(options?.flowTrackerOptions || {}),
-    logger: logger  // Logger'ı FlowTracker'a bağla
-  });
+  const flowTracker = setupFlowTracker(options?.flowTrackerOptions);
   
   return { logger, flowTracker };
 }
@@ -96,7 +91,14 @@ export function setupLogging(options?: {
  */
 export function getLogger(): LoggerService {
   if (!loggerInstance) {
-    loggerInstance = LoggerService.getInstance();
+    try {
+      loggerInstance = LoggerService.getInstance();
+    } catch (error) {
+      console.error('LoggerService getInstance hatası:', error);
+      // Singleton pattern kullanıldığından fallback yapamayız
+      // Bu durumda exception'ı yeniden fırlat
+      throw new Error('LoggerService başlatılamadı: ' + (error instanceof Error ? error.message : String(error)));
+    }
   }
   return loggerInstance;
 }

@@ -4,8 +4,8 @@ import { type StateCreator, create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { User } from "@/types/user.type";
 import { User as FirebaseUser } from "firebase/auth";
-import { getLogger, getFlowTracker } from "../lib/logger.utils";
-import { FlowCategory } from "../services/flow-tracker.service";
+import { LoggerService } from "../services/logger.service";
+import { FlowTrackerService, FlowCategory } from "../services/flow-tracker.service";
 
 // AuthState tipini dışa aktarıyoruz, böylece diğer dosyalardan kullanılabilir
 export interface AuthState {
@@ -24,8 +24,8 @@ export interface AuthState {
 }
 
 // Logger ve flowTracker nesnelerini elde et
-const logger = getLogger();
-const flowTracker = getFlowTracker();
+const logger = LoggerService.getInstance();
+const flowTracker = FlowTrackerService.getInstance();
 
 // Tarayıcı ortamı kontrolü
 const isBrowser = typeof window !== 'undefined';

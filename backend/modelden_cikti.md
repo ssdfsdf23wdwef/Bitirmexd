@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T01:23:16.969Z
-Trace ID: quiz-1749432185972-397wg
-Yanıt Uzunluğu: 7277 karakter
+Tarih: 2025-06-09T01:46:28.874Z
+Trace ID: quiz-1749433574199-oxxdf
+Yanıt Uzunluğu: 9445 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,168 +11,173 @@ Yanıt Uzunluğu: 7277 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?",
+      "questionText": "Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreci nasıldır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım maliyetlerini artırmak",
-        "Donanım kaynaklarının daha verimli kullanılmasını sağlamak",
-        "Sistem karmaşıklığını azaltmak",
-        "Yazılım uyumluluğunu ortadan kaldırmak"
+        "Donanım ve yazılım eş zamanlı ve birlikte geliştirilir.",
+        "Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.",
+        "Önce yazılım geliştirilir, sonra donanıma uyarlanır.",
+        "Donanım ve yazılım sürekli olarak birbirini günceller."
       ],
-      "correctAnswer": "Donanım kaynaklarının daha verimli kullanılmasını sağlamak",
-      "explanation": "Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir. Diğer seçenekler sanallaştırmanın amaçları arasında yer almaz.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
+      "correctAnswer": "Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.",
+      "explanation": "Geleneksel sistemlerde tasarım, donanım ve yazılımın ayrı ayrı geliştirilip entegre edilmesi sürecidir. Bu yaklaşımda, her iki bileşen bağımsız olarak çalışır. (Sunu 5, Geleneksel Sistem Tasarımı)",
+      "subTopicName": "Geleneksel Sistem Tasarımı",
+      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Sanallaştırma teknolojisinde, fiziksel donanım üzerinde bir soyutlama katmanı oluşturmak için ne kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": ["Donanım", "Yazılım", "Ağ", "Veri Tabanı"],
-      "correctAnswer": "Yazılım",
-      "explanation": "Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı kullanır.",
-      "subTopicName": "Sanallaştırma Temelıkavramları",
-      "normalizedSubTopicName": "sanallaştırma_temelıkavramları",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "Sanallaştırmanın temel amacı nedir?",
+      "questionText": "Geleneksel sistem tasarımında, donanım ve yazılım arasındaki ayrımın temel sonucu aşağıdakilerden hangisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Yazılım geliştirmeyi hızlandırmak",
-        "Donanım kaynaklarını daha verimli kullanmak",
-        "Ağ güvenliğini artırmak",
-        "Veri depolama maliyetlerini düşürmek"
+        "İletişimin optimize edilmesi ve verimliliğin artması",
+        "Değişikliklerin kolay ve hızlı bir şekilde uygulanabilmesi",
+        "Donanım ve yazılım bileşenlerinin bağımsız çalışabilmesi",
+        "Entegrasyon sürecinde maliyetlerin düşmesi"
       ],
-      "correctAnswer": "Donanım kaynaklarını daha verimli kullanmak",
-      "explanation": "Sanallaştırmanın temel amacı, bilgisayar donanımının daha verimli kullanılmasını sağlamaktır. Bu sayede kaynaklar daha etkili bir şekilde yönetilebilir.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
+      "correctAnswer": "Donanım ve yazılım bileşenlerinin bağımsız çalışabilmesi",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki bileşenin bağımsız çalışmasını sağlar. Ancak bu durum, iletişimde optimizasyon eksikliğine ve verimlilik kayıplarına yol açabilir. (Sunu 5, Geleneksel Sistem Tasarımı)",
+      "subTopicName": "Geleneksel Sistem Tasarımı",
+      "normalizedSubTopicName": "geleneksel_sistem_tasarimi",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q3",
+      "questionText": "Geleneksel sistem tasarımının aşamalarından hangisi, sistem gereksinimlerinin ayrı ayrı belirlenmesini içerir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Entegrasyon",
+        "Donanım Tasarım Adımları",
+        "Yazılım Tasarım Adımları",
+        "Gereksinimler ve Özellikler"
+      ],
+      "correctAnswer": "Gereksinimler ve Özellikler",
+      "explanation": "Geleneksel sistem tasarımının 'Gereksinimler ve Özellikler' aşamasında, sistemin donanım ve yazılım gereksinimleri ayrı ayrı önceden belirlenir. (Sunu 5, Geleneksel Sistem Tasarımı Aşamaları)",
+      "subTopicName": "Aşamalar",
+      "normalizedSubTopicName": "asamalar",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın bir avantajı değildir?",
+      "questionText": "Geleneksel sistem tasarımında entegrasyon aşaması hangi adımlardan sonra gelir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Donanım maliyetlerinde azalma",
-        "Kaynak kullanımında verimlilik artışı",
-        "Sistem yönetiminde kolaylık",
-        "Donanım bağımlılığının artması"
+        "Sadece donanım tasarım adımlarından sonra",
+        "Donanım ve yazılım gereksinimlerinin belirlenmesinden hemen sonra",
+        "Donanım ve yazılım tasarım adımlarının tamamlanmasından sonra",
+        "Sadece yazılım tasarım adımlarından sonra"
       ],
-      "correctAnswer": "Donanım bağımlılığının artması",
-      "explanation": "Sanallaştırma, donanım bağımlılığını azaltır, çünkü sanal makineler farklı donanımlar üzerinde çalışabilir. Diğer seçenekler sanallaştırmanın avantajlarıdır.",
-      "subTopicName": "Sanallaştırma Tanımı Ve Amacı",
-      "normalizedSubTopicName": "sanallaştırma_tanımı_ve_amacı",
-      "difficulty": "easy"
+      "correctAnswer": "Donanım ve yazılım tasarım adımlarının tamamlanmasından sonra",
+      "explanation": "Geleneksel sistem tasarımında entegrasyon aşaması, donanım tasarım adımları ve yazılım tasarım adımları tamamlandıktan sonra gelir. Bu aşamada donanım ve yazılım birleştirilir. (Sunu 5, Geleneksel Sistem Tasarımı Aşamaları)",
+      "subTopicName": "Aşamalar",
+      "normalizedSubTopicName": "asamalar",
+      "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Sanal makine (VM) nedir?",
+      "questionText": "Geleneksel sistem tasarımının temel eksikliklerinden biri aşağıdakilerden hangisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Fiziksel bir sunucunun birebir kopyası",
-        "Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar",
-        "Bir ağ cihazının sanal temsili",
-        "Bir depolama biriminin sanal kopyası"
+        "Donanım ve yazılım arasında tam uyumun sağlanması",
+        "Yeni teknolojilere hızlı uyum sağlama yeteneği",
+        "Entegrasyon sürecinin kısalması ve maliyetin düşmesi",
+        "Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi"
       ],
-      "correctAnswer": "Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar",
-      "explanation": "Sanal makineler (VM'ler), sanallaştırma teknolojisinin önemli bir parçasıdır ve esasen tek bir fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder.",
-      "subTopicName": "Sanal Makine Vm Kavramı",
-      "normalizedSubTopicName": "sanal_makine_vm_kavramı",
-      "difficulty": "easy"
+      "correctAnswer": "Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı geliştirildiği için, donanım ve yazılım uyumsuzluğu ortaya çıkabilir. Bu, sistem performansını olumsuz etkileyebilir. (Sunu 5, Geleneksel Sistem Tasarımı Eksikleri)",
+      "subTopicName": "Eksiklikler",
+      "normalizedSubTopicName": "eksiklikler",
+      "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "Sanal makineler (VM'ler) fiziksel sunucunun hangi kaynaklarını paylaşır ve tahsis eder?",
+      "questionText": "Aşağıdakilerden hangisi geleneksel sistem tasarımının bir dezavantajı değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sadece bellek",
-        "Sadece işlem gücü",
-        "Bellek ve işlem gücü gibi kaynaklar",
-        "Sadece ağ bağlantısı"
+        "Entegrasyon sürecinin uzaması ve maliyeti artırması",
+        "Donanım ve yazılımın ayrı ayrı optimize edilmesi nedeniyle sistem genelinde verimlilik kaybı",
+        "Donanım ve yazılım gereksinimlerinin eş zamanlı belirlenmesi",
+        "Yeni teknolojilere hızlıca uyum sağlayamaması"
       ],
-      "correctAnswer": "Bellek ve işlem gücü gibi kaynaklar",
-      "explanation": "Fiziksel sunucunun bellek ve işlem gücü gibi kaynaklarını farklı VM'ler arasında paylaşmak ve tahsis etmek için hypervisor kullanılır.",
-      "subTopicName": "Sanal Makine Vm Kavramı",
-      "normalizedSubTopicName": "sanal_makine_vm_kavramı",
-      "difficulty": "easy"
+      "correctAnswer": "Donanım ve yazılım gereksinimlerinin eş zamanlı belirlenmesi",
+      "explanation": "Geleneksel sistem tasarımında donanım ve yazılım gereksinimleri ayrı ayrı belirlenir, bu da eş zamanlı bir yaklaşım değildir. Bu durum, uyumsuzluklara ve verimlilik kayıplarına yol açabilir. (Sunu 5, Geleneksel Sistem Tasarımı Eksikleri)",
+      "subTopicName": "Eksiklikler",
+      "normalizedSubTopicName": "eksiklikler",
+      "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Hypervisor'ün temel işlevi nedir?",
+      "questionText": "Co-Design yaklaşımının temel tanımı nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
-        "Ağ trafiğini yönetmek",
-        "Veri tabanı işlemlerini hızlandırmak",
-        "Güvenlik duvarı işlevi görmek"
+        "Donanım ve yazılımın ayrı ayrı tasarlanıp sonradan birleştirilmesi",
+        "Donanımın önceden tasarlanıp yazılımın ona uyarlanması",
+        "Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması",
+        "Sadece yazılımın tasarlanıp donanımın ihmal edilmesi"
       ],
-      "correctAnswer": "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
-      "explanation": "Hypervisor, sanal makineler (VM'ler) oluşturan ve çalıştıran bir yazılımdır.",
-      "subTopicName": "Hypervisorun Rolü Ve İ Şlevi",
-      "normalizedSubTopicName": "hypervisorun_rolü_ve_i_şlevi",
+      "correctAnswer": "Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması",
+      "explanation": "Co-Design, donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve birlikte tasarlanması yaklaşımıdır. Bu yaklaşım, özellikle karmaşık sistemlerde yüksek performans ve enerji verimliliği sağlar. (Sunu 5, Ortak Tasarım (Co-Design))",
+      "subTopicName": "Tanımı Ve Önemi",
+      "normalizedSubTopicName": "tanimi_ve_onemi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Hypervisor'ün sanal makinelerden (VM'lerden) izole ettiği temel unsurlar nelerdir?",
+      "questionText": "Co-Design yaklaşımının önemi nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sadece işletim sistemi",
-        "Sadece kaynaklar",
-        "İşletim sistemi ve kaynaklar",
-        "Sadece ağ bağlantıları"
+        "Geleneksel sistemlerde donanımın daha hızlı tasarlanmasını sağlaması",
+        "Yazılımın donanıma uyarlanma sürecini ortadan kaldırması ve ihtiyaçların senkronize edilmesini sağlaması",
+        "Sadece yazılım geliştirme maliyetlerini düşürmesi",
+        "Donanım ve yazılım ekipleri arasındaki iletişimi azaltması"
       ],
-      "correctAnswer": "İşletim sistemi ve kaynaklar",
-      "explanation": "Bir hypervisor, hypervisor işletim sistemini ve kaynaklarını sanal makinelerden izole eder.",
-      "subTopicName": "Hypervisorun Rolü Ve İ Şlevi",
-      "normalizedSubTopicName": "hypervisorun_rolü_ve_i_şlevi",
-      "difficulty": "easy"
+      "correctAnswer": "Yazılımın donanıma uyarlanma sürecini ortadan kaldırması ve ihtiyaçların senkronize edilmesini sağlaması",
+      "explanation": "Co-design, donanım ve yazılım ihtiyaçlarının başından itibaren senkronize edilmesini sağlar. Bu, özellikle eksaskala sistemler gibi karmaşık yapılarda yüksek performans ve enerji verimliliği için önemlidir. (Sunu 5, Ortak Tasarım (Co-Design))",
+      "subTopicName": "Tanımı Ve Önemi",
+      "normalizedSubTopicName": "tanimi_ve_onemi",
+      "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Tip 1 hypervisor'ler için kullanılan diğer isimler nelerdir?",
+      "questionText": "Co-Design yaklaşımının ilk aşaması nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Hosted ve native",
-        "Native ve bare metal",
-        "Bare metal ve hosted",
-        "Sadece hosted"
+        "Donanım Tasarım Adımları",
+        "Yazılım Tasarım Adımları",
+        "Gereksinimler ve Özellikler",
+        "Sürekli Geri Bildirim Döngüsü"
       ],
-      "correctAnswer": "Native ve bare metal",
-      "explanation": "Tip-1 hypervisor aynı zamanda native yada bare metal olarakta isimlendirilmektedir.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "correctAnswer": "Gereksinimler ve Özellikler",
+      "explanation": "Co-Design yaklaşımının ilk aşaması 'Gereksinimler ve Özellikler'dir. Bu aşamada, sistemin donanım ve yazılım gereksinimleri birlikte ve eş zamanlı olarak belirlenir. (Sunu 5, Ortak Tasarım (Co-Design) Aşamaları)",
+      "subTopicName": "Aşamaları",
+      "normalizedSubTopicName": "asamalari",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Aşağıdakilerden hangisi Tip 1 hypervisor örneğidir?",
+      "questionText": "Co-Design aşamalarından hangisi, donanım ve yazılımın hangi görevleri üstleneceği ve birbirleriyle nasıl iletişim kuracaklarının planlanmasını içerir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "VMware Workstation",
-        "Oracle VirtualBox",
-        "Microsoft Hyper-V",
-        "QEMU"
+        "Gereksinimler ve Özellikler",
+        "Donanım ve Yazılım Co-Design Adımları",
+        "Donanım Tasarım Adımları",
+        "Yazılım Tasarım Adımları"
       ],
-      "correctAnswer": "Microsoft Hyper-V",
-      "explanation": "KVM, Microsoft Hyper-V, ve VMware vSphere tip-1 hypervisor örnekleridir.",
-      "subTopicName": "Tip 1 Hypervisor Bare Metal",
-      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
-      "difficulty": "easy"
+      "correctAnswer": "Donanım ve Yazılım Co-Design Adımları",
+      "explanation": "Co-Design'da 'Donanım ve Yazılım Co-Design Adımları' aşamasında, donanım ve yazılımın hangi görevleri üstleneceği, birbirleriyle nasıl iletişim kuracakları planlanır. Bu aşamada hem donanım hem de yazılım mimarisi paralel düşünülür. (Sunu 5, Ortak Tasarım (Co-Design) Aşamaları)",
+      "subTopicName": "Aşamaları",
+      "normalizedSubTopicName": "asamalari",
+      "difficulty": "medium"
     }
   ]
 }

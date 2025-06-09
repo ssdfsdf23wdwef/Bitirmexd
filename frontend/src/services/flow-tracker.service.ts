@@ -3,7 +3,6 @@
  * @description Frontend uygulama durum akışını ve yaşam döngüsünü izleyen servis
  */
 
-import { getLogger } from '@/lib/logger.utils';
 import { LoggerService, LogLevel } from './logger.service';
 
 /**
@@ -133,7 +132,7 @@ export class FlowTrackerService {
   private configSendLogsToApi: boolean;
   
   private constructor(options: FlowTrackerOptions = {}) {
-    this.logger = options.logger || getLogger();
+    this.logger = options.logger || LoggerService.getInstance();
     this.consoleOutput = options.consoleOutput ?? false; // Konsol çıktısını varsayılan olarak aktif yapıyorum
     this.enabled = options.enabled ?? process.env.NODE_ENV !== 'production';
     this.enabledCategories = new Set(options.categories || [

@@ -34,40 +34,35 @@ interface ProposeLearningTopicsProps {
   courseId: string;
 }
 
-// Mock function to simulate AI suggesting topics
-const mockAiSuggestTopics = async (context: string, existingTopics: string[]): Promise<ProposedTopic[]> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  // Return mock data
-  return [
-    { tempId: 'topic1', name: 'JavaScript Closures', relevance: 'Yüksek', details: 'JavaScript içinde fonksiyonlar ve kapsam konularıyla ilgili önemli bir kavram.' },
-    { tempId: 'topic2', name: 'ES6 Arrow Functions', relevance: 'Orta', details: 'Modern JavaScript sözdizimi için temel bir özellik.' },
-    { tempId: 'topic3', name: 'Event Loop', relevance: 'Yüksek', details: 'JavaScript\'in asenkron doğasını anlamak için temel bir kavram.' },
-    { tempId: 'topic4', name: 'Promise Chaining', relevance: 'Orta', details: 'Asenkron işlemleri sıralı bir şekilde işlemek için kullanılır.' },
-    { tempId: 'topic5', name: 'Async/Await Pattern', relevance: 'Yüksek', details: 'Modern JavaScript\'te asenkron kod yazmanın en temiz yolu.' }
-  ];
+// Function to get AI topic suggestions from backend
+const getAiTopicSuggestions = async (courseId: string, context: string, existingTopics: string[]): Promise<ProposedTopic[]> => {
+  try {
+    console.log('🤖 Calling backend AI service for topic suggestions...');
+    
+    // Call the backend API using the new standardized endpoint
+    const response = await learningTargetService.proposeNewTopics({
+      courseId,
+      contextText: context,
+      existingTopicTexts: existingTopics
+    });
+    
+    console.log('✅ Backend AI service response:', response);
+    return response.proposedTopics;
+  } catch (error) {
+    console.error('❌ Backend AI service error:', error);
+    throw new Error('AI konu önerileri alınırken bir hata oluştu. Lütfen tekrar deneyin.');
+  }
 };
 
 // Function to confirm topics and create learning targets via API
 const confirmTopics = async (courseId: string, selectedTopics: ProposedTopic[]): Promise<void> => {
   try {
-    // Convert topics to the format expected by the new API
-    const targetData = selectedTopics.map(topic => ({
-      subTopicName: topic.name,
-      status: 'pending' as const,
-      lastScore: null
-    }));
+    console.log('Confirming topics via real backend API:', { courseId, selectedTopics });
     
-    console.log('Confirming topics via API:', { courseId, targetData });
+    // Call the new backend API using confirmProposedTopics
+    const result = await learningTargetService.confirmProposedTopics(courseId, selectedTopics);
     
-    const result = await learningTargetService.batchUpdateTargets(targetData);
-    
-    if (result.success) {
-      toast.success(`${result.processedCount} öğrenme hedefi başarıyla oluşturuldu!`);
-    } else {
-      throw new Error('Backend API call failed');
-    }
+    toast.success(`${result.length} öğrenme hedefi başarıyla oluşturuldu!`);
   } catch (error) {
     console.error('Error confirming topics:', error);
     toast.error('Öğrenme hedefleri oluşturulurken bir hata oluştu.');
@@ -139,9 +134,9 @@ const ProposeLearningTopics: React.FC<ProposeLearningTopicsProps> = ({
         service: 'mockAiSuggestTopics'
       });
 
-      // In a real implementation, this would call your backend API
+      // Call the real backend API for AI topic suggestions
       const startTime = performance.now();
-      const topics = await mockAiSuggestTopics(contextText, existingTopics);
+      const topics = await getAiTopicSuggestions(courseId, contextText, existingTopics);
       const endTime = performance.now();
       const apiDuration = endTime - startTime;
 

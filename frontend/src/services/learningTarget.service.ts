@@ -1101,7 +1101,7 @@ class LearningTargetService {
 
       // API çağrısı yap
       const startTime = performance.now();
-      const result = await apiService.patch<{ success: boolean; updatedCount: number }>(
+      const result = await apiService.put<{ success: boolean; updatedCount: number }>(
         `/learning-targets/batch-update`, 
         { targets: temporaryTargets }
       );
@@ -1294,6 +1294,247 @@ class LearningTargetService {
       );
 
       console.error('💥 batchUpdateTargets HATA İLE SONLANDI');
+      console.groupEnd();
+      throw error;
+    }
+  }
+
+  // Yeni konu önerilerini AI'dan al
+  @LogMethod('LearningTargetService', FlowCategory.API)
+  async proposeNewTopics(dto: {
+    courseId?: string;
+    contextText?: string;
+    existingTopicTexts: string[];
+  }): Promise<{ proposedTopics: { tempId: string; name: string; relevance?: string; details?: string }[] }> {
+    console.group('🤖 [LearningTargetService] proposeNewTopics - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      courseId: dto.courseId,
+      contextTextLength: dto.contextText?.length || 0,
+      contextTextPreview: dto.contextText?.substring(0, 200) + '...',
+      existingTopicTextsCount: dto.existingTopicTexts.length,
+      existingTopicTexts: dto.existingTopicTexts.slice(0, 5),
+      timestamp: new Date().toISOString()
+    });
+
+    flowTracker.markStart(`proposeNewTopics_${dto.courseId || 'no-course'}`);
+    
+    try {
+      console.log('📊 Flow tracking başlatılıyor...');
+      trackFlow(
+        `Proposing new topics for course ${dto.courseId || 'no course'} with ${dto.existingTopicTexts.length} existing topics`,
+        "LearningTargetService.proposeNewTopics",
+        FlowCategory.API
+      );
+      
+      flowTracker.trackApiCall(
+        `/learning-targets/detect-new-topics`,
+        'POST',
+        'LearningTargetService.proposeNewTopics',
+        { courseId: dto.courseId, contextLength: dto.contextText?.length || 0, existingTopicsCount: dto.existingTopicTexts.length }
+      );
+      
+      console.log('📝 Logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `Yeni konu önerileri tespiti başlatılıyor: Kurs=${dto.courseId || 'no-course'}, Metin uzunluğu=${dto.contextText?.length || 0}, Mevcut konu sayısı=${dto.existingTopicTexts.length}`,
+        'LearningTargetService.proposeNewTopics',
+        __filename,
+        915,
+        { 
+          courseId: dto.courseId, 
+          contextLength: dto.contextText?.length || 0,
+          existingTopicsCount: dto.existingTopicTexts.length,
+          existingTopics: dto.existingTopicTexts.slice(0, 5)
+        }
+      );
+      
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/detect-new-topics`,
+        method: 'POST',
+        requestBody: {
+          contextText: dto.contextText?.substring(0, 100) + '...',
+          existingTopicTextsCount: dto.existingTopicTexts.length
+        }
+      });
+
+      const startTime = performance.now();
+      const response = await apiService.post<DetectNewTopicsResponse>(
+        `/learning-targets/detect-new-topics`,
+        {
+          courseId: dto.courseId,
+          contextText: dto.contextText,
+          existingTopicTexts: dto.existingTopicTexts
+        }
+      );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        success: response.success,
+        message: response.message,
+        proposedTopicsCount: response.data.proposedTopics.length,
+        proposedTopics: response.data.proposedTopics.slice(0, 5), // Show first 5 with details
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Başarılı sonuç
+      console.log('📊 Flow tracking sonlandırılıyor...');
+      const duration = flowTracker.markEnd(`proposeNewTopics_${dto.courseId || 'no-course'}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `Yeni konu önerileri tespiti tamamlandı: Kurs=${dto.courseId || 'no-course'}, Tespit edilen önerilen konu sayısı=${response.data.proposedTopics.length}`,
+        'LearningTargetService.proposeNewTopics',
+        __filename,
+        970,
+        { 
+          courseId: dto.courseId, 
+          proposedTopicsCount: response.data.proposedTopics.length,
+          proposedTopics: response.data.proposedTopics.slice(0, 10),
+          duration 
+        }
+      );
+      
+      console.log('🎉 proposeNewTopics BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
+      return response.data;
+
+    } catch (error) {
+      console.error('❌ API HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        courseId: dto.courseId,
+        contextTextLength: dto.contextText?.length || 0,
+        existingTopicTextsCount: dto.existingTopicTexts.length,
+        timestamp: new Date().toISOString()
+      });
+
+      // Hata durumu
+      flowTracker.markEnd(`proposeNewTopics_${dto.courseId || 'no-course'}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      logger.logLearningTarget(
+        `Yeni konu önerileri tespiti sırasında hata oluştu: ${dto.courseId || 'no-course'}`,
+        'LearningTargetService.proposeNewTopics',
+        __filename,
+        995,
+        { courseId: dto.courseId, contextLength: dto.contextText?.length || 0, existingTopicsCount: dto.existingTopicTexts.length, error }
+      );
+
+      console.error('💥 proposeNewTopics HATA İLE SONLANDI');
+      console.groupEnd();
+      throw error;
+    }
+  }
+
+  // AI önerilerini onaylayıp öğrenme hedefleri olarak kaydet
+  @LogMethod('LearningTargetService', FlowCategory.API)
+  async confirmProposedTopics(courseId: string, selectedTopics: { tempId: string; name: string; relevance?: string; details?: string }[]): Promise<LearningTarget[]> {
+    console.group('✅ [LearningTargetService] confirmProposedTopics - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      courseId,
+      selectedTopicsCount: selectedTopics.length,
+      selectedTopics: selectedTopics.map(t => ({ tempId: t.tempId, name: t.name })),
+      timestamp: new Date().toISOString()
+    });
+
+    flowTracker.markStart(`confirmProposedTopics_${courseId}`);
+    
+    try {
+      console.log('📊 Flow tracking başlatılıyor...');
+      trackFlow(
+        `Confirming ${selectedTopics.length} proposed topics for course ${courseId}`,
+        "LearningTargetService.confirmProposedTopics",
+        FlowCategory.API
+      );
+      
+      flowTracker.trackApiCall(
+        `/learning-targets/${courseId}/confirm-new-topics`,
+        'POST',
+        'LearningTargetService.confirmProposedTopics',
+        { courseId, selectedTopicsCount: selectedTopics.length }
+      );
+      
+      console.log('📝 Logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `AI önerilen konular onaylanıp kaydediliyor: Kurs=${courseId}, Onaylanacak konu sayısı=${selectedTopics.length}`,
+        'LearningTargetService.confirmProposedTopics',
+        __filename,
+        1090,
+        { 
+          courseId, 
+          selectedTopicsCount: selectedTopics.length,
+          topics: selectedTopics.map(t => t.name).slice(0, 10)
+        }
+      );
+      
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/${courseId}/confirm-new-topics`,
+        method: 'POST',
+        requestBody: {
+          selectedTopicsCount: selectedTopics.length
+        }
+      });
+
+      const startTime = performance.now();
+      const response = await apiService.post<LearningTarget[]>(
+        `/learning-targets/${courseId}/confirm-new-topics`,
+        {
+          courseId,
+          selectedTopics
+        }
+      );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        createdTargetsCount: response.length,
+        createdTargets: response.slice(0, 5), // Show first 5
+        apiDuration: `${apiDuration.toFixed(2)}ms`,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Başarılı sonuç
+      console.log('📊 Flow tracking sonlandırılıyor...');
+      const duration = flowTracker.markEnd(`confirmProposedTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `AI önerilen konular başarıyla kaydedildi: Kurs=${courseId}, Oluşturulan hedef sayısı=${response.length}`,
+        'LearningTargetService.confirmProposedTopics',
+        __filename,
+        1130,
+        { 
+          courseId, 
+          createdCount: response.length,
+          duration 
+        }
+      );
+      
+      console.log('🎉 confirmProposedTopics BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
+      return response;
+
+    } catch (error) {
+      console.error('❌ API HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        courseId,
+        selectedTopicsCount: selectedTopics.length,
+        timestamp: new Date().toISOString()
+      });
+
+      // Hata durumu
+      flowTracker.markEnd(`confirmProposedTopics_${courseId}`, mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      logger.logLearningTarget(
+        `AI önerilen konuları onaylama sırasında hata oluştu: ${courseId}`,
+        'LearningTargetService.confirmProposedTopics',
+        __filename,
+        1155,
+        { courseId, selectedTopicsCount: selectedTopics.length, error }
+      );
+
+      console.error('💥 confirmProposedTopics HATA İLE SONLANDI');
       console.groupEnd();
       throw error;
     }

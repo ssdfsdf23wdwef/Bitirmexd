@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T01:23:05.986Z
+## Tarih: 2025-06-09T01:46:14.242Z
 
-## Trace ID: quiz-1749432185972-397wg
+## Trace ID: quiz-1749433574199-oxxdf
 
-## Alt Konular (8 adet):
+## Alt Konular (10 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm Kavramı** (2 soru)
-4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Geleneksel Sistem Tasarımı** (2 soru)
+2. **Aşamalar** (2 soru)
+3. **Eksiklikler** (2 soru)
+4. **Tanımı Ve Önemi** (2 soru)
+5. **Aşamaları** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,11 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Artıları
+2. Co Design Yaklaşımı
+3. Eksaskala Süper Bilgisayar
+4. Akıllı Saat
+5. Drone
 
 ```
 
@@ -50,11 +52,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Sanallaştırma Temelıkavramları** (2 soru)
-2. **Sanallaştırma Tanımı Ve Amacı** (2 soru)
-3. **Sanal Makine Vm Kavramı** (2 soru)
-4. **Hypervisorun Rolü Ve İ Şlevi** (2 soru)
-5. **Tip 1 Hypervisor Bare Metal** (2 soru)
+1. **Geleneksel Sistem Tasarımı** (2 soru)
+2. **Aşamalar** (2 soru)
+3. **Eksiklikler** (2 soru)
+4. **Tanımı Ve Önemi** (2 soru)
+5. **Aşamaları** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,126 +64,221 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Tip 2 Hypervisor Hosted
-2. Masaüstü Sanallaştırma Desktop Virtualization
-3. Depolama Sanallaştırma Storage Virtualization
+1. Artıları
+2. Co Design Yaklaşımı
+3. Eksaskala Süper Bilgisayar
+4. Akıllı Saat
+5. Drone
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
+Bilgisayar Mühendisliği Bölümü
+Bahar –2025(ÖÖ.,İÖ.)
+MBM7-452 -Eksaskala Bilgisayar Sistemleri
+(Sunu 5)
+Dr. Öğr. Üyesi Esra Çelik
 
-BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
-BAHAR DÖNEMİ 2025
-Öğretim Üyesi: Dr. Bilal USANMAZ
-bilal@atauni.edu.tr
+Günün Sorusu
+Donanım ve yazılım arasında
+oluşabilecek işbirliği neden önemlidir?
 
+Geleneksel Sistem Tasarımı
+•Geleneksel sistemlerde tasarım,
+•donanım ve yazılımın ayrı ayrı geliştirilip entegre edilmesi
+sürecidir.
+•Donanım ve yazılım arasında net bir ayrım bulunur, bu da her iki
+bileşenin bağımsız çalışmasını sağlar.
+•Ancak, bu yaklaşımda iletişim optimize edilmez, değişiklikler zor ve
+zaman alıcı olabilir.
+•Ayrıca, entegrasyon sırasında verimlilik kayıpları yaşanabilir.
 
+Geleneksel Sistem Tasarımı Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılım
+gereksinimleri ayrı ayrıönceden
+belirlenir.
+Yazılım
+Gereksinimleri
+ve Özellikleri
+Donanım
+Gereksinimleri
+ve Özellikleri
 
-4. Hafta
+Geleneksel Sistem Tasarımı Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılım
+gereksinimleri ayrı ayrıönceden
+belirlenir.
+•Donanım Tasarım Adımları
+•Önce donanım tasarımı adım adım
+yapılır.
+Yazılım
+Gereksinimleri
+ve Özellikleri
+Donanım
+Tasarım Adımları
+...
+Donanım
+Gereksinimleri
+ve Özellikleri
 
+Geleneksel Sistem Tasarımı Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılım
+gereksinimleri ayrı ayrıönceden
+belirlenir.
+•Donanım Tasarım Adımları
+•Önce donanım tasarımı adım adım
+yapılır.
+•Yazılım Tasarım Adımları
+•Ardından yazılım tasarımı adım adım
+yapılır.
+Yazılım
+Gereksinimleri
+ve Özellikleri
+Donanım
+Tasarım Adımları
+...
+Yazılım Tasarım
+Adımları
+...
+Donanım
+Gereksinimleri
+ve Özellikleri
 
-Sanallaştırma Nedir?
+Geleneksel Sistem Tasarımı Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılım
+gereksinimleri ayrı ayrıönceden
+belirlenir.
+•Donanım Tasarım Adımları
+•Önce donanım tasarımı adım adım
+yapılır.
+•Yazılım Tasarım Adımları
+•Ardından yazılım tasarımı adım adım
+yapılır.
+•Entegrasyon
+•Donanım ve yazılım son aşamada
+birleştirilir.
+Yazılım
+Gereksinimleri
+ve Özellikleri
+Donanım
+Tasarım Adımları
+...
+Yazılım Tasarım
+Adımları
+...
+Entegrasyon
+Donanım
+Gereksinimleri
+ve Özellikleri
 
-Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir.
+Geleneksel Sistem Tasarımı Eksikleri
+Donanım ve yazılım uyumsuzluğu ortaya çıkar.
+Yeni teknolojilere hızlıca uyum sağlayamaz.
+Entegrasyon süreci uzar ve maliyetiartır.
+Donanım ve yazılım ayrı ayrı optimize edilir, bu da sistem
+genelinde verimlilik kaybına yol açar.
+1
+2
+3
+4
+Geleneksel sistem tasarımında donanım ve yazılım ayrı ayrı
+geliştirildiği için:
 
-Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı
-kullanır ve tek bir bilgisayarın donanım parçalarının (işlemciler, bellek, depolama vb.) sanal
-makineler (VM'ler) olarak da bilinen birkaç sanal bilgisayara ayrılmasına olanak tanır [1] .
+
+Ortak Tasarım (Co-Design)
+nedir?
 
-Sanal Makine Nedir ?
+Ortak Tasarım (Co-Design)
+•Co-Design,
+•donanım ve yazılım bileşenlerinin ayrı ayrı değil, eş zamanlı ve
+birlikte tasarlanmasıyaklaşımıdır.
+•Neden Önemli?
+•Geleneksel sistemlerde donanım öncedentasarlanır, yazılım
+sonradanuyarlanır.
+•Co-design, iki tarafın ihtiyaçlarının başından itibaren senkronize
+edilmesini sağlar.
+•Özellikle eksaskala sistemler, süper bilgisayarlar gibi karmaşık
+yapılarda yüksek performans ve enerji verimliliği için zorunludur.
 
-Sanal makineler (VM'ler), sanallaştırma teknolojisinin önemli bir parçasıdır ve esasen tek bir
-fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder. Fiziksel sunucunun bellek ve
-işlem gücü gibi kaynaklarını farklı VM'ler arasında paylaşmak ve tahsis etmek için
-hypervisor
-verilen yazılımı kullanırlar [2].
+Ortak Tasarım (Co-Design) Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılımgereksinimleri
+birlikte veeşzamanlıbelirlenir.
+Donanım ve Yazılım Gereksinimleri ve
+Özellikleri
 
-Hypervisor Nedir ?
+Ortak Tasarım (Co-Design) Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılımgereksinimleri
+birlikte veeşzamanlıbelirlenir.
+•Donanım ve Yazılım Co-Design Adımları
+•Donanım ve yazılımın hangi görevleri
+üstleneceği, birbirleriyle nasıl iletişim
+kuracakları planlanır.
+•Hem donanım hem yazılım mimarisi paralel
+düşünülür.
+Donanım ve Yazılım Co-DesignAdımları 1
+...
+Donanım ve Yazılım Co-DesignAdımları n
+Donanım ve Yazılım Gereksinimleri ve
+Özellikleri
 
-Hypervisor, sanal makineler (VM'ler) oluşturan ve çalıştıran bir yazılımdır. Bir hypervisor,
-hypervisor işletim sistemini ve kaynaklarını sanal makinelerden izole eder ve bu VM'lerin
-oluşturulmasını ve yönetilmesini sağlar.
-Hypervisor yüklü fiziksel donanıma host ve bunun üzerindeki sanal makinelere de guest adı
-verilir.
-Hypervisor tarafından tahsis edilmek üzere kullanabileceği işlemci, bellek, depolama gibi
-kaynaklara
-pool ismi verilir.
-Tüm hypervisor’lerin, VM'leri çalıştırmak için bellek yöneticisi, işlem zamanlayıcı, giriş/çıkış (G/Ç)
-yığını, aygıt sürücüleri, güvenlik yöneticisi, ağ yığını ve daha fazlası gibi bazı işletim sistemi
-düzeyindeki bileşenlere ihtiyacı vardır.
-Hypervisor, her sanal makineye kaynak tahsis eder ve VM kaynaklarının fiziksel kaynaklara göre
-zamanlamasını yönetir.Yürütmeyi hala fiziksel donanım yapıyor, dolayısıyla hypervisor programı
-yönetirken fiziksel CPU hala VM'ler tarafından talep edildiği şekilde CPU talimatlarını yürütür.
+Ortak Tasarım (Co-Design) Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılımgereksinimleri
+birlikte veeşzamanlıbelirlenir.
+•Donanım ve Yazılım Co-Design Adımları
+•Donanım ve yazılımın hangi görevleri
+üstleneceği, birbirleriyle nasıl iletişim
+kuracakları planlanır.
+•Hem donanım hem yazılım mimarisi paralel
+düşünülür.
+•Donanım Tasarım Adımları
+•Donanım ekibi, yazılımın ihtiyaçlarını
+dikkate alarak tasarım yapar.
+•Yazılım Tasarım Adımları
+•Yazılım ekibi, donanımın özelliklerine göre
+en verimli şekilde kod yazar.
+Donanım ve Yazılım Co-DesignAdımları 1
+...
+Donanım ve Yazılım Co-DesignAdımları n
+Donanım ve Yazılım Gereksinimleri ve
+Özellikleri
+Donanım
+Tasarım Adımları
+...
+Yazılım Tasarım
+Adımları
+...
 
-
-Birden fazla farklı işletim sistemi yan yana çalışabilir ve aynı sanallaştırılmış donanım
-kaynaklarını bir hypervisor sayesinde paylaşabilir. Bu, sanallaştırmanın önemli bir avantajıdır.
-Sanallaştırma olmadan donanım üzerinde yalnızca 1 işletim sistemi çalıştırılabilir.
-Hypervisor yazılımının ticari ve açık kaynak kodlu olmak üzere farklı seçenekleri mevcuttur.
-VMware, sanallaştırma için popüler bir ticari yazılımdır ve ESXi hypervisor yazılımını ve vSphere
-sanallaştırma platformunu sunmaktadır.
-Kernel-based Virtual Machine (KVM) bir açık kaynak hypervisor seçeneğidir. Linux çekirdeği ile
-birlikte gelmektedir. Ayrıca Xen ve Microsoft Hyper-V diğer hypervisor seneçekleridir.
-
-Hypervisor Tipleri
-Sanallaştırmada kullanılan hypervisor ler 2 tiptir. Bunlar; tip-1 ve tip-2 olarak ayrılmaktadır.
-Tip-1 Hypervisor
-Tip-1 hypervisor aynı zamanda native yada bare metal olarakta isimlendirilmektedir. Direk host
-üzerinde çalışır ve guest işletim sistemlerini yönetir. Host üzerindeki donanım kaynakları
-hypervisor tarafından yönetilir
-Tip-1 hypervisor türü daha çok kurumsal veri merkezlerinde veya benzeri sunucu tabanlı
-ortamlarda yaygın olarak kullanılmaktadır.
-KVM, Microsoft Hyper-V, ve VMware vSphere tip-1 hypervisor örnekleridir. KVM 2007 yılında
-linux ile tümleşik dağıtılmaya başlanmıştır.
-
-Şekil-1: Tip-1 Sanallaştırma mimarisi
-
-
-
-Tip-2
-Tip-2 hypervisor, hosted hypervisor olarak da bilinmektedir. Tip-2 hypervisor, geleneksel
-işletim sistemleri üzerinde bir yazılım katmanı yada uygulama olarak çalışmaktadır.
-Konuk işletim sistemlerini ana işletim sisteminden soyutlayarak çalışır.
-Tip-2 hypervisor, kişisel bilgisayarda birden fazla işletim sistemini çalıştırmak isteyen bireysel
-kullanıcılar için iyi bir seçenektir.
-VMware Workstation ve Oracle VirtualBox tip-2 hypervisor için iki örnektir [3].
-
-
-Şekil-2: Tip-2 Sanallaştırma mimarisi
-Sanallaştırma Türleri
-
-● Desktop virtualization
-● Storage virtualization
-● Network virtualization
-● Data virtualization
-● Application virtualization
-● Data center virtualization
-● CPU virtualization
-● GPU virtualization
-● Linux virtualization
-● Cloud virtualization
-
-
-
-Desktop virtualization (Masaüstü Sanallaştırma)
-
-Masaüstü sanallaştırma teknolojisi fiziksel istemci cihazından masaüstü ortamını ayırır. Fiziksel
-cihaz olarak bir kişisel bilgisayar yada thin client kullanılabilirken kullanıcının masaüstü merkezi
-bir sunucuda barındırılmaktadır. Bu teknoloji, kullanıcıların çeşitli cihaz ve konumlardan
-masaüstlerine erişmesine ve bunlarla etkileşime girmesine olanak tanır [4].
-
-Masaüstü sanallaştırma iki farklı biçime sahiptir:
-1. Virtual desktop infrastructure (VDI): Birden fazla masaüstü merkezi sunucularda
-barındırılan sanal makineler üzerinde çalışır ve onlara thin client lar üzerinden erişmek
-isteyen kullanıcılara servis edilir. Bu şekilde VDI, bir kuruluşun kullanıcılarına, herhangi
-bir cihaza işletim sistemi kurmadan, herhangi bir cihazdan çeşitli işletim sistemlerine
-erişim sağlamasını imkan verir [1].
-
-
-Şekil-3: VDI tipi masaüstü sanallaştırma
-
-2. Local Desktop virtualization: Yerel bir bilgisayarda bir hypervisor çalıştırarak kullanıcının
-o bilgisayarda ...(Kısaltıldı)
+Ortak Tasarım (Co-Design) Aşamaları
+•Gereksinimler ve Özellikler
+•Sistemin donanım ve yazılımgereksinimleri
+birlikte veeşzamanlıbelirlenir.
+•Donanım ve Yazılım Co-Design Adımları
+•Donanım ve yazılımın hangi görevleri
+üstleneceği, birbirleriyle nasıl iletişim
+kuracakları planlanır.
+•Hem donanım hem yazılım mimarisi paralel
+düşünülür.
+•Donanım Tasarım Adımları
+•Donanım ekibi, yazılımın ihtiyaçlarını
+dikkate alarak tasarım yapar.
+•Yazılım Tasarım Adımları
+•Yazılım ekibi, donanımın özelliklerine göre
+en verimli şekilde kod yazar.
+•Sürekli Geri Bildirim Döngüsü
+•Sistemin, anlık performans verilerine
+dayanarak dinamik bir şekilde optimizasyon
+yapar.
+Donanım ve Yazılım Co-DesignAdımları 1
+...
+Donanım ve Yazılım Co-DesignAdımları n
+Dona...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -356,42 +453,42 @@ o bilgisayarda ...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Sanallaştırma Temelıkavramları: 2 soru
-  - Sanallaştırma Tanımı Ve Amacı: 2 soru
-  - Sanal Makine Vm Kavramı: 2 soru
-  - Hypervisorun Rolü Ve İ Şlevi: 2 soru
-  - Tip 1 Hypervisor Bare Metal: 2 soru
+  - Geleneksel Sistem Tasarımı: 2 soru
+  - Aşamalar: 2 soru
+  - Eksiklikler: 2 soru
+  - Tanımı Ve Önemi: 2 soru
+  - Aşamaları: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Sanallaştırma Temelıkavramları:
-- Soru: Aşağıdakilerden hangisi sanallaştırmanın temel amaçlarından biridir?
-- Seçenekler: Donanım maliyetlerini artırmak | Donanım kaynaklarının daha verimli kullanılmasını sağlamak | Sistem karmaşıklığını azaltmak | Yazılım uyumluluğunu ortadan kaldırmak
-- Doğru Cevap: Donanım kaynaklarının daha verimli kullanılmasını sağlamak
+#### Geleneksel Sistem Tasarımı:
+- Soru: Geleneksel sistem tasarımında donanım ve yazılım geliştirme süreci nasıldır?
+- Seçenekler: Donanım ve yazılım eş zamanlı ve birlikte geliştirilir. | Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir. | Önce yazılım geliştirilir, sonra donanıma uyarlanır. | Donanım ve yazılım sürekli olarak birbirini günceller.
+- Doğru Cevap: Donanım ve yazılım ayrı ayrı geliştirilir ve entegre edilir.
 - Zorluk: easy
 
-#### Sanallaştırma Tanımı Ve Amacı:
-- Soru: Sanallaştırmanın temel amacı nedir?
-- Seçenekler: Yazılım geliştirmeyi hızlandırmak | Donanım kaynaklarını daha verimli kullanmak | Ağ güvenliğini artırmak | Veri depolama maliyetlerini düşürmek
-- Doğru Cevap: Donanım kaynaklarını daha verimli kullanmak
+#### Aşamalar:
+- Soru: Geleneksel sistem tasarımının aşamalarından hangisi, sistem gereksinimlerinin ayrı ayrı belirlenmesini içerir?
+- Seçenekler: Entegrasyon | Donanım Tasarım Adımları | Yazılım Tasarım Adımları | Gereksinimler ve Özellikler
+- Doğru Cevap: Gereksinimler ve Özellikler
 - Zorluk: easy
 
-#### Sanal Makine Vm Kavramı:
-- Soru: Sanal makine (VM) nedir?
-- Seçenekler: Fiziksel bir sunucunun birebir kopyası | Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar | Bir ağ cihazının sanal temsili | Bir depolama biriminin sanal kopyası
-- Doğru Cevap: Tek bir fiziksel sunucu içindeki ayrı sanal bilgisayar
+#### Eksiklikler:
+- Soru: Geleneksel sistem tasarımının temel eksikliklerinden biri aşağıdakilerden hangisidir?
+- Seçenekler: Donanım ve yazılım arasında tam uyumun sağlanması | Yeni teknolojilere hızlı uyum sağlama yeteneği | Entegrasyon sürecinin kısalması ve maliyetin düşmesi | Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi
+- Doğru Cevap: Donanım ve yazılım uyumsuzluğunun ortaya çıkabilmesi
+- Zorluk: medium
+
+#### Tanımı Ve Önemi:
+- Soru: Co-Design yaklaşımının temel tanımı nedir?
+- Seçenekler: Donanım ve yazılımın ayrı ayrı tasarlanıp sonradan birleştirilmesi | Donanımın önceden tasarlanıp yazılımın ona uyarlanması | Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması | Sadece yazılımın tasarlanıp donanımın ihmal edilmesi
+- Doğru Cevap: Donanım ve yazılım bileşenlerinin eş zamanlı ve birlikte tasarlanması
 - Zorluk: easy
 
-#### Hypervisorun Rolü Ve İ Şlevi:
-- Soru: Hypervisor'ün temel işlevi nedir?
-- Seçenekler: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak | Ağ trafiğini yönetmek | Veri tabanı işlemlerini hızlandırmak | Güvenlik duvarı işlevi görmek
-- Doğru Cevap: Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak
-- Zorluk: easy
-
-#### Tip 1 Hypervisor Bare Metal:
-- Soru: Tip 1 hypervisor'ler için kullanılan diğer isimler nelerdir?
-- Seçenekler: Hosted ve native | Native ve bare metal | Bare metal ve hosted | Sadece hosted
-- Doğru Cevap: Native ve bare metal
+#### Aşamaları:
+- Soru: Co-Design yaklaşımının ilk aşaması nedir?
+- Seçenekler: Donanım Tasarım Adımları | Yazılım Tasarım Adımları | Gereksinimler ve Özellikler | Sürekli Geri Bildirim Döngüsü
+- Doğru Cevap: Gereksinimler ve Özellikler
 - Zorluk: easy
 
