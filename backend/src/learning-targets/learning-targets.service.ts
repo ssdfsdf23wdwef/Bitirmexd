@@ -2220,6 +2220,152 @@ export class LearningTargetsService {
   }
 
   /**
+   * Batch create or update learning targets using Firestore Batch Write
+   * This method handles bulk operations efficiently
+   */
+  @LogMethod({ trackParams: true })
+  async batchCreateOrUpdate(userId: string, targets: Array<{
+    subTopicName: string;
+    status: 'pending' | 'failed' | 'medium' | 'mastered';
+    lastScore?: number;
+  }>): Promise<{ success: boolean; processedCount: number }> {
+    const operationId = `batch-create-update-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const startTime = performance.now();
+    
+    try {
+      this.logger.info(
+        `Batch create/update operation started for ${targets.length} targets`,
+        'LearningTargetsService.batchCreateOrUpdate',
+        __filename,
+        undefined,
+        { userId, targetCount: targets.length, operationId }
+      );
+
+      // Get Firestore database instance and batch
+      const db = this.firebaseService.firestore;
+      const batch = db.batch();
+      
+      // Reference to learning-targets collection
+      const targetsCollection = db.collection(FIRESTORE_COLLECTIONS.LEARNING_TARGETS);
+      
+      let processedCount = 0;
+
+      // Process each target in the array
+      for (const target of targets) {
+        // Query for existing target by userId and subTopicName
+        const query = targetsCollection
+          .where('userId', '==', userId)
+          .where('subTopicName', '==', target.subTopicName)
+          .limit(1);
+        
+        const snapshot = await query.get();
+        
+        // Prepare status history object
+        const newStatusObject = {
+          status: target.status,
+          score: target.lastScore || null,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        };
+
+        if (snapshot.empty) {
+          // Target is new - create it using batch.set()
+          const newTargetRef = targetsCollection.doc();
+          
+          const newTargetData = {
+            userId,
+            ...target,
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            history: [newStatusObject],
+            normalizedSubTopicName: this.normalizationService.normalizeSubTopicName(target.subTopicName),
+            failCount: target.status === 'failed' ? 1 : 0,
+            mediumCount: target.status === 'medium' ? 1 : 0,
+            successCount: target.status === 'mastered' ? 1 : 0,
+            lastAttemptScorePercent: target.lastScore || null,
+            lastAttempt: admin.firestore.FieldValue.serverTimestamp(),
+            firstEncountered: new Date().toISOString(),
+          };
+          
+          batch.set(newTargetRef, newTargetData);
+          
+          this.logger.debug(
+            `Queued creation of new learning target: ${target.subTopicName}`,
+            'LearningTargetsService.batchCreateOrUpdate',
+            __filename,
+            undefined,
+            { targetId: newTargetRef.id, subTopicName: target.subTopicName }
+          );
+        } else {
+          // Target exists - update it using batch.update()
+          const existingDocRef = snapshot.docs[0].ref;
+          const existingData = snapshot.docs[0].data();
+          
+          const updateData: any = {
+            status: target.status,
+            lastScore: target.lastScore || null,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            history: admin.firestore.FieldValue.arrayUnion(newStatusObject),
+          };
+
+          // Update counters based on status
+          if (target.status === 'failed') {
+            updateData.failCount = (existingData.failCount || 0) + 1;
+          } else if (target.status === 'medium') {
+            updateData.mediumCount = (existingData.mediumCount || 0) + 1;
+          } else if (target.status === 'mastered') {
+            updateData.successCount = (existingData.successCount || 0) + 1;
+          }
+          
+          batch.update(existingDocRef, updateData);
+          
+          this.logger.debug(
+            `Queued update of existing learning target: ${target.subTopicName}`,
+            'LearningTargetsService.batchCreateOrUpdate',
+            __filename,
+            undefined,
+            { targetId: existingDocRef.id, subTopicName: target.subTopicName }
+          );
+        }
+        
+        processedCount++;
+      }
+
+      // Commit the batch operation
+      await batch.commit();
+      
+      const totalDuration = performance.now() - startTime;
+      
+      this.logger.info(
+        `Batch create/update operation completed successfully: ${processedCount}/${targets.length} targets processed`,
+        'LearningTargetsService.batchCreateOrUpdate',
+        __filename,
+        undefined,
+        { userId, processedCount, totalTargets: targets.length, duration: totalDuration, operationId }
+      );
+
+      return { success: true, processedCount };
+      
+    } catch (error) {
+      const totalDuration = performance.now() - startTime;
+      
+      this.logger.error(
+        `Batch create/update operation failed: ${error.message}`,
+        'LearningTargetsService.batchCreateOrUpdate',
+        __filename,
+        undefined,
+        {
+          ...error,
+          operationId,
+          userId,
+          duration: totalDuration,
+          totalTargets: targets.length,
+        }
+      );
+      throw error;
+    }
+  }
+
+  /**
    * Convert frontend status format to backend format
    */
   private convertFrontendStatusToBackend(frontendStatus: string): 'pending' | 'failed' | 'medium' | 'mastered' {

@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-08T22:36:24.625Z
-Trace ID: quiz-1749422170897-x6h3k
-Yanıt Uzunluğu: 8980 karakter
+Tarih: 2025-06-09T00:17:33.287Z
+Trace ID: quiz-1749428241244-55gov
+Yanıt Uzunluğu: 7371 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 8980 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "KVM kurulumu için gerekli paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?",
+      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini birleştirip görüntülemek için kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "qemu-kvm",
-        "virt-manager",
-        "libvirt-daemon-system",
-        "virtinst"
+        "less",
+        "cat",
+        "nano",
+        "vi"
       ],
-      "correctAnswer": "virt-manager",
-      "explanation": "virt-manager paketi, KVM sanal makinelerini grafik arayüz üzerinden yönetmek için kullanılır. Diğer seçenekler KVM'nin temel kurulumu için gereklidir, ancak grafik arayüz yönetimini sağlamaz. Bkz: 'Kvm kurulumu' bölümü.",
-      "subTopicName": "Kvm Kurulumu",
-      "normalizedSubTopicName": "kvm_kurulumu",
+      "correctAnswer": "cat",
+      "explanation": "cat komutu, dosyaların içeriğini birleştirerek görüntüler. less etkileşimli görüntüleme, nano ve vi ise metin düzenleme için kullanılır.",
+      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
+      "normalizedSubTopicName": "dosya_goruntuleme_ve_duzenleme",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdaki komutlardan hangisi, libvirtd servisinin durumunu kontrol etmek için kullanılır?",
+      "questionText": "Aşağıdaki komutlardan hangisi 'example.txt' dosyasının içeriğini 'output.txt' dosyasına yönlendirir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "applying",
       "options": [
-        "sudo systemctl enable libvirtd",
-        "sudo systemctl start libvirtd",
-        "sudo systemctl status libvirtd",
-        "sudo systemctl restart libvirtd.service"
+        "cat output.txt > example.txt",
+        "cat example.txt < output.txt",
+        "cat example.txt > output.txt",
+        "cat output.txt < example.txt"
       ],
-      "correctAnswer": "sudo systemctl status libvirtd",
-      "explanation": "sudo systemctl status libvirtd komutu, libvirtd servisinin o anki durumunu (çalışıyor, durmuş vb.) gösterir. Diğer komutlar servisi başlatma, yeniden başlatma veya otomatik başlatmayı etkinleştirme işlevlerine sahiptir. Bkz: 'Kvm kurulumu' bölümü.",
-      "subTopicName": "Kvm Kurulumu",
-      "normalizedSubTopicName": "kvm_kurulumu",
-      "difficulty": "easy"
+      "correctAnswer": "cat example.txt > output.txt",
+      "explanation": "> işareti, çıktıyı belirtilen dosyaya yönlendirir. Bu örnekte, example.txt'nin içeriği output.txt dosyasına yazılır.",
+      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
+      "normalizedSubTopicName": "dosya_goruntuleme_ve_duzenleme",
+      "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "KVM kurulumu sırasında gerekli olan paketleri kurmak için kullanılan komut aşağıdakilerden hangisidir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "sudo apt update",
-        "sudo apt install -y qemu-kvm virt-manager",
-        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-        "sudo systemctl enable --now libvirtd"
-      ],
-      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-      "explanation": "Bu komut, KVM için gerekli olan tüm paketleri (qemu-kvm, virt-manager, libvirt-daemon-system, virtinst, libvirt-clients, bridge-utils) tek seferde kurar. Diğer seçenekler eksik paketler içerir veya farklı bir işlevi yerine getirir. Bkz: 'Kvm kurulumu' bölümü.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "Aşağıdakilerden hangisi KVM kurulumu için gerekli paketlerden biri değildir?",
+      "questionText": "'less' komutu hangi özelliği ile 'cat' komutundan ayrılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "qemu-kvm",
-        "virt-manager",
-        "docker",
-        "libvirt-daemon-system"
+        "Dosya içeriğini birleştirebilmesi",
+        "Dosya içeriğini düzenleyebilmesi",
+        "Dosya içinde geriye doğru gezinme imkanı sunması",
+        "Dosya içeriğini şifreleyebilmesi"
       ],
-      "correctAnswer": "docker",
-      "explanation": "Docker, container teknolojisi için kullanılan bir platformdur ve KVM kurulumu için gerekli değildir. qemu-kvm, virt-manager ve libvirt-daemon-system ise KVM kurulumu için gerekli paketlerdir. Bkz: 'Kvm kurulumu' bölümü.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "correctAnswer": "Dosya içinde geriye doğru gezinme imkanı sunması",
+      "explanation": "less komutu, dosya içeriğini etkileşimli olarak görüntülerken geriye doğru gezinme imkanı sunar. cat komutu ise sadece içeriği sıralı bir şekilde gösterir.",
+      "subTopicName": "Dosya İçeriğini Görüntüleme Cat Less",
+      "normalizedSubTopicName": "dosya_icerigini_goruntuleme_cat_less",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q4",
+      "questionText": "Aşağıdaki komutlardan hangisi 'large_file.txt' dosyasını etkileşimli olarak görüntülemek için kullanılır ve kullanıcının dosya içinde ileri geri hareket etmesine olanak tanır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "applying",
+      "options": [
+        "cat large_file.txt",
+        "nano large_file.txt",
+        "less large_file.txt",
+        "vi large_file.txt"
+      ],
+      "correctAnswer": "less large_file.txt",
+      "explanation": "less komutu, büyük dosyaları etkileşimli olarak görüntülemek için idealdir ve kullanıcının dosya içinde ileri geri hareket etmesine olanak sağlar.",
+      "subTopicName": "Dosya İçeriğini Görüntüleme Cat Less",
+      "normalizedSubTopicName": "dosya_icerigini_goruntuleme_cat_less",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "/etc/libvirt/qemu.conf dosyasında yapılan değişiklikler hangi amaçla kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Sanal makine imajlarının konumunu değiştirmek",
-        "Kullanıcı ve grup izinlerini ayarlamak",
-        "Ağ ayarlarını yapılandırmak",
-        "Sanal makine kaynaklarını sınırlandırmak"
-      ],
-      "correctAnswer": "Kullanıcı ve grup izinlerini ayarlamak",
-      "explanation": "/etc/libvirt/qemu.conf dosyasında kullanıcı ve grup ayarlarındaki yorum satırını kaldırmak, libvirtd servisinin doğru kullanıcı ve grup izinleriyle çalışmasını sağlar. Bu, sanal makinelere erişim yetkilerini düzenlemek için önemlidir. Bkz: 'Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)' bölümü.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q6",
-      "questionText": "Libvirtd servisinin yapılandırma dosyasında (#user ve #group) yapılan değişikliklerin etkinleşmesi için hangi komutun çalıştırılması gerekir?",
+      "questionText": "Hangi komut, basit bir metin düzenleyici olarak bilinir ve kullanımı kolay arayüzü ile öne çıkar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "sudo apt update",
-        "sudo systemctl start libvirtd",
-        "sudo systemctl restart libvirtd.service",
-        "sudo usermod -aG kvm $USER"
+        "vi",
+        "vim",
+        "nano",
+        "emacs"
       ],
-      "correctAnswer": "sudo systemctl restart libvirtd.service",
-      "explanation": "Yapılandırma dosyasında yapılan değişikliklerin etkinleşmesi için libvirtd servisinin yeniden başlatılması gerekir. Bu, sudo systemctl restart libvirtd.service komutu ile sağlanır. Bkz: 'Komut satırında aşağıdaki komut verilir' bölümü.",
-      "subTopicName": "Libvirtd Servisini Yapılandırma",
-      "normalizedSubTopicName": "libvirtd_servisini_yapilandirma",
+      "correctAnswer": "nano",
+      "explanation": "nano, basit ve kullanıcı dostu bir metin düzenleyicisidir. vi ve vim daha gelişmiş özelliklere sahipken, nano kolay kullanımı ile öne çıkar.",
+      "subTopicName": "Text Editörleri Nano Vi Vim",
+      "normalizedSubTopicName": "text_editorleri_nano_vi_vim",
       "difficulty": "easy"
     },
     {
-      "id": "q7",
-      "questionText": "Kullanıcının KVM ve libvirt gruplarına eklenmesinin amacı nedir?",
+      "id": "q6",
+      "questionText": "'vi' veya 'vim' editörlerini kullanırken, düzenleme moduna geçmek için hangi tuşa basılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makine performansını artırmak",
-        "Kullanıcının sanal makinelere erişim yetkisini sağlamak",
-        "Ağ yapılandırmasını kolaylaştırmak",
-        "Sistem güvenliğini artırmak"
+        "Esc",
+        "Ctrl + S",
+        "i",
+        "Enter"
       ],
-      "correctAnswer": "Kullanıcının sanal makinelere erişim yetkisini sağlamak",
-      "explanation": "Kullanıcının kvm ve libvirt gruplarına eklenmesi, kullanıcının sanal makinelere erişim ve yönetim yetkisine sahip olmasını sağlar. Bu, sanal makineleri oluşturma, başlatma, durdurma gibi işlemleri gerçekleştirebilmesi için gereklidir. Bkz: 'sudo usermod -aG kvm $USER' bölümü.",
-      "subTopicName": "Kullanıcı İ Zinlerini Ayarlama",
-      "normalizedSubTopicName": "kullanici_i_zinlerini_ayarlama",
+      "correctAnswer": "i",
+      "explanation": "vi ve vim editörlerinde düzenleme moduna geçmek için 'i' tuşuna basılır. Esc komut moduna geri dönmek için kullanılır.",
+      "subTopicName": "Text Editörleri Nano Vi Vim",
+      "normalizedSubTopicName": "text_editorleri_nano_vi_vim",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q7",
+      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın sadece ilk 5 satırını görüntülemek için kullanılır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "applying",
+      "options": [
+        "tail -n 5",
+        "head -n 5",
+        "cat -n 5",
+        "less -n 5"
+      ],
+      "correctAnswer": "head -n 5",
+      "explanation": "head komutu, bir dosyanın başından belirli sayıda satırı görüntülemek için kullanılır. '-n 5' parametresi, ilk 5 satırı belirtir.",
+      "subTopicName": "Dosyanın İlk Son Kısmını Görüntüleme Head Tail",
+      "normalizedSubTopicName": "dosyanin_ilk_son_kismini_goruntuleme_head_tail",
       "difficulty": "medium"
     },
     {
       "id": "q8",
-      "questionText": "Aşağıdaki komutlardan hangisi, mevcut kullanıcının KVM grubuna eklenmesini sağlar?",
+      "questionText": "'log.txt' dosyasının son 20 satırını görüntülemek için hangi komut kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "applying",
       "options": [
-        "sudo apt install qemu-kvm",
-        "sudo usermod -aG kvm $USER",
-        "sudo systemctl restart libvirtd.service",
-        "sudo virt-install"
+        "head -20 log.txt",
+        "tail -20 log.txt",
+        "cat log.txt | head -20",
+        "cat log.txt | tail -20"
       ],
-      "correctAnswer": "sudo usermod -aG kvm $USER",
-      "explanation": "sudo usermod -aG kvm $USER komutu, mevcut kullanıcıyı ( $USER ile belirtilir) kvm grubuna ekler. Bu, kullanıcının sanal makinelere erişim yetkisini kazanmasını sağlar. Bkz: 'sudo usermod -aG kvm $USER' bölümü.",
-      "subTopicName": "Kullanıcı İ Zinlerini Ayarlama",
-      "normalizedSubTopicName": "kullanici_i_zinlerini_ayarlama",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q9",
-      "questionText": "`virt-install` komutunda kullanılan `--disk path=/var/lib/libvirt/images/testVM.img,size=30` parametresi neyi ifade eder?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Sanal makinenin kullanacağı işlemci sayısını",
-        "Sanal makineye ayrılacak RAM miktarını",
-        "Sanal makinenin disk imajının yolunu ve boyutunu",
-        "Sanal makinenin ağ ayarlarını"
-      ],
-      "correctAnswer": "Sanal makinenin disk imajının yolunu ve boyutunu",
-      "explanation": "Bu parametre, sanal makine için oluşturulacak disk imajının /var/lib/libvirt/images/ dizininde testVM.img adıyla oluşturulacağını ve boyutunun 30 GB olacağını belirtir. Bkz: 'VM kurulumu' bölümü.",
-      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
-      "normalizedSubTopicName": "virt_installikkomutu_ile_vm_olusturma",
+      "correctAnswer": "tail -20 log.txt",
+      "explanation": "tail komutu, bir dosyanın sonundan belirli sayıda satırı görüntülemek için kullanılır. 'tail -20 log.txt' komutu, log.txt dosyasının son 20 satırını gösterir.",
+      "subTopicName": "Dosyanın İlk Son Kısmını Görüntüleme Head Tail",
+      "normalizedSubTopicName": "dosyanin_ilk_son_kismini_goruntuleme_head_tail",
       "difficulty": "medium"
     },
     {
-      "id": "q10",
-      "questionText": "Aşağıdaki `virt-install` komut parametrelerinden hangisi, sanal makineye bir ISO dosyasını bağlamak için kullanılır?",
+      "id": "q9",
+      "questionText": "Linux sistemlerde çalışan süreçleri (process) görüntülemek için kullanılan komut aşağıdakilerden hangisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "--name",
-        "--cdrom",
-        "--vcpu",
-        "--ram"
+        "df",
+        "du",
+        "ps",
+        "free"
       ],
-      "correctAnswer": "--cdrom",
-      "explanation": "--cdrom parametresi, sanal makineye bir ISO imaj dosyasını (örneğin, işletim sistemi kurulum imajı) bağlamak için kullanılır. Bu sayede sanal makine, bu ISO dosyasından boot edebilir. Bkz: 'VM kurulumu' bölümü.",
-      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
-      "normalizedSubTopicName": "virt_installikkomutu_ile_vm_olusturma",
+      "correctAnswer": "ps",
+      "explanation": "ps komutu, çalışan süreçler hakkında bilgi verir. df disk alanı kullanımını, du dosya alanı kullanımını, free ise bellek kullanımını gösterir.",
+      "subTopicName": "Çalışan İşlemleri Görüntüleme Ps",
+      "normalizedSubTopicName": "calisan_islemleri_goruntuleme_ps",
       "difficulty": "easy"
+    },
+    {
+      "id": "q10",
+      "questionText": "Hangi 'ps' komutu, sistemdeki tüm çalışan süreçleri (hem kullanıcıya ait hem de sistem süreçleri) detaylı bir şekilde listeler?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "ps",
+        "ps aux",
+        "ps -l",
+        "ps -ef"
+      ],
+      "correctAnswer": "ps aux",
+      "explanation": "'ps aux' komutu, sistemdeki tüm çalışan süreçleri (hem kullanıcıya ait hem de sistem süreçleri) detaylı bir şekilde listeler. Bu komut, kullanıcı adı, PID, CPU kullanımı gibi bilgileri içerir.",
+      "subTopicName": "Çalışan İşlemleri Görüntüleme Ps",
+      "normalizedSubTopicName": "calisan_islemleri_goruntuleme_ps",
+      "difficulty": "medium"
     }
   ]
 }

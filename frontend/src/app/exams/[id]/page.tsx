@@ -561,15 +561,27 @@ export default function ExamPage() {
             
             const updatedTargets = updateTemporaryTargetScores(quizResultsForTargets);
             console.log('[Learning Targets] Updated temporary targets:', updatedTargets);
-            
-            // Send updated targets to backend
+              // Send updated targets to backend
             if (updatedTargets.length > 0) {
-              const batchResult = await learningTargetService.updateLearningTargetsBatch(updatedTargets);
+              // Convert TemporaryLearningTarget format to new API format
+              const convertedTargets = updatedTargets.map(target => ({
+                subTopicName: target.subTopic,
+                status: target.status.toLowerCase() as 'pending' | 'failed' | 'medium' | 'mastered',
+                lastScore: target.score
+              }));
+              
+              console.log('[Learning Targets] Converted targets for new API:', convertedTargets);
+              
+              const batchResult = await learningTargetService.batchUpdateTargets(convertedTargets);
               console.log('[Learning Targets] Batch update result:', batchResult);
               
               if (batchResult.success) {
+                // Clear temporary targets after successful update
+                clearTemporaryTargets();
+                console.log('[Learning Targets] Temporary targets cleared after successful update');
+                
                 ErrorService.showToast(
-                  `Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.updatedCount} hedef)`, 
+                  `Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.processedCount} hedef)`, 
                   "success", 
                   "Öğrenme Hedefleri"
                 );

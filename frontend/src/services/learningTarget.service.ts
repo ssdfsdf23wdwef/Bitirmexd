@@ -1161,6 +1161,134 @@ class LearningTargetService {
       throw error;
     }
   }
+
+  // Batch update öğrenme hedefleri - Yeni API endpoint için
+  @LogMethod('LearningTargetService', FlowCategory.API)
+  async batchUpdateTargets(targets: Array<{
+    subTopicName: string;
+    status: 'pending' | 'failed' | 'medium' | 'mastered';
+    lastScore?: number;
+  }>): Promise<{ success: boolean; processedCount: number }> {
+    console.group('🔄 [LearningTargetService] batchUpdateTargets - BAŞLADI');
+    console.log('📋 Parametreler:', {
+      targetCount: targets.length,
+      targetsPreview: targets.slice(0, 3),
+      statusDistribution: targets.reduce((acc, target) => {
+        acc[target.status] = (acc[target.status] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>),
+    });
+
+    flowTracker.markStart('batchUpdateTargets');
+    
+    try {
+      console.log('📊 Flow tracking başlatılıyor...');
+      trackFlow(
+        `Batch updating learning targets: ${targets.length} targets`,
+        "LearningTargetService.batchUpdateTargets",
+        FlowCategory.API
+      );
+      
+      flowTracker.trackApiCall(
+        `/learning-targets/batch-update`,
+        'POST',
+        'LearningTargetService.batchUpdateTargets',
+        { targetCount: targets.length }
+      );
+      
+      console.log('📝 Logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `Batch öğrenme hedefi güncellemesi başlatılıyor: ${targets.length} hedef`,
+        'LearningTargetService.batchUpdateTargets',
+        __filename,
+        1185,
+        { 
+          count: targets.length,
+          targets: targets.map(t => ({ 
+            subTopicName: t.subTopicName, 
+            status: t.status.toLowerCase(), 
+            lastScore: t.lastScore 
+          }))
+        }
+      );
+
+      console.log('🌐 API çağrısı yapılıyor...', {
+        endpoint: `/learning-targets/batch-update`,
+        method: 'POST',
+        requestBody: {
+          targetsCount: targets.length,
+          sampleTargets: targets.slice(0, 2),
+          allStatuses: [...new Set(targets.map(t => t.status))]
+        }
+      });
+
+      // API çağrısı yap
+      const startTime = performance.now();
+      const result = await apiService.post<{ success: boolean; processedCount: number }>(
+        `/learning-targets/batch-update`, 
+        { targets: targets }
+      );
+      const endTime = performance.now();
+      const apiDuration = endTime - startTime;
+
+      console.log('✅ API başarılı! Sonuçlar:', {
+        success: result.success,
+        processedCount: result.processedCount,
+        requestedCount: targets.length,
+        apiDuration: `${apiDuration.toFixed(2)}ms`
+      });
+
+      // Başarılı sonuç
+      const duration = flowTracker.markEnd('batchUpdateTargets', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      
+      console.log('📝 Başarı logger mesajı kaydediliyor...');
+      logger.logLearningTarget(
+        `Batch güncelleme tamamlandı: ${result.processedCount}/${targets.length} hedef güncellendi`,
+        'LearningTargetService.batchUpdateTargets',
+        __filename,
+        1225,
+        { 
+          requestedCount: targets.length,
+          processedCount: result.processedCount,
+          success: result.success,
+          duration 
+        }
+      );
+
+      console.log('🎉 batchUpdateTargets BAŞARIYLA TAMAMLANDI');
+      console.groupEnd();
+      return result;
+    } catch (error) {
+      console.error('❌ API HATASI:', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        errorStack: error instanceof Error ? error.stack : 'Stack yok',
+        targetCount: targets.length,
+        targetsPreview: targets.slice(0, 2),
+        timestamp: new Date().toISOString()
+      });
+
+      // Hata durumu
+      flowTracker.markEnd('batchUpdateTargets', mapToTrackerCategory(FlowCategory.API), 'LearningTargetService', new Error('API Call End'));
+      trackFlow(
+        `Error in batch updating learning targets: ${(error as Error).message}`,
+        "LearningTargetService.batchUpdateTargets",
+        FlowCategory.API,
+      );
+      
+      logger.logLearningTarget(
+        `Batch öğrenme hedefi güncellemesinde hata oluştu: ${targets.length} hedef`,
+        'LearningTargetService.batchUpdateTargets',
+        __filename,
+        1255,
+        { count: targets.length, error }
+      );
+
+      console.error('💥 batchUpdateTargets HATA İLE SONLANDI');
+      console.groupEnd();
+      throw error;
+    }
+  }
 }
 
 // Singleton instance oluştur ve export et
