@@ -2,12 +2,9 @@
 
 import { ReactNode, memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import DevLoggerProvider from "@/components/providers/DevLoggerProvider";
 import UserControls from "./UserControls";
-import { FiMenu, FiChevronRight } from "react-icons/fi";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/context/ThemeProvider";
-import { motion } from "framer-motion";
+
 
 const LoadingPlaceholder = () => (
   <div className="animate-pulse h-full">
@@ -56,7 +53,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   }, [isHomePage]);
 
   const layoutStructure = (
-    <DevLoggerProvider>
+   
       <div className="min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
         <div className="flex w-full relative">
           {isMounted && (
@@ -96,7 +93,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
           </main>
         </div>
       </div>
-    </DevLoggerProvider>
+    
   );
 
   return layoutStructure;
