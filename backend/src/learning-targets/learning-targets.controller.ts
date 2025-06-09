@@ -1301,7 +1301,7 @@ export class LearningTargetsController {
     }
   }
 
-  @Patch('batch-update')
+  @Post('batch-update')
   @ApiOperation({
     summary: 'Öğrenme hedeflerini toplu olarak günceller',
     description: 'Quiz sonuçlarına göre öğrenme hedeflerinin durumlarını ve puanlarını toplu olarak günceller'

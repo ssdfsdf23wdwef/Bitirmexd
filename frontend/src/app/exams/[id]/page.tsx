@@ -565,9 +565,9 @@ export default function ExamPage() {
             if (updatedTargets.length > 0) {
               // Convert TemporaryLearningTarget format to new API format
               const convertedTargets = updatedTargets.map(target => ({
-                subTopicName: target.subTopic,
+                subTopic: target.subTopic,
                 status: target.status.toLowerCase() as 'pending' | 'failed' | 'medium' | 'mastered',
-                lastScore: target.score
+                score: target.score
               }));
               
               console.log('[Learning Targets] Converted targets for new API:', convertedTargets);

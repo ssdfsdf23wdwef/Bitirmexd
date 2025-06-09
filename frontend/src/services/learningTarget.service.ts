@@ -1165,10 +1165,10 @@ class LearningTargetService {
   // Batch update öğrenme hedefleri - Yeni API endpoint için
   @LogMethod('LearningTargetService', FlowCategory.API)
   async batchUpdateTargets(targets: Array<{
-    subTopicName: string;
-    status: 'pending' | 'failed' | 'medium' | 'mastered';
-    lastScore?: number;
-  }>): Promise<{ success: boolean; processedCount: number }> {
+      subTopic: string;
+      status: 'pending' | 'failed' | 'medium' | 'mastered';
+      score?: number;
+    }>): Promise<{ success: boolean; processedCount: number }> {
     console.group('🔄 [LearningTargetService] batchUpdateTargets - BAŞLADI');
     console.log('📋 Parametreler:', {
       targetCount: targets.length,
@@ -1204,10 +1204,10 @@ class LearningTargetService {
         1185,
         { 
           count: targets.length,
-          targets: targets.map(t => ({ 
-            subTopicName: t.subTopicName, 
-            status: t.status.toLowerCase(), 
-            lastScore: t.lastScore 
+          targets: targets.map(t => ({
+            subTopic: t.subTopic,
+            status: t.status.toLowerCase(),
+            score: t.score
           }))
         }
       );
