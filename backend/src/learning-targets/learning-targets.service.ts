@@ -452,25 +452,44 @@ export class LearningTargetsService {
       // Get course content if courseId is provided
       let contextText = dto.contextText || '';
       if (dto.courseId && !dto.contextText) {
-       contextText = await this.coursesService.getCourseMaterialText(
+        const courseMaterialText = await this.coursesService.getCourseMaterialText(
           dto.courseId,
           userId,
         );
 
-        if (!contextText) {
-          contextText = dto.existingTopicTexts.join('. ');
-          console.log(
-            `\n📝 Ders içeriği bulunamadı, mevcut konular kullanıldı (${contextText.length} chars)`,
-          );
-        } else {
+        if (courseMaterialText) {
+          contextText = courseMaterialText; // Use course material as the primary context
           console.log(
             `\n📝 Course material loaded (${contextText.length} chars)`,
           );
+        } else {
+          console.log(
+            `\n📝 Ders içeriği bulunamadı, mevcut konular ana bağlam olarak kullanılacak.`,
+          );
         }
-        // For now, just use the existing topics as context if no explicit context is provided
-        contextText = dto.existingTopicTexts.join('. ');
-        console.log(`\n📝 No context text provided, using existing topics as context (${contextText.length} chars)`);
       }
+
+      // Append existing topics as additional context if they exist
+      if (dto.existingTopicTexts && dto.existingTopicTexts.length > 0) {
+        const existingTopicsContext = dto.existingTopicTexts.join('. ');
+        if (contextText) {
+          contextText += '\n\nMevcut Konular:\n' + existingTopicsContext;
+        } else {
+          contextText = existingTopicsContext; // Use existing topics if no other context
+        }
+        console.log(`\n➕ Mevcut konular bağlama eklendi (${existingTopicsContext.length} chars)`);
+      }
+      
+      if (!contextText) {
+        // Fallback if no contextText, no courseMaterial, and no existingTopicTexts
+        // This case should ideally be handled, e.g., by throwing an error or returning empty proposals
+        console.warn('\n⚠️ Uyarı: Yapay zeka için hiçbir bağlam metni oluşturulamadı.');
+        // Depending on desired behavior, you might want to return empty proposedTopics here
+        // return { proposedTopics: [] }; 
+      }
+
+      console.log(`\n📝 Final context for AI (${contextText.length} chars)`);
+
 
       console.log(`\n🚀 Calling TopicDetectionService.detectNewTopicsExclusive...`);
       const aiServiceStartTime = performance.now();

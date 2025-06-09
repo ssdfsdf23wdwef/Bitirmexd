@@ -2174,7 +2174,7 @@ export default function ExamCreationWizard({
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {quizType === "personalized" && (
+              {
                 <>
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
                     2. Sınav Odağı ve Konu Seçimi
@@ -2297,10 +2297,10 @@ export default function ExamCreationWizard({
                     </div>
                   </div>
                 </>
-              )}
+              }
 
               {/* Konu Seçimi - Hem hızlı sınav hem de kişiselleştirilmiş sınav için */}
-              <div className={quizType === "personalized" ? "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700" : ""}>
+              <div className={ "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700" }>
              
 
                 {personalizedQuizType === "weakTopicFocused" ? (
@@ -2348,7 +2348,7 @@ export default function ExamCreationWizard({
                 )}
 
                 {/* Ders ve Alt Konu Seçici - Kişiselleştirilmiş sınav için gerekli */}
-                {quizType === "personalized" && personalizedQuizType !== "weakTopicFocused" && (
+                {personalizedQuizType !== "weakTopicFocused" && (
                   <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <h4 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">
                       Ders ve Alt Konu Seçimi
