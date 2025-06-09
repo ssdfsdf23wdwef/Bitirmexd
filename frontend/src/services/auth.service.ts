@@ -385,7 +385,6 @@ class AuthService {
         'AuthService.signOut',
         FlowCategory.Auth
       );
-      this.flowTracker.markStart('logout');
       
       this.logger.info(
         'Kullanıcı çıkışı yapılıyor',
@@ -407,15 +406,7 @@ class AuthService {
         removeAuthCookie(); // Varsa diğer cookie temizleme yardımcı fonksiyonu
       }
       
-      // Çıkış işlemi başarılı
-      const duration = this.flowTracker.markEnd('logout', mapToTrackerCategory(FlowCategory.Auth), 'AuthService.signOut');
-      this.logger.info(
-        'Kullanıcı çıkışı tamamlandı',
-        'AuthService.signOut',
-        __filename,
-        266,
-        { duration }
-      );
+    
       
       return;
     } catch (error) {
@@ -920,6 +911,68 @@ class AuthService {
       return await user.getIdToken(true);
     } catch (error) {
       console.error("Token alma hatası:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Mevcut authentication token'ını al
+   * Önce localStorage'dan kontrol eder, bulamazsa Firebase'den yeni token alır
+   * @returns JWT token veya null
+   */
+  async getAuthToken(): Promise<string | null> {
+    try {
+      // Önce localStorage'dan token'ı kontrol et
+      const storedToken = localStorage.getItem("auth_token");
+      
+      if (storedToken) {
+        this.logger.debug(
+          'Token localStorage\'dan alındı',
+          'AuthService.getAuthToken',
+          __filename,
+          0
+        );
+        return storedToken;
+      }
+
+      // localStorage'da token yoksa Firebase'den al
+      const firebaseUser = auth.currentUser;
+      if (!firebaseUser) {
+        this.logger.debug(
+          'Firebase kullanıcısı bulunamadı',
+          'AuthService.getAuthToken',
+          __filename,
+          0
+        );
+        return null;
+      }
+
+      // Firebase'den fresh token al
+      const token = await firebaseUser.getIdToken(true);
+      
+      if (token) {
+        // Token'ı localStorage'a kaydet
+        localStorage.setItem("auth_token", token);
+        
+        this.logger.debug(
+          'Token Firebase\'den alındı ve localStorage\'a kaydedildi',
+          'AuthService.getAuthToken',
+          __filename,
+          0
+        );
+        
+        return token;
+      }
+
+      return null;
+    } catch (error) {
+      this.logger.error(
+        'Token alma hatası',
+        'AuthService.getAuthToken',
+        __filename,
+        0,
+        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
+      );
       return null;
     }
   }

@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T13:15:52.890Z
+## Tarih: 2025-06-09T14:30:44.754Z
 
-## Trace ID: quiz-1749474952863-x4jr8
+## Trace ID: quiz-1749479444717-2n35c
 
-## Alt Konular (7 adet):
+## Alt Konular (10 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
-2. **Dosya İçeriği Birleştirme** (2 soru)
-3. **Etkileşimli Dosya Görüntüleme** (2 soru)
-4. **Text Editör Kullanımı** (2 soru)
-5. **Çalışan Süreçleri Görüntüleme** (2 soru)
+1. **Eksaskala Bilgisayar Sistemleri** (2 soru)
+2. **Eksaskala Bilgisayar Tanımı Ve Performansı** (2 soru)
+3. **Eksaskala Bilgisayarların Avantajları** (2 soru)
+4. **Von Neumann Mimarisi** (2 soru)
+5. **Gpu Ve Tpu Hızlandırıcıları** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,11 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Disk Alanı Kullanımını Görüntüleme
-2. Bellek Kullanımını Görüntüleme
+1. Simd Ve Mimd Paralelleştirme Teknikleri
+2. Hbm High Bandwidth Memory
+3. 3d Bellek Yığınlama
+4. Fat Tree Topolojisi
+5. Dragonfly Topolojisi
 
 ```
 
@@ -49,11 +52,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
-2. **Dosya İçeriği Birleştirme** (2 soru)
-3. **Etkileşimli Dosya Görüntüleme** (2 soru)
-4. **Text Editör Kullanımı** (2 soru)
-5. **Çalışan Süreçleri Görüntüleme** (2 soru)
+1. **Eksaskala Bilgisayar Sistemleri** (2 soru)
+2. **Eksaskala Bilgisayar Tanımı Ve Performansı** (2 soru)
+3. **Eksaskala Bilgisayarların Avantajları** (2 soru)
+4. **Von Neumann Mimarisi** (2 soru)
+5. **Gpu Ve Tpu Hızlandırıcıları** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,106 +64,198 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Disk Alanı Kullanımını Görüntüleme
-2. Bellek Kullanımını Görüntüleme
+1. Simd Ve Mimd Paralelleştirme Teknikleri
+2. Hbm High Bandwidth Memory
+3. 3d Bellek Yığınlama
+4. Fat Tree Topolojisi
+5. Dragonfly Topolojisi
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
+Bilgisayar Mühendisliği Bölümü
+Bahar –2025(ÖÖ.,İÖ.)
+MBM7-452 -Eksaskala Bilgisayar Sistemleri
+(Sunu 2)
+Dr. Öğr. Üyesi Esra Çelik
 
-BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
-BAHAR DÖNEMİ 2025
-Öğretim Üyesi: Dr. Bilal USANMAZ
-bilal@atauni.edu.tr
+Eksaskala Bilgisayarlar
+•Exascale bilgisayarlar,
+•saniyedeퟏퟎ
+ퟏퟖ
+hesaplama yapabilen sistemlerdir.
+•Petaskalasistemlerden yaklaşık 1000 kat daha güçlüdür.
+•Günümüzün en güncel eksaskala bilgisayar modelleri
+•Frontier(2022–saniyede 1.1 exaflopperformans) ve
+•El Capitan (2023-saniyede 2exaflopperformans)’dır.
 
+Eksaskala Bilgisayarlar
+Doğal afetlerin daha etkili yönetilmesi
+Akıllı şehirlerin gelişimini hızlandırılması
+Yapay zeka ve büyük veri analitiği uygulamalarından daha
+hızlı ve verimli sonuçlar elde edilmesi
+STEM (Fen, Teknoloji, Mühendislik, Matematik) alanları ile ilgili
+bilimsel okuryazarlığın artırıması
+1
+2
+3
+4
+Eksaskala bilgisayarların en önemli avantajları aşağıda listelenir:
 
+Günün Sorusu
+Eksaskala bilgisayarları son kullanıcı
+dizüstü/masaüstü bilgisayarlardan
+daha hızlı yapan temel faktörler
+nelerdir?
 
-2.Hafta
+Eksaskala Bilgisayarlarda İşlemciler
+•Von Neumann Mimarisi
+•Program komutları ve veriler aynı bellekiçinde saklanır.
+•İşlemci, komutları bellekte sırayla alır, işler ve yürütür.
+•Komutlar, bellekte saklanan yazılımlar aracılığıyla yürütülür.
+•Programlar ve veriler aynı hafızada saklanabildiği için esnekliksağlar.
+•Genel amaçlı bilgisayarlar (PC, dizüstüvb.)için uygundur.
+•Bellek ile işlemci arasındaki veri aktarım hızı, sistemin performansını sınırlar.
+Input
+Device
+Output
+Device
+Central Processing Unit
+(CPU)
+Memory Unit
+Arithmetic/Logic Unit
+(ALU)
+Control Unit (CU)
 
+Eksaskala Bilgisayarlarda İşlemciler
+•Eksaskala bilgisayarlarda,
+•geleneksel Von Neumann mimarisinden farklı olarak
+•CPU’nun yanı sıra
+•heterojen hesaplama kaynakları olan GPU, TPUgibi hızlandırıcılar
+daişlem sürecine dahil edilir.
+Input
+Device
+Output
+Device
+Central Processing Unit
+(CPU)
+Memory Unit
+Graphics Processing Unit
+(GPU)
+Tensor Processing Units
+(TPU)
+
+GPU ve TPU
+nedir?
 
-Temel Linux Komutları-2
+Eksaskala Bilgisayarlarda İşlemciler
+Input
+Device
+Output
+Device
+Central Processing Unit
+(CPU)
+Memory Unit
+Graphics Processing Unit
+(GPU)
+Tensor Processing Units
+(TPU)
+•Grafik İşleme Birimi (GPU),
+•CPU ile birlikte çalışan, grafik ve hesaplama işlemlerini hızlandıran özel
+işlemcidir.
+•Binlerce çekirdeğe sahiptir.
+•Yüksek işlem gücü ile CPU’dan daha hızlı hesaplamalar yapabilirler.
+•Aynı anda birçok görevi yürüterek paralel işlem yapabilir.
+•Büyük matris işlemlerini hızlandırarak süper bilgisayarlar için kritik rol oynar.
+•Grafik işleme, video oluşturma, yapay zekaalanlarında sıkça kullanılır.
 
-Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
-duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
+Eksaskala Bilgisayarlarda İşlemciler
+Input
+Device
+Output
+Device
+Central Processing Unit
+(CPU)
+Memory Unit
+Graphics Processing Unit
+(GPU)
+Tensor Processing Units
+(TPU)
+•Tensor İşleme Birimi (TPU),
+•Google tarafından makine öğrenmesi için özel olarak tasarlanmış
+işlemcilerdir.
+•GPU’lardan daha hızlı ve enerji verimli çalışabilir.
+•Yoğun vektör ve matris hesaplamaları için optimize edilmiştir.
+•Aşırı paralel hesaplama kapasitesine sahiptir.
 
-2. Dosya Görüntüleme ve Düzenleme
-Dosyaların içeriklerini görüntülemek veya düzenlemek için kullanılan komutlar.
-●
-cat
-: Dosya içeriğini birleştirir ve görüntüler.
-○ Örnek:
-cat file1.txt
-(file1.txt'nin içeriğini görüntüler)
-○
-cat file1.txt file2.txt > file3.txt
+Eksaskala Bilgisayarlarda İşlemciler
+•Eksaskala bilgisayarlarda,
+•geleneksel Von Neumann mimarisindeki sıralı işlem yapısından
+farklı olarak
+•SIMD ve MIMD gibi paralelleştirme teknikleri kullanılarak
+•büyük ölçekli işlemler aynı anda çalıştırılabilir.
+
+SIMD ve MIMD
+teknikleri nedir?
 
-●
-less
-: Geriye doğru gezinme ile dosya içeriğini etkileşimli olarak görüntüler
-○ Örnek:
-less file1.txt
-(file1.txt dosyasını ileri ve geri gezinme ile görüntüler)
-●
-nano
-: Basit bir text editörü
-○ Örnek:
-nano file1.txt
-(file1.txt dosyasını editler)
-●
-vi
-/
-vim
-: Gelişmiş text editörü
-○ Örnek:
-vi file1.txt
-(file1.txt dosyasını editler)
-●
-head
-: Bir dosyanın ilk kısmını çıktı olarak alır.
-○ Örnek:
-head file1.txt
-(file1.txt dosyasının ilk 10 satırını gösterir)
-●
-tail
-: Bir dosyanın son kısmını çıktı olarak alır.
-○ Örnek:
-tail file1.txt
-(file1.txt dosyasının son 10 satırını gösterir)
-●
-grep
-: Dosyalar içinde arama yapar
-○ Örnek:
-grep "test" file1.txt
+Eksaskala Bilgisayarlarda İşlemciler
+•Tek Komut Çoklu Veri(Single Instruction Multiple Data-SIMD),
+•Tek bir komut aynı anda birden fazla veri üzerinde çalışır.Buna veri paralelliği denir.
+•Vektör işlemciler ve GPU tarafından kullanılır.
+•Paralelleştirme ile büyük veri setlerinde yüksek verimlilik sağlar.
+•Örneğin,
+•1, 2 ve 3 verilerinin (çoklu veri)
+•aynı anda (paralel)
+•4 katının hesaplanması işlemi (tek komut)
+•SIMD tekniği ile aşağıdaki gibi gerçekleştirilebilir:
+123
+x4
+4812
+Çoklu Veri
+Tek Komut
+Sonuç
+Tüm çıktılar
+tek seferde
+alınır.
 
+Eksaskala Bilgisayarlarda İşlemciler
+•ÇokluKomut Çoklu Veri(MultipleInstruction Multiple Data-MIMD),
+•Farklı komutlar aynı anda farklı veriler üzerinde çalıştırılır. Buna görev paralelliği denir.
+•Çok çekirdekli CPU’lar ve süper bilgisayarlar bu yapıyı kullanır.
+•Karmaşık işlemleri paralelşekilde gerçekleştirebilir.
+•Örneğin,
+•1, 2ve 3verilerinin (çoklu veri)
+•aynı anda (paralel)
+•4 katının, 5 fazlasının, 3 eksiğinin hesaplanması işlemi (çoklu komut)
+•MIMD tekniği ile aşağıdaki gibi gerçekleştirilebilir:
+123
+x4
+470
+Çoklu Veri
+Çoklu Komut
+Sonuç
+Tüm çıktılar
+tek seferde
+alınır.
++5-3
 
+Eksaskala Bilgisayarlarda Bellek Mimarileri
+•Eksaskala bilgisayarlarda,
+•geleneksel Von Neumann mimarisindeki tek bellek yolundan farklı
+olarak
+•HBM (High Bandwidth Memory)ve
+•3D bellek yığınlamagibi
+•yüksek hızlı bellek teknolojilerini kullanır.
+
+HBM ve 3D bellek
+yığınlama nedir?
 
-
-
-
-
-
-3. Sistem Bilgisi ve İzleme
-Sistem durumunu ve gerçek zamanlı izlemeyi sağlayan komutlar.
-● ps: Çalışan işlemler hakkında bilgi verir.
-○ Örnek: ps aux (tüm çalışan prosesleri gösterir)
-● df: Disk alanı kullanımını görüntüler
-○ Örnek: df -h (disk alanı bilgilerini insan tarafından okunabilir bir biçimde
-gösterir)
-● du: Dosya alanı kullanımını gösterir
-○ Örnek: du -sh * (geçerli dizindeki her dosyanın/klasörün boyutunu
-gösterir)
-● free: Bellek kullanımını gösterir
-○ Örnek: free -h (bellek kullanımını insan tarafından okunabilir bir
-biçimde gösterir)
-● uptime: Sistem çalışma süresini ve yük ortalamasını gösterir
-○ Örnek: uptime
-● dmesg: Kernel mesajlarını gösterir
-○ Örnek: dmesg | grep error (sistem mesajlarında "error" arar)
-● vmstat: Sanal bellek istatistiklerini gösterir
-○ Örnek: vmstat (sistem performansını ve bellek kullanımını gösterir)
-
-
-
+Eksaskala Bilgisayarlarda Bellek Mimarileri
+•Yüksek Bant Genişlikli Bellek(High Bandwidth Memory-HBM),
+•bellek ile işlemci arasındaki veri aktarım hızını artırmak için kullanılan bir bellek teknolojisidir.
+•HBM, geleneksel belleklere göre,
+•bellek yongalarını yatay yerleştirerekdaha yüksek bant genişliği sağlar. Bu yatay ölçeklemenin bir
+tür...(Kısaltıldı)
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -335,42 +430,42 @@ biçimde gösterir)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Dosya İçeriği Birleştirme: 2 soru
-  - Etkileşimli Dosya Görüntüleme: 2 soru
-  - Text Editör Kullanımı: 2 soru
-  - Dosya Görüntüleme Ve Düzenleme: 2 soru
-  - Çalışan Süreçleri Görüntüleme: 2 soru
+  - Eksaskala Bilgisayar Sistemleri: 2 soru
+  - Eksaskala Bilgisayar Tanımı Ve Performansı: 2 soru
+  - Eksaskala Bilgisayarların Avantajları: 2 soru
+  - Von Neumann Mimarisi: 2 soru
+  - Gpu Ve Tpu Hızlandırıcıları: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Dosya İçeriği Birleştirme:
-- Soru: Aşağıdaki komutlardan hangisi, iki dosyanın içeriğini birleştirip yeni bir dosyaya kaydetmek için kullanılır?
-- Seçenekler: less file1.txt file2.txt > file3.txt | cat file1.txt file2.txt > file3.txt | nano file1.txt file2.txt > file3.txt | vi file1.txt file2.txt > file3.txt
-- Doğru Cevap: cat file1.txt file2.txt > file3.txt
+#### Eksaskala Bilgisayar Sistemleri:
+- Soru: Aşağıdakilerden hangisi eksaskala bilgisayarların temel özelliklerinden biridir?
+- Seçenekler: Saniyede 10^9 hesaplama yapabilme | Petaskala sistemlerden yaklaşık 100 kat daha güçlü olma | Saniyede 10^18 hesaplama yapabilme | Saniyede 10^12 hesaplama yapabilme
+- Doğru Cevap: Saniyede 10^18 hesaplama yapabilme
+- Zorluk: easy
+
+#### Eksaskala Bilgisayar Tanımı Ve Performansı:
+- Soru: Eksaskala bilgisayarların petaskala sistemlere göre yaklaşık kaç kat daha güçlü olduğu söylenebilir?
+- Seçenekler: 10 kat | 100 kat | 1000 kat | 10000 kat
+- Doğru Cevap: 1000 kat
+- Zorluk: easy
+
+#### Eksaskala Bilgisayarların Avantajları:
+- Soru: Aşağıdakilerden hangisi eksaskala bilgisayarların avantajlarından biri değildir?
+- Seçenekler: Doğal afetlerin daha etkili yönetilmesi | Akıllı şehirlerin gelişiminin hızlandırılması | Yapay zeka ve büyük veri analitiği uygulamalarından daha hızlı ve verimli sonuçlar elde edilmesi | Enerji tüketiminin azaltılması
+- Doğru Cevap: Enerji tüketiminin azaltılması
 - Zorluk: medium
 
-#### Etkileşimli Dosya Görüntüleme:
-- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini ileri ve geri gezinme özelliği ile etkileşimli olarak görüntülemek için kullanılır?
-- Seçenekler: cat | less | nano | vi
-- Doğru Cevap: less
+#### Von Neumann Mimarisi:
+- Soru: Von Neumann mimarisinin temel özelliği nedir?
+- Seçenekler: Program komutları ve verilerin ayrı belleklerde saklanması | Sadece veri işleme odaklı olması | Program komutları ve verilerin aynı bellekte saklanması | Sadece komut işleme odaklı olması
+- Doğru Cevap: Program komutları ve verilerin aynı bellekte saklanması
 - Zorluk: easy
 
-#### Text Editör Kullanımı:
-- Soru: Aşağıdakilerden hangisi basit bir metin düzenleyicisidir?
-- Seçenekler: vi | grep | nano | cat
-- Doğru Cevap: nano
-- Zorluk: easy
-
-#### Dosya Görüntüleme Ve Düzenleme:
-- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini görüntülemek için kullanılır?
-- Seçenekler: ps | df | cat | free
-- Doğru Cevap: cat
-- Zorluk: easy
-
-#### Çalışan Süreçleri Görüntüleme:
-- Soru: Linux sistemlerde çalışan süreçler hakkında bilgi almak için hangi komut kullanılır?
-- Seçenekler: df | free | ps | du
-- Doğru Cevap: ps
-- Zorluk: easy
+#### Gpu Ve Tpu Hızlandırıcıları:
+- Soru: Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak işlem sürecine dahil edilen heterojen hesaplama kaynakları nelerdir?
+- Seçenekler: Sadece CPU | Sadece GPU | GPU ve TPU | Sadece TPU
+- Doğru Cevap: GPU ve TPU
+- Zorluk: medium
 

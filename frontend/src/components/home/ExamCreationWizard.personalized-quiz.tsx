@@ -18,6 +18,7 @@ import CourseTopicSelector from "./CourseTopicSelector";
 import courseService from "@/services/course.service";
 import learningTargetService from "@/services/learningTarget.service";
 import documentService from "@/services/document.service";
+import apiService from "@/services/api.service";
 import axios from "axios";
 import {
   Course,
@@ -27,6 +28,7 @@ import {
 } from "@/types";
 import { toast } from "react-hot-toast";
 import quizService from "@/services/quiz.service";
+import authService from "@/services/auth.service";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { LearningTarget } from "@/types/learningTarget.type";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -955,21 +957,10 @@ export default function ExamCreationWizard({
             ...(quizType === "personalized" && selectedCourseId ? { courseId: selectedCourseId } : {})
           };
           console.log(`[ECW detectTopicsFromUploadedFile] 📤 Konu tespiti isteği gönderilecek:`, detectedTopicsRequest);
-          const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-          if (quizType === "personalized") {
-            try {
-              const token = localStorage.getItem("auth_token");
-              if (!token) console.warn("[ECW detectTopicsFromUploadedFile] ⚠️ Token bulunamadı, anonim istek gönderilecek");
-              else { headers['Authorization'] = `Bearer ${token}`; console.log("[ECW detectTopicsFromUploadedFile] 🔑 Authorization token başarıyla eklendi"); }
-            } catch (tokenError) {
-              console.warn(`[ECW detectTopicsFromUploadedFile] ⚠️ Token alma hatası: ${tokenError instanceof Error ? tokenError.message : 'Bilinmeyen hata'}`);
-            }
-          }
-          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
-          const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/learning-targets/detect-topics`;
-          console.log(`[ECW detectTopicsFromUploadedFile] 🌐 API isteği: POST ${apiUrl}`);
           
-          const response = await axios.post(apiUrl, detectedTopicsRequest, { headers });
+          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
+          
+          const response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
           console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı. Durum kodu: ${response.status}`);
           console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response.data));
           

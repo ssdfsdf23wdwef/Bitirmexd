@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T13:16:06.624Z
-Trace ID: quiz-1749474952863-x4jr8
-Yanıt Uzunluğu: 7642 karakter
+Tarih: 2025-06-09T14:30:59.039Z
+Trace ID: quiz-1749479444717-2n35c
+Yanıt Uzunluğu: 7916 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 7642 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdaki komutlardan hangisi, iki dosyanın içeriğini birleştirip yeni bir dosyaya kaydetmek için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
-      "options": [
-        "less file1.txt file2.txt > file3.txt",
-        "cat file1.txt file2.txt > file3.txt",
-        "nano file1.txt file2.txt > file3.txt",
-        "vi file1.txt file2.txt > file3.txt"
-      ],
-      "correctAnswer": "cat file1.txt file2.txt > file3.txt",
-      "explanation": "cat komutu, belirtilen dosyaların içeriğini birleştirir. '>' işareti ise bu birleştirilmiş içeriği yeni bir dosyaya yönlendirir. Bu örnekte, file1.txt ve file2.txt'nin içeriği birleştirilerek file3.txt dosyasına kaydedilir. less, nano ve vi komutları dosya görüntüleme ve düzenleme amaçlıdır, birleştirme işlemi yapmazlar.",
-      "subTopicName": "Dosya İçeriği Birleştirme",
-      "normalizedSubTopicName": "dosya_içeriği_birleştirme",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q2",
-      "questionText": "Aşağıdaki komutlardan hangisi 'example' kelimesini içeren satırları 'file.txt' içinde bulmak için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
-      "options": [
-        "head file.txt",
-        "tail file.txt",
-        "grep \"example\" file.txt",
-        "less file.txt"
-      ],
-      "correctAnswer": "grep \"example\" file.txt",
-      "explanation": "grep komutu, belirtilen deseni (bu durumda 'example' kelimesi) bir dosya içinde arar ve eşleşen satırları görüntüler. head ve tail komutları dosyanın başını ve sonunu gösterir, less ise dosyayı etkileşimli olarak görüntüler.",
-      "subTopicName": "Dosya İçeriği Birleştirme",
-      "normalizedSubTopicName": "dosya_içeriği_birleştirme",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q3",
-      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini ileri ve geri gezinme özelliği ile etkileşimli olarak görüntülemek için kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayarların temel özelliklerinden biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "cat",
-        "less",
-        "nano",
-        "vi"
+        "Saniyede 10^9 hesaplama yapabilme",
+        "Petaskala sistemlerden yaklaşık 100 kat daha güçlü olma",
+        "Saniyede 10^18 hesaplama yapabilme",
+        "Saniyede 10^12 hesaplama yapabilme"
       ],
-      "correctAnswer": "less",
-      "explanation": "less komutu, bir dosyanın içeriğini etkileşimli olarak görüntülemek için kullanılır. Bu, kullanıcının dosya içinde ileri ve geri hareket etmesine olanak tanır. cat komutu dosyanın tamamını bir defada görüntülerken, nano ve vi metin düzenleyicileridir.",
-      "subTopicName": "Etkileşimli Dosya Görüntüleme",
-      "normalizedSubTopicName": "etkileşimli_dosya_görüntüleme",
+      "correctAnswer": "Saniyede 10^18 hesaplama yapabilme",
+      "explanation": "Eksaskala bilgisayarlar, saniyede 10^18 hesaplama yapabilen sistemlerdir. Sunu içeriğinde bu bilgi açıkça belirtilmiştir.",
+      "subTopicName": "Eksaskala Bilgisayar Sistemleri",
+      "normalizedSubTopicName": "eksaskala_bilgisayar_sistemleri",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q2",
+      "questionText": "2023 itibariyle en güncel eksaskala bilgisayar modeli hangisidir ve yaklaşık performansı nedir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "Summit (saniyede 1.1 exaflop)",
+        "Sierra (saniyede 2 exaflop)",
+        "Frontier (saniyede 2 exaflop)",
+        "El Capitan (saniyede 2 exaflop)"
+      ],
+      "correctAnswer": "El Capitan (saniyede 2 exaflop)",
+      "explanation": "Sunu içeriğine göre, El Capitan (2023) saniyede 2 exaflop performansıyla güncel bir eksaskala bilgisayar modelidir.",
+      "subTopicName": "Eksaskala Bilgisayar Sistemleri",
+      "normalizedSubTopicName": "eksaskala_bilgisayar_sistemleri",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q3",
+      "questionText": "Eksaskala bilgisayarların petaskala sistemlere göre yaklaşık kaç kat daha güçlü olduğu söylenebilir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "10 kat",
+        "100 kat",
+        "1000 kat",
+        "10000 kat"
+      ],
+      "correctAnswer": "1000 kat",
+      "explanation": "Eksaskala bilgisayarlar, petaskala sistemlerden yaklaşık 1000 kat daha güçlüdür. Bu bilgi sunu içeriğinde belirtilmiştir.",
+      "subTopicName": "Eksaskala Bilgisayar Tanımı Ve Performansı",
+      "normalizedSubTopicName": "eksaskala_bilgisayar_tanimi_ve_performansi",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "'less' komutu ile bir dosyayı görüntülerken, aşağıdakilerden hangisi yapılamaz?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Dosya içinde yukarı ve aşağı hareket etmek",
-        "Dosyayı düzenlemek",
-        "Dosyanın sonuna gitmek",
-        "Dosyanın başına gitmek"
-      ],
-      "correctAnswer": "Dosyayı düzenlemek",
-      "explanation": "less komutu sadece dosya görüntüleme amaçlıdır, dosya içeriğini düzenleme yeteneği yoktur. Dosya içinde yukarı ve aşağı hareket edilebilir, dosyanın başına ve sonuna gidilebilir.",
-      "subTopicName": "Etkileşimli Dosya Görüntüleme",
-      "normalizedSubTopicName": "etkileşimli_dosya_görüntüleme",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q5",
-      "questionText": "Aşağıdakilerden hangisi basit bir metin düzenleyicisidir?",
+      "questionText": "Eksaskala bilgisayarların saniyede yapabildiği işlem sayısı hangi aralıktadır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "vi",
-        "grep",
-        "nano",
-        "cat"
+        "10^12",
+        "10^15",
+        "10^18",
+        "10^21"
       ],
-      "correctAnswer": "nano",
-      "explanation": "nano, kullanımı kolay ve basit bir metin düzenleyicisidir. vi daha gelişmiş bir düzenleyicidir. grep dosya içinde arama yapar, cat ise dosya içeriğini görüntüler.",
-      "subTopicName": "Text Editör Kullanımı",
-      "normalizedSubTopicName": "text_editör_kullanımı",
+      "correctAnswer": "10^18",
+      "explanation": "Eksaskala bilgisayarlar saniyede 10^18 işlem yapabilir. Metinde bu bilgiye yer verilmiştir.",
+      "subTopicName": "Eksaskala Bilgisayar Tanımı Ve Performansı",
+      "normalizedSubTopicName": "eksaskala_bilgisayar_tanimi_ve_performansi",
       "difficulty": "easy"
     },
     {
-      "id": "q6",
-      "questionText": "Hangi komut, bir dosyayı düzenlemek için kullanılabilecek gelişmiş bir metin editörüdür?",
+      "id": "q5",
+      "questionText": "Aşağıdakilerden hangisi eksaskala bilgisayarların avantajlarından biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "head",
-        "tail",
-        "nano",
-        "vi"
+        "Doğal afetlerin daha etkili yönetilmesi",
+        "Akıllı şehirlerin gelişiminin hızlandırılması",
+        "Yapay zeka ve büyük veri analitiği uygulamalarından daha hızlı ve verimli sonuçlar elde edilmesi",
+        "Enerji tüketiminin azaltılması"
       ],
-      "correctAnswer": "vi",
-      "explanation": "vi, gelişmiş özelliklere sahip bir metin editörüdür. head ve tail komutları dosyanın başını ve sonunu gösterir, nano ise basit bir metin editörüdür.",
-      "subTopicName": "Text Editör Kullanımı",
-      "normalizedSubTopicName": "text_editör_kullanımı",
+      "correctAnswer": "Enerji tüketiminin azaltılması",
+      "explanation": "Sunu içeriğinde eksaskala bilgisayarların avantajları arasında enerji tüketiminin azaltılması yer almamaktadır. Diğer seçenekler belirtilen avantajlardandır.",
+      "subTopicName": "Eksaskala Bilgisayarların Avantajları",
+      "normalizedSubTopicName": "eksaskala_bilgisayarlarin_avantajlari",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q6",
+      "questionText": "Eksaskala bilgisayarların STEM alanları üzerindeki etkisi en doğru nasıl ifade edilebilir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "STEM alanlarındaki bilimsel okuryazarlığı azaltır.",
+        "STEM alanlarıyla ilgili bilimsel okuryazarlığı artırır.",
+        "STEM alanlarına olan ilgiyi azaltır.",
+        "STEM alanlarındaki eğitim kalitesini düşürür."
+      ],
+      "correctAnswer": "STEM alanlarıyla ilgili bilimsel okuryazarlığı artırır.",
+      "explanation": "Eksaskala bilgisayarların en önemli avantajlarından biri, STEM (Fen, Teknoloji, Mühendislik, Matematik) alanları ile ilgili bilimsel okuryazarlığın artırılmasıdır.",
+      "subTopicName": "Eksaskala Bilgisayarların Avantajları",
+      "normalizedSubTopicName": "eksaskala_bilgisayarlarin_avantajlari",
       "difficulty": "easy"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini görüntülemek için kullanılır?",
+      "questionText": "Von Neumann mimarisinin temel özelliği nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "ps",
-        "df",
-        "cat",
-        "free"
+        "Program komutları ve verilerin ayrı belleklerde saklanması",
+        "Sadece veri işleme odaklı olması",
+        "Program komutları ve verilerin aynı bellekte saklanması",
+        "Sadece komut işleme odaklı olması"
       ],
-      "correctAnswer": "cat",
-      "explanation": "cat komutu, bir dosyanın içeriğini terminal ekranında görüntülemek için kullanılır. ps çalışan süreçleri, df disk alanı kullanımını, free ise bellek kullanımını gösterir.",
-      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
-      "normalizedSubTopicName": "dosya_görüntüleme_ve_düzenleme",
+      "correctAnswer": "Program komutları ve verilerin aynı bellekte saklanması",
+      "explanation": "Von Neumann mimarisinde program komutları ve veriler aynı bellek içinde saklanır. Bu mimarinin temel özelliğidir.",
+      "subTopicName": "Von Neumann Mimarisi",
+      "normalizedSubTopicName": "von_neumann_mimarisi",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın son 10 satırını görüntülemek için kullanılır?",
+      "questionText": "Von Neumann mimarisinin performansı hangi faktörle sınırlıdır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "head",
-        "tail",
-        "less",
-        "grep"
+        "İşlemci hızı",
+        "Bellek kapasitesi",
+        "Bellek ile işlemci arasındaki veri aktarım hızı",
+        "Giriş/Çıkış cihazlarının hızı"
       ],
-      "correctAnswer": "tail",
-      "explanation": "tail komutu, bir dosyanın son satırlarını (varsayılan olarak son 10 satırı) görüntülemek için kullanılır. head ilk satırları, less etkileşimli görüntüleme, grep ise desen arama için kullanılır.",
-      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
-      "normalizedSubTopicName": "dosya_görüntüleme_ve_düzenleme",
-      "difficulty": "easy"
+      "correctAnswer": "Bellek ile işlemci arasındaki veri aktarım hızı",
+      "explanation": "Von Neumann mimarisinde bellek ile işlemci arasındaki veri aktarım hızı, sistemin performansını sınırlar.",
+      "subTopicName": "Von Neumann Mimarisi",
+      "normalizedSubTopicName": "von_neumann_mimarisi",
+      "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Linux sistemlerde çalışan süreçler hakkında bilgi almak için hangi komut kullanılır?",
+      "questionText": "Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak işlem sürecine dahil edilen heterojen hesaplama kaynakları nelerdir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "df",
-        "free",
-        "ps",
-        "du"
+        "Sadece CPU",
+        "Sadece GPU",
+        "GPU ve TPU",
+        "Sadece TPU"
       ],
-      "correctAnswer": "ps",
-      "explanation": "ps komutu, çalışan süreçler hakkında bilgi verir. Örneğin, 'ps aux' komutu tüm çalışan süreçleri detaylı bir şekilde listeler. df disk alanı kullanımını, free bellek kullanımını, du ise dosya alanı kullanımını gösterir.",
-      "subTopicName": "Çalışan Süreçleri Görüntüleme",
-      "normalizedSubTopicName": "çalışan_süreçleri_görüntüleme",
-      "difficulty": "easy"
+      "correctAnswer": "GPU ve TPU",
+      "explanation": "Eksaskala bilgisayarlarda, geleneksel Von Neumann mimarisinden farklı olarak CPU'nun yanı sıra GPU ve TPU gibi hızlandırıcılar da işlem sürecine dahil edilir.",
+      "subTopicName": "Gpu Ve Tpu Hızlandırıcıları",
+      "normalizedSubTopicName": "gpu_ve_tpu_hizlandiricilari",
+      "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Hangi komut, tüm çalışan süreçleri detaylı bir şekilde listelemek için kullanılır?",
+      "questionText": "Aşağıdakilerden hangisi GPU'nun temel özelliklerinden biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "ps",
-        "ps aux",
-        "ps -h",
-        "ps -s"
+        "Tek çekirdeğe sahip olması",
+        "CPU'dan daha yavaş hesaplama yapması",
+        "Aynı anda birçok görevi yürüterek paralel işlem yapabilmesi",
+        "Sadece ofis uygulamalarında kullanılması"
       ],
-      "correctAnswer": "ps aux",
-      "explanation": "ps aux komutu, tüm çalışan süreçleri kullanıcı, PID, CPU kullanımı gibi detaylı bilgilerle birlikte listeler. Diğer seçenekler ps komutunun farklı kullanımlarını temsil eder, ancak tüm süreçleri detaylı listeleme işlevini 'ps aux' sağlar.",
-      "subTopicName": "Çalışan Süreçleri Görüntüleme",
-      "normalizedSubTopicName": "çalışan_süreçleri_görüntüleme",
-      "difficulty": "easy"
+      "correctAnswer": "Aynı anda birçok görevi yürüterek paralel işlem yapabilmesi",
+      "explanation": "GPU'lar binlerce çekirdeğe sahiptir ve aynı anda birçok görevi yürüterek paralel işlem yapabilirler. Bu özellikleri sayesinde CPU'dan daha hızlı hesaplamalar yapabilirler.",
+      "subTopicName": "Gpu Ve Tpu Hızlandırıcıları",
+      "normalizedSubTopicName": "gpu_ve_tpu_hizlandiricilari",
+      "difficulty": "medium"
     }
   ]
 }

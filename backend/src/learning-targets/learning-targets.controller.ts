@@ -787,7 +787,7 @@ export class LearningTargetsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Geçersiz istek (örn: metin veya belge ID eksik)',
   })
-  @SetMetadata('anonymousAllowed', true) // Bu endpoint kimlik doğrulaması olmadan da kullanılabilir
+  //@SetMetadata('anonymousAllowed', true) // Bu endpoint kimlik doğrulaması olmadan da kullanılabilir
   @LogMethod()
   async detectTopics(
     @Body() dto: DetectTopicsDto,

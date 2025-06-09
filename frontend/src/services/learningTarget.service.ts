@@ -9,7 +9,7 @@ import { DetectNewTopicsResponse } from "@/types/learning-target.types";
 import { getLogger, getFlowTracker, trackFlow, mapToTrackerCategory } from "@/lib/logger.utils";
 import { LogClass, LogMethod } from "@/decorators/log-method.decorator";
 import { FlowCategory } from "@/constants/logging.constants";
-
+import authService from './auth.service';
 // Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
 let logger: any = null;
 let flowTracker: any = null;
@@ -236,6 +236,7 @@ class LearningTargetService {
     documentText: string,
     existingTopics: string[] = [],
   ): Promise<TopicDetectionResult> {
+    await authService.getAuthToken();
     getFlowTrackerInstance().markStart('detectTopics');
     
     try {

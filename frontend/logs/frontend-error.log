@@ -1,0 +1,19 @@
+[2025-06-09T13:54:47.712Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T13:54:47.707Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:02:23.730Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:02:23.722Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:05:11.369Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:05:11.374Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:07:20.746Z] [info] [ClientLogSetup] Uygulama başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:07:20.742Z] [info] [LogSetup] Frontend log sistemi başlatıldı
+------------------------------------------------------------
+[2025-06-09T14:08:08.922Z] [error] [UnhandledPromiseRejection] Yakalanmamış Promise hatası
+Details: {"reason":"TypeError: file.split is not a function\n    at LoggerService.addLogEntry (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:48:42)\n    at LoggerService.error (webpack-internal:///(app-pages-browser)/./src/services/logger.service.ts:61:14)\n    at checkApiAvailability (webpack-internal:///(app-pages-browser)/./src/services/api.service.ts:140:12)"}
+------------------------------------------------------------

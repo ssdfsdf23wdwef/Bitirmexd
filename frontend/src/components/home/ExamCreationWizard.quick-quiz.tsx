@@ -12,6 +12,7 @@ import { DocumentUploader } from "../document";
 import TopicSelectionScreen from "./TopicSelectionScreen";
 import ExamCreationProgress from "./ExamCreationProgress";
 import documentService from "@/services/document.service";
+import apiService from "@/services/api.service";
 import axios from "axios";
 import {
   Course,
@@ -635,17 +636,10 @@ export default function ExamCreationWizard({
             ...(quizType === "personalized" && selectedCourseId ? { courseId: selectedCourseId } : {})
           };
           console.log(`[ECW detectTopicsFromUploadedFile] 📤 Konu tespiti isteği gönderilecek:`, detectedTopicsRequest);
-          const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-          if (quizType === "personalized") {
-            try {
-            } catch (tokenError) {
-            }
-          }
-          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
-          const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/learning-targets/detect-topics`;
-          console.log(`[ECW detectTopicsFromUploadedFile] 🌐 API isteği: POST ${apiUrl}`);
           
-          const response = await axios.post(apiUrl, detectedTopicsRequest, { headers });
+          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
+          
+          const response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
           console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı. Durum kodu: ${response.status}`);
           console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response.data));
           
