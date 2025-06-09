@@ -374,12 +374,27 @@ class QuizApiService {
       console.log(`[QuizApiService.mapResponseToQuiz] quizType varlığı: ${!!response.quizType}, tipi: ${typeof response.quizType}`);
       console.log(`[QuizApiService.mapResponseToQuiz] questions varlığı: ${!!response.questions}, dizi mi: ${Array.isArray(response.questions)}, uzunluk: ${Array.isArray(response.questions) ? response.questions.length : 'N/A'}`);
       console.log(`[QuizApiService.mapResponseToQuiz] dates: createdAt=${response.createdAt}, updatedAt=${response.updatedAt}`);
-      
+          const mappedQuestions = (response.questions || []).map((q, idx) => ({
+        id: q.id || `q_${idx}`,
+        questionText: q.questionText,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        explanation: q.explanation,
+        subTopic: (q as any).subTopic || q.subTopicName,
+        normalizedSubTopic:
+          (q as any).normalizedSubTopic || q.normalizedSubTopicName,
+        difficulty: q.difficulty,
+        questionType: (q as any).questionType || 'multiple_choice',
+        status: (q as any).status || 'active',
+      })) as Question[];
+
+
+
       const result: Quiz = {
         id: response.id,
         title: response.title,
-        quizType: response.quizType as QuizType, 
-        questions: response.questions || [],
+        quizType: response.quizType as QuizType,
+        questions: mappedQuestions,
         courseId: response.courseId || null,
         // DocumentID yerine sourceDocument nesnesi kullan
         sourceDocument: response.documentId ? {

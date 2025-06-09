@@ -1,20 +1,23 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { FiFileText, FiUpload, FiList } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import courseService from "@/services/course.service";
+import learningTargetService from "@/services/learningTarget.service";
 import type { Course } from "@/types/course.type";
 import { LearningTarget } from "@/types/learningTarget.type";
 import Spinner from "@/components/ui/Spinner";
 
 interface CourseDetailProps {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }
 
 export default function CourseDetailPage({
-  params: { courseId },
+  params,
 }: CourseDetailProps) {
+  const { courseId } = React.use(params);
   // Kurs bilgilerini çek
   const {
     data: course,
@@ -28,21 +31,20 @@ export default function CourseDetailPage({
 
   // Kursun alt konularını (learning targets) çek
   const {
-    data: relatedData,
+    data: learningTargets,
     isLoading: relatedLoading,
     error: relatedError,
-  } = useQuery({
-    queryKey: ["courseRelated", courseId],
-    queryFn: () => courseService.getCourseRelatedItems(courseId),
+  } = useQuery<LearningTarget[]>({
+    queryKey: ["learningTargets", courseId],
+    queryFn: () => learningTargetService.getLearningTargetsByCourse(courseId),
     enabled: !!courseId,
   });
 
   const isLoading = courseLoading || relatedLoading;
   const error = courseError || relatedError;
-  const learningTargets = relatedData?.learningTargets || [];
 
   // Durum sayılarını hesapla
-  const statusCounts = learningTargets.reduce(
+  const statusCounts = (learningTargets || []).reduce(
     (acc, target) => {
       acc[target.status] = (acc[target.status] || 0) + 1;
       return acc;
@@ -97,7 +99,7 @@ export default function CourseDetailPage({
                 Toplam Konu
               </p>
               <p className="text-xl font-semibold text-gray-800 dark:text-white">
-                {learningTargets.length}
+                {(learningTargets || []).length}
               </p>
             </div>
           </div>

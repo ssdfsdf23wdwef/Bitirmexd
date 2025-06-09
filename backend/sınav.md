@@ -1,8 +1,8 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T00:17:21.257Z
+## Tarih: 2025-06-09T00:51:48.866Z
 
-## Trace ID: quiz-1749428241244-55gov
+## Trace ID: quiz-1749430308852-59mc3
 
 ## Alt Konular (7 adet):
 ```
@@ -10,11 +10,11 @@
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
-2. **Dosya İçeriğini Görüntüleme Cat Less** (2 soru)
-3. **Text Editörleri Nano Vi Vim** (2 soru)
-4. **Dosyanın İlk Son Kısmını Görüntüleme Head Tail** (2 soru)
-5. **Çalışan İşlemleri Görüntüleme Ps** (2 soru)
+1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
+2. **Uygulama Paketleme Ve Dağıtımı** (2 soru)
+3. **İ Şletim Sistemi Seviyesinde Sanallaştırma** (2 soru)
+4. **Taşınabilirlik Ve Platform Bağımsızlığı** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,8 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Disk Alanı Kullanımını Görüntüleme Df Du
-2. Bellek Kullanımını Görüntüleme Free
+1. Ölçeklenebilirlik Ve Yönetim Kolaylığı
+2. Yazılım Geliştirme Ve Devops
 
 ```
 
@@ -49,11 +49,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
-2. **Dosya İçeriğini Görüntüleme Cat Less** (2 soru)
-3. **Text Editörleri Nano Vi Vim** (2 soru)
-4. **Dosyanın İlk Son Kısmını Görüntüleme Head Tail** (2 soru)
-5. **Çalışan İşlemleri Görüntüleme Ps** (2 soru)
+1. **Konteynerizasyonun Tanımı Ve İ Şlevi** (2 soru)
+2. **Uygulama Paketleme Ve Dağıtımı** (2 soru)
+3. **İ Şletim Sistemi Seviyesinde Sanallaştırma** (2 soru)
+4. **Taşınabilirlik Ve Platform Bağımsızlığı** (2 soru)
+5. **Hız Ve Verimlilik** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,8 +61,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Disk Alanı Kullanımını Görüntüleme Df Du
-2. Bellek Kullanımını Görüntüleme Free
+1. Ölçeklenebilirlik Ve Yönetim Kolaylığı
+2. Yazılım Geliştirme Ve Devops
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -75,62 +75,46 @@ bilal@atauni.edu.tr
 
 
 
-2.Hafta
+6.Hafta
 
 
-Temel Linux Komutları-2
 
-Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
-duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
+Şekil: VM ve konteyner mimarileri
 
-2. Dosya Görüntüleme ve Düzenleme
-Dosyaların içeriklerini görüntülemek veya düzenlemek için kullanılan komutlar.
-●
-cat
-: Dosya içeriğini birleştirir ve görüntüler.
-○ Örnek:
-cat file1.txt
-(file1.txt'nin içeriğini görüntüler)
-○
-cat file1.txt file2.txt > file3.txt
 
-●
-less
-: Geriye doğru gezinme ile dosya içeriğini etkileşimli olarak görüntüler
-○ Örnek:
-less file1.txt
-(file1.txt dosyasını ileri ve geri gezinme ile görüntüler)
-●
-nano
-: Basit bir text editörü
-○ Örnek:
-nano file1.txt
-(file1.txt dosyasını editler)
-●
-vi
-/
-vim
-: Gelişmiş text editörü
-○ Örnek:
-vi file1.txt
-(file1.txt dosyasını editler)
-●
-head
-: Bir dosyanın ilk kısmını çıktı olarak alır.
-○ Örnek:
-head file1.txt
-(file1.txt dosyasının ilk 10 satırını gösterir)
-●
-tail
-: Bir dosyanın son kısmını çıktı olarak alır.
-○ Örnek:
-tail file1.txt
-(file1.txt dosyasının son 10 satırını gösterir)
-●
-grep
-: Dosyalar içinde arama yapar
-○ Örnek:
-grep "test" file1.txt
+Şekil: Nvidia konteyner örnek gösterimi
+
+
+
+
+Konteynerizasyon nedir?
+
+Konteynerleştirme, bir uygulamanın kodunu herhangi bir altyapıda çalıştırmak için ihtiyaç
+duyduğu tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir.
+Geleneksel olarak bilgisayarınızda herhangi bir uygulamayı çalıştırmak için makinenin işletim
+sistemiyle eşleşen sürümünün yüklenmesi gerekmektedir. Örneğin, bir yazılım paketinin
+Windows sürümünü bir Windows makinesine yüklemeniz gerekiyordu. Ancak
+konteynerleştirmeyle her tür cihaz ve işletim sisteminde çalışan tek bir yazılım paketi veya
+konteyner oluşturabilir[1].
+
+Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve
+aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir
+sanallaştırma türüdür[3].
+
+Yazılım mühendisliğinde konteynerleştirme, yazılım uygulamalarının türü veya satıcısı ne olursa
+olsun herhangi bir bulut veya bulut dışı ortamda konteyner adı verilen yalıtılmış kullanıcı
+alanlarında çalışabilmesi için işletim sistemi düzeyinde sanallaştırma veya birden fazla ağ
+kaynağı üzerinden uygulama düzeyinde sanallaştırmadır[4].
+
+Konteynerleştirme, yazılım kodunun kütüphaneler, framework ler ve diğer bağımlılıklar gibi
+gerekli tüm bileşenlerle birlikte paketlenmesidir[5].
+
+
+Konteynerleştirme, bir uygulamayı ve onun bağımlılıklarını (kütüphaneler, çerçeveler vb.)
+konteyner adı verilen standart bir birime paketleyen bir yazılım dağıtım yöntemidir. Bu
+konteyner, uygulamayı izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapı
+üzerinde tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik,
+konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.
 
 
 
@@ -139,26 +123,55 @@ grep "test" file1.txt
 
 
 
-3. Sistem Bilgisi ve İzleme
-Sistem durumunu ve gerçek zamanlı izlemeyi sağlayan komutlar.
-● ps: Çalışan işlemler hakkında bilgi verir.
-○ Örnek: ps aux (tüm çalışan prosesleri gösterir)
-● df: Disk alanı kullanımını görüntüler
-○ Örnek: df -h (disk alanı bilgilerini insan tarafından okunabilir bir biçimde
-gösterir)
-● du: Dosya alanı kullanımını gösterir
-○ Örnek: du -sh * (geçerli dizindeki her dosyanın/klasörün boyutunu
-gösterir)
-● free: Bellek kullanımını gösterir
-○ Örnek: free -h (bellek kullanımını insan tarafından okunabilir bir
-biçimde gösterir)
-● uptime: Sistem çalışma süresini ve yük ortalamasını gösterir
-○ Örnek: uptime
-● dmesg: Kernel mesajlarını gösterir
-○ Örnek: dmesg | grep error (sistem mesajlarında "error" arar)
-● vmstat: Sanal bellek istatistiklerini gösterir
-○ Örnek: vmstat (sistem performansını ve bellek kullanımını gösterir)
 
+
+Konteyner teknolojisi, son yıllarda yazılım geliştirme ve dağıtımı için oldukça popüler hale
+gelmiştir. Bu popülerliğin arkasında yatan birçok neden var:
+1. Taşınabilirlik: Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir
+konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği
+anlamına gelir. Bu taşınabilirlik, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda
+kolayca dağıtmalarını ve çalıştırmalarını sağlar.
+2. Hız: Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve
+durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve
+dağıtılmasına yardımcı olur.
+3. Verimlilik: Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde
+kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına
+gelir.
+4. Ölçeklenebilirlik: Konteynerler, otomatik olarak ölçeklendirilebilir. Bu, uygulamanızın trafik
+yükü arttıkça veya azaldıkça otomatik olarak daha fazla veya daha az konteyner başlatarak veya
+durdurarak kaynaklarınızı optimize edebileceğiniz anlamına gelir.
+5. Güvenlik: Konteynerler, her uygulama için ayrı bir izolasyon katmanı sağlayarak güvenliği
+artırır. Bu, bir uygulamadaki bir güvenlik açıklığının diğer uygulamaları etkilemesini önler.
+6. Kolay Yönetim: Konteynerler, Docker gibi araçlarla kolayca yönetilebilir. Bu, birden fazla
+konteynerden oluşan karmaşık uygulamaları bile kolayca yönetmenize ve izlemenize yardımcı
+olur.
+
+Konteyner Teknolojisinin Kullanım Alanları:
+Konteyner teknolojisi, çeşitli alanlarda kullanılmaktadır:
+● Yazılım Geliştirme: Konteynerler, geliştiricilerin uygulamaları yerel ortamlarında test
+etmelerini ve dağıtmadan önce hata ayıklamalarını sağlar.
+● DevOps: Konteynerler, CI/CD (Sürekli Entegrasyon/Sürekli Dağıtım) süreçlerini
+otomatikleştirmeye ve hızlandırmaya yardımcı olur.
+● Mikroservisler: Konteynerler, mikroservis mimarisini uygulamak için idealdir.
+● Bulut Bilişim: Konteynerler, bulut ortamında uygulamaları dağıtmak ve yönetmek için
+idealdir.
+
+
+Uygulama
+01_konteyner_kurulumu.txt
+02_konteyner_calistirma.txt
+
+
+
+
+Kaynaklar:
+
+https://aws.amazon.com/what-is/containerization/
+https://www.ibm.com/topics/containerization
+https://www.checkpoint.com/cyber-hub/cloud-security/what-is-container-security/what-is-cont
+ainerization/
+https://en.wikipedia.org/wiki/Containerization_(computing)
+https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
 
 
 - **İstenen Toplam Soru Sayısı:** 10 soru
@@ -335,42 +348,42 @@ biçimde gösterir)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Dosya Görüntüleme Ve Düzenleme: 2 soru
-  - Dosya İçeriğini Görüntüleme Cat Less: 2 soru
-  - Text Editörleri Nano Vi Vim: 2 soru
-  - Dosyanın İlk Son Kısmını Görüntüleme Head Tail: 2 soru
-  - Çalışan İşlemleri Görüntüleme Ps: 2 soru
+  - Konteynerizasyonun Tanımı Ve İşlevi: 2 soru
+  - Uygulama Paketleme Ve Dağıtımı: 2 soru
+  - İşletim Sistemi Seviyesinde Sanallaştırma: 2 soru
+  - Taşınabilirlik Ve Platform Bağımsızlığı: 2 soru
+  - Hız Ve Verimlilik: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Dosya Görüntüleme Ve Düzenleme:
-- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini birleştirip görüntülemek için kullanılır?
-- Seçenekler: less | cat | nano | vi
-- Doğru Cevap: cat
+#### Konteynerizasyonun Tanımı Ve İşlevi:
+- Soru: Konteynerizasyonun temel amacı nedir?
+- Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını optimize etmek
+- Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
 - Zorluk: easy
 
-#### Dosya İçeriğini Görüntüleme Cat Less:
-- Soru: 'less' komutu hangi özelliği ile 'cat' komutundan ayrılır?
-- Seçenekler: Dosya içeriğini birleştirebilmesi | Dosya içeriğini düzenleyebilmesi | Dosya içinde geriye doğru gezinme imkanı sunması | Dosya içeriğini şifreleyebilmesi
-- Doğru Cevap: Dosya içinde geriye doğru gezinme imkanı sunması
-- Zorluk: medium
-
-#### Text Editörleri Nano Vi Vim:
-- Soru: Hangi komut, basit bir metin düzenleyici olarak bilinir ve kullanımı kolay arayüzü ile öne çıkar?
-- Seçenekler: vi | vim | nano | emacs
-- Doğru Cevap: nano
+#### Uygulama Paketleme Ve Dağıtımı:
+- Soru: Konteynerleştirme sürecinde, bir uygulamanın bağımlılıkları ve gerekli bileşenleri hangi birimde paketlenir?
+- Seçenekler: Sanal Makine (VM) | Konteyner | Çekirdek (Kernel) | Sürücü (Driver)
+- Doğru Cevap: Konteyner
 - Zorluk: easy
 
-#### Dosyanın İlk Son Kısmını Görüntüleme Head Tail:
-- Soru: Aşağıdaki komutlardan hangisi bir dosyanın sadece ilk 5 satırını görüntülemek için kullanılır?
-- Seçenekler: tail -n 5 | head -n 5 | cat -n 5 | less -n 5
-- Doğru Cevap: head -n 5
-- Zorluk: medium
+#### İşletim Sistemi Seviyesinde Sanallaştırma:
+- Soru: Konteynerleştirme, hangi düzeyde sanallaştırma sağlar?
+- Seçenekler: Donanım | İşletim Sistemi | Uygulama | Ağ
+- Doğru Cevap: İşletim Sistemi
+- Zorluk: easy
 
-#### Çalışan İşlemleri Görüntüleme Ps:
-- Soru: Linux sistemlerde çalışan süreçleri (process) görüntülemek için kullanılan komut aşağıdakilerden hangisidir?
-- Seçenekler: df | du | ps | free
-- Doğru Cevap: ps
+#### Taşınabilirlik Ve Platform Bağımsızlığı:
+- Soru: Konteynerlerin taşınabilirliği ne anlama gelir?
+- Seçenekler: Sadece belirli Linux dağıtımlarında çalışabilme | Sadece Windows işletim sistemlerinde çalışabilme | İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme | Sadece bulut ortamlarında çalışabilme
+- Doğru Cevap: İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme
+- Zorluk: easy
+
+#### Hız Ve Verimlilik:
+- Soru: Konteynerler, sanal makinelere (VM'ler) kıyasla nasıl bir hız avantajı sunar?
+- Seçenekler: Daha yavaş başlatılır ve durdurulur | VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir | Aynı hızda başlatılır ve durdurulur | Hız konusunda bir fark yoktur
+- Doğru Cevap: VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir
 - Zorluk: easy
 

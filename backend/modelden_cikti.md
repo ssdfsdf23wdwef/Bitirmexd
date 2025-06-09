@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T00:17:33.287Z
-Trace ID: quiz-1749428241244-55gov
-Yanıt Uzunluğu: 7371 karakter
+Tarih: 2025-06-09T00:52:03.098Z
+Trace ID: quiz-1749430308852-59mc3
+Yanıt Uzunluğu: 9335 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 7371 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın içeriğini birleştirip görüntülemek için kullanılır?",
+      "questionText": "Konteynerizasyonun temel amacı nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "less",
-        "cat",
-        "nano",
-        "vi"
+        "Uygulamaları sanal makinelerde çalıştırmak",
+        "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+        "İşletim sistemini güncellemek",
+        "Donanım kaynaklarını optimize etmek"
       ],
-      "correctAnswer": "cat",
-      "explanation": "cat komutu, dosyaların içeriğini birleştirerek görüntüler. less etkileşimli görüntüleme, nano ve vi ise metin düzenleme için kullanılır.",
-      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
-      "normalizedSubTopicName": "dosya_goruntuleme_ve_duzenleme",
+      "correctAnswer": "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+      "explanation": "Konteynerizasyon, bir uygulamanın kodunu, herhangi bir altyapıda çalışması için gereken tüm dosya ve kütüphanelerle bir araya getiren bir yazılım dağıtım işlemidir. Bu, uygulamanın farklı ortamlarda tutarlı bir şekilde çalışmasını sağlar.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İşlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdaki komutlardan hangisi 'example.txt' dosyasının içeriğini 'output.txt' dosyasına yönlendirir?",
+      "questionText": "Aşağıdakilerden hangisi konteynerleştirmenin temel özelliklerinden biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "cat output.txt > example.txt",
-        "cat example.txt < output.txt",
-        "cat example.txt > output.txt",
-        "cat output.txt < example.txt"
+        "Uygulama bileşenlerinin tek bir konteyner imajında toplanması",
+        "İzole edilmiş kullanıcı alanında çalışma",
+        "Paylaşılan işletim sistemi üzerinde çalışma",
+        "Donanım seviyesinde sanallaştırma"
       ],
-      "correctAnswer": "cat example.txt > output.txt",
-      "explanation": "> işareti, çıktıyı belirtilen dosyaya yönlendirir. Bu örnekte, example.txt'nin içeriği output.txt dosyasına yazılır.",
-      "subTopicName": "Dosya Görüntüleme Ve Düzenleme",
-      "normalizedSubTopicName": "dosya_goruntuleme_ve_duzenleme",
+      "correctAnswer": "Donanım seviyesinde sanallaştırma",
+      "explanation": "Konteynerleştirme, işletim sistemi seviyesinde sanallaştırmadır. Uygulama bileşenleri tek bir konteyner imajında toplanır ve aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılır. Donanım seviyesinde sanallaştırma, sanal makinelerin (VM'ler) özelliğidir, konteynerlerin değil.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İşlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_işlevi",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "'less' komutu hangi özelliği ile 'cat' komutundan ayrılır?",
+      "questionText": "Konteynerleştirme sürecinde, bir uygulamanın bağımlılıkları ve gerekli bileşenleri hangi birimde paketlenir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Dosya içeriğini birleştirebilmesi",
-        "Dosya içeriğini düzenleyebilmesi",
-        "Dosya içinde geriye doğru gezinme imkanı sunması",
-        "Dosya içeriğini şifreleyebilmesi"
+        "Sanal Makine (VM)",
+        "Konteyner",
+        "Çekirdek (Kernel)",
+        "Sürücü (Driver)"
       ],
-      "correctAnswer": "Dosya içinde geriye doğru gezinme imkanı sunması",
-      "explanation": "less komutu, dosya içeriğini etkileşimli olarak görüntülerken geriye doğru gezinme imkanı sunar. cat komutu ise sadece içeriği sıralı bir şekilde gösterir.",
-      "subTopicName": "Dosya İçeriğini Görüntüleme Cat Less",
-      "normalizedSubTopicName": "dosya_icerigini_goruntuleme_cat_less",
-      "difficulty": "medium"
+      "correctAnswer": "Konteyner",
+      "explanation": "Konteynerleştirme, yazılım kodunun kütüphaneler, framework'ler ve diğer bağımlılıklar gibi gerekli tüm bileşenlerle birlikte konteyner adı verilen standart bir birimde paketlenmesidir.",
+      "subTopicName": "Uygulama Paketleme Ve Dağıtımı",
+      "normalizedSubTopicName": "uygulama_paketleme_ve_dağıtımı",
+      "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Aşağıdaki komutlardan hangisi 'large_file.txt' dosyasını etkileşimli olarak görüntülemek için kullanılır ve kullanıcının dosya içinde ileri geri hareket etmesine olanak tanır?",
+      "questionText": "Aşağıdakilerden hangisi konteynerlerin uygulama paketleme ve dağıtımındaki avantajlarından biridir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "cat large_file.txt",
-        "nano large_file.txt",
-        "less large_file.txt",
-        "vi large_file.txt"
+        "Sadece Windows işletim sistemlerinde çalışabilme",
+        "Sadece belirli donanımlarda çalışabilme",
+        "Temeldeki işletim sistemi ne olursa olsun her türlü altyapıda tutarlı ve verimli bir şekilde çalışabilme",
+        "Daha fazla kaynak tüketimi"
       ],
-      "correctAnswer": "less large_file.txt",
-      "explanation": "less komutu, büyük dosyaları etkileşimli olarak görüntülemek için idealdir ve kullanıcının dosya içinde ileri geri hareket etmesine olanak sağlar.",
-      "subTopicName": "Dosya İçeriğini Görüntüleme Cat Less",
-      "normalizedSubTopicName": "dosya_icerigini_goruntuleme_cat_less",
+      "correctAnswer": "Temeldeki işletim sistemi ne olursa olsun her türlü altyapıda tutarlı ve verimli bir şekilde çalışabilme",
+      "explanation": "Konteynerler, uygulamaları izole ederek, temeldeki işletim sistemi ne olursa olsun her türlü altyapıda tutarlı ve verimli bir şekilde çalışmasına olanak tanır. Bu taşınabilirlik ve verimlilik, konteynerleri modern bulutta yerel uygulamalar için ideal hale getirir.",
+      "subTopicName": "Uygulama Paketleme Ve Dağıtımı",
+      "normalizedSubTopicName": "uygulama_paketleme_ve_dağıtımı",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Hangi komut, basit bir metin düzenleyici olarak bilinir ve kullanımı kolay arayüzü ile öne çıkar?",
+      "questionText": "Konteynerleştirme, hangi düzeyde sanallaştırma sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "vi",
-        "vim",
-        "nano",
-        "emacs"
+        "Donanım",
+        "İşletim Sistemi",
+        "Uygulama",
+        "Ağ"
       ],
-      "correctAnswer": "nano",
-      "explanation": "nano, basit ve kullanıcı dostu bir metin düzenleyicisidir. vi ve vim daha gelişmiş özelliklere sahipken, nano kolay kullanımı ile öne çıkar.",
-      "subTopicName": "Text Editörleri Nano Vi Vim",
-      "normalizedSubTopicName": "text_editorleri_nano_vi_vim",
+      "correctAnswer": "İşletim Sistemi",
+      "explanation": "Konteynerleştirme, yazılım uygulamalarının herhangi bir bulut veya bulut dışı ortamda çalışabilmesi için işletim sistemi düzeyinde sanallaştırma sağlar.",
+      "subTopicName": "İşletim Sistemi Seviyesinde Sanallaştırma",
+      "normalizedSubTopicName": "işletim_sistemi_seviyesinde_sanallaştırma",
       "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "'vi' veya 'vim' editörlerini kullanırken, düzenleme moduna geçmek için hangi tuşa basılır?",
+      "questionText": "İşletim sistemi seviyesinde sanallaştırma ile konteynerler, aynı işletim sistemi üzerinde nasıl çalışır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Esc",
-        "Ctrl + S",
-        "i",
-        "Enter"
+        "Her konteyner farklı bir işletim sistemi kullanır",
+        "Konteynerler izole edilmiş kullanıcı alanlarında çalışır",
+        "Konteynerler donanımı doğrudan paylaşır",
+        "Konteynerler birbirleriyle iletişim kuramaz"
       ],
-      "correctAnswer": "i",
-      "explanation": "vi ve vim editörlerinde düzenleme moduna geçmek için 'i' tuşuna basılır. Esc komut moduna geri dönmek için kullanılır.",
-      "subTopicName": "Text Editörleri Nano Vi Vim",
-      "normalizedSubTopicName": "text_editorleri_nano_vi_vim",
+      "correctAnswer": "Konteynerler izole edilmiş kullanıcı alanlarında çalışır",
+      "explanation": "Konteynerleştirme, bir uygulamanın tüm bileşenlerinin tek bir konteyner imajında toplandığı ve aynı paylaşılan işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabildiği bir sanallaştırma türüdür.",
+      "subTopicName": "İşletim Sistemi Seviyesinde Sanallaştırma",
+      "normalizedSubTopicName": "işletim_sistemi_seviyesinde_sanallaştırma",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdaki komutlardan hangisi bir dosyanın sadece ilk 5 satırını görüntülemek için kullanılır?",
+      "questionText": "Konteynerlerin taşınabilirliği ne anlama gelir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "tail -n 5",
-        "head -n 5",
-        "cat -n 5",
-        "less -n 5"
+        "Sadece belirli Linux dağıtımlarında çalışabilme",
+        "Sadece Windows işletim sistemlerinde çalışabilme",
+        "İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme",
+        "Sadece bulut ortamlarında çalışabilme"
       ],
-      "correctAnswer": "head -n 5",
-      "explanation": "head komutu, bir dosyanın başından belirli sayıda satırı görüntülemek için kullanılır. '-n 5' parametresi, ilk 5 satırı belirtir.",
-      "subTopicName": "Dosyanın İlk Son Kısmını Görüntüleme Head Tail",
-      "normalizedSubTopicName": "dosyanin_ilk_son_kismini_goruntuleme_head_tail",
-      "difficulty": "medium"
+      "correctAnswer": "İşletim sisteminden bağımsız bir şekilde farklı ortamlarda çalışabilme",
+      "explanation": "Konteynerler, işletim sisteminden bağımsız bir şekilde çalışabilirler. Bu, bir konteynerin herhangi bir Linux dağıtımı, Windows veya macOS üzerinde çalıştırılabileceği anlamına gelir.",
+      "subTopicName": "Taşınabilirlik Ve Platform Bağımsızlığı",
+      "normalizedSubTopicName": "taşınabilirlik_ve_platform_bağımsızlığı",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "'log.txt' dosyasının son 20 satırını görüntülemek için hangi komut kullanılır?",
+      "questionText": "Konteynerlerin platform bağımsızlığı, geliştiricilere ve operatörlere ne gibi bir avantaj sağlar?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
+      "cognitiveDomain": "understanding",
       "options": [
-        "head -20 log.txt",
-        "tail -20 log.txt",
-        "cat log.txt | head -20",
-        "cat log.txt | tail -20"
+        "Uygulamaları sadece tek bir ortamda geliştirmeyi",
+        "Uygulamaları farklı ortamlarda kolayca dağıtma ve çalıştırma imkanı",
+        "Sadece belirli donanımlara bağımlı kalmayı",
+        "Daha fazla maliyetli altyapı kullanmayı"
       ],
-      "correctAnswer": "tail -20 log.txt",
-      "explanation": "tail komutu, bir dosyanın sonundan belirli sayıda satırı görüntülemek için kullanılır. 'tail -20 log.txt' komutu, log.txt dosyasının son 20 satırını gösterir.",
-      "subTopicName": "Dosyanın İlk Son Kısmını Görüntüleme Head Tail",
-      "normalizedSubTopicName": "dosyanin_ilk_son_kismini_goruntuleme_head_tail",
+      "correctAnswer": "Uygulamaları farklı ortamlarda kolayca dağıtma ve çalıştırma imkanı",
+      "explanation": "Konteynerlerin taşınabilirliği, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda kolayca dağıtmalarını ve çalıştırmalarını sağlar.",
+      "subTopicName": "Taşınabilirlik Ve Platform Bağımsızlığı",
+      "normalizedSubTopicName": "taşınabilirlik_ve_platform_bağımsızlığı",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Linux sistemlerde çalışan süreçleri (process) görüntülemek için kullanılan komut aşağıdakilerden hangisidir?",
+      "questionText": "Konteynerler, sanal makinelere (VM'ler) kıyasla nasıl bir hız avantajı sunar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "df",
-        "du",
-        "ps",
-        "free"
+        "Daha yavaş başlatılır ve durdurulur",
+        "VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir",
+        "Aynı hızda başlatılır ve durdurulur",
+        "Hız konusunda bir fark yoktur"
       ],
-      "correctAnswer": "ps",
-      "explanation": "ps komutu, çalışan süreçler hakkında bilgi verir. df disk alanı kullanımını, du dosya alanı kullanımını, free ise bellek kullanımını gösterir.",
-      "subTopicName": "Çalışan İşlemleri Görüntüleme Ps",
-      "normalizedSubTopicName": "calisan_islemleri_goruntuleme_ps",
+      "correctAnswer": "VM'lerden çok daha hızlı başlatılabilir ve durdurulabilir",
+      "explanation": "Konteynerler, sanal makinelerden (VM'ler) çok daha hızlı bir şekilde başlatılabilir ve durdurulabilir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve dağıtılmasına yardımcı olur.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Hangi 'ps' komutu, sistemdeki tüm çalışan süreçleri (hem kullanıcıya ait hem de sistem süreçleri) detaylı bir şekilde listeler?",
+      "questionText": "Konteynerlerin verimliliği, altyapı kaynakları açısından ne gibi bir fayda sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "ps",
-        "ps aux",
-        "ps -l",
-        "ps -ef"
+        "Daha fazla sunucu ve altyapı gerektirir",
+        "İşletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde kullanır",
+        "Daha az uygulama çalıştırılabilir",
+        "Verimlilik konusunda bir fark yoktur"
       ],
-      "correctAnswer": "ps aux",
-      "explanation": "'ps aux' komutu, sistemdeki tüm çalışan süreçleri (hem kullanıcıya ait hem de sistem süreçleri) detaylı bir şekilde listeler. Bu komut, kullanıcı adı, PID, CPU kullanımı gibi bilgileri içerir.",
-      "subTopicName": "Çalışan İşlemleri Görüntüleme Ps",
-      "normalizedSubTopicName": "calisan_islemleri_goruntuleme_ps",
+      "correctAnswer": "İşletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde kullanır",
+      "explanation": "Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde kullanır. Bu, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına gelir.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
       "difficulty": "medium"
     }
   ]
