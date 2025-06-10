@@ -1,0 +1,11 @@
+# GİRİŞ
+
+Bilgisayar destekli öğrenme çözümleri, son yıllarda teknolojinin ilerlemesiyle birlikte eğitim alanında büyük bir dönüşüm yaratmıştır. Öğrencilerin ders materyallerine ulaşma, konu tekrarlarını yapma ve bireysel öğrenme hedeflerini takip etme süreçleri dijital ortamlar sayesinde çok daha verimli hale gelmiştir. Bu proje de, yapay zeka temelli sınav hazırlama ve öğrenme platformu geliştirerek, kullanıcıların ihtiyaçlarına özel sınavlar oluşturmayı hedeflemektedir.
+
+Projenin temel motivasyonu, mevcut sınav sistemlerinin genellikle standart bir yaklaşım sergilemesi ve bireysel farklılıkları yeterince göz önüne almamasıdır. Öğrencilerin öğrenme hızları, ilgi alanları ve eksik oldukları konular birbirinden oldukça farklıdır. Dolayısıyla, her kullanıcıya aynı soruları sormak, verimsiz bir değerlendirme sürecine yol açmaktadır. Bu noktada yapay zeka devreye girerek, kullanıcının geçmiş performansına dayalı kişiselleştirilmiş sınav içerikleri sunma imkânı sağlamaktadır.
+
+Çalışmanın başlangıcında, eğitim teknolojileri alanındaki güncel gelişmeler incelenmiş ve bu projede kullanılabilecek yöntemler araştırılmıştır. Doğal dil işleme tekniklerinin sınav sorusu üretiminde kullanımı, makine öğrenmesi modellerinin öğrenci performansını tahmin etmedeki rolü ve bulut tabanlı veri yönetiminin avantajları tespit edilmiştir. Bu teorik temeller üzerine inşa edilen sistem, hem akademik hem de pratik açıdan özgün katkılar sunmayı amaçlamaktadır.
+
+Geliştirilecek platform, kullanıcıların sisteme yüklediği ders notları veya kaynak dokümanlar üzerinden anahtar kavramları ve öğrenme hedeflerini belirlemekte, ardından bu hedeflere yönelik soru havuzu oluşturmaktadır. Öğrencilerin sınavlardan aldığı skorlar analiz edilerek, eksik oldukları konular için ek sorular önerilmekte ve öğrenme süreci tamamen kişiye özel bir hale getirilmektedir. Bu yaklaşım, geleneksel test sistemlerinin ötesine geçerek sürekli güncellenen ve kendini geliştiren bir sınav deneyimi sağlamaktadır.
+
+Bu raporun ilerleyen bölümlerinde, literatürde yer alan benzer uygulamalara değinilecek, kullanılan yöntemler ayrıntılı olarak açıklanacak ve proje süresince elde edilen sonuçlar tartışılacaktır. Nihai hedef, yapay zekanın eğitim alanındaki potansiyelini en iyi şekilde kullanarak, öğrenci başarısını artıracak yenilikçi bir araç geliştirmektir.

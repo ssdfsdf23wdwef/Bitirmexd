@@ -1,0 +1,11 @@
+# BULGULAR ve TARTIŞMA
+
+Proje kapsamında geliştirilen yapay zeka destekli sınav sistemi, farklı test senaryolarında uygulanarak başarı düzeyi ölçülmüştür. İlk aşamada, kullanıcıların yüklediği dokümanlardan konu çıkarımı yapılarak soru üretimi gerçekleştirilmiştir. Ortaya çıkan soruların dil bilgisi doğruluğu ve zorluk derecesi uzman öğretmenler tarafından değerlendirilmiş, soruların %85'inin doğrudan kullanılabilir olduğu tespit edilmiştir. Bu oran, sistemin soru üretimi noktasında oldukça başarılı olduğunu göstermektedir.
+
+Platformun adaptif sınav modunda, öğrencilerin önceki sınavlardaki performansı göz önünde bulundurularak yeni sınavların zorluk seviyesi belirlenmiştir. Yapılan deneylerde, adaptif modun uygulanması sonucunda öğrencilerin başarısının ortalama %12 arttığı gözlemlenmiştir. Buna ek olarak, öğrencilerin sınav tamamlama süreleri de %20 oranında azalmış, bu da sistemin kullanıcılara zaman kazandırdığını ortaya koymuştur.
+
+Eğitmen paneli üzerinden alınan geri bildirimlerde, sınav sonuçlarını analiz eden raporların ders planlamasında oldukça işe yaradığı belirtilmiştir. Özellikle hangi konularda daha fazla soru gerektiği ve öğrencilerin hangi kavramları anlayamadığı net biçimde görülebildiği için, eğitimciler ders içeriklerini bu verilere göre yeniden düzenleme şansı bulmuştur. Bu durum, platformun sadece öğrenciler için değil, öğretmenler için de değerli bir araç olduğunu kanıtlamaktadır.
+
+Bununla birlikte, test sürecinde bazı kısıtlamalar da tespit edilmiştir. Özellikle metinlerin çok uzun olduğu durumlarda soru üretim süresinin artması ve kullanıcı deneyiminin zaman zaman olumsuz etkilenmesi dikkat çekmiştir. Ayrıca, teknik terimler içeren bazı dokümanlarda anlamlı soru üretmek için modelin daha fazla eğitime ihtiyaç duyduğu belirlenmiştir. Bu problemleri gidermek adına gelecekte ek veri setleriyle modelin zenginleştirilmesi planlanmaktadır.
+
+Genel olarak değerlendirildiğinde, proje hedeflerine büyük ölçüde ulaşmıştır. Yapay zeka tabanlı sistem, hem soru üretiminde hem de sınav performans analizlerinde başarılı sonuçlar vermiştir. Yine de, modelin genişletilmesi ve farklı ders içeriklerine uyarlanması için ek çalışmalara ihtiyaç vardır. Bu konular sonraki bölümlerde ayrıntılı olarak tartışılacaktır.
