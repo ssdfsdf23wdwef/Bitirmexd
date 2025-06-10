@@ -140,7 +140,10 @@ const config: Config = {
         'scale-out': `scaleOut ${duration.normal} ${easing['ease-in']}`,
         'bounce-in': `bounceIn ${duration.slow} ${easing['ease-out-bounce']}`,
         'pulse-soft': `pulseSoft 2s ${easing['ease-in-out']} infinite`,
+        'pulse-slow': `pulseSlow 3s ${easing['ease-in-out']} infinite`,
         'spin-slow': 'spin 3s linear infinite',
+        'spin-slow-reverse': 'spinReverse 4s linear infinite',
+        'spin-fast': 'spin 1s linear infinite',
         'float': `float 3s ${easing['ease-in-out']} infinite`,
       },
       keyframes: {
@@ -185,6 +188,14 @@ const config: Config = {
         pulseSoft: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.8' },
+        },
+        pulseSlow: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.6' },
+        },
+        spinReverse: {
+          '0%': { transform: 'rotate(360deg)' },
+          '100%': { transform: 'rotate(0deg)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
