@@ -7,6 +7,7 @@ import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import * as path from 'path';
 import { toPlainObject } from '../common/utils/firestore.utils';
+import { PerformanceTracker, TrackPerformance } from '../common/utils/performance.utils';
 import { ConfigService } from '@nestjs/config';@Injectable()
 export class FirebaseService implements OnModuleInit {
   public auth: admin.auth.Auth;
@@ -15,6 +16,7 @@ export class FirebaseService implements OnModuleInit {
   public storage: admin.storage.Storage | null = null;
   private readonly logger: LoggerService;
   private readonly flowTracker: FlowTrackerService;
+  private readonly performanceTracker: PerformanceTracker;
   
   // Cache ayarları
   private readonly DEFAULT_CACHE_TTL = 300; // 5 dakika
@@ -26,6 +28,7 @@ export class FirebaseService implements OnModuleInit {
   ) {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
+    this.performanceTracker = PerformanceTracker.getInstance();
 
     this.flowTracker.trackStep(
       'Firebase servisini başlatma',
@@ -43,8 +46,8 @@ export class FirebaseService implements OnModuleInit {
     
       admin.initializeApp({
         credential: admin.credential.cert(absolutePath),
-        // Storage bucket'ı kullanmayacağız
-        // storageBucket: 'my-app-71530.appspot.com',
+        // Firestore performans optimizasyonları
+        databaseURL: undefined, // Realtime Database kullanmıyoruz
       });
 
       this.logger.info(
@@ -56,6 +59,13 @@ export class FirebaseService implements OnModuleInit {
       // Başlatma başarılıysa servisleri ata
       this.auth = admin.auth();
       this.firestore = admin.firestore();
+      
+      // Firestore performans ayarları
+      this.firestore.settings({
+        ignoreUndefinedProperties: true, // Undefined değerleri otomatik filtrele
+        // preferRest: false, // gRPC kullan (daha hızlı)
+      });
+      
       this.db = this.firestore;
       // Storage kullanımı devre dışı bırakıldı - kullanıcı isteği
       this.storage = null;
@@ -182,6 +192,7 @@ export class FirebaseService implements OnModuleInit {
    * @returns Oluşturulan belge
    */
   @LogMethod({ trackParams: true })
+  @TrackPerformance('create')
   async create<T>(
     collection: string,
     data: T,
@@ -248,6 +259,7 @@ export class FirebaseService implements OnModuleInit {
    * @returns Güncellenen belge
    */
   @LogMethod({ trackParams: true })
+  @TrackPerformance('update')
   async update<T>(
     collection: string,
     id: string,
@@ -316,6 +328,7 @@ export class FirebaseService implements OnModuleInit {
    * @returns Belge
    */
   @LogMethod({ trackParams: true })
+  @TrackPerformance('findById')
   async findById<T>(
     collection: string,
     id: string,
