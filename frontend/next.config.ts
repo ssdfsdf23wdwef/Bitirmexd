@@ -1,36 +1,41 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* ULTRA FAST Performance optimizations */
+  /* Performance optimizations */
   
-  // Turbopack optimizations for fastest compilation
-  turbopack: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
-  
-  // Experimental optimizations for fastest builds
+  // Experimental optimizations
   experimental: {
-    // Enable faster compilation
-    turbo: {
-      memoryLimit: 4096, // 4GB memory limit
-    },
     // Optimize CSS
     optimizeCss: true,
-    // Faster builds
-    serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
-    // Reduce bundle size
-    optimizePackageImports: ['react-icons', '@nextui-org/react', 'framer-motion'],
+    // Reduce bundle size with optimized package imports
+    optimizePackageImports: [
+      'react-icons', 
+      '@nextui-org/react', 
+      'framer-motion',
+      '@mui/material',
+      '@mui/icons-material',
+      'chart.js',
+      'react-chartjs-2',
+      'lucide-react'
+    ],
   },
   
-  // Build optimizations  
+  // Move external packages to serverExternalPackages (new location)
+  serverExternalPackages: ['@prisma/client', 'bcryptjs'],
+  
+  // Build optimizations with enhanced tree-shaking
   modularizeImports: {
     'react-icons': {
       transform: 'react-icons/{{member}}',
+    },
+    '@nextui-org/react': {
+      transform: '@nextui-org/react/dist/{{member}}',
+    },
+    'framer-motion': {
+      transform: 'framer-motion/dist/es/{{member}}',
+    },
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
     },
   },
   
@@ -55,28 +60,30 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
 
-  // Asset optimization
+  
+  // Enhanced image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 3600, // 1 hour cache
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // Webpack optimizations for faster compilation
+  // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
     if (dev) {
-      // Development için ULTRA FAST compilation
+      // Development optimizations
       config.optimization = {
         ...config.optimization,
-        // Disable compression in development for speed
-        minimize: false,
-        // Fast source maps
         splitChunks: {
           chunks: 'all',
-          minSize: 10000,     // Smaller chunks for faster builds
-          maxSize: 100000,    // Limit chunk size
+          minSize: 10000,
+          maxSize: 100000,
           cacheGroups: {
             default: {
-              minChunks: 1,    // Lower threshold
+              minChunks: 1,
               priority: -20,
               reuseExistingChunk: true,
             },
@@ -87,7 +94,6 @@ const nextConfig: NextConfig = {
               chunks: 'all',
               maxSize: 200000,
             },
-            // Separate heavy libraries
             nextui: {
               test: /[\\/]node_modules[\\/]@nextui-org[\\/]/,
               name: 'nextui',
@@ -110,7 +116,7 @@ const nextConfig: NextConfig = {
         },
       };
       
-      // Faster builds with caching
+      // Filesystem caching for faster builds
       config.cache = {
         type: 'filesystem',
         allowCollectingMemory: false,
@@ -120,15 +126,13 @@ const nextConfig: NextConfig = {
       };
     }
     
-    // Resolve optimizations
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      // Faster resolution
-      '@': require('path').resolve(__dirname, 'src'),
-    };
-    
     return config;
   },
 };
 
-export default nextConfig;
+// Bundle analyzer integration
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withBundleAnalyzer(nextConfig);

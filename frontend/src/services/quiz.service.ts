@@ -1129,8 +1129,7 @@ class QuizApiService {
   }
   
   private generateLocalAnalysis(quizId: string): QuizAnalysisResponse {
-    console.info('[QuizApiService] Backend bağlantısı kurulamadı, yerel analiz oluşturuluyor', quizId);
-    
+   
     // localStorage'dan veriyi al
     const storedQuiz = this.getQuizFromLocalStorage(quizId);
     if (!storedQuiz) {

@@ -1,13 +1,4 @@
-/**
- * Adapter Servis
- *
- * Bu servis, backend API'si ile frontend tipleri arasında dönüşüm sağlar.
- * Backend'den gelen yanıtları frontend tipine dönüştürür ve frontend'den
- * backend'e gönderilen verileri backend DTO formatına dönüştürür.
- *
- * Bu yaklaşım, frontend ve backend arasında gevşek bağlama (loose coupling) sağlar.
- * Böylece API sözleşmesi değiştiğinde, sadece bu adapter servisini güncellemek yeterli olur.
- */
+
 
 import {
   Quiz,
