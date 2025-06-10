@@ -30,50 +30,8 @@ export interface LearningTarget {
   updatedAt: Date;
 }
 
-/**
- * Learning target with additional quiz data
- */
-interface LearningTargetWithQuizzes extends LearningTarget {
-  quizzes: string[]; // Quiz IDs
-  lastAttempt: Date | null;
-  lastAttemptScorePercent: number | null;
-  failCount: number;
-  mediumCount: number;
-  successCount: number;
-  attemptCount: number;
-}
 
-/**
- * Create learning target DTO
- */
-interface CreateLearningTargetDto {
-  courseId?: string;
-  topicName: string;
-  status?: LearningTargetStatus;
-  notes?: string;
-}
 
-/**
- * Update learning target DTO
- */
-interface UpdateLearningTargetDto {
-  topicName?: string;
-  status?: LearningTargetStatus;
-  notes?: string;
-}
-
-/**
- * Detect new topics DTO
- */
-interface DetectNewTopicsDto {
-  courseId?: string;
-  existingTopicTexts: string[];
-  contextText?: string;
-}
-
-/**
- * Proposed topic from AI
- */
 export interface ProposedTopic {
   tempId: string;
   name: string;

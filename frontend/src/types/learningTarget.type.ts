@@ -77,12 +77,6 @@ export interface TopicDetectionRequest {
 /**
  * Öğrenme hedefi oluşturma isteği
  */
-interface CreateLearningTargetRequest {
-  courseId: string;
-  subTopicName: string;
-  normalizedSubTopicName: string;
-  status?: LearningTargetStatusLiteral;
-}
 
 /**
  * Çoklu öğrenme hedefi oluşturma isteği - Backend DTO formatına uyumlu
@@ -95,20 +89,6 @@ export interface BatchCreateLearningTargetsRequest {
   }>;
 }
 
-/**
- * Öğrenme hedefi durumu güncelleme isteği
- */
-interface UpdateLearningTargetStatusRequest {
-  targetUpdates: Array<{
-    id: string;
-    status: LearningTargetStatusLiteral;
-    lastAttemptScorePercent: number;
-  }>;
-}
-
-/**
- * Proposed topic from AI
- */
 export interface ProposedTopic {
   tempId: string;
   name: string;

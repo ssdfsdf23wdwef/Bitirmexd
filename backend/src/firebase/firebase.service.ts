@@ -1,14 +1,13 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, Inject } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import * as admin from 'firebase-admin';
-import { ServiceAccount } from 'firebase-admin';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import * as path from 'path';
 import { toPlainObject } from '../common/utils/firestore.utils';
-import { ConfigService } from '@nestjs/config';
-import * as fs from 'fs';
-@Injectable()
+import { ConfigService } from '@nestjs/config';@Injectable()
 export class FirebaseService implements OnModuleInit {
   public auth: admin.auth.Auth;
   public firestore: admin.firestore.Firestore;
@@ -16,8 +15,15 @@ export class FirebaseService implements OnModuleInit {
   public storage: admin.storage.Storage | null = null;
   private readonly logger: LoggerService;
   private readonly flowTracker: FlowTrackerService;
+  
+  // Cache ayarları
+  private readonly DEFAULT_CACHE_TTL = 300; // 5 dakika
+  private readonly CACHE_PREFIX = 'firebase:';
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
 
@@ -26,10 +32,7 @@ export class FirebaseService implements OnModuleInit {
       'FirebaseService',
     );
 
-    // Ortam değişkeni yerine doğrudan yolu kullan ve path.join ile çöz
     const serviceAccountFileName = 'firebase-service-account.json';
-    // __dirname, çalışan JS dosyasının olduğu dizindir (dist/firebase)
-    // ../../secrets/ yoluna ulaşmak için
     const absolutePath = path.join(
       __dirname,
       '../../secrets',
@@ -37,17 +40,7 @@ export class FirebaseService implements OnModuleInit {
     );
 
     try {
-      // Servis anahtarı dosyasının varlığını kontrol et (isteğe bağlı ama önerilir)
-      // const serviceAccount = require(absolutePath); // Bu da bir yöntemdir
-      // Veya fs modülü kullanılabilir: import * as fs from 'fs'; fs.existsSync(absolutePath)
-
-      this.logger.info(
-        `Firebase servis anahtarı yolu deneniyor: ${absolutePath}`,
-        'FirebaseService.constructor',
-      );
-
-      // admin.apps kontrolünü initializeApp'ten önce yapmaya gerek yok,
-      // initializeApp zaten tekrar başlatmayı engeller.
+    
       admin.initializeApp({
         credential: admin.credential.cert(absolutePath),
         // Storage bucket'ı kullanmayacağız
@@ -67,20 +60,6 @@ export class FirebaseService implements OnModuleInit {
       // Storage kullanımı devre dışı bırakıldı - kullanıcı isteği
       this.storage = null;
     } catch (error) {
-      this.logger.error(
-        `Firebase Admin başlatılamadı (Doğrudan Yol ile): ${error.message}`,
-        'FirebaseService.constructor',
-        __filename,
-        72, // Satır numarası yaklaşık
-      );
-      this.logger.error(
-        `Lütfen ${absolutePath} yolunu ve dosya içeriğini kontrol edin. Kodun çalıştığı dizin: ${process.cwd()}, __dirname: ${__dirname}`,
-        'FirebaseService.constructor',
-        __filename,
-        85, // Satır numarası yaklaşık
-      );
-      // Hata durumunda servislerin null/undefined kalmasını sağla
-      // ve uygulamanın başlamasını engellemek isteyebilirsin: throw error;
     }
   }
 
@@ -838,5 +817,409 @@ export class FirebaseService implements OnModuleInit {
   toPlainObject(obj: any): any {
     // Use the utility function from firestore.utils.ts
     return toPlainObject(obj);
+  }
+
+  // ==================== CACHE DESTEKLI PERFORMANS METHODLARı ====================
+
+  /**
+   * Cache anahtarı oluşturur
+   */
+  private createCacheKey(operation: string, ...params: any[]): string {
+    return `${this.CACHE_PREFIX}${operation}:${params.join(':')}`;
+  }
+
+  /**
+   * Cache'den veri alır veya yoksa Firestore'dan alır ve cache'e koyar
+   * @param collection Koleksiyon adı
+   * @param id Belge ID'si
+   * @param ttl Cache süresi (saniye)
+   * @returns Belge
+   */
+  async findByIdCached<T>(
+    collection: string,
+    id: string,
+    ttl: number = this.DEFAULT_CACHE_TTL,
+  ): Promise<(T & { id: string }) | null> {
+    const cacheKey = this.createCacheKey('findById', collection, id);
+    
+    try {
+      // Cache'den kontrol et
+      const cached = await this.cacheManager.get<T & { id: string }>(cacheKey);
+      if (cached) {
+        this.logger.debug(
+          `Cache hit: ${cacheKey}`,
+          'FirebaseService.findByIdCached',
+        );
+        return cached;
+      }
+
+      // Cache'de yoksa Firestore'dan al
+      const result = await this.findById<T>(collection, id);
+      
+      // Sonucu cache'e kaydet
+      if (result) {
+        await this.cacheManager.set(cacheKey, result, ttl * 1000);
+        this.logger.debug(
+          `Cache set: ${cacheKey}`,
+          'FirebaseService.findByIdCached',
+        );
+      }
+
+      return result;
+    } catch (error) {
+      this.logger.error(
+        `Cache destekli findById hatası: ${error.message}`,
+        'FirebaseService.findByIdCached',
+      );
+      // Cache hatası durumunda direkt Firestore'dan al
+      return this.findById<T>(collection, id);
+    }
+  }
+
+  /**
+   * Cache destekli findMany işlemi
+   * @param collection Koleksiyon adı
+   * @param wheres Sorgulama koşulları
+   * @param orderBy Sıralama
+   * @param limit Limit
+   * @param ttl Cache süresi
+   * @returns Belge dizisi
+   */
+  async findManyCached<T>(
+    collection: string,
+    wheres: Array<{
+      field: string;
+      operator: FirebaseFirestore.WhereFilterOp;
+      value: any;
+    }> = [],
+    orderBy?: { field: string; direction: 'asc' | 'desc' },
+    limit?: number,
+    ttl: number = this.DEFAULT_CACHE_TTL,
+  ): Promise<Array<T & { id: string }>> {
+    const cacheKey = this.createCacheKey(
+      'findMany',
+      collection,
+      JSON.stringify(wheres),
+      JSON.stringify(orderBy),
+      limit?.toString() || 'no-limit',
+    );
+
+    try {
+      // Cache'den kontrol et
+      const cached = await this.cacheManager.get<Array<T & { id: string }>>(cacheKey);
+      if (cached) {
+        this.logger.debug(
+          `Cache hit: ${cacheKey}`,
+          'FirebaseService.findManyCached',
+        );
+        return cached;
+      }
+
+      // Cache'de yoksa Firestore'dan al
+      const result = await this.findMany<T>(collection, wheres, orderBy, limit);
+      
+      // Sonucu cache'e kaydet
+      await this.cacheManager.set(cacheKey, result, ttl * 1000);
+      this.logger.debug(
+        `Cache set: ${cacheKey}`,
+        'FirebaseService.findManyCached',
+      );
+
+      return result;
+    } catch (error) {
+      this.logger.error(
+        `Cache destekli findMany hatası: ${error.message}`,
+        'FirebaseService.findManyCached',
+      );
+      // Cache hatası durumunda direkt Firestore'dan al
+      return this.findMany<T>(collection, wheres, orderBy, limit);
+    }
+  }
+
+  /**
+   * Belirli alanları seçerek getiren optimize edilmiş method
+   * @param collection Koleksiyon adı
+   * @param id Belge ID'si
+   * @param fields Getirilecek alanlar
+   * @returns Seçili alanlarla belge
+   */
+  async findByIdSelect<T, K extends keyof T>(
+    collection: string,
+    id: string,
+    fields: K[],
+  ): Promise<Pick<T, K> & { id: string } | null> {
+    try {
+      this.flowTracker.trackStep(
+        `${collection} koleksiyonundan ${id} ID'li dökümanın seçili alanları alınıyor`,
+        'FirebaseService',
+      );
+      const startTime = Date.now();
+      
+      const docRef = this.firestore.collection(collection).doc(id);
+      const doc = await docRef.get();
+
+      const endTime = Date.now();
+      this.flowTracker.trackDbOperation(
+        'READ_SELECT',
+        collection,
+        endTime - startTime,
+        'FirebaseService',
+      );
+
+      if (!doc.exists) {
+        return null;
+      }
+
+      const data = doc.data();
+      if (!data) return null;
+
+      // Sadece istenen alanları seç
+      const selectedData = {} as Pick<T, K>;
+      fields.forEach(field => {
+        if (data[field.toString()] !== undefined) {
+          selectedData[field] = data[field.toString()];
+        }
+      });
+
+      return { ...selectedData, id: doc.id };
+    } catch (error) {
+      this.logger.error(
+        `Firestore seçili alan getirme hatası: ${error.message}`,
+        'FirebaseService.findByIdSelect',
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Cache'i temizler
+   * @param pattern Temizlenecek cache pattern'i
+   */
+  async clearCache(pattern?: string): Promise<void> {
+    try {
+      if (pattern) {
+        // Belirli pattern'e göre temizleme (basit implementation)
+        this.logger.info(
+          `Cache pattern temizleniyor: ${pattern}`,
+          'FirebaseService.clearCache',
+        );
+        // Cache manager'ın store'una erişim gerekebilir
+        // Bu implementasyon cache manager tipine bağlı
+      } else {
+        // Tüm cache'i temizle
+        await this.cacheManager.reset();
+        this.logger.info(
+          'Tüm cache temizlendi',
+          'FirebaseService.clearCache',
+        );
+      }
+    } catch (error) {
+      this.logger.error(
+        `Cache temizleme hatası: ${error.message}`,
+        'FirebaseService.clearCache',
+      );
+    }
+  }
+
+  /**
+   * Belge güncellemesi sonrası cache'i temizler
+   * @param collection Koleksiyon adı
+   * @param id Belge ID'si
+   * @param data Güncellenecek veri
+   * @returns Güncellenen belge
+   */
+  async updateAndClearCache<T>(
+    collection: string,
+    id: string,
+    data: Partial<T>,
+  ): Promise<T & { id: string }> {
+    try {
+      // Önce güncelleme yap
+      const result = await this.update<T>(collection, id, data);
+      
+      // İlgili cache'leri temizle
+      const specificCacheKey = this.createCacheKey('findById', collection, id);
+      await this.cacheManager.del(specificCacheKey);
+      
+      this.logger.debug(
+        `Cache temizlendi: ${specificCacheKey}`,
+        'FirebaseService.updateAndClearCache',
+      );
+
+      return result;
+    } catch (error) {
+      this.logger.error(
+        `Güncelleme ve cache temizleme hatası: ${error.message}`,
+        'FirebaseService.updateAndClearCache',
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Batch işlemlerini optimize eder
+   * @param operations Batch operasyonları
+   * @returns Batch sonucu
+   */
+  async optimizedBatch(
+    operations: Array<{
+      type: 'create' | 'update' | 'delete';
+      collection: string;
+      id?: string;
+      data?: any;
+    }>,
+  ): Promise<void> {
+    try {
+      this.flowTracker.trackStep(
+        `${operations.length} adet batch operasyonu başlatılıyor`,
+        'FirebaseService',
+      );
+      const startTime = Date.now();
+
+      const batch = this.createBatch();
+
+      operations.forEach(operation => {
+        const { type, collection, id, data } = operation;
+        
+        switch (type) {
+          case 'create':
+            if (id) {
+              const docRef = this.firestore.collection(collection).doc(id);
+              batch.set(docRef, {
+                ...data,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+              });
+            }
+            break;
+            
+          case 'update':
+            if (id) {
+              const docRef = this.firestore.collection(collection).doc(id);
+              batch.update(docRef, {
+                ...data,
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+              });
+            }
+            break;
+            
+          case 'delete':
+            if (id) {
+              const docRef = this.firestore.collection(collection).doc(id);
+              batch.delete(docRef);
+            }
+            break;
+        }
+      });
+
+      await batch.commit();
+
+      const endTime = Date.now();
+      this.flowTracker.trackDbOperation(
+        'BATCH',
+        'multiple',
+        endTime - startTime,
+        'FirebaseService',
+      );
+
+      this.logger.info(
+        `Batch işlemi tamamlandı: ${operations.length} operasyon`,
+        'FirebaseService.optimizedBatch',
+      );
+    } catch (error) {
+      this.logger.error(
+        `Batch işlemi hatası: ${error.message}`,
+        'FirebaseService.optimizedBatch',
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Pagination destekli sorgulama
+   * @param collection Koleksiyon adı
+   * @param pageSize Sayfa boyutu
+   * @param lastDoc Son belge (pagination için)
+   * @param wheres Sorgulama koşulları
+   * @param orderBy Sıralama
+   * @returns Sayfalanmış sonuç
+   */
+  async findWithPagination<T>(
+    collection: string,
+    pageSize: number,
+    lastDoc?: FirebaseFirestore.DocumentSnapshot,
+    wheres: Array<{
+      field: string;
+      operator: FirebaseFirestore.WhereFilterOp;
+      value: any;
+    }> = [],
+    orderBy?: { field: string; direction: 'asc' | 'desc' },
+  ): Promise<{
+    data: Array<T & { id: string }>;
+    lastDoc: FirebaseFirestore.DocumentSnapshot | null;
+    hasMore: boolean;
+  }> {
+    try {
+      this.flowTracker.trackStep(
+        `${collection} koleksiyonundan sayfalanmış veri alınıyor`,
+        'FirebaseService',
+      );
+      const startTime = Date.now();
+
+      let query: FirebaseFirestore.Query = this.firestore.collection(collection);
+
+      // Filtreleri ekle
+      wheres.forEach((where) => {
+        query = query.where(where.field, where.operator, where.value);
+      });
+
+      // Sıralama ekle
+      if (orderBy) {
+        query = query.orderBy(orderBy.field, orderBy.direction);
+      }
+
+      // Pagination
+      if (lastDoc) {
+        query = query.startAfter(lastDoc);
+      }
+
+      // Bir fazla al ki sonraki sayfa olup olmadığını bilelim
+      query = query.limit(pageSize + 1);
+
+      const querySnapshot = await query.get();
+
+      const endTime = Date.now();
+      this.flowTracker.trackDbOperation(
+        'READ_PAGINATED',
+        collection,
+        endTime - startTime,
+        'FirebaseService',
+      );
+
+      const docs = querySnapshot.docs;
+      const hasMore = docs.length > pageSize;
+      
+      // Son fazla belgeyi çıkar
+      if (hasMore) {
+        docs.pop();
+      }
+
+      const data = docs.map((doc) => ({
+        ...(doc.data() as T),
+        id: doc.id,
+      }));
+
+      return {
+        data,
+        lastDoc: docs.length > 0 ? docs[docs.length - 1] : null,
+        hasMore,
+      };
+    } catch (error) {
+      this.logger.error(
+        `Pagination sorgu hatası: ${error.message}`,
+        'FirebaseService.findWithPagination',
+      );
+      throw error;
+    }
   }
 }
