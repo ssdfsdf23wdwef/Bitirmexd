@@ -9,7 +9,6 @@ import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { Toaster } from 'react-hot-toast';
 import MainLayout from "@/components/layout/MainLayout";
-import ClientAnalytics from "@/components/analytics/ClientAnalytics";
 
 interface ClientLayoutProps {
   children: ReactNode;
@@ -49,7 +48,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         <MainLayout>
           {children}
         </MainLayout>
-        <ClientAnalytics />
+        
         <Toaster
           position="bottom-center"
           reverseOrder={false}

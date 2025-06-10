@@ -37,14 +37,7 @@ if (typeof window !== 'undefined') {
   logger = logSetup.logger;
 }
 
-// Dynamic imports for better performance
-const AnalyticsComponent = dynamic(
-  () => import("@/components/analytics/AnalyticsComponent"),
-  {
-    ssr: false,
-    loading: () => <></>, // Or a minimal skeleton/null
-  },
-);
+
 
 // QueryClient oluştur
 const queryClient = new QueryClient({
@@ -144,7 +137,7 @@ export function Providers({ children }: ProvidersProps) {
             <ThemeProvider>
               <ToastProvider>
                 {children}
-                <AnalyticsComponent />
+                
               </ToastProvider>
             </ThemeProvider>
           </QueryClientProvider>
