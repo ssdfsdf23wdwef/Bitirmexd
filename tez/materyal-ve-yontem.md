@@ -1,0 +1,11 @@
+# MATERYAL ve YÖNTEM
+
+Bu bölümde proje boyunca kullanılan yazılım ve donanım bileşenleri detaylı olarak açıklanmaktadır. Platform, Node.js tabanlı bir arka uç ve React/Next.js tabanlı bir ön yüz ile geliştirilmiştir. Firebase kullanılarak kimlik doğrulama ve veritabanı yönetimi sağlanmış, sınav verilerinin güvenli bir şekilde saklanması hedeflenmiştir. Kullanıcıların dosya yükleyebilmeleri için bulut depolama servisleri entegre edilmiştir.
+
+Yapay zeka bileşenleri için öncelikle Python tabanlı prototipler oluşturulmuş, metin ön işleme ve soru üretme aşamalarında doğal dil işleme kütüphanelerinden yararlanılmıştır. Daha sonra bu modeller TensorFlow ve PyTorch kullanılarak eğitilmiş, optimum hiperparametrelerin seçimi için çeşitli denemeler yapılmıştır. Elde edilen modeller, Node.js ortamında çalışabilmeleri için gerekli dönüşümlerden geçirilmiş ve REST API aracılığıyla frontend tarafına hizmet verecek şekilde uyarlanmıştır.
+
+Proje geliştirme sürecinde çevik yazılım metodolojisi benimsenmiş, iki haftalık sprintler şeklinde ilerlenmiştir. Her sprint sonunda sistemin çalışır bir sürümü çıkarılmış ve kullanıcı testleri yapılmıştır. Test sürecinde, hem fonksiyonel hem de kullanılabilirlik açılarından çeşitli senaryolar uygulanmış, elde edilen geribildirimler doğrultusunda iyileştirmeler yapılmıştır. Versiyon kontrolü için Git kullanılmış, Github üzerinden sürekli entegrasyon işlemleri yürütülmüştür.
+
+Veri toplama aşamasında, farklı branşlara ait ders dokümanları ve sınav soruları derlenerek bir veri havuzu oluşturulmuştur. Bu veri seti üzerinde etiketleme çalışmaları yapılarak, modelin öğrenmesine yönelik uygun bir altyapı hazırlanmıştır. Ayrıca, kullanıcıların sınav sırasında verdiği yanıtlar ve sınav süreleri analiz edilerek, adaptif sınav modu için gerekli parametreler belirlenmiştir. Veri güvenliği ve gizlilik ilkelerine uygun hareket etmek amacıyla tüm kişisel bilgiler anonimleştirilmiştir.
+
+Uygulamanın performansını ölçmek için yük testleri ve stres testleri gerçekleştirilmiş, sunucu kaynaklarının ölçeklenebilirliği sağlanmıştır. Sonuç olarak, proje süresince kullanılan yöntemler hem akademik literatürden hem de sektörel uygulamalardan beslenmiş, kullanıcı odaklı ve sürdürülebilir bir sistem ortaya çıkarılmıştır.
