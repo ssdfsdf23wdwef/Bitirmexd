@@ -92,10 +92,9 @@ function MainLayoutBase({ children }: MainLayoutProps) {
           )}
 
           <main 
-            className={`flex-1 w-full min-h-screen transition-all duration-300 ease-in-out ${
-              isMounted ? (isSidebarCollapsed ? 'ml-16' : 'ml-64') : 'ml-0'
-            }`}
+            className={`flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
             style={{
+              marginLeft: isMounted ? (isSidebarCollapsed ? '68px' : '280px') : '0px',
               paddingLeft: '1rem',
               paddingRight: '1rem',
               position: 'relative',

@@ -95,52 +95,102 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
   return (
     <motion.div 
       initial={false}
-      animate={{ width: isCollapsed ? "68px" : "240px" }}
-      transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] }}
-      className={`fixed top-0 left-0 h-full z-30 border-r ${isDarkMode ? 'border-gray-800/30' : 'border-gray-200/70'} ${isDarkMode ? 'bg-gray-900/90' : 'bg-white/80'} shadow-lg backdrop-blur-md transition-all duration-75 flex flex-col`}
+      animate={{ width: isCollapsed ? "68px" : "280px" }}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+      className={`fixed top-0 left-0 h-screen z-30 border-r backdrop-blur-xl transition-all duration-200 flex flex-col overflow-hidden ${
+        isDarkMode 
+          ? 'border-slate-700/50 bg-gradient-to-b from-slate-900/95 via-slate-800/95 to-slate-900/95 shadow-2xl shadow-slate-900/20' 
+          : 'border-gray-200/80 bg-gradient-to-b from-white/95 via-gray-50/95 to-white/95 shadow-2xl shadow-gray-900/10'
+      }`}
       style={{ 
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'thin',
         transform: 'translateZ(0)', // Hardware acceleration
         backfaceVisibility: 'hidden',
         willChange: 'width', // Optimize for width changes
-        scrollbarColor: isDarkMode ? 'rgba(75, 85, 99, 0.3) transparent' : 'rgba(203, 213, 225, 0.3) transparent'
       }}
     >
-      {/* Toggle Button - Modern styled toggle with animated icon */}
-      <button
+      {/* Enhanced Modern Toggle Button with glassmorphism */}
+      <motion.button
         onClick={handleToggle}
-        className={`absolute top-3 right-1.5 w-7 h-7 flex items-center justify-center ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} transition-colors duration-300 z-10`}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className={`absolute top-4 right-2 w-8 h-8 flex items-center justify-center rounded-xl backdrop-blur-xl border shadow-lg transition-all duration-300 z-10 group ${
+          isDarkMode 
+            ? 'bg-slate-700/60 border-slate-600/30 text-slate-300 hover:bg-slate-600/70 hover:text-slate-100' 
+            : 'bg-white/60 border-gray-200/30 text-gray-500 hover:bg-white/80 hover:text-gray-700'
+        }`}
         aria-label={isCollapsed ? "Sidebar'ı Aç" : "Sidebar'ı Kapat"}
       >
         <motion.div
           initial={false}
-          style={{ width: 18, height: 18 }}
           animate={{ rotate: isCollapsed ? 0 : 180 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex items-center justify-center"
         >
-          <FiChevronLeft size={16} className="stroke-[1.5px]" />
+          <FiChevronLeft size={16} className="stroke-[2px] group-hover:stroke-[2.5px] transition-all duration-300" />
         </motion.div>
-      </button>
+        
+        {/* Glow effect on hover */}
+        <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+          isDarkMode 
+            ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20' 
+            : 'bg-gradient-to-r from-blue-400/20 to-purple-400/20'
+        }`} />
+      </motion.button>
 
-      {/* Sidebar Header with glass effect and gradient background */}
-      <div className={`h-14 px-4 border-b ${isDarkMode ? 'border-gray-800/30 bg-gradient-to-r from-gray-800/90 to-gray-900/80' : 'border-gray-200/70 bg-gradient-to-r from-white/90 to-gray-50/80'} backdrop-blur-md flex items-center`}>
+      {/* Enhanced Sidebar Header with modern gradient and glass effect */}
+      <div className={`h-16 px-4 border-b backdrop-blur-xl flex items-center relative ${
+        isDarkMode 
+          ? 'border-slate-700/30 bg-gradient-to-r from-slate-800/80 via-slate-700/60 to-slate-800/80' 
+          : 'border-gray-200/50 bg-gradient-to-r from-white/80 via-gray-50/60 to-white/80'
+      }`}>
+        {/* Animated background glow */}
+        <div className={`absolute inset-0 opacity-30 ${
+          isDarkMode 
+            ? 'bg-gradient-to-r from-blue-600/10 via-purple-600/5 to-blue-600/10' 
+            : 'bg-gradient-to-r from-blue-500/10 via-purple-500/5 to-blue-500/10'
+        }`} />
+        
         <motion.div
           initial={false}
           animate={{ opacity: isCollapsed ? 0 : 1, width: isCollapsed ? 0 : 'auto' }}
-          transition={{ duration: 0.2 }}
-          className="overflow-hidden flex items-center"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="overflow-hidden flex items-center relative z-10"
         >
           {!isCollapsed && (
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-sm">
-                <FiTarget size={12} className="text-white" />
+            <div className="flex items-center gap-3">
+              <motion.div 
+                className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <FiTarget size={16} className="text-white drop-shadow-sm" />
+              </motion.div>
+              <div>
+                <h2 className={`text-lg font-bold tracking-wide bg-gradient-to-r ${
+                  isDarkMode 
+                    ? 'from-blue-400 via-purple-400 to-indigo-400' 
+                    : 'from-blue-600 via-purple-600 to-indigo-600'
+                } bg-clip-text text-transparent`}>
+                  QuizMaster
+                </h2>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-500'} -mt-1`}>
+                  AI Learning Platform
+                </p>
               </div>
-              <h2 className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} tracking-wide`}>QuizMaster</h2>
             </div>
           )}
         </motion.div>
+        
+        {/* Collapsed state icon */}
+        {isCollapsed && (
+          <motion.div 
+            className="w-8 h-8 mx-auto rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg"
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            <FiTarget size={16} className="text-white drop-shadow-sm" />
+          </motion.div>
+        )}
       </div>
       <div className="flex-1 flex flex-col">
         {isInitializing ? (
@@ -155,123 +205,181 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
           </div>
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto">
-              {/* Main menu items with glass styling and gradients */}
-              <nav className="py-3 px-3 space-y-1">
-                {menuItems.map((item) => (
-                  <FastLink
+            <div className="flex-1 overflow-y-auto scrollbar-modern scrollbar-modern-dark">
+              {/* Enhanced Main menu items with modern glassmorphism and micro-interactions */}
+              <nav className="py-4 px-3 space-y-2">
+                {menuItems.map((item, index) => (
+                  <motion.div
                     key={item.href}
-                    href={item.href}
-                    prefetch={true}
-                    scroll={false}
-                    className={`group flex items-center py-2.5 px-4 rounded-xl fast-interactive hw-accelerated relative ${isCollapsed ? "justify-center" : ""}`}
-                    title={isCollapsed ? item.label : undefined}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
                   >
-                    {/* Active/Inactive state styling with gradients and glass effect */}
-                    <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${isActive(item.href) 
-                      ? `bg-gradient-to-r ${item.gradient} opacity-15 ${isDarkMode ? 'opacity-25' : 'opacity-10'} shadow-md` 
-                      : `${isDarkMode ? 'group-hover:bg-gray-800/30' : 'group-hover:bg-gray-100/70'} opacity-0 group-hover:opacity-100`}`}></div>
-                    
-                    {/* Icon container with conditional gradient background */}
-                    <div className={`relative z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 ${isActive(item.href)
-                        ? `bg-gradient-to-r ${item.gradient} text-white shadow-sm` 
-                        : `${isDarkMode ? 'text-gray-400' : 'text-gray-500'} ${isDarkMode ? 'group-hover:text-gray-300' : 'group-hover:text-gray-700'}`
-                      }`}
+                    <FastLink
+                      href={item.href}
+                      prefetch={true}
+                      scroll={false}
+                      className={`group flex items-center py-3 px-4 rounded-2xl fast-interactive hw-accelerated relative transition-all duration-300 ${isCollapsed ? "justify-center" : ""}`}
+                      title={isCollapsed ? item.label : undefined}
                     >
-                      {item.icon}
-                    </div>
-                    
-                    <motion.div 
-                      initial={false}
-                      animate={{ 
-                        opacity: isCollapsed ? 0 : 1,
-                        width: isCollapsed ? 0 : "auto",
-                        marginLeft: isCollapsed ? 0 : "0.75rem"
-                      }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden whitespace-nowrap"
-                    >
-                      {!isCollapsed && (
-                        <span className={`text-sm font-medium relative z-10 ${isActive(item.href) 
-                          ? `${isDarkMode ? 'text-blue-300' : 'text-blue-600'}` 
-                          : `${isDarkMode ? 'text-gray-300 group-hover:text-gray-200' : 'text-gray-600 group-hover:text-gray-800'}`
-                        }`}>
-                          {item.label}
-                        </span>
+                      {/* Enhanced Background with multiple layers */}
+                      <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${isActive(item.href) 
+                        ? `bg-gradient-to-r ${item.gradient} opacity-20 shadow-lg backdrop-blur-sm ${isDarkMode ? 'shadow-black/10' : 'shadow-gray-500/10'}` 
+                        : `${isDarkMode ? 'group-hover:bg-slate-700/40' : 'group-hover:bg-gray-100/80'} opacity-0 group-hover:opacity-100`
+                      }`} />
+                      
+                      {/* Glow effect for active items */}
+                      {isActive(item.href) && (
+                        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.gradient} opacity-5 blur-md`} />
                       )}
-                    </motion.div>
-                    
-                    {/* Active indicator */}
-                    {isActive(item.href) && !isCollapsed && (
-                      <div className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-white opacity-80"></div>
-                    )}
-                    {isActive(item.href) && isCollapsed && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute right-1.5 bottom-1.5 w-1.5 h-1.5 rounded-full bg-white opacity-80"
-                      />
-                    )}
-                  </FastLink>
+                      
+                      {/* Enhanced Icon container with better styling */}
+                      <motion.div 
+                        className={`relative z-10 flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${isActive(item.href)
+                          ? `bg-gradient-to-br ${item.gradient} text-white shadow-lg backdrop-blur-sm` 
+                          : `${isDarkMode ? 'text-slate-400 group-hover:text-slate-200' : 'text-gray-500 group-hover:text-gray-700'} ${isDarkMode ? 'group-hover:bg-slate-600/30' : 'group-hover:bg-white/60'}`
+                        }`}
+                        whileHover={{ scale: isActive(item.href) ? 1.05 : 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {item.icon}
+                      </motion.div>
+                      
+                      <motion.div 
+                        initial={false}
+                        animate={{ 
+                          opacity: isCollapsed ? 0 : 1,
+                          width: isCollapsed ? 0 : "auto",
+                          marginLeft: isCollapsed ? 0 : "0.875rem"
+                        }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden whitespace-nowrap"
+                      >
+                        {!isCollapsed && (
+                          <span className={`text-sm font-medium relative z-10 transition-colors duration-300 ${isActive(item.href) 
+                            ? `${isDarkMode ? 'text-white' : 'text-slate-700'}` 
+                            : `${isDarkMode ? 'text-slate-300 group-hover:text-slate-100' : 'text-gray-600 group-hover:text-gray-800'}`
+                          }`}>
+                            {item.label}
+                          </span>
+                        )}
+                      </motion.div>
+                      
+                      {/* Enhanced Active indicator with animation */}
+                      {isActive(item.href) && (
+                        <motion.div
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className={`ml-auto mr-1 relative z-10 ${isCollapsed ? 'absolute right-2 top-2' : ''}`}
+                        >
+                          <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
+                        </motion.div>
+                      )}
+                      
+                      {/* Hover indicator for non-active items */}
+                      {!isActive(item.href) && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileHover={{ opacity: 1, scale: 1 }}
+                          className={`ml-auto mr-1 relative z-10 ${isCollapsed ? 'absolute right-2 top-2' : ''}`}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full ${isDarkMode ? 'bg-slate-400' : 'bg-gray-400'} opacity-60`} />
+                        </motion.div>
+                      )}
+                    </FastLink>
+                  </motion.div>
                 ))}
               </nav>
             </div>
             
-            {/* Settings button with modern styling */}
-              <div className={`border-t ${isDarkMode ? 'border-gray-800/30 bg-gradient-to-b from-gray-800/80 to-gray-900/95' : 'border-gray-200/50 bg-gradient-to-b from-gray-50/80 to-white/95'} backdrop-blur-sm`}>
-                <div className="py-3 px-3">
+            {/* Enhanced Settings Section with modern design */}
+            <div className={`border-t backdrop-blur-xl ${
+              isDarkMode 
+                ? 'border-slate-700/30 bg-gradient-to-b from-slate-800/60 via-slate-900/80 to-slate-900/95' 
+                : 'border-gray-200/40 bg-gradient-to-b from-gray-50/60 via-white/80 to-white/95'
+            }`}>
+              <div className="py-4 px-3">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                >
                   <FastLink
                     href="/settings"
                     prefetch={true}
                     scroll={false}
-                    className={`group flex items-center py-2.5 px-4 rounded-xl transition-all duration-300 relative ${isCollapsed ? "justify-center" : ""}`}
+                    className={`group flex items-center py-3 px-4 rounded-2xl transition-all duration-300 relative ${isCollapsed ? "justify-center" : ""}`}
                     title={isCollapsed ? "Ayarlar" : undefined}
                   >
-                    {/* Background effect */}
-                    <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${isActive("/settings") 
-                      ? `bg-gradient-to-r from-blue-500 to-indigo-600 opacity-15 ${isDarkMode ? 'opacity-25' : 'opacity-10'} shadow-md` 
-                      : `${isDarkMode ? 'group-hover:bg-gray-800/30' : 'group-hover:bg-gray-100/70'} opacity-0 group-hover:opacity-100`}`}></div>
+                    {/* Background effect with enhanced styling */}
+                    <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${isActive("/settings") 
+                      ? `bg-gradient-to-r from-blue-500 to-indigo-600 opacity-20 shadow-lg backdrop-blur-sm ${isDarkMode ? 'shadow-black/10' : 'shadow-blue-500/10'}` 
+                      : `${isDarkMode ? 'group-hover:bg-slate-700/40' : 'group-hover:bg-gray-100/80'} opacity-0 group-hover:opacity-100`
+                    }`} />
                     
-                    {/* Icon with gradient */}
-                    <div className={`relative z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 ${isActive("/settings")
-                        ? `bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-sm` 
-                        : `${isDarkMode ? 'text-gray-400' : 'text-gray-500'} ${isDarkMode ? 'group-hover:text-gray-300' : 'group-hover:text-gray-700'}`
+                    {/* Glow effect for active state */}
+                    {isActive("/settings") && (
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 opacity-5 blur-md" />
+                    )}
+                    
+                    {/* Enhanced icon with better styling */}
+                    <motion.div 
+                      className={`relative z-10 flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${isActive("/settings")
+                        ? `bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg backdrop-blur-sm` 
+                        : `${isDarkMode ? 'text-slate-400 group-hover:text-slate-200' : 'text-gray-500 group-hover:text-gray-700'} ${isDarkMode ? 'group-hover:bg-slate-600/30' : 'group-hover:bg-white/60'}`
                       }`}
+                      whileHover={{ scale: isActive("/settings") ? 1.05 : 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <FiSettings size={16} />
-                    </div>
+                      <FiSettings size={18} />
+                    </motion.div>
+                    
                     <motion.div 
                       initial={false}
                       animate={{ 
                         opacity: isCollapsed ? 0 : 1,
                         width: isCollapsed ? 0 : "auto",
-                        marginLeft: isCollapsed ? 0 : "0.75rem"
+                        marginLeft: isCollapsed ? 0 : "0.875rem"
                       }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden whitespace-nowrap"
                     >
                       {!isCollapsed && (
-                        <span className={`text-sm font-medium relative z-10 ${isActive("/settings") 
-                          ? `${isDarkMode ? 'text-blue-300' : 'text-blue-600'}` 
-                          : `${isDarkMode ? 'text-gray-300 group-hover:text-gray-200' : 'text-gray-600 group-hover:text-gray-800'}`
-                        }`}>Ayarlar</span>
+                        <span className={`text-sm font-medium relative z-10 transition-colors duration-300 ${isActive("/settings") 
+                          ? `${isDarkMode ? 'text-white' : 'text-slate-700'}` 
+                          : `${isDarkMode ? 'text-slate-300 group-hover:text-slate-100' : 'text-gray-600 group-hover:text-gray-800'}`
+                        }`}>
+                          Ayarlar
+                        </span>
                       )}
                     </motion.div>
                     
-                    {/* Active indicator */}
-                    {isActive("/settings") && !isCollapsed && (
-                      <div className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-white opacity-80"></div>
-                    )}
-                    {isActive("/settings") && isCollapsed && (
+                    {/* Enhanced Active indicator */}
+                    {isActive("/settings") && (
                       <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute right-1.5 bottom-1.5 w-1.5 h-1.5 rounded-full bg-white opacity-80"
-                      />
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`ml-auto mr-1 relative z-10 ${isCollapsed ? 'absolute right-2 top-2' : ''}`}
+                      >
+                        <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
+                      </motion.div>
+                    )}
+                    
+                    {/* Hover indicator for non-active state */}
+                    {!isActive("/settings") && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileHover={{ opacity: 1, scale: 1 }}
+                        className={`ml-auto mr-1 relative z-10 ${isCollapsed ? 'absolute right-2 top-2' : ''}`}
+                      >
+                        <div className={`w-1.5 h-1.5 rounded-full ${isDarkMode ? 'bg-slate-400' : 'bg-gray-400'} opacity-60`} />
+                      </motion.div>
                     )}
                   </FastLink>
-                </div>
+                </motion.div>
               </div>
+            </div>
           </>
         )}
       </div>

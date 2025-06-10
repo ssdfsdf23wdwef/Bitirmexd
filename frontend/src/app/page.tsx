@@ -2,8 +2,7 @@
 
 import { useState, Suspense, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { usePathname } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { QuizPreferences } from "@/types/quiz.type";
 import { Quiz } from "@/types";
 import {
@@ -109,14 +108,14 @@ export default function Home() {
 
   const handleStartPersonalizedQuiz = () => {
     if (!isAuthenticated && !isAuthInitializing) {
-      router.push(`/auth/login?returnUrl=${encodeURIComponent('/exams/create?type=personalized')}`, { scroll: false });
+      router.push(`/auth/login?returnUrl=${encodeURIComponent('/?wizard=personalized')}`, { scroll: false });
       return;
     }
     if (isAuthenticated && !isAuthInitializing) {
       updateWizardState(true, 'personalized');
     }
   };
-
+  
   const handleExamCreationComplete = (result: {
     file: File | null;
     quizType: "quick" | "personalized";
@@ -153,7 +152,7 @@ export default function Home() {
       
       if (result.quizId) {
         console.log(`Quiz ID mevcut (${result.quizId}), doğrudan sınav sayfasına yönlendiriliyor`);
-  router.push(`/exams/${result.quizId}?mode=attempt`, { scroll: false });
+        router.push(`/exams/${result.quizId}?mode=attempt`, { scroll: false });
         return;
       }
       
@@ -197,22 +196,90 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <div className={`w-full min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-2 py-8 md:py-16 transition-all duration-500 ${
+      <div className={`w-full min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-2 py-8 md:py-16 relative overflow-hidden transition-all duration-500 ${
         isDarkMode 
           ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' 
           : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
       }`}>
-        {/* Background Pattern */}
+        {/* Enhanced Background Pattern with Multiple Layers */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
-            isDarkMode ? 'bg-blue-500' : 'bg-blue-300'
-          }`}></div>
-          <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
-            isDarkMode ? 'bg-purple-500' : 'bg-purple-300'
-          }`}></div>
-          <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 blur-[100px] transition-all duration-500 ${
-            isDarkMode ? 'bg-gradient-to-r from-blue-600 to-purple-600' : 'bg-gradient-to-r from-blue-200 to-purple-200'
-          }`}></div>
+          {/* Primary floating orbs */}
+          <motion.div 
+            animate={{
+              x: [0, 100, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className={`absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+              isDarkMode ? 'bg-gradient-to-br from-blue-500 to-indigo-600' : 'bg-gradient-to-br from-blue-300 to-indigo-400'
+            }`}
+          />
+          <motion.div 
+            animate={{
+              x: [0, -80, 0],
+              y: [0, 100, 0],
+              scale: [1, 0.8, 1],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+              isDarkMode ? 'bg-gradient-to-br from-purple-500 to-pink-600' : 'bg-gradient-to-br from-purple-300 to-pink-400'
+            }`}
+          />
+          
+          {/* Secondary floating elements */}
+          <motion.div 
+            animate={{
+              x: [0, 60, 0],
+              y: [0, -80, 0],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className={`absolute top-1/4 right-1/4 w-32 h-32 rounded-full opacity-15 blur-2xl transition-all duration-500 ${
+              isDarkMode ? 'bg-gradient-to-br from-green-500 to-teal-600' : 'bg-gradient-to-br from-green-300 to-teal-400'
+            }`}
+          />
+          <motion.div 
+            animate={{
+              x: [0, -40, 0],
+              y: [0, 60, 0],
+              rotate: [0, -180, -360],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className={`absolute bottom-1/4 left-1/4 w-24 h-24 rounded-full opacity-15 blur-2xl transition-all duration-500 ${
+              isDarkMode ? 'bg-gradient-to-br from-orange-500 to-red-600' : 'bg-gradient-to-br from-orange-300 to-red-400'
+            }`}
+          />
+          
+          {/* Central glow effect */}
+          <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-10 blur-[120px] transition-all duration-500 ${
+            isDarkMode ? 'bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600' : 'bg-gradient-to-r from-blue-200 via-purple-200 to-indigo-200'
+          }`} />
+          
+          {/* Grid overlay for depth */}
+          <div className={`absolute inset-0 opacity-5 ${
+            isDarkMode ? 'bg-slate-900' : 'bg-gray-100'
+          }`} 
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, ${isDarkMode ? 'rgb(148 163 184)' : 'rgb(75 85 99)'} 1px, transparent 0)`,
+            backgroundSize: '50px 50px'
+          }} />
         </div>
 
         <div className="relative z-10 w-full max-w-5xl mx-auto">
@@ -252,34 +319,52 @@ export default function Home() {
           ) : (
             <>
               <motion.div
-                className={`relative overflow-hidden rounded-3xl shadow-2xl border transition-all duration-500 ${
+                className={`relative overflow-hidden rounded-3xl shadow-2xl border backdrop-blur-xl transition-all duration-500 ${
                   isDarkMode 
-                    ? 'bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 border-slate-600/50' 
-                    : 'bg-gradient-to-r from-white via-blue-50 to-white border-gray-200/50'
-                } backdrop-blur-xl`}
+                    ? 'bg-gradient-to-br from-slate-800/90 via-slate-700/80 to-slate-800/90 border-slate-600/30 shadow-black/20' 
+                    : 'bg-gradient-to-br from-white/90 via-blue-50/80 to-white/90 border-gray-200/30 shadow-gray-900/10'
+                }`}
                 variants={gradientVariants}
                 initial="hidden"
                 animate="visible"
                 style={{ backgroundSize: "300% 300%" }}
               >
-                {/* Enhanced Background Effects */}
+                {/* Enhanced Glass Effect Layers */}
                 <div className={`absolute inset-0 transition-all duration-500 ${
-                  isDarkMode ? 'bg-black/30' : 'bg-white/30'
+                  isDarkMode ? 'bg-gradient-to-br from-slate-800/20 to-slate-900/40' : 'bg-gradient-to-br from-white/40 to-blue-50/60'
                 }`} />
-                <div className={`absolute inset-0 bg-grid-white/[0.08] bg-[length:24px_24px] ${
-                  isDarkMode ? 'opacity-20' : 'opacity-10'
+                
+                {/* Animated grid overlay */}
+                <motion.div 
+                  animate={{ opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className={`absolute inset-0 bg-grid-white/[0.08] bg-[length:24px_24px] ${
+                    isDarkMode ? 'opacity-20' : 'opacity-10'
+                  }`} 
+                />
+                
+                {/* Glowing border effects */}
+                <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent ${
+                  isDarkMode ? 'opacity-80' : 'opacity-50'
                 }`} />
-                <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent ${
-                  isDarkMode ? 'opacity-70' : 'opacity-40'
+                <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent ${
+                  isDarkMode ? 'opacity-80' : 'opacity-50'
                 }`} />
-                <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent ${
-                  isDarkMode ? 'opacity-70' : 'opacity-40'
-                }`} />
-                <div className={`absolute inset-0 backdrop-blur-[2px] transition-all duration-500 ${
-                  isDarkMode ? 'bg-gradient-to-b from-transparent to-black/20' : 'bg-gradient-to-b from-transparent to-white/20'
-                }`} />
+                
+                {/* Enhanced backdrop with subtle animations */}
+                <motion.div 
+                  animate={{ 
+                    background: isDarkMode 
+                      ? ['linear-gradient(to bottom, transparent, rgba(0,0,0,0.1))', 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.2))', 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.1))']
+                      : ['linear-gradient(to bottom, transparent, rgba(255,255,255,0.1))', 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.2))', 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.1))']
+                  }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className={`absolute inset-0 backdrop-blur-[2px] transition-all duration-500`} 
+                />
+                
+                {/* Top highlight */}
                 <div className={`absolute top-0 left-0 right-0 h-32 transition-all duration-500 ${
-                  isDarkMode ? 'bg-gradient-to-b from-white/10 to-transparent' : 'bg-gradient-to-b from-white/20 to-transparent'
+                  isDarkMode ? 'bg-gradient-to-b from-blue-400/10 via-purple-400/5 to-transparent' : 'bg-gradient-to-b from-blue-300/20 via-purple-300/10 to-transparent'
                 }`} />
                 
                 {/* Enhanced Floating Elements */}
@@ -427,155 +512,218 @@ export default function Home() {
                         animate="visible"
                         className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
                       >
-                        {/* Quick Quiz Card */}
+                        {/* Enhanced Quick Quiz Card */}
                         <motion.div 
-                          whileHover={{ scale: 1.02, y: -4 }}
-                          className={`group relative overflow-hidden rounded-2xl p-6 border transition-all duration-500 backdrop-blur-xl shadow-lg hover:shadow-2xl ${
+                          whileHover={{ scale: 1.03, y: -8 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() => updateWizardState(true, 'quick')}
+                          className={`group relative overflow-hidden rounded-3xl p-8 border transition-all duration-500 backdrop-blur-xl shadow-xl hover:shadow-2xl cursor-pointer ${
                             isDarkMode 
-                              ? 'bg-slate-700/60 border-slate-600/50 hover:bg-slate-600/60' 
-                              : 'bg-white/80 border-gray-200/50 hover:bg-white/95'
+                              ? 'bg-gradient-to-br from-slate-700/70 via-slate-600/60 to-slate-700/70 border-slate-500/30 hover:border-blue-400/50' 
+                              : 'bg-gradient-to-br from-white/90 via-blue-50/80 to-white/90 border-gray-200/40 hover:border-blue-300/60'
                           }`}
                         >
-                          {/* Enhanced Background Effects */}
-                          <div className={`absolute inset-0 bg-gradient-to-br opacity-20 transition-all duration-500 ${
-                            isDarkMode ? 'from-blue-500/20 to-transparent' : 'from-blue-500/10 to-transparent'
+                          {/* Enhanced Multi-layer Background Effects */}
+                          <div className={`absolute inset-0 bg-gradient-to-br opacity-20 transition-all duration-700 ${
+                            isDarkMode ? 'from-blue-500/30 via-indigo-500/20 to-transparent' : 'from-blue-400/20 via-indigo-400/15 to-transparent'
                           }`} />
-                          <div className={`absolute -top-20 -right-20 w-36 h-36 blur-2xl rounded-full transition-all duration-700 ease-in-out ${
-                            isDarkMode 
-                              ? 'bg-blue-400/20 group-hover:bg-blue-400/30' 
-                              : 'bg-blue-400/30 group-hover:bg-blue-400/40'
-                          }`} />
+                          <motion.div 
+                            animate={{
+                              scale: [1, 1.2, 1],
+                              opacity: [0.1, 0.3, 0.1],
+                            }}
+                            transition={{
+                              duration: 4,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
+                            className={`absolute -top-20 -right-20 w-40 h-40 blur-3xl rounded-full transition-all duration-700 ${
+                              isDarkMode 
+                                ? 'bg-gradient-to-br from-blue-400/30 to-cyan-400/20' 
+                                : 'bg-gradient-to-br from-blue-400/40 to-cyan-400/30'
+                            }`} 
+                          />
+                          
+                          {/* Glowing border effect */}
+                          <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className={`absolute inset-0 rounded-3xl ${
+                              isDarkMode 
+                                ? 'bg-gradient-to-r from-blue-400/20 via-cyan-400/10 to-blue-400/20' 
+                                : 'bg-gradient-to-r from-blue-300/30 via-cyan-300/20 to-blue-300/30'
+                            } blur-sm`} />
+                          </div>
                           
                           <div className="relative z-10">
-                            <div className="flex justify-between items-start mb-4">
+                            <div className="flex justify-between items-start mb-6">
                               <motion.div 
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                className={`p-3 rounded-xl shadow-lg border transition-all duration-300 ${
+                                whileHover={{ scale: 1.1, rotate: 10 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                className={`p-4 rounded-2xl shadow-lg border backdrop-blur-sm transition-all duration-300 ${
                                   isDarkMode 
-                                    ? 'bg-blue-500/20 border-blue-500/30' 
-                                    : 'bg-blue-100/80 border-blue-300/50'
+                                    ? 'bg-gradient-to-br from-blue-500/30 to-cyan-500/20 border-blue-400/30' 
+                                    : 'bg-gradient-to-br from-blue-100/90 to-cyan-100/80 border-blue-200/60'
                                 }`}
                               >
-                                <FiClock className={`text-xl ${
-                                  isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                                <FiClock className={`text-2xl ${
+                                  isDarkMode ? 'text-blue-300' : 'text-blue-600'
                                 }`} />
                               </motion.div>
                               <span className={`text-xs px-3 py-1.5 rounded-full border shadow-sm backdrop-blur-md font-medium transition-all duration-300 ${
-                                isDarkMode 
-                                  ? 'bg-slate-600/60 border-slate-500/30 text-slate-200' 
-                                  : 'bg-white/80 border-gray-200/50 text-gray-700'
-                              }`}>
-                                Üyelik Gerektirmez
+                                  isDarkMode 
+                                    ? 'bg-slate-600/60 border-slate-500/30 text-slate-200' 
+                                    : 'bg-white/80 border-gray-200/50 text-gray-700'
+                                }`}>
+                                  Üyelik Gerektirmez
                               </span>
                             </div>
                             
-                            <h3 className={`text-xl font-semibold mb-3 transition-all duration-300 group-hover:translate-x-1 ${
+                            <h3 className={`text-2xl font-bold mb-4 transition-all duration-300 group-hover:translate-x-1 ${
                               isDarkMode ? 'text-white' : 'text-gray-900'
                             }`}>
                               Hızlı Sınav
                             </h3>
                             
-                            <p className={`mb-6 text-sm leading-relaxed transition-all duration-300 ${
-                              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                            <p className={`mb-8 text-sm leading-relaxed transition-all duration-300 ${
+                              isDarkMode ? 'text-slate-300' : 'text-gray-600'
                             }`}>
                               Üyelik gerektirmeden istediğiniz konuda bilgi seviyenizi hemen test edin. 
                               Seçtiğiniz alanda temel bilgilerinizi ölçmek için ideal.
                             </p>
                             
-                            <motion.button
-                              onClick={() => updateWizardState(true, 'quick')}
+                            <motion.div
                               variants={buttonHover}
                               whileHover="hover"
                               whileTap="tap"
-                              className={`w-full inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-md border group relative overflow-hidden ${
+                              className={`w-full inline-flex items-center justify-center px-6 py-4 rounded-2xl font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg border group relative overflow-hidden ${
                                 isDarkMode 
-                                  ? 'bg-slate-600/60 hover:bg-slate-500/60 text-white border-slate-500/30 focus:ring-blue-500/50' 
-                                  : 'bg-white/80 hover:bg-white/95 text-gray-700 border-gray-200/50 focus:ring-blue-500/50'
+                                  ? 'bg-gradient-to-r from-blue-600/80 to-cyan-600/80 hover:from-blue-500/90 hover:to-cyan-500/90 text-white border-blue-400/30 focus:ring-blue-500/50' 
+                                  : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white border-blue-300/50 focus:ring-blue-500/50'
                               }`}
                             >
-                              <div className={`absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                                isDarkMode 
-                                  ? 'from-blue-600/20 to-cyan-600/20' 
-                                  : 'from-blue-500/10 to-cyan-500/10'
-                              }`}></div>
-                              <FiZap className="w-5 h-5 mr-2 relative z-10" />
+                              <motion.div 
+                                className={`absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                                  isDarkMode 
+                                    ? 'from-blue-400/30 to-cyan-400/30' 
+                                    : 'from-blue-500/20 to-cyan-500/20'
+                                }`}
+                                animate={{
+                                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                                }}
+                                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                                style={{ backgroundSize: '200% 200%' }}
+                              />
+                              <FiZap className="w-5 h-5 mr-3 relative z-10" />
                               <span className="relative z-10">Hızlı Sınav Oluştur</span>
-                            </motion.button>
+                            </motion.div>
                           </div>
                         </motion.div>
 
-                        {/* Personalized Quiz Card */}
+                        {/* Enhanced Personalized Quiz Card */}
                         <motion.div 
-                          whileHover={{ scale: 1.02, y: -4 }}
-                          className={`group relative overflow-hidden rounded-2xl p-6 border transition-all duration-500 backdrop-blur-xl shadow-lg hover:shadow-2xl ${
+                          whileHover={{ scale: 1.03, y: -8 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={handleStartPersonalizedQuiz}
+                          className={`group relative overflow-hidden rounded-3xl p-8 border transition-all duration-500 backdrop-blur-xl shadow-xl hover:shadow-2xl cursor-pointer ${
                             isDarkMode 
-                              ? 'bg-gradient-to-br from-slate-700/60 to-slate-800/60 border-slate-600/50 hover:from-slate-600/60 hover:to-slate-700/60' 
-                              : 'bg-gradient-to-br from-white/80 to-gray-50/80 border-gray-200/50 hover:from-white/95 hover:to-white/95'
+                              ? 'bg-gradient-to-br from-slate-700/70 via-purple-900/30 to-slate-700/70 border-slate-500/30 hover:border-purple-400/50' 
+                              : 'bg-gradient-to-br from-white/90 via-purple-50/80 to-white/90 border-gray-200/40 hover:border-purple-300/60'
                           }`}
                         >
-                          {/* Enhanced Animated Background */}
+                          {/* Enhanced Multi-layer Background Effects */}
+                          <div className={`absolute inset-0 bg-gradient-to-br opacity-20 transition-all duration-700 ${
+                            isDarkMode ? 'from-purple-500/30 via-pink-500/20 to-transparent' : 'from-purple-400/20 via-pink-400/15 to-transparent'
+                          }`} />
                           <motion.div 
-                            className={`absolute -top-24 -left-24 w-48 h-48 blur-[40px] rounded-full transition-all duration-500 ${
-                              isDarkMode ? 'bg-purple-500/20' : 'bg-purple-500/30'
-                            }`}
-                            animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
-                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                            animate={{
+                              scale: [1, 1.3, 1],
+                              opacity: [0.1, 0.3, 0.1],
+                            }}
+                            transition={{
+                              duration: 5,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
+                            className={`absolute -top-24 -left-24 w-48 h-48 blur-3xl rounded-full transition-all duration-500 ${
+                              isDarkMode 
+                                ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/20' 
+                                : 'bg-gradient-to-br from-purple-400/40 to-pink-400/30'
+                            }`} 
                           />
                           
+                          {/* Glowing border effect */}
+                          <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className={`absolute inset-0 rounded-3xl ${
+                              isDarkMode 
+                                ? 'bg-gradient-to-r from-purple-400/20 via-pink-400/10 to-purple-400/20' 
+                                : 'bg-gradient-to-r from-purple-300/30 via-pink-300/20 to-purple-300/30'
+                            } blur-sm`} />
+                          </div>
+                          
                           <div className="relative z-10">
-                            <div className="flex justify-between items-start mb-4">
+                            <div className="flex justify-between items-start mb-6">
                               <motion.div 
-                                whileHover={{ scale: 1.1, rotate: -5 }}
-                                className={`p-3 rounded-xl shadow-lg border transition-all duration-300 ${
+                                whileHover={{ scale: 1.1, rotate: -10 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                className={`p-4 rounded-2xl shadow-lg border backdrop-blur-sm transition-all duration-300 ${
                                   isDarkMode 
-                                    ? 'bg-purple-500/20 border-purple-500/30' 
-                                    : 'bg-purple-100/80 border-purple-300/50'
+                                    ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/20 border-purple-400/30'
+                                    : 'bg-gradient-to-br from-purple-100/90 to-pink-100/80 border-purple-200/60'
                                 }`}
                               >
-                                <FiUser className={`text-xl ${
-                                  isDarkMode ? 'text-purple-400' : 'text-purple-600'
+                                <FiUser className={`text-2xl ${
+                                  isDarkMode ? 'text-purple-300' : 'text-purple-600'
                                 }`} />
                               </motion.div>
                               <span className={`text-xs px-3 py-1.5 rounded-full border shadow-sm backdrop-blur-md font-medium transition-all duration-300 ${
                                 isDarkMode 
                                   ? 'bg-slate-600/60 border-slate-500/30 text-slate-200' 
                                   : 'bg-white/80 border-gray-200/50 text-gray-700'
-                              }`}>
-                                {isAuthenticated ? "Premium Özellik" : "Giriş Gerektirir"}
+                                }`}>
+                                  {isAuthenticated ? "Premium Özellik" : "Giriş Gerektirir"}
                               </span>
                             </div>
                             
-                            <h3 className={`text-xl font-semibold mb-3 transition-all duration-300 group-hover:translate-x-1 ${
+                            <h3 className={`text-2xl font-bold mb-4 transition-all duration-300 group-hover:translate-x-1 ${
                               isDarkMode ? 'text-white' : 'text-gray-900'
                             }`}>
                               Kişiselleştirilmiş Sınav
                             </h3>
                             
-                            <p className={`mb-6 text-sm leading-relaxed transition-all duration-300 ${
-                              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                            <p className={`mb-8 text-sm leading-relaxed transition-all duration-300 ${
+                              isDarkMode ? 'text-slate-300' : 'text-gray-600'
                             }`}>
                               Öğrenme geçmişiniz, performansınız ve hedeflerinize göre tamamen size özel sınavlar oluşturun 
                               ve ilerlemenizi takip edin.
                             </p>
                             
-                            <motion.button
-                              onClick={() => handleStartPersonalizedQuiz()}
+                            <motion.div
                               variants={buttonHover}
                               initial="rest"
                               whileHover="hover"
                               whileTap="tap"
-                              className={`w-full flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 text-base transition-all duration-300 shadow-lg border relative overflow-hidden group ${
+                              className={`w-full flex items-center justify-center gap-3 font-semibold rounded-2xl px-6 py-4 text-base transition-all duration-300 shadow-lg border relative overflow-hidden group ${
                                 isDarkMode 
-                                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-purple-500/30' 
-                                  : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white border-purple-400/30'
+                                  ? 'bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-500/90 hover:to-pink-500/90 text-white border-purple-400/30' 
+                                  : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-purple-300/50'
                               }`}
                             >
-                              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <motion.div 
+                                className={`absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                                  isDarkMode 
+                                    ? 'from-purple-400/30 to-pink-400/30' 
+                                    : 'from-purple-500/20 to-pink-500/20'
+                                }`}
+                                animate={{
+                                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                                }}
+                                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                                style={{ backgroundSize: '200% 200%' }}
+                              />
                               <FiTarget className="text-lg relative z-10" />
                               <span className="relative z-10">
                                 {isAuthenticated ? "Kişiselleştirilmiş Sınav Oluştur" : "Giriş Yap ve Başla"}
                               </span>
-                            </motion.button>
+                            </motion.div>
                           </div>
                         </motion.div>
                       </motion.div>
