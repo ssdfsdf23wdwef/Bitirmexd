@@ -80,9 +80,9 @@ interface CourseData {
 
 interface TopicSelectionScreenProps {
   detectedTopics: TopicData[];
-  existingTopics?: TopicData[];
-  availableCourses?: CourseData[];
-  selectedCourseId?: string;
+  existingTopics?: TopicData[]; // Mevcut/kayıtlı konular
+  availableCourses?: CourseData[]; // Mevcut kurslar
+  selectedCourseId?: string; // Seçili kurs ID
   quizType: "quick" | "personalized";
   personalizedQuizType?:
     | "weakTopicFocused"
@@ -108,10 +108,10 @@ export default function TopicSelectionScreen({
   quizType,
   personalizedQuizType = "comprehensive",
   isLoading = false,
-  error,
+  error, // error prop'u şu an kullanılmıyor, ancak gelecekte kullanılabilir.
   onTopicsSelected,
   onCourseChange,
-  onCancel,
+  onCancel, // onCancel prop'u şu an kullanılmıyor.
   initialSelectedTopicIds,
   onTopicSelectionChange = () => {},
   onInitialLoad = true,
@@ -123,18 +123,23 @@ export default function TopicSelectionScreen({
   const { isDarkMode } = useTheme();
 
   const [currentCourseId, setCurrentCourseId] = useState(selectedCourseId || "");
+
+  // --- YENİ: Seçili topic id'lerini local state'te de tutalım ---
   const [selectedTopicIds, setSelectedTopicIds] = useState<string[]>(initialSelectedTopicIds || []);
 
+  // --- YENİ: Seçim değişimini hem localde hem parent'ta güncelle ---
   const handleTopicSelectionChange = useCallback((ids: string[]) => {
     setSelectedTopicIds(ids);
     onTopicSelectionChange(ids);
   }, [onTopicSelectionChange]);
 
+  // Ref to store the latest callback to avoid dependency cycle
   const handleTopicSelectionChangeRef = useRef(handleTopicSelectionChange);
   useEffect(() => {
     handleTopicSelectionChangeRef.current = handleTopicSelectionChange;
   }, [handleTopicSelectionChange]);
 
+  // --- YENİ: İlk yüklemede ve detectedTopics değiştiğinde seçimleri güncelle ---
   useEffect(() => {
     if (isLoading) return;
 
@@ -157,6 +162,7 @@ export default function TopicSelectionScreen({
       baseTopicsRaw = [...uniqueDetected, ...existingTopics];
     }
 
+    // --- YENİ: Seçili id'leri belirle ---
     let initialSelectionIds: string[] = [];
     if (onInitialLoad) {
       if (initialSelectedTopicIds && initialSelectedTopicIds.length > 0) {
@@ -170,18 +176,24 @@ export default function TopicSelectionScreen({
       }
       setOnInitialLoad(false);
     } else {
+      // Burada selectedTopicIds kullanmayarak circular dependency'yi kırıyoruz
       initialSelectionIds = baseTopicsRaw.map(t => t.id);
     }
 
+    // --- YENİ: filteredTopics'i oluştur ve seçimleri uygula ---
     const finalTopicsWithSelection = baseTopicsRaw.map(topic => ({
       ...topic,
       isSelected: initialSelectionIds.includes(topic.id),
     }));
     
     setFilteredTopics(finalTopicsWithSelection);
+    
+    // --- YENİ: Seçim değişimini parent'a bildir ---
+    // Circular dependency'yi önlemek için ref kullanıyoruz
     handleTopicSelectionChangeRef.current(initialSelectionIds);
   }, [detectedTopics, existingTopics, quizType, personalizedQuizType, isLoading, initialSelectedTopicIds, onInitialLoad, setOnInitialLoad]);
 
+  // --- YENİ: Seçimi güncelleyen fonksiyonlar ---
   const handleToggleAll = useCallback((selectAll: boolean) => {
     const updatedTopics = filteredTopics.map(topic => ({
       ...topic,
@@ -222,8 +234,8 @@ export default function TopicSelectionScreen({
   const topicCounts = useMemo(
     () => ({
       all: filteredTopics.length,
-      new: filteredTopics.filter((t) => t.isNew).length,
-      existing: filteredTopics.filter((t) => !t.isNew).length,
+      new: filteredTopics.filter((t) => t.isNew).length, // isNew property TopicData'da olmalı
+      existing: filteredTopics.filter((t) => !t.isNew).length, // isNew property TopicData'da olmalı
       selected: filteredTopics.filter((t) => t.isSelected).length,
       weak: filteredTopics.filter((t) => t.status === "failed").length,
       medium: filteredTopics.filter((t) => t.status === "medium").length,
@@ -237,8 +249,8 @@ export default function TopicSelectionScreen({
       selectedFilter === "all"
         ? filteredTopics
         : selectedFilter === "new"
-          ? filteredTopics.filter((t) => t.isNew)
-          : filteredTopics.filter((t) => !t.isNew),
+          ? filteredTopics.filter((t) => t.isNew) // isNew property TopicData'da olmalı
+          : filteredTopics.filter((t) => !t.isNew), // isNew property TopicData'da olmalı
     [filteredTopics, selectedFilter],
   );
 
@@ -292,9 +304,9 @@ export default function TopicSelectionScreen({
 
   if (isLoading) {
     return (
-      <div className={`relative py-12 flex flex-col items-center justify-center rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'}`}>
-        <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-6 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-500'}`}>
-          <FiLoader className="w-8 h-8 animate-spin text-white" />
+      <div className={`relative py-12 flex flex-col items-center justify-center rounded-lg border overflow-hidden transition-all duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700 shadow-xl' : 'bg-white border-gray-200 shadow-xl'}`}>
+        <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-6 shadow-lg ${isDarkMode ? 'bg-blue-600 border border-blue-500' : 'bg-blue-500 border border-blue-400'}`}>
+          <FiLoader className={`w-8 h-8 animate-spin ${isDarkMode ? 'text-white' : 'text-white'}`} />
         </div>
         <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>
           Konular Hazırlanıyor
@@ -308,10 +320,10 @@ export default function TopicSelectionScreen({
 
   if (filteredTopics.length === 0) {
     return (
-      <div className={`relative py-12 px-8 flex flex-col items-center justify-center rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'}`}>
+      <div className={`relative py-12 px-8 flex flex-col items-center justify-center rounded-lg border overflow-hidden transition-all duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700 shadow-xl' : 'bg-white border-gray-200 shadow-xl'}`}>
         <div className="flex flex-col items-center max-w-lg mx-auto">
-          <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-6 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-500'}`}>
-            <FiInfo className="w-8 h-8 text-white" />
+          <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-6 shadow-lg ${isDarkMode ? 'bg-blue-600 border border-blue-500' : 'bg-blue-500 border border-blue-400'}`}>
+            <FiInfo className={`w-8 h-8 ${isDarkMode ? 'text-white' : 'text-white'}`} />
           </div>
           
           <h3 className={`text-xl font-bold mb-4 text-center ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>
@@ -392,7 +404,7 @@ export default function TopicSelectionScreen({
 
   return (
     <div className={`relative rounded-lg shadow-md overflow-hidden border transition-all duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'}`}>
-      {/* Simple blue accent line */}
+      {/* Simple accent line */}
       <div className={`absolute left-0 top-0 w-full h-1 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-500'}`} />
 
       <div className="relative z-10 p-6">
@@ -416,7 +428,6 @@ export default function TopicSelectionScreen({
               : personalizedQuizType === "newTopicFocused"
               ? "🆕 Henüz çalışmadığınız yeni konulara odaklanan bir sınav oluşturulacak."
               : "🔍 Çalışma durumunuza uygun kapsamlı bir sınav oluşturulacak."}
-          </p>
         </div>
 
         {/* Course Selection */}
@@ -445,128 +456,208 @@ export default function TopicSelectionScreen({
           </div>
         )}
 
-        {/* Filter Section */}
-        <div className="mb-6">
+        {/* Enhanced Filter Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mb-8"
+        >
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              <button
+            <div className="flex flex-wrap gap-3">
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => handleFilterChange("all")}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center ${
+                className={`px-5 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 backdrop-blur-md border shadow-lg hover:shadow-xl flex items-center ${
                   selectedFilter === "all"
-                    ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white')
-                    : (isDarkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50')
+                    ? (isDarkMode ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white border-sky-500/30 shadow-sky-500/30' : 'bg-gradient-to-r from-sky-500 to-cyan-500 text-white border-sky-400/40 shadow-sky-400/30')
+                    : (isDarkMode ? 'bg-slate-700/60 text-slate-300 border-slate-600/40 hover:bg-slate-600/70' : 'bg-white/70 text-gray-700 border-gray-200/60 hover:bg-white/90')
                 }`}
               >
                 <FiTarget className="w-4 h-4 mr-2" />
                 🎯 Tümü ({topicCounts.all})
-              </button>
+              </motion.button>
               
               {topicCounts.new > 0 && (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => handleFilterChange("new")}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center ${
+                  className={`px-5 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 backdrop-blur-md border shadow-lg hover:shadow-xl flex items-center ${
                     selectedFilter === "new"
-                      ? (isDarkMode ? 'bg-green-600 text-white' : 'bg-green-500 text-white')
-                      : (isDarkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50')
+                      ? (isDarkMode ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-emerald-500/30 shadow-emerald-500/30' : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-emerald-400/40 shadow-emerald-400/30')
+                      : (isDarkMode ? 'bg-slate-700/60 text-slate-300 border-slate-600/40 hover:bg-slate-600/70' : 'bg-white/70 text-gray-700 border-gray-200/60 hover:bg-white/90')
                   }`}
                 >
                   <FiZap className="w-4 h-4 mr-2" />
                   ✨ Yeni ({topicCounts.new})
-                </button>
+                </motion.button>
               )}
               
               {topicCounts.existing > 0 && (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => handleFilterChange("existing")}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center ${
+                  className={`px-5 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 backdrop-blur-md border shadow-lg hover:shadow-xl flex items-center ${
                     selectedFilter === "existing"
-                      ? (isDarkMode ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white')
-                      : (isDarkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50')
+                      ? (isDarkMode ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white border-violet-500/30 shadow-violet-500/30' : 'bg-gradient-to-r from-violet-500 to-purple-500 text-white border-violet-400/40 shadow-violet-400/30')
+                      : (isDarkMode ? 'bg-slate-700/60 text-slate-300 border-slate-600/40 hover:bg-slate-600/70' : 'bg-white/70 text-gray-700 border-gray-200/60 hover:bg-white/90')
                   }`}
                 >
                   <FiBook className="w-4 h-4 mr-2" />
                   📚 Mevcut ({topicCounts.existing})
-                </button>
+                </motion.button>
               )}
             </div>
             
             {/* Select All Button */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => handleToggleAll(true)}
-              className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center ${isDarkMode ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
+              className={`px-6 py-2.5 text-sm font-semibold rounded-2xl transition-all duration-300 backdrop-blur-md border shadow-lg hover:shadow-xl flex items-center ${isDarkMode ? 'bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white border-rose-500/30 shadow-rose-500/30' : 'bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white border-rose-400/40 shadow-rose-400/30'}`}
             >
-              <FiCheck className="w-4 h-4 mr-2" />
+              <motion.div
+                whileHover={{ rotate: 180 }}
+                transition={{ duration: 0.3 }}
+              >
+                <FiCheck className="w-4 h-4 mr-2" />
+              </motion.div>
               ⭐ Tümünü Seç
-            </button>
+            </motion.button>
           </div>
           
           {/* Selection Stats */}
-          <div className={`mt-3 flex flex-wrap gap-4 text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className={`mt-4 flex flex-wrap gap-4 text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}
+          >
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full mr-2 bg-green-500"></div>
+              <div className={`w-3 h-3 rounded-full mr-2 ${isDarkMode ? 'bg-green-500' : 'bg-green-400'}`}></div>
               <span className="font-medium">{topicCounts.selected} seçili</span>
             </div>
             {topicCounts.weak > 0 && (
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full mr-2 bg-red-500"></div>
+                <div className={`w-3 h-3 rounded-full mr-2 ${isDarkMode ? 'bg-red-500' : 'bg-red-400'}`}></div>
                 <span>{topicCounts.weak} zayıf</span>
               </div>
             )}
             {topicCounts.medium > 0 && (
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full mr-2 bg-yellow-500"></div>
+                <div className={`w-3 h-3 rounded-full mr-2 ${isDarkMode ? 'bg-yellow-500' : 'bg-yellow-400'}`}></div>
                 <span>{topicCounts.medium} orta</span>
               </div>
             )}
             {topicCounts.good > 0 && (
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full mr-2 bg-blue-500"></div>
+                <div className={`w-3 h-3 rounded-full mr-2 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-400'}`}></div>
                 <span>{topicCounts.good} iyi</span>
               </div>
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Topics Section */}
-        <div className="space-y-4 mb-6">
-          {Object.entries(groupedTopics).map(([parentTopic, topics]) => (
-            <div 
-              key={parentTopic}
-              className={`rounded-lg p-4 border transition-all duration-300 ${isDarkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-gray-50 border-gray-200'}`}
-            >
-              {/* Group Header */}
-              <div className={`flex items-center justify-between mb-4 pb-3 border-b ${isDarkMode ? 'border-slate-600' : 'border-gray-200'}`}>
-                <div className="flex items-center">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mr-3 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-500'}`}>
-                    <FiBook className="w-4 h-4 text-white" />
+        {/* Enhanced Topics Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="space-y-6 mb-8"
+        >
+          <AnimatePresence mode="wait">
+            {Object.entries(groupedTopics).map(([parentTopic, topics], groupIndex) => (
+              <motion.div 
+                key={parentTopic}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ delay: groupIndex * 0.1, duration: 0.5 }}
+                className={`relative rounded-3xl p-6 transition-all duration-500 ease-out backdrop-blur-xl border overflow-hidden ${isDarkMode ? 'bg-slate-800/60 border-slate-700/40 shadow-xl shadow-slate-950/30 hover:shadow-slate-900/40' : 'bg-white/80 border-gray-200/60 shadow-xl shadow-gray-900/10 hover:shadow-gray-900/20'}`}
+              >
+                {/* Background gradient effect */}
+                <div className={`absolute inset-0 opacity-20 ${isDarkMode ? 'bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-indigo-500/10' : 'bg-gradient-to-br from-cyan-300/10 via-blue-300/5 to-indigo-300/10'}`} />
+                
+                {/* Animated accent border */}
+                <motion.div 
+                  className={`absolute left-0 top-0 w-full h-1 bg-gradient-to-r ${isDarkMode ? 'from-cyan-500 via-blue-500 to-indigo-500' : 'from-cyan-400 via-blue-400 to-indigo-400'} opacity-80`}
+                  animate={{
+                    background: [
+                      'linear-gradient(90deg, rgb(6,182,212) 0%, rgb(59,130,246) 50%, rgb(99,102,241) 100%)',
+                      'linear-gradient(90deg, rgb(99,102,241) 0%, rgb(6,182,212) 50%, rgb(59,130,246) 100%)',
+                      'linear-gradient(90deg, rgb(59,130,246) 0%, rgb(99,102,241) 50%, rgb(6,182,212) 100%)',
+                      'linear-gradient(90deg, rgb(6,182,212) 0%, rgb(59,130,246) 50%, rgb(99,102,241) 100%)'
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                />
+                
+                <div className="relative z-10">
+                  {/* Enhanced Group Header */}
+                  <motion.div 
+                    className={`flex items-center justify-between mb-5 pb-4 border-b ${isDarkMode ? 'border-slate-700/50' : 'border-gray-200/70'}`}
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <div className="flex items-center">
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 15 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center mr-4 shadow-lg backdrop-blur-sm ${isDarkMode ? 'bg-gradient-to-br from-cyan-600/60 to-blue-600/70 border border-cyan-500/30' : 'bg-gradient-to-br from-cyan-100/90 to-blue-100/90 border border-cyan-200/50'}`}
+                      >
+                        <FiBook className={`w-5 h-5 ${isDarkMode ? 'text-cyan-300' : 'text-cyan-600'}`} />
+                      </motion.div>
+                      <h3 className={`text-xl font-bold ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>
+                        <span className={`bg-gradient-to-r ${isDarkMode ? 'from-cyan-300 to-blue-300' : 'from-cyan-600 to-blue-600'} bg-clip-text text-transparent`}>
+                          📖 {parentTopic}
+                        </span>
+                      </h3>
+                    </div>
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }}
+                      className={`px-3 py-1.5 rounded-xl text-sm font-semibold backdrop-blur-md border ${isDarkMode ? 'bg-slate-700/60 text-slate-300 border-slate-600/40' : 'bg-white/70 text-gray-700 border-gray-200/60'}`}
+                    >
+                      {topics.length} konu
+                    </motion.div>
+                  </motion.div>
+                  
+                  {/* Enhanced Topics Grid */}
+                  <div className="grid gap-3">
+                    <AnimatePresence>
+                      {topics.map((topic, index) => (
+                        <motion.div
+                          key={`${topic.id}-${index}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          transition={{ delay: index * 0.05, duration: 0.4 }}
+                        >
+                          <TopicCard
+                            topic={topic}
+                            onToggle={handleTopicToggle}
+                            statusInfo={getStatusInfo(topic.status || (topic.isNew ? undefined : "pending"))}
+                          />
+                        </div>
+                      ))}
+                    </AnimatePresence>
                   </div>
-                  <h3 className={`text-lg font-bold ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}>
-                    📖 {parentTopic}
-                  </h3>
-                </div>
-                <div className={`px-3 py-1 rounded-lg text-sm font-semibold ${isDarkMode ? 'bg-slate-600 text-slate-300' : 'bg-white text-gray-700 border'}`}>
-                  {topics.length} konu
                 </div>
               </div>
-              
-              {/* Topics Grid */}
-              <div className="space-y-2">
-                {topics.map((topic) => (
-                  <TopicCard
-                    key={topic.id}
-                    topic={topic}
-                    onToggle={handleTopicToggle}
-                    statusInfo={getStatusInfo(topic.status || (topic.isNew ? undefined : "pending"))}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
+          </AnimatePresence>
         </div>
 
-        {/* Continue Section */}
-        <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-gray-50 border-gray-200'}`}>
+        {/* Enhanced Continue Section */}
+        <div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className={`sticky bottom-0 p-6 rounded-2xl backdrop-blur-xl border shadow-2xl ${isDarkMode ? 'bg-slate-800/90 border-slate-700/50' : 'bg-white/90 border-gray-200/60'}`}
+        >
           <div className="flex items-center justify-between">
             <div className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
               <div className="flex items-center mb-1">
@@ -580,27 +671,32 @@ export default function TopicSelectionScreen({
               </p>
             </div>
             
-            <Button
-              onClick={handleContinue}
-              disabled={personalizedQuizType !== 'weakTopicFocused' && topicCounts.selected === 0}
-              className={`px-6 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                personalizedQuizType !== 'weakTopicFocused' && topicCounts.selected === 0
-                  ? (isDarkMode ? 'bg-slate-600 text-slate-500 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed')
-                  : (isDarkMode ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white')
-              }`}
+            <div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <FiAward className="w-4 h-4 mr-2" />
-              🚀 Sınava Devam Et
-            </Button>
+              <Button
+                onClick={handleContinue}
+                disabled={personalizedQuizType !== 'weakTopicFocused' && topicCounts.selected === 0}
+                className={`px-8 py-3 text-base font-semibold rounded-2xl shadow-lg transition-all duration-300 ${
+                  personalizedQuizType !== 'weakTopicFocused' && topicCounts.selected === 0
+                    ? (isDarkMode ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed')
+                    : (isDarkMode ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-indigo-500/30' : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-indigo-400/30')
+                }`}
+              >
+                <FiAward className="w-5 h-5 mr-2" />
+                🚀 Sınava Devam Et
+              </Button>
+            <div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 interface TopicCardProps {
-  topic: TopicData & { isSelected?: boolean };
+  topic: TopicData & { isSelected?: boolean }; // isSelected TopicData'da olabilir veya olmayabilir.
   onToggle: (id: string) => void;
   statusInfo: StatusStyle;
 }
@@ -632,11 +728,14 @@ function TopicCard({ topic, onToggle, statusInfo }: TopicCardProps) {
   const StatusIcon = statusInfo.icon;
 
   return (
-    <div
-      className={`group relative overflow-hidden rounded-lg cursor-pointer transition-all duration-200 border ${
+    <motion.div
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className={`group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-md border shadow-lg hover:shadow-xl ${
         topic.isSelected
-          ? (isDarkMode ? 'bg-blue-600/20 border-blue-500/50' : 'bg-blue-50 border-blue-200')
-          : (isDarkMode ? 'bg-slate-800/50 border-slate-600/50 hover:bg-slate-700/50' : 'bg-white border-gray-200 hover:bg-gray-50')
+          ? `bg-gradient-to-r ${isDarkMode ? 'from-emerald-600/80 to-cyan-600/80 border-emerald-500/40 shadow-emerald-500/30' : 'from-emerald-500/90 to-cyan-500/90 border-emerald-400/50 shadow-emerald-400/40'}`
+          : `${isDarkMode ? 'bg-slate-700/60 border-slate-600/40 hover:bg-slate-600/70 shadow-slate-950/20' : 'bg-white/80 border-gray-200/50 hover:bg-white/95 shadow-gray-300/30'}`
       }`}
       onClick={() => onToggle(topic.id)}
       role="button"
@@ -645,63 +744,126 @@ function TopicCard({ topic, onToggle, statusInfo }: TopicCardProps) {
         if (e.key === "Enter" || e.key === " ") onToggle(topic.id);
       }}
     >
-      <div className="flex items-center justify-between p-3">
+      {/* Animated background effect for selected state */}
+      <AnimatePresence>
+        {topic.isSelected && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-cyan-400/20"
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="relative z-10 flex items-center justify-between p-4">
         {/* Left section with checkbox and content */}
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          {/* Checkbox */}
-          <div className={`w-5 h-5 rounded flex items-center justify-center border-2 transition-all duration-200 ${
-            topic.isSelected
-              ? 'bg-blue-500 border-blue-500 text-white'
-              : (isDarkMode ? 'border-slate-500 hover:border-slate-400' : 'border-gray-300 hover:border-gray-400')
-          }`}>
-            {topic.isSelected && <FiCheck className="w-3 h-3" />}
-          </div>
+        <div className="flex items-center gap-4 flex-1 min-w-0">
+          {/* Enhanced Checkbox */}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`relative rounded-xl min-w-6 w-6 h-6 flex items-center justify-center transition-all duration-300 border-2 shadow-sm ${
+              topic.isSelected
+                ? 'bg-gradient-to-br from-emerald-500 to-green-500 text-white border-emerald-400 shadow-emerald-500/30'
+                : (isDarkMode ? 'bg-slate-600/60 border-slate-500/60 hover:border-slate-400' : 'bg-white/90 border-gray-300/70 hover:border-gray-400')
+            }`}
+          >
+            <AnimatePresence>
+              {topic.isSelected && (
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                >
+                  <FiCheck className="w-4 h-4 text-white" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 className={`font-semibold text-sm leading-relaxed transition-colors duration-200 ${
-              topic.isSelected 
-                ? (isDarkMode ? 'text-blue-300' : 'text-blue-700') 
-                : (isDarkMode ? 'text-slate-200' : 'text-gray-800')
-            }`}>
-              🎯 {displayTopicName()}
-            </h3>
-            {topic.parentTopic && (
-              <p className={`text-xs mt-1 transition-colors duration-200 ${
+            <motion.h3 
+              className={`font-semibold text-sm leading-relaxed transition-colors duration-200 ${
                 topic.isSelected 
-                  ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') 
-                  : (isDarkMode ? 'text-slate-400' : 'text-gray-500')
-              }`}>
+                  ? (isDarkMode ? 'text-white' : 'text-white') 
+                  : (isDarkMode ? 'text-slate-200' : 'text-gray-800')
+              }`}
+              whileHover={{ x: 2 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              🎯 {displayTopicName()}
+            </motion.h3>
+            {topic.parentTopic && (
+              <motion.p 
+                className={`text-xs mt-1 transition-colors duration-200 ${
+                  topic.isSelected 
+                    ? (isDarkMode ? 'text-white/80' : 'text-white/90') 
+                    : (isDarkMode ? 'text-slate-400' : 'text-gray-500')
+                }`}
+                initial={{ opacity: 0.7 }}
+                whileHover={{ opacity: 1 }}
+              >
                 📚 {topic.parentTopic}
-              </p>
+              </motion.p>
             )}
           </div>
         </div>
 
         {/* Right section with status and badges */}
         <div className="flex items-center gap-2 ml-3 flex-shrink-0">
-          {/* Status Badge */}
-          <div className={`flex items-center px-2 py-1 rounded-lg text-xs font-semibold transition-all duration-200 whitespace-nowrap border ${
-            topic.isSelected
-              ? (isDarkMode ? 'bg-blue-500/20 text-blue-300 border-blue-400/30' : 'bg-blue-100 text-blue-700 border-blue-200')
-              : `${statusInfo.bgColor} ${statusInfo.color} border ${statusInfo.borderColor}`
-          }`}>
-            <StatusIcon className="w-3 h-3 mr-1" />
-            {statusInfo.label}
-          </div>
-          
-          {/* New Badge */}
-          {topic.isNew && (
-            <div className={`text-xs rounded-lg px-2 py-1 font-semibold whitespace-nowrap border transition-all duration-200 ${
+          {/* Enhanced Status Badge */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className={`flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 whitespace-nowrap backdrop-blur-sm border shadow-sm ${
               topic.isSelected
-                ? (isDarkMode ? 'bg-yellow-500/20 text-yellow-300 border-yellow-400/30' : 'bg-yellow-100 text-yellow-700 border-yellow-200')
-                : 'bg-yellow-100 text-yellow-700 border-yellow-200'
-            }`}>
-              ✨ Yeni
-            </div>
-          )}
+                ? (isDarkMode ? 'bg-white/20 text-white border-white/30 shadow-white/10' : 'bg-white/30 text-white border-white/40 shadow-white/20')
+                : `${statusInfo.bgColor} ${statusInfo.color} border ${statusInfo.borderColor} shadow-gray-200/20`
+            }`}
+          >
+            <motion.div
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.5 }}
+              className="mr-1.5"
+            >
+              <StatusIcon className="w-3 h-3" />
+            </motion.div>
+            {statusInfo.label}
+          </motion.div>
+          
+          {/* Enhanced New Badge */}
+          <AnimatePresence>
+            {topic.isNew && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0, x: 20 }}
+                whileHover={{ scale: 1.1, y: -1 }}
+                className={`text-xs rounded-xl px-2.5 py-1 font-semibold whitespace-nowrap backdrop-blur-sm border shadow-sm transition-all duration-200 ${
+                  topic.isSelected
+                    ? (isDarkMode ? 'bg-yellow-400/20 text-yellow-200 border-yellow-300/30' : 'bg-yellow-300/30 text-yellow-100 border-yellow-200/40')
+                    : 'bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-700 border-amber-200/60 shadow-amber-200/30'
+                }`}
+              >
+                ✨ Yeni
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+
+      {/* Hover effect overlay */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: isDarkMode 
+            ? 'linear-gradient(45deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1))' 
+            : 'linear-gradient(45deg, rgba(59,130,246,0.05), rgba(139,92,246,0.05))'
+        }}
+      />
+    </motion.div>
   );
 }

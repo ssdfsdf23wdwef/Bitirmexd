@@ -310,14 +310,13 @@ export default function TopicDetector({
 
   // Yükleniyor durumu
   if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              Konular Tespit Ediliyor
-            </h2>
-          </div>
+    return (    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+            Konular Tespit Ediliyor
+          </h2>
+        </div>
 
           <div className="p-6 flex flex-col items-center justify-center py-10">
             <div className="w-12 h-12 mb-4 border-4 border-blue-200 dark:border-blue-800 border-t-blue-500 rounded-full animate-spin"></div>
@@ -348,8 +347,8 @@ export default function TopicDetector({
           </p>
         </div>
 
-        <div className="p-6">
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg">
+        <div className="p-4">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-3 mb-4 rounded-r-lg">
             <div className="flex">
               <div className="flex-shrink-0">
                 <FiInfo className="h-5 w-5 text-blue-500" />
@@ -387,7 +386,7 @@ export default function TopicDetector({
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-900/30 rounded-lg p-4 max-h-80 overflow-y-auto">
+          <div className="bg-gray-50 dark:bg-gray-900/30 rounded-lg p-3 max-h-64 overflow-y-auto">
             {topics.length === 0 ? (
               <div className="text-center py-12">
                 <FiAlertCircle className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
@@ -404,13 +403,13 @@ export default function TopicDetector({
                 {topics.map((topic) => (
                   <li
                     key={topic.id}
-                    className="py-3 flex items-center"
+                    className="py-2 flex items-center"
                   >
-                    <div className="mr-4">
+                    <div className="mr-3">
                       <label className="inline-flex items-center">
                         <input
                           type="checkbox"
-                          className="form-checkbox h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-blue-600"
+                          className="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-blue-600"
                           checked={topic.isSelected}
                           onChange={() => toggleTopic(topic.id)}
                         />
@@ -418,19 +417,19 @@ export default function TopicDetector({
                     </div>
 
                     <div className="flex-grow">
-                      <p className="text-gray-800 dark:text-gray-200">
+                      <p className="text-sm text-gray-800 dark:text-gray-200">
                         {topic.name}
                       </p>
                     </div>
 
-                    <div className="ml-4 flex items-center space-x-2">
+                    <div className="ml-3 flex items-center space-x-2">
                       {topic.isNew ? (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
                           Yeni
                         </span>
                       ) : (
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium ${getStatusClass(topic.status)}`}
+                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusClass(topic.status)}`}
                         >
                           {topic.status || "Yeni"}
                         </span>
@@ -443,7 +442,7 @@ export default function TopicDetector({
           </div>
         </div>
 
-        <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-between">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-between">
           <button
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             onClick={onCancel}
