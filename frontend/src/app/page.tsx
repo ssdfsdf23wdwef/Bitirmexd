@@ -422,7 +422,7 @@ export default function Home() {
                             transition={{ duration: 2, repeat: Infinity }}
                           />
                           <FiStar className="w-3 h-3" />
-                          Yapay Zeka Destekli Quiz Platformu
+                          AI Quiz - Yapay Zeka Destekli Öğrenme Platformu
                         </span>
                       </motion.div>
 
@@ -443,10 +443,10 @@ export default function Home() {
                             ? 'from-blue-300 via-purple-300 to-cyan-300' 
                             : 'from-blue-600 via-purple-600 to-cyan-600'
                         }`}>
-                          Kişiselleştirilmiş
+                          AI Quiz
                         </span>
                         <br />
-                        Quiz Platformu
+                        Yapay Zeka Destekli Öğrenme Platformu
                       </motion.h1>
 
                       {/* Enhanced Description */}

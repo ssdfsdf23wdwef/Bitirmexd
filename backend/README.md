@@ -1,4 +1,4 @@
-# Quiz Platform Backend API
+# AI Quiz Backend API
 
 ## Ortam Değişkenleri
 

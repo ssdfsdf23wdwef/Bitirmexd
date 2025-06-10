@@ -11,10 +11,10 @@ import ClientLogSetup from "@/components/layout/ClientLogSetup";
 const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "quiz - Akıllı Sınav Hazırlama ve Öğrenme Platformu",
-  description: "Kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin",
-  applicationName: "quiz",
-  authors: [{ name: "quiz Team" }],
+  title: "AI Quiz",
+  description: "AI destekli kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin",
+  applicationName: "AI Quiz",
+  authors: [{ name: "AI Quiz Team" }],
   keywords: [
     "eğitim",
     "sınav",
@@ -22,6 +22,13 @@ export const metadata: Metadata = {
     "yapay zeka",
     "kişiselleştirilmiş öğrenme",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.webp", type: "image/webp" },
+      { url: "/favicon.ico", type: "image/x-icon" }
+    ],
+    apple: "/favicon.webp",
+  },
 };
 
 export const viewport: Viewport = {
@@ -45,7 +52,9 @@ export default function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-        <link rel="icon" href="/frontend/public/favicon.webp" />
+        <link rel="icon" href="/favicon.webp" type="image/webp" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/favicon.webp" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>

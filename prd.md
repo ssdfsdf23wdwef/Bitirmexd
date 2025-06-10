@@ -2,7 +2,7 @@
 
 ## 1.1. Platform Vizyonu
 
-Kişiselleştirilmiş Quiz Platformu, her seviyeden öğrencinin ve profesyonelin bilgi düzeylerini ölçmelerine, eksiklerini tespit etmelerine ve öğrenme süreçlerini kişiye özel bir deneyimle optimize etmelerine olanak tanıyan, yapay zeka destekli, yenilikçi ve kullanıcı dostu bir eğitim teknolojisi çözümü olmayı hedefler. Platform, geleneksel sınav ve değerlendirme yöntemlerinin ötesine geçerek, öğrenmeyi daha etkileşimli, motive edici ve verimli hale getirmeyi amaçlar. Temel vizyonumuz, herkesin kendi öğrenme hızına ve tarzına uygun, esnek ve etkili bir değerlendirme aracına erişimini sağlayarak, yaşam boyu öğrenmeyi desteklemek ve bilgiye dayalı bir toplumun gelişimine katkıda bulunmaktır. Platform, kullanıcıların sadece mevcut bilgilerini test etmelerini değil, aynı zamanda yeni bilgiler edinmelerini ve öğrenme hedeflerine ulaşmalarını sağlayacak kapsamlı bir ekosistem sunacaktır.
+AI Quiz, her seviyeden öğrencinin ve profesyonelin bilgi düzeylerini ölçmelerine, eksiklerini tespit etmelerine ve öğrenme süreçlerini kişiye özel bir deneyimle optimize etmelerine olanak tanıyan, yapay zeka destekli, yenilikçi ve kullanıcı dostu bir eğitim teknolojisi çözümü olmayı hedefler. Platform, geleneksel sınav ve değerlendirme yöntemlerinin ötesine geçerek, öğrenmeyi daha etkileşimli, motive edici ve verimli hale getirmeyi amaçlar. Temel vizyonumuz, herkesin kendi öğrenme hızına ve tarzına uygun, esnek ve etkili bir değerlendirme aracına erişimini sağlayarak, yaşam boyu öğrenmeyi desteklemek ve bilgiye dayalı bir toplumun gelişimine katkıda bulunmaktır. Platform, kullanıcıların sadece mevcut bilgilerini test etmelerini değil, aynı zamanda yeni bilgiler edinmelerini ve öğrenme hedeflerine ulaşmalarını sağlayacak kapsamlı bir ekosistem sunacaktır.
 
 ## 1.2. Temel Çalışma Prensibi
 
@@ -16,7 +16,7 @@ Platformun temel çalışma prensibi, kullanıcıya esneklik sunarken, öğrenme
 
 ## 1.3. Hedef Kullanıcı Kitlesi
 
-Kişiselleştirilmiş Quiz Platformu, geniş bir kullanıcı yelpazesine hitap etmeyi amaçlamaktadır. Başlıca hedef kullanıcı kitleleri şunlardır:
+AI Quiz, geniş bir kullanıcı yelpazesine hitap etmeyi amaçlamaktadır. Başlıca hedef kullanıcı kitleleri şunlardır:
 
 *   **Öğrenciler (K-12, Üniversite ve Lisansüstü):** Derslerine yardımcı olmak, sınavlara hazırlanmak, bilgi seviyelerini ölçmek ve eksiklerini gidermek isteyen her seviyeden öğrenciler. Platform, öğrencilerin kendi öğrenme hızlarında ilerlemelerine ve konuları daha iyi anlamalarına yardımcı olacaktır.
 *   **Profesyoneller ve Yaşam Boyu Öğrenenler:** Mesleki gelişimlerini sürdürmek, yeni beceriler kazanmak, sertifika sınavlarına hazırlanmak veya ilgi duydukları alanlarda bilgilerini tazelemek isteyen yetişkinler. Platform, yoğun iş hayatına sahip profesyoneller için esnek ve etkili bir öğrenme ve değerlendirme aracı sunacaktır.
