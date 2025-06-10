@@ -8,11 +8,7 @@ import {
   FiTarget,
   FiSettings,
   FiBarChart2,
-  FiMenu,
-  FiX,
   FiChevronLeft,
-  FiChevronRight,
-  FiBox,
   FiAward
 } from "react-icons/fi";
 import { useState, useEffect } from "react";

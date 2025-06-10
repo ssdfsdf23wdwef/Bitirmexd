@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import {
   FiBarChart2,
   FiTrendingUp,
@@ -13,11 +13,18 @@ interface QuizAnalysisProps {
   showDetailedAnalysis?: boolean;
 }
 
-const QuizAnalysis: React.FC<QuizAnalysisProps> = ({
+const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(({
   quiz,
   showDetailedAnalysis = true,
 }) => {
   const { analysisResult, quizType } = quiz;
+
+  // Memoized score color calculation
+  const getScoreColor = useMemo(() => (score: number) => {
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-yellow-600";
+    return "text-red-600";
+  }, []);
 
   if (!analysisResult) {
     return (
@@ -38,19 +45,20 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = ({
     recommendedFocus,
   } = analysisResult;
 
-  // Skor rengi belirleme
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-state-success";
-    if (score >= 60) return "text-state-warning";
-    return "text-state-error";
-  };
-
-  // Zorluk seviyesi çevirisi
-  const difficultyTranslation: Record<string, string> = {
+  // Zorluk seviyesi çevirisi - Memoized
+  const difficultyTranslation = useMemo(() => ({
     easy: "Kolay",
     medium: "Orta",
     hard: "Zor",
-  };
+  }), []);
+
+  // Quiz type message - Memoized
+  const quizTypeMessage = useMemo(() => 
+    quizType === "quick"
+      ? "Bu hızlı sınav sonucu öğrenme hedeflerinizi etkilemez."
+      : "Bu kişiselleştirilmiş sınav sonucu öğrenme hedeflerinizi günceller.",
+    [quizType]
+  );
 
   return (
     <div className="space-y-6">
@@ -67,9 +75,7 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = ({
         </div>
 
         <p className="text-secondary text-center text-sm">
-          {quizType === "quick"
-            ? "Bu hızlı sınav sonucu öğrenme hedeflerinizi etkilemez."
-            : "Bu kişiselleştirilmiş sınav sonucu öğrenme hedeflerinizi günceller."}
+          {quizTypeMessage}
         </p>
       </div>
 
@@ -260,6 +266,8 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = ({
       )}
     </div>
   );
-};
+});
+
+QuizAnalysis.displayName = 'QuizAnalysis';
 
 export default QuizAnalysis;

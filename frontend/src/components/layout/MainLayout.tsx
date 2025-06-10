@@ -1,8 +1,6 @@
-// frontend/src/components/layout/MainLayout.tsx
-
 "use client";
 
-import { ReactNode, memo, useEffect, useState } from "react";
+import { ReactNode, memo, useEffect, useState, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import UserControls from "./UserControls";
 import { usePathname } from "next/navigation";
@@ -38,16 +36,19 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
-
+  
+  // Memoized computed values
+  const isHomePage = useMemo(() => pathname === "/", [pathname]);
+  
   // Optimize mounting with immediate state update
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-  };
+  // Memoized callback for sidebar toggle
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarCollapsed(prev => !prev);
+  }, []);
 
   useEffect(() => {
     if (isHomePage) {
@@ -57,6 +58,35 @@ function MainLayoutBase({ children }: MainLayoutProps) {
       };
     }
   }, [isHomePage]);
+
+  // Memoized style objects for better performance
+  const sidebarStyle = useMemo(() => ({
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    height: '100vh',
+    zIndex: 999,
+    willChange: 'width'
+    // isolation: 'isolate', KALDIRILDI - Containing block oluşturuyordu
+  }), []);
+
+  const mainStyle = useMemo(() => ({
+    paddingLeft: isMounted ? (isSidebarCollapsed ? '84px' : '296px') : '16px',
+    paddingRight: '1rem',
+    position: 'relative' as const,
+    width: '100%',
+    minHeight: '100vh',
+    // Scroll container olarak işlev görmesi için
+    overflowY: 'auto' as const,
+    overflowX: 'hidden' as const
+    // isolation: 'isolate' KALDIRILDI - Sidebar positioning'i bozuyordu
+  }), [isMounted, isSidebarCollapsed]);
+
+  // Memoized className calculations
+  const sidebarClassName = useMemo(() => 
+    `sidebar-fixed ${isSidebarCollapsed ? 'w-16' : 'w-64'}`, 
+    [isSidebarCollapsed]
+  );
 
   // Early return with loading state - no spinner to improve perceived performance
   if (!isMounted) {
@@ -81,18 +111,8 @@ function MainLayoutBase({ children }: MainLayoutProps) {
         <div className="flex w-full relative">
           {isMounted && (
             <div
-              className={`sidebar-fixed ${
-                isSidebarCollapsed ? 'w-16' : 'w-64'
-              }`}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                height: '100vh',
-                zIndex: 999,
-                willChange: 'width'
-                // isolation: 'isolate', KALDIRILDI - Containing block oluşturuyordu
-              }}
+              className={sidebarClassName}
+              style={sidebarStyle}
             >
               <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
 
@@ -103,17 +123,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
 
           <main
             className={`main-content flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
-            style={{
-              paddingLeft: isMounted ? (isSidebarCollapsed ? '84px' : '296px') : '16px',
-              paddingRight: '1rem',
-              position: 'relative',
-              width: '100%',
-              minHeight: '100vh',
-              // Scroll container olarak işlev görmesi için
-              overflowY: 'auto',
-              overflowX: 'hidden'
-              // isolation: 'isolate' KALDIRILDI - Sidebar positioning'i bozuyordu
-            }}
+            style={mainStyle}
           >
 
 
@@ -137,4 +147,5 @@ function MainLayoutBase({ children }: MainLayoutProps) {
 
 
 const MainLayout = memo(MainLayoutBase);
+MainLayout.displayName = 'MainLayout';
 export default MainLayout;

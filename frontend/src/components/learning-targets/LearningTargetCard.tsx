@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo, useMemo } from 'react';
 import { 
   Card, 
   CardContent, 
@@ -32,7 +32,7 @@ interface LearningTargetCardProps {
   target: LearningTarget;
 }
 
-const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
+const LearningTargetCard: React.FC<LearningTargetCardProps> = memo(({ target }) => {
   const { updateTarget, deleteTarget } = useLearningTargetsStore();
   
   // Menu state
@@ -46,49 +46,49 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
   // Delete confirmation dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleMenuClose = () => {
+  const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const handleEditClick = () => {
+  const handleEditClick = useCallback(() => {
     setEditDialogOpen(true);
     handleMenuClose();
-  };
+  }, [handleMenuClose]);
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = useCallback(() => {
     setDeleteDialogOpen(true);
     handleMenuClose();
-  };
+  }, [handleMenuClose]);
 
-  const handleEditDialogClose = () => {
+  const handleEditDialogClose = useCallback(() => {
     setEditDialogOpen(false);
     setEditedTarget(target); // Reset to original values
-  };
+  }, [target]);
 
-  const handleDeleteDialogClose = () => {
+  const handleDeleteDialogClose = useCallback(() => {
     setDeleteDialogOpen(false);
-  };
+  }, []);
 
-  const handleSaveEdit = async () => {
+  const handleSaveEdit = useCallback(async () => {
     await updateTarget(target.id, editedTarget);
     setEditDialogOpen(false);
-  };
+  }, [target.id, editedTarget, updateTarget]);
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = useCallback(async () => {
     await deleteTarget(target.id);
     setDeleteDialogOpen(false);
-  };
+  }, [target.id, deleteTarget]);
 
-  const handleStatusChange = async (newStatus: LearningTargetStatus) => {
+  const handleStatusChange = useCallback(async (newStatus: LearningTargetStatus) => {
     await updateTarget(target.id, { status: newStatus });
-  };
+  }, [target.id, updateTarget]);
 
-  // Card styling based on status
-  const getStatusColor = () => {
+  // Card styling based on status - Memoized for performance
+  const statusColor = useMemo(() => {
     switch (target.status) {
       case LearningTargetStatus.NOT_STARTED:
         return 'default';
@@ -99,9 +99,9 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
       default:
         return 'default';
     }
-  };
+  }, [target.status]);
 
-  const getStatusIcon = () => {
+  const statusIcon = useMemo(() => {
     switch (target.status) {
       case LearningTargetStatus.NOT_STARTED:
         return <PendingIcon fontSize="small" />;
@@ -112,7 +112,7 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
       default:
         return <PendingIcon fontSize="small" />;
     }
-  };
+  }, [target.status]);
 
   return (
     <>
@@ -148,10 +148,10 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
           
           <Box mt={1} mb={2}>
             <Chip 
-              icon={getStatusIcon()} 
+              icon={statusIcon} 
               label={target.status} 
               size="small" 
-              color={getStatusColor()}
+              color={statusColor}
               sx={{ mr: 1 }}
             />
             {target.isNewTopic && (
@@ -281,3 +281,6 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = ({ target }) => {
 };
 
 export default LearningTargetCard;
+
+// Memoization için custom comparison function
+LearningTargetCard.displayName = 'LearningTargetCard';

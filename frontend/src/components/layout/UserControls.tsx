@@ -5,7 +5,6 @@ import { useAuth as useAuthHook } from "@/hooks/auth/useAuth";
 import { useTheme } from "@/context/ThemeProvider";
 import { useState, useRef, useEffect } from "react";
 import { FiUser, FiLogOut, FiSun, FiMoon } from "react-icons/fi";
-import { Button } from "@nextui-org/react";
 
 export default function UserControls() {
   const { user, isAuthenticated } = useAuthStore();

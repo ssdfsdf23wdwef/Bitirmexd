@@ -21,7 +21,6 @@ import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeProvider";
 import QuickQuizWizard from "@/components/home/ExamCreationWizard.quick-quiz";
 import PersonalizedQuizWizard from "@/components/home/ExamCreationWizard.personalized-quiz";
-import { usePagePerformance } from "@/hooks/usePagePerformance";
 
 // ULTRA FAST gradient animations - reduced complexity
 const gradientVariants = {
@@ -75,8 +74,7 @@ export default function Home() {
   const [showExamCreationWizard, setShowExamCreationWizard] = useState(false);
   const [currentQuizType, setCurrentQuizType] = useState<'quick' | 'personalized'>('quick');
 
-  // Performans izleme
-  usePagePerformance('home');
+ 
 
   // Handle URL parameters on initial load
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback, memo } from "react";
 import { motion } from "framer-motion";
 import { FiTarget, FiCheckCircle, FiTrendingUp } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeProvider";
@@ -9,13 +9,14 @@ interface LearningProgressProps {
   strongTopics: string[];
 }
 
-const LearningProgress: React.FC<LearningProgressProps> = ({
+const LearningProgress: React.FC<LearningProgressProps> = memo(({
   weakTopics,
   strongTopics,
 }) => {
   const { isDarkMode } = useTheme();
-  // Toplam başarı oranı hesaplama
-  const calculateMasteryPercentage = (): number => {
+  
+  // Toplam başarı oranı hesaplama - Memoized
+  const masteryPercentage = useMemo((): number => {
     if (!weakTopics || !strongTopics) return 0;
 
     const totalTopics = Object.keys(weakTopics).length + strongTopics.length;
@@ -27,12 +28,20 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
     return totalTopics > 0
       ? Math.round((masteredTopics / totalTopics) * 100)
       : 0;
-  };
+  }, [weakTopics, strongTopics]);
 
-  const masteryPercentage = calculateMasteryPercentage();
+  // Başarı oranı hesaplama fonksiyonu - Memoized
+  const calculateSuccessRate = useCallback((data?: WeakTopic): number => {
+    if (!data) return 100;
 
-  // Konu kartı
-  const TopicCard = ({
+    const totalAttempts = data.failCount + (data.successCount || 0);
+    return totalAttempts > 0
+      ? Math.round(((data.successCount || 0) / totalAttempts) * 100)
+      : 0;
+  }, []);
+
+  // Konu kartı - Memoized component
+  const TopicCard = memo(({
     topic,
     status,
     data,
@@ -41,30 +50,42 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
     status: "active" | "mastered";
     data?: WeakTopic;
   }) => {
-    // Başarı oranı hesaplama
-    const calculateSuccessRate = (data?: WeakTopic): number => {
-      if (!data) return 100;
-
-      const totalAttempts = data.failCount + (data.successCount || 0);
-      return totalAttempts > 0
-        ? Math.round(((data.successCount || 0) / totalAttempts) * 100)
-        : 0;
-    };
-
     const successRate = calculateSuccessRate(data);
 
+    // Memoized style calculations
+    const cardStyles = useMemo(() => {
+      const baseStyles = "p-6 border rounded-2xl shadow-lg backdrop-blur-lg transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1";
+      const statusStyles = status === "mastered"
+        ? isDarkMode 
+          ? "border-emerald-400/40 bg-slate-800/80 hover:bg-slate-700/90 shadow-emerald-500/10" 
+          : "border-green-200 bg-green-50/70 hover:bg-green-50/90"
+        : isDarkMode 
+          ? "border-amber-400/40 bg-slate-800/80 hover:bg-slate-700/90 shadow-amber-500/10" 
+          : "border-yellow-200 bg-yellow-50/70 hover:bg-yellow-50/90";
+      return `${baseStyles} ${statusStyles}`;
+    }, [status, isDarkMode]);
+
+    const iconContainerStyles = useMemo(() => {
+      const baseStyles = "p-3 rounded-xl";
+      const statusStyles = status === "mastered"
+        ? isDarkMode ? 'bg-emerald-500/20 border border-emerald-400/30' : 'bg-green-100'
+        : isDarkMode ? 'bg-amber-500/20 border border-amber-400/30' : 'bg-yellow-100';
+      return `${baseStyles} ${statusStyles}`;
+    }, [status, isDarkMode]);
+
+    const progressBadgeStyles = useMemo(() => {
+      const baseStyles = "px-3 py-1 rounded-lg text-xs font-semibold";
+      if (successRate >= 80) {
+        return `${baseStyles} ${isDarkMode ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400/30' : 'bg-green-100 text-green-700'}`;
+      } else if (successRate >= 60) {
+        return `${baseStyles} ${isDarkMode ? 'bg-amber-500/25 text-amber-300 border border-amber-400/30' : 'bg-yellow-100 text-yellow-700'}`;
+      } else {
+        return `${baseStyles} ${isDarkMode ? 'bg-red-500/25 text-red-300 border border-red-400/30' : 'bg-red-100 text-red-700'}`;
+      }
+    }, [successRate, isDarkMode]);
+
     return (
-      <div
-        className={`p-6 border rounded-2xl shadow-lg backdrop-blur-lg transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${
-          status === "mastered"
-            ? isDarkMode 
-              ? "border-emerald-400/40 bg-slate-800/80 hover:bg-slate-700/90 shadow-emerald-500/10" 
-              : "border-green-200 bg-green-50/70 hover:bg-green-50/90"
-            : isDarkMode 
-              ? "border-amber-400/40 bg-slate-800/80 hover:bg-slate-700/90 shadow-amber-500/10" 
-              : "border-yellow-200 bg-yellow-50/70 hover:bg-yellow-50/90"
-        }`}
-      >
+      <div className={cardStyles}>
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{topic}</h3>
@@ -74,11 +95,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
                 : `📈 Aktif gelişim (${successRate}% başarı)`}
             </p>
           </div>
-          <div className={`p-3 rounded-xl ${
-            status === "mastered"
-              ? isDarkMode ? 'bg-emerald-500/20 border border-emerald-400/30' : 'bg-green-100'
-              : isDarkMode ? 'bg-amber-500/20 border border-amber-400/30' : 'bg-yellow-100'
-          }`}>
+          <div className={iconContainerStyles}>
             {status === "mastered" ? (
               <FiCheckCircle className={`text-2xl ${isDarkMode ? 'text-emerald-400' : 'text-green-600'}`} />
             ) : (
@@ -91,13 +108,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
           <div className="mt-6">
             <div className={`flex justify-between text-sm mb-3 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
               <span>İlerleme Durumu</span>
-              <span className={`px-3 py-1 rounded-lg text-xs font-semibold ${
-                successRate >= 80
-                  ? isDarkMode ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400/30' : 'bg-green-100 text-green-700'
-                  : successRate >= 60
-                    ? isDarkMode ? 'bg-amber-500/25 text-amber-300 border border-amber-400/30' : 'bg-yellow-100 text-yellow-700'
-                    : isDarkMode ? 'bg-red-500/25 text-red-300 border border-red-400/30' : 'bg-red-100 text-red-700'
-              }`}>
+              <span className={progressBadgeStyles}>
                 {successRate}%
               </span>
             </div>
@@ -127,7 +138,18 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
         )}
       </div>
     );
-  };
+  });
+
+  // Filtered data - Memoized
+  const activeWeakTopics = useMemo(() => 
+    Object.entries(weakTopics).filter(([, data]) => data.status === "active"),
+    [weakTopics]
+  );
+
+  const masteredWeakTopics = useMemo(() => 
+    Object.entries(weakTopics).filter(([, data]) => data.status === "mastered"),
+    [weakTopics]
+  );
 
   return (
     <div className={`space-y-8 transition-all duration-500 ${isDarkMode ? 'bg-slate-900' : 'bg-gray-50'}`}>
@@ -281,7 +303,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
             <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${
               isDarkMode ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-600'
             }`}>
-              {strongTopics.length + Object.values(weakTopics).filter(topic => topic.status === "mastered").length}
+              {strongTopics.length + masteredWeakTopics.length}
             </span>
           </h2>
 
@@ -298,24 +320,22 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
             ))}
 
             {/* Zayıf konulardan uzmanlaşılanları da ekle */}
-            {Object.entries(weakTopics)
-              .filter(([, data]) => data.status === "mastered")
-              .map(([topic, data], index) => (
-                <motion.div
-                  key={topic}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 * (strongTopics.length + index) }}
-                >
-                  <TopicCard topic={topic} status="mastered" data={data} />
-                </motion.div>
-              ))}
+            {masteredWeakTopics.map(([topic, data], index) => (
+              <motion.div
+                key={topic}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 * (strongTopics.length + index) }}
+              >
+                <TopicCard topic={topic} status="mastered" data={data} />
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       )}
 
       {/* Gelişim Aşamasındaki Konular */}
-      {Object.values(weakTopics).filter((topic) => topic.status === "active").length > 0 && (
+      {activeWeakTopics.length > 0 && (
         <motion.div 
           className={`rounded-2xl shadow-xl backdrop-blur-lg p-6 transition-all duration-500 hover:shadow-2xl ${
             isDarkMode ? 'bg-gray-800/60 border border-gray-700/50' : 'bg-white/70 border border-gray-200/50'
@@ -332,21 +352,19 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
             <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${
               isDarkMode ? 'bg-yellow-500/20 text-yellow-400' : 'bg-yellow-100 text-amber-600'
             }`}>
-              {Object.values(weakTopics).filter(topic => topic.status === "active").length}
+              {activeWeakTopics.length}
             </span>
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {Object.entries(weakTopics)
-              .filter(([, data]) => data.status === "active")
-              .map(([topic, data], index) => (
-                <motion.div
-                  key={topic}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
-                >
-                  <TopicCard topic={topic} status="active" data={data} />
+            {activeWeakTopics.map(([topic, data], index) => (
+              <motion.div
+                key={topic}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 * index }}
+              >
+                <TopicCard topic={topic} status="active" data={data} />
                 </motion.div>
               ))}
           </div>
@@ -354,6 +372,6 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
       )}
     </div>
   );
-};
+});
 
 export default LearningProgress;
