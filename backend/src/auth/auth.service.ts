@@ -635,7 +635,6 @@ export class AuthService {
     }
   }
 
-  
   private async validateAndGetUserByRefreshToken(
     token: string,
   ): Promise<{ user: any; storedTokenId: string } | null> {

@@ -9,20 +9,13 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-tertiary text-primary",
-        primary:
-          "border-transparent bg-brand-primary text-white",
-        secondary:
-          "border-transparent bg-brand-secondary text-white",
-        success:
-          "border-transparent bg-state-success text-white",
-        warning:
-          "border-transparent bg-state-warning text-white",
-        danger:
-          "border-transparent bg-state-error text-white",
-        outline:
-          "text-primary border-primary",
+        default: "border-transparent bg-tertiary text-primary",
+        primary: "border-transparent bg-brand-primary text-white",
+        secondary: "border-transparent bg-brand-secondary text-white",
+        success: "border-transparent bg-state-success text-white",
+        warning: "border-transparent bg-state-warning text-white",
+        danger: "border-transparent bg-state-error text-white",
+        outline: "text-primary border-primary",
       },
       size: {
         sm: "h-4 text-[0.625rem]",

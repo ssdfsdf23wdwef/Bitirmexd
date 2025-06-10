@@ -1,19 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
-import { 
-  Card, 
-  CardHeader, 
-  CardBody, 
-  Button, 
-  Progress,
-  Chip
-} from "@nextui-org/react";
-import { 
-  FiAlertCircle, 
-  FiEdit, 
-  FiArrowRight, 
-  FiCpu 
-} from "react-icons/fi";
-import { motion } from "framer-motion";
+import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
+import { FiAlertCircle, FiEdit, FiArrowRight, FiCpu } from "react-icons/fi";
 import { DocumentUploader } from "./index";
 import { TopicDetector } from "./index";
 import documentService from "@/services/document.service";
@@ -59,9 +46,11 @@ export default function DocumentFlow({
 
   // State tanımlamaları
   const [currentStep, setCurrentStep] = useState<DocumentFlowStep>(
-    DocumentFlowStep.UPLOAD
+    DocumentFlowStep.UPLOAD,
   );
-  const [uploadedDocument, setUploadedDocument] = useState<DocumentType | null>(null);
+  const [uploadedDocument, setUploadedDocument] = useState<DocumentType | null>(
+    null,
+  );
   const [selectedTopics, setSelectedTopics] = useState<DetectedSubTopic[]>([]);
   const [questionCount, setQuestionCount] = useState<number>(10);
   const [difficulty, setDifficulty] = useState<string>("medium");
@@ -70,89 +59,105 @@ export default function DocumentFlow({
   const [createdQuiz, setCreatedQuiz] = useState<CreatedQuizType | null>(null);
 
   // Dosya yükleme başarıyla tamamlandığında
-  const handleFileUpload = useCallback(async (file: File) => {
-    try {
-      logInfo(
-       `Dosya yükleme başlatıldı: ${file.name} (${file.size} bytes)`,
-        "DocumentFlow.handleFileUpload"
-      );
-      
-      setCurrentStep(DocumentFlowStep.PROCESSING);
-      setProcessPercentage(20);
+  const handleFileUpload = useCallback(
+    async (file: File) => {
+      try {
+        logInfo(
+          `Dosya yükleme başlatıldı: ${file.name} (${file.size} bytes)`,
+          "DocumentFlow.handleFileUpload",
+        );
 
-      trackFlow(
-        `Dosya yükleniyor: ${file.name}`,
-        "DocumentFlow.handleFileUpload",
-        FlowCategory.Component
-      );
-      
-      // Belgeyi yükle ve konuları tespit et
-      const startTime = performance.now();
-      
-      const result = await documentService.uploadAndDetectTopics(file, courseId);
-      
-      
-      setUploadedDocument(result.document);
-      
-      // Konuları işle
-      const processedTopics = result.topics.map((topic: DetectedSubTopic) => ({
-        ...topic,
-        id: topic.normalizedSubTopicName,
-        isSelected: true,
-      }));
-      
-      setSelectedTopics(processedTopics);
-      setProcessPercentage(100);
-      
-      trackFlow(
-        `Yükleme tamamlandı, ${processedTopics.length} konu tespit edildi`,
-        "DocumentFlow.handleFileUpload",
-        FlowCategory.Component
-      );
-      
-      setCurrentStep(DocumentFlowStep.TOPIC_SELECTION);
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Belge yüklenirken veya işlenirken bir hata oluştu.";
-      
-      prettyLogError(
-        error instanceof Error ? error : new Error(errorMessage),
-        "DocumentFlow.handleFileUpload",
-        { courseId }
-      );
-      
-      setError(errorMessage);
-      setCurrentStep(DocumentFlowStep.UPLOAD);
-      ErrorService.showToast("Belge işlenirken bir hata oluştu", "error");
-    }
-  }, [courseId]);
+        setCurrentStep(DocumentFlowStep.PROCESSING);
+        setProcessPercentage(20);
+
+        trackFlow(
+          `Dosya yükleniyor: ${file.name}`,
+          "DocumentFlow.handleFileUpload",
+          FlowCategory.Component,
+        );
+
+        // Belgeyi yükle ve konuları tespit et
+        const startTime = performance.now();
+
+        const result = await documentService.uploadAndDetectTopics(
+          file,
+          courseId,
+        );
+
+        setUploadedDocument(result.document);
+
+        // Konuları işle
+        const processedTopics = result.topics.map(
+          (topic: DetectedSubTopic) => ({
+            ...topic,
+            id: topic.normalizedSubTopicName,
+            isSelected: true,
+          }),
+        );
+
+        setSelectedTopics(processedTopics);
+        setProcessPercentage(100);
+
+        trackFlow(
+          `Yükleme tamamlandı, ${processedTopics.length} konu tespit edildi`,
+          "DocumentFlow.handleFileUpload",
+          FlowCategory.Component,
+        );
+
+        setCurrentStep(DocumentFlowStep.TOPIC_SELECTION);
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Belge yüklenirken veya işlenirken bir hata oluştu.";
+
+        prettyLogError(
+          error instanceof Error ? error : new Error(errorMessage),
+          "DocumentFlow.handleFileUpload",
+          { courseId },
+        );
+
+        setError(errorMessage);
+        setCurrentStep(DocumentFlowStep.UPLOAD);
+        ErrorService.showToast("Belge işlenirken bir hata oluştu", "error");
+      }
+    },
+    [courseId],
+  );
 
   // Konu seçimi tamamlandığında
-  const handleTopicsSelected = useCallback((selectedTopicIds: string[]) => {
-    try {
-      // Seçilen konuları filtreleme
-      const filteredTopics = selectedTopics.filter((topic) =>
-        selectedTopicIds.includes(topic.id || topic.normalizedSubTopicName)
-      );
-      
-     
-      
-      trackFlow(
-        `${filteredTopics.length} konu seçildi`,
-        "DocumentFlow.handleTopicsSelected",
-        FlowCategory.Component
-      );
-      
-      setSelectedTopics(filteredTopics);
-      setCurrentStep(DocumentFlowStep.QUIZ_SETUP);
-    } catch (error: unknown) {
-      prettyLogError(
-        error instanceof Error ? error : new Error("Konu seçimi işlenirken bir hata oluştu"),
-        "DocumentFlow.handleTopicsSelected"
-      );
-      
-      ErrorService.showToast("Konu seçimi işlenirken bir hata oluştu", "error");
-    }
-  }, [selectedTopics]);
+  const handleTopicsSelected = useCallback(
+    (selectedTopicIds: string[]) => {
+      try {
+        // Seçilen konuları filtreleme
+        const filteredTopics = selectedTopics.filter((topic) =>
+          selectedTopicIds.includes(topic.id || topic.normalizedSubTopicName),
+        );
+
+        trackFlow(
+          `${filteredTopics.length} konu seçildi`,
+          "DocumentFlow.handleTopicsSelected",
+          FlowCategory.Component,
+        );
+
+        setSelectedTopics(filteredTopics);
+        setCurrentStep(DocumentFlowStep.QUIZ_SETUP);
+      } catch (error: unknown) {
+        prettyLogError(
+          error instanceof Error
+            ? error
+            : new Error("Konu seçimi işlenirken bir hata oluştu"),
+          "DocumentFlow.handleTopicsSelected",
+        );
+
+        ErrorService.showToast(
+          "Konu seçimi işlenirken bir hata oluştu",
+          "error",
+        );
+      }
+    },
+    [selectedTopics],
+  );
 
   // Konu seçimini iptal ettiğinde
   const handleCancelTopicSelection = useCallback(() => {
@@ -173,33 +178,31 @@ export default function DocumentFlow({
           documentId: uploadedDocument?.id,
           topicCount: selectedTopics.length,
           questionCount,
-          difficulty
-        }
+          difficulty,
+        },
       );
-      
+
       setCurrentStep(DocumentFlowStep.CREATING_QUIZ);
-      
+
       trackFlow(
         `Sınav oluşturma başlatıldı: ${questionCount} soru, ${difficulty} zorluk`,
         "DocumentFlow.handleCreateQuiz",
-        FlowCategory.Component
+        FlowCategory.Component,
       );
-      
+
       // Sınav oluşturma için alt konuları hazırla
       const subTopics = selectedTopics.map((topic) => ({
         subTopicName: topic.subTopicName,
         normalizedSubTopicName: topic.normalizedSubTopicName,
       }));
-      
+
       if (!uploadedDocument) {
         throw new Error("Belge bilgisi bulunamadı");
       }
-      
+
       // Sınav oluşturma başlangıç zamanı
       const startTime = performance.now();
-      
-     
-      
+
       // Sınav oluşturma isteği
       const result = await documentService.createQuizFromDocument(
         uploadedDocument.id,
@@ -207,13 +210,13 @@ export default function DocumentFlow({
           subTopics,
           questionCount,
           difficulty,
-        }
+        },
       );
-      
+
       // Sınav oluşturma bitiş zamanı ve süre hesaplama
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       logInfo(
         `Sınav başarıyla oluşturuldu: ${result.id} (${duration.toFixed(2)}ms)`,
         "DocumentFlow.handleCreateQuiz",
@@ -223,29 +226,30 @@ export default function DocumentFlow({
           quizId: result.id,
           questionCount: result.questionCount,
           duration: `${duration.toFixed(2)}ms`,
-        }
+        },
       );
-      
+
       trackFlow(
         `Sınav oluşturuldu: ${result.id}, ${result.questionCount} soru`,
         "DocumentFlow.handleCreateQuiz",
-        FlowCategory.Component
+        FlowCategory.Component,
       );
-      
+
       setCreatedQuiz(result);
       setCurrentStep(DocumentFlowStep.COMPLETE);
-      
+
       // Callback'i çağır ya da yönlendir
       if (onComplete) {
         // Result'ı Record<string, unknown> tipine dönüştür
         const resultAsRecord: Record<string, unknown> = { ...result };
         onComplete(resultAsRecord);
-        
-       
       }
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Sınav oluşturulurken bir hata oluştu.";
-      
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Sınav oluşturulurken bir hata oluştu.";
+
       prettyLogError(
         error instanceof Error ? error : new Error(errorMessage),
         "DocumentFlow.handleCreateQuiz",
@@ -253,16 +257,16 @@ export default function DocumentFlow({
           documentId: uploadedDocument?.id,
           topicCount: selectedTopics.length,
           questionCount,
-          difficulty
-        }
+          difficulty,
+        },
       );
-      
+
       trackFlow(
         `❌ Sınav oluşturma hatası: ${errorMessage}`,
         "DocumentFlow.handleCreateQuiz",
-        FlowCategory.Error
+        FlowCategory.Error,
       );
-      
+
       setError(errorMessage);
       setCurrentStep(DocumentFlowStep.QUIZ_SETUP);
       ErrorService.showToast("Sınav oluşturulamadı", "error");
@@ -286,7 +290,7 @@ export default function DocumentFlow({
     setError(null);
     setProcessPercentage(0);
     setCreatedQuiz(null);
-    
+
     if (onCancel) {
       onCancel();
     }
@@ -294,19 +298,17 @@ export default function DocumentFlow({
 
   // İlk yükleme sırasında loglama
   useEffect(() => {
-    
-    
     trackFlow(
       `Belge yükleme ve sınav oluşturma akışı başlatıldı`,
       "DocumentFlow",
-      FlowCategory.Component
+      FlowCategory.Component,
     );
-    
+
     return () => {
       trackFlow(
         `Belge yükleme ve sınav oluşturma akışı sonlandırıldı`,
         "DocumentFlow",
-        FlowCategory.Component
+        FlowCategory.Component,
       );
     };
   }, [courseId]);
@@ -322,7 +324,7 @@ export default function DocumentFlow({
               onError={(msg) => setError(msg)}
               className="w-full max-w-xl"
             />
-            
+
             {error && (
               <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-300 text-sm">
                 <div className="flex items-start">
@@ -333,7 +335,7 @@ export default function DocumentFlow({
             )}
           </div>
         );
-        
+
       case DocumentFlowStep.PROCESSING:
         return (
           <div className="p-6 flex flex-col items-center">
@@ -346,10 +348,10 @@ export default function DocumentFlow({
                 Yapay zeka belgenizi analiz ediyor ve konuları tespit ediyor
               </p>
             </div>
-            
+
             <div className="w-full max-w-md mb-4">
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div 
+                <div
                   className="bg-blue-500 h-2 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${processPercentage}%` }}
                 ></div>
@@ -370,7 +372,7 @@ export default function DocumentFlow({
             )}
           </div>
         );
-        
+
       case DocumentFlowStep.TOPIC_SELECTION:
         return (
           <div className="p-0">
@@ -400,22 +402,24 @@ export default function DocumentFlow({
             )}
           </div>
         );
-        
+
       case DocumentFlowStep.QUIZ_SETUP:
         return (
           <div className="p-6">
             <h3 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-4">
               Sınav Ayarları
             </h3>
-            
+
             <div className="mb-6">
               <h4 className="text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Seçilen Konular ({selectedTopics.length})
               </h4>
-                            <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {selectedTopics.map((topic, index) => (
                   <span
-                    key={`selected-topic-${topic.id || topic.normalizedSubTopicName}-${index}`}
+                    key={`selected-topic-${
+                      topic.id || topic.normalizedSubTopicName
+                    }-${index}`}
                     className="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
                   >
                     {topic.subTopicName || topic.name}
@@ -423,7 +427,7 @@ export default function DocumentFlow({
                 ))}
               </div>
             </div>
-            
+
             <div className="mb-6">
               <h4 className="text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Soru Sayısı
@@ -443,7 +447,7 @@ export default function DocumentFlow({
                 </span>
               </div>
             </div>
-            
+
             <div className="mb-6">
               <h4 className="text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Zorluk
@@ -467,7 +471,7 @@ export default function DocumentFlow({
                 ))}
               </div>
             </div>
-            
+
             <div className="flex justify-between mt-8">
               <button
                 onClick={() => setCurrentStep(DocumentFlowStep.TOPIC_SELECTION)}
@@ -485,7 +489,7 @@ export default function DocumentFlow({
             </div>
           </div>
         );
-        
+
       case DocumentFlowStep.CREATING_QUIZ:
         return (
           <div className="p-6 flex flex-col items-center">
@@ -498,9 +502,9 @@ export default function DocumentFlow({
                 Yapay zeka seçilen konulara göre sınav soruları oluşturuyor
               </p>
             </div>
-            
+
             <div className="w-12 h-12 border-4 border-blue-200 dark:border-blue-800 border-t-blue-500 rounded-full animate-spin"></div>
-            
+
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-500 dark:text-gray-500">
                 Seçilen konular: {selectedTopics.length}
@@ -511,7 +515,7 @@ export default function DocumentFlow({
             </div>
           </div>
         );
-        
+
       case DocumentFlowStep.COMPLETE:
         return (
           <div className="p-6 flex flex-col items-center">
@@ -542,7 +546,7 @@ export default function DocumentFlow({
                 Sınav ID: {createdQuiz?.id}
               </p>
             </div>
-            
+
             <div className="flex gap-4">
               <button
                 onClick={handleViewQuiz}
@@ -560,7 +564,7 @@ export default function DocumentFlow({
             </div>
           </div>
         );
-      
+
       default:
         return null;
     }
@@ -597,35 +601,43 @@ export default function DocumentFlow({
             Belgenizden otomatik olarak sorular oluşturun
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-1 text-xs">
-                    {["Yükleme", "İşleme", "Konular", "Ayarlar", "Oluşturma", "Tamamlandı"].map(            (step, index) => (              <div key={`flow-step-${step}-${index}`} className="flex items-center">
+          {[
+            "Yükleme",
+            "İşleme",
+            "Konular",
+            "Ayarlar",
+            "Oluşturma",
+            "Tamamlandı",
+          ].map((step, index) => (
+            <div
+              key={`flow-step-${step}-${index}`}
+              className="flex items-center"
+            >
+              <div
+                className={`rounded-full w-2 h-2 ${
+                  index + 1 <= getStepProgress()
+                    ? "bg-blue-600 dark:bg-blue-500"
+                    : "bg-gray-300 dark:bg-gray-700"
+                }`}
+              ></div>
+              {index < 5 && (
                 <div
-                  className={`rounded-full w-2 h-2 ${
-                    index + 1 <= getStepProgress()
+                  className={`w-6 h-0.5 ${
+                    index + 1 < getStepProgress()
                       ? "bg-blue-600 dark:bg-blue-500"
                       : "bg-gray-300 dark:bg-gray-700"
                   }`}
                 ></div>
-                {index < 5 && (
-                  <div
-                    className={`w-6 h-0.5 ${
-                      index + 1 < getStepProgress()
-                        ? "bg-blue-600 dark:bg-blue-500"
-                        : "bg-gray-300 dark:bg-gray-700"
-                    }`}
-                  ></div>
-                )}
-              </div>
-            )
-          )}
+              )}
+            </div>
+          ))}
         </div>
       </CardHeader>
-      
+
       <CardBody className="p-0">
-        <div>
-          {renderStepContent()}
-        </div>
+        <div>{renderStepContent()}</div>
       </CardBody>
     </Card>
   );

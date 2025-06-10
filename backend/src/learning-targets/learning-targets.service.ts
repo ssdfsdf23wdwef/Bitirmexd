@@ -1358,7 +1358,9 @@ export class LearningTargetsService {
       const now = new Date();
 
       // Ana konuyu sınıflandır
-      const mainTopic = TopicClassificationUtil.classifyMainTopic(createLearningTargetDto.topicName);
+      const mainTopic = TopicClassificationUtil.classifyMainTopic(
+        createLearningTargetDto.topicName,
+      );
 
       // Create target with required properties, using type assertion to handle model differences
       const newTarget = {
@@ -1868,7 +1870,9 @@ export class LearningTargetsService {
           this.normalizationService.normalizeSubTopicName(topic.subTopicName);
 
         // Ana konuyu sınıflandır
-        const mainTopic = TopicClassificationUtil.classifyMainTopic(topic.subTopicName);
+        const mainTopic = TopicClassificationUtil.classifyMainTopic(
+          topic.subTopicName,
+        );
 
         // Yeni öğrenme hedefi ID'si (Firestore'un benzersiz ID oluşturma metodunu kullanıyoruz)
         const newId = this.firebaseService.generateId();

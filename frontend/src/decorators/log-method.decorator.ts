@@ -3,100 +3,123 @@
  * @description Metot çağrılarını loglayan dekoratörler
  */
 
-import { getLogger, getFlowTracker, mapToTrackerCategory } from '../lib/logger.utils';
-import { FlowCategory } from '@/constants/logging.constants';
+import {
+  getLogger,
+  getFlowTracker,
+  mapToTrackerCategory,
+} from "../lib/logger.utils";
+import { FlowCategory } from "@/constants/logging.constants";
 
 /**
  * Metot çağrılarını loglayan dekoratör
- * @param context Loglama bağlamı 
+ * @param context Loglama bağlamı
  * @param category Flow kategori adı (opsiyonel)
  * @returns Metot dekoratörü
  */
-export function LogMethod(context: string, category: FlowCategory = FlowCategory.Custom) {
+export function LogMethod(
+  context: string,
+  category: FlowCategory = FlowCategory.Custom,
+) {
   return function (
-    target: object, 
-    propertyKey: string, 
-    descriptor: PropertyDescriptor
+    target: object,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
   ) {
     const originalMethod = descriptor.value;
-    
+
     descriptor.value = function (...args: unknown[]) {
       const logger = getLogger();
       const flowTracker = getFlowTracker();
       const className = target.constructor.name;
       const methodSignature = `${className}.${propertyKey}`;
-      
+
       try {
         // Metot başlangıcını logla
         logger.debug(
           `Metot başlangıcı: ${methodSignature}`,
           context,
-          'log-method.decorator.ts',
+          "log-method.decorator.ts",
           30,
-          { args: args.map(arg => typeof arg) }
+          { args: args.map((arg) => typeof arg) },
         );
-        
+
         // Akış izleme
         flowTracker.markStart(methodSignature);
-        
+
         // Metodu çalıştır
         const result = originalMethod.apply(this, args);
-        
+
         // Promise kontrolü
         if (result instanceof Promise) {
           return result.then(
             (value) => {
               // Başarı durumunda
-              const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+              const duration = flowTracker.markEnd(
+                methodSignature,
+                mapToTrackerCategory(category),
+                context,
+              );
               logger.debug(
                 `Metot tamamlandı: ${methodSignature}`,
                 context,
-                'log-method.decorator.ts',
+                "log-method.decorator.ts",
                 48,
-                { duration, resultType: typeof value }
+                { duration, resultType: typeof value },
               );
               return value;
             },
             (error) => {
               // Hata durumunda
-              const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+              const duration = flowTracker.markEnd(
+                methodSignature,
+                mapToTrackerCategory(category),
+                context,
+              );
               logger.error(
                 `Metot hatası: ${methodSignature}`,
                 context,
-                'log-method.decorator.ts',
+                "log-method.decorator.ts",
                 58,
-                { duration, error }
+                { duration, error },
               );
               throw error;
-            }
+            },
           );
         }
-        
+
         // Senkron tamamlanma
-        const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+        const duration = flowTracker.markEnd(
+          methodSignature,
+          mapToTrackerCategory(category),
+          context,
+        );
         logger.debug(
           `Metot tamamlandı: ${methodSignature}`,
           context,
-          'log-method.decorator.ts',
+          "log-method.decorator.ts",
           70,
-          { duration, resultType: typeof result }
+          { duration, resultType: typeof result },
         );
-        
+
         return result;
       } catch (error) {
         // Hata durumunda (senkron)
-        const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+        const duration = flowTracker.markEnd(
+          methodSignature,
+          mapToTrackerCategory(category),
+          context,
+        );
         logger.error(
           `Metot hatası: ${methodSignature}`,
           context,
-          'log-method.decorator.ts',
+          "log-method.decorator.ts",
           81,
-          { duration, error }
+          { duration, error },
         );
         throw error;
       }
     };
-    
+
     return descriptor;
   };
 }
@@ -105,107 +128,129 @@ export function LogMethod(context: string, category: FlowCategory = FlowCategory
  * Sınıf metotlarını otomatik olarak loglayan dekoratör
  * @param context Loglama bağlamı
  * @param category Flow kategori adı (opsiyonel)
- * @returns Sınıf dekoratörü 
+ * @returns Sınıf dekoratörü
  */
-export function LogClass(context: string, category: FlowCategory = FlowCategory.Custom) {
-  return function <T extends { new (...args: unknown[]): object }>(constructor: T) {
+export function LogClass(
+  context: string,
+  category: FlowCategory = FlowCategory.Custom,
+) {
+  return function <T extends { new (...args: unknown[]): object }>(
+    constructor: T,
+  ) {
     const className = constructor.name;
-    
+
     // Prototip üzerindeki tüm metotları bul
     const prototype = constructor.prototype;
-    const propertyNames = Object.getOwnPropertyNames(prototype)
-      .filter(name => 
-        name !== 'constructor' && 
-        typeof prototype[name] === 'function'
-      );
-    
+    const propertyNames = Object.getOwnPropertyNames(prototype).filter(
+      (name) => name !== "constructor" && typeof prototype[name] === "function",
+    );
+
     // Her metoda LogMethod dekoratörünü uygula
     for (const propertyName of propertyNames) {
-      const descriptor = Object.getOwnPropertyDescriptor(prototype, propertyName);
-      
-      if (descriptor && typeof descriptor.value === 'function') {
+      const descriptor = Object.getOwnPropertyDescriptor(
+        prototype,
+        propertyName,
+      );
+
+      if (descriptor && typeof descriptor.value === "function") {
         const originalMethod = descriptor.value;
-        
+
         descriptor.value = function (...args: unknown[]) {
           const logger = getLogger();
           const flowTracker = getFlowTracker();
           const methodSignature = `${className}.${propertyName}`;
-          
+
           try {
             // Metot başlangıcını logla
             logger.debug(
               `Metot başlangıcı: ${methodSignature}`,
               context,
-              'log-method.decorator.ts',
+              "log-method.decorator.ts",
               130,
-              { args: args.map(arg => typeof arg) }
+              { args: args.map((arg) => typeof arg) },
             );
-            
+
             // Akış izleme
             flowTracker.markStart(methodSignature);
-            
+
             // Metodu çalıştır
             const result = originalMethod.apply(this, args);
-            
+
             // Promise kontrolü
             if (result instanceof Promise) {
               return result.then(
                 (value) => {
                   // Başarı durumunda
-                  const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+                  const duration = flowTracker.markEnd(
+                    methodSignature,
+                    mapToTrackerCategory(category),
+                    context,
+                  );
                   logger.debug(
                     `Metot tamamlandı: ${methodSignature}`,
                     context,
-                    'log-method.decorator.ts',
+                    "log-method.decorator.ts",
                     148,
-                    { duration, resultType: typeof value }
+                    { duration, resultType: typeof value },
                   );
                   return value;
                 },
                 (error) => {
                   // Hata durumunda
-                  const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+                  const duration = flowTracker.markEnd(
+                    methodSignature,
+                    mapToTrackerCategory(category),
+                    context,
+                  );
                   logger.error(
                     `Metot hatası: ${methodSignature}`,
                     context,
-                    'log-method.decorator.ts',
+                    "log-method.decorator.ts",
                     158,
-                    { duration, error }
+                    { duration, error },
                   );
                   throw error;
-                }
+                },
               );
             }
-            
+
             // Senkron tamamlanma
-            const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+            const duration = flowTracker.markEnd(
+              methodSignature,
+              mapToTrackerCategory(category),
+              context,
+            );
             logger.debug(
               `Metot tamamlandı: ${methodSignature}`,
               context,
-              'log-method.decorator.ts',
+              "log-method.decorator.ts",
               170,
-              { duration, resultType: typeof result }
+              { duration, resultType: typeof result },
             );
-            
+
             return result;
           } catch (error) {
             // Hata durumunda (senkron)
-            const duration = flowTracker.markEnd(methodSignature, mapToTrackerCategory(category), context);
+            const duration = flowTracker.markEnd(
+              methodSignature,
+              mapToTrackerCategory(category),
+              context,
+            );
             logger.error(
               `Metot hatası: ${methodSignature}`,
               context,
-              'log-method.decorator.ts',
+              "log-method.decorator.ts",
               181,
-              { duration, error }
+              { duration, error },
             );
             throw error;
           }
         };
-        
+
         Object.defineProperty(prototype, propertyName, descriptor);
       }
     }
-    
+
     return constructor;
   };
 }
@@ -220,51 +265,62 @@ export function LogClass(context: string, category: FlowCategory = FlowCategory.
 function trackHook<T extends (...args: unknown[]) => unknown>(
   hookName: string,
   context: string,
-  hookFn: T
+  hookFn: T,
 ): T {
   return ((...args: unknown[]) => {
     const logger = getLogger();
     const flowTracker = getFlowTracker();
     const hookSignature = `${context}/${hookName}`;
-    
+
     try {
       // Hook başlangıcını logla
       logger.debug(
         `Hook başlangıcı: ${hookName}`,
         context,
-        'log-method.decorator.ts',
+        "log-method.decorator.ts",
         216,
-        { args: args.map(arg => typeof arg) }
+        { args: args.map((arg) => typeof arg) },
       );
-      
+
       // Akış izleme
       flowTracker.markStart(hookSignature);
-      
+
       // Hook'u çalıştır
       const result = hookFn(...args);
-      
+
       // Senkron tamamlanma
-      const duration = flowTracker.markEnd(hookSignature, mapToTrackerCategory(FlowCategory.Component), context);
+      const duration = flowTracker.markEnd(
+        hookSignature,
+        mapToTrackerCategory(FlowCategory.Component),
+        context,
+      );
       logger.debug(
         `Hook tamamlandı: ${hookName}`,
         context,
-        'log-method.decorator.ts',
+        "log-method.decorator.ts",
         229,
-        { duration, resultType: Array.isArray(result) ? 'array' : typeof result }
+        {
+          duration,
+          resultType: Array.isArray(result) ? "array" : typeof result,
+        },
       );
-      
+
       return result;
     } catch (error) {
       // Hata durumunda
-      const duration = flowTracker.markEnd(hookSignature, mapToTrackerCategory(FlowCategory.Component), context);
+      const duration = flowTracker.markEnd(
+        hookSignature,
+        mapToTrackerCategory(FlowCategory.Component),
+        context,
+      );
       logger.error(
         `Hook hatası: ${hookName}`,
         context,
-        'log-method.decorator.ts',
+        "log-method.decorator.ts",
         240,
-        { duration, error }
+        { duration, error },
       );
       throw error;
     }
   }) as T;
-} 
+}

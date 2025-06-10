@@ -5,18 +5,28 @@
 
 /* Tema geçişleri için HIZLI animasyon */
 * {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 100ms; /* Reduced from 150ms */
 }
 
 /* Özel tema geçiş animasyonu */
 .theme-transition {
-  transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease;
+  transition:
+    background-color 0.7s ease,
+    color 0.7s ease,
+    border-color 0.7s ease,
+    box-shadow 0.7s ease;
 }
 
 .theme-transition * {
-  transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease;
+  transition:
+    background-color 0.7s ease,
+    color 0.7s ease,
+    border-color 0.7s ease,
+    box-shadow 0.7s ease;
 }
 
 /* Varsayılan tema (açık tema) */
@@ -52,7 +62,7 @@
   --border-muted: #f1f5f9;
   --input: #e2e8f0;
   --ring: #93c5fd;
-  
+
   /* Temel renk değişkenleri */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -91,7 +101,7 @@
   --border-muted: #f1f5f9;
   --input: #e2e8f0;
   --ring: #93c5fd;
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
@@ -129,7 +139,7 @@
   --border-muted: #1e293b;
   --input: #1e293b;
   --ring: #3b82f6;
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
@@ -168,7 +178,7 @@
     --border-muted: #1e293b;
     --input: #1e293b;
     --ring: #3b82f6;
-    
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
   }
@@ -178,7 +188,9 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: Arial, Helvetica, sans-serif; /* Varsayılan font ailesi */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Body scroll davranışı */
@@ -198,14 +210,21 @@ body {
   color: var(--card-foreground);
   border-color: var(--border);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
 }
 
 /* Hover durumunda hafifçe büyüyen interaktif kartlar */
 .card-interactive:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Aktif kartlar için özel stil */
@@ -220,7 +239,11 @@ body {
   justify-content: center;
   border-radius: 0.375rem;
   font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Sidebar'ın görünürlüğü için özel stil */
@@ -398,7 +421,9 @@ body {
 
 /* Micro-interactions and Hover Effects */
 .hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .hover-lift:hover {
@@ -430,9 +455,15 @@ body {
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Floating Animation */
@@ -441,8 +472,13 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Pulse Animation */
@@ -451,8 +487,13 @@ body {
 }
 
 @keyframes pulseSoft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Text Gradient Effects */
@@ -480,15 +521,17 @@ body {
 
 /* Modern Card Shadows */
 .shadow-modern {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-              0 2px 4px -1px rgba(0, 0, 0, 0.06),
-              0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .shadow-modern-dark {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
-              0 2px 4px -1px rgba(0, 0, 0, 0.2),
-              0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .shadow-glow-blue {
@@ -513,8 +556,12 @@ body {
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Hardware Acceleration */

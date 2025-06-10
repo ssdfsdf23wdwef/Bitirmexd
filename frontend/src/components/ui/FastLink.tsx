@@ -38,9 +38,9 @@ export default function FastLink({
     if (onClick) {
       onClick(e);
     }
-    
+
     // External links için normal davranış
-    if (href.startsWith('http') || href.startsWith('mailto:')) {
+    if (href.startsWith("http") || href.startsWith("mailto:")) {
       return;
     }
 
@@ -53,11 +53,11 @@ export default function FastLink({
     // INSTANT navigation için optimize edilmiş yönlendirme
     if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
       e.preventDefault();
-      
+
       // Immediate visual feedback
       const target = e.currentTarget;
-      target.style.transform = 'scale(0.98)';
-      
+      target.style.transform = "scale(0.98)";
+
       // Super fast navigation with minimal delay
       requestAnimationFrame(() => {
         if (replace) {
@@ -65,10 +65,10 @@ export default function FastLink({
         } else {
           router.push(href, { scroll });
         }
-        
+
         // Reset visual feedback
         setTimeout(() => {
-          target.style.transform = '';
+          target.style.transform = "";
         }, 50);
       });
     }
@@ -82,8 +82,8 @@ export default function FastLink({
       onClick={handleClick}
       style={{
         // Hardware acceleration
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
       }}
       {...props}
     >

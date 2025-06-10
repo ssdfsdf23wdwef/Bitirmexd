@@ -1,16 +1,26 @@
 "use client";
 
-import { ReactNode, memo, useEffect, useState, useCallback, useMemo } from "react";
+import {
+  ReactNode,
+  memo,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import dynamic from "next/dynamic";
 import UserControls from "./UserControls";
 import { usePathname } from "next/navigation";
-import PrefetchLinks, { CRITICAL_ROUTES, SECONDARY_ROUTES } from "@/components/optimization/PrefetchLinks";
+import PrefetchLinks, {
+  CRITICAL_ROUTES,
+  SECONDARY_ROUTES,
+} from "@/components/optimization/PrefetchLinks";
 
 const LoadingPlaceholder = () => (
   <div className="animate-pulse h-full">
     <div
       className="h-full w-64 bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60 border-r border-gray-200 dark:border-gray-800 rounded-r-md"
-      style={{ transform: 'translateZ(0)' }}
+      style={{ transform: "translateZ(0)" }}
     ></div>
   </div>
 );
@@ -19,8 +29,8 @@ const Sidebar = dynamic<SidebarProps>(
   () => import("@/components/layout/Sidebar"),
   {
     loading: () => <LoadingPlaceholder />,
-    ssr: false
-  }
+    ssr: false,
+  },
 );
 
 interface SidebarProps {
@@ -36,10 +46,10 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const pathname = usePathname();
-  
+
   // Memoized computed values
   const isHomePage = useMemo(() => pathname === "/", [pathname]);
-  
+
   // Optimize mounting with immediate state update
   useEffect(() => {
     setIsMounted(true);
@@ -47,45 +57,51 @@ function MainLayoutBase({ children }: MainLayoutProps) {
 
   // Memoized callback for sidebar toggle
   const toggleSidebar = useCallback(() => {
-    setIsSidebarCollapsed(prev => !prev);
+    setIsSidebarCollapsed((prev) => !prev);
   }, []);
 
   useEffect(() => {
     if (isHomePage) {
-      document.body.classList.add('no-scroll');
+      document.body.classList.add("no-scroll");
       return () => {
-        document.body.classList.remove('no-scroll');
+        document.body.classList.remove("no-scroll");
       };
     }
   }, [isHomePage]);
 
   // Memoized style objects for better performance
-  const sidebarStyle = useMemo(() => ({
-    position: 'fixed' as const,
-    top: 0,
-    left: 0,
-    height: '100vh',
-    zIndex: 999,
-    willChange: 'width'
-    // isolation: 'isolate', KALDIRILDI - Containing block oluşturuyordu
-  }), []);
+  const sidebarStyle = useMemo(
+    () => ({
+      position: "fixed" as const,
+      top: 0,
+      left: 0,
+      height: "100vh",
+      zIndex: 999,
+      willChange: "width",
+      // isolation: 'isolate', KALDIRILDI - Containing block oluşturuyordu
+    }),
+    [],
+  );
 
-  const mainStyle = useMemo(() => ({
-    paddingLeft: isMounted ? (isSidebarCollapsed ? '84px' : '296px') : '16px',
-    paddingRight: '1rem',
-    position: 'relative' as const,
-    width: '100%',
-    minHeight: '100vh',
-    // Scroll container olarak işlev görmesi için
-    overflowY: 'auto' as const,
-    overflowX: 'hidden' as const
-    // isolation: 'isolate' KALDIRILDI - Sidebar positioning'i bozuyordu
-  }), [isMounted, isSidebarCollapsed]);
+  const mainStyle = useMemo(
+    () => ({
+      paddingLeft: isMounted ? (isSidebarCollapsed ? "84px" : "296px") : "16px",
+      paddingRight: "1rem",
+      position: "relative" as const,
+      width: "100%",
+      minHeight: "100vh",
+      // Scroll container olarak işlev görmesi için
+      overflowY: "auto" as const,
+      overflowX: "hidden" as const,
+      // isolation: 'isolate' KALDIRILDI - Sidebar positioning'i bozuyordu
+    }),
+    [isMounted, isSidebarCollapsed],
+  );
 
   // Memoized className calculations
-  const sidebarClassName = useMemo(() => 
-    `sidebar-fixed ${isSidebarCollapsed ? 'w-16' : 'w-64'}`, 
-    [isSidebarCollapsed]
+  const sidebarClassName = useMemo(
+    () => `sidebar-fixed ${isSidebarCollapsed ? "w-16" : "w-64"}`,
+    [isSidebarCollapsed],
   );
 
   // Early return with loading state - no spinner to improve perceived performance
@@ -102,50 +118,42 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   }
 
   const layoutStructure = (
+    <div className="layout-container min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
+      {/* Aggressive prefetching for instant navigation */}
+      <PrefetchLinks links={CRITICAL_ROUTES} />
+      <PrefetchLinks links={SECONDARY_ROUTES} />
 
-      <div className="layout-container min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
-        {/* Aggressive prefetching for instant navigation */}
-        <PrefetchLinks links={CRITICAL_ROUTES} />
-        <PrefetchLinks links={SECONDARY_ROUTES} />
+      <div className="flex w-full relative">
+        {isMounted && (
+          <div className={sidebarClassName} style={sidebarStyle}>
+            <Sidebar
+              isCollapsed={isSidebarCollapsed}
+              onToggleCollapse={toggleSidebar}
+            />
 
-        <div className="flex w-full relative">
-          {isMounted && (
-            <div
-              className={sidebarClassName}
-              style={sidebarStyle}
-            >
-              <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
+            {/* Toggle Sidebar Button - Positioned in top-right of sidebar */}
+          </div>
+        )}
 
-              {/* Toggle Sidebar Button - Positioned in top-right of sidebar */}
-
+        <main
+          className={`main-content flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
+          style={mainStyle}
+        >
+          {/* User Controls - Only on Home Page */}
+          {isHomePage && (
+            <div className="fixed top-4 right-6 z-40">
+              <UserControls />
             </div>
           )}
-
-          <main
-            className={`main-content flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
-            style={mainStyle}
-          >
-
-
-            {/* User Controls - Only on Home Page */}
-            {isHomePage && (
-              <div className="fixed top-4 right-6 z-40">
-                <UserControls />
-              </div>
-            )}
-            <div className="max-w-7xl mx-auto w-full pt-2">
-              {children}
-            </div>
-          </main>
-        </div>
+          <div className="max-w-7xl mx-auto w-full pt-2">{children}</div>
+        </main>
       </div>
-
+    </div>
   );
 
   return layoutStructure;
 }
 
-
 const MainLayout = memo(MainLayoutBase);
-MainLayout.displayName = 'MainLayout';
+MainLayout.displayName = "MainLayout";
 export default MainLayout;

@@ -3,15 +3,20 @@
  * @description Frontend loglama yardımcı fonksiyonları
  */
 
-import { FlowTrackerService, FlowCategory as TrackerFlowCategory } from '../services/flow-tracker.service';
-import LoggerService from '../services/logger.service';
+import {
+  FlowTrackerService,
+  FlowCategory as TrackerFlowCategory,
+} from "../services/flow-tracker.service";
+import LoggerService from "../services/logger.service";
 import { FlowCategory } from "@/constants/logging.constants";
 
 let loggerInstance: any | null = null;
 let flowTrackerInstance: FlowTrackerService | null = null;
 
-export function mapToTrackerCategory(category: FlowCategory): TrackerFlowCategory {
-  switch(category) {
+export function mapToTrackerCategory(
+  category: FlowCategory,
+): TrackerFlowCategory {
+  switch (category) {
     case FlowCategory.API:
       return TrackerFlowCategory.API;
     case FlowCategory.Auth:
@@ -42,7 +47,7 @@ export function mapToTrackerCategory(category: FlowCategory): TrackerFlowCategor
  * @returns Dosya adı
  */
 function extractFileName(filePath: string): string {
-  if (!filePath) return 'unknown';
+  if (!filePath) return "unknown";
   const parts = filePath.split(/[\/\\]/);
   return parts[parts.length - 1];
 }
@@ -54,7 +59,7 @@ function extractFileName(filePath: string): string {
  */
 function setupLogger(options?: any): any {
   // Ensure we're in client-side environment
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // Return a mock logger for SSR
     return {
       info: () => {},
@@ -67,9 +72,10 @@ function setupLogger(options?: any): any {
       getLogHistory: () => [],
       clearHistory: () => {},
       clearAllLogs: () => {},
-      getAllErrorLogs: () => '',
+      getAllErrorLogs: () => "",
     } as any;
-  }  try {
+  }
+  try {
     // Try to get the LoggerService instance
     loggerInstance = LoggerService.getInstance();
     if (options && loggerInstance) {
@@ -77,7 +83,7 @@ function setupLogger(options?: any): any {
     }
     return loggerInstance;
   } catch (error) {
-    console.error('[setupLogger] Error initializing logger:', error);
+    console.error("[setupLogger] Error initializing logger:", error);
     // Return a fallback logger
     return {
       info: (msg: string, ctx: string) => console.info(`[${ctx}] ${msg}`),
@@ -90,7 +96,7 @@ function setupLogger(options?: any): any {
       getLogHistory: () => [],
       clearHistory: () => {},
       clearAllLogs: () => {},
-      getAllErrorLogs: () => '',
+      getAllErrorLogs: () => "",
     } as any;
   }
 }
@@ -102,7 +108,7 @@ function setupLogger(options?: any): any {
  */
 function setupFlowTracker(options?: any): FlowTrackerService {
   // Ensure we're in client-side environment
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // Return a mock flow tracker for SSR
     return {
       trackStep: () => {},
@@ -111,7 +117,7 @@ function setupFlowTracker(options?: any): FlowTrackerService {
       trackStateChange: () => {},
       trackApiCall: () => {},
       trackUserInteraction: () => {},
-      startSequence: () => '',
+      startSequence: () => "",
       endSequence: () => undefined,
       markStart: () => {},
       markEnd: () => {},
@@ -119,25 +125,25 @@ function setupFlowTracker(options?: any): FlowTrackerService {
       getSteps: () => [],
       getSequences: () => [],
       clearHistory: () => {},
-      getAllFlowLogs: () => '',
-      clearAllLogs: () => {}
+      getAllFlowLogs: () => "",
+      clearAllLogs: () => {},
     } as any;
   }
   try {
     flowTrackerInstance = FlowTrackerService.getInstance();
     return flowTrackerInstance;
   } catch (error) {
-    console.error('[setupFlowTracker] Error initializing flow tracker:', error);
+    console.error("[setupFlowTracker] Error initializing flow tracker:", error);
     // Return a fallback flow tracker
     return {
-      trackStep: (category: any, message: string, context: string) => 
+      trackStep: (category: any, message: string, context: string) =>
         console.log(`[FLOW] [${category}] [${context}] ${message}`),
       trackTiming: () => {},
       trackComponent: () => {},
       trackStateChange: () => {},
       trackApiCall: () => {},
       trackUserInteraction: () => {},
-      startSequence: () => '',
+      startSequence: () => "",
       endSequence: () => undefined,
       markStart: () => {},
       markEnd: () => {},
@@ -145,8 +151,8 @@ function setupFlowTracker(options?: any): FlowTrackerService {
       getSteps: () => [],
       getSequences: () => [],
       clearHistory: () => {},
-      getAllFlowLogs: () => '',
-      clearAllLogs: () => {}
+      getAllFlowLogs: () => "",
+      clearAllLogs: () => {},
     } as any;
   }
 }
@@ -162,7 +168,7 @@ export function setupLogging(options?: {
   // Sırayla LoggerService ve FlowTrackerService'i başlat
   const logger = setupLogger(options?.loggerOptions);
   const flowTracker = setupFlowTracker(options?.flowTrackerOptions);
-  
+
   return { logger, flowTracker };
 }
 
@@ -174,19 +180,43 @@ export function getLogger(): any | null {
   if (!loggerInstance) {
     try {
       // Check if we're in SSR environment
-      if (typeof window === 'undefined') {
+      if (typeof window === "undefined") {
         // Server-side: create a mock logger that just console logs
         loggerInstance = {
-          info: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+          info: (
+            msg: string,
+            ctx: string,
+            file?: string,
+            line?: string,
+            meta?: any,
+          ) => {
             // Silent in SSR to avoid noise
           },
-          warn: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+          warn: (
+            msg: string,
+            ctx: string,
+            file?: string,
+            line?: string,
+            meta?: any,
+          ) => {
             // Silent in SSR to avoid noise
           },
-          error: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+          error: (
+            msg: string,
+            ctx: string,
+            file?: string,
+            line?: string,
+            meta?: any,
+          ) => {
             // Silent in SSR to avoid noise
           },
-          debug: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => {
+          debug: (
+            msg: string,
+            ctx: string,
+            file?: string,
+            line?: string,
+            meta?: any,
+          ) => {
             // Silent in SSR to avoid noise
           },
           logLearningTarget: (msg: string, ...args: any[]) => {
@@ -195,25 +225,50 @@ export function getLogger(): any | null {
           getLogHistory: () => [],
           clearHistory: () => {},
           clearAllLogs: () => {},
-          getAllErrorLogs: () => '',
+          getAllErrorLogs: () => "",
         } as any;
         return loggerInstance;
-      }      // Try to use the LoggerService
+      } // Try to use the LoggerService
       loggerInstance = LoggerService.getInstance();
     } catch (error) {
       // Client-side: create a minimal fallback logger
       loggerInstance = {
-        info: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.info(`[${ctx}] ${msg}`, meta || ''),
-        warn: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.warn(`[${ctx}] ${msg}`, meta || ''),
-        error: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.error(`[${ctx}] ${msg}`, meta || ''),
-        debug: (msg: string, ctx: string, file?: string, line?: string, meta?: any) => console.debug(`[${ctx}] ${msg}`, meta || ''),
-        logLearningTarget: (msg: string, ...args: any[]) => console.info(`[LEARNING] ${msg}`, ...args),
+        info: (
+          msg: string,
+          ctx: string,
+          file?: string,
+          line?: string,
+          meta?: any,
+        ) => console.info(`[${ctx}] ${msg}`, meta || ""),
+        warn: (
+          msg: string,
+          ctx: string,
+          file?: string,
+          line?: string,
+          meta?: any,
+        ) => console.warn(`[${ctx}] ${msg}`, meta || ""),
+        error: (
+          msg: string,
+          ctx: string,
+          file?: string,
+          line?: string,
+          meta?: any,
+        ) => console.error(`[${ctx}] ${msg}`, meta || ""),
+        debug: (
+          msg: string,
+          ctx: string,
+          file?: string,
+          line?: string,
+          meta?: any,
+        ) => console.debug(`[${ctx}] ${msg}`, meta || ""),
+        logLearningTarget: (msg: string, ...args: any[]) =>
+          console.info(`[LEARNING] ${msg}`, ...args),
         getLogHistory: () => [],
         clearHistory: () => {},
         clearAllLogs: () => {},
-        getAllErrorLogs: () => '',
+        getAllErrorLogs: () => "",
         setConfig: () => {},
-        getConfig: () => ({})
+        getConfig: () => ({}),
       } as any;
     }
   }
@@ -230,7 +285,7 @@ export function getFlowTracker(): FlowTrackerService | null {
       flowTrackerInstance = FlowTrackerService.getInstance();
     } catch (error) {
       // If FlowTrackerService is not available (SSR case), create a mock instance
-      if (typeof window === 'undefined') {
+      if (typeof window === "undefined") {
         // Server-side: create a minimal mock flow tracker
         flowTrackerInstance = {
           trackStep: () => {},
@@ -239,7 +294,7 @@ export function getFlowTracker(): FlowTrackerService | null {
           trackStateChange: () => {},
           trackApiCall: () => {},
           trackUserInteraction: () => {},
-          startSequence: () => '',
+          startSequence: () => "",
           endSequence: () => undefined,
           markStart: () => {},
           markEnd: () => {},
@@ -247,21 +302,24 @@ export function getFlowTracker(): FlowTrackerService | null {
           getSteps: () => [],
           getSequences: () => [],
           clearHistory: () => {},
-          getAllFlowLogs: () => '',
-          clearAllLogs: () => {}
+          getAllFlowLogs: () => "",
+          clearAllLogs: () => {},
         } as any;
       } else {
-        console.error('[FlowTracker] FlowTracker initialization failed:', error);
+        console.error(
+          "[FlowTracker] FlowTracker initialization failed:",
+          error,
+        );
         // Create a minimal client-side fallback
         flowTrackerInstance = {
-          trackStep: (category: any, message: string, context: string) => 
+          trackStep: (category: any, message: string, context: string) =>
             console.log(`[FLOW] [${category}] [${context}] ${message}`),
           trackTiming: () => {},
           trackComponent: () => {},
           trackStateChange: () => {},
           trackApiCall: () => {},
           trackUserInteraction: () => {},
-          startSequence: () => '',
+          startSequence: () => "",
           endSequence: () => undefined,
           markStart: () => {},
           markEnd: () => {},
@@ -269,8 +327,8 @@ export function getFlowTracker(): FlowTrackerService | null {
           getSteps: () => [],
           getSequences: () => [],
           clearHistory: () => {},
-          getAllFlowLogs: () => '',
-          clearAllLogs: () => {}
+          getAllFlowLogs: () => "",
+          clearAllLogs: () => {},
         } as any;
       }
     }
@@ -282,11 +340,11 @@ export function getFlowTracker(): FlowTrackerService | null {
  * Global hata yakalama kurulumu
  */
 export function setupGlobalErrorHandling(): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return; // SSR'da çalışmaz
   }
-  
-  console.info('[ErrorHandler] Global hata yakalama aktif.');
+
+  console.info("[ErrorHandler] Global hata yakalama aktif.");
 }
 
 /**
@@ -300,23 +358,29 @@ export function trackFlow(
   message: string,
   context: string,
   category: FlowCategory,
-  metadata?: any
+  metadata?: any,
 ): void {
   try {
     const flowTracker = getFlowTracker();
     if (flowTracker) {
       const trackerCategory = mapToTrackerCategory(category);
       flowTracker.trackStep(trackerCategory, message, context);
-      
+
       // Logger'a da kaydet
       const logger = getLogger();
       if (logger) {
-        logger.info(`[FLOW] ${message}`, context, undefined, undefined, metadata);
+        logger.info(
+          `[FLOW] ${message}`,
+          context,
+          undefined,
+          undefined,
+          metadata,
+        );
       }
     }
   } catch (error) {
     // Fallback to console logging if services are not available
-    console.log(`[FLOW] [${category}] [${context}] ${message}`, metadata || '');
+    console.log(`[FLOW] [${category}] [${context}] ${message}`, metadata || "");
   }
 }
 
@@ -328,7 +392,7 @@ export function trackFlow(
  */
 export function startFlow(category: FlowCategory, name: string): any {
   const flowTracker = getFlowTracker();
-  
+
   if (flowTracker) {
     const flowId = flowTracker.startSequence(name);
     return {
@@ -340,7 +404,7 @@ export function startFlow(category: FlowCategory, name: string): any {
         flowTracker.trackStep(trackerCategory, message, `Flow:${name}`, {
           flowId,
           flowName: name,
-          ...metadata
+          ...metadata,
         });
       },
       end: (summary?: string) => {
@@ -352,25 +416,32 @@ export function startFlow(category: FlowCategory, name: string): any {
           {
             flowId,
             flowName: name,
-            status: 'completed'
-          }
+            status: "completed",
+          },
         );
         flowTracker.endSequence(flowId);
-      }
+      },
     };
   } else {
     const flowId = `flow_dummy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    console.warn(`[FlowTracker Utils] FlowTrackerService başlatılmamış. Akış başlatılıyor: ${name} (dummy ID: ${flowId})`);
+    console.warn(
+      `[FlowTracker Utils] FlowTrackerService başlatılmamış. Akış başlatılıyor: ${name} (dummy ID: ${flowId})`,
+    );
     return {
       id: flowId,
       category,
       name,
       trackStep: (message: string, metadata?: any) => {
-        console.log(`[FLOW] [${category}] [Flow:${name}] ${message}`, metadata || '');
+        console.log(
+          `[FLOW] [${category}] [Flow:${name}] ${message}`,
+          metadata || "",
+        );
       },
       end: (summary?: string) => {
-        console.log(`[FLOW] [${category}] [Flow:${name}] ${summary || 'Flow tamamlandı'}`);
-      }
+        console.log(
+          `[FLOW] [${category}] [Flow:${name}] ${summary || "Flow tamamlandı"}`,
+        );
+      },
     };
   }
 }
@@ -390,7 +461,7 @@ export function logInfo(
   context: string,
   file?: string,
   line?: string,
-  metadata?: any
+  metadata?: any,
 ): void {
   try {
     const logger = getLogger();
@@ -399,7 +470,7 @@ export function logInfo(
     }
   } catch (error) {
     // Fallback to console logging if logger is not available
-    console.info(`[INFO] [${context}] ${message}`, metadata || '');
+    console.info(`[INFO] [${context}] ${message}`, metadata || "");
   }
 }
 
@@ -416,7 +487,7 @@ function logDebug(
   context: string,
   file?: string,
   line?: string,
-  metadata?: any
+  metadata?: any,
 ): void {
   try {
     const logger = getLogger();
@@ -425,7 +496,7 @@ function logDebug(
     }
   } catch (error) {
     // Fallback to console logging if logger is not available
-    console.debug(`[DEBUG] [${context}] ${message}`, metadata || '');
+    console.debug(`[DEBUG] [${context}] ${message}`, metadata || "");
   }
 }
 
@@ -440,7 +511,7 @@ export function prettyLogError(
   error: Error,
   context: string,
   metadata?: any,
-  showErrorToast = false
+  showErrorToast = false,
 ): void {
   try {
     const logger = getLogger();

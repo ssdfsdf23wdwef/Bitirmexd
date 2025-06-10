@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
 import { CreateCourseDto, UpdateCourseDto } from './dto';
-import { 
+import {
   Course,
   LearningTarget,
   Document,
@@ -23,7 +23,7 @@ import {
   StatusDistribution,
   TargetProgress,
   DashboardData,
-  RelatedItemsCount
+  RelatedItemsCount,
 } from '../common/types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { cascadeDelete } from '../common/utils/firestore.utils';
@@ -45,7 +45,6 @@ export class CoursesService {
     this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
   }
-
 
   @LogMethod({ trackParams: true })
   async findAll(userId: string): Promise<Course[]> {

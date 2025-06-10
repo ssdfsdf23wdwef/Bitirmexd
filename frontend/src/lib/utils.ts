@@ -1,10 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-const formatDate = (
-  dateString: string,
-  locale: string = "tr-TR",
-): string => {
+const formatDate = (dateString: string, locale: string = "tr-TR"): string => {
   return new Date(dateString).toLocaleDateString(locale, {
     day: "2-digit",
     month: "2-digit",
@@ -80,9 +77,7 @@ export const removeAuthCookie = (): void => {
  * @param minRemainingMinutes En az kaç dakika kalan süre olması gerektiği
  * @returns Token'ın yenilenmesi gerekiyorsa true
  */
-const shouldRefreshToken = (
-  minRemainingMinutes: number = 10,
-): boolean => {
+const shouldRefreshToken = (minRemainingMinutes: number = 10): boolean => {
   if (typeof window === "undefined") return false;
 
   try {
@@ -102,9 +97,7 @@ const shouldRefreshToken = (
   }
 };
 
-const getAverageSuccess = <
-  T extends { lastAttemptScorePercent?: number },
->(
+const getAverageSuccess = <T extends { lastAttemptScorePercent?: number }>(
   items: T[],
 ): number | null => {
   const valid = items.filter(

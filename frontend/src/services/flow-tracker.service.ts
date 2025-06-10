@@ -3,21 +3,21 @@
  * @description Frontend uygulama durum akışını ve yaşam döngüsünü izleyen servis
  */
 
-import LoggerService from './logger.service'; // Changed from { LoggerService, LogLevel }
+import LoggerService from "./logger.service"; // Changed from { LoggerService, LogLevel }
 
 /**
  * İzlenebilecek akış kategorileri
  */
 export enum FlowCategory {
-  Navigation = 'Navigation',  // Sayfa gezintileri
-  Component = 'Component',    // Bileşen yaşam döngüsü
-  State = 'State',            // Durum değişiklikleri
-  API = 'API',                // API çağrıları
-  Auth = 'Auth',              // Kimlik doğrulama işlemleri
-  Render = 'Render',          // Render performansı
-  User = 'User',              // Kullanıcı etkileşimleri
-  Error = 'Error',            // Hata izleme
-  Custom = 'Custom'           // Özel kategoriler
+  Navigation = "Navigation", // Sayfa gezintileri
+  Component = "Component", // Bileşen yaşam döngüsü
+  State = "State", // Durum değişiklikleri
+  API = "API", // API çağrıları
+  Auth = "Auth", // Kimlik doğrulama işlemleri
+  Render = "Render", // Render performansı
+  User = "User", // Kullanıcı etkileşimleri
+  Error = "Error", // Hata izleme
+  Custom = "Custom", // Özel kategoriler
 }
 
 /**
@@ -69,23 +69,18 @@ export class FlowTracker {
     private service: FlowTrackerService,
     private id: string,
     private category: FlowCategory,
-    private name: string
+    private name: string,
   ) {}
 
   /**
    * Bir akış adımı izler ve aynı flow context'inde kaydeder
    */
   trackStep(step: string, metadata?: Record<string, unknown>): FlowTracker {
-    this.service.trackStep(
-      this.category,
-      step,
-      `Flow:${this.name}`,
-      {
-        flowId: this.id,
-        flowName: this.name,
-        ...metadata
-      }
-    );
+    this.service.trackStep(this.category, step, `Flow:${this.name}`, {
+      flowId: this.id,
+      flowName: this.name,
+      ...metadata,
+    });
     return this;
   }
 
@@ -100,8 +95,8 @@ export class FlowTracker {
       {
         flowId: this.id,
         flowName: this.name,
-        status: 'completed'
-      }
+        status: "completed",
+      },
     );
   }
 }
@@ -130,67 +125,93 @@ export class FlowTrackerService {
   private apiQueue: FlowStep[] = [];
   private apiDebounceTimer: number | NodeJS.Timeout | null = null;
   private configWriteToLocalFile: boolean;
-  
+
   private constructor(options: FlowTrackerOptions = {}) {
     // Safe logger initialization - handle SSR case
     try {
-      this.logger = options.logger || (typeof window !== 'undefined' ? LoggerService.getInstance() : undefined);
+      this.logger =
+        options.logger ||
+        (typeof window !== "undefined"
+          ? LoggerService.getInstance()
+          : undefined);
     } catch (error) {
       this.logger = undefined;
-      if (typeof window !== 'undefined') {
-        console.warn('[FlowTrackerService] Logger initialization failed:', error);
+      if (typeof window !== "undefined") {
+        console.warn(
+          "[FlowTrackerService] Logger initialization failed:",
+          error,
+        );
       }
     }
 
     this.consoleOutput = options.consoleOutput ?? false; // Konsol çıktısını varsayılan olarak aktif yapıyorum
-    this.enabled = options.enabled ?? process.env.NODE_ENV !== 'production';
-    this.enabledCategories = new Set(options.categories || [
-      FlowCategory.Navigation,
-      FlowCategory.Component,
-      FlowCategory.State,
-      FlowCategory.API,
-      FlowCategory.Auth,
-      FlowCategory.User,
-      FlowCategory.Error,
-      FlowCategory.Custom
-    ]);
-    
-    let allowedContextsArray: string[] = ['*'];
-    if (typeof window !== 'undefined') {
-      const storedContexts = localStorage.getItem('flow_tracker_allowed_contexts');
+    this.enabled = options.enabled ?? process.env.NODE_ENV !== "production";
+    this.enabledCategories = new Set(
+      options.categories || [
+        FlowCategory.Navigation,
+        FlowCategory.Component,
+        FlowCategory.State,
+        FlowCategory.API,
+        FlowCategory.Auth,
+        FlowCategory.User,
+        FlowCategory.Error,
+        FlowCategory.Custom,
+      ],
+    );
+
+    let allowedContextsArray: string[] = ["*"];
+    if (typeof window !== "undefined") {
+      const storedContexts = localStorage.getItem(
+        "flow_tracker_allowed_contexts",
+      );
       if (storedContexts) {
         try {
           allowedContextsArray = JSON.parse(storedContexts);
         } catch (e) {
           if (this.logger) {
             const errorMessage = e instanceof Error ? e.message : String(e);
-            this.logger.error(errorMessage, 'FlowTrackerService.constructor', undefined, undefined, { originalError: e });
+            this.logger.error(
+              errorMessage,
+              "FlowTrackerService.constructor",
+              undefined,
+              undefined,
+              { originalError: e },
+            );
           }
         }
       }
     }
     this.allowedContexts = new Set(allowedContextsArray);
-    
+
     this.traceRenders = options.traceRenders ?? false;
     this.traceStateChanges = options.traceStateChanges ?? true;
     this.traceApiCalls = options.traceApiCalls ?? true;
     this.captureTimings = options.captureTimings ?? true;
     this.configWriteToLocalFile = options.writeToLocalFile ?? true; // Yerel dosyaya yazımı varsayılan olarak açıyorum
-    
-    if (this.traceRenders && typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+
+    if (
+      this.traceRenders &&
+      typeof window !== "undefined" &&
+      "PerformanceObserver" in window
+    ) {
       this.setupPerformanceObserver();
     }
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       this.setupNavigationTracking();
     }
 
     if (this.logger) {
-        this.logger.info('FlowTrackerService başlatıldı.', 'FlowTrackerService.constructor');
-    } else if (typeof window !== 'undefined') {
-        console.info('[FlowTrackerService] FlowTrackerService logger olmadan başlatıldı.');
+      this.logger.info(
+        "FlowTrackerService başlatıldı.",
+        "FlowTrackerService.constructor",
+      );
+    } else if (typeof window !== "undefined") {
+      console.info(
+        "[FlowTrackerService] FlowTrackerService logger olmadan başlatıldı.",
+      );
     }
   }
-  
+
   /**
    * Singleton instance oluşturma
    */
@@ -200,7 +221,7 @@ export class FlowTrackerService {
     }
     return FlowTrackerService.instance;
   }
-  
+
   /**
    * Performans gözlemcisini ayarlar
    */
@@ -208,52 +229,70 @@ export class FlowTrackerService {
     try {
       const observer = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry) => {
-          if (entry.entryType === 'measure' && entry.name.startsWith('render_')) {
-            const componentName = entry.name.replace('render_', '');
-            this.trackTiming(FlowCategory.Render, `${componentName} bileşeni render edildi`, componentName, entry.duration);
+          if (
+            entry.entryType === "measure" &&
+            entry.name.startsWith("render_")
+          ) {
+            const componentName = entry.name.replace("render_", "");
+            this.trackTiming(
+              FlowCategory.Render,
+              `${componentName} bileşeni render edildi`,
+              componentName,
+              entry.duration,
+            );
           }
         });
       });
-      
-      observer.observe({ entryTypes: ['measure'], buffered: true });
+
+      observer.observe({ entryTypes: ["measure"], buffered: true });
     } catch (error) {
-      console.error('Performans gözlemcisi oluşturulamadı:', error);
+      console.error("Performans gözlemcisi oluşturulamadı:", error);
     }
   }
-  
+
   /**
    * Sayfa gezinimlerini izlemeyi ayarlar
    */
   private setupNavigationTracking(): void {
     // Sayfa yüklendiğinde
-    window.addEventListener('load', () => {
-      this.trackStep(FlowCategory.Navigation, 'Sayfa yüklendi', 'Browser', {
+    window.addEventListener("load", () => {
+      this.trackStep(FlowCategory.Navigation, "Sayfa yüklendi", "Browser", {
         url: window.location.href,
-        title: document.title
+        title: document.title,
       });
     });
-    
+
     // Sayfalar arası geçişleri izlemek için history API'larını dinle
     const originalPushState = history.pushState;
-    history.pushState = function(...args) {
+    history.pushState = function (...args) {
       const result = originalPushState.apply(this, args);
-      window.dispatchEvent(new Event('pushstate'));
+      window.dispatchEvent(new Event("pushstate"));
       return result;
     };
-    
-    window.addEventListener('pushstate', () => {
-      this.trackStep(FlowCategory.Navigation, 'Sayfa geçişi yapıldı', 'History', {
-        url: window.location.href
-      });
+
+    window.addEventListener("pushstate", () => {
+      this.trackStep(
+        FlowCategory.Navigation,
+        "Sayfa geçişi yapıldı",
+        "History",
+        {
+          url: window.location.href,
+        },
+      );
     });
-    
-    window.addEventListener('popstate', () => {
-      this.trackStep(FlowCategory.Navigation, 'Geri/ileri tuşu kullanıldı', 'History', {
-        url: window.location.href
-      });
+
+    window.addEventListener("popstate", () => {
+      this.trackStep(
+        FlowCategory.Navigation,
+        "Geri/ileri tuşu kullanıldı",
+        "History",
+        {
+          url: window.location.href,
+        },
+      );
     });
   }
-  
+
   /**
    * Temel bir akış adımı kaydeder
    */
@@ -261,44 +300,46 @@ export class FlowTrackerService {
     category: FlowCategory,
     message: string,
     context: string,
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown>,
   ): void {
-    if (!this.enabled || 
-        !this.enabledCategories.has(category) ||
-        (this.allowedContexts.size > 0 && 
-          !this.allowedContexts.has('*') && 
-          (!context || !this.allowedContexts.has(context)))) {
+    if (
+      !this.enabled ||
+      !this.enabledCategories.has(category) ||
+      (this.allowedContexts.size > 0 &&
+        !this.allowedContexts.has("*") &&
+        (!context || !this.allowedContexts.has(context)))
+    ) {
       return;
     }
-    
+
     const timestamp = Date.now();
     const stepId = `flow_step_${++this.stepCount}`;
-    
+
     const step: FlowStep = {
       id: stepId,
       timestamp,
       category,
       message,
       context,
-      metadata
+      metadata,
     };
-    
+
     this.steps.push(step);
-    
+
     // Aktif sekanslara adımı ekle
-    this.activeSequences.forEach(sequenceId => {
+    this.activeSequences.forEach((sequenceId) => {
       const sequence = this.sequences.get(sequenceId);
       if (sequence) {
         sequence.steps.push(step);
       }
     });
-    
+
     // Konsola log - sadece development modunda göster
-    if (this.consoleOutput && process.env.NODE_ENV === 'development') {
+    if (this.consoleOutput && process.env.NODE_ENV === "development") {
       // Yorum satırına dönüştürerek konsol çıktısını devre dışı bırak
       // this.consoleLogStepWithColor(step);
     }
-    
+
     // Logger servisine gönder
     if (this.logger) {
       this.logger.info(
@@ -306,10 +347,10 @@ export class FlowTrackerService {
         `FlowTracker.${category}.${context}`,
         undefined,
         undefined,
-        { flowCategory: category, ...metadata }
+        { flowCategory: category, ...metadata },
       );
     }
-    
+
     // LocalStorage'a flow kaydı
     this.saveToLocalStorage(step);
 
@@ -317,38 +358,38 @@ export class FlowTrackerService {
       this.scheduleWriteToLocalFile(step);
     }
   }
-  
+
   /**
    * Flow log kaydını localStorage'a kaydeder
    */
   private saveToLocalStorage(step: FlowStep): void {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return; // SSR sırasında localStorage yok, atla
     }
-    
+
     try {
-      const storageKey = 'frontend-flow-tracker.log';
+      const storageKey = "frontend-flow-tracker.log";
       const timestamp = new Date(step.timestamp).toISOString();
-      
+
       // Log satırını oluştur
       const logLine = `[${timestamp}] [${step.category}] [${step.context}] ${step.message}`;
-      
+
       try {
         // Mevcut logları al
-        let logs = '';
+        let logs = "";
         try {
-          logs = localStorage.getItem(storageKey) || '';
+          logs = localStorage.getItem(storageKey) || "";
         } catch {
           // localStorage okuma hatası - temiz başla
-          logs = '';
+          logs = "";
         }
-        
+
         // Ekle
-        logs += logLine + '\n';
-        
+        logs += logLine + "\n";
+
         // localStorage kapasitesi kontrolü - Max 50KB
         const MAX_SIZE = 50 * 1024; // 50KB - daha güvenli
-        
+
         // Yeni içerik eklenince boyut aşılacak mı kontrol et
         if (logs.length > MAX_SIZE) {
           // Aşılıyorsa önce daha agresif temizleme yap
@@ -358,18 +399,20 @@ export class FlowTrackerService {
             // Son satırlardan itibaren sadece PRESERVE_SIZE kadar tut
             logs = logs.substring(logs.length - PRESERVE_SIZE);
             // İlk satırın başlangıcını bul
-            const firstLineIndex = logs.indexOf('\n') + 1;
+            const firstLineIndex = logs.indexOf("\n") + 1;
             if (firstLineIndex > 0) {
               logs = logs.substring(firstLineIndex);
             }
             // Kesme işlemi bilgisini ekle
-            logs = `\n[${timestamp}] [SYSTEM] Depolama alanı dolu, eski loglar temizlendi.\n` + logs;
+            logs =
+              `\n[${timestamp}] [SYSTEM] Depolama alanı dolu, eski loglar temizlendi.\n` +
+              logs;
           } else {
             // Küçük loglar için tamamen temizle
-            logs = '';
+            logs = "";
           }
         }
-        
+
         // Kaydet
         try {
           localStorage.setItem(storageKey, logs);
@@ -377,7 +420,10 @@ export class FlowTrackerService {
           // localStorage yazma hatası - temiz başla
           try {
             localStorage.removeItem(storageKey);
-            localStorage.setItem(storageKey, `[${timestamp}] [SYSTEM] Log alanı temizlendi.\n${logLine}\n`);
+            localStorage.setItem(
+              storageKey,
+              `[${timestamp}] [SYSTEM] Log alanı temizlendi.\n${logLine}\n`,
+            );
           } catch {
             // Ciddi hata - sessizce devam et
           }
@@ -387,23 +433,23 @@ export class FlowTrackerService {
       }
     } catch (e) {
       // Genel hata durumu - sadece konsola yönlendir
-      console.error('[FlowTracker] Log kaydetme hatası:', e);
+      console.error("[FlowTracker] Log kaydetme hatası:", e);
     }
   }
-  
+
   /**
    * Kayıtlı tüm akış loglarını bir dizi halinde verir
    */
   public getAllFlowLogs(): string {
     try {
-      const storageKey = 'frontend-flow-tracker.log';
-      return localStorage.getItem(storageKey) || '';
+      const storageKey = "frontend-flow-tracker.log";
+      return localStorage.getItem(storageKey) || "";
     } catch (error) {
-      console.error('[FlowTracker] Log alma hatası:', error);
-      return '';
+      console.error("[FlowTracker] Log alma hatası:", error);
+      return "";
     }
   }
-  
+
   /**
    * Zamanlama bilgisi ile adım izler
    */
@@ -412,20 +458,24 @@ export class FlowTrackerService {
     message: string,
     context: string,
     timing: number,
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown>,
   ): void {
-    if (!this.enabled || 
-        !this.enabledCategories.has(category) ||
-        (this.allowedContexts.size > 0 && 
-         !this.allowedContexts.has('*') && 
-         (!context || !this.allowedContexts.has(context)))) {
-      console.log(`[FlowTracker] İzin verilmeyen timing context: ${context || 'undefined'}, category: ${category}`);
+    if (
+      !this.enabled ||
+      !this.enabledCategories.has(category) ||
+      (this.allowedContexts.size > 0 &&
+        !this.allowedContexts.has("*") &&
+        (!context || !this.allowedContexts.has(context)))
+    ) {
+      console.log(
+        `[FlowTracker] İzin verilmeyen timing context: ${context || "undefined"}, category: ${category}`,
+      );
       return;
     }
-    
+
     const timestamp = Date.now();
     const stepId = `flow_timing_${++this.stepCount}`;
-    
+
     const step: FlowStep = {
       id: stepId,
       timestamp,
@@ -433,25 +483,25 @@ export class FlowTrackerService {
       message,
       context,
       timing,
-      metadata
+      metadata,
     };
-    
+
     this.steps.push(step);
-    
+
     // Aktif sekanslara adımı ekle
-    this.activeSequences.forEach(sequenceId => {
+    this.activeSequences.forEach((sequenceId) => {
       const sequence = this.sequences.get(sequenceId);
       if (sequence) {
         sequence.steps.push(step);
       }
     });
-    
+
     // Konsola log - sadece development modunda göster
-    if (this.consoleOutput && process.env.NODE_ENV === 'development') {
+    if (this.consoleOutput && process.env.NODE_ENV === "development") {
       // Yorum satırına dönüştürerek konsol çıktısını devre dışı bırak
       // this.consoleLogTiming(step);
     }
-    
+
     // Logger servisine gönder
     if (this.logger && timing > 0) {
       this.logger.info(
@@ -459,32 +509,37 @@ export class FlowTrackerService {
         `FlowTracker.Timing.${context}`,
         undefined,
         undefined,
-        { 
+        {
           flowCategory: category,
           timing,
-          ...metadata
-        }
+          ...metadata,
+        },
       );
     }
   }
-  
+
   /**
    * Bileşenin yaşam döngüsü olayını izler
    */
   public trackComponent(
     componentName: string,
-    lifecycle: 'mount' | 'update' | 'unmount',
-    props?: Record<string, unknown>
+    lifecycle: "mount" | "update" | "unmount",
+    props?: Record<string, unknown>,
   ): void {
-    const message = `Bileşen ${lifecycle === 'mount' ? 'monte edildi' : 
-      lifecycle === 'update' ? 'güncellendi' : 'kaldırıldı'}`;
-    
+    const message = `Bileşen ${
+      lifecycle === "mount"
+        ? "monte edildi"
+        : lifecycle === "update"
+          ? "güncellendi"
+          : "kaldırıldı"
+    }`;
+
     this.trackStep(FlowCategory.Component, message, componentName, {
       lifecycle,
-      props: props ? this.safeStringify(props) : undefined
+      props: props ? this.safeStringify(props) : undefined,
     });
   }
-  
+
   /**
    * Durum değişikliğini izler
    */
@@ -492,19 +547,19 @@ export class FlowTrackerService {
     stateName: string,
     context: string,
     oldValue: unknown,
-    newValue: unknown
+    newValue: unknown,
   ): void {
     if (!this.traceStateChanges) {
       return;
     }
-    
+
     this.trackStep(FlowCategory.State, `${stateName} durumu değişti`, context, {
       stateName,
       oldValue: this.safeStringify(oldValue),
-      newValue: this.safeStringify(newValue)
+      newValue: this.safeStringify(newValue),
     });
   }
-  
+
   /**
    * API çağrısını izler
    */
@@ -512,19 +567,19 @@ export class FlowTrackerService {
     endpoint: string,
     method: string,
     context: string,
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown>,
   ): void {
     if (!this.traceApiCalls) {
       return;
     }
-    
+
     this.trackStep(FlowCategory.API, `${method} ${endpoint}`, context, {
       endpoint,
       method,
-      ...metadata
+      ...metadata,
     });
   }
-  
+
   /**
    * Kullanıcı etkileşimini izler
    */
@@ -532,50 +587,55 @@ export class FlowTrackerService {
     action: string,
     element: string,
     context: string,
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown>,
   ): void {
-    this.trackStep(FlowCategory.User, `Kullanıcı ${action} - ${element}`, context, metadata);
+    this.trackStep(
+      FlowCategory.User,
+      `Kullanıcı ${action} - ${element}`,
+      context,
+      metadata,
+    );
   }
-  
+
   /**
    * Yeni bir akış sekansı başlatır
    */
   public startSequence(name: string): string {
     if (!this.enabled) {
-      return '';
+      return "";
     }
-    
+
     const sequenceId = `flow_seq_${++this.sequenceCount}`;
     const startTime = Date.now();
-    
+
     const sequence: FlowSequence = {
       id: sequenceId,
       name,
       steps: [],
-      startTime
+      startTime,
     };
-    
+
     this.sequences.set(sequenceId, sequence);
     this.activeSequences.add(sequenceId);
-    
-    if (this.consoleOutput && process.env.NODE_ENV === 'development') {
+
+    if (this.consoleOutput && process.env.NODE_ENV === "development") {
       // Konsol çıktısını devre dışı bırak
       // console.group(`🔄 Flow Sequence: ${name}`);
     }
-    
+
     if (this.logger) {
       this.logger.info(
         `Flow sekansı başladı: ${name}`,
-        'FlowTracker.Sequence',
+        "FlowTracker.Sequence",
         undefined,
         undefined,
-        { sequenceId, name }
+        { sequenceId, name },
       );
     }
-    
+
     return sequenceId;
   }
-  
+
   /**
    * Akış sekansını bitirir
    */
@@ -583,40 +643,40 @@ export class FlowTrackerService {
     if (!this.enabled || !this.sequences.has(sequenceId)) {
       return undefined;
     }
-    
+
     const sequence = this.sequences.get(sequenceId);
     if (!sequence) return undefined;
-    
+
     const endTime = Date.now();
     sequence.endTime = endTime;
     sequence.totalDuration = endTime - sequence.startTime;
-    
+
     this.activeSequences.delete(sequenceId);
-    
-    if (this.consoleOutput && process.env.NODE_ENV === 'development') {
+
+    if (this.consoleOutput && process.env.NODE_ENV === "development") {
       // Konsol çıktısını devre dışı bırak
       // console.log(`✅ Flow Sequence completed: ${sequence.name} (${sequence.totalDuration}ms)`);
       // console.groupEnd();
     }
-    
+
     if (this.logger) {
       this.logger.info(
         `Flow sekansı tamamlandı: ${sequence.name}`,
-        'FlowTracker.Sequence',
+        "FlowTracker.Sequence",
         undefined,
         undefined,
-        { 
-          sequenceId, 
-          name: sequence.name, 
+        {
+          sequenceId,
+          name: sequence.name,
           duration: sequence.totalDuration,
-          stepsCount: sequence.steps.length
-        }
+          stepsCount: sequence.steps.length,
+        },
       );
     }
-    
+
     return sequence;
   }
-  
+
   /**
    * Performans ölçümüne başlar
    */
@@ -624,39 +684,39 @@ export class FlowTrackerService {
     if (!this.captureTimings) {
       return;
     }
-    
+
     this.timingMarks.set(name, performance.now());
   }
-  
+
   /**
    * Performans ölçümünü bitirir ve süreyi kaydeder
    */
-  public markEnd(name: string, category: FlowCategory, context: string, p0?: Error): number {
+  public markEnd(
+    name: string,
+    category: FlowCategory,
+    context: string,
+    p0?: Error,
+  ): number {
     if (!this.captureTimings || !this.timingMarks.has(name)) {
       return 0;
     }
-    
+
     // p0 parametresini basit bir şekilde kullan
     if (p0) {
       // Hata varsa loglama amaçlı debug bilgisi
       console.debug(`Flow step ended with error: ${name}`, p0.message);
     }
-    
+
     const startTime = this.timingMarks.get(name)!;
     const endTime = performance.now();
     const duration = endTime - startTime;
-    
-    this.trackTiming(
-      category,
-      `${name} tamamlandı`,
-      context,
-      duration
-    );
-    
+
+    this.trackTiming(category, `${name} tamamlandı`, context, duration);
+
     this.timingMarks.delete(name);
     return duration;
   }
-  
+
   /**
    * Zamanlayıcı kodu çalıştırır ve süresini ölçer
    */
@@ -664,7 +724,7 @@ export class FlowTrackerService {
     name: string,
     category: FlowCategory,
     context: string,
-    fn: () => Promise<T>
+    fn: () => Promise<T>,
   ): Promise<T> {
     this.markStart(name);
     try {
@@ -673,7 +733,7 @@ export class FlowTrackerService {
       this.markEnd(name, category, context);
     }
   }
-  
+
   /**
    * Senkron fonksiyonu ölçer
    */
@@ -681,7 +741,7 @@ export class FlowTrackerService {
     name: string,
     category: FlowCategory,
     context: string,
-    fn: () => T
+    fn: () => T,
   ): T {
     this.markStart(name);
     try {
@@ -690,139 +750,150 @@ export class FlowTrackerService {
       this.markEnd(name, category, context);
     }
   }
-  
+
   /**
    * Adımı renkli olarak konsola yazdırır
    */
   private consoleLogStepWithColor(step: FlowStep): void {
-    const timestamp = new Date(step.timestamp).toISOString().split('T')[1].slice(0, -1);
-    let categoryStyle = 'color: #3498db'; // Varsayılan mavi renk
-    let icon = '🔹';
-    
+    const timestamp = new Date(step.timestamp)
+      .toISOString()
+      .split("T")[1]
+      .slice(0, -1);
+    let categoryStyle = "color: #3498db"; // Varsayılan mavi renk
+    let icon = "🔹";
+
     // Kategoriye göre renk ve ikon belirle
     switch (step.category) {
       case FlowCategory.Navigation:
-        categoryStyle = 'color: #2ecc71; font-weight: bold'; // Yeşil
-        icon = '🧭';
+        categoryStyle = "color: #2ecc71; font-weight: bold"; // Yeşil
+        icon = "🧭";
         break;
       case FlowCategory.Component:
-        categoryStyle = 'color: #9b59b6'; // Mor
-        icon = '🧩';
+        categoryStyle = "color: #9b59b6"; // Mor
+        icon = "🧩";
         break;
       case FlowCategory.State:
-        categoryStyle = 'color: #f39c12; font-weight: bold'; // Turuncu
-        icon = '📊';
+        categoryStyle = "color: #f39c12; font-weight: bold"; // Turuncu
+        icon = "📊";
         break;
       case FlowCategory.API:
-        categoryStyle = 'color: #3498db; font-weight: bold'; // Mavi
-        icon = '🌐';
+        categoryStyle = "color: #3498db; font-weight: bold"; // Mavi
+        icon = "🌐";
         break;
       case FlowCategory.Auth:
-        categoryStyle = 'color: #1abc9c; font-weight: bold'; // Turkuaz
-        icon = '🔐';
+        categoryStyle = "color: #1abc9c; font-weight: bold"; // Turkuaz
+        icon = "🔐";
         break;
       case FlowCategory.User:
-        categoryStyle = 'color: #27ae60'; // Yeşil
-        icon = '👤';
+        categoryStyle = "color: #27ae60"; // Yeşil
+        icon = "👤";
         break;
       case FlowCategory.Error:
-        categoryStyle = 'color: #e74c3c; font-weight: bold'; // Kırmızı
-        icon = '❌';
+        categoryStyle = "color: #e74c3c; font-weight: bold"; // Kırmızı
+        icon = "❌";
         break;
       case FlowCategory.Render:
-        categoryStyle = 'color: #8e44ad'; // Koyu mor
-        icon = '🎨';
+        categoryStyle = "color: #8e44ad"; // Koyu mor
+        icon = "🎨";
         break;
       case FlowCategory.Custom:
-        categoryStyle = 'color: #34495e'; // Gri
-        icon = '✨';
+        categoryStyle = "color: #34495e"; // Gri
+        icon = "✨";
         break;
     }
-    
+
     // Eğer zamanlama bilgisi varsa ekle
-    const timingStr = step.timing ? ` (${step.timing.toFixed(1)}ms)` : '';
-    
+    const timingStr = step.timing ? ` (${step.timing.toFixed(1)}ms)` : "";
+
     console.log(
       `%c${timestamp} %c${icon} [${step.category}]%c [${step.context}] ${step.message}${timingStr}`,
-      'color: #7f8c8d', // Zaman damgası gri
+      "color: #7f8c8d", // Zaman damgası gri
       categoryStyle,
-      'color: #2c3e50' // Mesaj koyu gri
+      "color: #2c3e50", // Mesaj koyu gri
     );
-    
+
     // Metadata varsa ekstra bilgileri de göster
     if (step.metadata && Object.keys(step.metadata).length > 0) {
-      console.log(
-        '%c├─ Detaylar:',
-        'color: #7f8c8d',
-        step.metadata
-      );
+      console.log("%c├─ Detaylar:", "color: #7f8c8d", step.metadata);
     }
   }
-  
+
   /**
    * Zamanlama adımını konsola yazar
    */
   private consoleLogTiming(step: FlowStep): void {
-    const timestamp = new Date(step.timestamp).toISOString().split('T')[1].slice(0, -1);
+    const timestamp = new Date(step.timestamp)
+      .toISOString()
+      .split("T")[1]
+      .slice(0, -1);
     console.log(
       `[${timestamp}] %c${step.category}%c ${step.message} %c${step.context}%c (${step.timing?.toFixed(2)}ms)`,
-      'color: #3498db; font-weight: bold',
-      'color: #000',
-      'color: #7f8c8d; font-style: italic',
-      'color: #e74c3c; font-weight: bold',
-      step.metadata
+      "color: #3498db; font-weight: bold",
+      "color: #000",
+      "color: #7f8c8d; font-style: italic",
+      "color: #e74c3c; font-weight: bold",
+      step.metadata,
     );
   }
-  
+
   /**
    * Akış izleyiciyi yapılandırır
    */
   public configure(options: Partial<FlowTrackerOptions>): void {
     if (options.enabled !== undefined) this.enabled = options.enabled;
-    
+
     if (options.categories) {
       this.enabledCategories = new Set(options.categories);
     }
-    
+
     if (options.allowedContexts) {
       this.allowedContexts = new Set(options.allowedContexts);
-      
+
       // Browser ortamında localStorage'a kaydet
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         try {
-          localStorage.setItem('flow_tracker_allowed_contexts', JSON.stringify(Array.from(this.allowedContexts)));
+          localStorage.setItem(
+            "flow_tracker_allowed_contexts",
+            JSON.stringify(Array.from(this.allowedContexts)),
+          );
         } catch (e) {
-          console.error('Flow tracker allowed contexts kaydetme hatası:', e);
+          console.error("Flow tracker allowed contexts kaydetme hatası:", e);
         }
       }
     }
-    
-    if (options.traceRenders !== undefined) this.traceRenders = options.traceRenders;
-    if (options.traceStateChanges !== undefined) this.traceStateChanges = options.traceStateChanges;
-    if (options.traceApiCalls !== undefined) this.traceApiCalls = options.traceApiCalls;
-    if (options.captureTimings !== undefined) this.captureTimings = options.captureTimings;
-    if (options.consoleOutput !== undefined) this.consoleOutput = options.consoleOutput;
-    if (options.writeToLocalFile !== undefined) this.configWriteToLocalFile = options.writeToLocalFile;
-    
+
+    if (options.traceRenders !== undefined)
+      this.traceRenders = options.traceRenders;
+    if (options.traceStateChanges !== undefined)
+      this.traceStateChanges = options.traceStateChanges;
+    if (options.traceApiCalls !== undefined)
+      this.traceApiCalls = options.traceApiCalls;
+    if (options.captureTimings !== undefined)
+      this.captureTimings = options.captureTimings;
+    if (options.consoleOutput !== undefined)
+      this.consoleOutput = options.consoleOutput;
+    if (options.writeToLocalFile !== undefined)
+      this.configWriteToLocalFile = options.writeToLocalFile;
+
     if (options.logger) {
       this.logger = options.logger;
     }
   }
-  
+
   /**
    * Tüm adımları getirir
    */
   public getSteps(): FlowStep[] {
     return [...this.steps];
   }
-  
+
   /**
    * Tüm sekansları getirir
    */
   public getSequences(): FlowSequence[] {
     return Array.from(this.sequences.values());
   }
-  
+
   /**
    * İzleme geçmişini temizler
    */
@@ -834,36 +905,35 @@ export class FlowTrackerService {
     this.sequenceCount = 0;
     this.timingMarks.clear();
   }
-  
+
   /**
    * LocalStorage'daki tüm log içeriğini temizler
    */
   public clearAllLogs(): void {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
-    
+
     try {
-      localStorage.removeItem('frontend-flow-tracker.log');
-      console.log('[FlowTracker] Tüm flow logları temizlendi');
+      localStorage.removeItem("frontend-flow-tracker.log");
+      console.log("[FlowTracker] Tüm flow logları temizlendi");
     } catch (error) {
-      console.error('[FlowTracker] Log temizleme hatası:', error);
+      console.error("[FlowTracker] Log temizleme hatası:", error);
     }
   }
-  
+
   /**
    * Nesneleri güvenli şekilde stringe çevirir
    */
   private safeStringify(obj: unknown): string {
     try {
-      return JSON.stringify(obj, (key, value) =>
-        typeof value === 'bigint'
-          ? value.toString()
-          : value // return everything else unchanged
+      return JSON.stringify(
+        obj,
+        (key, value) => (typeof value === "bigint" ? value.toString() : value), // return everything else unchanged
       );
     } catch (e) {
       return `[Unserializable object: ${e instanceof Error ? e.message : String(e)}]`;
-        }
+    }
   }
 
   private scheduleWriteToLocalFile(entry: FlowStep): void {
@@ -872,15 +942,15 @@ export class FlowTrackerService {
       clearTimeout(this.apiDebounceTimer);
     }
     // window.setTimeout kullanmak yerine NodeJS.Timeout tipini kullanmak için typeof window kontrolü
-    if (typeof window !== 'undefined') {
-        this.apiDebounceTimer = window.setTimeout(() => {
-            this.writeQueuedLogsToLocalFile();
-        }, 3000); // 3 saniye debounce
+    if (typeof window !== "undefined") {
+      this.apiDebounceTimer = window.setTimeout(() => {
+        this.writeQueuedLogsToLocalFile();
+      }, 3000); // 3 saniye debounce
     } else {
-        // Node.js ortamı için (test vb.), setTimeout doğrudan kullanılabilir
-        this.apiDebounceTimer = setTimeout(() => {
-            this.writeQueuedLogsToLocalFile();
-        }, 3000);
+      // Node.js ortamı için (test vb.), setTimeout doğrudan kullanılabilir
+      this.apiDebounceTimer = setTimeout(() => {
+        this.writeQueuedLogsToLocalFile();
+      }, 3000);
     }
   }
 
@@ -901,13 +971,18 @@ export class FlowTrackerService {
       if (this.logger) {
         this.logger.debug(
           `FlowTrackerService: ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`,
-          'FlowTrackerService.writeQueuedLogsToLocalFile'
+          "FlowTrackerService.writeQueuedLogsToLocalFile",
         );
       } else {
-        console.debug(`[FlowTrackerService] ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`);
+        console.debug(
+          `[FlowTrackerService] ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`,
+        );
       }
     } catch (error) {
-      console.error('[FlowTrackerService] Flow loglar localStorage\'a kaydedilirken hata oluştu:', error);
+      console.error(
+        "[FlowTrackerService] Flow loglar localStorage'a kaydedilirken hata oluştu:",
+        error,
+      );
     }
   }
 }

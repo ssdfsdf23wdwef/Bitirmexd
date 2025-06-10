@@ -16,7 +16,6 @@ export default tseslint.config(
     languageOptions: {
       globals: {
         ...globals.node,
-      
       },
       sourceType: 'commonjs',
       parserOptions: {

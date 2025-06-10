@@ -291,7 +291,7 @@ function getCollection<T = any>(
     if (!admin.apps.length) {
       throw new Error('Firebase Admin henüz başlatılmamış');
     }
-    
+
     const firestore = admin.firestore();
     const collection = firestore.collection(
       collectionPath,

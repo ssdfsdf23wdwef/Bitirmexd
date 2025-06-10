@@ -65,7 +65,8 @@ const getStatusProgressColor = (
  * Öğrenme Hedefi durumlarına karşılık gelen stil ve görsel bilgileri
  * @see PRD 4.5.2 ve 4.7.1
  */
-const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = { // StatusInfo -> CourseStatusInfo olarak güncellendi
+const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = {
+  // StatusInfo -> CourseStatusInfo olarak güncellendi
   pending: {
     label: "beklemede" as CourseStatus, // Tip uyumu için eklendi
     color: "text-secondary",
@@ -103,6 +104,7 @@ const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = { // Status
 /**
  * Durum değerine göre stil bilgilerini döndüren yardımcı fonksiyon
  */
-export function getStatusStyle(status: LearningTargetStatus): CourseStatusInfo { // StatusInfo -> CourseStatusInfo olarak güncellendi
+export function getStatusStyle(status: LearningTargetStatus): CourseStatusInfo {
+  // StatusInfo -> CourseStatusInfo olarak güncellendi
   return statusConfig[status];
 }

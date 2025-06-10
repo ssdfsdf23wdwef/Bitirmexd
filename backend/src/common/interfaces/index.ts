@@ -13,7 +13,12 @@ export * from './request-with-user.interface';
 // Log kaydı
 try {
   const logger = LoggerService.getInstance();
-  logger.debug('Interface indeksi yüklendi (unified types)', 'interfaces.index', __filename, 8);
+  logger.debug(
+    'Interface indeksi yüklendi (unified types)',
+    'interfaces.index',
+    __filename,
+    8,
+  );
 } catch (error) {
   console.error('Interface indeksi yüklenirken hata:', error);
 }

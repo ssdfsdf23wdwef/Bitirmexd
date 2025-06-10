@@ -13,7 +13,7 @@ import {
   DocumentData,
   Timestamp,
   Query, // Query tipini içe aktarın
-  FirestoreError
+  FirestoreError,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -27,12 +27,10 @@ import {
   signInWithPopup,
   Auth,
   IdTokenResult,
-  AuthError
+  AuthError,
 } from "firebase/auth";
 
 import { db, auth, storage } from "../app/firebase/config";
-
-
 
 // Firestore koşul tipi
 interface FirestoreCondition {
@@ -44,14 +42,12 @@ interface FirestoreCondition {
 // Firebase'i başlat
 const googleProvider = new GoogleAuthProvider();
 
-
 // Firebase Authentication Servisi
 const firebaseService = {
   // Mevcut auth nesnesini döndür
   getAuth: (): Auth => auth,
 
   // Firestore için özel kategoriler
-
 
   // E-posta ve şifre ile kayıt ol
   signUp: async (
@@ -60,133 +56,105 @@ const firebaseService = {
     firstName?: string,
     lastName?: string,
   ): Promise<User> => {
-    
     try {
-    
-      
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
 
-     
-
       // Kullanıcı adını güncelle
       if (firstName || lastName) {
         const displayName = [firstName, lastName].filter(Boolean).join(" ");
-        
-       
-        
+
         await updateProfile(userCredential.user, {
           displayName,
         });
-     
       }
 
-    
-      
       return userCredential.user;
     } catch (error: unknown) {
       // Hata durumu
       const authError = error as AuthError;
-    
+
       throw authError;
     }
   },
 
   // E-posta ve şifre ile giriş yap
   signIn: async (email: string, password: string): Promise<User> => {
-    
     try {
-    
-      
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      
+
       // Başarılı sonuç
-    
-      
+
       return userCredential.user;
     } catch (error: unknown) {
       // Hata durumu
       const authError = error as AuthError;
-     
+
       throw authError;
     }
   },
 
   // Google ile giriş yap
   signInWithGooglePopup: async (): Promise<User> => {
-    
     try {
-   
-      
       const userCredential = await signInWithPopup(auth, googleProvider);
 
       return userCredential.user;
     } catch (error: unknown) {
       // Hata durumu
       const authError = error as AuthError;
-   
+
       throw authError;
     }
   },
 
   // Çıkış yap
   signOut: async (): Promise<void> => {
-    
     try {
       // Mevcut kullanıcı bilgilerini al
       const currentUser = auth.currentUser;
       const userEmail = currentUser?.email;
       const userId = currentUser?.uid;
-      
-      
+
       await signOut(auth);
-      
+
       // Başarılı sonuç
-     
     } catch (error: unknown) {
       // Hata durumu
       const authError = error as AuthError;
-    
+
       throw authError;
     }
   },
 
   // Şifre sıfırlama e-postası gönder
   sendPasswordResetEmail: async (email: string): Promise<void> => {
-    
     try {
-    
-      
       await sendPasswordResetEmail(auth, email);
-      
+
       // Başarılı sonuç
-      
     } catch (error: unknown) {
       // Hata durumu
       const authError = error as AuthError;
-     
+
       throw authError;
     }
   },
 
   // Auth durumu değişikliklerini izle
   onAuthChanged: (callback: (user: User | null) => void): (() => void) => {
-   
-    
     return onAuthStateChanged(auth, (user) => {
       if (user) {
-        
       } else {
-     
       }
-      
+
       callback(user);
     });
   },
@@ -196,19 +164,15 @@ const firebaseService = {
     try {
       const user = auth.currentUser;
       if (!user) {
-      
         return null;
       }
-      
-     
-      
+
       const token = await user.getIdToken(forceRefresh);
-      
-      
+
       return token;
     } catch (error: unknown) {
       const authError = error as AuthError;
-     
+
       throw authError;
     }
   },
@@ -220,19 +184,15 @@ const firebaseService = {
     try {
       const user = auth.currentUser;
       if (!user) {
-      
         return null;
       }
-      
-     
-      
+
       const tokenResult = await user.getIdTokenResult(forceRefresh);
-      
-      
+
       return tokenResult;
     } catch (error: unknown) {
       const authError = error as AuthError;
-     
+
       throw authError;
     }
   },
@@ -250,23 +210,18 @@ export const firestoreService = {
     collectionName: string,
     data: T,
   ): Promise<string> => {
-    
     try {
-    
-      
       const docRef = await addDoc(collection(db, collectionName), {
         ...data,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
-      
 
-      
       return docRef.id;
     } catch (error: unknown) {
       // Hata durumu
       const fbError = error as FirestoreError;
- 
+
       throw fbError;
     }
   },
@@ -277,16 +232,12 @@ export const firestoreService = {
     docId: string,
     data: Partial<T>,
   ): Promise<void> => {
-    
     try {
-     
-      
       // Başarılı sonuç
-   
     } catch (error: unknown) {
       // Hata durumu
       const fbError = error as FirestoreError;
-    
+
       throw fbError;
     }
   },
@@ -296,19 +247,15 @@ export const firestoreService = {
     collectionName: string,
     docId: string,
   ): Promise<void> => {
-    
     try {
-     
-      
       const docRef = doc(db, collectionName, docId);
       await deleteDoc(docRef);
-      
+
       // Başarılı sonuç
-      
     } catch (error: unknown) {
       // Hata durumu
       const fbError = error as FirestoreError;
-    
+
       throw fbError;
     }
   },
@@ -319,25 +266,20 @@ export const firestoreService = {
     docId: string,
   ): Promise<T | null> => {
     try {
-    
-      
       const docRef = doc(db, collectionName, docId);
       const docSnap = await getDoc(docRef);
 
       // Başarılı sonuç
-      
-      
+
       if (docSnap.exists()) {
-      
         return { id: docSnap.id, ...docSnap.data() } as T;
       } else {
-       
         return null;
       }
     } catch (error: unknown) {
       // Hata durumu
       const fbError = error as FirestoreError;
-     
+
       throw fbError;
     }
   },
@@ -350,11 +292,7 @@ export const firestoreService = {
     sortDirection?: "asc" | "desc",
     limitCount?: number,
   ): Promise<T[]> => {
-  
-    
     try {
-     
-      
       // Düzeltme: 'q' değişkeninin tipi Query<DocumentData, DocumentData> olarak belirtildi.
       let q: Query<DocumentData, DocumentData> = collection(db, collectionName);
 
@@ -380,18 +318,15 @@ export const firestoreService = {
       const results = querySnapshot.docs.map(
         (doc) => ({ id: doc.id, ...doc.data() }) as T,
       );
-      
-     
-      
+
       return results;
     } catch (error: unknown) {
       // Hata durumu
       const fbError = error as FirestoreError;
-   
+
       throw fbError;
     }
   },
 };
-
 
 // eslint-disable-next-line import/no-anonymous-default-export

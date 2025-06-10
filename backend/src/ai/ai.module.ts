@@ -34,6 +34,5 @@ export class AiModule implements OnModuleInit {
     private readonly flowTracker: FlowTrackerService,
   ) {}
 
-  onModuleInit() {
-      }
+  onModuleInit() {}
 }

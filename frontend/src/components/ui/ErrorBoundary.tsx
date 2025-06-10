@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Hata detaylarını loglama veya bir hata raporlama servisine gönderme
     console.error("ErrorBoundary caught an error:", error, errorInfo);
-    
+
     // Gerçek bir uygulamada bu loglama işlemini bir sunucuya göndereceksiniz
     // errorService.logError(error, errorInfo);
   }
@@ -35,14 +35,16 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       // Özel fallback UI
       return (
-        this.props.fallback || (          <div className="min-h-screen flex items-center justify-center bg-primary">
+        this.props.fallback || (
+          <div className="min-h-screen flex items-center justify-center bg-primary">
             <div className="bg-elevated p-6 rounded-lg shadow-lg max-w-md w-full">
               <div className="text-state-error text-5xl mb-4">⚠️</div>
               <h2 className="text-xl font-bold text-primary mb-2">
                 Bir şeyler yanlış gitti
               </h2>
               <p className="text-secondary mb-4">
-                Uygulama bir hatayla karşılaştı ve devam edemiyor. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.
+                Uygulama bir hatayla karşılaştı ve devam edemiyor. Lütfen
+                sayfayı yenileyin veya daha sonra tekrar deneyin.
               </p>
               <div className="text-tertiary text-sm mb-4 p-2 bg-secondary rounded overflow-auto">
                 {this.state.error?.toString()}
@@ -63,4 +65,4 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-export default ErrorBoundary; 
+export default ErrorBoundary;

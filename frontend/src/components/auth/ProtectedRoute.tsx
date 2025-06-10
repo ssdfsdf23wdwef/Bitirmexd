@@ -3,7 +3,11 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useAuthUser, useAuthIsAuthenticated, useAuthIsLoading } from "@/store/auth.store";
+import {
+  useAuthUser,
+  useAuthIsAuthenticated,
+  useAuthIsLoading,
+} from "@/store/auth.store";
 import { useTheme } from "@/context/ThemeProvider";
 import { getLogger, getFlowTracker, trackFlow } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
@@ -34,159 +38,162 @@ export default function ProtectedRoute({
   const pathname = usePathname();
   const { checkSession } = useAuth();
   const { isDarkMode } = useTheme();
-  
+
   // Zustand selektörleri
   const user = useAuthUser();
   const isAuthenticated = useAuthIsAuthenticated();
   const isLoading = useAuthIsLoading();
-  
+
   const [isVerifying, setIsVerifying] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
-  
+
   // Kullanıcı durumunu izle
   useEffect(() => {
     const verifyAuth = async () => {
-      const authVerifyId = flowTracker.startSequence('AuthVerification');
-      
+      const authVerifyId = flowTracker.startSequence("AuthVerification");
+
       logger.debug(
         `Korumalı sayfa erişimi kontrol ediliyor: ${pathname}`,
-        'ProtectedRoute.verifyAuth',
-        'ProtectedRoute.tsx',
-        40
+        "ProtectedRoute.verifyAuth",
+        "ProtectedRoute.tsx",
+        40,
       );
-      
+
       // İlk render'da isLoading true olduğundan bekle
       if (isLoading) {
         logger.debug(
-          'Kullanıcı durumu yükleniyor',
-          'ProtectedRoute.verifyAuth',
-          'ProtectedRoute.tsx',
-          47
+          "Kullanıcı durumu yükleniyor",
+          "ProtectedRoute.verifyAuth",
+          "ProtectedRoute.tsx",
+          47,
         );
         return;
       }
-      
+
       setIsVerifying(true);
-      
+
       try {
         // 1. Zaten oturum açılmış mı kontrol et
         if (isAuthenticated && user) {
           logger.debug(
             `Kullanıcı zaten oturum açmış: ${user.email}`,
-            'ProtectedRoute.verifyAuth',
-            'ProtectedRoute.tsx',
+            "ProtectedRoute.verifyAuth",
+            "ProtectedRoute.tsx",
             60,
-            { userId: user.id }
+            { userId: user.id },
           );
-          
+
           // 2. Rol kontrolü yap (eğer requiredRoles belirtilmişse)
           if (requiredRoles.length > 0) {
-            const hasRequiredRole = user.role && requiredRoles.includes(user.role);
-            
+            const hasRequiredRole =
+              user.role && requiredRoles.includes(user.role);
+
             if (!hasRequiredRole) {
               logger.warn(
                 `Yetkisiz erişim girişimi: ${pathname}`,
-                'ProtectedRoute.verifyAuth',
-                'ProtectedRoute.tsx',
+                "ProtectedRoute.verifyAuth",
+                "ProtectedRoute.tsx",
                 71,
-                { 
-                  userId: user.id, 
-                  userRole: user.role, 
-                  requiredRoles 
-                }
+                {
+                  userId: user.id,
+                  userRole: user.role,
+                  requiredRoles,
+                },
               );
-              
+
               trackFlow(
-                'Rol yetkisi reddedildi', 
-                'ProtectedRoute.verifyAuth',
+                "Rol yetkisi reddedildi",
+                "ProtectedRoute.verifyAuth",
                 FlowCategory.Auth,
-                { 
+                {
                   path: pathname,
-                  requiredRoles, 
-                  userRole: user.role 
-                }
+                  requiredRoles,
+                  userRole: user.role,
+                },
               );
-              
+
               setHasAccess(false);
               flowTracker.endSequence(authVerifyId);
-              
+
               // Ana sayfaya yönlendir
               router.push("/");
               return;
             }
-            
+
             logger.debug(
               `Rol yetkisi onaylandı: ${user.role}`,
-              'ProtectedRoute.verifyAuth',
-              'ProtectedRoute.tsx',
+              "ProtectedRoute.verifyAuth",
+              "ProtectedRoute.tsx",
               98,
-              { 
+              {
                 userId: user.id,
-                requiredRoles 
-              }
+                requiredRoles,
+              },
             );
           }
-          
+
           // Erişime izin ver
           setHasAccess(true);
           flowTracker.endSequence(authVerifyId);
           return;
         }
-        
+
         logger.debug(
-          'Kullanıcı oturumu açık değil, kontrol yapılıyor',
-          'ProtectedRoute.verifyAuth',
-          'ProtectedRoute.tsx',
-          113
+          "Kullanıcı oturumu açık değil, kontrol yapılıyor",
+          "ProtectedRoute.verifyAuth",
+          "ProtectedRoute.tsx",
+          113,
         );
-        
+
         // 3. Aktif oturum kontrolü yap
         const isSessionValid = await checkSession();
-        
+
         if (isSessionValid) {
           logger.debug(
-            'Oturum kontrolü başarılı, erişim onaylandı',
-            'ProtectedRoute.verifyAuth',
-            'ProtectedRoute.tsx',
-            122
+            "Oturum kontrolü başarılı, erişim onaylandı",
+            "ProtectedRoute.verifyAuth",
+            "ProtectedRoute.tsx",
+            122,
           );
-          
+
           trackFlow(
-            'Oturum kontrolü başarılı', 
-            'ProtectedRoute.verifyAuth',
-            FlowCategory.Auth
+            "Oturum kontrolü başarılı",
+            "ProtectedRoute.verifyAuth",
+            FlowCategory.Auth,
           );
-          
+
           // Zustand store'u auth context tarafından zaten güncellendi
           setHasAccess(true);
         } else {
           logger.warn(
             `Oturumsuz erişim girişimi: ${pathname}`,
-            'ProtectedRoute.verifyAuth',
-            'ProtectedRoute.tsx',
-            136
+            "ProtectedRoute.verifyAuth",
+            "ProtectedRoute.tsx",
+            136,
           );
-          
+
           trackFlow(
-            'Oturum kontrolü başarısız, yönlendiriliyor', 
-            'ProtectedRoute.verifyAuth',
+            "Oturum kontrolü başarısız, yönlendiriliyor",
+            "ProtectedRoute.verifyAuth",
             FlowCategory.Auth,
-            { redirectTo: redirectUrl }
+            { redirectTo: redirectUrl },
           );
-          
+
           // Giriş sayfasına yönlendir ve mevcut sayfayı kaydet
-          router.push(`${redirectUrl}?returnUrl=${encodeURIComponent(pathname)}`);
+          router.push(
+            `${redirectUrl}?returnUrl=${encodeURIComponent(pathname)}`,
+          );
           setHasAccess(false);
         }
       } catch (error) {
         logger.error(
-          'Oturum kontrolü sırasında hata oluştu',
-          'ProtectedRoute.verifyAuth',
-          'ProtectedRoute.tsx',
+          "Oturum kontrolü sırasında hata oluştu",
+          "ProtectedRoute.verifyAuth",
+          "ProtectedRoute.tsx",
           154,
-          { error, pathname }
+          { error, pathname },
         );
-        
+
         // Hata durumunda giriş sayfasına yönlendir
         router.push(redirectUrl);
         setHasAccess(false);
@@ -198,14 +205,14 @@ export default function ProtectedRoute({
 
     verifyAuth();
   }, [
-    isLoading, 
-    isAuthenticated, 
-    user, 
-    pathname, 
-    router, 
-    checkSession, 
-    redirectUrl, 
-    requiredRoles
+    isLoading,
+    isAuthenticated,
+    user,
+    pathname,
+    router,
+    checkSession,
+    redirectUrl,
+    requiredRoles,
   ]);
   // Doğrulama durumunda yükleme ekranını göster
   if (isVerifying || isLoading) {
@@ -213,11 +220,13 @@ export default function ProtectedRoute({
     return (
       <>
         {loadingComponent || (
-          <div className={`flex items-center justify-center min-h-screen ${
-            isDarkMode
-              ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
-              : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
-          }`}>
+          <div
+            className={`flex items-center justify-center min-h-screen ${
+              isDarkMode
+                ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+                : "bg-gradient-to-br from-blue-50 via-white to-indigo-50"
+            }`}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -230,23 +239,23 @@ export default function ProtectedRoute({
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 className={`w-16 h-16 mx-auto mb-4 border-4 rounded-full ${
                   isDarkMode
-                    ? 'border-slate-700 border-t-blue-500'
-                    : 'border-gray-200 border-t-blue-600'
+                    ? "border-slate-700 border-t-blue-500"
+                    : "border-gray-200 border-t-blue-600"
                 }`}
               />
-              
+
               {/* Loading Text */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
                 className={`text-lg font-medium ${
-                  isDarkMode ? 'text-slate-300' : 'text-gray-600'
+                  isDarkMode ? "text-slate-300" : "text-gray-600"
                 }`}
               >
                 Yetkilendiriliyor...
               </motion.p>
-              
+
               {/* Animated dots */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -267,7 +276,7 @@ export default function ProtectedRoute({
                       delay: index * 0.2,
                     }}
                     className={`w-2 h-2 rounded-full ${
-                      isDarkMode ? 'bg-blue-500' : 'bg-blue-600'
+                      isDarkMode ? "bg-blue-500" : "bg-blue-600"
                     }`}
                   />
                 ))}

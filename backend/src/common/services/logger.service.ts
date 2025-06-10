@@ -160,7 +160,6 @@ export class LoggerService {
           }),
         ],
       });
-
     } catch (error) {
       // Silent error handling
     }
@@ -397,7 +396,11 @@ export class LoggerService {
       try {
         // Güvenli JSON serialization
         const safeInfo = JSON.stringify(additionalInfo, (key, value) => {
-          if (value && typeof value === 'object' && (value.socket || value.req || value.headers)) {
+          if (
+            value &&
+            typeof value === 'object' &&
+            (value.socket || value.req || value.headers)
+          ) {
             return '[HTTP Object]';
           }
           return value;

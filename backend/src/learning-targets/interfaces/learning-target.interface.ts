@@ -4,12 +4,12 @@
  */
 
 // Unified types'dan import et
-export type { 
+export type {
   LearningTarget,
   LearningTargetWithQuizzes,
   LearningTargetStatus,
   LearningTargetSource,
   CreateLearningTargetDto,
   UpdateLearningTargetDto,
-  LearningTargetStatusUpdate
+  LearningTargetStatusUpdate,
 } from '../../common/types';

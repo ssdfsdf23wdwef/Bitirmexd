@@ -5,8 +5,10 @@ export const APP_VERSION = "1.0.0";
 export const DEFAULT_LANGUAGE = "tr";
 
 // Örnek meta veri sabitleri (layout.tsx'den taşınabilir)
-export const METADATA_DEFAULT_TITLE = "AI Quiz - Akıllı Sınav Hazırlama ve Öğrenme Platformu";
-export const METADATA_DEFAULT_DESCRIPTION = "AI destekli kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin";
+export const METADATA_DEFAULT_TITLE =
+  "AI Quiz - Akıllı Sınav Hazırlama ve Öğrenme Platformu";
+export const METADATA_DEFAULT_DESCRIPTION =
+  "AI destekli kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin";
 
 // frontend/src/types/status.ts dosyasından taşınacak STATUS_SCORE_RANGES
 export const STATUS_SCORE_RANGES = {

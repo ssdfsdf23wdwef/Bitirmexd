@@ -13,7 +13,7 @@ function getLogger() {
   }
 }
 
-// Güvenli flow tracker getter - null check ile  
+// Güvenli flow tracker getter - null check ile
 function getFlowTracker() {
   try {
     return FlowTrackerService.getInstance();
@@ -49,11 +49,11 @@ export function LogMethod(
       const className = target.constructor.name;
       const context = `${className}.${methodName}`;
       const startTime = trackPerformance ? Date.now() : 0;
-      
+
       // Logger ve FlowTracker'ı güvenli şekilde al
       const logger = getLogger();
       const flowTracker = getFlowTracker();
-      
+
       let safeParams: Record<string, any> | undefined;
 
       try {
@@ -66,7 +66,11 @@ export function LogMethod(
               if (
                 arg &&
                 typeof arg === 'object' &&
-                (arg.socket || arg.req || arg.headers || arg.response || arg.request)
+                (arg.socket ||
+                  arg.req ||
+                  arg.headers ||
+                  arg.response ||
+                  arg.request)
               ) {
                 params[`arg${index}`] = '[HTTP Object]';
               } else if (arg && typeof arg === 'object') {
@@ -95,7 +99,9 @@ export function LogMethod(
               'LogMethod',
               __filename,
               76,
-              safeParams ? { paramCount: Object.keys(safeParams).length } : undefined
+              safeParams
+                ? { paramCount: Object.keys(safeParams).length }
+                : undefined,
             );
           } catch (logError) {
             // Log hatası durumunda sadece basit mesaj
@@ -103,14 +109,18 @@ export function LogMethod(
               `Metot başlangıcı: ${context}`,
               'LogMethod',
               __filename,
-              76
+              76,
             );
           }
         }
 
         // Flow tracking başlat (sadece flowTracker varsa)
         if (flowTracker) {
-          flowTracker.trackCategory(FlowCategory.Custom, `${context} başladı`, 'LogMethod');
+          flowTracker.trackCategory(
+            FlowCategory.Custom,
+            `${context} başladı`,
+            'LogMethod',
+          );
         }
 
         const result = originalMethod.apply(this, args);
@@ -138,13 +148,17 @@ export function LogMethod(
                   'LogMethod',
                   __filename,
                   100,
-                  { duration, returnValue }
+                  { duration, returnValue },
                 );
               }
 
               // Flow tracking tamamla (sadece flowTracker varsa)
               if (flowTracker) {
-                flowTracker.trackCategory(FlowCategory.Custom, `${context} tamamlandı (${duration}ms)`, 'LogMethod');
+                flowTracker.trackCategory(
+                  FlowCategory.Custom,
+                  `${context} tamamlandı (${duration}ms)`,
+                  'LogMethod',
+                );
               }
 
               return resolvedResult;
@@ -152,7 +166,7 @@ export function LogMethod(
             (error) => {
               // Error case for async
               const duration = trackPerformance ? Date.now() - startTime : 0;
-              
+
               // Hatayı logla (sadece logger varsa)
               if (logger) {
                 logger.error(
@@ -161,13 +175,17 @@ export function LogMethod(
                   __filename,
                   118,
                   error,
-                  { duration }
+                  { duration },
                 );
               }
 
               // Flow tracking hatayı kaydet (sadece flowTracker varsa)
               if (flowTracker) {
-                flowTracker.trackCategory(FlowCategory.Error, `${context} hatası: ${error.message}`, 'LogMethod');
+                flowTracker.trackCategory(
+                  FlowCategory.Error,
+                  `${context} hatası: ${error.message}`,
+                  'LogMethod',
+                );
               }
 
               throw error;
@@ -193,20 +211,24 @@ export function LogMethod(
               'LogMethod',
               __filename,
               147,
-              { duration, returnValue }
+              { duration, returnValue },
             );
           }
 
           // Flow tracking tamamla (sadece flowTracker varsa)
           if (flowTracker) {
-            flowTracker.trackCategory(FlowCategory.Custom, `${context} tamamlandı (${duration}ms)`, 'LogMethod');
+            flowTracker.trackCategory(
+              FlowCategory.Custom,
+              `${context} tamamlandı (${duration}ms)`,
+              'LogMethod',
+            );
           }
 
           return result;
         }
       } catch (error) {
         const duration = trackPerformance ? Date.now() - startTime : 0;
-        
+
         // Hatayı logla (sadece logger varsa)
         if (logger) {
           logger.error(
@@ -215,13 +237,17 @@ export function LogMethod(
             __filename,
             166,
             error,
-            { duration }
+            { duration },
           );
         }
 
         // Flow tracking hatayı kaydet (sadece flowTracker varsa)
         if (flowTracker) {
-          flowTracker.trackCategory(FlowCategory.Error, `${context} hatası: ${error.message}`, 'LogMethod');
+          flowTracker.trackCategory(
+            FlowCategory.Error,
+            `${context} hatası: ${error.message}`,
+            'LogMethod',
+          );
         }
 
         throw error;

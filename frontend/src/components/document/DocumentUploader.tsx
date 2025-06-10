@@ -13,10 +13,10 @@ interface DocumentUploaderProps {
   className?: string;
 
   allowedFileTypes?: string[];
-  
+
   // Yeni prop: Dosya yüklendikten sonra devam butonu gösterilsin mi?
   showContinueButton?: boolean;
-  
+
   // Yeni prop: Devam butonuna tıklandığında çağrılacak fonksiyon
   onContinue?: () => void;
 }
@@ -228,7 +228,8 @@ export default function DocumentUploader({
   const getBorderColor = () => {
     if (isDragging) return "border-blue-500 dark:border-blue-400";
     if (uploadStatus === "error") return "border-red-500 dark:border-red-400";
-    if (uploadStatus === "success") return "border-green-500 dark:border-green-400";
+    if (uploadStatus === "success")
+      return "border-green-500 dark:border-green-400";
     return "border-gray-300 hover:border-blue-400 dark:border-gray-600 dark:hover:border-blue-400";
   };
 
@@ -238,7 +239,7 @@ export default function DocumentUploader({
     if (uploadStatus === "success") return "bg-green-50 dark:bg-green-900/20";
     return "bg-white dark:bg-gray-800";
   };
-  
+
   const getHoverEffect = () => {
     if (uploadStatus === "idle" || uploadStatus === "validating") {
       return "hover:shadow-md transition-shadow duration-200";
@@ -424,9 +425,9 @@ export default function DocumentUploader({
           onChange={handleFileChange}
           ref={fileInputRef}
           accept={allowedFileTypes.join(",")}
-          aria-hidden="true" 
+          aria-hidden="true"
         />
-        
+
         <div className="flex flex-col items-center justify-center min-h-[110px] relative">
           {renderContent()}
         </div>

@@ -4,9 +4,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class QuizSubmissionDto {
   @ApiProperty({
     description: 'User answers for the quiz questions',
-    example: { 'question1': 'A', 'question2': 'B', 'question3': 'C' },
+    example: { question1: 'A', question2: 'B', question3: 'C' },
     type: 'object',
-    additionalProperties: { type: 'string' }
+    additionalProperties: { type: 'string' },
   })
   @IsNotEmpty()
   @IsObject()
@@ -15,7 +15,7 @@ export class QuizSubmissionDto {
   @ApiProperty({
     description: 'Optional timestamp when the quiz was submitted',
     example: '2025-06-10T10:30:00.000Z',
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsString()
@@ -24,7 +24,7 @@ export class QuizSubmissionDto {
   @ApiProperty({
     description: 'Optional time taken to complete the quiz in seconds',
     example: 1800,
-    required: false
+    required: false,
   })
   @IsOptional()
   timeTaken?: number;

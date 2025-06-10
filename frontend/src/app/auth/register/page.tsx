@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiMail, FiLock, FiEye, FiEyeOff, FiUser, FiArrowRight } from "react-icons/fi";
+import {
+  FiMail,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiUser,
+  FiArrowRight,
+} from "react-icons/fi";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/auth/useAuth";
@@ -10,7 +17,7 @@ import { useTheme } from "@/context/ThemeProvider";
 export default function RegisterPage() {
   const { register } = useAuth();
   const { isDarkMode } = useTheme();
-  
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -148,9 +155,9 @@ export default function RegisterPage() {
       // Firebase kullanarak kayıt işlemini gerçekleştir
 
       // register çağrısında email, password ve userData parametrelerini doğru sırayla ve formatta gönder
-      await register(formData.email, formData.password, { 
-        firstName: formData.firstName, 
-        lastName: formData.lastName 
+      await register(formData.email, formData.password, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       });
 
       // Başarılı kayıt sonrası router üzerinden yönlendirme yapılacak
@@ -212,11 +219,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center ${
-      isDarkMode
-        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
-        : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
-    }`}>
+    <div
+      className={`min-h-screen relative overflow-hidden flex items-center justify-center ${
+        isDarkMode
+          ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+          : "bg-gradient-to-br from-blue-50 via-white to-indigo-50"
+      }`}
+    >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -232,8 +241,8 @@ export default function RegisterPage() {
           }}
           className={`absolute top-10 left-10 w-32 h-32 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-blue-600/20 to-indigo-600/20'
-              : 'bg-gradient-to-r from-blue-200/40 to-indigo-200/40'
+              ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20"
+              : "bg-gradient-to-r from-blue-200/40 to-indigo-200/40"
           } blur-xl`}
         />
         <motion.div
@@ -249,8 +258,8 @@ export default function RegisterPage() {
           }}
           className={`absolute bottom-10 right-10 w-40 h-40 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-purple-600/20 to-pink-600/20'
-              : 'bg-gradient-to-r from-purple-200/40 to-pink-200/40'
+              ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20"
+              : "bg-gradient-to-r from-purple-200/40 to-pink-200/40"
           } blur-xl`}
         />
         <motion.div
@@ -266,8 +275,8 @@ export default function RegisterPage() {
           }}
           className={`absolute top-1/2 left-1/4 w-24 h-24 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-green-600/20 to-teal-600/20'
-              : 'bg-gradient-to-r from-green-200/40 to-teal-200/40'
+              ? "bg-gradient-to-r from-green-600/20 to-teal-600/20"
+              : "bg-gradient-to-r from-green-200/40 to-teal-200/40"
           } blur-lg`}
         />
       </div>
@@ -279,8 +288,8 @@ export default function RegisterPage() {
         transition={{ duration: 0.6 }}
         className={`relative z-10 max-w-md w-full mx-auto p-8 ${
           isDarkMode
-            ? 'bg-slate-800/90 border border-slate-700/50'
-            : 'bg-white/90 border border-white/20'
+            ? "bg-slate-800/90 border border-slate-700/50"
+            : "bg-white/90 border border-white/20"
         } rounded-2xl shadow-2xl backdrop-blur-xl`}
       >
         {/* Header */}
@@ -288,8 +297,8 @@ export default function RegisterPage() {
           <motion.h1
             className={`text-4xl font-bold mb-2 bg-gradient-to-r ${
               isDarkMode
-                ? 'from-blue-400 to-indigo-400'
-                : 'from-blue-600 to-indigo-600'
+                ? "from-blue-400 to-indigo-400"
+                : "from-blue-600 to-indigo-600"
             } bg-clip-text text-transparent`}
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -297,14 +306,16 @@ export default function RegisterPage() {
           >
             quiz
           </motion.h1>
-          <p className={`${isDarkMode ? 'text-slate-300' : 'text-gray-600'}`}>
+          <p className={`${isDarkMode ? "text-slate-300" : "text-gray-600"}`}>
             Akıllı Öğrenme Platformu
           </p>
         </div>
 
-        <h2 className={`text-2xl font-semibold mb-6 ${
-          isDarkMode ? 'text-slate-100' : 'text-gray-800'
-        }`}>
+        <h2
+          className={`text-2xl font-semibold mb-6 ${
+            isDarkMode ? "text-slate-100" : "text-gray-800"
+          }`}
+        >
           Hesap Oluştur
         </h2>
 
@@ -319,8 +330,8 @@ export default function RegisterPage() {
                       ? "bg-gradient-to-r from-blue-500 to-indigo-500"
                       : "bg-gradient-to-r from-blue-600 to-indigo-600"
                     : isDarkMode
-                    ? "bg-slate-700"
-                    : "bg-gray-200"
+                      ? "bg-slate-700"
+                      : "bg-gray-200"
                 } rounded-l-full transition-all duration-300`}
               />
             </div>
@@ -332,8 +343,8 @@ export default function RegisterPage() {
                     ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25"
                     : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25"
                   : isDarkMode
-                  ? "bg-slate-700 text-slate-400"
-                  : "bg-gray-200 text-gray-700"
+                    ? "bg-slate-700 text-slate-400"
+                    : "bg-gray-200 text-gray-700"
               } transition-all duration-300`}
             >
               1
@@ -346,8 +357,8 @@ export default function RegisterPage() {
                       ? "bg-gradient-to-r from-blue-500 to-indigo-500"
                       : "bg-gradient-to-r from-blue-600 to-indigo-600"
                     : isDarkMode
-                    ? "bg-slate-700"
-                    : "bg-gray-200"
+                      ? "bg-slate-700"
+                      : "bg-gray-200"
                 } transition-all duration-300`}
               />
             </div>
@@ -359,8 +370,8 @@ export default function RegisterPage() {
                     ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25"
                     : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25"
                   : isDarkMode
-                  ? "bg-slate-700 text-slate-400"
-                  : "bg-gray-200 text-gray-700"
+                    ? "bg-slate-700 text-slate-400"
+                    : "bg-gray-200 text-gray-700"
               } transition-all duration-300`}
             >
               2
@@ -373,17 +384,21 @@ export default function RegisterPage() {
                       ? "bg-gradient-to-r from-blue-500 to-indigo-500"
                       : "bg-gradient-to-r from-blue-600 to-indigo-600"
                     : isDarkMode
-                    ? "bg-slate-700"
-                    : "bg-gray-200"
+                      ? "bg-slate-700"
+                      : "bg-gray-200"
                 } rounded-r-full transition-all duration-300`}
               />
             </div>
           </div>
           <div className="flex justify-between mt-3 text-xs">
-            <span className={`${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>
+            <span
+              className={`${isDarkMode ? "text-slate-400" : "text-gray-500"}`}
+            >
               Kişisel Bilgiler
             </span>
-            <span className={`${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>
+            <span
+              className={`${isDarkMode ? "text-slate-400" : "text-gray-500"}`}
+            >
               Hesap Bilgileri
             </span>
           </div>
@@ -396,8 +411,8 @@ export default function RegisterPage() {
             animate={{ opacity: 1, y: 0 }}
             className={`${
               isDarkMode
-                ? 'bg-red-900/20 border border-red-700/30 text-red-300'
-                : 'bg-red-50 border border-red-200 text-red-700'
+                ? "bg-red-900/20 border border-red-700/30 text-red-300"
+                : "bg-red-50 border border-red-200 text-red-700"
             } p-4 rounded-lg mb-4 backdrop-blur-sm`}
           >
             {error}
@@ -410,8 +425,8 @@ export default function RegisterPage() {
             animate={{ opacity: 1, y: 0 }}
             className={`${
               isDarkMode
-                ? 'bg-orange-900/20 border-l-4 border-orange-500 text-orange-300'
-                : 'bg-orange-50 border-l-4 border-orange-500 text-orange-700'
+                ? "bg-orange-900/20 border-l-4 border-orange-500 text-orange-300"
+                : "bg-orange-50 border-l-4 border-orange-500 text-orange-700"
             } p-4 rounded-lg mb-4 backdrop-blur-sm`}
           >
             <div className="flex items-center">
@@ -456,7 +471,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="firstName"
                 >
@@ -464,7 +479,9 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiUser className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiUser
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="firstName"
@@ -472,8 +489,8 @@ export default function RegisterPage() {
                     type="text"
                     className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="Adınız"
                     value={formData.firstName}
@@ -486,7 +503,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="lastName"
                 >
@@ -494,7 +511,9 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiUser className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiUser
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="lastName"
@@ -502,8 +521,8 @@ export default function RegisterPage() {
                     type="text"
                     className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="Soyadınız"
                     value={formData.lastName}
@@ -520,8 +539,8 @@ export default function RegisterPage() {
                 whileTap={{ scale: 0.98 }}
                 className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
                   isDarkMode
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25'
-                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25'
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25"
                 }`}
               >
                 İlerle
@@ -541,7 +560,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="email"
                 >
@@ -549,7 +568,9 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiMail className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiMail
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="email"
@@ -557,8 +578,8 @@ export default function RegisterPage() {
                     type="email"
                     className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="ornek@email.com"
                     value={formData.email}
@@ -571,7 +592,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="password"
                 >
@@ -579,7 +600,9 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiLock className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiLock
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="password"
@@ -587,8 +610,8 @@ export default function RegisterPage() {
                     type={showPassword ? "text" : "password"}
                     className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="Şifreniz (en az 6 karakter)"
                     value={formData.password}
@@ -602,9 +625,13 @@ export default function RegisterPage() {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <FiEyeOff className={`${isDarkMode ? 'text-slate-400 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600'} transition-colors`} />
+                      <FiEyeOff
+                        className={`${isDarkMode ? "text-slate-400 hover:text-slate-300" : "text-gray-400 hover:text-gray-600"} transition-colors`}
+                      />
                     ) : (
-                      <FiEye className={`${isDarkMode ? 'text-slate-400 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600'} transition-colors`} />
+                      <FiEye
+                        className={`${isDarkMode ? "text-slate-400 hover:text-slate-300" : "text-gray-400 hover:text-gray-600"} transition-colors`}
+                      />
                     )}
                   </button>
                 </div>
@@ -613,7 +640,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="confirmPassword"
                 >
@@ -621,7 +648,9 @@ export default function RegisterPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiLock className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiLock
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="confirmPassword"
@@ -629,8 +658,8 @@ export default function RegisterPage() {
                     type={showPassword ? "text" : "password"}
                     className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="Şifrenizi tekrar girin"
                     value={formData.confirmPassword}
@@ -648,8 +677,8 @@ export default function RegisterPage() {
                   whileTap={{ scale: 0.98 }}
                   className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
                     isDarkMode
-                      ? 'bg-slate-700 text-slate-200 hover:bg-slate-600 border border-slate-600'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-300'
+                      ? "bg-slate-700 text-slate-200 hover:bg-slate-600 border border-slate-600"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-300"
                   }`}
                 >
                   Geri
@@ -661,15 +690,19 @@ export default function RegisterPage() {
                   whileTap={{ scale: isLoading ? 1 : 0.98 }}
                   className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
                     isDarkMode
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25'
-                      : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25'
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25"
                   } disabled:opacity-70 disabled:cursor-not-allowed`}
                 >
                   {isLoading ? (
                     <>
                       <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                         className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                       />
                       Kaydediliyor...
@@ -687,14 +720,16 @@ export default function RegisterPage() {
         </form>
 
         <div className="mt-8 text-center">
-          <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+          <p
+            className={`text-sm ${isDarkMode ? "text-slate-400" : "text-gray-600"}`}
+          >
             Zaten bir hesabınız var mı?{" "}
             <Link
               href="/auth/login"
               className={`font-medium transition-colors ${
                 isDarkMode
-                  ? 'text-blue-400 hover:text-blue-300'
-                  : 'text-blue-600 hover:text-blue-500'
+                  ? "text-blue-400 hover:text-blue-300"
+                  : "text-blue-600 hover:text-blue-500"
               }`}
             >
               Giriş Yap

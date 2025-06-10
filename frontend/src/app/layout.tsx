@@ -12,7 +12,8 @@ const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AI Quiz",
-  description: "AI destekli kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin",
+  description:
+    "AI destekli kişiselleştirilmiş sınavlarla öğrenmenizi geliştirin",
   applicationName: "AI Quiz",
   authors: [{ name: "AI Quiz Team" }],
   keywords: [
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.webp", type: "image/webp" },
-      { url: "/favicon.ico", type: "image/x-icon" }
+      { url: "/favicon.ico", type: "image/x-icon" },
     ],
     apple: "/favicon.webp",
   },
@@ -58,13 +59,16 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className={cn("min-h-screen bg-primary text-primary font-sans antialiased", fontSans.className)}>
+      <body
+        className={cn(
+          "min-h-screen bg-primary text-primary font-sans antialiased",
+          fontSans.className,
+        )}
+      >
         <ClientLogSetup>
-        <Providers>
-          <ClientLayout>
-            {children}
-          </ClientLayout>
-        </Providers>
+          <Providers>
+            <ClientLayout>{children}</ClientLayout>
+          </Providers>
         </ClientLogSetup>
       </body>
     </html>

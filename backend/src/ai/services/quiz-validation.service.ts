@@ -29,14 +29,7 @@ declare module '../interfaces' {
  */
 @Injectable()
 export class QuizValidationService {
- 
-
-  constructor(
-    private readonly normalizationService: NormalizationService,
-    
-  ) {
-   ;
-  }
+  constructor(private readonly normalizationService: NormalizationService) {}
 
   parseAIResponseToJSON<T>(
     text: string | undefined | null,
@@ -45,31 +38,26 @@ export class QuizValidationService {
     const { traceId } = metadata;
 
     // DETAYLI LOGLAMA: Start of parsing
-    
 
     // Null veya undefined kontrolü
     if (!text || text.trim().length === 0) {
-      
       return this.createFallbackData<T>('', metadata);
     }
 
     // DETAYLI LOGLAMA: Yanıt içeriği
-    
+
     // Markdown kod bloklarını temizle ve dışarıdaki JSON yapısını almaya çalış
     let processedText = text.trim();
 
     // Markdown kod bloğu varsa, içindeki JSON'u çıkar
     if (text.includes('```json') && text.includes('```')) {
-    
       const jsonStartIdx = text.indexOf('```json') + '```json'.length;
       const jsonEndIdx = text.lastIndexOf('```');
 
       if (jsonStartIdx < jsonEndIdx) {
         processedText = text.substring(jsonStartIdx, jsonEndIdx).trim();
-       
       }
     }
-
 
     // Doğrudan JSON olarak parse etmeyi dene (markdown bloğu temizlenmiş metin üzerinde)
     try {
@@ -139,7 +127,6 @@ export class QuizValidationService {
         );
       }
 
-
       // Temel geçerlilik kontrolü
       if (
         !parsedJson ||
@@ -148,7 +135,7 @@ export class QuizValidationService {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] UYARI: JSON parse edildi ancak boş nesne!`,
         );
-      
+
         return this.createFallbackData<T>(text, metadata);
       }
 
@@ -161,7 +148,7 @@ export class QuizValidationService {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] Tek soru objesi tespit edildi, questions dizisine dönüştürülüyor.`,
         );
-       
+
         // Tek soruyu questions dizisine çevir
         return { questions: [parsedJson] } as unknown as T;
       }
@@ -169,7 +156,6 @@ export class QuizValidationService {
       return parsedJson as T;
     } catch (error) {
       // JSON parse hatası - hata mesajını logla
-     
 
       // Son çare: Ham yanıttan düzenli ifadelerle soruları çıkarmayı dene
       console.log(
@@ -184,7 +170,7 @@ export class QuizValidationService {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] Ham yanıttan JSON nesneleri çıkarılamadı: ${extractError.message}`,
         );
-        
+
         return this.createFallbackData<T>(text, metadata);
       }
     }
@@ -616,25 +602,17 @@ export class QuizValidationService {
   private createFallbackData<T>(text: string, metadata: QuizMetadata): T {
     const { traceId, questionCount = 5, difficulty = 'mixed' } = metadata;
 
-  
-
     // Sınav oluşturma hatasını detaylı loglama
-   
 
     // Örnek içeriklerin tespit edilip edilmediğini kontrol et
     const containsExamples = this.detectExampleContent(text);
 
     if (containsExamples) {
       // Örnek içerik tespitini loglama
-     
     }
-
-  
 
     // Fallback sorularını oluştur
     const fallbackQuestions = this.createFallbackQuestions(metadata);
-
-    
 
     // Uygun formatta döndür - eğer questions dizisi bekleniyor ise onu döndür
     return { questions: fallbackQuestions } as T;
@@ -664,7 +642,6 @@ export class QuizValidationService {
     return examplePatterns.some((pattern) => pattern.test(text));
   }
 
- 
   private extractQuestionsFromText(text: string): QuizQuestion[] {
     if (!text) return [];
 
@@ -833,7 +810,6 @@ export class QuizValidationService {
       }
     } catch (error) {
       // Metinde JSON bloğu bulunamadı veya işleme hatalıydı
-     
     }
 
     return questions;
@@ -856,8 +832,6 @@ export class QuizValidationService {
     } = metadata;
 
     // Fallback soruların izlenebilmesi için log ekle
-    
-
 
     // Eğer özel Eksaskala konusu ise, ilgili konuya özel sorular üret
     if (
@@ -871,7 +845,6 @@ export class QuizValidationService {
           return false;
         }))
     ) {
-      
       return this.createEksaskalaSpecificQuestions(subTopics);
     }
 
@@ -880,7 +853,6 @@ export class QuizValidationService {
     if (keywords && keywords.length > 0) {
       const keywordsList = keywords.split(',').map((k) => k.trim());
       if (keywordsList.length >= 3) {
-        
         return this.createKeywordBasedQuestions(keywordsList, subTopics);
       }
     }
@@ -888,8 +860,6 @@ export class QuizValidationService {
     // Zorluk seviyesine göre farklı soru tipleri dağıt - İngilizce değerleri kullan
     // 'hard', 'medium', 'easy' değerlerini doğrudan kullan, Türkçe dönüşüm yapma
     const difficultyLevel = difficulty === 'mixed' ? 'medium' : difficulty;
-
-    
 
     // Varsayılan alt konu adı
     const defaultSubTopic = 'Genel Konular';
@@ -1092,8 +1062,6 @@ export class QuizValidationService {
           ).map((t) => t.subTopicName)
       : ['Eksaskala'];
 
- 
-
     return [
       {
         id: `eks_fallback_1_${Date.now()}`,
@@ -1215,8 +1183,6 @@ export class QuizValidationService {
             }[]
           ).map((t) => t.subTopicName)
       : [];
-
-   
 
     const topKeywords = keywords.slice(0, 15); // En önemli 15 anahtar kelime
     const questions: QuizQuestion[] = [];
@@ -1534,7 +1500,6 @@ export class QuizValidationService {
         console.log(
           `[QUIZ_DEBUG] [${traceId}] 'questions' alanı bulunamadı, alternatif yapılar aranıyor.`,
         );
-       
 
         // ID, questionText ve options içeren nesneleri bul
         const foundQuestions: Record<string, any>[] = [];
@@ -1550,7 +1515,6 @@ export class QuizValidationService {
         );
 
         if (containsQuestionProperties) {
-         
           for (const key of keys) {
             const obj = parsedJson[key];
             if (
@@ -1594,7 +1558,7 @@ export class QuizValidationService {
                 console.log(
                   `[QUIZ_DEBUG] [${traceId}] '${key}' alanı altında ${likelyQuestions.length} adet soru bulundu!`,
                 );
-                
+
                 foundQuestions.push(
                   ...(likelyQuestions as Record<string, any>[]),
                 );
@@ -1608,7 +1572,6 @@ export class QuizValidationService {
           console.log(
             `[QUIZ_DEBUG] [${traceId}] Standart yapıda sorular bulunamadı, ham yanıttan sorular çıkarılmaya çalışılacak...`,
           );
-          
 
           const extractedQuestions = this.extractQuestionsFromText(rawResponse);
           if (extractedQuestions && extractedQuestions.length > 0) {
@@ -1619,7 +1582,6 @@ export class QuizValidationService {
             console.log(
               `[QUIZ_DEBUG] [${traceId}] Ham yanıttan ${extractedQuestions.length} adet soru çıkarıldı!`,
             );
-           
           }
         }
 
@@ -1651,13 +1613,10 @@ export class QuizValidationService {
         });
       }
     } catch (validationError) {
-     
-
       // Örnek içerik tespit edildi mi kontrol et
       const containsExamples = this.detectExampleContent(rawResponse);
 
       // Log için debug bilgisi (ayrı bir log kaydı olarak)
-      
 
       // Hata fırlat
       throw new BadRequestException({
@@ -1725,12 +1684,10 @@ export class QuizValidationService {
 
     // Soru dizisi kontrolü
     if (!validatedData?.questions || !Array.isArray(validatedData.questions)) {
-     
     }
 
     // Boş soru dizisi kontrolü
     if (validatedData.questions.length === 0) {
-      
       throw new BadRequestException(
         'AI modeli belirlenen konular için soru oluşturamadı. Bu durum geçici olabilir. Lütfen farklı alt konularla tekrar deneyin, konu sayısını azaltın veya birkaç dakika sonra tekrar deneyin.',
       );
@@ -1843,7 +1800,6 @@ export class QuizValidationService {
         }
       }
     } catch (error) {
-     
       console.log(
         `[QUIZ_DEBUG] [${traceId}] Format dönüştürme hatası: ${error.message}`,
       );
@@ -1862,7 +1818,6 @@ export class QuizValidationService {
         JSON.stringify(validatedData)?.substring(0, 1000),
       );
 
-      
       // Hata fırlat
       throw new BadRequestException({
         code: 'INVALID_QUESTIONS_FORMAT',
@@ -2022,7 +1977,6 @@ export class QuizValidationService {
         QuizQuestionSchema.parse(questionData);
         validQuestions.push(questionData as QuizQuestion);
       } catch (questionValidationError) {
-        
         // Hatalı soruları kaydet
         invalidQuestions.push({
           index: i,
@@ -2046,15 +2000,12 @@ export class QuizValidationService {
       );
     }
 
-   
-
     // Hiç geçerli soru yoksa hata fırlat
     if (validQuestions.length === 0) {
       console.error(
         `[QUIZ_DEBUG] [${traceId}] KRİTİK HATA: Hiç geçerli soru oluşturulamadı!`,
       );
 
-     
       throw new BadRequestException({
         code: 'NO_VALID_QUESTIONS',
         message: 'Hiç geçerli soru oluşturulamadı',

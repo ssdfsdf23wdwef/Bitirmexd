@@ -6,10 +6,10 @@
 /**
  * Kullanıcı rolü tanımları
  */
-type UserRole = 'user' | 'admin' | 'teacher' | 'student';
+type UserRole = "user" | "admin" | "teacher" | "student";
 
 /**
- * Temel kullanıcı tipi 
+ * Temel kullanıcı tipi
  */
 export interface User {
   id: string;
@@ -39,7 +39,7 @@ interface UserProfile extends User {
  * Kullanıcı tercihleri
  */
 interface UserPreferences {
-  theme?: 'light' | 'dark' | 'system';
+  theme?: "light" | "dark" | "system";
   notifications?: {
     email?: boolean;
     push?: boolean;

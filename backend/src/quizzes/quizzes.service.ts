@@ -14,13 +14,13 @@ import { LearningTargetsService } from '../learning-targets/learning-targets.ser
 import { QuizAnalysisService } from './quiz-analysis.service';
 import { GenerateQuizDto, TopicDto } from './dto/generate-quiz.dto';
 import { SubmitQuizDto } from './dto/submit-quiz.dto';
-import { 
+import {
   LearningTargetStatus,
-  Quiz, 
+  Quiz,
   AnalysisResult,
   QuizQuestion,
   CreateQuizParams,
-  SubtopicUpdate
+  SubtopicUpdate,
 } from '../common/types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { LoggerService, LogLevel } from '../common/services/logger.service';

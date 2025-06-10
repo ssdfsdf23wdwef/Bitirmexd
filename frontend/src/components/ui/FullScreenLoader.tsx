@@ -18,8 +18,12 @@ export default function FullScreenLoader({ text = "Sınav Yükleniyor..." }) {
       }}
     >
       <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mb-8" />
-      <h2 style={{ fontSize: 24, color: "#2563eb", fontWeight: 600 }}>{text}</h2>
-      <p style={{ marginTop: 8, color: "#666" }}>Lütfen bekleyin, sınavınız hazırlanıyor.</p>
+      <h2 style={{ fontSize: 24, color: "#2563eb", fontWeight: 600 }}>
+        {text}
+      </h2>
+      <p style={{ marginTop: 8, color: "#666" }}>
+        Lütfen bekleyin, sınavınız hazırlanıyor.
+      </p>
     </div>
   );
 }

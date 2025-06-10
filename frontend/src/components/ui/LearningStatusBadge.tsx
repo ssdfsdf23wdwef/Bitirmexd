@@ -28,20 +28,20 @@ const LearningStatusBadge: FC<LearningStatusBadgeProps> = ({
   const getThemeColors = (status: LearningTargetStatus) => {
     switch (status) {
       case "mastered":
-        return isDarkMode 
+        return isDarkMode
           ? "bg-gradient-to-r from-emerald-900/40 to-emerald-800/40 text-emerald-200 border-emerald-400/50 shadow-emerald-500/30"
           : "bg-gradient-to-r from-green-50 to-green-100 text-green-700 border-green-300 shadow-green-200/50";
       case "medium":
-        return isDarkMode 
+        return isDarkMode
           ? "bg-gradient-to-r from-amber-900/40 to-amber-800/40 text-amber-200 border-amber-400/50 shadow-amber-500/30"
           : "bg-gradient-to-r from-yellow-50 to-yellow-100 text-yellow-700 border-yellow-300 shadow-yellow-200/50";
       case "failed":
-        return isDarkMode 
+        return isDarkMode
           ? "bg-gradient-to-r from-red-900/40 to-red-800/40 text-red-200 border-red-400/50 shadow-red-500/30"
           : "bg-gradient-to-r from-red-50 to-red-100 text-red-700 border-red-300 shadow-red-200/50";
       case "pending":
       default:
-        return isDarkMode 
+        return isDarkMode
           ? "bg-gradient-to-r from-slate-800/60 to-slate-700/60 text-slate-200 border-slate-500/50 shadow-slate-500/30"
           : "bg-gradient-to-r from-gray-50 to-gray-100 text-gray-600 border-gray-300 shadow-gray-200/50";
     }
@@ -76,7 +76,9 @@ const LearningStatusBadge: FC<LearningStatusBadgeProps> = ({
     >
       {showIcon && (
         <span className={`mr-2 flex items-center justify-center`}>
-          <span className={`${iconSize} flex items-center justify-center`}>{config.icon}</span>
+          <span className={`${iconSize} flex items-center justify-center`}>
+            {config.icon}
+          </span>
         </span>
       )}
       {showLabel && <span className="font-medium">{config.label}</span>}

@@ -24,7 +24,8 @@ const buttonVariants = cva(
         warning:
           "bg-state-warning text-white hover:bg-state-warning/90 hover:-translate-y-0.5 hover:shadow-md hover:shadow-state-warning/20 focus-visible:ring-state-warning",
         link: "text-brand-primary underline-offset-4 hover:underline hover:text-brand-primary-hover transition-all",
-        glass: "bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/20 dark:border-slate-800/30 text-primary dark:text-white hover:bg-white/80 dark:hover:bg-slate-900/70 hover:shadow-md hover:-translate-y-0.5",
+        glass:
+          "bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/20 dark:border-slate-800/30 text-primary dark:text-white hover:bg-white/80 dark:hover:bg-slate-900/70 hover:shadow-md hover:-translate-y-0.5",
         soft: "bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 hover:shadow-sm",
       },
       size: {

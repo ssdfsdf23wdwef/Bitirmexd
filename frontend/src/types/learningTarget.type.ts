@@ -9,7 +9,11 @@ export enum LearningTargetStatus {
 }
 
 // String literal tipini koruyoruz ancak ek olarak enum kullanarak backend uyumluluğunu sağlıyoruz
-export type LearningTargetStatusLiteral = "pending" | "failed" | "medium" | "mastered";
+export type LearningTargetStatusLiteral =
+  | "pending"
+  | "failed"
+  | "medium"
+  | "mastered";
 
 /**
  * Tespit edilen alt konu arayüzü
@@ -22,7 +26,7 @@ export interface DetectedSubTopic {
   name?: string;
   status?: LearningTargetStatusLiteral;
   isNew?: boolean;
-  parentTopic?: string;      // Ana konunun adı (eğer bir alt konu ise)
+  parentTopic?: string; // Ana konunun adı (eğer bir alt konu ise)
 }
 
 /**

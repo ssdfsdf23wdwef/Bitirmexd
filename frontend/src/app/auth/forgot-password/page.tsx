@@ -10,7 +10,7 @@ import { useTheme } from "@/context/ThemeProvider";
 export default function ForgotPasswordPage() {
   const { resetPassword } = useAuth();
   const { isDarkMode } = useTheme();
-  
+
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -52,11 +52,13 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center ${
-      isDarkMode
-        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
-        : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
-    }`}>
+    <div
+      className={`min-h-screen relative overflow-hidden flex items-center justify-center ${
+        isDarkMode
+          ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+          : "bg-gradient-to-br from-blue-50 via-white to-indigo-50"
+      }`}
+    >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -72,8 +74,8 @@ export default function ForgotPasswordPage() {
           }}
           className={`absolute top-10 left-10 w-32 h-32 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-blue-600/20 to-indigo-600/20'
-              : 'bg-gradient-to-r from-blue-200/40 to-indigo-200/40'
+              ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20"
+              : "bg-gradient-to-r from-blue-200/40 to-indigo-200/40"
           } blur-xl`}
         />
         <motion.div
@@ -89,8 +91,8 @@ export default function ForgotPasswordPage() {
           }}
           className={`absolute bottom-10 right-10 w-40 h-40 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-purple-600/20 to-pink-600/20'
-              : 'bg-gradient-to-r from-purple-200/40 to-pink-200/40'
+              ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20"
+              : "bg-gradient-to-r from-purple-200/40 to-pink-200/40"
           } blur-xl`}
         />
         <motion.div
@@ -106,8 +108,8 @@ export default function ForgotPasswordPage() {
           }}
           className={`absolute top-1/2 left-1/4 w-24 h-24 rounded-full ${
             isDarkMode
-              ? 'bg-gradient-to-r from-green-600/20 to-teal-600/20'
-              : 'bg-gradient-to-r from-green-200/40 to-teal-200/40'
+              ? "bg-gradient-to-r from-green-600/20 to-teal-600/20"
+              : "bg-gradient-to-r from-green-200/40 to-teal-200/40"
           } blur-lg`}
         />
       </div>
@@ -119,8 +121,8 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.6 }}
         className={`relative z-10 max-w-md w-full mx-auto p-8 ${
           isDarkMode
-            ? 'bg-slate-800/90 border border-slate-700/50'
-            : 'bg-white/90 border border-white/20'
+            ? "bg-slate-800/90 border border-slate-700/50"
+            : "bg-white/90 border border-white/20"
         } rounded-2xl shadow-2xl backdrop-blur-xl`}
       >
         {/* Header */}
@@ -128,8 +130,8 @@ export default function ForgotPasswordPage() {
           <motion.h1
             className={`text-4xl font-bold mb-2 bg-gradient-to-r ${
               isDarkMode
-                ? 'from-blue-400 to-indigo-400'
-                : 'from-blue-600 to-indigo-600'
+                ? "from-blue-400 to-indigo-400"
+                : "from-blue-600 to-indigo-600"
             } bg-clip-text text-transparent`}
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -137,7 +139,7 @@ export default function ForgotPasswordPage() {
           >
             quiz
           </motion.h1>
-          <p className={`${isDarkMode ? 'text-slate-300' : 'text-gray-600'}`}>
+          <p className={`${isDarkMode ? "text-slate-300" : "text-gray-600"}`}>
             Akıllı Öğrenme Platformu
           </p>
         </div>
@@ -153,8 +155,8 @@ export default function ForgotPasswordPage() {
                 href="/auth/login"
                 className={`flex items-center gap-2 font-medium transition-colors ${
                   isDarkMode
-                    ? 'text-blue-400 hover:text-blue-300'
-                    : 'text-blue-600 hover:text-blue-800'
+                    ? "text-blue-400 hover:text-blue-300"
+                    : "text-blue-600 hover:text-blue-800"
                 }`}
               >
                 <FiArrowLeft />
@@ -162,14 +164,18 @@ export default function ForgotPasswordPage() {
               </Link>
             </motion.div>
 
-            <h2 className={`text-2xl font-semibold mb-4 ${
-              isDarkMode ? 'text-slate-100' : 'text-gray-800'
-            }`}>
+            <h2
+              className={`text-2xl font-semibold mb-4 ${
+                isDarkMode ? "text-slate-100" : "text-gray-800"
+              }`}
+            >
               Şifremi Unuttum
             </h2>
-            <p className={`mb-6 ${
-              isDarkMode ? 'text-slate-300' : 'text-gray-600'
-            }`}>
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-slate-300" : "text-gray-600"
+              }`}
+            >
               Hesabınıza bağlı e-posta adresinizi girin. Size şifrenizi
               sıfırlamanız için bir bağlantı göndereceğiz.
             </p>
@@ -180,8 +186,8 @@ export default function ForgotPasswordPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className={`${
                   isDarkMode
-                    ? 'bg-red-900/20 border border-red-700/30 text-red-300'
-                    : 'bg-red-50 border border-red-200 text-red-700'
+                    ? "bg-red-900/20 border border-red-700/30 text-red-300"
+                    : "bg-red-50 border border-red-200 text-red-700"
                 } p-4 rounded-lg mb-4 backdrop-blur-sm`}
               >
                 {error}
@@ -192,7 +198,7 @@ export default function ForgotPasswordPage() {
               <div className="mb-6">
                 <label
                   className={`block text-sm font-medium mb-2 ${
-                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                    isDarkMode ? "text-slate-200" : "text-gray-700"
                   }`}
                   htmlFor="email"
                 >
@@ -200,15 +206,17 @@ export default function ForgotPasswordPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiMail className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                    <FiMail
+                      className={`${isDarkMode ? "text-slate-400" : "text-gray-400"}`}
+                    />
                   </div>
                   <input
                     id="email"
                     type="email"
                     className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
                       isDarkMode
-                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                        ? "bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500"
+                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500"
                     }`}
                     placeholder="ornek@email.com"
                     value={email}
@@ -225,15 +233,19 @@ export default function ForgotPasswordPage() {
                 whileTap={{ scale: isLoading ? 1 : 0.98 }}
                 className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
                   isDarkMode
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25'
-                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25'
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25"
                 } disabled:opacity-70 disabled:cursor-not-allowed`}
               >
                 {isLoading ? (
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                     />
                     Gönderiliyor...
@@ -257,34 +269,43 @@ export default function ForgotPasswordPage() {
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 ${
                 isDarkMode
-                  ? 'bg-green-900/30 border border-green-700/30'
-                  : 'bg-green-100 border border-green-200'
+                  ? "bg-green-900/30 border border-green-700/30"
+                  : "bg-green-100 border border-green-200"
               }`}
             >
-              <FiCheckCircle className={`text-3xl ${
-                isDarkMode ? 'text-green-400' : 'text-green-600'
-              }`} />
+              <FiCheckCircle
+                className={`text-3xl ${
+                  isDarkMode ? "text-green-400" : "text-green-600"
+                }`}
+              />
             </motion.div>
-            <h2 className={`text-2xl font-semibold mb-4 ${
-              isDarkMode ? 'text-slate-100' : 'text-gray-800'
-            }`}>
+            <h2
+              className={`text-2xl font-semibold mb-4 ${
+                isDarkMode ? "text-slate-100" : "text-gray-800"
+              }`}
+            >
               Bağlantı Gönderildi
             </h2>
-            <p className={`mb-6 ${
-              isDarkMode ? 'text-slate-300' : 'text-gray-600'
-            }`}>
-              Şifre sıfırlama bağlantısı <strong className={
-                isDarkMode ? 'text-blue-400' : 'text-blue-600'
-              }>{email}</strong> adresine
-              gönderildi. Lütfen e-postanızı kontrol edin ve şifrenizi
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-slate-300" : "text-gray-600"
+              }`}
+            >
+              Şifre sıfırlama bağlantısı{" "}
+              <strong
+                className={isDarkMode ? "text-blue-400" : "text-blue-600"}
+              >
+                {email}
+              </strong>{" "}
+              adresine gönderildi. Lütfen e-postanızı kontrol edin ve şifrenizi
               sıfırlamak için bağlantıya tıklayın.
             </p>
             <Link
               href="/auth/login"
               className={`font-medium transition-colors ${
                 isDarkMode
-                  ? 'text-blue-400 hover:text-blue-300'
-                  : 'text-blue-600 hover:text-blue-800'
+                  ? "text-blue-400 hover:text-blue-300"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               Giriş sayfasına dön

@@ -11,8 +11,6 @@ export class PromptManagerService implements OnModuleInit {
   private promptCache: Map<string, string> = new Map();
   private readonly PROMPT_DIR = path.join(__dirname, '..', 'prompts');
 
-
-
   async onModuleInit() {
     // Başlangıçta sık kullanılan promptları önbelleğe yükle
     await this.loadPrompt('generate-quiz-tr.txt');
@@ -42,19 +40,15 @@ export class PromptManagerService implements OnModuleInit {
 
       // Önbelleğe al
       this.promptCache.set(promptFileName, content);
-     
 
       return content;
     } catch (error) {
-      
       return '';
     }
   }
 
-
   compilePrompt(template: string, variables: Record<string, string>): string {
     if (!template) {
-    
       return '';
     }
 
@@ -176,7 +170,6 @@ export class PromptManagerService implements OnModuleInit {
       );
     });
 
-
     return compiledPrompt;
   }
 
@@ -184,8 +177,6 @@ export class PromptManagerService implements OnModuleInit {
    * Fallback quiz prompt içeriğini döndürür
    */
   getFallbackQuizPrompt(): string {
-  
-
     return JSON.stringify({
       questions: [
         {

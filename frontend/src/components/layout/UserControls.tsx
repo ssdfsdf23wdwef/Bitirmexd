@@ -21,10 +21,10 @@ export default function UserControls() {
 
   const getInitials = () => {
     if (!user) return "K";
-    
-    const firstName = user.firstName || '';
-    const lastName = user.lastName || '';
-    
+
+    const firstName = user.firstName || "";
+    const lastName = user.lastName || "";
+
     if (firstName && lastName) {
       return `${firstName[0]}${lastName[0]}`.toUpperCase();
     } else if (firstName) {
@@ -41,12 +41,13 @@ export default function UserControls() {
     setIsDropdownOpen(false);
   };
 
-
-
   // Dropdown dışına tıklandığında dropdown'ı kapat
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -73,29 +74,35 @@ export default function UserControls() {
           </button>
 
           {isDropdownOpen && (
-            <div 
+            <div
               className={`absolute right-0 mt-2 w-64 rounded-xl backdrop-blur-md border shadow-2xl z-50 overflow-hidden transform transition-all duration-200 origin-top-right ${
-                isDarkMode 
-                  ? 'bg-gray-800/95 border-gray-700/50' 
-                  : 'bg-white/95 border-gray-200/50'
+                isDarkMode
+                  ? "bg-gray-800/95 border-gray-700/50"
+                  : "bg-white/95 border-gray-200/50"
               }`}
               style={{
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)'
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
               }}
             >
-              <div className={`px-4 py-3 bg-gradient-to-r from-blue-500/10 to-transparent border-b transition-colors duration-300 ${
-                isDarkMode ? 'border-gray-700/50' : 'border-gray-100/50'
-              }`}>
-                <p className={`text-sm font-semibold truncate transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}>
+              <div
+                className={`px-4 py-3 bg-gradient-to-r from-blue-500/10 to-transparent border-b transition-colors duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-100/50"
+                }`}
+              >
+                <p
+                  className={`text-sm font-semibold truncate transition-colors duration-300 ${
+                    isDarkMode ? "text-gray-100" : "text-gray-800"
+                  }`}
+                >
                   {displayName}
                 </p>
                 {user?.email && (
-                  <p className={`text-xs truncate transition-colors duration-300 ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
+                  <p
+                    className={`text-xs truncate transition-colors duration-300 ${
+                      isDarkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
                     {user.email}
                   </p>
                 )}
@@ -107,49 +114,59 @@ export default function UserControls() {
                     setIsDropdownOpen(false);
                   }}
                   className={`w-full flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
-                    isDarkMode 
-                      ? 'text-gray-200 hover:bg-gray-700/50' 
-                      : 'text-gray-700 hover:bg-gray-100'
+                    isDarkMode
+                      ? "text-gray-200 hover:bg-gray-700/50"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   {isDarkMode ? (
-                    <FiSun className={`mr-3 transition-colors duration-300 ${
-                      isDarkMode ? 'text-yellow-400' : 'text-yellow-500'
-                    }`} />
+                    <FiSun
+                      className={`mr-3 transition-colors duration-300 ${
+                        isDarkMode ? "text-yellow-400" : "text-yellow-500"
+                      }`}
+                    />
                   ) : (
-                    <FiMoon className={`mr-3 transition-colors duration-300 ${
-                      isDarkMode ? 'text-blue-400' : 'text-blue-500'
-                    }`} />
+                    <FiMoon
+                      className={`mr-3 transition-colors duration-300 ${
+                        isDarkMode ? "text-blue-400" : "text-blue-500"
+                      }`}
+                    />
                   )}
-                  {isDarkMode ? 'Açık Tema' : 'Koyu Tema'}
+                  {isDarkMode ? "Açık Tema" : "Koyu Tema"}
                 </button>
-                <div className={`border-t mx-4 transition-colors duration-300 ${
-                  isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
-                }`}></div>
+                <div
+                  className={`border-t mx-4 transition-colors duration-300 ${
+                    isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                  }`}
+                ></div>
                 <a
                   href="/profile"
                   className={`flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
-                    isDarkMode 
-                      ? 'text-gray-200 hover:bg-gray-700/50' 
-                      : 'text-gray-700 hover:bg-gray-100'
+                    isDarkMode
+                      ? "text-gray-200 hover:bg-gray-700/50"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  <FiUser className={`mr-3 transition-colors duration-300 ${
-                    isDarkMode ? 'text-blue-400' : 'text-blue-500'
-                  }`} />
+                  <FiUser
+                    className={`mr-3 transition-colors duration-300 ${
+                      isDarkMode ? "text-blue-400" : "text-blue-500"
+                    }`}
+                  />
                   Profil
                 </a>
                 <button
                   onClick={handleLogout}
                   className={`w-full flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
-                    isDarkMode 
-                      ? 'text-red-400 hover:bg-red-900/20' 
-                      : 'text-red-600 hover:bg-red-50'
+                    isDarkMode
+                      ? "text-red-400 hover:bg-red-900/20"
+                      : "text-red-600 hover:bg-red-50"
                   }`}
                 >
-                  <FiLogOut className={`mr-3 transition-colors duration-300 ${
-                    isDarkMode ? 'text-red-400' : 'text-red-600'
-                  }`} />
+                  <FiLogOut
+                    className={`mr-3 transition-colors duration-300 ${
+                      isDarkMode ? "text-red-400" : "text-red-600"
+                    }`}
+                  />
                   Çıkış Yap
                 </button>
               </nav>

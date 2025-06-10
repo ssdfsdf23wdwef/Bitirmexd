@@ -3,7 +3,7 @@
 import { motion, MotionProps } from "framer-motion";
 import { ReactNode, useMemo } from "react";
 
-interface OptimizedMotionProps extends Omit<MotionProps, 'children'> {
+interface OptimizedMotionProps extends Omit<MotionProps, "children"> {
   children: ReactNode;
   enableAnimation?: boolean;
 }
@@ -37,8 +37,8 @@ export default function OptimizedMotion({
       style={{
         ...motionProps.style,
         // Hardware acceleration
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
         perspective: 1000,
       }}
     >

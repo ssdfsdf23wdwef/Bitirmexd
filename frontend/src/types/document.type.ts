@@ -59,4 +59,3 @@ interface DocumentUploadResponse {
   createdAt: string;
   extractedText: string;
 }
-

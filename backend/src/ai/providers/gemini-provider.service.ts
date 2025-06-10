@@ -49,7 +49,6 @@ export class GeminiProviderService implements AIProvider {
         maxOutputTokens: config.maxTokens || 30000,
       },
     });
-
   }
 
   async generateContent(
@@ -58,7 +57,6 @@ export class GeminiProviderService implements AIProvider {
   ): Promise<AIResponse> {
     try {
       const startTime = Date.now();
-      
 
       // Özel ayarlar varsa onları kullan, yoksa modeldeki ayarları kullan
       const requestParams = options || {};
@@ -69,7 +67,6 @@ export class GeminiProviderService implements AIProvider {
 
       // Sistem mesajı varsa ekle
       if (options?.systemInstruction) {
-        
         contents.push({
           role: 'user', // Gemini modelinde system role yerine user kullanılır
           parts: [
@@ -86,8 +83,6 @@ export class GeminiProviderService implements AIProvider {
         parts: [{ text: prompt }],
       });
 
-   
-
       // API çağrısı öncesi son hazırlıklar
       const generationConfig = {
         temperature:
@@ -97,7 +92,6 @@ export class GeminiProviderService implements AIProvider {
         topK: requestParams.topK || 40,
         topP: requestParams.topP || 0.95,
       };
-
 
       // API çağrısı
       const response = await this.model.generateContent({
@@ -131,7 +125,6 @@ export class GeminiProviderService implements AIProvider {
       // Tamamlanma süresini hesapla
       const endTime = Date.now();
       const duration = endTime - startTime;
-    
 
       // Yanıt metnini alma -  response.response.candidates[0].content.parts[0].text kullanabiliriz
       let responseText = '';
@@ -139,8 +132,6 @@ export class GeminiProviderService implements AIProvider {
       try {
         // Direktmen response'u string olarak almaya çalış
         if (response.response) {
-         
-
           if (
             response.response.candidates &&
             response.response.candidates[0] &&
@@ -150,48 +141,35 @@ export class GeminiProviderService implements AIProvider {
           ) {
             responseText =
               response.response.candidates[0].content.parts[0].text || '';
-
-        
           } else {
-           
           }
         } else if (typeof (response as any).text === 'function') {
           // Bazı Gemini API sürümlerinde doğrudan text() metodu ile yanıt dönebilir
           responseText = (response as any).text();
-         
         } else if (typeof (response as any).text === 'string') {
           // Text bir string olabilir
           responseText = (response as any).text;
-          
         } else {
           // Gemini API response yapısını ayrıntılı loglayalım (hata ayıklama amaçlı)
-          
 
           // Eğer response bir fonksiyon içeriyorsa ve adı text ise
           if (typeof response === 'object' && response !== null) {
             // Response nesnesinin anahtarlarını loglayalım
-           
 
             if (typeof response.toString === 'function') {
               responseText = response.toString();
-             
             }
           }
         }
       } catch (textError) {
-  
-
         // Son çare: tüm nesneyi JSON'a çevirmeyi dene
         try {
           const responseJson = JSON.stringify(response);
           const textMatch = responseJson.match(/"text"\s*:\s*"([^"]+)"/);
           if (textMatch && textMatch[1]) {
             responseText = textMatch[1];
-          
           }
-        } catch (jsonError) {
-         
-        }
+        } catch (jsonError) {}
 
         // Yine de yanıt alınamadıysa boş metin kullan
         if (!responseText) {
@@ -205,7 +183,6 @@ export class GeminiProviderService implements AIProvider {
         (responseText?.length || 0) / 4,
       );
       const totalTokenEstimate = promptTokenEstimate + completionTokenEstimate;
-
 
       // JSON içerik kontrolü
       if (
@@ -229,15 +206,10 @@ export class GeminiProviderService implements AIProvider {
             try {
               // JSON parse etmeyi dene (sadece kontrol amaçlı)
               JSON.parse(possibleJson);
-            } catch (jsonError) {
-              
-            }
+            } catch (jsonError) {}
           } else {
-           
           }
-        } catch (formatError) {
-         
-        }
+        } catch (formatError) {}
       }
 
       return {
@@ -249,7 +221,6 @@ export class GeminiProviderService implements AIProvider {
         },
       };
     } catch (error) {
-
       throw error;
     }
   }

@@ -6,7 +6,11 @@ import { toast, ToastOptions } from "react-hot-toast";
 type ToastType = "success" | "error" | "info" | "warning";
 
 interface ToastContextType {
-  showToast: (message: string, type?: ToastType, options?: ToastOptions) => void;
+  showToast: (
+    message: string,
+    type?: ToastType,
+    options?: ToastOptions,
+  ) => void;
   dismissToast: (id: string) => void;
   dismissAllToasts: () => void;
 }
@@ -18,7 +22,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const showToast = (
     message: string,
     type: ToastType = "info",
-    options?: ToastOptions
+    options?: ToastOptions,
   ) => {
     const defaultOptions: ToastOptions = {
       duration: 4000,
@@ -59,12 +63,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const dismissToast = (id: string) => {
     toast.dismiss(id);
   };
-    
+
   // Tüm toastları kapatma
   const dismissAllToasts = () => {
     toast.dismiss();
   };
-  
+
   return (
     <ToastContext.Provider
       value={{
@@ -81,11 +85,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 // Custom hook for using toast context
 export function useToast() {
   const context = useContext(ToastContext);
-  
+
   if (context === undefined) {
     throw new Error("useToast must be used within a ToastProvider");
   }
-  
+
   return context;
 }
-

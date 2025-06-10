@@ -45,7 +45,7 @@ export default function CreateCoursePage() {
       await courseService.createCourse({ name: courseName });
 
       // Invalidate the courses query to refetch the list on the courses page
-      await queryClient.invalidateQueries({ queryKey: ['courses'] });
+      await queryClient.invalidateQueries({ queryKey: ["courses"] });
 
       router.push("/courses");
     } catch (error) {
@@ -66,23 +66,33 @@ export default function CreateCoursePage() {
   };
 
   return (
-    <div className={`min-h-screen relative ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-blue-900/10 to-gray-900' : 'bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/40'} transition-colors duration-500`}>
+    <div
+      className={`min-h-screen relative ${isDarkMode ? "bg-gradient-to-br from-gray-900 via-blue-900/10 to-gray-900" : "bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/40"} transition-colors duration-500`}
+    >
       {/* Enhanced decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Primary gradient overlay */}
-        <div className={`absolute top-0 left-0 right-0 h-96 ${isDarkMode ? 'bg-gradient-to-b from-blue-900/20 via-indigo-900/10 to-transparent' : 'bg-gradient-to-b from-blue-100/50 via-indigo-100/30 to-transparent'} transition-colors duration-500`}></div>
-        
+        <div
+          className={`absolute top-0 left-0 right-0 h-96 ${isDarkMode ? "bg-gradient-to-b from-blue-900/20 via-indigo-900/10 to-transparent" : "bg-gradient-to-b from-blue-100/50 via-indigo-100/30 to-transparent"} transition-colors duration-500`}
+        ></div>
+
         {/* Floating geometric elements */}
-        <div className={`absolute -top-32 -right-32 w-96 h-96 ${isDarkMode ? 'bg-cyan-600/5' : 'bg-cyan-400/8'} rounded-full blur-3xl animate-pulse-slow transition-colors duration-500`}></div>
-        <div className={`absolute top-1/4 -left-24 w-80 h-80 ${isDarkMode ? 'bg-indigo-600/5' : 'bg-indigo-400/8'} rounded-full blur-3xl animate-pulse-slow transition-colors duration-500`} style={{ animationDelay: '1s' }}></div>
-        
+        <div
+          className={`absolute -top-32 -right-32 w-96 h-96 ${isDarkMode ? "bg-cyan-600/5" : "bg-cyan-400/8"} rounded-full blur-3xl animate-pulse-slow transition-colors duration-500`}
+        ></div>
+        <div
+          className={`absolute top-1/4 -left-24 w-80 h-80 ${isDarkMode ? "bg-indigo-600/5" : "bg-indigo-400/8"} rounded-full blur-3xl animate-pulse-slow transition-colors duration-500`}
+          style={{ animationDelay: "1s" }}
+        ></div>
+
         {/* Subtle grid pattern */}
-        <div className={`absolute inset-0 opacity-[0.02] ${isDarkMode ? 'bg-gray-100' : 'bg-gray-900'} transition-opacity duration-500`} 
-             style={{
-               backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-               backgroundSize: '24px 24px'
-             }}>
-        </div>
+        <div
+          className={`absolute inset-0 opacity-[0.02] ${isDarkMode ? "bg-gray-100" : "bg-gray-900"} transition-opacity duration-500`}
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+            backgroundSize: "24px 24px",
+          }}
+        ></div>
       </div>
 
       {/* Main content */}
@@ -95,29 +105,39 @@ export default function CreateCoursePage() {
         >
           {/* Enhanced header section */}
           <div className="mb-8 text-center">
-            <div className={`inline-flex items-center justify-center p-4 ${isDarkMode ? 'bg-gradient-to-tr from-blue-600 to-indigo-600' : 'bg-gradient-to-tr from-blue-500 to-indigo-600'} rounded-2xl shadow-lg mb-6 transition-colors duration-300 relative overflow-hidden`}>
+            <div
+              className={`inline-flex items-center justify-center p-4 ${isDarkMode ? "bg-gradient-to-tr from-blue-600 to-indigo-600" : "bg-gradient-to-tr from-blue-500 to-indigo-600"} rounded-2xl shadow-lg mb-6 transition-colors duration-300 relative overflow-hidden`}
+            >
               <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent"></div>
               <FiBookOpen className="text-white text-4xl relative z-10" />
             </div>
-            <h1 className={`text-4xl sm:text-5xl font-bold mb-3 bg-gradient-to-r ${isDarkMode ? 'from-blue-400 via-indigo-400 to-purple-400' : 'from-blue-600 via-indigo-600 to-purple-600'} bg-clip-text text-transparent transition-colors duration-300`}>
+            <h1
+              className={`text-4xl sm:text-5xl font-bold mb-3 bg-gradient-to-r ${isDarkMode ? "from-blue-400 via-indigo-400 to-purple-400" : "from-blue-600 via-indigo-600 to-purple-600"} bg-clip-text text-transparent transition-colors duration-300`}
+            >
               Yeni Ders Oluştur
             </h1>
-            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-lg transition-colors duration-300`}>
+            <p
+              className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} text-lg transition-colors duration-300`}
+            >
               Oluşturacağınız dersin adını girerek başlayın.
             </p>
           </div>
 
           {/* Enhanced form container */}
-          <div className={`${isDarkMode ? 'bg-gray-800/90 border-gray-700/50' : 'bg-white/90 border-gray-200/60'} backdrop-blur-sm rounded-2xl shadow-xl border transition-colors duration-300 p-6 sm:p-8 md:p-10 relative overflow-hidden`}>
+          <div
+            className={`${isDarkMode ? "bg-gray-800/90 border-gray-700/50" : "bg-white/90 border-gray-200/60"} backdrop-blur-sm rounded-2xl shadow-xl border transition-colors duration-300 p-6 sm:p-8 md:p-10 relative overflow-hidden`}
+          >
             {/* Subtle gradient overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${isDarkMode ? 'from-blue-900/5 to-transparent' : 'from-blue-50/30 to-transparent'} transition-colors duration-300`}></div>
-            
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${isDarkMode ? "from-blue-900/5 to-transparent" : "from-blue-50/30 to-transparent"} transition-colors duration-300`}
+            ></div>
+
             <div className="relative z-10">
               {/* Back link */}
               <div className="mb-8">
                 <Link
                   href="/courses"
-                  className={`inline-flex items-center text-sm ${isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'} transition-colors duration-300 group`}
+                  className={`inline-flex items-center text-sm ${isDarkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700"} transition-colors duration-300 group`}
                 >
                   <FiArrowLeft className="mr-2 h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" />
                   Kurs Listesine Geri Dön
@@ -129,19 +149,21 @@ export default function CreateCoursePage() {
                 <div>
                   <label
                     htmlFor="courseName"
-                    className={`block text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} mb-3 transition-colors duration-300`}
+                    className={`block text-lg font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-700"} mb-3 transition-colors duration-300`}
                   >
                     Ders Adı
                   </label>
                   <div className="relative">
-                    <FiBook className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-blue-400/70' : 'text-blue-500/70'} text-xl transition-colors duration-300`} />
+                    <FiBook
+                      className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? "text-blue-400/70" : "text-blue-500/70"} text-xl transition-colors duration-300`}
+                    />
                     <input
                       type="text"
                       id="courseName"
                       className={`w-full pl-12 pr-5 py-4 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 shadow-sm hover:shadow-md backdrop-blur-sm ${
                         errors.courseName
-                          ? `${isDarkMode ? 'border-red-500/60 ring-red-500/20 bg-red-900/10' : 'border-red-400 ring-red-300/50 bg-red-50/50'}`
-                          : `${isDarkMode ? 'border-gray-600/60 focus:border-blue-500 focus:ring-blue-500/20 bg-gray-700/50 text-gray-200 placeholder-gray-400' : 'border-gray-300/60 focus:border-blue-500 focus:ring-blue-500/20 bg-white/80 text-gray-700 placeholder-gray-400'}`
+                          ? `${isDarkMode ? "border-red-500/60 ring-red-500/20 bg-red-900/10" : "border-red-400 ring-red-300/50 bg-red-50/50"}`
+                          : `${isDarkMode ? "border-gray-600/60 focus:border-blue-500 focus:ring-blue-500/20 bg-gray-700/50 text-gray-200 placeholder-gray-400" : "border-gray-300/60 focus:border-blue-500 focus:ring-blue-500/20 bg-white/80 text-gray-700 placeholder-gray-400"}`
                       }`}
                       placeholder="Örn: İleri Seviye Matematik"
                       value={courseName}
@@ -154,7 +176,7 @@ export default function CreateCoursePage() {
                   {errors.courseName && (
                     <p
                       id="courseName-error"
-                      className={`mt-3 text-sm ${isDarkMode ? 'text-red-400' : 'text-red-600'} font-medium transition-colors duration-300`}
+                      className={`mt-3 text-sm ${isDarkMode ? "text-red-400" : "text-red-600"} font-medium transition-colors duration-300`}
                     >
                       {errors.courseName}
                     </p>
@@ -162,10 +184,12 @@ export default function CreateCoursePage() {
                 </div>
 
                 {/* Enhanced action buttons */}
-                <div className={`mt-10 flex flex-col sm:flex-row-reverse justify-start gap-3 sm:gap-4 pt-6 border-t ${isDarkMode ? 'border-gray-700/60' : 'border-gray-200/60'} transition-colors duration-300`}>
+                <div
+                  className={`mt-10 flex flex-col sm:flex-row-reverse justify-start gap-3 sm:gap-4 pt-6 border-t ${isDarkMode ? "border-gray-700/60" : "border-gray-200/60"} transition-colors duration-300`}
+                >
                   <button
                     type="submit"
-                    className={`w-full sm:w-auto px-8 py-3.5 ${isDarkMode ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 focus:ring-blue-600/50' : 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:ring-blue-500/50'} text-white rounded-xl font-semibold text-base transition-all duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+                    className={`w-full sm:w-auto px-8 py-3.5 ${isDarkMode ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 focus:ring-blue-600/50" : "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:ring-blue-500/50"} text-white rounded-xl font-semibold text-base transition-all duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
                       isSubmitting
                         ? "opacity-70 cursor-not-allowed"
                         : "transform hover:scale-105"
@@ -202,7 +226,7 @@ export default function CreateCoursePage() {
                   </button>
                   <Link
                     href="/courses"
-                    className={`w-full sm:w-auto px-8 py-3.5 border ${isDarkMode ? 'border-gray-600/60 text-gray-200 hover:bg-gray-700/50' : 'border-gray-400/60 text-gray-700 hover:bg-gray-100/50'} rounded-xl transition-all duration-300 text-center font-semibold text-base shadow-sm hover:shadow-md transform hover:scale-105 backdrop-blur-sm`}
+                    className={`w-full sm:w-auto px-8 py-3.5 border ${isDarkMode ? "border-gray-600/60 text-gray-200 hover:bg-gray-700/50" : "border-gray-400/60 text-gray-700 hover:bg-gray-100/50"} rounded-xl transition-all duration-300 text-center font-semibold text-base shadow-sm hover:shadow-md transform hover:scale-105 backdrop-blur-sm`}
                   >
                     İptal
                   </Link>
@@ -210,8 +234,6 @@ export default function CreateCoursePage() {
               </form>
             </div>
           </div>
-          
-         
         </motion.div>
       </div>
     </div>

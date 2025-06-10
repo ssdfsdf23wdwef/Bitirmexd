@@ -28,16 +28,16 @@ export default function TopicDetector({
 
   // Konu tespiti işlemi
   useEffect(() => {
-    console.group('🔍 [TopicDetector] useEffect - Konu tespiti başlatılıyor');
-    console.log('📋 Başlangıç parametreleri:', {
+    console.group("🔍 [TopicDetector] useEffect - Konu tespiti başlatılıyor");
+    console.log("📋 Başlangıç parametreleri:", {
       documentId,
       fileName,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     // Boş documentId kontrolü
     if (!documentId) {
-      console.error('❌ DocumentId bulunamadı!', { documentId });
+      console.error("❌ DocumentId bulunamadı!", { documentId });
       setError("Belge ID'si bulunamadı.");
       setIsLoading(false);
       console.groupEnd();
@@ -46,89 +46,97 @@ export default function TopicDetector({
 
     const detectTopics = async () => {
       try {
-        console.log('🔄 Konu tespiti işlemi başlatılıyor...');
+        console.log("🔄 Konu tespiti işlemi başlatılıyor...");
         setIsLoading(true);
         setError(null);
 
         // API'den konuları getir
         try {
-          console.log('🌐 Document service API çağrısı yapılıyor...', {
+          console.log("🌐 Document service API çağrısı yapılıyor...", {
             documentId,
-            service: 'documentService.detectTopics'
+            service: "documentService.detectTopics",
           });
-          
+
           // Backend API'yi çağır
           const startTime = performance.now();
           const detectedTopics = await documentService.detectTopics(documentId);
           const endTime = performance.now();
           const apiDuration = endTime - startTime;
-          
-          console.log('✅ API başarılı! Konular tespit edildi:', {
+
+          console.log("✅ API başarılı! Konular tespit edildi:", {
             detectedTopicsCount: detectedTopics.length,
             detectedTopicsPreview: detectedTopics.slice(0, 3),
             allDetectedTopics: detectedTopics,
             apiDuration: `${apiDuration.toFixed(2)}ms`,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
           });
-          
+
           // Store'a pending topic'leri kaydet
-          const topicNames = detectedTopics.map(topic => topic.subTopicName);
-          console.log('💾 Store\'a pending topics kaydediliyor...', {
+          const topicNames = detectedTopics.map((topic) => topic.subTopicName);
+          console.log("💾 Store'a pending topics kaydediliyor...", {
             topicNames,
-            topicCount: topicNames.length
+            topicCount: topicNames.length,
           });
           setPendingTopics(topicNames); // Call setPendingTopics
 
           // Tespit edilen konuları işle ve görüntüleme için hazırla
-          console.log('⚙️ Konular işleniyor ve görüntüleme için hazırlanıyor...');
-          const processedTopics = detectedTopics.map(topic => ({
+          console.log(
+            "⚙️ Konular işleniyor ve görüntüleme için hazırlanıyor...",
+          );
+          const processedTopics = detectedTopics.map((topic) => ({
             ...topic,
             id: topic.normalizedSubTopicName, // ID olarak normalize edilmiş konu adını kullan
             name: topic.subTopicName, // Görüntüleme için konu adını kullan
             isSelected: true, // Varsayılan olarak seçili
-      
-            isNew: !topic.parentTopic // Eğer bir üst konusu yoksa yeni kabul et
+
+            isNew: !topic.parentTopic, // Eğer bir üst konusu yoksa yeni kabul et
           }));
-          
-          console.log('✅ Konular başarıyla işlendi:', {
+
+          console.log("✅ Konular başarıyla işlendi:", {
             processedTopicsCount: processedTopics.length,
             processedTopicsPreview: processedTopics.slice(0, 3),
-            selectedCount: processedTopics.filter(t => t.isSelected).length,
-            newTopicsCount: processedTopics.filter(t => t.isNew).length,
-            statusDistribution: processedTopics.reduce((acc, topic) => {
-              acc[topic.status] = (acc[topic.status] || 0) + 1;
-              return acc;
-            }, {} as Record<string, number>)
+            selectedCount: processedTopics.filter((t) => t.isSelected).length,
+            newTopicsCount: processedTopics.filter((t) => t.isNew).length,
+            statusDistribution: processedTopics.reduce(
+              (acc, topic) => {
+                acc[topic.status] = (acc[topic.status] || 0) + 1;
+                return acc;
+              },
+              {} as Record<string, number>,
+            ),
           });
-          
+
           setTopics(processedTopics);
-          console.log('🎉 Konu tespiti başarıyla tamamlandı!');
+          console.log("🎉 Konu tespiti başarıyla tamamlandı!");
         } catch (error) {
-          console.error('❌ API HATASI:', {
+          console.error("❌ API HATASI:", {
             error,
-            errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
-            errorStack: error instanceof Error ? error.stack : 'Stack yok',
+            errorMessage:
+              error instanceof Error ? error.message : "Bilinmeyen hata",
+            errorStack: error instanceof Error ? error.stack : "Stack yok",
             documentId,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
           });
-          
+
           // Gerçek hata durumunda hata göster
-          const errorMessage = (error as Error)?.message || "Konular tespit edilemedi.";
+          const errorMessage =
+            (error as Error)?.message || "Konular tespit edilemedi.";
           setError(errorMessage);
-          
+
           // Hata callback'ini çağır
           if (onError) {
-            console.log('📞 onError callback çağrılıyor...', { errorMessage });
+            console.log("📞 onError callback çağrılıyor...", { errorMessage });
             onError(errorMessage);
           }
         }
       } catch (error) {
-        console.error('❌ GENEL HATA:', {
+        console.error("❌ GENEL HATA:", {
           error,
-          errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
-          errorStack: error instanceof Error ? error.stack : 'Stack yok',
+          errorMessage:
+            error instanceof Error ? error.message : "Bilinmeyen hata",
+          errorStack: error instanceof Error ? error.stack : "Stack yok",
           documentId,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         // Hata durumunu güncelle
@@ -137,16 +145,16 @@ export default function TopicDetector({
 
         // Hata callback'ini çağır
         if (onError) {
-          console.log('📞 onError callback çağrılıyor...', { errorMessage });
+          console.log("📞 onError callback çağrılıyor...", { errorMessage });
           onError(errorMessage);
         }
 
         // Statik logError metodunu kullanalım
         console.error("Konu tespit hatası:", error);
       } finally {
-        console.log('🏁 Loading durumu false yapılıyor...');
+        console.log("🏁 Loading durumu false yapılıyor...");
         setIsLoading(false);
-        console.log('💥 Konu tespiti işlemi sonlandı');
+        console.log("💥 Konu tespiti işlemi sonlandı");
         console.groupEnd();
       }
     };
@@ -156,85 +164,99 @@ export default function TopicDetector({
   }, [documentId, onError, setPendingTopics]); // Added setPendingTopics to dependency array
 
   // Tüm konuları seçme/seçimi kaldırma
-  const toggleAll = useCallback((selectAll: boolean) => {
-    console.group('🔄 [TopicDetector] toggleAll - Tüm konuların seçimi değiştiriliyor');
-    console.log('📋 Parametreler:', {
-      selectAll,
-      currentTopicsCount: topics.length,
-      currentSelectedCount: topics.filter(t => t.isSelected).length,
-      timestamp: new Date().toISOString()
-    });
-
-    setTopics((prevTopics: DetectedSubTopic[]) => {
-      const updatedTopics = prevTopics.map((topic) => ({
-        ...topic,
-        isSelected: selectAll,
-      }));
-
-      console.log('✅ Konular güncellendi:', {
-        totalTopics: updatedTopics.length,
-        selectedTopics: updatedTopics.filter(t => t.isSelected).length,
-        action: selectAll ? 'Tümü seçildi' : 'Tümünün seçimi kaldırıldı'
+  const toggleAll = useCallback(
+    (selectAll: boolean) => {
+      console.group(
+        "🔄 [TopicDetector] toggleAll - Tüm konuların seçimi değiştiriliyor",
+      );
+      console.log("📋 Parametreler:", {
+        selectAll,
+        currentTopicsCount: topics.length,
+        currentSelectedCount: topics.filter((t) => t.isSelected).length,
+        timestamp: new Date().toISOString(),
       });
 
-      console.groupEnd();
-      return updatedTopics;
-    });
-  }, [topics.length]);
+      setTopics((prevTopics: DetectedSubTopic[]) => {
+        const updatedTopics = prevTopics.map((topic) => ({
+          ...topic,
+          isSelected: selectAll,
+        }));
+
+        console.log("✅ Konular güncellendi:", {
+          totalTopics: updatedTopics.length,
+          selectedTopics: updatedTopics.filter((t) => t.isSelected).length,
+          action: selectAll ? "Tümü seçildi" : "Tümünün seçimi kaldırıldı",
+        });
+
+        console.groupEnd();
+        return updatedTopics;
+      });
+    },
+    [topics.length],
+  );
 
   // Tek bir konunun seçimini değiştirme
-  const toggleTopic = useCallback((topicId: string) => {
-    console.group('🔄 [TopicDetector] toggleTopic - Tek konu seçimi değiştiriliyor');
-    console.log('📋 Parametreler:', {
-      topicId,
-      currentTopicsCount: topics.length,
-      currentSelectedCount: topics.filter(t => t.isSelected).length,
-      targetTopic: topics.find(t => t.id === topicId),
-      timestamp: new Date().toISOString()
-    });
-
-    setTopics((prevTopics: DetectedSubTopic[]) => {
-      const updatedTopics = prevTopics.map((topic) => 
-        topic.id === topicId ? { ...topic, isSelected: !topic.isSelected } : topic
+  const toggleTopic = useCallback(
+    (topicId: string) => {
+      console.group(
+        "🔄 [TopicDetector] toggleTopic - Tek konu seçimi değiştiriliyor",
       );
-
-      const targetTopic = updatedTopics.find(t => t.id === topicId);
-      console.log('✅ Konu güncellendi:', {
+      console.log("📋 Parametreler:", {
         topicId,
-        topicName: targetTopic?.name,
-        newSelectionState: targetTopic?.isSelected,
-        totalSelectedCount: updatedTopics.filter(t => t.isSelected).length
+        currentTopicsCount: topics.length,
+        currentSelectedCount: topics.filter((t) => t.isSelected).length,
+        targetTopic: topics.find((t) => t.id === topicId),
+        timestamp: new Date().toISOString(),
       });
 
-      console.groupEnd();
-      return updatedTopics;
-    });
-  }, [topics]);
+      setTopics((prevTopics: DetectedSubTopic[]) => {
+        const updatedTopics = prevTopics.map((topic) =>
+          topic.id === topicId
+            ? { ...topic, isSelected: !topic.isSelected }
+            : topic,
+        );
+
+        const targetTopic = updatedTopics.find((t) => t.id === topicId);
+        console.log("✅ Konu güncellendi:", {
+          topicId,
+          topicName: targetTopic?.name,
+          newSelectionState: targetTopic?.isSelected,
+          totalSelectedCount: updatedTopics.filter((t) => t.isSelected).length,
+        });
+
+        console.groupEnd();
+        return updatedTopics;
+      });
+    },
+    [topics],
+  );
 
   // Seçilen konuları gönderme
   const handleConfirm = useCallback(() => {
-    console.group('✅ [TopicDetector] handleConfirm - Seçilen konular onaylanıyor');
-    
+    console.group(
+      "✅ [TopicDetector] handleConfirm - Seçilen konular onaylanıyor",
+    );
+
     const selectedTopics = topics.filter((topic) => topic.isSelected);
     const selectedTopicIds = selectedTopics.map((topic) => topic.id);
 
-    console.log('📋 Onay bilgileri:', {
+    console.log("📋 Onay bilgileri:", {
       totalTopics: topics.length,
       selectedTopicsCount: selectedTopics.length,
       selectedTopicIds,
-      selectedTopicNames: selectedTopics.map(t => t.name),
+      selectedTopicNames: selectedTopics.map((t) => t.name),
       selectedTopicDetails: selectedTopics,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
-    console.log('📞 onTopicsSelected callback çağrılıyor...', {
+    console.log("📞 onTopicsSelected callback çağrılıyor...", {
       selectedTopicIds,
-      callbackFunction: 'onTopicsSelected'
+      callbackFunction: "onTopicsSelected",
     });
 
     onTopicsSelected(selectedTopicIds);
-    
-    console.log('🎉 handleConfirm başarıyla tamamlandı!');
+
+    console.log("🎉 handleConfirm başarıyla tamamlandı!");
     console.groupEnd();
   }, [topics, onTopicsSelected]);
 
@@ -310,13 +332,14 @@ export default function TopicDetector({
 
   // Yükleniyor durumu
   if (isLoading) {
-    return (    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-            Konular Tespit Ediliyor
-          </h2>
-        </div>
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+              Konular Tespit Ediliyor
+            </h2>
+          </div>
 
           <div className="p-6 flex flex-col items-center justify-center py-10">
             <div className="w-12 h-12 mb-4 border-4 border-blue-200 dark:border-blue-800 border-t-blue-500 rounded-full animate-spin"></div>
@@ -401,10 +424,7 @@ export default function TopicDetector({
             ) : (
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {topics.map((topic) => (
-                  <li
-                    key={topic.id}
-                    className="py-2 flex items-center"
-                  >
+                  <li key={topic.id} className="py-2 flex items-center">
                     <div className="mr-3">
                       <label className="inline-flex items-center">
                         <input

@@ -23,7 +23,6 @@ const SubTopicObjectSchema = z.object({
   subTopicName: z.string().min(1, 'Alt konu adı boş olamaz'),
   normalizedSubTopicName: z.string().optional(), // Bu alan normalizasyon sonrası ekleniyor, AI'dan gelmeyebilir
   parentTopic: z.string().optional(),
-
 });
 
 // AI'nın doğrudan string dizisi döndürme ihtimali için
@@ -48,7 +47,6 @@ const NormalizedTopicStructureSchema = z.object({
   subTopicName: z.string(),
   normalizedSubTopicName: z.string(),
   parentTopic: z.string().optional(),
-
 });
 
 export const FinalNormalizedTopicDetectionResultSchema = z.object({

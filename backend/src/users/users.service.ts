@@ -4,11 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
-import { 
-  UpdateUserDto, 
-  User, 
-  ThemeType 
-} from '../common/types';
+import { UpdateUserDto, User, ThemeType } from '../common/types';
 import * as admin from 'firebase-admin';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { LoggerService } from '../common/services/logger.service';

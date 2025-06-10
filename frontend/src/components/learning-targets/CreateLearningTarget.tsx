@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,10 +12,10 @@ import {
   MenuItem,
   Box,
   Typography,
-  Alert
-} from '@mui/material';
-import { LearningTargetStatus } from '../../types/learning-target.types';
-import { useLearningTargetsStore } from '../../store/useLearningTargetsStore';
+  Alert,
+} from "@mui/material";
+import { LearningTargetStatus } from "../../types/learning-target.types";
+import { useLearningTargetsStore } from "../../store/useLearningTargetsStore";
 
 interface CreateLearningTargetProps {
   open: boolean;
@@ -26,43 +26,45 @@ interface CreateLearningTargetProps {
 const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
   open,
   onClose,
-  courseId
+  courseId,
 }) => {
   const { createTarget } = useLearningTargetsStore();
-  
+
   const [formData, setFormData] = useState({
-    topicName: '',
+    topicName: "",
     status: LearningTargetStatus.NOT_STARTED,
-    notes: '',
+    notes: "",
   });
-  
+
   const [errors, setErrors] = useState<{
     topicName?: string;
   }>({});
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name as string]: value
+      [name as string]: value,
     });
-    
+
     // Clear validation errors when field is changed
-    if (name === 'topicName' && errors.topicName) {
+    if (name === "topicName" && errors.topicName) {
       setErrors({ ...errors, topicName: undefined });
     }
   };
 
   const validateForm = (): boolean => {
     const newErrors: { topicName?: string } = {};
-    
+
     if (!formData.topicName.trim()) {
-      newErrors.topicName = 'Konu adı zorunludur';
+      newErrors.topicName = "Konu adı zorunludur";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -70,13 +72,13 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       await createTarget({
         topicName: formData.topicName,
@@ -84,14 +86,16 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
         notes: formData.notes || undefined,
         courseId: courseId,
         isNewTopic: false,
-        source: 'manual',
-        userId: 'current-user',
+        source: "manual",
+        userId: "current-user",
       });
-      
+
       handleClose();
     } catch (error) {
-      console.error('Error creating learning target:', error);
-      setSubmitError('Öğrenme hedefi oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+      console.error("Error creating learning target:", error);
+      setSubmitError(
+        "Öğrenme hedefi oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -100,9 +104,9 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
   const handleClose = () => {
     // Reset form state
     setFormData({
-      topicName: '',
+      topicName: "",
       status: LearningTargetStatus.NOT_STARTED,
-      notes: '',
+      notes: "",
     });
     setErrors({});
     setSubmitError(null);
@@ -120,7 +124,7 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
                 {submitError}
               </Alert>
             )}
-            
+
             <TextField
               name="topicName"
               label="Konu Adı"
@@ -132,7 +136,7 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
               helperText={errors.topicName}
               required
             />
-            
+
             <FormControl fullWidth margin="dense">
               <InputLabel id="status-select-label">Durum</InputLabel>
               <Select
@@ -142,12 +146,18 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
                 label="Durum"
                 onChange={handleChange}
               >
-                <MenuItem value={LearningTargetStatus.NOT_STARTED}>Başlanmadı</MenuItem>
-                <MenuItem value={LearningTargetStatus.IN_PROGRESS}>Devam Ediyor</MenuItem>
-                <MenuItem value={LearningTargetStatus.COMPLETED}>Tamamlandı</MenuItem>
+                <MenuItem value={LearningTargetStatus.NOT_STARTED}>
+                  Başlanmadı
+                </MenuItem>
+                <MenuItem value={LearningTargetStatus.IN_PROGRESS}>
+                  Devam Ediyor
+                </MenuItem>
+                <MenuItem value={LearningTargetStatus.COMPLETED}>
+                  Tamamlandı
+                </MenuItem>
               </Select>
             </FormControl>
-            
+
             <TextField
               name="notes"
               label="Notlar"
@@ -159,14 +169,15 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
               margin="dense"
               placeholder="Öğrenme hedefi hakkında notlar ekleyin (isteğe bağlı)"
             />
-            
+
             {courseId ? (
               <Typography variant="caption" color="text.secondary">
                 Bu öğrenme hedefi seçili ders ile ilişkilendirilecektir.
               </Typography>
             ) : (
               <Typography variant="caption" color="text.secondary">
-                Bu öğrenme hedefi herhangi bir ders ile ilişkilendirilmeyecektir.
+                Bu öğrenme hedefi herhangi bir ders ile
+                ilişkilendirilmeyecektir.
               </Typography>
             )}
           </Box>
@@ -175,13 +186,13 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
           <Button onClick={handleClose} disabled={isSubmitting}>
             İptal
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained" 
-            color="primary" 
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Ekleniyor...' : 'Ekle'}
+            {isSubmitting ? "Ekleniyor..." : "Ekle"}
           </Button>
         </DialogActions>
       </form>

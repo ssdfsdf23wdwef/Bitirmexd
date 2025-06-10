@@ -33,7 +33,7 @@ import { useAuth } from "@/hooks/auth/useAuth";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { LearningTarget } from "@/types/learningTarget.type";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { ApiError } from "@/services/error.service"; 
+import { ApiError } from "@/services/error.service";
 import { Quiz } from "@/types";
 import { useTheme } from "@/context/ThemeProvider";
 
@@ -54,7 +54,7 @@ interface ExamCreationWizardProps {
     quiz?: Quiz; // Quiz nesnesi (quiz.service.ts'den dönen)
     quizId?: string;
     documentId?: string;
-    status?: 'success' | 'error';
+    status?: "success" | "error";
     error?: Error | ApiError; // Hata durumu
   }) => void;
 }
@@ -77,10 +77,10 @@ export default function ExamCreationWizard({
   onComplete,
 }: ExamCreationWizardProps) {
   const router = useRouter();
-  
+
   // Authentication state
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme();
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);
   // Kişiselleştirilmiş sınav için 5 adım, hızlı sınav için 3 adım
@@ -98,24 +98,31 @@ const { isDarkMode } = useTheme();
   >("idle");
 
   // Seçilen konuları takip etmek için state (TopicSelectionScreen için)
-  const [selectedTopicsList, setSelectedTopicsList] = useState<string[]>(initialTopics || []);
+  const [selectedTopicsList, setSelectedTopicsList] = useState<string[]>(
+    initialTopics || [],
+  );
   const [onInitialLoad, setOnInitialLoad] = useState<boolean>(true);
 
   // Sınav oluşturma durumu için yeni state
   const [quizCreationLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
+
   // Belge metni ve belge ID'si
   const [documentTextContent, setDocumentTextContent] = useState<string>("");
-  const [uploadedDocumentId, setUploadedDocumentId] = useState<string>(initialDocumentId || "");
-  
+  const [uploadedDocumentId, setUploadedDocumentId] = useState<string>(
+    initialDocumentId || "",
+  );
+
   // Seçilen konular (alt konu olarak)
   const [selectedTopics, setSelectedTopics] = useState<SubTopic[]>([]);
 
   // Kişiselleştirilmiş sınav alt türü - sadece personalized modda kullanılıyor
   const [personalizedQuizType, setPersonalizedQuizType] = useState<
-    "weakTopicFocused" | "learningObjectiveFocused" | "newTopicFocused" | "comprehensive"
+    | "weakTopicFocused"
+    | "learningObjectiveFocused"
+    | "newTopicFocused"
+    | "comprehensive"
   >("comprehensive");
 
   // Tercihler
@@ -123,7 +130,8 @@ const { isDarkMode } = useTheme();
     questionCount: 10,
     difficulty: "mixed",
     timeLimit: undefined,
-    personalizedQuizType: quizType === "personalized" ? "comprehensive" : undefined, 
+    personalizedQuizType:
+      quizType === "personalized" ? "comprehensive" : undefined,
   });
   const [useTimeLimit, setUseTimeLimit] = useState<boolean>(false);
 
@@ -150,7 +158,7 @@ const { isDarkMode } = useTheme();
   const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const courseId = e.target.value;
     setSelectedCourseId(courseId);
-    
+
     // Seçilen derse bağlı konuları yükle
     if (courseId) {
       // Örnek veri - backend entegrasyonu daha sonra yapılacak
@@ -161,26 +169,29 @@ const { isDarkMode } = useTheme();
           subTopicName: "Temel Kavramlar",
           normalizedSubTopicName: "temel-kavramlar",
           status: "medium",
-          isSelected: false
+          isSelected: false,
         },
         {
           id: `topic-${Date.now()}-2`,
           subTopicName: "Uygulama Geliştirme",
           normalizedSubTopicName: "uygulama-gelistirme",
           status: "pending",
-          isSelected: false
+          isSelected: false,
         },
         {
           id: `topic-${Date.now()}-3`,
           subTopicName: "Veri Yapıları",
           normalizedSubTopicName: "veri-yapilari",
           status: "mastered",
-          isSelected: false
-        }
+          isSelected: false,
+        },
       ];
-      
+
       setCourseTopics(mockTopics);
-      console.log('[ECW handleCourseChange] Ders konuları yüklendi (örnek veri):', mockTopics.length);
+      console.log(
+        "[ECW handleCourseChange] Ders konuları yüklendi (örnek veri):",
+        mockTopics.length,
+      );
     } else {
       setCourseTopics([]);
       setTopicSubTopics([]);
@@ -193,62 +204,74 @@ const { isDarkMode } = useTheme();
       ErrorService.showToast("Lütfen geçerli bir ders adı girin", "error");
       return;
     }
-    
+
     // Buton durumunu yükleniyor olarak ayarla
     setCreatingCourse(true);
-    
+
     try {
       // courseService'in createCourse metodunu kullanarak backend'e gerçek bir istek gönder
       // Backend API'si 'description' alanını kabul etmiyor, bu yüzden sadece name alanını gönderiyoruz
       const courseData = { name: newCourseName };
       console.log(`📚 Yeni ders oluşturuluyor: ${newCourseName}`);
-      
+
       // Backend API'sine ders oluşturma isteği gönder
       const createdCourse = await courseService.createCourse(courseData);
-      
+
       console.log(`✅ Ders başarıyla oluşturuldu! ID: ${createdCourse.id}`);
-      
+
       // Yeni oluşturulan dersi kurslar listesine ekle
-      setCourses(prevCourses => [...prevCourses, createdCourse]);
-      
+      setCourses((prevCourses) => [...prevCourses, createdCourse]);
+
       // Yeni oluşturulan dersi seç ve adı sıfırla
       setSelectedCourseId(createdCourse.id);
       setNewCourseName("");
-      
+
       // Yeni ders oluşturma formunu gizle
       setShowNewCourseForm(false);
-      
+
       // Başarı mesajı göster
       toast.success("Yeni ders başarıyla oluşturuldu!");
     } catch (error) {
       // Hata durumunda kullanıcıya bilgi ver
       console.error("Ders oluşturma hatası:", error);
-      const errorMessage = error instanceof Error && error.message
-        ? error.message
-        : "Lütfen tekrar deneyin.";
-      
+      const errorMessage =
+        error instanceof Error && error.message
+          ? error.message
+          : "Lütfen tekrar deneyin.";
+
       ErrorService.showToast(`Ders oluşturulamadı: ${errorMessage}`, "error");
     } finally {
       // İşlem tamamlandığında buton durumunu normale çevir
       setCreatingCourse(false);
     }
   };
-  
+
   // URL'den belge ID ve konular alındıysa otomatik olarak işle
   useEffect(() => {
-    if (initialDocumentId && initialDocumentId.trim() !== "" && currentStep === 1) {
-      console.log('[ECW useEffect] URL üzerinden belge ID algılandı:', initialDocumentId);
+    if (
+      initialDocumentId &&
+      initialDocumentId.trim() !== "" &&
+      currentStep === 1
+    ) {
+      console.log(
+        "[ECW useEffect] URL üzerinden belge ID algılandı:",
+        initialDocumentId,
+      );
       setUploadedDocumentId(initialDocumentId);
-      
+
       // Belge metin içeriğini yükle
-      documentService.getDocumentText(initialDocumentId)
-        .then(response => {
+      documentService
+        .getDocumentText(initialDocumentId)
+        .then((response) => {
           setDocumentTextContent(response.text);
-          console.log('[ECW useEffect] Belge metni yüklendi, uzunluk:', response.text.length);
-          
+          console.log(
+            "[ECW useEffect] Belge metni yüklendi, uzunluk:",
+            response.text.length,
+          );
+
           // Konu teşhisi için adım 2'ye geç
           setCurrentStep(2);
-          
+
           // Belge içeriğinden varsayılan konu oluştur
           if ((!initialTopics || initialTopics.length === 0) && response.text) {
             const defaultTopicId = `belge-${initialDocumentId.substring(0, 8)}`;
@@ -256,43 +279,55 @@ const { isDarkMode } = useTheme();
               id: defaultTopicId,
               subTopicName: "Belge İçeriği",
               normalizedSubTopicName: defaultTopicId,
-              isSelected: true
+              isSelected: true,
             };
-            
+
             setDetectedTopics([defaultTopic]);
             setSelectedTopicIds([defaultTopicId]);
             setSelectedSubTopicIds([defaultTopicId]);
-            
+
             const subTopicItem: SubTopic = {
               subTopic: "Belge İçeriği",
-              normalizedSubTopic: defaultTopicId
+              normalizedSubTopic: defaultTopicId,
             };
             setSelectedTopics([subTopicItem]);
-            
-            console.log('[ECW useEffect] Varsayılan konu oluşturuldu:', subTopicItem);
+
+            console.log(
+              "[ECW useEffect] Varsayılan konu oluşturuldu:",
+              subTopicItem,
+            );
           }
         })
-        .catch(error => {
-          console.error('[ECW useEffect] Belge metni yüklenirken hata:', error);
-          ErrorService.showToast("Belge içeriği yüklenemedi, lütfen tekrar deneyin.", "error");
+        .catch((error) => {
+          console.error("[ECW useEffect] Belge metni yüklenirken hata:", error);
+          ErrorService.showToast(
+            "Belge içeriği yüklenemedi, lütfen tekrar deneyin.",
+            "error",
+          );
         });
     }
-    
+
     // İlk konular belirtilmişse
     if (initialTopics && initialTopics.length > 0 && currentStep === 1) {
-      console.log('[ECW useEffect] URL üzerinden konular algılandı:', initialTopics);
+      console.log(
+        "[ECW useEffect] URL üzerinden konular algılandı:",
+        initialTopics,
+      );
       setSelectedTopicIds(initialTopics);
       setSelectedSubTopicIds(initialTopics);
-      
+
       // Konu adları bilinmediğinden varsayılan isimleri kullan
       const subTopicItems: SubTopic[] = initialTopics.map((topicId, index) => ({
         subTopic: `Konu ${index + 1}`,
-        normalizedSubTopic: topicId
+        normalizedSubTopic: topicId,
       }));
-      
+
       setSelectedTopics(subTopicItems);
-      console.log('[ECW useEffect] URL konuları alt konulara dönüştürüldü:', subTopicItems);
-      
+      console.log(
+        "[ECW useEffect] URL konuları alt konulara dönüştürüldü:",
+        subTopicItems,
+      );
+
       // Belge ve konular hazır, adım 3'e geç
       if (initialDocumentId) {
         setCurrentStep(3);
@@ -313,16 +348,20 @@ const { isDarkMode } = useTheme();
   // Seçili kurs değişince konuları yükle
   useEffect(() => {
     if (!selectedCourseId) return;
-    learningTargetService.getLearningTargets(selectedCourseId).then((targets: LearningTarget[]) => {
-      // DetectedSubTopic tipine dönüştür
-      const detected: DetectedSubTopic[] = targets.map((t: LearningTarget) => ({
-        id: t.id,
-        subTopicName: t.subTopicName,
-        normalizedSubTopicName: t.normalizedSubTopicName,
-        status: t.status,
-      }));
-      setCourseTopics(detected);
-    });
+    learningTargetService
+      .getLearningTargets(selectedCourseId)
+      .then((targets: LearningTarget[]) => {
+        // DetectedSubTopic tipine dönüştür
+        const detected: DetectedSubTopic[] = targets.map(
+          (t: LearningTarget) => ({
+            id: t.id,
+            subTopicName: t.subTopicName,
+            normalizedSubTopicName: t.normalizedSubTopicName,
+            status: t.status,
+          }),
+        );
+        setCourseTopics(detected);
+      });
   }, [selectedCourseId]);
 
   // Seçili konulara göre alt konuları filtrele (örnek: burada alt konu = konu ile aynı, gerçek alt konu ilişkisi yoksa)
@@ -335,9 +374,18 @@ const { isDarkMode } = useTheme();
 
   // Konu seçimi değiştiğinde alt konu seçimlerini güncelle
   useEffect(() => {
-    console.log('[ECW useEffect] selectedTopicIds changed:', JSON.stringify(selectedTopicIds));
-    console.log('[ECW useEffect] selectedSubTopicIds before processing:', JSON.stringify(selectedSubTopicIds));
-    console.log('[ECW useEffect] topicSubTopics for filtering:', JSON.stringify(topicSubTopics.map(t => t.id)));
+    console.log(
+      "[ECW useEffect] selectedTopicIds changed:",
+      JSON.stringify(selectedTopicIds),
+    );
+    console.log(
+      "[ECW useEffect] selectedSubTopicIds before processing:",
+      JSON.stringify(selectedSubTopicIds),
+    );
+    console.log(
+      "[ECW useEffect] topicSubTopics for filtering:",
+      JSON.stringify(topicSubTopics.map((t) => t.id)),
+    );
 
     // Önceki seçilen alt konuları filtrele
     const validSubTopicIds = selectedSubTopicIds.filter((id) => {
@@ -346,25 +394,35 @@ const { isDarkMode } = useTheme();
       );
       // Ensure subTopic exists and its parent topic (which is subTopic.id itself in this simplified model) is in selectedTopicIds
       // This logic might need adjustment if subTopics have a different parentTopicId field
-      return subTopic && selectedTopicIds.includes(subTopic.id); 
+      return subTopic && selectedTopicIds.includes(subTopic.id);
     });
 
-    console.log('[ECW useEffect] validSubTopicIds after filtering:', JSON.stringify(validSubTopicIds));
+    console.log(
+      "[ECW useEffect] validSubTopicIds after filtering:",
+      JSON.stringify(validSubTopicIds),
+    );
 
     // Sadece değişiklik varsa state güncelle
-    const isSame = validSubTopicIds.length === selectedSubTopicIds.length &&
+    const isSame =
+      validSubTopicIds.length === selectedSubTopicIds.length &&
       validSubTopicIds.every((id, idx) => id === selectedSubTopicIds[idx]);
 
     if (!isSame) {
       setSelectedSubTopicIds(validSubTopicIds);
-      console.log('[ECW useEffect] setSelectedSubTopicIds called with:', JSON.stringify(validSubTopicIds));
+      console.log(
+        "[ECW useEffect] setSelectedSubTopicIds called with:",
+        JSON.stringify(validSubTopicIds),
+      );
       setPreferences((prev) => {
         const newPrefs = {
           ...prev,
           topicIds: [...selectedTopicIds],
           subTopicIds: [...validSubTopicIds],
         };
-        console.log('[ECW useEffect] Preferences updated (due to subTopicIds change):', JSON.stringify(newPrefs));
+        console.log(
+          "[ECW useEffect] Preferences updated (due to subTopicIds change):",
+          JSON.stringify(newPrefs),
+        );
         return newPrefs;
       });
     } else {
@@ -377,8 +435,14 @@ const { isDarkMode } = useTheme();
           subTopicIds: [...validSubTopicIds], // And latest validSubTopicIds
         };
         // Log only if there's a meaningful change to preferences from selectedTopicIds part
-        if (JSON.stringify(prev.topicIds) !== JSON.stringify(selectedTopicIds) || JSON.stringify(prev.subTopicIds) !== JSON.stringify(validSubTopicIds)) {
-            console.log('[ECW useEffect] Preferences updated (potentially from selectedTopicIds directly or ensuring consistency):', JSON.stringify(newPrefs));
+        if (
+          JSON.stringify(prev.topicIds) !== JSON.stringify(selectedTopicIds) ||
+          JSON.stringify(prev.subTopicIds) !== JSON.stringify(validSubTopicIds)
+        ) {
+          console.log(
+            "[ECW useEffect] Preferences updated (potentially from selectedTopicIds directly or ensuring consistency):",
+            JSON.stringify(newPrefs),
+          );
         }
         return newPrefs;
       });
@@ -395,8 +459,10 @@ const { isDarkMode } = useTheme();
     setUploadedDocumentId("");
     // Konu tespit durumunu sıfırla
     setTopicDetectionStatus("idle");
-    console.log(`📂 Dosya yükleme başarılı: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
-    
+    console.log(
+      `📂 Dosya yükleme başarılı: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`,
+    );
+
     // NOT: Kişiselleştirilmiş sınav için dosya yüklendikten hemen sonra konu tespiti yapmıyoruz
     // "Devam Et" butonuna tıklandığında yapacağız
   };
@@ -410,8 +476,11 @@ const { isDarkMode } = useTheme();
 
   // Konuları tespit et
   const handleTopicsDetected = (selectedTopics: string[], courseId: string) => {
-    console.log('[ECW handleTopicsDetected] Received selectedTopics:', JSON.stringify(selectedTopics));
-    console.log('[ECW handleTopicsDetected] Received courseId:', courseId);
+    console.log(
+      "[ECW handleTopicsDetected] Received selectedTopics:",
+      JSON.stringify(selectedTopics),
+    );
+    console.log("[ECW handleTopicsDetected] Received courseId:", courseId);
 
     if (courseId) {
       setSelectedCourseId(courseId);
@@ -419,37 +488,45 @@ const { isDarkMode } = useTheme();
 
     if (selectedTopics && selectedTopics.length > 0) {
       setSelectedTopicIds(selectedTopics); // Update state
-      console.log('[ECW handleTopicsDetected] setSelectedTopicIds called with:', JSON.stringify(selectedTopics));
-      
+      console.log(
+        "[ECW handleTopicsDetected] setSelectedTopicIds called with:",
+        JSON.stringify(selectedTopics),
+      );
+
       // Alt konular oluştur ve güncelle
-      const subTopicItems: SubTopic[] = selectedTopics.map(topicId => {
-        const topic = detectedTopics.find(t => t.id === topicId);
+      const subTopicItems: SubTopic[] = selectedTopics.map((topicId) => {
+        const topic = detectedTopics.find((t) => t.id === topicId);
         if (!topic) {
-          console.warn(`[ECW handleTopicsDetected] UYARI: ${topicId} ID'li konu bulunamadı!`);
+          console.warn(
+            `[ECW handleTopicsDetected] UYARI: ${topicId} ID'li konu bulunamadı!`,
+          );
           return {
-            subTopic: topicId,  // Konu bulunamazsa ID'yi kullan
-            normalizedSubTopic: topicId
+            subTopic: topicId, // Konu bulunamazsa ID'yi kullan
+            normalizedSubTopic: topicId,
           };
         }
         return {
           subTopic: topic.subTopicName,
-          normalizedSubTopic: topic.id
+          normalizedSubTopic: topic.id,
         };
       });
-      
-      console.log('[ECW handleTopicsDetected] Created subTopicItems:', JSON.stringify(subTopicItems));
+
+      console.log(
+        "[ECW handleTopicsDetected] Created subTopicItems:",
+        JSON.stringify(subTopicItems),
+      );
       setSelectedTopics(subTopicItems);
-      
+
       // --- ÖNEMLİ: Alt konulardan öğrenme hedefleri oluştur (status: pending) ---
-      const initialTargets: LearningTarget[] = selectedTopics.map(topicId => {
-        const topic = detectedTopics.find(t => t.id === topicId);
+      const initialTargets: LearningTarget[] = selectedTopics.map((topicId) => {
+        const topic = detectedTopics.find((t) => t.id === topicId);
         return {
           id: topicId,
           courseId: selectedCourseId,
-          userId: 'current-user', // örnek
+          userId: "current-user", // örnek
           subTopicName: topic?.subTopicName || topicId,
           normalizedSubTopicName: topic?.normalizedSubTopicName || topicId,
-          status: 'pending',
+          status: "pending",
           failCount: 0,
           mediumCount: 0,
           successCount: 0,
@@ -458,62 +535,75 @@ const { isDarkMode } = useTheme();
         };
       });
       setLearningTargets(initialTargets);
-      console.log('[ECW handleTopicsDetected] Öğrenme hedefleri (pending) oluşturuldu:', initialTargets);
+      console.log(
+        "[ECW handleTopicsDetected] Öğrenme hedefleri (pending) oluşturuldu:",
+        initialTargets,
+      );
       // --- ---
-      
+
       // Alt konu ID'lerini güncelle
-      const subTopicIds = selectedTopics.map(topicId => topicId);
+      const subTopicIds = selectedTopics.map((topicId) => topicId);
       setSelectedSubTopicIds(subTopicIds);
-      console.log('[ECW handleTopicsDetected] setSelectedSubTopicIds called with:', JSON.stringify(subTopicIds));
-      
+      console.log(
+        "[ECW handleTopicsDetected] setSelectedSubTopicIds called with:",
+        JSON.stringify(subTopicIds),
+      );
+
       // Tercihleri güncelle
-      setPreferences(prev => ({
-          ...prev,
+      setPreferences((prev) => ({
+        ...prev,
         topicIds: selectedTopics,
-        subTopicIds: subTopicIds
+        subTopicIds: subTopicIds,
       }));
     } else {
       // Seçilen konular boş ama belge ID varsa, varsayılan bir konu oluştur
       if (uploadedDocumentId) {
-        console.log('[ECW handleTopicsDetected] Seçilen konular boş ancak belge yüklenmiş, varsayılan konu oluşturuluyor');
-        
-        const fileName = selectedFile ? selectedFile.name.replace(/\.[^/.]+$/, "") : "Belge İçeriği";
+        console.log(
+          "[ECW handleTopicsDetected] Seçilen konular boş ancak belge yüklenmiş, varsayılan konu oluşturuluyor",
+        );
+
+        const fileName = selectedFile
+          ? selectedFile.name.replace(/\.[^/.]+$/, "")
+          : "Belge İçeriği";
         const defaultTopicId = `default-${uploadedDocumentId.substring(0, 8)}`;
-        
+
         // Tek bir varsayılan konu oluştur
         const defaultTopics = [defaultTopicId];
         setSelectedTopicIds(defaultTopics);
-        
+
         // Aynı konu ID'sini alt konu olarak da kullan
         setSelectedSubTopicIds(defaultTopics);
-        
+
         // Görüntülenecek alt konu nesnesi oluştur
         const subTopicItem: SubTopic = {
           subTopic: fileName,
-          normalizedSubTopic: defaultTopicId
+          normalizedSubTopic: defaultTopicId,
         };
         setSelectedTopics([subTopicItem]);
-        
-        console.log('[ECW handleTopicsDetected] Varsayılan konu oluşturuldu:', defaultTopicId, fileName);
-        
+
+        console.log(
+          "[ECW handleTopicsDetected] Varsayılan konu oluşturuldu:",
+          defaultTopicId,
+          fileName,
+        );
+
         // Tercihleri güncelle
-        setPreferences(prev => ({
+        setPreferences((prev) => ({
           ...prev,
           topicIds: defaultTopics,
-          subTopicIds: defaultTopics
+          subTopicIds: defaultTopics,
         }));
       }
     }
-    
+
     // Adım 3'e geç
     if (currentStep === 2) {
-    setCurrentStep(3);
+      setCurrentStep(3);
     }
   };
 
   // Konu tespiti iptal
   const handleTopicDetectionCancel = () => {
-
     setCurrentStep(3);
   };
 
@@ -528,124 +618,157 @@ const { isDarkMode } = useTheme();
 
   // Konu seçimlerini değiştirme fonksiyonu - topicSelectionScreen için
   const handleTopicSelectionChange = (selectedTopicIds: string[]) => {
-    console.log(`[ECW handleTopicSelectionChange] Konu seçimleri değişiyor: ${selectedTopicIds.length} konu seçildi`);
-    
+    console.log(
+      `[ECW handleTopicSelectionChange] Konu seçimleri değişiyor: ${selectedTopicIds.length} konu seçildi`,
+    );
+
     // Hızlı sınav yaklaşımı: Eğer hiç konu seçilmemişse, tüm konuları seç
     if (selectedTopicIds.length === 0 && detectedTopics.length > 0) {
-      console.log(`[ECW handleTopicSelectionChange] Hiç konu seçilmedi, tüm konular otomatik seçiliyor.`);
-      selectedTopicIds = detectedTopics.map(topic => topic.id);
+      console.log(
+        `[ECW handleTopicSelectionChange] Hiç konu seçilmedi, tüm konular otomatik seçiliyor.`,
+      );
+      selectedTopicIds = detectedTopics.map((topic) => topic.id);
     }
-    
+
     // Maksimum 10 konu seçilebilir - sınırlama ekle
     const MAX_TOPICS = 10;
-    
+
     // Seçilen konu sayısı 10'dan fazla ise, sadece ilk 10'unu al
     if (selectedTopicIds.length > MAX_TOPICS) {
-      console.warn(`[ECW handleTopicSelectionChange] Seçilen konu sayısı (${selectedTopicIds.length}) maksimum sınırı (${MAX_TOPICS}) aşıyor. İlk ${MAX_TOPICS} konu seçilecek.`);
+      console.warn(
+        `[ECW handleTopicSelectionChange] Seçilen konu sayısı (${selectedTopicIds.length}) maksimum sınırı (${MAX_TOPICS}) aşıyor. İlk ${MAX_TOPICS} konu seçilecek.`,
+      );
       selectedTopicIds = selectedTopicIds.slice(0, MAX_TOPICS);
     }
-    
+
     // Seçilen konu ID'lerini güncelle
     setSelectedTopicIds(selectedTopicIds);
-    
+
     // Seçilen konuların listesini de güncelleyelim
     setSelectedTopicsList(selectedTopicIds);
-    
+
     // Konu listesini güncelle
-    const updatedTopics: SubTopic[] = selectedTopicIds.map(topicId => {
-      const topic = detectedTopics.find(t => t.id === topicId);
+    const updatedTopics: SubTopic[] = selectedTopicIds.map((topicId) => {
+      const topic = detectedTopics.find((t) => t.id === topicId);
       return {
         subTopic: topic ? topic.subTopicName : topicId,
-        normalizedSubTopic: topicId
+        normalizedSubTopic: topicId,
       };
     });
-    
-    console.log(`[ECW handleTopicSelectionChange] Güncellenmiş konu listesi: ${JSON.stringify(updatedTopics)}`);
+
+    console.log(
+      `[ECW handleTopicSelectionChange] Güncellenmiş konu listesi: ${JSON.stringify(updatedTopics)}`,
+    );
     setSelectedTopics(updatedTopics);
-    
+
     // Alt konuları da güncelle
     setSelectedSubTopicIds(selectedTopicIds);
-    
+
     // Tercihleri güncelle
-    setPreferences(prev => ({
+    setPreferences((prev) => ({
       ...prev,
       topicIds: selectedTopicIds,
-      subTopicIds: selectedTopicIds
+      subTopicIds: selectedTopicIds,
     }));
   };
 
   // Alt konu seçimini değiştir
   const handleSubTopicToggle = (subTopicId: string) => {
     console.log(`🔄 Alt konu seçimi değişiyor: ${subTopicId}`);
-    
+
     setSelectedSubTopicIds((prev) => {
       const updated = prev.includes(subTopicId)
         ? prev.filter((id) => id !== subTopicId)
         : [...prev, subTopicId];
-      
-      console.log(`${prev.includes(subTopicId) ? "➖ Alt konu kaldırıldı:" : "➕ Alt konu eklendi:"} ${subTopicId}`);
+
+      console.log(
+        `${prev.includes(subTopicId) ? "➖ Alt konu kaldırıldı:" : "➕ Alt konu eklendi:"} ${subTopicId}`,
+      );
       console.log(`✅ Güncel alt konu sayısı: ${updated.length}`);
-      
+
       // Tercihleri güncelle
       setPreferences((prev) => ({
         ...prev,
         subTopicIds: updated,
       }));
-      console.log(`✅ Quiz tercihleri güncellendi. Alt konu ID'leri: ${updated.length} adet`);
-      
+      console.log(
+        `✅ Quiz tercihleri güncellendi. Alt konu ID'leri: ${updated.length} adet`,
+      );
+
       return updated;
     });
 
     // selectedTopics listesini güncelle (handleFinalSubmit'e gönderilecek olan)
     // Alt konu nesnesini bul
-    const subTopic = detectedTopics.find(topic => topic.id === subTopicId);
-    
+    const subTopic = detectedTopics.find((topic) => topic.id === subTopicId);
+
     if (subTopic) {
-      setSelectedTopics(prev => {
+      setSelectedTopics((prev) => {
         // Alt konu zaten var mı kontrol et
-        const existingIndex = prev.findIndex(item => item.normalizedSubTopic === subTopicId);
-        
+        const existingIndex = prev.findIndex(
+          (item) => item.normalizedSubTopic === subTopicId,
+        );
+
         if (existingIndex >= 0) {
           // Alt konu varsa listeden çıkar
-          console.log(`✅ Konu selectedTopics listesinden kaldırıldı: ${subTopicId}`);
-          return prev.filter(item => item.normalizedSubTopic !== subTopicId);
+          console.log(
+            `✅ Konu selectedTopics listesinden kaldırıldı: ${subTopicId}`,
+          );
+          return prev.filter((item) => item.normalizedSubTopic !== subTopicId);
         } else {
           // Alt konu yoksa listeye ekle
           const newSubTopicItem = {
             subTopic: subTopic.subTopicName,
-            normalizedSubTopic: subTopicId
+            normalizedSubTopic: subTopicId,
           };
-          console.log(`✅ Konu selectedTopics listesine eklendi:`, newSubTopicItem);
+          console.log(
+            `✅ Konu selectedTopics listesine eklendi:`,
+            newSubTopicItem,
+          );
           return [...prev, newSubTopicItem];
         }
       });
-      console.log(`✅ selectedTopics listesi güncellendi. Şu anda seçili konular:`, selectedTopics);
-    }};  
+      console.log(
+        `✅ selectedTopics listesi güncellendi. Şu anda seçili konular:`,
+        selectedTopics,
+      );
+    }
+  };
   // Kişiselleştirilmiş sınav alt türü
   const handlePersonalizedQuizTypeSelect = (
-    type: "weakTopicFocused" | "learningObjectiveFocused" | "newTopicFocused" | "comprehensive",
+    type:
+      | "weakTopicFocused"
+      | "learningObjectiveFocused"
+      | "newTopicFocused"
+      | "comprehensive",
   ) => {
-    console.log(`🔄 Kişiselleştirilmiş sınav alt türü değişiyor: ${personalizedQuizType} -> ${type}`);
+    console.log(
+      `🔄 Kişiselleştirilmiş sınav alt türü değişiyor: ${personalizedQuizType} -> ${type}`,
+    );
     setPersonalizedQuizType(type);
-    
+
     // Tip hatası giderme: QuizPreferences tipine uygun olacak şekilde
     const updatedPreferences: QuizPreferences = {
       ...preferences,
       personalizedQuizType: type,
     };
-    
-    console.log(`✅ Quiz tercihleri güncellendi: personalizedQuizType = ${type}`);
+
+    console.log(
+      `✅ Quiz tercihleri güncellendi: personalizedQuizType = ${type}`,
+    );
     setPreferences(updatedPreferences);
-    
+
     // Eğer "Yeni Konular" türü seçilmişse, tespit edilen konuları "yeni" olarak işaretle
     if (type === "newTopicFocused" && detectedTopics.length > 0) {
       // Mevcut konuları güncelle, isNew alanını true olarak ayarla
-      const updatedTopics = detectedTopics.map(topic => ({
+      const updatedTopics = detectedTopics.map((topic) => ({
         ...topic,
-        isNew: true
+        isNew: true,
       }));
-      
-      console.log(`✅ Yeni Konular türü seçildi, ${updatedTopics.length} konu "yeni" olarak işaretlendi`);
+
+      console.log(
+        `✅ Yeni Konular türü seçildi, ${updatedTopics.length} konu "yeni" olarak işaretlendi`,
+      );
       setDetectedTopics(updatedTopics);
     }
   };
@@ -690,38 +813,60 @@ const { isDarkMode } = useTheme();
 
   // Adım işlemleri
   const nextStep = () => {
-    console.log(`📋 SINAV OLUŞTURMA AŞAMASI: ${currentStep}/${totalSteps} adımdan bir sonrakine geçiliyor...`);
-    
+    console.log(
+      `📋 SINAV OLUŞTURMA AŞAMASI: ${currentStep}/${totalSteps} adımdan bir sonrakine geçiliyor...`,
+    );
+
     // Adım 1 Doğrulama: Quizz Type'a göre farklı doğrulama
     if (currentStep === 1) {
       // Kişiselleştirilmiş sınav için Adım 1: Ders Seçimi kontrolü
       if (quizType === "personalized") {
         if (!selectedCourseId) {
           console.error(`❌ HATA: Ders seçimi yapılmadı.`);
-          ErrorService.showToast("Lütfen bir ders seçin veya oluşturun.", "error");
+          ErrorService.showToast(
+            "Lütfen bir ders seçin veya oluşturun.",
+            "error",
+          );
           return;
         }
-      } 
+      }
       // Hızlı sınav için Adım 1: Dosya Yükleme kontrolü
-      else if (quizType === "quick" && (!selectedFile || uploadStatus !== "success")) {
-        console.error(`❌ HATA: Dosya yükleme başarısız. Durum: ${uploadStatus}`);
+      else if (
+        quizType === "quick" &&
+        (!selectedFile || uploadStatus !== "success")
+      ) {
+        console.error(
+          `❌ HATA: Dosya yükleme başarısız. Durum: ${uploadStatus}`,
+        );
         ErrorService.showToast("Lütfen geçerli bir dosya yükleyin.", "error");
         return;
       }
     }
-    
+
     // Adım 3 Doğrulama: Kişiselleştirilmiş Sınav için Dosya Yükleme
-    if (currentStep === 3 && quizType === "personalized" && (!selectedFile || uploadStatus !== "success")) {
+    if (
+      currentStep === 3 &&
+      quizType === "personalized" &&
+      (!selectedFile || uploadStatus !== "success")
+    ) {
       console.error(`❌ HATA: Dosya yükleme başarısız. Durum: ${uploadStatus}`);
       ErrorService.showToast("Lütfen geçerli bir dosya yükleyin.", "error");
       return;
     }
 
     // Adım 3'ten 4'e geçerken konu tespitini başlat (kişiselleştirilmiş sınav için)
-    if (currentStep === 3 && quizType === "personalized" && selectedFile && uploadStatus === "success" && topicDetectionStatus !== "loading") {
+    if (
+      currentStep === 3 &&
+      quizType === "personalized" &&
+      selectedFile &&
+      uploadStatus === "success" &&
+      topicDetectionStatus !== "loading"
+    ) {
       // Zayıf/Orta odaklı sınav türü için konu tespiti atla
       if (personalizedQuizType === "weakTopicFocused") {
-        console.log(`🔄 Zayıf/Orta odaklı sınav türü için konu tespiti atlanıyor, doğrudan adım 5'e geçiliyor`);
+        console.log(
+          `🔄 Zayıf/Orta odaklı sınav türü için konu tespiti atlanıyor, doğrudan adım 5'e geçiliyor`,
+        );
         setCurrentStep(5);
         return;
       }
@@ -735,10 +880,20 @@ const { isDarkMode } = useTheme();
     }
 
     // Eğer adım 1'den 2'ye geçiyorsak ve dosya yüklüyse konu tespitini başlat
-    if (currentStep === 1 && selectedFile && uploadStatus === "success" && topicDetectionStatus !== "loading") {
+    if (
+      currentStep === 1 &&
+      selectedFile &&
+      uploadStatus === "success" &&
+      topicDetectionStatus !== "loading"
+    ) {
       // Zayıf/Orta odaklı kişiselleştirilmiş sınav için konu tespiti atlanabilir
-      if (quizType === "personalized" && personalizedQuizType === "weakTopicFocused") {
-        console.log(`🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 1'den Adım 3'e atlıyoruz`);
+      if (
+        quizType === "personalized" &&
+        personalizedQuizType === "weakTopicFocused"
+      ) {
+        console.log(
+          `🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 1'den Adım 3'e atlıyoruz`,
+        );
         setCurrentStep(3);
         return;
       }
@@ -747,17 +902,21 @@ const { isDarkMode } = useTheme();
       setTopicDetectionStatus("loading");
 
       // Konu tespiti fonksiyonunu çağır
-      detectTopicsFromUploadedFile(selectedFile)
+      detectTopicsFromUploadedFile(selectedFile);
       return;
     }
 
     // Adım 2 Doğrulama: Kişiselleştirilmiş sınav türünün seçilip seçilmediğini kontrol et
-    if (currentStep === 2 && quizType === "personalized" && !personalizedQuizType) {
+    if (
+      currentStep === 2 &&
+      quizType === "personalized" &&
+      !personalizedQuizType
+    ) {
       console.error(`❌ HATA: Kişiselleştirilmiş sınav türü seçilmedi.`);
       ErrorService.showToast("Lütfen bir sınav türü seçin.", "error");
       return;
     }
-    
+
     // Adım 4 Doğrulama: Konu Seçimi (Alt konuların seçildiği adım)
     if (
       currentStep === 4 &&
@@ -765,7 +924,9 @@ const { isDarkMode } = useTheme();
       personalizedQuizType !== "weakTopicFocused" &&
       selectedTopicIds.length === 0
     ) {
-      console.error(`❌ HATA: Alt konu seçimi yapılmadı. Seçilen konular: ${selectedTopicIds.length}`);
+      console.error(
+        `❌ HATA: Alt konu seçimi yapılmadı. Seçilen konular: ${selectedTopicIds.length}`,
+      );
       ErrorService.showToast("Lütfen en az bir alt konu seçin.", "error");
       return;
     }
@@ -780,11 +941,15 @@ const { isDarkMode } = useTheme();
         personalizedQuizType === "weakTopicFocused" &&
         currentStep === 1
       ) {
-        console.log(`🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 1'den Adım 3'e atlıyoruz`);
+        console.log(
+          `🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 1'den Adım 3'e atlıyoruz`,
+        );
         nextStepNumber = 3;
       }
 
-      console.log(`✅ Adım ${currentStep}'den Adım ${nextStepNumber}'e ilerletiliyor...`);
+      console.log(
+        `✅ Adım ${currentStep}'den Adım ${nextStepNumber}'e ilerletiliyor...`,
+      );
       setCurrentStep(nextStepNumber);
     } else {
       // Son adımda handleFinalSubmit fonksiyonunu çağır
@@ -797,7 +962,7 @@ const { isDarkMode } = useTheme();
     console.log(`⏪ GERİ: Adım ${currentStep}'den bir öncekine dönülüyor...`);
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    
+
     if (currentStep > 1) {
       let prevStep = currentStep - 1;
 
@@ -807,37 +972,45 @@ const { isDarkMode } = useTheme();
         personalizedQuizType === "weakTopicFocused" &&
         currentStep === 3
       ) {
-        console.log(`🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 3'ten Adım 1'e dönüyoruz`);
+        console.log(
+          `🔄 Akış değişikliği: Zayıf/Orta odaklı sınav türü için Adım 3'ten Adım 1'e dönüyoruz`,
+        );
         prevStep = 1;
       }
 
-      console.log(`✅ Adım ${currentStep}'den Adım ${prevStep}'e geri dönülüyor...`);
+      console.log(
+        `✅ Adım ${currentStep}'den Adım ${prevStep}'e geri dönülüyor...`,
+      );
       setCurrentStep(prevStep);
     } else {
       // İlk adımda geri butonuna tıklandığında ana sayfaya dön
-      console.log('🏠 İlk adımda geri butonuna tıklandı, ana sayfaya dönülüyor...');
+      console.log(
+        "🏠 İlk adımda geri butonuna tıklandı, ana sayfaya dönülüyor...",
+      );
       const params = new URLSearchParams(searchParams.toString());
-      params.delete('wizard');
-      
+      params.delete("wizard");
+
       // Next.js router ile ana sayfaya dön
-      const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+      const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ""}`;
       router.push(newUrl);
     }
   };
 
   // CourseTopicSelector ve TopicSelectionScreen arasında uyumluluk sağlayan adapter fonksiyonları
-  
+
   // TopicSelectionScreen için courseId string alacak şekilde adapter
   const handleCourseChangeForTopicSelection = (courseId: string) => {
     setSelectedCourseId(courseId);
-    
+
     // Kurs değiştiğinde seçilen konuları sıfırla
     setSelectedTopicIds([]);
     setSelectedSubTopicIds([]);
   };
-  
+
   // CourseTopicSelector için event alacak şekilde adapter
-  const handleCourseChangeAdapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCourseChangeAdapter = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     const courseId = e.target.value;
     handleCourseChangeForTopicSelection(courseId);
   };
@@ -848,7 +1021,9 @@ const { isDarkMode } = useTheme();
   // TopicSelectionScreenWithAdapter bileşenini kaldırıyorum
 
   // Dosya adından varsayılan konular oluştur (konu tespit edilemediğinde)
-  const generateDefaultTopicsFromFileName = (fileName: string): Array<{
+  const generateDefaultTopicsFromFileName = (
+    fileName: string,
+  ): Array<{
     id: string;
     subTopicName: string;
     normalizedSubTopicName: string;
@@ -856,66 +1031,74 @@ const { isDarkMode } = useTheme();
   }> => {
     try {
       // Dosya adını ve uzantısını ayır
-      const nameWithoutExt = fileName.split('.').slice(0, -1).join('.');
-      
+      const nameWithoutExt = fileName.split(".").slice(0, -1).join(".");
+
       // Dosya adını boşluk, tire, alt çizgi gibi karakterlere göre böl
-      const parts = nameWithoutExt.split(/[\s\-_]+/).filter(part => part.length > 2);
-      
+      const parts = nameWithoutExt
+        .split(/[\s\-_]+/)
+        .filter((part) => part.length > 2);
+
       // Dosya adı parçaları yeterince anlamlı değilse genel konular kullan
       if (parts.length === 0) {
         return [
           {
-            id: 'default-document',
-            subTopicName: 'Belge İçeriği',
-            normalizedSubTopicName: 'belge-icerigi',
-            isSelected: true
+            id: "default-document",
+            subTopicName: "Belge İçeriği",
+            normalizedSubTopicName: "belge-icerigi",
+            isSelected: true,
           },
           {
-            id: 'default-general',
-            subTopicName: 'Genel Konular',
-            normalizedSubTopicName: 'genel-konular',
-            isSelected: false
-          }
+            id: "default-general",
+            subTopicName: "Genel Konular",
+            normalizedSubTopicName: "genel-konular",
+            isSelected: false,
+          },
         ];
       }
-      
+
       // Dosya adı parçalarından konular oluştur
       const topics = parts.map((part, index) => {
         // İlk harfi büyük diğerleri küçük olacak şekilde formatla
-        const formattedName = part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
-        const normalizedName = formattedName.toLowerCase()
-          .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-          .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-          .replace(/[^a-z0-9]/g, '-');
-        
+        const formattedName =
+          part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+        const normalizedName = formattedName
+          .toLowerCase()
+          .replace(/ğ/g, "g")
+          .replace(/ü/g, "u")
+          .replace(/ş/g, "s")
+          .replace(/ı/g, "i")
+          .replace(/ö/g, "o")
+          .replace(/ç/g, "c")
+          .replace(/[^a-z0-9]/g, "-");
+
         return {
           id: `default-${normalizedName}`,
           subTopicName: formattedName,
           normalizedSubTopicName: normalizedName,
-          isSelected: index === 0 // İlk konu otomatik seçili
+          isSelected: index === 0, // İlk konu otomatik seçili
         };
       });
-      
+
       // Dosya adından oluşturulan konulara ek olarak genel bir konu daha ekle
       topics.push({
-        id: 'default-content',
-        subTopicName: 'Belge İçeriği',
-        normalizedSubTopicName: 'belge-icerigi',
-        isSelected: false
+        id: "default-content",
+        subTopicName: "Belge İçeriği",
+        normalizedSubTopicName: "belge-icerigi",
+        isSelected: false,
       });
-      
+
       return topics;
     } catch (error) {
       console.error(`⚠️ Varsayılan konular oluşturulurken hata:`, error);
-      
+
       // Hata durumunda en basit bir konu listesi döndür
       return [
         {
-          id: 'error-default',
-          subTopicName: 'Belge İçeriği',
-          normalizedSubTopicName: 'belge-icerigi',
-          isSelected: true
-        }
+          id: "error-default",
+          subTopicName: "Belge İçeriği",
+          normalizedSubTopicName: "belge-icerigi",
+          isSelected: true,
+        },
       ];
     }
   };
@@ -925,55 +1108,77 @@ const { isDarkMode } = useTheme();
   // Yüklenen dosyadan konuları tespit eden fonksiyon
   const detectTopicsFromUploadedFile = async (file: File) => {
     try {
-      console.log(`[ECW detectTopicsFromUploadedFile] 📂 Dosya konu tespiti başlatılıyor: ${file.name}`);
-      
+      console.log(
+        `[ECW detectTopicsFromUploadedFile] 📂 Dosya konu tespiti başlatılıyor: ${file.name}`,
+      );
+
       // Authentication check for personalized quizzes
       if (quizType === "personalized") {
         if (authLoading) {
-          console.log(`[ECW detectTopicsFromUploadedFile] ⏳ Kimlik doğrulama durumu kontrol ediliyor...`);
-          ErrorService.showToast("Kimlik doğrulama durumu kontrol ediliyor...", "info");
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] ⏳ Kimlik doğrulama durumu kontrol ediliyor...`,
+          );
+          ErrorService.showToast(
+            "Kimlik doğrulama durumu kontrol ediliyor...",
+            "info",
+          );
           return;
         }
-        
-       
-        
-       
       }
-      
+
       let uploadedDocument = null;
       try {
         uploadedDocument = await documentService.uploadDocument(
           file,
           undefined,
           (progress) => {
-            console.log(`[ECW detectTopicsFromUploadedFile] 📤 Yükleme ilerleme: %${progress.toFixed(0)}`);
-          }
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] 📤 Yükleme ilerleme: %${progress.toFixed(0)}`,
+            );
+          },
         );
         const documentId = uploadedDocument.id;
         // BELGE ID'SINI STATE'E KAYDET
         setUploadedDocumentId(documentId);
-        console.log(`[ECW detectTopicsFromUploadedFile] 📄 Belge yükleme başarılı! Belge ID: ${documentId}`);
+        console.log(
+          `[ECW detectTopicsFromUploadedFile] 📄 Belge yükleme başarılı! Belge ID: ${documentId}`,
+        );
 
         // Belge metni yükleme işlemini hemen başlat
         try {
-          console.log(`[ECW detectTopicsFromUploadedFile] 📄 Belge metni yükleniyor (ID: ${documentId})...`);
-          const docTextResponse = await documentService.getDocumentText(documentId);
-          
-          if (docTextResponse && docTextResponse.text && docTextResponse.text.trim() !== '') {
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 📄 Belge metni yükleniyor (ID: ${documentId})...`,
+          );
+          const docTextResponse =
+            await documentService.getDocumentText(documentId);
+
+          if (
+            docTextResponse &&
+            docTextResponse.text &&
+            docTextResponse.text.trim() !== ""
+          ) {
             setDocumentTextContent(docTextResponse.text);
-            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Belge metni başarıyla yüklendi (${docTextResponse.text.length} karakter)`);
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] ✅ Belge metni başarıyla yüklendi (${docTextResponse.text.length} karakter)`,
+            );
           } else {
-            console.warn(`[ECW detectTopicsFromUploadedFile] ⚠️ Belge metni boş veya geçersiz format`);
+            console.warn(
+              `[ECW detectTopicsFromUploadedFile] ⚠️ Belge metni boş veya geçersiz format`,
+            );
           }
         } catch (textError) {
-          console.error(`[ECW detectTopicsFromUploadedFile] ❌ Belge metni yüklenirken hata: ${textError instanceof Error ? textError.message : 'Bilinmeyen hata'}`);
+          console.error(
+            `[ECW detectTopicsFromUploadedFile] ❌ Belge metni yüklenirken hata: ${textError instanceof Error ? textError.message : "Bilinmeyen hata"}`,
+          );
           // Metin yükleme hatası olsa bile konu tespiti devam edebilir
         }
       } catch (uploadError) {
-        console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Dosya yükleme başarısız! ${uploadError instanceof Error ? uploadError.message : 'Bilinmeyen hata'}`);
+        console.error(
+          `[ECW detectTopicsFromUploadedFile] ❌ HATA: Dosya yükleme başarısız! ${uploadError instanceof Error ? uploadError.message : "Bilinmeyen hata"}`,
+        );
         ErrorService.showToast(
-          `Dosya yükleme hatası: ${uploadError instanceof Error ? uploadError.message : 'Bilinmeyen hata'}`,
-          "error"
+          `Dosya yükleme hatası: ${uploadError instanceof Error ? uploadError.message : "Bilinmeyen hata"}`,
+          "error",
         );
         setTopicDetectionStatus("error");
         return;
@@ -982,427 +1187,669 @@ const { isDarkMode } = useTheme();
       const documentId = uploadedDocument?.id;
       if (documentId) {
         try {
-          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Belge ID ${documentId} için konu tespiti başlatılıyor...`);
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 🔍 Belge ID ${documentId} için konu tespiti başlatılıyor...`,
+          );
           const detectedTopicsRequest = {
             documentId: documentId,
-            ...(quizType === "personalized" && selectedCourseId ? { courseId: selectedCourseId } : {})
+            ...(quizType === "personalized" && selectedCourseId
+              ? { courseId: selectedCourseId }
+              : {}),
           };
-          console.log(`[ECW detectTopicsFromUploadedFile] 📤 Konu tespiti isteği gönderilecek:`, detectedTopicsRequest);
-          
-          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
-          
-        
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 📤 Konu tespiti isteği gönderilecek:`,
+            detectedTopicsRequest,
+          );
+
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`,
+          );
+
           // Enhanced API call with better error handling
           let response: any;
           try {
-            response = await apiService.post("/learning-targets/detect-topics", detectedTopicsRequest);
-            console.log(`[ECW detectTopicsFromUploadedFile] ✅ API çağrısı başarılı. Response:`, {
-              hasResponse: !!response,
-              dataType: typeof response,
-              responseKeys: response ? Object.keys(response) : 'no response'
-            });
+            response = await apiService.post(
+              "/learning-targets/detect-topics",
+              detectedTopicsRequest,
+            );
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] ✅ API çağrısı başarılı. Response:`,
+              {
+                hasResponse: !!response,
+                dataType: typeof response,
+                responseKeys: response ? Object.keys(response) : "no response",
+              },
+            );
           } catch (apiError: any) {
-            console.error(`[ECW detectTopicsFromUploadedFile] ❌ API çağrısı hatası:`, {
-              error: apiError,
-              errorMessage: apiError?.message,
-              errorName: apiError?.name,
-              errorResponse: apiError?.response,
-              errorStatus: apiError?.response?.status,
-              errorData: apiError?.response?.data,
-              errorStack: apiError?.stack
-            });
-            
+            console.error(
+              `[ECW detectTopicsFromUploadedFile] ❌ API çağrısı hatası:`,
+              {
+                error: apiError,
+                errorMessage: apiError?.message,
+                errorName: apiError?.name,
+                errorResponse: apiError?.response,
+                errorStatus: apiError?.response?.status,
+                errorData: apiError?.response?.data,
+                errorStack: apiError?.stack,
+              },
+            );
+
             // Check if it's a specific HTTP error
             if (apiError?.response) {
               const errorStatus = apiError.response.status;
               const errorData = apiError.response.data;
-              console.error(`[ECW detectTopicsFromUploadedFile] ❌ HTTP Hata ${errorStatus}:`, errorData);
-              
+              console.error(
+                `[ECW detectTopicsFromUploadedFile] ❌ HTTP Hata ${errorStatus}:`,
+                errorData,
+              );
+
               if (errorStatus === 401) {
-                ErrorService.showToast("Kimlik doğrulama hatası. Lütfen tekrar giriş yapın.", "error");
+                ErrorService.showToast(
+                  "Kimlik doğrulama hatası. Lütfen tekrar giriş yapın.",
+                  "error",
+                );
               } else if (errorStatus === 400) {
-                ErrorService.showToast(`Geçersiz istek: ${errorData?.message || 'Bilinmeyen hata'}`, "error");
+                ErrorService.showToast(
+                  `Geçersiz istek: ${errorData?.message || "Bilinmeyen hata"}`,
+                  "error",
+                );
               } else if (errorStatus >= 500) {
-                ErrorService.showToast("Sunucu hatası. Lütfen daha sonra tekrar deneyin.", "error");
+                ErrorService.showToast(
+                  "Sunucu hatası. Lütfen daha sonra tekrar deneyin.",
+                  "error",
+                );
               } else {
-                ErrorService.showToast(`API Hatası (${errorStatus}): ${errorData?.message || 'Bilinmeyen hata'}`, "error");
+                ErrorService.showToast(
+                  `API Hatası (${errorStatus}): ${errorData?.message || "Bilinmeyen hata"}`,
+                  "error",
+                );
               }
             } else if (apiError?.request) {
-              console.error(`[ECW detectTopicsFromUploadedFile] ❌ Ağ hatası - istek gönderildi ama yanıt alınamadı:`, apiError.request);
-              ErrorService.showToast("Ağ bağlantı hatası. İnternet bağlantınızı kontrol edin.", "error");
+              console.error(
+                `[ECW detectTopicsFromUploadedFile] ❌ Ağ hatası - istek gönderildi ama yanıt alınamadı:`,
+                apiError.request,
+              );
+              ErrorService.showToast(
+                "Ağ bağlantı hatası. İnternet bağlantınızı kontrol edin.",
+                "error",
+              );
             } else {
-              console.error(`[ECW detectTopicsFromUploadedFile] ❌ İstek yapılandırma hatası:`, apiError?.message || 'Bilinmeyen hata');
-              ErrorService.showToast(`İstek hatası: ${apiError?.message || 'Bilinmeyen hata'}`, "error");
+              console.error(
+                `[ECW detectTopicsFromUploadedFile] ❌ İstek yapılandırma hatası:`,
+                apiError?.message || "Bilinmeyen hata",
+              );
+              ErrorService.showToast(
+                `İstek hatası: ${apiError?.message || "Bilinmeyen hata"}`,
+                "error",
+              );
             }
-            
+
             setTopicDetectionStatus("error");
             return;
           }
-          
+
           // Check if response exists
           if (!response) {
-            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Response objesi undefined!`);
-            ErrorService.showToast("API yanıtı alınamadı. Lütfen tekrar deneyin.", "error");
+            console.error(
+              `[ECW detectTopicsFromUploadedFile] ❌ HATA: Response objesi undefined!`,
+            );
+            ErrorService.showToast(
+              "API yanıtı alınamadı. Lütfen tekrar deneyin.",
+              "error",
+            );
             setTopicDetectionStatus("error");
             return;
           }
-          
-          console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı.`);
-          console.log(`[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`, JSON.stringify(response));
-          
+
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti yanıtı alındı.`,
+          );
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 📊 Yanıt verileri:`,
+            JSON.stringify(response),
+          );
+
           if (!response || response.topics === undefined) {
-            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş yanıt alındı!`);
-            console.error(`[ECW detectTopicsFromUploadedFile] 📊 Response detayları:`, {
-              hasResponse: !!response,
-              hasTopics: response && 'topics' in response,
-              topicsValue: response?.topics,
-              topicsType: typeof response?.topics,
-              topicsIsNull: response?.topics === null,
-              topicsIsUndefined: response?.topics === undefined,
-              fullResponse: JSON.stringify(response, null, 2)
-            });
-            ErrorService.showToast("Boş yanıt alındı! Backend'den gelen yanıt geçersiz. Lütfen tekrar deneyin.", "error");
+            console.error(
+              `[ECW detectTopicsFromUploadedFile] ❌ HATA: Boş yanıt alındı!`,
+            );
+            console.error(
+              `[ECW detectTopicsFromUploadedFile] 📊 Response detayları:`,
+              {
+                hasResponse: !!response,
+                hasTopics: response && "topics" in response,
+                topicsValue: response?.topics,
+                topicsType: typeof response?.topics,
+                topicsIsNull: response?.topics === null,
+                topicsIsUndefined: response?.topics === undefined,
+                fullResponse: JSON.stringify(response, null, 2),
+              },
+            );
+            ErrorService.showToast(
+              "Boş yanıt alındı! Backend'den gelen yanıt geçersiz. Lütfen tekrar deneyin.",
+              "error",
+            );
             setTopicDetectionStatus("error");
             return;
           }
-          
+
           let processedTopics: DetectedSubTopic[] = [];
-          const responseData = response as TopicsResponseData | DetectedSubTopic[] | string[];
-          console.log(`[ECW detectTopicsFromUploadedFile] 🔍 Yanıt formatı değerlendiriliyor:`, { isObject: typeof responseData === 'object', hasTopics: responseData && 'topics' in responseData, isArray: Array.isArray(responseData), type: typeof responseData });
-          
-          const generateId = (base: string = 'generated') => `${base}-${Math.random().toString(36).substring(2, 9)}`;
-          
+          const responseData = response as
+            | TopicsResponseData
+            | DetectedSubTopic[]
+            | string[];
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 🔍 Yanıt formatı değerlendiriliyor:`,
+            {
+              isObject: typeof responseData === "object",
+              hasTopics: responseData && "topics" in responseData,
+              isArray: Array.isArray(responseData),
+              type: typeof responseData,
+            },
+          );
+
+          const generateId = (base: string = "generated") =>
+            `${base}-${Math.random().toString(36).substring(2, 9)}`;
+
           // Türkçe karakterleri koruyan daha iyi bir normalleştirme fonksiyonu
-          const normalizeStr = (str: string = '') => {
-            if (!str) return '';
-            
+          const normalizeStr = (str: string = "") => {
+            if (!str) return "";
+
             // Adım 1: Trim yapılır
             const trimmed = str.trim();
-            
+
             // Adım 2: Küçük harfe dönüştürülür
             const lowercased = trimmed.toLowerCase();
-            
+
             // Adım 3: Boşluklar çizgiye dönüştürülür
-            const replaced = lowercased.replace(/\s+/g, '-');
-            
+            const replaced = lowercased.replace(/\s+/g, "-");
+
             // Adım 4: Diğer özel karakterler temizlenir ama Türkçe karakterler korunur
-            const normalized = replaced.replace(/[^a-z0-9çğıöşüñ\-]/g, '');
-            
-            console.log(`[ECW normalizeStr] Normalleştirme: "${str}" --> "${normalized}"`);
-            
+            const normalized = replaced.replace(/[^a-z0-9çğıöşüñ\-]/g, "");
+
+            console.log(
+              `[ECW normalizeStr] Normalleştirme: "${str}" --> "${normalized}"`,
+            );
+
             return normalized;
           };
 
-          if (responseData && typeof responseData === 'object' && 'topics' in responseData && Array.isArray((responseData as TopicsResponseData).topics)) {
-            console.log(`[ECW detectTopicsFromUploadedFile] 📋 Yeni API formatı tespit edildi (topics nesnesi)`);
-            processedTopics = (responseData as TopicsResponseData).topics!.map((topic: TopicResponse): DetectedSubTopic => ({
-              id: topic.normalizedSubTopicName || topic.subTopicName || generateId('topic'),
-              subTopicName: topic.subTopicName || 'Bilinmeyen Konu',
-              normalizedSubTopicName: normalizeStr(topic.normalizedSubTopicName || topic.subTopicName),
-              isSelected: false,
-              status: undefined, 
-              isNew: undefined,
-              parentTopic: undefined,
-            }));
-            console.log(`[ECW detectTopicsFromUploadedFile] ✓ ${processedTopics.length} konu işlendi (yeni format)`);
+          if (
+            responseData &&
+            typeof responseData === "object" &&
+            "topics" in responseData &&
+            Array.isArray((responseData as TopicsResponseData).topics)
+          ) {
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] 📋 Yeni API formatı tespit edildi (topics nesnesi)`,
+            );
+            processedTopics = (responseData as TopicsResponseData).topics!.map(
+              (topic: TopicResponse): DetectedSubTopic => ({
+                id:
+                  topic.normalizedSubTopicName ||
+                  topic.subTopicName ||
+                  generateId("topic"),
+                subTopicName: topic.subTopicName || "Bilinmeyen Konu",
+                normalizedSubTopicName: normalizeStr(
+                  topic.normalizedSubTopicName || topic.subTopicName,
+                ),
+                isSelected: false,
+                status: undefined,
+                isNew: undefined,
+                parentTopic: undefined,
+              }),
+            );
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] ✓ ${processedTopics.length} konu işlendi (yeni format)`,
+            );
           } else if (Array.isArray(responseData)) {
-            console.log(`[ECW detectTopicsFromUploadedFile] 📋 Eski API formatı tespit edildi (dizi)`);
-            processedTopics = responseData.map((topic: unknown, index: number): DetectedSubTopic => {
-              if (typeof topic === 'string') {
-                return {
-                  id: normalizeStr(topic) || generateId(`str-${index}`),
-                  subTopicName: topic, 
-                  normalizedSubTopicName: normalizeStr(topic),
-                  isSelected: false,
-                  status: undefined, 
-                  isNew: personalizedQuizType === "newTopicFocused" ? true : undefined, 
-                  parentTopic: undefined,
-                };
-              } else if (typeof topic === 'object' && topic !== null) {
-                  const t = topic as Partial<DetectedSubTopic & { name?: string }>;
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] 📋 Eski API formatı tespit edildi (dizi)`,
+            );
+            processedTopics = responseData.map(
+              (topic: unknown, index: number): DetectedSubTopic => {
+                if (typeof topic === "string") {
                   return {
-                    id: normalizeStr(String(t.id || t.normalizedSubTopicName || t.subTopicName)) || generateId(`obj-${index}`),
-                    subTopicName: String(t.subTopicName || t.name || `Bilinmeyen Konu ${index + 1}`),
-                    normalizedSubTopicName: normalizeStr(String(t.normalizedSubTopicName || t.id || t.subTopicName)),
+                    id: normalizeStr(topic) || generateId(`str-${index}`),
+                    subTopicName: topic,
+                    normalizedSubTopicName: normalizeStr(topic),
                     isSelected: false,
-                    status: t.status, 
+                    status: undefined,
+                    isNew:
+                      personalizedQuizType === "newTopicFocused"
+                        ? true
+                        : undefined,
+                    parentTopic: undefined,
+                  };
+                } else if (typeof topic === "object" && topic !== null) {
+                  const t = topic as Partial<
+                    DetectedSubTopic & { name?: string }
+                  >;
+                  return {
+                    id:
+                      normalizeStr(
+                        String(
+                          t.id || t.normalizedSubTopicName || t.subTopicName,
+                        ),
+                      ) || generateId(`obj-${index}`),
+                    subTopicName: String(
+                      t.subTopicName ||
+                        t.name ||
+                        `Bilinmeyen Konu ${index + 1}`,
+                    ),
+                    normalizedSubTopicName: normalizeStr(
+                      String(
+                        t.normalizedSubTopicName || t.id || t.subTopicName,
+                      ),
+                    ),
+                    isSelected: false,
+                    status: t.status,
                     // Eğer "newTopicFocused" ise ve t.isNew tanımlı değilse, true olarak ayarla
-                    isNew: personalizedQuizType === "newTopicFocused" ? true : t.isNew, 
+                    isNew:
+                      personalizedQuizType === "newTopicFocused"
+                        ? true
+                        : t.isNew,
                     parentTopic: t.parentTopic,
                   };
-              }
-              // Fallback for unexpected topic structure
-              console.warn('[ECW detectTopicsFromUploadedFile] Unexpected topic structure in array:', topic);
-              return {
-                id: generateId(`fallback-${index}`),
-                subTopicName: 'Hatalı Konu Yapısı',
-                normalizedSubTopicName: 'hatali-konu-yapisi',
-                isSelected: false,
-                status: undefined, 
-                isNew: personalizedQuizType === "newTopicFocused" ? true : undefined, 
-                parentTopic: undefined,
-              };
-            });
-            console.log(`[ECW detectTopicsFromUploadedFile] ✓ ${processedTopics.length} konu işlendi (eski format - dizi)`);
+                }
+                // Fallback for unexpected topic structure
+                console.warn(
+                  "[ECW detectTopicsFromUploadedFile] Unexpected topic structure in array:",
+                  topic,
+                );
+                return {
+                  id: generateId(`fallback-${index}`),
+                  subTopicName: "Hatalı Konu Yapısı",
+                  normalizedSubTopicName: "hatali-konu-yapisi",
+                  isSelected: false,
+                  status: undefined,
+                  isNew:
+                    personalizedQuizType === "newTopicFocused"
+                      ? true
+                      : undefined,
+                  parentTopic: undefined,
+                };
+              },
+            );
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] ✓ ${processedTopics.length} konu işlendi (eski format - dizi)`,
+            );
           } else {
-            console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Beklenmeyen API yanıt formatı:`, responseData);
+            console.error(
+              `[ECW detectTopicsFromUploadedFile] ❌ HATA: Beklenmeyen API yanıt formatı:`,
+              responseData,
+            );
             processedTopics = [];
           }
-          
-          console.log(`[ECW detectTopicsFromUploadedFile] 📊 Son işlenen konular (${processedTopics.length}):`, JSON.stringify(processedTopics.map(t => ({id: t.id, name: t.subTopicName, selected: t.isSelected}))));
-          
+
+          console.log(
+            `[ECW detectTopicsFromUploadedFile] 📊 Son işlenen konular (${processedTopics.length}):`,
+            JSON.stringify(
+              processedTopics.map((t) => ({
+                id: t.id,
+                name: t.subTopicName,
+                selected: t.isSelected,
+              })),
+            ),
+          );
+
           if (processedTopics.length > 0) {
             // Hızlı sınav yaklaşımı: Tüm konuları otomatik olarak seçili hale getir
-            const selectedTopics = processedTopics.map(topic => ({
+            const selectedTopics = processedTopics.map((topic) => ({
               ...topic,
               isSelected: true,
               // "Yeni Konular" özelliği için konuları "yeni" olarak işaretle
-              isNew: personalizedQuizType === "newTopicFocused" ? true : topic.isNew
+              isNew:
+                personalizedQuizType === "newTopicFocused" ? true : topic.isNew,
             }));
-            
+
             setDetectedTopics(selectedTopics);
             setTopicDetectionStatus("success");
-            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti başarılı.`);
-            ErrorService.showToast(`${processedTopics.length} konu tespit edildi.`, "success");
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti başarılı.`,
+            );
+            ErrorService.showToast(
+              `${processedTopics.length} konu tespit edildi.`,
+              "success",
+            );
 
             // Hızlı sınav yaklaşımı: Tüm konuları otomatik olarak seç
-            const allTopicIds = selectedTopics.map(topic => topic.id);
-            
+            const allTopicIds = selectedTopics.map((topic) => topic.id);
+
             // Maksimum 10 konu sınırlaması
             const MAX_TOPICS = 10;
-            const limitedTopicIds = allTopicIds.length > MAX_TOPICS ? allTopicIds.slice(0, MAX_TOPICS) : allTopicIds;
-            
+            const limitedTopicIds =
+              allTopicIds.length > MAX_TOPICS
+                ? allTopicIds.slice(0, MAX_TOPICS)
+                : allTopicIds;
+
             if (allTopicIds.length > MAX_TOPICS) {
-              console.warn(`[ECW detectTopicsFromUploadedFile] Tespit edilen konu sayısı (${allTopicIds.length}) maksimum sınırı (${MAX_TOPICS}) aşıyor. İlk ${MAX_TOPICS} konu seçilecek.`);
+              console.warn(
+                `[ECW detectTopicsFromUploadedFile] Tespit edilen konu sayısı (${allTopicIds.length}) maksimum sınırı (${MAX_TOPICS}) aşıyor. İlk ${MAX_TOPICS} konu seçilecek.`,
+              );
             }
-            
+
             setSelectedTopicIds(limitedTopicIds);
-            setSelectedSubTopicIds(limitedTopicIds); 
-            setPreferences(prev => ({ 
-              ...prev, 
+            setSelectedSubTopicIds(limitedTopicIds);
+            setPreferences((prev) => ({
+              ...prev,
               topicIds: limitedTopicIds,
-              subTopicIds: limitedTopicIds 
+              subTopicIds: limitedTopicIds,
             }));
-            console.log(`[ECW detectTopicsFromUploadedFile] Tüm konular (${limitedTopicIds.length}) otomatik seçildi.`);
-          } else { 
-            console.warn(`[ECW detectTopicsFromUploadedFile] ⚠️ UYARI: Tespit edilen konu yok!`);
-            ErrorService.showToast("Belgede konu tespit edilemedi. Varsayılan konular kullanılacak.", "info");
-            
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] Tüm konular (${limitedTopicIds.length}) otomatik seçildi.`,
+            );
+          } else {
+            console.warn(
+              `[ECW detectTopicsFromUploadedFile] ⚠️ UYARI: Tespit edilen konu yok!`,
+            );
+            ErrorService.showToast(
+              "Belgede konu tespit edilemedi. Varsayılan konular kullanılacak.",
+              "info",
+            );
+
             // Varsayılan bir konu oluştur
             const defaultTopicId = `default-${uploadedDocumentId.substring(0, 8)}`;
-            const defaultTopicName = selectedFile 
+            const defaultTopicName = selectedFile
               ? selectedFile.name.replace(/\.[^/.]+$/, "") // Dosya uzantısını kaldır
               : "Belge İçeriği";
-            
+
             const defaultTopic: DetectedSubTopic = {
               id: defaultTopicId,
               subTopicName: defaultTopicName,
-              normalizedSubTopicName: defaultTopicName.toLowerCase().replace(/\s+/g, '-'),
+              normalizedSubTopicName: defaultTopicName
+                .toLowerCase()
+                .replace(/\s+/g, "-"),
               isSelected: true,
               status: undefined,
               // "Yeni Konular" özelliği için varsayılan olarak işaretle
-              isNew: personalizedQuizType === "newTopicFocused" ? true : undefined
+              isNew:
+                personalizedQuizType === "newTopicFocused" ? true : undefined,
             };
-            
+
             const defaultTopics = [defaultTopic];
-              setDetectedTopics(defaultTopics);
-              setTopicDetectionStatus("success");
-            
+            setDetectedTopics(defaultTopics);
+            setTopicDetectionStatus("success");
+
             setSelectedTopicIds([defaultTopicId]);
             setSelectedSubTopicIds([defaultTopicId]);
-            
+
             // Alt konu olarak da ekle
             const subTopicItem: SubTopic = {
               subTopic: defaultTopicName,
-              normalizedSubTopic: defaultTopicId // Değiştirildi: ID'yi kullan, daha tutarlı olması için
+              normalizedSubTopic: defaultTopicId, // Değiştirildi: ID'yi kullan, daha tutarlı olması için
             };
             setSelectedTopics([subTopicItem]);
-            
-            setPreferences(prev => ({
+
+            setPreferences((prev) => ({
               ...prev,
               topicIds: [defaultTopicId],
-              subTopicIds: [defaultTopicId]
+              subTopicIds: [defaultTopicId],
             }));
-            
-            console.log('[ECW detectTopicsFromUploadedFile] ℹ️ Varsayılan konu oluşturuldu.');
-            console.log(`[ECW detectTopicsFromUploadedFile] Varsayılan konu ID: ${defaultTopicId}, isim: ${defaultTopicName}`);
+
+            console.log(
+              "[ECW detectTopicsFromUploadedFile] ℹ️ Varsayılan konu oluşturuldu.",
+            );
+            console.log(
+              `[ECW detectTopicsFromUploadedFile] Varsayılan konu ID: ${defaultTopicId}, isim: ${defaultTopicName}`,
+            );
           }
         } catch (error: unknown) {
-          console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: API isteği başarısız!`, error);
+          console.error(
+            `[ECW detectTopicsFromUploadedFile] ❌ HATA: API isteği başarısız!`,
+            error,
+          );
           setTopicDetectionStatus("error");
-          
+
           // Hata AxiosError tipinde mi kontrol et
           const isAxiosError = axios.isAxiosError(error);
-          
+
           // Hata detaylarını kapsamlı bir şekilde logla
-          console.error(`🔍 Hata detayları:`, { 
+          console.error(`🔍 Hata detayları:`, {
             message: isAxiosError ? error.message : String(error),
-            status: isAxiosError && error.response ? error.response.status : 'N/A',
-            statusText: isAxiosError && error.response ? error.response.statusText : 'N/A',
+            status:
+              isAxiosError && error.response ? error.response.status : "N/A",
+            statusText:
+              isAxiosError && error.response
+                ? error.response.statusText
+                : "N/A",
             data: isAxiosError && error.response ? error.response.data : {},
-            config: isAxiosError ? {
-              url: error.config?.url,
-              method: error.config?.method,
-              headers: error.config?.headers,
-            } : {}
+            config: isAxiosError
+              ? {
+                  url: error.config?.url,
+                  method: error.config?.method,
+                  headers: error.config?.headers,
+                }
+              : {},
           });
-          
-              ErrorService.showToast(
-            `Konu tespiti başarısız oldu: ${isAxiosError && error.response ? error.response.status : 'Bağlantı hatası'}`,
-                "error"
-              );
-          
+
+          ErrorService.showToast(
+            `Konu tespiti başarısız oldu: ${isAxiosError && error.response ? error.response.status : "Bağlantı hatası"}`,
+            "error",
+          );
+
           // Hızlı sınav yaklaşımı: Hata durumunda bile varsayılan konularla devam et
           if (quizType === "quick" || quizType === "personalized") {
-            console.log("🚀 Hızlı sınav yaklaşımı kullanılıyor: Konu tespiti başarısız olsa bile varsayılan konularla devam ediyoruz");
-            console.log("🔍 Önce seçili kurstan veya API'den gerçek konu verilerini almayı deniyoruz");
-            
+            console.log(
+              "🚀 Hızlı sınav yaklaşımı kullanılıyor: Konu tespiti başarısız olsa bile varsayılan konularla devam ediyoruz",
+            );
+            console.log(
+              "🔍 Önce seçili kurstan veya API'den gerçek konu verilerini almayı deniyoruz",
+            );
+
             try {
               // Seçili ders varsa, bu dersten konuları al
               if (selectedCourseId) {
-                console.log(`📚 Seçili dersten (${selectedCourseId}) konuları almaya çalışıyoruz`);
-                
+                console.log(
+                  `📚 Seçili dersten (${selectedCourseId}) konuları almaya çalışıyoruz`,
+                );
+
                 // Örnek kurs konularını getir (backend entegrasyonu hazır olana kadar)
-                const getCourseTopics = async (courseId: string): Promise<{id: string, subTopicName: string, normalizedSubTopicName: string}[]> => {
+                const getCourseTopics = async (
+                  courseId: string,
+                ): Promise<
+                  {
+                    id: string;
+                    subTopicName: string;
+                    normalizedSubTopicName: string;
+                  }[]
+                > => {
                   // Gerçek API entegrasyonu hazır olduğunda aşağıdaki kod kullanılabilir:
                   // return await apiService.get<{id: string, subTopicName: string, normalizedSubTopicName: string}[]>(`/courses/${courseId}/topics`);
-                  
+
                   // Örnek veri döndür
-                  console.log(`🔍 Kurs için örnek konular oluşturuluyor (kurs ID: ${courseId})`);
+                  console.log(
+                    `🔍 Kurs için örnek konular oluşturuluyor (kurs ID: ${courseId})`,
+                  );
                   return [
-                    { id: `${courseId}-topic1`, subTopicName: 'Temel Kavramlar', normalizedSubTopicName: 'temel-kavramlar' },
-                    { id: `${courseId}-topic2`, subTopicName: 'İleri Konular', normalizedSubTopicName: 'ileri-konular' },
-                    { id: `${courseId}-topic3`, subTopicName: 'Özel Konular', normalizedSubTopicName: 'ozel-konular' },
-                    { id: `${courseId}-topic4`, subTopicName: 'Pratik Uygulamalar', normalizedSubTopicName: 'pratik-uygulamalar' },
+                    {
+                      id: `${courseId}-topic1`,
+                      subTopicName: "Temel Kavramlar",
+                      normalizedSubTopicName: "temel-kavramlar",
+                    },
+                    {
+                      id: `${courseId}-topic2`,
+                      subTopicName: "İleri Konular",
+                      normalizedSubTopicName: "ileri-konular",
+                    },
+                    {
+                      id: `${courseId}-topic3`,
+                      subTopicName: "Özel Konular",
+                      normalizedSubTopicName: "ozel-konular",
+                    },
+                    {
+                      id: `${courseId}-topic4`,
+                      subTopicName: "Pratik Uygulamalar",
+                      normalizedSubTopicName: "pratik-uygulamalar",
+                    },
                   ];
                 };
-                
+
                 // Konuları al
                 const courseTopics = await getCourseTopics(selectedCourseId);
-                
+
                 if (courseTopics && courseTopics.length > 0) {
                   // Kurs konularını uygun formata dönüştür
-                  const mappedTopics: DetectedSubTopic[] = courseTopics.map((topic: {id: string, subTopicName: string, normalizedSubTopicName: string}) => ({
-                    id: topic.id || topic.normalizedSubTopicName || `topic-${Math.random().toString(36).substring(2, 9)}`,
-                    subTopicName: topic.subTopicName || 'Konu',
-                    normalizedSubTopicName: topic.normalizedSubTopicName || topic.id || `topic-${Math.random().toString(36).substring(2, 9)}`,
-                    isSelected: true,
-                    status: undefined,
-                    isNew: false,
-                    parentTopic: undefined
-                  }));
-                  
-                  console.log(`✅ Dersten ${mappedTopics.length} konu başarıyla alındı`);
+                  const mappedTopics: DetectedSubTopic[] = courseTopics.map(
+                    (topic: {
+                      id: string;
+                      subTopicName: string;
+                      normalizedSubTopicName: string;
+                    }) => ({
+                      id:
+                        topic.id ||
+                        topic.normalizedSubTopicName ||
+                        `topic-${Math.random().toString(36).substring(2, 9)}`,
+                      subTopicName: topic.subTopicName || "Konu",
+                      normalizedSubTopicName:
+                        topic.normalizedSubTopicName ||
+                        topic.id ||
+                        `topic-${Math.random().toString(36).substring(2, 9)}`,
+                      isSelected: true,
+                      status: undefined,
+                      isNew: false,
+                      parentTopic: undefined,
+                    }),
+                  );
+
+                  console.log(
+                    `✅ Dersten ${mappedTopics.length} konu başarıyla alındı`,
+                  );
                   setDetectedTopics(mappedTopics);
                   setTopicDetectionStatus("success");
-                  
+
                   // Tüm konuları otomatik olarak seç
-                  const allTopicIds = mappedTopics.map(topic => topic.id);
+                  const allTopicIds = mappedTopics.map((topic) => topic.id);
                   setSelectedTopicIds(allTopicIds);
                   setSelectedSubTopicIds(allTopicIds);
-                  setPreferences(prev => ({
+                  setPreferences((prev) => ({
                     ...prev,
                     topicIds: allTopicIds,
-                    subTopicIds: allTopicIds
+                    subTopicIds: allTopicIds,
                   }));
-                  
+
                   setCurrentStep(2);
                   return;
                 } else {
-                  console.warn('⚠️ Seçili derste konu bulunamadı');
+                  console.warn("⚠️ Seçili derste konu bulunamadı");
                 }
               }
-              
+
               // Son çare olarak, belge adından bir konu oluştur ama gerçek API entegrasyonu kullan
-              console.log('🔍 Belge adından bir konu oluşturuluyor, ancak API ile');
-              
+              console.log(
+                "🔍 Belge adından bir konu oluşturuluyor, ancak API ile",
+              );
+
               // Belge için varsayılan konu oluştur
               const defaultTopicId = `doc-${documentId || uploadedDocumentId || Date.now().toString()}`;
-              const defaultTopicName = file.name.replace(/\.[^/.]+$/, "") || 'Belge İçeriği';
-              
+              const defaultTopicName =
+                file.name.replace(/\.[^/.]+$/, "") || "Belge İçeriği";
+
               // Belge adı bilgisiyle API'ye istek at
               try {
-                const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/learning-targets/suggest-topics`;
+                const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/learning-targets/suggest-topics`;
                 const response = await axios.post(apiUrl, {
                   documentName: file.name,
                   documentId: documentId || uploadedDocumentId,
-                  courseId: selectedCourseId
+                  courseId: selectedCourseId,
                 });
-                
+
                 if (response.data && Array.isArray(response.data)) {
-                  const suggestedTopics: DetectedSubTopic[] = response.data.map((topic: any, index: number) => ({
-                    id: topic.id || `suggested-${index}`,
-                    subTopicName: topic.name || topic.subTopicName || `Önerilen Konu ${index+1}`,
-                    normalizedSubTopicName: topic.normalizedName || topic.normalizedSubTopicName || `onerilen-konu-${index+1}`,
-                    isSelected: true,
-                    status: undefined,
-                    isNew: true
-                  }));
-                  
-                  console.log(`✅ API'den ${suggestedTopics.length} önerilen konu alındı`);
+                  const suggestedTopics: DetectedSubTopic[] = response.data.map(
+                    (topic: any, index: number) => ({
+                      id: topic.id || `suggested-${index}`,
+                      subTopicName:
+                        topic.name ||
+                        topic.subTopicName ||
+                        `Önerilen Konu ${index + 1}`,
+                      normalizedSubTopicName:
+                        topic.normalizedName ||
+                        topic.normalizedSubTopicName ||
+                        `onerilen-konu-${index + 1}`,
+                      isSelected: true,
+                      status: undefined,
+                      isNew: true,
+                    }),
+                  );
+
+                  console.log(
+                    `✅ API'den ${suggestedTopics.length} önerilen konu alındı`,
+                  );
                   setDetectedTopics(suggestedTopics);
-                  
+
                   // Tüm konuları otomatik olarak seç
-                  const allTopicIds = suggestedTopics.map(topic => topic.id);
+                  const allTopicIds = suggestedTopics.map((topic) => topic.id);
                   setSelectedTopicIds(allTopicIds);
                   setSelectedSubTopicIds(allTopicIds);
-                  setPreferences(prev => ({
+                  setPreferences((prev) => ({
                     ...prev,
                     topicIds: allTopicIds,
-                    subTopicIds: allTopicIds
+                    subTopicIds: allTopicIds,
                   }));
-                  
+
                   setTopicDetectionStatus("success");
                   setCurrentStep(2);
                   return;
                 }
               } catch (apiError) {
-                console.error('❌ Önerilen konular alınırken hata:', apiError);
+                console.error("❌ Önerilen konular alınırken hata:", apiError);
               }
-              
+
               // Son çare: Tek bir varsayılan konu ile devam et
               const singleTopic: DetectedSubTopic = {
                 id: defaultTopicId,
                 subTopicName: defaultTopicName,
-                normalizedSubTopicName: defaultTopicName.toLowerCase().replace(/\s+/g, '-'),
+                normalizedSubTopicName: defaultTopicName
+                  .toLowerCase()
+                  .replace(/\s+/g, "-"),
                 isSelected: true,
                 status: undefined,
-                isNew: true
+                isNew: true,
               };
-              
-              console.log('✅ Tek varsayılan konu oluşturuldu:', singleTopic);
+
+              console.log("✅ Tek varsayılan konu oluşturuldu:", singleTopic);
               setDetectedTopics([singleTopic]);
               setSelectedTopicIds([defaultTopicId]);
               setSelectedSubTopicIds([defaultTopicId]);
-              setPreferences(prev => ({
+              setPreferences((prev) => ({
                 ...prev,
                 topicIds: [defaultTopicId],
-                subTopicIds: [defaultTopicId]
+                subTopicIds: [defaultTopicId],
               }));
-              
+
               setTopicDetectionStatus("success");
               setCurrentStep(2);
             } catch (fallbackError) {
-              console.error('❌ Tüm konu alma yöntemleri başarısız oldu:', fallbackError);
-              ErrorService.showToast('Konular alınamadı. Lütfen tekrar deneyin.', 'error');
+              console.error(
+                "❌ Tüm konu alma yöntemleri başarısız oldu:",
+                fallbackError,
+              );
+              ErrorService.showToast(
+                "Konular alınamadı. Lütfen tekrar deneyin.",
+                "error",
+              );
               setTopicDetectionStatus("error");
             }
           }
         }
       } else {
-        console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Belge ID bulunamadı!`);
+        console.error(
+          `[ECW detectTopicsFromUploadedFile] ❌ HATA: Belge ID bulunamadı!`,
+        );
         setTopicDetectionStatus("error");
         ErrorService.showToast(
           "Belge yüklendi ancak ID alınamadı. Lütfen tekrar deneyin.",
-          "error"
+          "error",
         );
       }
     } catch (error) {
-      console.error(`[ECW detectTopicsFromUploadedFile] ❌ HATA: Dosya işleme genel hata! ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
+      console.error(
+        `[ECW detectTopicsFromUploadedFile] ❌ HATA: Dosya işleme genel hata! ${error instanceof Error ? error.message : "Bilinmeyen hata"}`,
+      );
       setTopicDetectionStatus("error");
       ErrorService.showToast(
-        `Dosya işlenirken bir hata oluştu: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`,
-        "error"
+        `Dosya işlenirken bir hata oluştu: ${error instanceof Error ? error.message : "Bilinmeyen hata"}`,
+        "error",
       );
     }
   };
@@ -1423,63 +1870,104 @@ const { isDarkMode } = useTheme();
         uploadedDocumentId,
         // Gerekirse başka önemli state'ler de eklenebilir
       };
-      
     } catch (err) {
       console.error("Sınav verisi markdown indirme sırasında hata:", err);
     }
     // 1. Sınav analizini simüle et (örnek mock analiz)
     // Gerçek uygulamada quiz.analysisResult.performanceBySubTopic kullanılacak
-    const mockAnalysis: Record<string, { status: LearningTarget["status"], scorePercent: number }> = {};
+    const mockAnalysis: Record<
+      string,
+      { status: LearningTarget["status"]; scorePercent: number }
+    > = {};
     learningTargets.forEach((t, idx) => {
       // Simülasyon: ilk alt konu failed, ikincisi medium, üçüncüsü mastered, diğerleri pending kalsın
-      if (idx === 0) mockAnalysis[t.normalizedSubTopicName] = { status: 'failed', scorePercent: 30 };
-      else if (idx === 1) mockAnalysis[t.normalizedSubTopicName] = { status: 'medium', scorePercent: 60 };
-      else if (idx === 2) mockAnalysis[t.normalizedSubTopicName] = { status: 'mastered', scorePercent: 95 };
+      if (idx === 0)
+        mockAnalysis[t.normalizedSubTopicName] = {
+          status: "failed",
+          scorePercent: 30,
+        };
+      else if (idx === 1)
+        mockAnalysis[t.normalizedSubTopicName] = {
+          status: "medium",
+          scorePercent: 60,
+        };
+      else if (idx === 2)
+        mockAnalysis[t.normalizedSubTopicName] = {
+          status: "mastered",
+          scorePercent: 95,
+        };
     });
     // 2. Öğrenme hedeflerini güncelle (analize göre)
-    const updatedTargets = learningTargets.map(target => ({
+    const updatedTargets = learningTargets.map((target) => ({
       ...target,
-      status: mockAnalysis[target.normalizedSubTopicName]?.status || target.status,
-      lastAttemptScorePercent: mockAnalysis[target.normalizedSubTopicName]?.scorePercent ?? target.lastAttemptScorePercent,
+      status:
+        mockAnalysis[target.normalizedSubTopicName]?.status || target.status,
+      lastAttemptScorePercent:
+        mockAnalysis[target.normalizedSubTopicName]?.scorePercent ??
+        target.lastAttemptScorePercent,
     }));
     setLearningTargets(updatedTargets);
-    console.log('[ECW handleFinalSubmit] Sınav sonrası öğrenme hedefleri güncellendi:', updatedTargets);
-    
+    console.log(
+      "[ECW handleFinalSubmit] Sınav sonrası öğrenme hedefleri güncellendi:",
+      updatedTargets,
+    );
+
     // 3. Backend'e batch gönderim (GERÇEK API)
     // Eğer öğrenme hedefleri yoksa, API çağrısı yapmayalım
     if (updatedTargets.length === 0) {
-      console.log('[ECW] Öğrenme hedefi bulunmadığı için API çağrısı yapılmıyor.');
-      toast('Sınav tamamlandı! Öğrenme hedefi bulunmadığı için güncelleme yapılmadı.', { icon: 'ℹ️' });
+      console.log(
+        "[ECW] Öğrenme hedefi bulunmadığı için API çağrısı yapılmıyor.",
+      );
+      toast(
+        "Sınav tamamlandı! Öğrenme hedefi bulunmadığı için güncelleme yapılmadı.",
+        { icon: "ℹ️" },
+      );
     } else {
       try {
-        console.log('[ECW] Backend\'e öğrenme hedefleri gönderiliyor:', updatedTargets);
-        
+        console.log(
+          "[ECW] Backend'e öğrenme hedefleri gönderiliyor:",
+          updatedTargets,
+        );
+
         // Convert learning targets to the format expected by the new API
-        const convertedTargets = updatedTargets.map(target => ({
+        const convertedTargets = updatedTargets.map((target) => ({
           subTopicName: target.subTopicName,
-          status: target.status?.toLowerCase() as 'pending' | 'failed' | 'medium' | 'mastered',
-          lastScore: target.lastAttemptScorePercent
+          status: target.status?.toLowerCase() as
+            | "pending"
+            | "failed"
+            | "medium"
+            | "mastered",
+          lastScore: target.lastAttemptScorePercent,
         }));
-        
-        const batchResult = await learningTargetService.batchUpdateTargets(convertedTargets);
-        
+
+        const batchResult =
+          await learningTargetService.batchUpdateTargets(convertedTargets);
+
         if (batchResult.success) {
-          console.log('[ECW] Öğrenme hedefleri başarıyla backend\'e kaydedildi:', batchResult);
-          toast(`Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.processedCount} hedef)`, { icon: '✅' });
+          console.log(
+            "[ECW] Öğrenme hedefleri başarıyla backend'e kaydedildi:",
+            batchResult,
+          );
+          toast(
+            `Öğrenme hedefleriniz başarıyla güncellendi! (${batchResult.processedCount} hedef)`,
+            { icon: "✅" },
+          );
         } else {
-          console.warn('[ECW] Backend güncellemesi başarısız oldu');
-          toast('Öğrenme hedefleri güncellenirken bir sorun oluştu.', { icon: '⚠️' });
+          console.warn("[ECW] Backend güncellemesi başarısız oldu");
+          toast("Öğrenme hedefleri güncellenirken bir sorun oluştu.", {
+            icon: "⚠️",
+          });
         }
       } catch (error) {
-        console.error('[ECW] Backend güncelleme hatası:', error);
-        toast('Öğrenme hedefleri kaydedilirken hata oluştu.', { icon: '❌' });
+        console.error("[ECW] Backend güncelleme hatası:", error);
+        toast("Öğrenme hedefleri kaydedilirken hata oluştu.", { icon: "❌" });
       }
     }
 
     if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMessage(null);
-    
+
     console.log(
       "[ECW handleFinalSubmit] Başlatıldı. Seçili konular:",
       JSON.stringify(selectedTopics),
@@ -1492,40 +1980,42 @@ const { isDarkMode } = useTheme();
       "Metin İçeriği Var Mı:",
       !!documentTextContent,
     );
-    
- 
-    
+
     // Hızlı bir son kontrol yapalım - belge yüklendiyse ama alt konu yoksa
-    if (uploadedDocumentId && (!selectedTopics || selectedTopics.length === 0)) {
-      console.log("[ECW handleFinalSubmit] Belge yüklendi fakat alt konu seçilmedi - otomatik konu oluşturuluyor");
-      
+    if (
+      uploadedDocumentId &&
+      (!selectedTopics || selectedTopics.length === 0)
+    ) {
+      console.log(
+        "[ECW handleFinalSubmit] Belge yüklendi fakat alt konu seçilmedi - otomatik konu oluşturuluyor",
+      );
+
       // Varsayılan bir konu oluştur
-      const fileName = selectedFile ? selectedFile.name.replace(/\.[^/.]+$/, "") : "Belge";
+      const fileName = selectedFile
+        ? selectedFile.name.replace(/\.[^/.]+$/, "")
+        : "Belge";
       const defaultTopicId = `belge-${uploadedDocumentId.substring(0, 8)}`;
-      
+
       // Alt konu olarak ekle
       const subTopicItem: SubTopic = {
         subTopic: `${fileName} İçeriği`,
-        normalizedSubTopic: defaultTopicId
+        normalizedSubTopic: defaultTopicId,
       };
-      
+
       // State'leri güncelle
       setSelectedTopicIds([defaultTopicId]);
       setSelectedSubTopicIds([defaultTopicId]);
       setSelectedTopics([subTopicItem]);
-      
-      console.log("[ECW handleFinalSubmit] Varsayılan konu eklendi:", subTopicItem);
+
+      console.log(
+        "[ECW handleFinalSubmit] Varsayılan konu eklendi:",
+        subTopicItem,
+      );
     }
 
     if (quizType === "quick") {
-      if (
-        !selectedFile &&
-        !uploadedDocumentId &&
-        selectedTopics.length === 0
-      ) {
-        toast.error(
-          "Lütfen bir dosya yükleyin veya en az bir konu seçin.",
-        );
+      if (!selectedFile && !uploadedDocumentId && selectedTopics.length === 0) {
+        toast.error("Lütfen bir dosya yükleyin veya en az bir konu seçin.");
         setIsSubmitting(false);
         return;
       }
@@ -1541,29 +2031,41 @@ const { isDarkMode } = useTheme();
     }
 
     try {
-      console.log("[ECW handleFinalSubmit] Kontrol: selectedTopics dizisi:", selectedTopics);
-      console.log("[ECW handleFinalSubmit] selectedTopics uzunluğu:", selectedTopics.length);
-      
+      console.log(
+        "[ECW handleFinalSubmit] Kontrol: selectedTopics dizisi:",
+        selectedTopics,
+      );
+      console.log(
+        "[ECW handleFinalSubmit] selectedTopics uzunluğu:",
+        selectedTopics.length,
+      );
+
       // Çalışacağımız konuların listesi - varsayılan bir konu eklememiz gerekebilir
       let topicsToUse = [...selectedTopics];
-      
+
       // Eğer topicsToUse boşsa ve bir belge yüklemişse, otomatik bir konu oluştur
       if (topicsToUse.length === 0 && (uploadedDocumentId || selectedFile)) {
-        console.log("[ECW handleFinalSubmit] Konu seçilmedi ama belge var, otomatik konu oluşturuluyor");
-        const fileName = selectedFile?.name || 'belge';
+        console.log(
+          "[ECW handleFinalSubmit] Konu seçilmedi ama belge var, otomatik konu oluşturuluyor",
+        );
+        const fileName = selectedFile?.name || "belge";
         const defaultTopicId = `belge-${uploadedDocumentId ? uploadedDocumentId.substring(0, 8) : new Date().getTime()}`;
-        topicsToUse = [{
-          subTopic: `${fileName.replace(/\.[^/.]+$/, "")} İçeriği`,
-          normalizedSubTopic: defaultTopicId
-        }];
-        console.log("[ECW handleFinalSubmit] Otomatik oluşturulan konu:", topicsToUse);
-        
+        topicsToUse = [
+          {
+            subTopic: `${fileName.replace(/\.[^/.]+$/, "")} İçeriği`,
+            normalizedSubTopic: defaultTopicId,
+          },
+        ];
+        console.log(
+          "[ECW handleFinalSubmit] Otomatik oluşturulan konu:",
+          topicsToUse,
+        );
+
         // State güncellemesi
         setSelectedTopicIds([defaultTopicId]);
         setSelectedSubTopicIds([defaultTopicId]);
         setSelectedTopics(topicsToUse);
       }
-      
 
       // API için alt konu nesnelerini oluştur
       const mappedSubTopics = topicsToUse.map((topic) => {
@@ -1572,145 +2074,217 @@ const { isDarkMode } = useTheme();
           normalizedSubTopic: topic.normalizedSubTopic,
         };
       });
-      
-      console.log("[ECW handleFinalSubmit] Hazırlanan alt konu nesneleri:", mappedSubTopics);
-      console.log("[ECW handleFinalSubmit] Alt konuların sayısı:", mappedSubTopics.length);
-      
+
+      console.log(
+        "[ECW handleFinalSubmit] Hazırlanan alt konu nesneleri:",
+        mappedSubTopics,
+      );
+      console.log(
+        "[ECW handleFinalSubmit] Alt konuların sayısı:",
+        mappedSubTopics.length,
+      );
+
       // HATA KONTROLÜ: Alt konu sayısı 0 ise, belge ID kontrolü yap
       if (mappedSubTopics.length === 0) {
-        console.error("[ECW handleFinalSubmit] KRİTİK HATA: Alt konu nesneleri boş!");
-        
+        console.error(
+          "[ECW handleFinalSubmit] KRİTİK HATA: Alt konu nesneleri boş!",
+        );
+
         if (uploadedDocumentId || selectedFile) {
-          console.log("[ECW handleFinalSubmit] Belge var, varsayılan bir konu ekleniyor");
-          const fileName = selectedFile?.name || 'belge';
+          console.log(
+            "[ECW handleFinalSubmit] Belge var, varsayılan bir konu ekleniyor",
+          );
+          const fileName = selectedFile?.name || "belge";
           mappedSubTopics.push({
             subTopic: `${fileName.replace(/\.[^/.]+$/, "")} İçeriği`,
-            normalizedSubTopic: `belge-${uploadedDocumentId || Date.now()}`
+            normalizedSubTopic: `belge-${uploadedDocumentId || Date.now()}`,
           });
-          console.log("[ECW handleFinalSubmit] Varsayılan konu eklendi:", mappedSubTopics);
+          console.log(
+            "[ECW handleFinalSubmit] Varsayılan konu eklendi:",
+            mappedSubTopics,
+          );
         } else {
-          console.error("[ECW handleFinalSubmit] Ne konu seçimi ne de belge var! İşlem durduruluyor.");
+          console.error(
+            "[ECW handleFinalSubmit] Ne konu seçimi ne de belge var! İşlem durduruluyor.",
+          );
           toast.error("Lütfen en az bir konu seçin veya bir belge yükleyin.");
           setIsSubmitting(false);
           return;
         }
       }
-      
+
       // preferences.subTopicIds var mı kontrol et
       const updatedPreferences = {
         ...preferences,
-        subTopicIds: mappedSubTopics.map(topic => topic.normalizedSubTopic)
+        subTopicIds: mappedSubTopics.map((topic) => topic.normalizedSubTopic),
       };
-      
+
       // Sınav oluşturma seçenekleri
       const quizOptions: QuizGenerationOptions = {
         quizType: quizType === "quick" ? "general" : quizType,
         courseId: selectedCourseId || undefined,
-        personalizedQuizType: quizType === "personalized" ? personalizedQuizType : undefined,
+        personalizedQuizType:
+          quizType === "personalized" ? personalizedQuizType : undefined,
         // Doğru format için sadece bir tanım kullanıyoruz
-        selectedSubTopics: mappedSubTopics.map(topic => topic.normalizedSubTopic),
+        selectedSubTopics: mappedSubTopics.map(
+          (topic) => topic.normalizedSubTopic,
+        ),
         documentId: uploadedDocumentId || undefined,
         // Belge metnini ekleyelim, ama çok uzunsa kısalt (AI'nin daha iyi çalışması için)
-        documentText: documentTextContent ? (
-          documentTextContent.length > 5000 
+        documentText: documentTextContent
+          ? documentTextContent.length > 5000
             ? documentTextContent.substring(0, 5000) + "...(Kısaltıldı)"
             : documentTextContent
-        ) : "",
+          : "",
         preferences: {
           questionCount: preferences.questionCount,
-          difficulty: preferences.difficulty as "easy" | "medium" | "hard" | "mixed",
+          difficulty: preferences.difficulty as
+            | "easy"
+            | "medium"
+            | "hard"
+            | "mixed",
           timeLimit: preferences.timeLimit,
           prioritizeWeakAndMediumTopics: true,
         },
       };
 
-      console.log("[ECW handleFinalSubmit] quizService.generateQuiz çağrılıyor. Seçenekler:", JSON.stringify(quizOptions, null, 2));
+      console.log(
+        "[ECW handleFinalSubmit] quizService.generateQuiz çağrılıyor. Seçenekler:",
+        JSON.stringify(quizOptions, null, 2),
+      );
 
       try {
         // Sınav oluştur
-        console.log("[ECW handleFinalSubmit] Sınav oluşturma öncesi son kontroller:");
-        console.log("[ECW handleFinalSubmit] quizOptions:", JSON.stringify(quizOptions, null, 2));
-        console.log("[ECW handleFinalSubmit] selectedSubTopics uzunluğu:", quizOptions.selectedSubTopics?.length);
-        console.log("[ECW handleFinalSubmit] documentId:", quizOptions.documentId);
-        console.log("[ECW handleFinalSubmit] preferences:", JSON.stringify(quizOptions.preferences, null, 2));
-        
+        console.log(
+          "[ECW handleFinalSubmit] Sınav oluşturma öncesi son kontroller:",
+        );
+        console.log(
+          "[ECW handleFinalSubmit] quizOptions:",
+          JSON.stringify(quizOptions, null, 2),
+        );
+        console.log(
+          "[ECW handleFinalSubmit] selectedSubTopics uzunluğu:",
+          quizOptions.selectedSubTopics?.length,
+        );
+        console.log(
+          "[ECW handleFinalSubmit] documentId:",
+          quizOptions.documentId,
+        );
+        console.log(
+          "[ECW handleFinalSubmit] preferences:",
+          JSON.stringify(quizOptions.preferences, null, 2),
+        );
+
         // API çağrısını izle
         console.time("[ECW handleFinalSubmit] quizService.generateQuiz süresi");
         let quiz = null;
-        
+
         // Yeniden deneme mekaniği - geliştirilmiş strateji ile
         let retryCount = 0;
         const maxRetries = 5;
         let lastError = null;
-        
+
         while (retryCount < maxRetries) {
           try {
             // Konular deneme sayısı artıkça azaltılabilir, böylece başarı şansı artar
             if (retryCount > 1 && topicsToUse.length > 1) {
               // İlk denemeler başarısız olduysa, konu sayısını daha da azalt
-              const reducedTopicCount = Math.max(1, topicsToUse.length - retryCount + 1);
+              const reducedTopicCount = Math.max(
+                1,
+                topicsToUse.length - retryCount + 1,
+              );
               const reducedTopics = topicsToUse.slice(0, reducedTopicCount);
-              
-              console.log(`[ECW handleFinalSubmit] Deneme ${retryCount}/${maxRetries}: Konu sayısı ${topicsToUse.length}'den ${reducedTopics.length}'e düşürülüyor`);
-              
+
+              console.log(
+                `[ECW handleFinalSubmit] Deneme ${retryCount}/${maxRetries}: Konu sayısı ${topicsToUse.length}'den ${reducedTopics.length}'e düşürülüyor`,
+              );
+
               // Quiz seçeneklerini güncelle
-              quizOptions.selectedSubTopics = reducedTopics.map(topic => topic.normalizedSubTopic);
-              console.log(`[ECW handleFinalSubmit] Azaltılmış konu listesi:`, quizOptions.selectedSubTopics);
+              quizOptions.selectedSubTopics = reducedTopics.map(
+                (topic) => topic.normalizedSubTopic,
+              );
+              console.log(
+                `[ECW handleFinalSubmit] Azaltılmış konu listesi:`,
+                quizOptions.selectedSubTopics,
+              );
             }
-            
-            console.log(`[ECW handleFinalSubmit] Deneme ${retryCount + 1}/${maxRetries} başlatılıyor...`);
+
+            console.log(
+              `[ECW handleFinalSubmit] Deneme ${retryCount + 1}/${maxRetries} başlatılıyor...`,
+            );
             quiz = await quizService.generateQuiz(quizOptions);
-            
+
             // Boş soru dizisi kontrolü
             if (!quiz || !quiz.questions || quiz.questions.length === 0) {
               retryCount++;
-              console.warn(`[ECW handleFinalSubmit] Quiz soru dizisi boş. Yeniden deneniyor (${retryCount}/${maxRetries})`);
-              
+              console.warn(
+                `[ECW handleFinalSubmit] Quiz soru dizisi boş. Yeniden deneniyor (${retryCount}/${maxRetries})`,
+              );
+
               if (retryCount >= maxRetries) {
-                throw new Error("Maksimum deneme sayısına ulaşıldı. Sınav soruları oluşturulamadı.");
+                throw new Error(
+                  "Maksimum deneme sayısına ulaşıldı. Sınav soruları oluşturulamadı.",
+                );
               }
-              
+
               // Bekleme süresi ekle - her denemede biraz daha uzun bekle
-              const waitTime = 3000 + (retryCount * 1000); // 3s, 4s, 5s, 6s, 7s
-              console.log(`[ECW handleFinalSubmit] ${waitTime/1000} saniye bekleniyor ve yeniden deneniyor...`);
-              await new Promise(resolve => setTimeout(resolve, waitTime));
+              const waitTime = 3000 + retryCount * 1000; // 3s, 4s, 5s, 6s, 7s
+              console.log(
+                `[ECW handleFinalSubmit] ${waitTime / 1000} saniye bekleniyor ve yeniden deneniyor...`,
+              );
+              await new Promise((resolve) => setTimeout(resolve, waitTime));
               continue;
             }
-            
+
             // Başarılı olduysa döngüden çık
-            console.log(`[ECW handleFinalSubmit] Soru üretme başarılı! ${quiz.questions?.length || 0} soru oluşturuldu.`);
+            console.log(
+              `[ECW handleFinalSubmit] Soru üretme başarılı! ${quiz.questions?.length || 0} soru oluşturuldu.`,
+            );
             break;
           } catch (error) {
             retryCount++;
             lastError = error;
-            console.error(`[ECW handleFinalSubmit] Sınav oluşturma hatası (${retryCount}/${maxRetries}):`, error);
-            
-          
+            console.error(
+              `[ECW handleFinalSubmit] Sınav oluşturma hatası (${retryCount}/${maxRetries}):`,
+              error,
+            );
+
             if (retryCount >= maxRetries) {
               throw error;
             }
-            
+
             // Bekleme süresi ekle - her denemede biraz daha uzun bekle
-            const waitTime = 3000 + (retryCount * 1000); // 3s, 4s, 5s, 6s, 7s
-            console.log(`[ECW handleFinalSubmit] ${waitTime/1000} saniye bekleniyor ve yeniden deneniyor...`);
-            await new Promise(resolve => setTimeout(resolve, waitTime));
+            const waitTime = 3000 + retryCount * 1000; // 3s, 4s, 5s, 6s, 7s
+            console.log(
+              `[ECW handleFinalSubmit] ${waitTime / 1000} saniye bekleniyor ve yeniden deneniyor...`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
           }
         }
-        
-        console.timeEnd("[ECW handleFinalSubmit] quizService.generateQuiz süresi");
-        
+
+        console.timeEnd(
+          "[ECW handleFinalSubmit] quizService.generateQuiz süresi",
+        );
+
         // Detaylı sonuç kontrolü
         console.log("[ECW handleFinalSubmit] Sınav oluşturma sonucu:", quiz);
         console.log("[ECW handleFinalSubmit] Quiz ID:", quiz?.id);
-        console.log("[ECW handleFinalSubmit] Quiz soru sayısı:", quiz?.questions?.length || 0);
-        
+        console.log(
+          "[ECW handleFinalSubmit] Quiz soru sayısı:",
+          quiz?.questions?.length || 0,
+        );
+
         if (!quiz) {
-          console.error("[ECW handleFinalSubmit] KRİTİK HATA: quiz nesnesi boş veya undefined!");
+          console.error(
+            "[ECW handleFinalSubmit] KRİTİK HATA: quiz nesnesi boş veya undefined!",
+          );
           throw new Error("Quiz oluşturulamadı - API yanıtı boş");
         }
-        
+
         if (!quiz.id) {
-          console.error("[ECW handleFinalSubmit] KRİTİK HATA: quiz.id yok veya boş!");
+          console.error(
+            "[ECW handleFinalSubmit] KRİTİK HATA: quiz.id yok veya boş!",
+          );
           throw new Error("Quiz ID alınamadı");
         }
 
@@ -1719,22 +2293,34 @@ const { isDarkMode } = useTheme();
           quizType: quizType,
           personalizedQuizType,
           preferences: updatedPreferences,
-          topicNameMap: mappedSubTopics.reduce((acc, item) => {
-            acc[item.normalizedSubTopic] = item.subTopic;
-            return acc;
-          }, {} as Record<string, string>),
+          topicNameMap: mappedSubTopics.reduce(
+            (acc, item) => {
+              acc[item.normalizedSubTopic] = item.subTopic;
+              return acc;
+            },
+            {} as Record<string, string>,
+          ),
           quiz: quiz,
           quizId: quiz?.id,
           documentId: uploadedDocumentId || undefined,
-          status: quiz?.id ? 'success' as const : 'error' as const,
-          error: quiz?.id ? undefined : new ApiError("Sınav oluşturulamadı veya ID alınamadı."),
+          status: quiz?.id ? ("success" as const) : ("error" as const),
+          error: quiz?.id
+            ? undefined
+            : new ApiError("Sınav oluşturulamadı veya ID alınamadı."),
         };
 
-        console.log("[ECW handleFinalSubmit] Wizard sonuç verisi oluşturuldu:", 
-          JSON.stringify({
-            ...wizardResultData,
-            file: wizardResultData.file ? `File: ${wizardResultData.file.name}` : null 
-          }, null, 2)
+        console.log(
+          "[ECW handleFinalSubmit] Wizard sonuç verisi oluşturuldu:",
+          JSON.stringify(
+            {
+              ...wizardResultData,
+              file: wizardResultData.file
+                ? `File: ${wizardResultData.file.name}`
+                : null,
+            },
+            null,
+            2,
+          ),
         );
 
         // Başarı durumuna göre yönlendir
@@ -1742,12 +2328,16 @@ const { isDarkMode } = useTheme();
           // Yükleme toast mesajını kapat ve başarı mesajı göster
           toast.dismiss("quiz-generation-toast");
           toast.success("Sınav başarıyla oluşturuldu! Yönlendiriliyorsunuz...");
-          
+
           if (onComplete) {
-            console.log(`[ECW handleFinalSubmit] onComplete fonksiyonu çağrılıyor, quizId: ${quiz.id}`);
+            console.log(
+              `[ECW handleFinalSubmit] onComplete fonksiyonu çağrılıyor, quizId: ${quiz.id}`,
+            );
             onComplete(wizardResultData);
           } else {
-            console.log(`[ECW handleFinalSubmit] onComplete fonksiyonu tanımlı değil, manuel yönlendirme yapılıyor: /exams/${quiz.id}/results`);
+            console.log(
+              `[ECW handleFinalSubmit] onComplete fonksiyonu tanımlı değil, manuel yönlendirme yapılıyor: /exams/${quiz.id}/results`,
+            );
             router.push(`/exams/${quiz.id}/results`);
           }
         } else {
@@ -1756,37 +2346,51 @@ const { isDarkMode } = useTheme();
         }
       } catch (error) {
         console.error("[ECW handleFinalSubmit] Sınav oluşturma hatası:", error);
-        
+
         // Detaylı hata bilgisi
         const errorDetails = {
-          errorType: error instanceof Error ? error.constructor.name : typeof error,
+          errorType:
+            error instanceof Error ? error.constructor.name : typeof error,
           message: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
-          apiError: error instanceof ApiError ? {
-            cause: error.cause,
-            name: error.name,
-            message: error.message
-          } : undefined
+          apiError:
+            error instanceof ApiError
+              ? {
+                  cause: error.cause,
+                  name: error.name,
+                  message: error.message,
+                }
+              : undefined,
         };
         console.error("[ECW handleFinalSubmit] Hata detayları:", errorDetails);
-        
+
         // Daha detaylı hata bilgisi
         if (error instanceof ApiError) {
-          console.error("[ECW handleFinalSubmit] API Hatası:", error.message, error.cause);
+          console.error(
+            "[ECW handleFinalSubmit] API Hatası:",
+            error.message,
+            error.cause,
+          );
           setErrorMessage(`API Hatası: ${error.message}`);
         } else {
           console.error("[ECW handleFinalSubmit] Genel hata:", error);
-          setErrorMessage(`Hata: ${error instanceof Error ? error.message : String(error)}`);
+          setErrorMessage(
+            `Hata: ${error instanceof Error ? error.message : String(error)}`,
+          );
         }
-        
+
         // Yükleme mesajını kapat
         toast.dismiss("quiz-generation-toast");
-        toast.error(`Sınav oluşturulurken bir hata oluştu: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
+        toast.error(
+          `Sınav oluşturulurken bir hata oluştu: ${error instanceof Error ? error.message : "Bilinmeyen hata"}`,
+        );
       }
     } catch (error) {
       console.error("[ECW handleFinalSubmit] Beklenmeyen genel hata:", error);
-      setErrorMessage(`Beklenmeyen hata: ${error instanceof Error ? error.message : String(error)}`);
-      
+      setErrorMessage(
+        `Beklenmeyen hata: ${error instanceof Error ? error.message : String(error)}`,
+      );
+
       // Yükleme mesajını kapat
       toast.dismiss("quiz-generation-toast");
       toast.error("Beklenmeyen bir hata oluştu.");
@@ -1800,65 +2404,126 @@ const { isDarkMode } = useTheme();
     return (
       <div className="flex flex-col space-y-6">
         <div className="flex flex-col space-y-4">
-          <h2 className={`text-xl font-semibold transition-colors duration-300 ${isDarkMode ? 'text-gray-100 drop-shadow-lg' : 'text-gray-800'}`}>Sınav Tercihleri</h2>
-          
+          <h2
+            className={`text-xl font-semibold transition-colors duration-300 ${isDarkMode ? "text-gray-100 drop-shadow-lg" : "text-gray-800"}`}
+          >
+            Sınav Tercihleri
+          </h2>
+
           {/* Seçilen konu ve dosya bilgileri */}
-          <div className={`p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-gray-800/90 border-gray-700/70 shadow-xl shadow-gray-900/50' : 'bg-gray-50/90 border-gray-200/70 shadow-lg shadow-gray-300/20'}`}>
-            <h3 className={`font-medium mb-3 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Sınav İçeriği</h3>
-            
+          <div
+            className={`p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? "bg-gray-800/90 border-gray-700/70 shadow-xl shadow-gray-900/50" : "bg-gray-50/90 border-gray-200/70 shadow-lg shadow-gray-300/20"}`}
+          >
+            <h3
+              className={`font-medium mb-3 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}
+            >
+              Sınav İçeriği
+            </h3>
+
             <div className="flex flex-wrap gap-2 mb-2">
               <div className="flex items-center text-sm">
-                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Belge:</span>
-                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  {selectedFile ? selectedFile.name : (documentTextContent ? 'Metin içeriği' : 'Belge yok')}
+                <span
+                  className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}
+                >
+                  Belge:
+                </span>
+                <span
+                  className={`transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                >
+                  {selectedFile
+                    ? selectedFile.name
+                    : documentTextContent
+                      ? "Metin içeriği"
+                      : "Belge yok"}
                 </span>
               </div>
-              
+
               <div className="flex items-center text-sm">
-                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Seçili Konu Sayısı:</span>
-                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <span
+                  className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}
+                >
+                  Seçili Konu Sayısı:
+                </span>
+                <span
+                  className={`transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                >
                   {selectedTopicsList.length} konu
                 </span>
               </div>
-              
+
               <div className="flex items-center text-sm">
-                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Belge Metni:</span>
-                <span className={`transition-colors duration-300 ${documentTextContent 
-                  ? (isDarkMode ? 'text-green-400 font-medium' : 'text-green-600 font-medium') 
-                  : (isDarkMode ? 'text-red-400 font-medium' : 'text-red-600 font-medium')
-                }`}>
-                  {documentTextContent ? `Yüklendi (${documentTextContent.length} karakter)` : 'Yüklenmedi'}
+                <span
+                  className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}
+                >
+                  Belge Metni:
+                </span>
+                <span
+                  className={`transition-colors duration-300 ${
+                    documentTextContent
+                      ? isDarkMode
+                        ? "text-green-400 font-medium"
+                        : "text-green-600 font-medium"
+                      : isDarkMode
+                        ? "text-red-400 font-medium"
+                        : "text-red-600 font-medium"
+                  }`}
+                >
+                  {documentTextContent
+                    ? `Yüklendi (${documentTextContent.length} karakter)`
+                    : "Yüklenmedi"}
                 </span>
               </div>
             </div>
-            
+
             {/* Belge metni durumu bildirimi */}
             {!documentTextContent && uploadedDocumentId && (
-              <div className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? 'bg-yellow-900/30 border border-yellow-700/50' : 'bg-yellow-50 border border-yellow-200'}`}>
-                <p className={`font-medium transition-colors duration-300 ${isDarkMode ? 'text-yellow-200' : 'text-yellow-800'}`}>Belge metni henüz yüklenmedi!</p>
-                <p className={`mt-1 transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>
-                  Sınav oluşturmak için belge metni gereklidir. Lütfen şunları deneyin:
+              <div
+                className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? "bg-yellow-900/30 border border-yellow-700/50" : "bg-yellow-50 border border-yellow-200"}`}
+              >
+                <p
+                  className={`font-medium transition-colors duration-300 ${isDarkMode ? "text-yellow-200" : "text-yellow-800"}`}
+                >
+                  Belge metni henüz yüklenmedi!
                 </p>
-                <ul className={`list-disc pl-5 mt-1 transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>
+                <p
+                  className={`mt-1 transition-colors duration-300 ${isDarkMode ? "text-yellow-300" : "text-yellow-700"}`}
+                >
+                  Sınav oluşturmak için belge metni gereklidir. Lütfen şunları
+                  deneyin:
+                </p>
+                <ul
+                  className={`list-disc pl-5 mt-1 transition-colors duration-300 ${isDarkMode ? "text-yellow-300" : "text-yellow-700"}`}
+                >
                   <li>Sayfayı yenileyip tekrar deneyin</li>
                   <li>Belgeyi tekrar yükleyin</li>
                   <li>Daha küçük boyutlu bir belge kullanın</li>
                 </ul>
                 <div className="mt-3">
-                  <button 
+                  <button
                     onClick={async () => {
                       try {
                         toast.loading("Belge metni yükleniyor...");
-                        const docTextResponse = await documentService.getDocumentText(uploadedDocumentId);
-                        
-                        if (docTextResponse && docTextResponse.text && docTextResponse.text.trim() !== '') {
+                        const docTextResponse =
+                          await documentService.getDocumentText(
+                            uploadedDocumentId,
+                          );
+
+                        if (
+                          docTextResponse &&
+                          docTextResponse.text &&
+                          docTextResponse.text.trim() !== ""
+                        ) {
                           setDocumentTextContent(docTextResponse.text);
-                          console.log(`Belge metni manuel olarak yüklendi: ${docTextResponse.text.length} karakter`);
+                          console.log(
+                            `Belge metni manuel olarak yüklendi: ${docTextResponse.text.length} karakter`,
+                          );
                           toast.dismiss();
                           toast.success("Belge metni başarıyla yüklendi!");
                         } else {
                           toast.dismiss();
-                          toast.error("Belge metni yüklenemedi, metin boş veya geçersiz!");
+                          toast.error(
+                            "Belge metni yüklenemedi, metin boş veya geçersiz!",
+                          );
                         }
                       } catch (error) {
                         console.error("Belge metni yükleme hatası:", error);
@@ -1868,19 +2533,36 @@ const { isDarkMode } = useTheme();
                     }}
                     className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-xs font-medium rounded-lg flex items-center space-x-1 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-3.5 w-3.5 mr-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
                     </svg>
                     Belge Metnini Yeniden Yükle
                   </button>
                 </div>
               </div>
             )}
-            
+
             {/* Hata mesajı */}
             {errorMessage && (
-              <div className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? 'bg-red-900/30 border border-red-700/50 text-red-300' : 'bg-red-50 border border-red-200 text-red-700'}`}>
-                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-red-200' : 'text-red-700'}`}>{errorMessage}</span>
+              <div
+                className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? "bg-red-900/30 border border-red-700/50 text-red-300" : "bg-red-50 border border-red-200 text-red-700"}`}
+              >
+                <span
+                  className={`transition-colors duration-300 ${isDarkMode ? "text-red-200" : "text-red-700"}`}
+                >
+                  {errorMessage}
+                </span>
               </div>
             )}
           </div>
@@ -1890,7 +2572,7 @@ const { isDarkMode } = useTheme();
             <div>
               <label
                 htmlFor="questionCount"
-                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
               >
                 Soru Sayısı
               </label>
@@ -1908,23 +2590,30 @@ const { isDarkMode } = useTheme();
                       parseInt(e.target.value),
                     )
                   }
-                  className={`w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer transition-colors duration-200 ${isDarkMode ? 'accent-blue-400 hover:bg-gray-600' : 'accent-blue-600 hover:bg-gray-300'}`}
+                  className={`w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer transition-colors duration-200 ${isDarkMode ? "accent-blue-400 hover:bg-gray-600" : "accent-blue-600 hover:bg-gray-300"}`}
                 />
-                <span className={`w-12 text-center text-sm font-medium ml-4 px-2 py-1 rounded-lg border transition-all duration-200 ${isDarkMode ? 'text-gray-200 bg-gray-700 border-gray-600 shadow-lg' : 'text-gray-700 bg-gray-100 border-gray-200 shadow-md'}`}>
+                <span
+                  className={`w-12 text-center text-sm font-medium ml-4 px-2 py-1 rounded-lg border transition-all duration-200 ${isDarkMode ? "text-gray-200 bg-gray-700 border-gray-600 shadow-lg" : "text-gray-700 bg-gray-100 border-gray-200 shadow-md"}`}
+                >
                   {preferences.questionCount}
                 </span>
               </div>
-              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p
+                className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+              >
+                <span
+                  className={`font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                >
                   {quizType === "quick" ? "5-20 arası." : "5-30 arası."}
-                </span> Daha fazla soru, daha detaylı analiz sağlar.
+                </span>{" "}
+                Daha fazla soru, daha detaylı analiz sağlar.
               </p>
             </div>
 
             <div>
               <label
                 htmlFor="difficulty"
-                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
               >
                 Zorluk Seviyesi
               </label>
@@ -1934,27 +2623,67 @@ const { isDarkMode } = useTheme();
                 onChange={(e) =>
                   handlePreferenceChange(
                     "difficulty",
-                    e.target.value as
-                      | "easy"
-                      | "medium"
-                      | "hard"
-                      | "mixed",
+                    e.target.value as "easy" | "medium" | "hard" | "mixed",
                   )
                 }
-                className={`w-full px-3 py-2 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-100 hover:bg-gray-600' : 'border-gray-300 bg-white text-gray-900 hover:bg-gray-50'}`}
+                className={`w-full px-3 py-2 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${isDarkMode ? "border-gray-600 bg-gray-700 text-gray-100 hover:bg-gray-600" : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"}`}
               >
-                <option value="easy" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Kolay</option>
-                <option value="medium" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Orta</option>
-                <option value="hard" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Zor</option>
-                <option value="mixed" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Karışık (Önerilen)</option>
+                <option
+                  value="easy"
+                  className={
+                    isDarkMode
+                      ? "bg-gray-700 text-gray-100"
+                      : "bg-white text-gray-900"
+                  }
+                >
+                  Kolay
+                </option>
+                <option
+                  value="medium"
+                  className={
+                    isDarkMode
+                      ? "bg-gray-700 text-gray-100"
+                      : "bg-white text-gray-900"
+                  }
+                >
+                  Orta
+                </option>
+                <option
+                  value="hard"
+                  className={
+                    isDarkMode
+                      ? "bg-gray-700 text-gray-100"
+                      : "bg-white text-gray-900"
+                  }
+                >
+                  Zor
+                </option>
+                <option
+                  value="mixed"
+                  className={
+                    isDarkMode
+                      ? "bg-gray-700 text-gray-100"
+                      : "bg-white text-gray-900"
+                  }
+                >
+                  Karışık (Önerilen)
+                </option>
               </select>
-              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Sınavdaki soruların zorluk seviyesini belirler.</span>
+              <p
+                className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+              >
+                <span
+                  className={`font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                >
+                  Sınavdaki soruların zorluk seviyesini belirler.
+                </span>
               </p>
             </div>
 
             <div>
-              <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              <label
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+              >
                 Zaman Sınırı
               </label>
               <div className="flex items-center space-x-4">
@@ -1963,14 +2692,12 @@ const { isDarkMode } = useTheme();
                     type="checkbox"
                     id="useTimeLimit"
                     checked={useTimeLimit}
-                    onChange={(e) =>
-                      handleUseTimeLimitChange(e.target.checked)
-                    }
-                    className={`h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-600 focus:ring-blue-500 transition-colors duration-200 ${isDarkMode ? 'bg-gray-700 checked:bg-blue-600' : 'bg-white checked:bg-blue-600'}`}
+                    onChange={(e) => handleUseTimeLimitChange(e.target.checked)}
+                    className={`h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-600 focus:ring-blue-500 transition-colors duration-200 ${isDarkMode ? "bg-gray-700 checked:bg-blue-600" : "bg-white checked:bg-blue-600"}`}
                   />
                   <label
                     htmlFor="useTimeLimit"
-                    className={`ml-2 text-sm transition-colors duration-300 cursor-pointer ${isDarkMode ? 'text-gray-200 hover:text-gray-100' : 'text-gray-700 hover:text-gray-600'}`}
+                    className={`ml-2 text-sm transition-colors duration-300 cursor-pointer ${isDarkMode ? "text-gray-200 hover:text-gray-100" : "text-gray-700 hover:text-gray-600"}`}
                   >
                     Zaman sınırı uygula
                   </label>
@@ -1991,16 +2718,20 @@ const { isDarkMode } = useTheme();
                       onChange={(e) =>
                         handleTimeLimitInputChange(e.target.value)
                       }
-                      className={`w-20 px-2 py-1 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-500 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'}`}
+                      className={`w-20 px-2 py-1 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-500 ${isDarkMode ? "border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400" : "border-gray-300 bg-white text-gray-900 placeholder-gray-500"}`}
                       placeholder="örn: 30"
                     />
-                    <span className={`ml-2 text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <span
+                      className={`ml-2 text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
+                    >
                       dakika
                     </span>
                   </motion.div>
                 )}
               </div>
-              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              <p
+                className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+              >
                 Sınav için bir süre belirleyebilirsiniz.
               </p>
             </div>
@@ -2018,19 +2749,20 @@ const { isDarkMode } = useTheme();
     }
   };
 
-  
-
   // Render
   return (
-    <div className={`w-full h-full transition-all duration-500 ease-in-out ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`} style={{
-      backgroundImage: isDarkMode 
-        ? 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)' 
-        : 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)',
-      backgroundSize: '20px 20px'
-    }}>
-      <ExamCreationProgress 
-        currentStep={currentStep} 
-        totalSteps={totalSteps} 
+    <div
+      className={`w-full h-full transition-all duration-500 ease-in-out ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      style={{
+        backgroundImage: isDarkMode
+          ? "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)"
+          : "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)",
+        backgroundSize: "20px 20px",
+      }}
+    >
+      <ExamCreationProgress
+        currentStep={currentStep}
+        totalSteps={totalSteps}
         quizType={quizType}
         onStepClick={handleStepClick}
       >
@@ -2044,14 +2776,18 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               className="w-full"
             >
-              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+              <h3
+                className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+              >
                 1. Ders Seçimi veya Oluşturma
               </h3>
-              
+
               <div className="mb-6">
                 {!showNewCourseForm ? (
                   <>
-                    <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <label
+                      className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+                    >
                       Çalışmak istediğiniz dersi seçin
                     </label>
                     <div className="flex flex-col space-y-4">
@@ -2067,15 +2803,26 @@ const { isDarkMode } = useTheme();
                           </option>
                         ))}
                       </select>
-                      
-                      <button 
+
+                      <button
                         type="button"
                         className="w-full py-2 px-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onClick={() => setShowNewCourseForm(true)}
                       >
-                        <span className={`flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                        <span
+                          className={`flex items-center justify-center transition-colors duration-300 ${isDarkMode ? "text-blue-300" : "text-blue-600"}`}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                           Yeni Ders Oluştur
                         </span>
@@ -2085,26 +2832,37 @@ const { isDarkMode } = useTheme();
                 ) : (
                   <div className="p-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className={`text-md font-medium transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                      <h4
+                        className={`text-md font-medium transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+                      >
                         Yeni Ders Oluştur
                       </h4>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
                         onClick={() => {
                           setShowNewCourseForm(false);
                           setNewCourseName("");
                         }}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </button>
                     </div>
                     <div className="flex flex-col space-y-4">
-                      <input 
-                        type="text" 
-                        placeholder="Ders adı girin" 
+                      <input
+                        type="text"
+                        placeholder="Ders adı girin"
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={newCourseName}
                         onChange={(e) => setNewCourseName(e.target.value)}
@@ -2118,14 +2876,38 @@ const { isDarkMode } = useTheme();
                       >
                         {creatingCourse ? (
                           <div className="flex items-center justify-center">
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <svg
+                              className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
                             </svg>
-                            <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>Oluşturuluyor...</span>
+                            <span
+                              className={`transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-white"}`}
+                            >
+                              Oluşturuluyor...
+                            </span>
                           </div>
                         ) : (
-                          <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>Ders Oluştur</span>
+                          <span
+                            className={`transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-white"}`}
+                          >
+                            Ders Oluştur
+                          </span>
                         )}
                       </button>
                     </div>
@@ -2134,7 +2916,7 @@ const { isDarkMode } = useTheme();
               </div>
             </motion.div>
           )}
-          
+
           {/* Adım 2: Kişiselleştirilmiş Sınav Türü Seçimi */}
           {currentStep === 2 && quizType === "personalized" && (
             <motion.div
@@ -2144,65 +2926,90 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               className="w-full"
             >
-              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+              <h3
+                className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+              >
                 2. Kişiselleştirilmiş Sınav Türü Seçimi
               </h3>
-              
+
               <div className="grid grid-cols-1 gap-4 mb-6">
                 {/* Zayif Konular */}
-                <div 
+                <div
                   className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "weakTopicFocused" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("weakTopicFocused")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "weakTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "weakTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}
+                    >
                       <FiTarget className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className={`font-medium transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Zayıf Konular</h4>
-                      <p className={`text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Geçmiş performansınıza göre zayıf olduğunuz konulardan soru oluştur</p>
+                      <h4
+                        className={`font-medium transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}
+                      >
+                        Zayıf Konular
+                      </h4>
+                      <p
+                        className={`text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                      >
+                        Geçmiş performansınıza göre zayıf olduğunuz konulardan
+                        soru oluştur
+                      </p>
                     </div>
                   </div>
                 </div>
 
-            
                 {/* Yeni Konular */}
-                <div 
+                <div
                   className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "newTopicFocused" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("newTopicFocused")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "newTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "newTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}
+                    >
                       <FiZap className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Yeni Konular</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Daha önce çalışmadığınız yeni konulardan soru oluştur</p>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Yeni Konular
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Daha önce çalışmadığınız yeni konulardan soru oluştur
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Kapsamlı */}
-                <div 
+                <div
                   className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "comprehensive" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("comprehensive")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "comprehensive" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "comprehensive" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}
+                    >
                       <FiTarget className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Kapsamlı</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Tüm konulardan dengeli bir şekilde soru oluştur</p>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Kapsamlı
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Tüm konulardan dengeli bir şekilde soru oluştur
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </motion.div>
           )}
-          
+
           {/* Adım 1: Belge Yükleme (Hızlı sınav için) veya Adım 3: Belge Yükleme (Kişiselleştirilmiş sınav için) */}
-          {((currentStep === 1 && quizType === "quick") || (currentStep === 3 && quizType === "personalized")) && (
+          {((currentStep === 1 && quizType === "quick") ||
+            (currentStep === 3 && quizType === "personalized")) && (
             <motion.div
               key="step1"
               initial={{ opacity: 0, x: -20 }}
@@ -2210,7 +3017,9 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+              <h3
+                className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+              >
                 1. Belge Yükleme
               </h3>
 
@@ -2234,13 +3043,22 @@ const { isDarkMode } = useTheme();
                   }
                 }}
               />
-              <p className={`text-xs mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
+              <p
+                className={`text-xs mb-2 transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+              >
+                Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay
+                zeka bu belgeleri analiz ederek sizin için en uygun soruları
+                oluşturacaktır.
               </p>
               {quizType === "personalized" && (
-                <p className={`text-xs transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
-                  {personalizedQuizType === "weakTopicFocused" ? " Zayıf/Orta Odaklı sınav türü için belge yüklemeniz gerekmez." : ""}
+                <p
+                  className={`text-xs transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+                >
+                  <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak
+                  seçenekleri bir sonraki adımda sunulacaktır.
+                  {personalizedQuizType === "weakTopicFocused"
+                    ? " Zayıf/Orta Odaklı sınav türü için belge yüklemeniz gerekmez."
+                    : ""}
                 </p>
               )}
             </motion.div>
@@ -2257,13 +3075,17 @@ const { isDarkMode } = useTheme();
             >
               {
                 <>
-                  <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                  <h3
+                    className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+                  >
                     2. Sınav Odağı ve Konu Seçimi
                   </h3>
-                  
+
                   {/* Kişiselleştirilmiş Sınav Alt Türleri */}
                   <div className="mt-2 mb-6">
-                    <h4 className={`text-md font-medium mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <h4
+                      className={`text-md font-medium mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+                    >
                       Sınav Odağı Seçin:
                     </h4>
 
@@ -2271,10 +3093,10 @@ const { isDarkMode } = useTheme();
                       {/* Zayıf/Orta Odaklı Sınav */}
                       <div
                         className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
-                            personalizedQuizType === "weakTopicFocused"
-                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
-                              : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }`}
+                          personalizedQuizType === "weakTopicFocused"
+                            ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
+                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
+                        }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("weakTopicFocused")
                         }
@@ -2283,11 +3105,16 @@ const { isDarkMode } = useTheme();
                           <FiZap />
                         </div>
                         <div>
-                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                          <h5
+                            className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+                          >
                             Zayıf/Orta Odaklı
                           </h5>
-                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                            Yapay zeka, geçmiş performansınıza göre zayıf olduğunuz konulara odaklanır. (Belge gerekmez)
+                          <p
+                            className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                          >
+                            Yapay zeka, geçmiş performansınıza göre zayıf
+                            olduğunuz konulara odaklanır. (Belge gerekmez)
                           </p>
                         </div>
                       </div>
@@ -2295,23 +3122,30 @@ const { isDarkMode } = useTheme();
                       {/* Öğrenme Hedefi Odaklı Sınav */}
                       <div
                         className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
-                            personalizedQuizType === "learningObjectiveFocused"
-                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
-                              : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }`}
+                          personalizedQuizType === "learningObjectiveFocused"
+                            ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
+                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
+                        }`}
                         onClick={() =>
-                          handlePersonalizedQuizTypeSelect("learningObjectiveFocused")
+                          handlePersonalizedQuizTypeSelect(
+                            "learningObjectiveFocused",
+                          )
                         }
                       >
                         <div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-green-600 dark:text-green-400">
                           <FiTarget />
                         </div>
                         <div>
-                                                   <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                          <h5
+                            className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+                          >
                             Öğrenme Hedefi Odaklı
                           </h5>
-                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                            Belirlediğiniz öğrenme hedeflerine ulaşma durumunuzu yapay zeka yardımıyla ölçer. (Belge gerekir)
+                          <p
+                            className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                          >
+                            Belirlediğiniz öğrenme hedeflerine ulaşma durumunuzu
+                            yapay zeka yardımıyla ölçer. (Belge gerekir)
                           </p>
                         </div>
                       </div>
@@ -2319,10 +3153,10 @@ const { isDarkMode } = useTheme();
                       {/* Yeni Konu Odaklı Sınav */}
                       <div
                         className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
-                            personalizedQuizType === "newTopicFocused"
-                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
-                              : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }`}
+                          personalizedQuizType === "newTopicFocused"
+                            ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
+                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
+                        }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("newTopicFocused")
                         }
@@ -2331,11 +3165,16 @@ const { isDarkMode } = useTheme();
                           <FiZap />
                         </div>
                         <div>
-                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                          <h5
+                            className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+                          >
                             Yeni Konu Odaklı
                           </h5>
-                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                            Yüklenen belgeden yapay zeka ile tespit edilen yeni konuları test eder. (Belge gerekir)
+                          <p
+                            className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                          >
+                            Yüklenen belgeden yapay zeka ile tespit edilen yeni
+                            konuları test eder. (Belge gerekir)
                           </p>
                         </div>
                       </div>
@@ -2343,10 +3182,10 @@ const { isDarkMode } = useTheme();
                       {/* Kapsamlı Sınav */}
                       <div
                         className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
-                            personalizedQuizType === "comprehensive"
-                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
-                              : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }`}
+                          personalizedQuizType === "comprehensive"
+                            ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
+                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
+                        }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("comprehensive")
                         }
@@ -2355,11 +3194,17 @@ const { isDarkMode } = useTheme();
                           <FiAward />
                         </div>
                         <div>
-                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                          <h5
+                            className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+                          >
                             Kapsamlı
                           </h5>
-                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                            Yapay zeka, yeni içerik ile mevcut öğrenme hedeflerinizi birleştiren karma bir sınav oluşturur. (Belge gerekir)
+                          <p
+                            className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                          >
+                            Yapay zeka, yeni içerik ile mevcut öğrenme
+                            hedeflerinizi birleştiren karma bir sınav oluşturur.
+                            (Belge gerekir)
                           </p>
                         </div>
                       </div>
@@ -2369,26 +3214,35 @@ const { isDarkMode } = useTheme();
               }
 
               {/* Konu Seçimi - Hem hızlı sınav hem de kişiselleştirilmiş sınav için */}
-              <div className={ "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700" }>
-             
-
+              <div
+                className={
+                  "mt-6 pt-6 border-t border-gray-200 dark:border-gray-700"
+                }
+              >
                 {personalizedQuizType === "weakTopicFocused" ? (
-                  <div className={`mb-4 p-4 border rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-yellow-900/20 border-yellow-700/50 text-yellow-200' : 'bg-yellow-50 border-yellow-200 text-yellow-800'}`}>
-                    <p className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-800'}`}>Bilgi:</p>
-                    <p className={`text-sm transition-colors duration-300 ${isDarkMode ? 'text-yellow-200' : 'text-yellow-700'}`}>
+                  <div
+                    className={`mb-4 p-4 border rounded-lg transition-all duration-300 ${isDarkMode ? "bg-yellow-900/20 border-yellow-700/50 text-yellow-200" : "bg-yellow-50 border-yellow-200 text-yellow-800"}`}
+                  >
+                    <p
+                      className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? "text-yellow-300" : "text-yellow-800"}`}
+                    >
+                      Bilgi:
+                    </p>
+                    <p
+                      className={`text-sm transition-colors duration-300 ${isDarkMode ? "text-yellow-200" : "text-yellow-700"}`}
+                    >
                       Zayıf/Orta Odaklı Sınav seçildiğinde, durumu
                       &lsquo;başarısız&apos; veya &#39;orta&#39; olan mevcut
-                      öğrenme hedefleriniz otomatik olarak kullanılır. Bu
-                      adımda ek konu seçimi gerekmez.
+                      öğrenme hedefleriniz otomatik olarak kullanılır. Bu adımda
+                      ek konu seçimi gerekmez.
                     </p>
                   </div>
                 ) : (
                   <>
-                   
                     {/* AI Konu Tespiti ve Seçim Ekranı */}
                     <TopicSelectionScreen
                       detectedTopics={detectedTopics}
-                      existingTopics={courseTopics} 
+                      existingTopics={courseTopics}
                       availableCourses={courses}
                       selectedCourseId={selectedCourseId}
                       quizType={quizType}
@@ -2397,12 +3251,18 @@ const { isDarkMode } = useTheme();
                       error={undefined}
                       onTopicsSelected={(selectedTopics, courseId) => {
                         // Konsolda detaylı log göster
-                        console.log("[ECW TopicSelectionScreen.onTopicsSelected] Seçilen konular:", JSON.stringify(selectedTopics));
-                        console.log("[ECW TopicSelectionScreen.onTopicsSelected] Seçilen kurs ID:", courseId);
+                        console.log(
+                          "[ECW TopicSelectionScreen.onTopicsSelected] Seçilen konular:",
+                          JSON.stringify(selectedTopics),
+                        );
+                        console.log(
+                          "[ECW TopicSelectionScreen.onTopicsSelected] Seçilen kurs ID:",
+                          courseId,
+                        );
 
                         // Alt konuları da güncelle - direkt olarak handleTopicSelectionChange çağır
                         handleTopicSelectionChange(selectedTopics);
-                        
+
                         // topicId ve courseId parametrelerini birleştir
                         handleTopicsDetected(selectedTopics, courseId);
                       }}
@@ -2419,7 +3279,9 @@ const { isDarkMode } = useTheme();
                 {/* Ders ve Alt Konu Seçici - Kişiselleştirilmiş sınav için gerekli */}
                 {personalizedQuizType !== "weakTopicFocused" && (
                   <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <h4 className={`text-md font-medium mb-3 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <h4
+                      className={`text-md font-medium mb-3 transition-colors duration-300 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+                    >
                       Ders ve Alt Konu Seçimi
                     </h4>
                     <CourseTopicSelector
@@ -2451,26 +3313,45 @@ const { isDarkMode } = useTheme();
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="w-full"
             >
-              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+              <h3
+                className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+              >
                 4. Alt Konu Seçimi
               </h3>
 
               <div className="mb-6">
-                <p className={`text-sm mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Sınavınızın içereceği alt konuları seçin. Seçilen konulara göre size özel sorular oluşturulacaktır.
+                <p
+                  className={`text-sm mb-4 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
+                >
+                  Sınavınızın içereceği alt konuları seçin. Seçilen konulara
+                  göre size özel sorular oluşturulacaktır.
                 </p>
 
                 {/* Konu tespiti yüklenme durumu */}
                 {topicDetectionStatus === "loading" && (
-                  <div className={`mb-6 p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-blue-900/20 border-blue-700/50' : 'bg-blue-50 border-blue-200'}`}>
+                  <div
+                    className={`mb-6 p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? "bg-blue-900/20 border-blue-700/50" : "bg-blue-50 border-blue-200"}`}
+                  >
                     <div className="flex items-center justify-center">
-                      <div className={`animate-spin rounded-full h-5 w-5 border-b-2 mr-3 ${isDarkMode ? 'border-blue-400' : 'border-blue-500'}`}></div>
-                      <p className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
-                        Belge içeriği analiz ediliyor ve konular tespit ediliyor...
+                      <div
+                        className={`animate-spin rounded-full h-5 w-5 border-b-2 mr-3 ${isDarkMode ? "border-blue-400" : "border-blue-500"}`}
+                      ></div>
+                      <p
+                        className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? "text-blue-300" : "text-blue-600"}`}
+                      >
+                        Belge içeriği analiz ediliyor ve konular tespit
+                        ediliyor...
                       </p>
                     </div>
-                    <p className={`text-xs mt-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.</span>
+                    <p
+                      className={`text-xs mt-2 transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                    >
+                      <span
+                        className={`font-medium ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
+                      >
+                        Bu işlem belge boyutuna bağlı olarak 10-30 saniye
+                        sürebilir.
+                      </span>
                     </p>
                   </div>
                 )}
@@ -2478,7 +3359,7 @@ const { isDarkMode } = useTheme();
                 {/* Topic Selection Screen Component */}
                 <TopicSelectionScreen
                   detectedTopics={detectedTopics}
-                  existingTopics={courseTopics} 
+                  existingTopics={courseTopics}
                   availableCourses={courses}
                   selectedCourseId={selectedCourseId}
                   quizType={quizType}
@@ -2486,8 +3367,14 @@ const { isDarkMode } = useTheme();
                   isLoading={topicDetectionStatus === "loading"}
                   error={undefined}
                   onTopicsSelected={(selectedTopics, courseId) => {
-                    console.log("[ECW TopicSelectionScreen.onTopicsSelected] Seçilen konular:", JSON.stringify(selectedTopics));
-                    console.log("[ECW TopicSelectionScreen.onTopicsSelected] Seçilen kurs ID:", courseId);
+                    console.log(
+                      "[ECW TopicSelectionScreen.onTopicsSelected] Seçilen konular:",
+                      JSON.stringify(selectedTopics),
+                    );
+                    console.log(
+                      "[ECW TopicSelectionScreen.onTopicsSelected] Seçilen kurs ID:",
+                      courseId,
+                    );
                     handleTopicSelectionChange(selectedTopics);
                     handleTopicsDetected(selectedTopics, courseId);
                   }}
@@ -2503,7 +3390,8 @@ const { isDarkMode } = useTheme();
           )}
 
           {/* Adım 5: Tercihler (Kişiselleştirilmiş sınav için) veya Adım 3: Tercihler (Hızlı sınav için) */}
-          {((currentStep === 5 && quizType === "personalized") || (currentStep === 3 && quizType === "quick")) && (
+          {((currentStep === 5 && quizType === "personalized") ||
+            (currentStep === 3 && quizType === "quick")) && (
             <motion.div
               key="step3"
               initial={{ opacity: 0, x: -20 }}
@@ -2523,45 +3411,59 @@ const { isDarkMode } = useTheme();
             disabled={currentStep === 1}
             className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
               currentStep === 1
-                ? `text-gray-400 dark:text-gray-600 ${isDarkMode ? 'hover:bg-gray-800/50' : 'hover:bg-gray-50'}`
-                : `text-gray-700 dark:text-gray-300 ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600 shadow-lg hover:shadow-xl' : 'bg-gray-100 hover:bg-gray-200 shadow-md hover:shadow-lg'} transform hover:scale-105`
+                ? `text-gray-400 dark:text-gray-600 ${isDarkMode ? "hover:bg-gray-800/50" : "hover:bg-gray-50"}`
+                : `text-gray-700 dark:text-gray-300 ${isDarkMode ? "bg-gray-700 hover:bg-gray-600 shadow-lg hover:shadow-xl" : "bg-gray-100 hover:bg-gray-200 shadow-md hover:shadow-lg"} transform hover:scale-105`
             }`}
           >
-            <FiArrowLeft className="mr-1.5" size={16} /> 
-            <span className={`transition-colors duration-300 ${currentStep === 1 ? (isDarkMode ? 'text-gray-500' : 'text-gray-400') : (isDarkMode ? 'text-gray-200' : 'text-gray-700')}`}>Geri</span>
+            <FiArrowLeft className="mr-1.5" size={16} />
+            <span
+              className={`transition-colors duration-300 ${currentStep === 1 ? (isDarkMode ? "text-gray-500" : "text-gray-400") : isDarkMode ? "text-gray-200" : "text-gray-700"}`}
+            >
+              Geri
+            </span>
           </button>
 
           {/* Hide Next button for step 3 in personalized quiz (document upload) since DocumentUploader has Continue button */}
-          {!((currentStep === 3 && quizType === "personalized") || (currentStep === 1 && quizType === "quick")) && (
+          {!(
+            (currentStep === 3 && quizType === "personalized") ||
+            (currentStep === 1 && quizType === "quick")
+          ) && (
             <button
               onClick={nextStep}
               className={`px-6 py-2 text-white font-medium rounded-lg text-sm flex items-center transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transform hover:scale-105 ${
-                isDarkMode 
-                  ? 'bg-blue-700 hover:bg-blue-600 shadow-lg hover:shadow-xl shadow-blue-900/50' 
-                  : 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg shadow-blue-500/25'
+                isDarkMode
+                  ? "bg-blue-700 hover:bg-blue-600 shadow-lg hover:shadow-xl shadow-blue-900/50"
+                  : "bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg shadow-blue-500/25"
               }`}
               disabled={
                 // Adım 1: Kişiselleştirilmiş sınav için ders seçilmemişse butonu devre dışı bırak
-                (currentStep === 1 && quizType === "personalized" && !selectedCourseId) ||
+                (currentStep === 1 &&
+                  quizType === "personalized" &&
+                  !selectedCourseId) ||
                 // Adım 4: Konu seçimi adımında konu seçilmemişse ileri butonu devre dışı bırak
-                (((currentStep === 4 && quizType === "personalized") || (currentStep === 2 && quizType === "quick")) && selectedTopics.length === 0) ||
+                (((currentStep === 4 && quizType === "personalized") ||
+                  (currentStep === 2 && quizType === "quick")) &&
+                  selectedTopics.length === 0) ||
                 // İşlemler devam ederken butonu devre dışı bırak
-                topicDetectionStatus === "loading" || 
-                quizCreationLoading 
+                topicDetectionStatus === "loading" ||
+                quizCreationLoading
               }
             >
-              <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>
-                {currentStep === totalSteps 
-                  ? quizCreationLoading 
+              <span
+                className={`transition-colors duration-300 ${isDarkMode ? "text-gray-100" : "text-white"}`}
+              >
+                {currentStep === totalSteps
+                  ? quizCreationLoading
                     ? "Sınav Oluşturuluyor..."
-                    : "Sınavı Oluştur" 
-                  : "Devam Et"
-                }
+                    : "Sınavı Oluştur"
+                  : "Devam Et"}
               </span>{" "}
               {topicDetectionStatus === "loading" || quizCreationLoading ? (
-                <div className={`ml-2 animate-spin rounded-full h-4 w-4 border-b-2 ${isDarkMode ? 'border-gray-300' : 'border-white'}`}></div>
+                <div
+                  className={`ml-2 animate-spin rounded-full h-4 w-4 border-b-2 ${isDarkMode ? "border-gray-300" : "border-white"}`}
+                ></div>
               ) : (
-              <FiArrowRight className="ml-1.5" size={16} />
+                <FiArrowRight className="ml-1.5" size={16} />
               )}
             </button>
           )}
@@ -2569,5 +3471,4 @@ const { isDarkMode } = useTheme();
       </ExamCreationProgress>
     </div>
   );
-  }
-
+}

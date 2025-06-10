@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React, { ReactNode, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { getLogger, trackFlow } from '@/lib/logger.utils';
-import { FlowCategory } from '@/constants/logging.constants';
+import React, { ReactNode, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { getLogger, trackFlow } from "@/lib/logger.utils";
+import { FlowCategory } from "@/constants/logging.constants";
 
-import { NextUIProvider } from '@nextui-org/react';
-import { ThemeProvider } from '@/context/ThemeProvider';
-import { Toaster } from 'react-hot-toast';
+import { NextUIProvider } from "@nextui-org/react";
+import { ThemeProvider } from "@/context/ThemeProvider";
+import { Toaster } from "react-hot-toast";
 import MainLayout from "@/components/layout/MainLayout";
 
 interface ClientLayoutProps {
@@ -20,24 +20,29 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     // Sayfa değişimini logla
-    logger.info(`Sayfa değişti: ${pathname}`, 'Navigation');
-    
+    logger.info(`Sayfa değişti: ${pathname}`, "Navigation");
+
     // Sayfa değişim akışını başlat
-    trackFlow(`Sayfaya gezinti: ${pathname}`, 'Navigation', FlowCategory.Navigation, {
-      previousPath: window.history.state?.previousPath || '',
-      currentPath: pathname
-    });
-    
+    trackFlow(
+      `Sayfaya gezinti: ${pathname}`,
+      "Navigation",
+      FlowCategory.Navigation,
+      {
+        previousPath: window.history.state?.previousPath || "",
+        currentPath: pathname,
+      },
+    );
+
     // Sayfa değişimini history state'e kaydet (bir sonraki değişim için)
     const previousPath = window.history.state?.previousPath;
     const newState = { ...window.history.state, previousPath: pathname };
-    window.history.replaceState(newState, '', pathname);
-    
+    window.history.replaceState(newState, "", pathname);
+
     // Analytics için veri gönder
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'page_view', {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "page_view", {
         page_path: pathname,
-        previousPath
+        previousPath,
       });
     }
   }, [pathname]);
@@ -45,23 +50,21 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   return (
     <NextUIProvider>
       <ThemeProvider>
-        <MainLayout>
-          {children}
-        </MainLayout>
-        
+        <MainLayout>{children}</MainLayout>
+
         <Toaster
           position="bottom-center"
           reverseOrder={false}
           toastOptions={{
             duration: 3000,
             style: {
-              background: 'rgb(var(--color-bg-elevated))',
-              color: 'rgb(var(--color-text-primary))',
-              border: '1px solid rgb(var(--color-border-primary))',
+              background: "rgb(var(--color-bg-elevated))",
+              color: "rgb(var(--color-text-primary))",
+              border: "1px solid rgb(var(--color-border-primary))",
             },
           }}
         />
       </ThemeProvider>
     </NextUIProvider>
   );
-} 
+}

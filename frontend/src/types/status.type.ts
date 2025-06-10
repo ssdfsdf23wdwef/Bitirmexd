@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { LearningTargetStatus } from "./learningTarget.type";
-import React from 'react'; // Eklendi
+import React from "react"; // Eklendi
 
 export type CourseStatus = "başarılı" | "orta" | "başarısız" | "beklemede"; // Eklendi
 
@@ -39,9 +39,12 @@ const STATUS_SCORE_RANGES = {
  * Başarı yüzdesine göre durum belirleme yardımcı fonksiyonu
  */
 function getStatusFromScore(scorePercent: number): LearningTargetStatus {
-  if (scorePercent >= STATUS_SCORE_RANGES.mastered.min) return LearningTargetStatus.MASTERED;
-  if (scorePercent >= STATUS_SCORE_RANGES.medium.min) return LearningTargetStatus.MEDIUM; 
-  if (scorePercent >= STATUS_SCORE_RANGES.failed.min) return LearningTargetStatus.FAILED;
+  if (scorePercent >= STATUS_SCORE_RANGES.mastered.min)
+    return LearningTargetStatus.MASTERED;
+  if (scorePercent >= STATUS_SCORE_RANGES.medium.min)
+    return LearningTargetStatus.MEDIUM;
+  if (scorePercent >= STATUS_SCORE_RANGES.failed.min)
+    return LearningTargetStatus.FAILED;
   return LearningTargetStatus.PENDING;
 }
 

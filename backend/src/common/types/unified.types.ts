@@ -255,10 +255,10 @@ export type LearningTargetStatus = 'pending' | 'failed' | 'medium' | 'mastered';
 /**
  * Öğrenme hedefi kaynağı
  */
-export type LearningTargetSource = 
-  | 'user_created' 
-  | 'document_extracted' 
-  | 'ai_generated_new' 
+export type LearningTargetSource =
+  | 'user_created'
+  | 'document_extracted'
+  | 'ai_generated_new'
   | 'legacy'
   | 'manual';
 
@@ -390,7 +390,12 @@ export interface FailedQuestion {
 export interface CreateQuestionDto {
   text: string;
   description?: string | null;
-  type: 'multiple_choice' | 'single_choice' | 'true_false' | 'coding' | 'open_ended';
+  type:
+    | 'multiple_choice'
+    | 'single_choice'
+    | 'true_false'
+    | 'coding'
+    | 'open_ended';
   format?: 'text' | 'code' | 'image' | 'mixed';
   mainTopic: string;
   subTopic: string;
@@ -465,22 +470,28 @@ export interface Quiz {
  */
 export interface AnalysisResult {
   overallScore: number;
-  performanceBySubTopic: Record<string, {
-    scorePercent: number;
-    status: LearningTargetStatus;
-    questionCount: number;
-    correctCount: number;
-  }>;
+  performanceBySubTopic: Record<
+    string,
+    {
+      scorePercent: number;
+      status: LearningTargetStatus;
+      questionCount: number;
+      correctCount: number;
+    }
+  >;
   performanceCategorization: {
     failed: string[];
     medium: string[];
     mastered: string[];
   };
-  performanceByDifficulty: Record<string, {
-    count: number;
-    correct: number;
-    score: number;
-  }>;
+  performanceByDifficulty: Record<
+    string,
+    {
+      count: number;
+      correct: number;
+      score: number;
+    }
+  >;
   recommendations?: string[] | null;
 }
 

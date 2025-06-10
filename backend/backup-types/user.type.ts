@@ -1,4 +1,3 @@
-
 export interface User {
   id: string;
   uid: string;
@@ -16,7 +15,6 @@ export interface User {
   settings?: Record<string, any>;
 }
 
-
 export interface UpdateUserDto {
   firstName?: string;
   lastName?: string;
@@ -24,12 +22,7 @@ export interface UpdateUserDto {
   onboarded?: boolean;
 }
 
-
 type UserTheme = 'light' | 'dark' | 'system';
-
-
-
-
 
 /**
  * Konu bazlı kullanıcı ilerleme durumu

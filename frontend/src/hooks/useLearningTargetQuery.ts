@@ -33,7 +33,9 @@ const learningTargetService = {
    * Belgedeki konuları tespit eder
    */
   detectTopics: async (request: TopicDetectionRequest) => {
-    return apiService.post<unknown>(API_ENDPOINTS.DETECT_TOPICS, { ...request });
+    return apiService.post<unknown>(API_ENDPOINTS.DETECT_TOPICS, {
+      ...request,
+    });
   },
 
   /**
@@ -43,7 +45,9 @@ const learningTargetService = {
   createBatchLearningTargets: async (
     request: BatchCreateLearningTargetsRequest,
   ) => {
-    return apiService.post<LearningTarget[]>(API_ENDPOINTS.BATCH, { ...request });
+    return apiService.post<LearningTarget[]>(API_ENDPOINTS.BATCH, {
+      ...request,
+    });
   },
 
   /**

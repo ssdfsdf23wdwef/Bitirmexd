@@ -1,15 +1,12 @@
-
 enum LearningTargetStatus {
   NOT_STARTED = 'Not Started',
   IN_PROGRESS = 'In Progress',
   COMPLETED = 'Completed',
 }
 
-
 export enum LearningTargetSource {
   MANUAL = 'manual',
 }
-
 
 export interface LearningTarget {
   id: string; // Firestore tarafından otomatik atanacak
@@ -25,4 +22,3 @@ export interface LearningTarget {
   createdAt: FirebaseFirestore.Timestamp;
   updatedAt: FirebaseFirestore.Timestamp;
 }
-

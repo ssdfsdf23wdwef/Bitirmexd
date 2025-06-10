@@ -46,15 +46,9 @@ interface QuizResponse {
   createdAt: string;
 }
 
-
 class DocumentService {
-
   async detectTopics(documentId: string): Promise<DetectedSubTopic[]> {
- 
-    
     try {
-   
-      
       // API isteği yap
       const response = await apiService.post<{
         success: boolean;
@@ -62,16 +56,13 @@ class DocumentService {
         topics: DetectedSubTopic[];
         analysisTime: string;
       }>(`/documents/${documentId}/analyze`);
-      
-     
+
       return response.topics;
     } catch (error) {
       throw error;
     }
   }
 
-
-  
   async getDocuments(courseId?: string): Promise<DocumentType[]> {
     try {
       const url = courseId ? `/documents?courseId=${courseId}` : "/documents";
@@ -82,13 +73,13 @@ class DocumentService {
     }
   }
 
-
-
   async getDocumentText(id: string): Promise<{ id: string; text: string }> {
     try {
-      const documentText = await apiService.get<{ id: string; text: string }>(`/documents/${id}/text`);
+      const documentText = await apiService.get<{ id: string; text: string }>(
+        `/documents/${id}/text`,
+      );
       // Başarılı sonuç
-      
+
       return documentText;
     } catch (error) {
       throw error;
@@ -100,12 +91,9 @@ class DocumentService {
     courseId?: string,
     onProgress?: (percentage: number) => void,
   ): Promise<DocumentType> {
-  
-    
     try {
       // Dosya boyutu kontrolü
       if (file.size > DOCUMENT_UPLOAD_CONSTRAINTS.maxSizeBytes) {
-       
         throw new Error(
           `Dosya boyutu ${DOCUMENT_UPLOAD_CONSTRAINTS.maxSizeFormatted} sınırını aşamaz`,
         );
@@ -137,65 +125,67 @@ class DocumentService {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        onUploadProgress: (progressEvent: { loaded: number; total?: number }) => {
+        onUploadProgress: (progressEvent: {
+          loaded: number;
+          total?: number;
+        }) => {
           if (onProgress && progressEvent.total) {
             const percentage = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total,
             );
             onProgress(percentage);
-            
+
             // İlerleme durumunu izle
-            if (percentage === 25 || percentage === 50 || percentage === 75 || percentage === 100) {
-              
+            if (
+              percentage === 25 ||
+              percentage === 50 ||
+              percentage === 75 ||
+              percentage === 100
+            ) {
             }
           }
         },
       };
 
-      
       const response = await httpClient.post<DocumentType>(
         "/documents/upload",
         formData,
         config,
       );
-      
-    
-      
+
       return response.data;
     } catch (error) {
- 
       throw error;
     }
   }
 
-
   /**
    * Belge yükle ve konuları tespit et
    */
-  async uploadAndDetectTopics(file: File, courseId?: string): Promise<UploadAndDetectTopicsResponse> {
-  
+  async uploadAndDetectTopics(
+    file: File,
+    courseId?: string,
+  ): Promise<UploadAndDetectTopicsResponse> {
     try {
- 
-      
       // Form verisi oluştur
       const formData = new FormData();
-      formData.append('file', file);
-      
+      formData.append("file", file);
+
       if (courseId) {
-        formData.append('courseId', courseId);
+        formData.append("courseId", courseId);
       }
-      
+
       // API isteği yap
       const response = await httpClient.post<UploadAndDetectTopicsResponse>(
         "/documents/upload-and-detect-topics",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
-      
+
       return response.data;
     } catch (error) {
       throw error;
@@ -205,20 +195,20 @@ class DocumentService {
   /**
    * Belge ID'sinden sınav oluştur
    */
-  async createQuizFromDocument(documentId: string, options: QuizFromDocumentOptions): Promise<QuizResponse> {
-    
+  async createQuizFromDocument(
+    documentId: string,
+    options: QuizFromDocumentOptions,
+  ): Promise<QuizResponse> {
     try {
-  
-      
       // API isteği yap
       const response = await httpClient.post<QuizResponse>(
         `/documents/${documentId}/create-quiz`,
-        options
+        options,
       );
-      
+
       return response.data;
     } catch (error) {
-     throw error;
+      throw error;
     }
   }
 }

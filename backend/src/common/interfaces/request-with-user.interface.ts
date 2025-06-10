@@ -1,8 +1,6 @@
 import { Request } from 'express';
 import { DecodedIdToken } from 'firebase-admin/auth';
 
-
-
 /**
  * Kullanıcı bilgilerini içeren temel arayüz
  */

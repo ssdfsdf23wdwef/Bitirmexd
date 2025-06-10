@@ -53,10 +53,7 @@ const CardTitle = forwardRef<
   return (
     <h3
       ref={ref}
-      className={twMerge(
-        "font-semibold text-lg text-primary",
-        className,
-      )}
+      className={twMerge("font-semibold text-lg text-primary", className)}
       {...props}
     >
       {children}

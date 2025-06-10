@@ -1,6 +1,4 @@
-﻿import {
-  Injectable,
-} from '@nestjs/common';
+﻿import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   TopicDetectionResult,
@@ -25,7 +23,6 @@ export class AiService {
       const attemptNumber = error.attemptNumber || 1;
       const retriesLeft = error.retriesLeft || 0;
       const errorTraceId = `retry-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-
     },
   };
 
@@ -34,14 +31,11 @@ export class AiService {
     private readonly topicDetectionService: TopicDetectionService,
     private readonly quizGenerationService: QuizGenerationService,
   ) {
-    
-
     // LLM yapılandırmasını config servisinden al
     this.llmConfig = this.configService.get('llm');
 
     // Yapılandırma bulunamazsa varsayılan değerler kullan
     if (!this.llmConfig) {
-     
       this.llmConfig = {
         provider: 'gemini',
         apiKey: 'AIzaSyCIYYYDSYB_QN00OgoRPQgXR2cUUWCzRmw', // Varsayılan demo anahtar
@@ -50,11 +44,8 @@ export class AiService {
         maxTokens: 30024,
       };
     }
-
-  
   }
 
- 
   @LogMethod({ trackParams: true })
   async detectTopics(
     documentText: string,
@@ -70,12 +61,10 @@ export class AiService {
       );
     } catch (error) {
       // Hata loglama ve yeniden fırlatma
-   
+
       throw error;
     }
   }
-
- 
 
   /**
    * Generate quiz questions based on provided topics and options
@@ -88,23 +77,18 @@ export class AiService {
     const traceId = `ai-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
 
     try {
-     
-
       // Quiz soruları oluştur
       const questions =
         await this.quizGenerationService.generateQuizQuestions(options);
 
       const duration = Date.now() - startTime;
-  
 
       return questions;
     } catch (error) {
-     
       throw error;
     }
   }
 
-  
   async generateQuickQuiz(
     documentText: string,
     subTopics: string[],
@@ -115,10 +99,6 @@ export class AiService {
     const traceId = `ai-quick-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
 
     try {
-     
-
-   
-
       // Hızlı quiz oluşturma işlemini QuizGenerationService'e devredelim
       const questions =
         await this.quizGenerationService.generateQuickQuizQuestions(
@@ -129,15 +109,12 @@ export class AiService {
         );
 
       const duration = Date.now() - startTime;
-      
 
       return questions;
     } catch (error) {
-    
       throw error;
     }
   }
-
 
   async generatePersonalizedQuiz(
     subTopics: string[],
@@ -159,8 +136,6 @@ export class AiService {
     const traceId = `ai-personalized-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
 
     try {
-  
-
       // Kişiselleştirilmiş quiz oluşturma işlemini QuizGenerationService'e devredelim
       const questions =
         await this.quizGenerationService.generatePersonalizedQuizQuestions(
@@ -170,13 +145,11 @@ export class AiService {
           difficulty,
           documentText,
           learningTargets,
-        );      
+        );
 
       return questions;
     } catch (error) {
-     
       throw error;
     }
   }
-
 }

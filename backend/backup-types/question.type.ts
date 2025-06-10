@@ -1,4 +1,3 @@
-
 export interface Question {
   id: string;
   questionText: string;
@@ -22,8 +21,6 @@ export interface Question {
   language?: string | null;
 }
 
-
-
 export interface FailedQuestion {
   id: string;
   userId: string;
@@ -39,4 +36,3 @@ export interface FailedQuestion {
   difficulty: string;
   failedTimestamp: string;
 }
-

@@ -29,7 +29,7 @@ export default function LazyWrapper({
 }: LazyWrapperProps) {
   return (
     <Suspense fallback={fallback}>
-      <div className={className} style={{ transform: 'translateZ(0)' }}>
+      <div className={className} style={{ transform: "translateZ(0)" }}>
         {children}
       </div>
     </Suspense>

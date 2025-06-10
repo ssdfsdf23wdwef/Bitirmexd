@@ -18,7 +18,6 @@ import { AiModule } from './ai/ai.module';
 import { LoggerService } from './common/services/logger.service';
 import { FlowTrackerService } from './common/services/flow-tracker.service';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

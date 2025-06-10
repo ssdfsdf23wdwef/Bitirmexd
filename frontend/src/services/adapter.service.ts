@@ -1,5 +1,3 @@
-
-
 import {
   Quiz,
   Question,
@@ -7,12 +5,12 @@ import {
   FailedQuestion,
   DifficultyLevel,
   QuizGenerationOptions,
-  QuizSubmissionPayload, 
+  QuizSubmissionPayload,
   QuestionType,
   QuestionStatus,
   QuizType,
   PersonalizedQuizFocus, // AH: Added PersonalizedQuizFocus import
-  SubTopic 
+  SubTopic,
 } from "../types/quiz.type";
 import { LearningTarget } from "../types/learningTarget.type";
 
@@ -142,7 +140,7 @@ interface ApiQuizGenerationOptionsDto {
   quizType: "quick" | "personalized";
   personalizedQuizType?:
     | "weakTopicFocused"
-    | "learningObjectiveFocused" 
+    | "learningObjectiveFocused"
     | "newTopicFocused"
     | "comprehensive"
     | null;
@@ -174,7 +172,7 @@ interface SubmitQuestionDto {
   explanation: string;
   subTopic: string;
   normalizedSubTopic: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
 }
 
 interface SubmitDocumentSourceDto {
@@ -196,11 +194,16 @@ interface ApiQuizSubmissionPayloadDto {
   userAnswers: Record<string, string>;
   elapsedTime?: number | null;
   quizType: "quick" | "personalized" | "review"; // UPDATED - Added 'review'
-  personalizedQuizType?: "weakTopicFocused" | "newTopicFocused" | "comprehensive" | null; // ADDED
+  personalizedQuizType?:
+    | "weakTopicFocused"
+    | "newTopicFocused"
+    | "comprehensive"
+    | null; // ADDED
   courseId?: string | null; // ADDED
   sourceDocument?: SubmitDocumentSourceDto | null; // ADDED
   selectedSubTopics?: SubmitTopicDto[] | null; // ADDED
-  preferences: { // Structure matches backend's QuizPreferencesDto
+  preferences: {
+    // Structure matches backend's QuizPreferencesDto
     questionCount: number;
     difficulty: "easy" | "medium" | "hard" | "mixed";
     timeLimit?: number | null;
@@ -208,7 +211,6 @@ interface ApiQuizSubmissionPayloadDto {
   };
   questions: SubmitQuestionDto[]; // CHANGED from ApiQuestion[] to SubmitQuestionDto[]
 }
-
 
 class AdapterService {
   private static instance: AdapterService;
@@ -236,18 +238,20 @@ class AdapterService {
       id: apiQuiz.id,
       userId: apiQuiz.userId,
       title: apiQuiz.title || `Quiz ${apiQuiz.id}`,
-      quizType: apiQuiz.quizType as QuizType, 
-      personalizedQuizType: apiQuiz.personalizedQuizType as PersonalizedQuizFocus | null, // AH: Should now work
+      quizType: apiQuiz.quizType as QuizType,
+      personalizedQuizType:
+        apiQuiz.personalizedQuizType as PersonalizedQuizFocus | null, // AH: Should now work
       courseId: apiQuiz.courseId,
       sourceDocument: apiQuiz.sourceDocument,
-      selectedSubTopics: apiQuiz.selectedSubTopics 
-        ? apiQuiz.selectedSubTopics.map(item => item.subTopic) // AH: Corrected to map to string[] as per Quiz type in quiz.ts
+      selectedSubTopics: apiQuiz.selectedSubTopics
+        ? apiQuiz.selectedSubTopics.map((item) => item.subTopic) // AH: Corrected to map to string[] as per Quiz type in quiz.ts
         : null,
       preferences: {
         questionCount: apiQuiz.preferences.questionCount,
         difficulty: apiQuiz.preferences.difficulty as DifficultyLevel,
         timeLimit: apiQuiz.preferences.timeLimit ?? undefined,
-        prioritizeWeakAndMediumTopics: apiQuiz.preferences.prioritizeWeakAndMediumTopics ?? undefined,
+        prioritizeWeakAndMediumTopics:
+          apiQuiz.preferences.prioritizeWeakAndMediumTopics ?? undefined,
       },
       questions: apiQuiz.questions.map((q) => this.toQuestion(q)),
       userAnswers: apiQuiz.userAnswers,
@@ -268,7 +272,10 @@ class AdapterService {
    * API'den gelen Question'ı frontend Question tipine dönüştürür
    */
   public toQuestion(apiQuestion: ApiQuestion): Question {
-    console.log('[DEBUG] adapter.service.ts - toQuestion - Received apiQuestion:', JSON.stringify(apiQuestion, null, 2)); // AH: Log added
+    console.log(
+      "[DEBUG] adapter.service.ts - toQuestion - Received apiQuestion:",
+      JSON.stringify(apiQuestion, null, 2),
+    ); // AH: Log added
     // let finalSubTopic = apiQuestion.subTopic; // AH: Old logic
     // let finalNormalizedSubTopic = apiQuestion.normalizedSubTopic; // AH: Old logic
 
@@ -278,18 +285,28 @@ class AdapterService {
 
     // Helper to check if a string is null, undefined, or empty/whitespace
     const isEffectivelyEmpty = (str: string | null | undefined): boolean => {
-      return str === null || str === undefined || str.trim() === '';
+      return str === null || str === undefined || str.trim() === "";
     };
 
     // 1. Fallback to apiQuestion.subTopic (original field name) if subTopicName is empty
-    if (isEffectivelyEmpty(finalSubTopic) && !isEffectivelyEmpty(apiQuestion.subTopic as string | null | undefined)) { // AH: Cast to string
+    if (
+      isEffectivelyEmpty(finalSubTopic) &&
+      !isEffectivelyEmpty(apiQuestion.subTopic as string | null | undefined)
+    ) {
+      // AH: Cast to string
       finalSubTopic = apiQuestion.subTopic as string; // AH: Cast to string
     }
     // 2. Fallback to apiQuestion.normalizedSubTopic (original field name) if normalizedSubTopicName is empty
-    if (isEffectivelyEmpty(finalNormalizedSubTopic) && !isEffectivelyEmpty(apiQuestion.normalizedSubTopic as string | null | undefined)) { // AH: Cast to string
+    if (
+      isEffectivelyEmpty(finalNormalizedSubTopic) &&
+      !isEffectivelyEmpty(
+        apiQuestion.normalizedSubTopic as string | null | undefined,
+      )
+    ) {
+      // AH: Cast to string
       finalNormalizedSubTopic = apiQuestion.normalizedSubTopic as string; // AH: Cast to string
     }
-    
+
     // 3. Further fallback to apiQuestion.topic if finalSubTopic is still empty.
     if (isEffectivelyEmpty(finalSubTopic)) {
       const topicFallback = apiQuestion.topic; // Direct access, assuming it might exist
@@ -302,7 +319,9 @@ class AdapterService {
     // finalNormalizedSubTopic is from apiQuestion.normalizedSubTopicName or apiQuestion.normalizedSubTopic.
 
     const subTopicIsEmpty = isEffectivelyEmpty(finalSubTopic);
-    const normalizedSubTopicIsEmpty = isEffectivelyEmpty(finalNormalizedSubTopic);
+    const normalizedSubTopicIsEmpty = isEffectivelyEmpty(
+      finalNormalizedSubTopic,
+    );
 
     if (subTopicIsEmpty && normalizedSubTopicIsEmpty) {
       // Case A: Both are genuinely missing or empty. Default to "Genel".
@@ -312,22 +331,38 @@ class AdapterService {
       // Case B: subTopic is missing/empty, but normalizedSubTopic is present. Derive subTopic.
       finalSubTopic = finalNormalizedSubTopic!
         .split(/[-_]/) // Split by hyphen or underscore
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
       // And standardize the existing normalizedSubTopic (e.g., to hyphens and lowercase)
-      finalNormalizedSubTopic = finalNormalizedSubTopic!.toLowerCase().trim().replace(/_/g, '-').replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      finalNormalizedSubTopic = finalNormalizedSubTopic!
+        .toLowerCase()
+        .trim()
+        .replace(/_/g, "-")
+        .replace(/\\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
     } else if (!subTopicIsEmpty && normalizedSubTopicIsEmpty) {
       // Case C: subTopic is present, but normalizedSubTopic is missing/empty. Derive normalizedSubTopic.
       finalNormalizedSubTopic = finalSubTopic!
-        .toLowerCase().trim().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        .toLowerCase()
+        .trim()
+        .replace(/\\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
     } else if (!subTopicIsEmpty && !normalizedSubTopicIsEmpty) {
       // Case D: Both subTopic and normalizedSubTopic are present (and not empty).
       // Standardize normalizedSubTopic based on the (potentially more reliable) subTopic.
       const expectedNormalized = finalSubTopic!
-        .toLowerCase().trim().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-      
+        .toLowerCase()
+        .trim()
+        .replace(/\\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+
       // Standardize the incoming finalNormalizedSubTopic before comparison/assignment
-      const currentNormalizedStandardized = finalNormalizedSubTopic!.toLowerCase().trim().replace(/_/g, '-').replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const currentNormalizedStandardized = finalNormalizedSubTopic!
+        .toLowerCase()
+        .trim()
+        .replace(/_/g, "-")
+        .replace(/\\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
 
       if (currentNormalizedStandardized !== expectedNormalized) {
         // console.warn(`[Adapter] Aligning normalizedSubTopic. From: "${finalNormalizedSubTopic}", To: "${expectedNormalized}" (derived from subTopic: "${finalSubTopic}")`);
@@ -337,20 +372,21 @@ class AdapterService {
         finalNormalizedSubTopic = expectedNormalized;
       }
     }
-    
+
     const question: Question = {
       id: apiQuestion.id,
       questionText: apiQuestion.questionText,
       options: apiQuestion.options,
       correctAnswer: apiQuestion.correctAnswer,
       explanation: apiQuestion.explanation,
-      subTopic: finalSubTopic!, 
+      subTopic: finalSubTopic!,
       normalizedSubTopic: finalNormalizedSubTopic!,
       difficulty: apiQuestion.difficulty as DifficultyLevel,
-      questionType: (apiQuestion.questionType || 'multiple_choice') as QuestionType,
-      status: (apiQuestion.status || 'active') as QuestionStatus
+      questionType: (apiQuestion.questionType ||
+        "multiple_choice") as QuestionType,
+      status: (apiQuestion.status || "active") as QuestionStatus,
     };
-    
+
     return question;
   }
 
@@ -379,7 +415,7 @@ class AdapterService {
       easy: { count: 0, correct: 0, score: 0 },
       medium: { count: 0, correct: 0, score: 0 },
       hard: { count: 0, correct: 0, score: 0 },
-      mixed: { count: 0, correct: 0, score: 0 }
+      mixed: { count: 0, correct: 0, score: 0 },
     };
 
     // API'den gelen zorluk seviyesi performanslarını ekle
@@ -473,17 +509,23 @@ class AdapterService {
     options: QuizGenerationOptions,
   ): ApiQuizGenerationOptionsDto {
     // Eğer subTopics seçilmişse dönüştür
-    const subTopics: string[] = options.selectedSubTopics?.map(item => {
-      if (typeof item === 'string') { // This case should ideally not happen if selectedSubTopics is SubTopic[]
-        return item; 
-      } else if (typeof item === 'object' && item && 'name' in item) { // item is SubTopic
-        return item.name;
-      }
-      return '';
-    }).filter(Boolean) as string[] || [];
+    const subTopics: string[] =
+      (options.selectedSubTopics
+        ?.map((item) => {
+          if (typeof item === "string") {
+            // This case should ideally not happen if selectedSubTopics is SubTopic[]
+            return item;
+          } else if (typeof item === "object" && item && "name" in item) {
+            // item is SubTopic
+            return item.name;
+          }
+          return "";
+        })
+        .filter(Boolean) as string[]) || [];
 
     // Eğer sourceDocument varsa, documentText oluştur
-    let documentText = "Örnek belge metni. Bu metin gerçek veri olmadığı için örnek olarak oluşturulmuştur.";
+    let documentText =
+      "Örnek belge metni. Bu metin gerçek veri olmadığı için örnek olarak oluşturulmuştur.";
     if (options.sourceDocument?.fileName) {
       documentText = `Dosya: ${options.sourceDocument.fileName} içeriği örnek metin. Bu metin gerçek veri olmadığı için örnek olarak oluşturulmuştur.`;
     }
@@ -495,37 +537,45 @@ class AdapterService {
       backendQuizType = "personalized";
     } else {
       // "general" and "topic_specific" map to "quick"
-      backendQuizType = "quick"; 
+      backendQuizType = "quick";
     }
 
-    if (backendQuizType === 'quick') {
+    if (backendQuizType === "quick") {
       return {
         quizType: backendQuizType,
-        documentText, 
-        subTopics: subTopics.length > 0 ? subTopics : ['Genel Konu'], 
+        documentText,
+        subTopics: subTopics.length > 0 ? subTopics : ["Genel Konu"],
         questionCount: options.preferences.questionCount,
         difficulty: options.preferences.difficulty,
         preferences: {
           questionCount: options.preferences.questionCount,
           difficulty: options.preferences.difficulty,
-          timeLimit: options.preferences.timeLimit ?? null, 
-          prioritizeWeakAndMediumTopics: options.preferences.prioritizeWeakAndMediumTopics ?? true, 
+          timeLimit: options.preferences.timeLimit ?? null,
+          prioritizeWeakAndMediumTopics:
+            options.preferences.prioritizeWeakAndMediumTopics ?? true,
         },
       };
-    } else if (backendQuizType === 'personalized') {
+    } else if (backendQuizType === "personalized") {
       return {
         quizType: backendQuizType,
-        personalizedQuizType: options.personalizedQuizType as "weakTopicFocused" | "learningObjectiveFocused" | "newTopicFocused" | "comprehensive" | null | undefined, // Cast from PersonalizedQuizFocus
-        courseId: options.courseId, 
+        personalizedQuizType: options.personalizedQuizType as
+          | "weakTopicFocused"
+          | "learningObjectiveFocused"
+          | "newTopicFocused"
+          | "comprehensive"
+          | null
+          | undefined, // Cast from PersonalizedQuizFocus
+        courseId: options.courseId,
         documentText: documentText,
-        subTopics: subTopics.length > 0 ? subTopics : ['Genel Konu'],
+        subTopics: subTopics.length > 0 ? subTopics : ["Genel Konu"],
         questionCount: options.preferences.questionCount,
         difficulty: options.preferences.difficulty,
         preferences: {
           questionCount: options.preferences.questionCount,
           difficulty: options.preferences.difficulty,
-          timeLimit: options.preferences.timeLimit ?? null, 
-          prioritizeWeakAndMediumTopics: options.preferences.prioritizeWeakAndMediumTopics ?? true, 
+          timeLimit: options.preferences.timeLimit ?? null,
+          prioritizeWeakAndMediumTopics:
+            options.preferences.prioritizeWeakAndMediumTopics ?? true,
         },
       };
     } else {
@@ -533,14 +583,15 @@ class AdapterService {
       return {
         quizType: "quick",
         documentText,
-        subTopics: subTopics.length > 0 ? subTopics : ['Genel Konu'],
+        subTopics: subTopics.length > 0 ? subTopics : ["Genel Konu"],
         questionCount: options.preferences.questionCount,
         difficulty: options.preferences.difficulty,
         preferences: {
           questionCount: options.preferences.questionCount,
           difficulty: options.preferences.difficulty,
-          timeLimit: options.preferences.timeLimit ?? null, 
-          prioritizeWeakAndMediumTopics: options.preferences.prioritizeWeakAndMediumTopics ?? true, 
+          timeLimit: options.preferences.timeLimit ?? null,
+          prioritizeWeakAndMediumTopics:
+            options.preferences.prioritizeWeakAndMediumTopics ?? true,
         },
       };
     }
@@ -553,7 +604,7 @@ class AdapterService {
   public fromQuizSubmissionPayload(
     quiz: Quiz,
     userAnswers: Record<string, string>,
-    elapsedTime?: number | null
+    elapsedTime?: number | null,
   ): ApiQuizSubmissionPayloadDto {
     let backendQuizType: "quick" | "personalized" | "review";
     switch (quiz.quizType) {
@@ -571,22 +622,34 @@ class AdapterService {
         break;
     }
 
-    let backendPersonalizedQuizType: "weakTopicFocused" | "newTopicFocused" | "comprehensive" | null | undefined = null;
+    let backendPersonalizedQuizType:
+      | "weakTopicFocused"
+      | "newTopicFocused"
+      | "comprehensive"
+      | null
+      | undefined = null;
     if (quiz.quizType === "personalized" && quiz.personalizedQuizType) {
-      if (["weakTopicFocused", "newTopicFocused", "comprehensive"].includes(quiz.personalizedQuizType)) {
-        backendPersonalizedQuizType = quiz.personalizedQuizType as "weakTopicFocused" | "newTopicFocused" | "comprehensive";
+      if (
+        ["weakTopicFocused", "newTopicFocused", "comprehensive"].includes(
+          quiz.personalizedQuizType,
+        )
+      ) {
+        backendPersonalizedQuizType = quiz.personalizedQuizType as
+          | "weakTopicFocused"
+          | "newTopicFocused"
+          | "comprehensive";
       }
     }
 
     const sourceDoc = quiz.sourceDocument;
-    const backendSourceDocument = 
-      (sourceDoc && sourceDoc.storagePath && sourceDoc.storagePath.trim() !== "")
-      ? {
-          fileName: sourceDoc.fileName,
-          storagePath: sourceDoc.storagePath,
-          // documentId remains undefined as it's not in frontend Quiz.sourceDocument
-        }
-      : null;
+    const backendSourceDocument =
+      sourceDoc && sourceDoc.storagePath && sourceDoc.storagePath.trim() !== ""
+        ? {
+            fileName: sourceDoc.fileName,
+            storagePath: sourceDoc.storagePath,
+            // documentId remains undefined as it's not in frontend Quiz.sourceDocument
+          }
+        : null;
 
     return {
       userAnswers: userAnswers,
@@ -598,7 +661,11 @@ class AdapterService {
       selectedSubTopics: quiz.selectedSubTopics
         ? quiz.selectedSubTopics.map((stName) => ({
             subTopic: stName,
-            normalizedSubTopic: stName.toLowerCase().trim().replace(/[^a-z0-9-\\s_]/g, '').replace(/\\s+/g, '_'), // Basic normalization
+            normalizedSubTopic: stName
+              .toLowerCase()
+              .trim()
+              .replace(/[^a-z0-9-\\s_]/g, "")
+              .replace(/\\s+/g, "_"), // Basic normalization
             // count is optional and not available directly from Quiz.selectedSubTopics (string[])
           }))
         : null,
@@ -606,7 +673,8 @@ class AdapterService {
         questionCount: quiz.preferences.questionCount,
         difficulty: quiz.preferences.difficulty,
         timeLimit: quiz.preferences.timeLimit ?? null,
-        prioritizeWeakAndMediumTopics: quiz.preferences.prioritizeWeakAndMediumTopics ?? null,
+        prioritizeWeakAndMediumTopics:
+          quiz.preferences.prioritizeWeakAndMediumTopics ?? null,
       },
       questions: quiz.questions.map((q) => ({
         id: q.id,
@@ -616,7 +684,7 @@ class AdapterService {
         explanation: q.explanation || "",
         subTopic: q.subTopicName || q.subTopic, // Ensure these are populated in the Question object
         normalizedSubTopic: q.normalizedSubTopicName || q.normalizedSubTopic, // Ensure these are populated
-        difficulty: q.difficulty as 'easy' | 'medium' | 'hard', // Assuming q.difficulty is not 'mixed' for individual questions
+        difficulty: q.difficulty as "easy" | "medium" | "hard", // Assuming q.difficulty is not 'mixed' for individual questions
       })),
     };
   }

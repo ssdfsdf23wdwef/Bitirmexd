@@ -2,15 +2,15 @@
  * Learning target status enum
  */
 export enum LearningTargetStatus {
-  NOT_STARTED = 'Not Started',
-  IN_PROGRESS = 'In Progress',
-  COMPLETED = 'Completed',
+  NOT_STARTED = "Not Started",
+  IN_PROGRESS = "In Progress",
+  COMPLETED = "Completed",
 }
 
 /**
  * Learning target source type
  */
-type LearningTargetSource = 'ai_proposal' | 'manual' | 'document_import';
+type LearningTargetSource = "ai_proposal" | "manual" | "document_import";
 
 /**
  * Learning target interface
@@ -108,6 +108,7 @@ interface DetectNewTopicsResponseData {
 /**
  * Complete detect new topics API response
  */
-export interface DetectNewTopicsResponse extends StandardizedApiResponse<DetectNewTopicsResponseData> {
+export interface DetectNewTopicsResponse
+  extends StandardizedApiResponse<DetectNewTopicsResponseData> {
   data: DetectNewTopicsResponseData;
 }

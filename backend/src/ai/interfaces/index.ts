@@ -8,12 +8,12 @@ export * from './topic-detection.interface';
 export * from './quiz-question.interface';
 
 // Also export directly from unified types for convenience
-export type { 
+export type {
   QuizQuestion,
   SubTopicType,
   QuizGenerationOptions,
   QuizMetadata,
-  ErrorWithMetadata
+  ErrorWithMetadata,
 } from '../../common/types';
 
 // Log kaydı

@@ -26,16 +26,13 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           {icon}
         </div>
       )}
-      <h3 className="text-2xl font-semibold text-primary mb-3">
-        {title}
-      </h3>
+      <h3 className="text-2xl font-semibold text-primary mb-3">{title}</h3>
       {description && (
-        <p className="text-secondary mb-8 max-w-md mx-auto">
-          {description}
-        </p>
+        <p className="text-secondary mb-8 max-w-md mx-auto">{description}</p>
       )}
-      {actionText && (actionLink || onActionClick) && (
-        actionLink ? (
+      {actionText &&
+        (actionLink || onActionClick) &&
+        (actionLink ? (
           <Link
             href={actionLink}
             className="inline-flex items-center justify-center px-6 py-3 bg-brand-primary text-white rounded-lg font-semibold text-base transition-all duration-normal shadow-sm hover:bg-brand-primary-hover focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
@@ -50,8 +47,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           >
             {actionText}
           </button>
-        )
-      )}
+        ))}
     </div>
   );
 };

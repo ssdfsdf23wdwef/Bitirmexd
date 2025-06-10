@@ -43,21 +43,17 @@ export const useAuth = () => {
   console.log("🔑 [useAuth] useAuth hook çağrıldı");
 
   const router = useRouter();
-  
+
   // AuthContext'ten doğrudan Firebase etkileşimleri için
   const authContext = useAuthContext();
 
   // Zustand store'dan kullanıcı durumu ve diğer state'ler için
-  const {
-    user,
-    isLoading,
-    isAuthenticated,
-  } = useAuthStore();
-  
+  const { user, isLoading, isAuthenticated } = useAuthStore();
+
   const [authError, setAuthError] = useState<string | null>(
-    authContext.authError
+    authContext.authError,
   );
-  
+
   // AuthContext'teki hata durumunu takip et
   useEffect(() => {
     if (authContext.authError) {
@@ -91,10 +87,10 @@ export const useAuth = () => {
 
         // AuthContext üzerinden giriş yap
         const response = await authContext.login(email, password);
-        
+
         console.log("🚀 [useAuth] Ana sayfaya yönlendiriliyor...");
         router.push("/");
-        
+
         return response;
       } catch (error: unknown) {
         // Hata işleme
@@ -111,19 +107,21 @@ export const useAuth = () => {
         throw error;
       }
     },
-    [router, authContext, checkBackendConnection]
+    [router, authContext, checkBackendConnection],
   );
 
   // Çıkış işlemi - AuthContext ile entegre
   const logout = useCallback(async () => {
     try {
       console.log("🔄 [useAuth] Çıkış işlemi başlatılıyor...");
-      
+
       // AuthContext üzerinden çıkış yap
       await authContext.signOut();
-      
+
       // Token'ları temizle ve ana sayfaya yönlendir
-      console.log("✅ [useAuth] Çıkış işlemi başarılı, ana sayfaya yönlendiriliyor");
+      console.log(
+        "✅ [useAuth] Çıkış işlemi başarılı, ana sayfaya yönlendiriliyor",
+      );
       router.push("/");
     } catch (error) {
       console.error("❌ [useAuth] Çıkış hatası:", error);
@@ -144,36 +142,39 @@ export const useAuth = () => {
   }, [authContext]);
 
   // Memoize edilmiş API - gereksiz re-render'ları önlemek için
-  const api = useCallback(() => ({
-    // Kullanıcı durumu
-    user,
-    isLoading,
-    isAuthenticated,
-    authError,
-    
-    // AuthContext'ten sağlanan Firebase etkileşimleri
-    login,
-    logout,
-    register: authContext.register,
-    loginWithGoogle: authContext.loginWithGoogle,
-    updateProfile: authContext.updateProfile,
-    resetPassword: authContext.resetPassword,
-    
-    // Doğrulama işlemleri
-    checkSession,
-  }), [
-    user, 
-    isLoading, 
-    isAuthenticated, 
-    authError, 
-    login, 
-    logout, 
-    authContext.register, 
-    authContext.loginWithGoogle, 
-    authContext.updateProfile, 
-    authContext.resetPassword, 
-    checkSession
-  ]);
+  const api = useCallback(
+    () => ({
+      // Kullanıcı durumu
+      user,
+      isLoading,
+      isAuthenticated,
+      authError,
+
+      // AuthContext'ten sağlanan Firebase etkileşimleri
+      login,
+      logout,
+      register: authContext.register,
+      loginWithGoogle: authContext.loginWithGoogle,
+      updateProfile: authContext.updateProfile,
+      resetPassword: authContext.resetPassword,
+
+      // Doğrulama işlemleri
+      checkSession,
+    }),
+    [
+      user,
+      isLoading,
+      isAuthenticated,
+      authError,
+      login,
+      logout,
+      authContext.register,
+      authContext.loginWithGoogle,
+      authContext.updateProfile,
+      authContext.resetPassword,
+      checkSession,
+    ],
+  );
 
   // Hook'un döndürdüğü API'yi memoize edilmiş fonksiyondan alalım
   return api();

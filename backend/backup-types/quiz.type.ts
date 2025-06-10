@@ -19,14 +19,12 @@ export interface Quiz {
   timestamp: Date | string;
 }
 
-
 interface QuizPreferences {
   questionCount: number;
   difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
   timeLimit?: number | null;
   prioritizeWeakAndMediumTopics?: boolean | null;
 }
-
 
 interface DocumentSource {
   documentId: string;
@@ -84,4 +82,3 @@ export interface QuizSummary {
   completedAt?: string | null;
   timestamp: string;
 }
-

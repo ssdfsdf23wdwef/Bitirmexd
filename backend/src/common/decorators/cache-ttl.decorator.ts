@@ -3,7 +3,7 @@ import { SetMetadata } from '@nestjs/common';
 /**
  * Cache TTL (Time To Live) decorator'ı
  * Cache için yaşam süresi belirler
- * 
+ *
  * @param ttl Cache yaşam süresi (saniye)
  * @example
  * @CacheTTL(300) // 5 dakika cache

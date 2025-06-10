@@ -308,7 +308,6 @@ Sadece JSON döndür, başka açıklama yapma.
           if (topic.parentTopic) {
             console.log(`  Ana Konu: ${topic.parentTopic}`);
           }
-         
         });
       } else {
         console.log('Hiçbir konu tespit edilemedi.');
@@ -1539,7 +1538,6 @@ Sadece JSON döndür, başka açıklama yapma.
         subTopicName: string;
         normalizedSubTopicName: string;
         parentTopic?: string;
-      
       }> = [];
 
       // Ana konuları işle
@@ -1565,7 +1563,6 @@ Sadece JSON döndür, başka açıklama yapma.
           normalizedTopics.push({
             subTopicName: mainTopicName,
             normalizedSubTopicName: normalizedMainTopic,
-          
           });
 
           // Alt konuları ekle
@@ -1581,7 +1578,6 @@ Sadece JSON döndür, başka açıklama yapma.
                       cleanedSubTopic,
                     ),
                   parentTopic: mainTopicName,
-                 
                 });
               }
               // Eğer subTopic bir obje ve subTopicName içeriyorsa
@@ -1601,7 +1597,6 @@ Sadece JSON döndür, başka açıklama yapma.
                       cleanedSubTopicName,
                     ),
                   parentTopic: mainTopicName,
-               
                 });
               } else {
                 this.logger.warn(
@@ -1639,7 +1634,6 @@ Sadece JSON döndür, başka açıklama yapma.
                 cleanedSubTopicName,
               ),
             parentTopic: parentTopic,
-           
           });
         } else if (typeof topic === 'string') {
           // String formatı - düz konu listesi
@@ -1648,7 +1642,6 @@ Sadece JSON döndür, başka açıklama yapma.
             subTopicName: cleanedTopic,
             normalizedSubTopicName:
               this.normalizationService.normalizeSubTopicName(cleanedTopic),
-        
           });
         }
       });

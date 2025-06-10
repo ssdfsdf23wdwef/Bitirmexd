@@ -16,7 +16,7 @@ export default function PrefetchLinks({ links }: PrefetchLinksProps) {
 
   useEffect(() => {
     // Immediately prefetch all critical routes
-    const prefetchPromises = links.map(link => {
+    const prefetchPromises = links.map((link) => {
       try {
         router.prefetch(link);
         return Promise.resolve();
@@ -28,7 +28,7 @@ export default function PrefetchLinks({ links }: PrefetchLinksProps) {
 
     // Wait for all prefetches to complete
     Promise.all(prefetchPromises).then(() => {
-      console.log('All critical routes prefetched');
+      console.log("All critical routes prefetched");
     });
   }, [router, links]);
 
@@ -37,17 +37,17 @@ export default function PrefetchLinks({ links }: PrefetchLinksProps) {
 
 // Common routes to prefetch for instant navigation
 export const CRITICAL_ROUTES = [
-  '/',
-  '/courses',
-  '/exams',
-  '/performance',
-  '/learning-goals',
-  '/auth/login',
+  "/",
+  "/courses",
+  "/exams",
+  "/performance",
+  "/learning-goals",
+  "/auth/login",
 ];
 
 // Secondary routes to prefetch after critical ones
 export const SECONDARY_ROUTES = [
-  '/courses/create',
-  '/learning-goals/dashboard',
-  '/settings',
+  "/courses/create",
+  "/learning-goals/dashboard",
+  "/settings",
 ];

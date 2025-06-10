@@ -1,12 +1,21 @@
-export type QuizType = "general" | "personalized" | "topic_specific" | "quick" | "review";
-export type PersonalizedQuizFocus = "weaknesses" | "strengths" | "new_topics" | "comprehensive";
+export type QuizType =
+  | "general"
+  | "personalized"
+  | "topic_specific"
+  | "quick"
+  | "review";
+export type PersonalizedQuizFocus =
+  | "weaknesses"
+  | "strengths"
+  | "new_topics"
+  | "comprehensive";
 export type DifficultyLevel = "easy" | "medium" | "hard" | "mixed";
 
 export type QuestionType = "multiple_choice" | "true_false" | "short_answer";
 export type QuestionStatus = "active" | "inactive" | "draft";
 
 export interface SubTopic {
-  id?: string; 
+  id?: string;
   name: string;
 }
 
@@ -62,11 +71,15 @@ export interface Quiz {
  */
 export interface QuizPreferences {
   questionCount: number;
-  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
+  difficulty: "easy" | "medium" | "hard" | "mixed";
   timeLimit?: number;
   topicIds?: string[];
   subTopicIds?: string[];
-  personalizedQuizType?: 'weakTopicFocused' | 'learningObjectiveFocused' | 'newTopicFocused' | 'comprehensive';
+  personalizedQuizType?:
+    | "weakTopicFocused"
+    | "learningObjectiveFocused"
+    | "newTopicFocused"
+    | "comprehensive";
 }
 
 // Option türü - string veya {id,text} formatında olabilir
@@ -78,15 +91,15 @@ export interface Question {
   options: QuestionOption[];
   correctAnswer: string | QuestionOption;
   explanation?: string;
-  
+
   // Alt konu bilgileri - AI yanıtından gelen alanlar
   subTopic: string;
   normalizedSubTopic: string;
-  
+
   // AI yanıtında bu alanlar gelebilir, bunları da tanımlayalım
-  subTopicName?: string;       // AI çıktısında gelen alt konu adı
-  normalizedSubTopicName?: string;  // AI çıktısında normalize edilmiş alt konu adı
-  
+  subTopicName?: string; // AI çıktısında gelen alt konu adı
+  normalizedSubTopicName?: string; // AI çıktısında normalize edilmiş alt konu adı
+
   difficulty: DifficultyLevel;
   questionType: QuestionType;
   status: QuestionStatus;
@@ -123,7 +136,6 @@ export interface AnalysisResult {
   recommendations?: string[] | null;
 }
 
-
 export interface FailedQuestion {
   id: string;
   userId: string;
@@ -153,7 +165,7 @@ export interface QuizGenerationOptions {
   documentText?: string;
   documentId?: string;
   sourceDocument?: {
-    fileName: string; 
+    fileName: string;
     storagePath: string;
   } | null;
   selectedSubTopics?: string[] | SubTopic[] | null;

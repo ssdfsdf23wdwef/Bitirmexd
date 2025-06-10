@@ -10,7 +10,7 @@ interface NewTopicsState {
   suggestedNewTopics: ProposedTopic[];
   selectedNewTopicsForConfirmation: ProposedTopic[];
   confirmedNewLearningTargets: LearningTarget[];
-  
+
   isLoadingSuggestedTopics: boolean;
   errorLoadingSuggestedTopics: string | null;
   isConfirmingTopics: boolean;
@@ -22,22 +22,23 @@ interface NewTopicsState {
 /**
  * Yeni Konular Actions arayüzü
  */
-interface NewTopicsActions {  // Yeni konu önerileri yükle
+interface NewTopicsActions {
+  // Yeni konu önerileri yükle
   loadSuggestedNewTopics: (
-    courseId: string, 
-    lessonContext: string, 
-    existingTopicNames: string[]
+    courseId: string,
+    lessonContext: string,
+    existingTopicNames: string[],
   ) => Promise<void>;
-  
+
   // Bir konuyu onay listesine ekle/çıkar
   toggleTopicForConfirmation: (topic: ProposedTopic) => void;
-  
+
   // Önerilen konuları temizle
   clearSuggestedTopics: () => void;
-  
+
   // Seçilen konuları onayla ve kaydet
   confirmSelectedTopics: (courseId: string) => Promise<boolean>;
-  
+
   // Tüm state'i sıfırla
   resetNewTopicsState: () => void;
 
@@ -51,7 +52,7 @@ interface NewTopicsActions {  // Yeni konu önerileri yükle
 // PendingTopic arayüzü
 interface PendingTopic {
   name: string;
-  status: 'BEKLEMEDE';
+  status: "BEKLEMEDE";
 }
 
 /**
@@ -70,230 +71,249 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
     errorLoadingSuggestedTopics: null,
     isConfirmingTopics: false,
     errorConfirmingTopics: null,
-    pendingTopics: [],    // Actions
+    pendingTopics: [], // Actions
     loadSuggestedNewTopics: async (
       courseId: string,
       lessonContext: string,
-      existingTopicNames: string[] = []
+      existingTopicNames: string[] = [],
     ) => {
-      console.group('🎯 [NewTopicsStore] loadSuggestedNewTopics - BAŞLADI');
-      console.log('📋 Parametreler:', {
+      console.group("🎯 [NewTopicsStore] loadSuggestedNewTopics - BAŞLADI");
+      console.log("📋 Parametreler:", {
         courseId,
         lessonContextLength: lessonContext.length,
         existingTopicNamesCount: existingTopicNames.length,
         existingTopicNames: existingTopicNames.slice(0, 5), // İlk 5 konu
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       set((state) => {
-        console.log('🔄 State güncelleniyor: Loading başlatılıyor');
+        console.log("🔄 State güncelleniyor: Loading başlatılıyor");
         state.isLoadingSuggestedTopics = true;
         state.errorLoadingSuggestedTopics = null;
       });
 
       try {
-        console.log('🔍 API çağrısı yapılıyor...');
+        console.log("🔍 API çağrısı yapılıyor...");
         const startTime = performance.now();
-        
+
         const suggestedTopics = await learningTargetService.detectNewTopics(
           courseId,
           lessonContext,
-          existingTopicNames
+          existingTopicNames,
         );
 
         const endTime = performance.now();
         const duration = endTime - startTime;
 
-        console.log('✅ API başarılı! Sonuçlar:', {
+        console.log("✅ API başarılı! Sonuçlar:", {
           suggestedTopicsCount: suggestedTopics.length,
           suggestedTopics: suggestedTopics.slice(0, 10), // İlk 10 konu
           duration: `${duration.toFixed(2)}ms`,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         set((state) => {
-          console.log('🔄 State güncelleniyor: Başarılı sonuç kaydediliyor');
+          console.log("🔄 State güncelleniyor: Başarılı sonuç kaydediliyor");
           state.suggestedNewTopics = suggestedTopics;
           state.isLoadingSuggestedTopics = false;
         });
 
-        console.log('🎉 loadSuggestedNewTopics BAŞARIYLA TAMAMLANDI');
-
+        console.log("🎉 loadSuggestedNewTopics BAŞARIYLA TAMAMLANDI");
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
-        
-        console.error('❌ API HATASI:', {
+        const errorMessage =
+          error instanceof Error ? error.message : "Bilinmeyen hata";
+
+        console.error("❌ API HATASI:", {
           error,
           errorMessage,
-          errorStack: error instanceof Error ? error.stack : 'Stack yok',
+          errorStack: error instanceof Error ? error.stack : "Stack yok",
           courseId,
           lessonContextLength: lessonContext.length,
           existingTopicNamesCount: existingTopicNames.length,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         set((state) => {
-          console.log('🔄 State güncelleniyor: Hata durumu kaydediliyor');
+          console.log("🔄 State güncelleniyor: Hata durumu kaydediliyor");
           state.suggestedNewTopics = [];
           state.isLoadingSuggestedTopics = false;
           state.errorLoadingSuggestedTopics = errorMessage;
         });
 
-        console.error('💥 loadSuggestedNewTopics HATA İLE SONLANDI');
+        console.error("💥 loadSuggestedNewTopics HATA İLE SONLANDI");
       } finally {
         console.groupEnd();
       }
-    },      toggleTopicForConfirmation: (topic: ProposedTopic) => {
-      console.group('🔄 [NewTopicsStore] toggleTopicForConfirmation - BAŞLADI');
-      console.log('📋 Parametreler:', {
+    },
+    toggleTopicForConfirmation: (topic: ProposedTopic) => {
+      console.group("🔄 [NewTopicsStore] toggleTopicForConfirmation - BAŞLADI");
+      console.log("📋 Parametreler:", {
         topic,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       const currentState = get();
-      const currentIndex = currentState.selectedNewTopicsForConfirmation.findIndex(t => t.tempId === topic.tempId);
+      const currentIndex =
+        currentState.selectedNewTopicsForConfirmation.findIndex(
+          (t) => t.tempId === topic.tempId,
+        );
       const isCurrentlySelected = currentIndex >= 0;
 
-      console.log('🔍 Mevcut durum:', {
+      console.log("🔍 Mevcut durum:", {
         isCurrentlySelected,
         currentIndex,
-        currentSelectedCount: currentState.selectedNewTopicsForConfirmation.length,
+        currentSelectedCount:
+          currentState.selectedNewTopicsForConfirmation.length,
         currentSelectedTopics: currentState.selectedNewTopicsForConfirmation,
-        allSuggestedTopics: currentState.suggestedNewTopics
+        allSuggestedTopics: currentState.suggestedNewTopics,
       });
 
       set((state) => {
-        const updatedIndex = state.selectedNewTopicsForConfirmation.findIndex(t => t.tempId === topic.tempId);
+        const updatedIndex = state.selectedNewTopicsForConfirmation.findIndex(
+          (t) => t.tempId === topic.tempId,
+        );
         if (updatedIndex >= 0) {
           // Konu seçili ise, listeden çıkar
-          console.log('➖ Konu listeden çıkarılıyor:', topic.name);
+          console.log("➖ Konu listeden çıkarılıyor:", topic.name);
           state.selectedNewTopicsForConfirmation.splice(updatedIndex, 1);
         } else {
           // Konu seçili değilse, listeye ekle
-          console.log('➕ Konu listeye ekleniyor:', topic.name);
+          console.log("➕ Konu listeye ekleniyor:", topic.name);
           state.selectedNewTopicsForConfirmation.push(topic);
         }
 
-        console.log('✅ Güncellenmiş seçili konular:', {
+        console.log("✅ Güncellenmiş seçili konular:", {
           newSelectedCount: state.selectedNewTopicsForConfirmation.length,
           newSelectedTopics: state.selectedNewTopicsForConfirmation,
-          action: updatedIndex >= 0 ? 'REMOVED' : 'ADDED'
+          action: updatedIndex >= 0 ? "REMOVED" : "ADDED",
         });
       });
 
-      console.log('🎉 toggleTopicForConfirmation TAMAMLANDI');
+      console.log("🎉 toggleTopicForConfirmation TAMAMLANDI");
       console.groupEnd();
-    },    clearSuggestedTopics: () => {
-      console.group('🧹 [NewTopicsStore] clearSuggestedTopics - BAŞLADI');
-      
+    },
+    clearSuggestedTopics: () => {
+      console.group("🧹 [NewTopicsStore] clearSuggestedTopics - BAŞLADI");
+
       const currentState = get();
-      console.log('📋 Temizlenecek veriler:', {
+      console.log("📋 Temizlenecek veriler:", {
         suggestedTopicsCount: currentState.suggestedNewTopics.length,
         suggestedTopics: currentState.suggestedNewTopics,
-        selectedTopicsCount: currentState.selectedNewTopicsForConfirmation.length,
+        selectedTopicsCount:
+          currentState.selectedNewTopicsForConfirmation.length,
         selectedTopics: currentState.selectedNewTopicsForConfirmation,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       set((state) => {
-        console.log('🔄 State temizleniyor...');
+        console.log("🔄 State temizleniyor...");
         state.suggestedNewTopics = [];
         state.selectedNewTopicsForConfirmation = [];
-        console.log('✅ State temizlendi');
+        console.log("✅ State temizlendi");
       });
 
-      console.log('🎉 clearSuggestedTopics TAMAMLANDI');
+      console.log("🎉 clearSuggestedTopics TAMAMLANDI");
       console.groupEnd();
-    },    confirmSelectedTopics: async (courseId: string): Promise<boolean> => {
-      console.group('✅ [NewTopicsStore] confirmSelectedTopics - BAŞLADI');
-      
+    },
+    confirmSelectedTopics: async (courseId: string): Promise<boolean> => {
+      console.group("✅ [NewTopicsStore] confirmSelectedTopics - BAŞLADI");
+
       const selectedTopics = get().selectedNewTopicsForConfirmation;
-      console.log('📋 Parametreler:', {
+      console.log("📋 Parametreler:", {
         courseId,
         selectedTopicsCount: selectedTopics.length,
         selectedTopics: selectedTopics,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-      
+
       if (selectedTopics.length === 0) {
-        console.warn('⚠️ Hiç konu seçilmemiş, işlem iptal ediliyor');
+        console.warn("⚠️ Hiç konu seçilmemiş, işlem iptal ediliyor");
         console.groupEnd();
         return false;
       }
 
-      console.log('🔄 State güncelleniyor: Onaylama başlatılıyor');
+      console.log("🔄 State güncelleniyor: Onaylama başlatılıyor");
       set((state) => {
         state.isConfirmingTopics = true;
         state.errorConfirmingTopics = null;
       });
 
       try {
-        console.log('🔍 API çağrısı yapılıyor...');
-        const startTime = performance.now();        const confirmedTargets = await learningTargetService.confirmNewTopics(
+        console.log("🔍 API çağrısı yapılıyor...");
+        const startTime = performance.now();
+        const confirmedTargets = await learningTargetService.confirmNewTopics(
           courseId,
-          selectedTopics
+          selectedTopics,
         );
 
         const endTime = performance.now();
-        const duration = endTime - startTime;        console.log('✅ API başarılı! Sonuçlar:', {
+        const duration = endTime - startTime;
+        console.log("✅ API başarılı! Sonuçlar:", {
           confirmedTargetsCount: confirmedTargets.length,
-          confirmedTargets: confirmedTargets.map(t => ({ id: t.id, name: t.subTopicName })),
+          confirmedTargets: confirmedTargets.map((t) => ({
+            id: t.id,
+            name: t.subTopicName,
+          })),
           duration: `${duration.toFixed(2)}ms`,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         set((state) => {
-          console.log('🔄 State güncelleniyor: Başarılı sonuç kaydediliyor');
+          console.log("🔄 State güncelleniyor: Başarılı sonuç kaydediliyor");
           state.confirmedNewLearningTargets = confirmedTargets;
           state.selectedNewTopicsForConfirmation = [];
           state.isConfirmingTopics = false;
         });
 
-        console.log('🎉 confirmSelectedTopics BAŞARIYLA TAMAMLANDI');
+        console.log("🎉 confirmSelectedTopics BAŞARIYLA TAMAMLANDI");
         console.groupEnd();
         return true;
-
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Onaylama sırasında hata oluştu';
-        
-        console.error('❌ ONAYLAMA HATASI:', {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Onaylama sırasında hata oluştu";
+
+        console.error("❌ ONAYLAMA HATASI:", {
           error,
           errorMessage,
-          errorStack: error instanceof Error ? error.stack : 'Stack yok',
+          errorStack: error instanceof Error ? error.stack : "Stack yok",
           courseId,
           selectedTopicsCount: selectedTopics.length,
           selectedTopics,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         set((state) => {
-          console.log('🔄 State güncelleniyor: Hata durumu kaydediliyor');
+          console.log("🔄 State güncelleniyor: Hata durumu kaydediliyor");
           state.isConfirmingTopics = false;
           state.errorConfirmingTopics = errorMessage;
         });
 
-        console.error('💥 confirmSelectedTopics HATA İLE SONLANDI');
+        console.error("💥 confirmSelectedTopics HATA İLE SONLANDI");
         console.groupEnd();
         return false;
       }
-    },    resetNewTopicsState: () => {
-      console.group('🔄 [NewTopicsStore] resetNewTopicsState - BAŞLADI');
-      
+    },
+    resetNewTopicsState: () => {
+      console.group("🔄 [NewTopicsStore] resetNewTopicsState - BAŞLADI");
+
       const currentState = get();
-      console.log('📋 Sıfırlanacak state:', {
+      console.log("📋 Sıfırlanacak state:", {
         suggestedTopicsCount: currentState.suggestedNewTopics.length,
-        selectedTopicsCount: currentState.selectedNewTopicsForConfirmation.length,
+        selectedTopicsCount:
+          currentState.selectedNewTopicsForConfirmation.length,
         confirmedTargetsCount: currentState.confirmedNewLearningTargets.length,
         pendingTopicsCount: currentState.pendingTopics.length,
         isLoadingSuggestedTopics: currentState.isLoadingSuggestedTopics,
         isConfirmingTopics: currentState.isConfirmingTopics,
         hasLoadingError: !!currentState.errorLoadingSuggestedTopics,
         hasConfirmingError: !!currentState.errorConfirmingTopics,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       set((state) => {
-        console.log('🔄 Tüm state değerleri sıfırlanıyor...');
+        console.log("🔄 Tüm state değerleri sıfırlanıyor...");
         state.suggestedNewTopics = [];
         state.selectedNewTopicsForConfirmation = [];
         state.confirmedNewLearningTargets = [];
@@ -302,60 +322,62 @@ export const useNewTopicsStore = create<NewTopicsStore>()(
         state.isConfirmingTopics = false;
         state.errorConfirmingTopics = null;
         state.pendingTopics = [];
-        console.log('✅ Tüm state değerleri sıfırlandı');
+        console.log("✅ Tüm state değerleri sıfırlandı");
       });
 
-      console.log('🎉 resetNewTopicsState TAMAMLANDI');
+      console.log("🎉 resetNewTopicsState TAMAMLANDI");
       console.groupEnd();
-    },    setPendingTopics: (topicNames: string[]) => {
-      console.group('📝 [NewTopicsStore] setPendingTopics - BAŞLADI');
-      console.log('📋 Parametreler:', {
+    },
+    setPendingTopics: (topicNames: string[]) => {
+      console.group("📝 [NewTopicsStore] setPendingTopics - BAŞLADI");
+      console.log("📋 Parametreler:", {
         topicNamesCount: topicNames.length,
         topicNames: topicNames,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       const currentState = get();
-      console.log('🔍 Mevcut pending topics:', {
+      console.log("🔍 Mevcut pending topics:", {
         currentPendingCount: currentState.pendingTopics.length,
-        currentPendingTopics: currentState.pendingTopics
+        currentPendingTopics: currentState.pendingTopics,
       });
 
       set((state) => {
-        console.log('🔄 Pending topics ayarlanıyor...');
-        state.pendingTopics = topicNames.map(name => ({
+        console.log("🔄 Pending topics ayarlanıyor...");
+        state.pendingTopics = topicNames.map((name) => ({
           name,
-          status: 'BEKLEMEDE' as const
+          status: "BEKLEMEDE" as const,
         }));
-        
-        console.log('✅ Yeni pending topics:', {
+
+        console.log("✅ Yeni pending topics:", {
           newPendingCount: state.pendingTopics.length,
-          newPendingTopics: state.pendingTopics
+          newPendingTopics: state.pendingTopics,
         });
       });
 
-      console.log('🎉 setPendingTopics TAMAMLANDI');
+      console.log("🎉 setPendingTopics TAMAMLANDI");
       console.groupEnd();
-    },    clearPendingTopics: () => {
-      console.group('🧹 [NewTopicsStore] clearPendingTopics - BAŞLADI');
-      
+    },
+    clearPendingTopics: () => {
+      console.group("🧹 [NewTopicsStore] clearPendingTopics - BAŞLADI");
+
       const currentState = get();
-      console.log('📋 Temizlenecek pending topics:', {
+      console.log("📋 Temizlenecek pending topics:", {
         currentPendingCount: currentState.pendingTopics.length,
         currentPendingTopics: currentState.pendingTopics,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       set((state) => {
-        console.log('🔄 Pending topics temizleniyor...');
+        console.log("🔄 Pending topics temizleniyor...");
         state.pendingTopics = [];
-        console.log('✅ Pending topics temizlendi');
+        console.log("✅ Pending topics temizlendi");
       });
 
-      console.log('🎉 clearPendingTopics TAMAMLANDI');
+      console.log("🎉 clearPendingTopics TAMAMLANDI");
       console.groupEnd();
-    }
-  }))
+    },
+  })),
 );
 
 // Selector hooks
@@ -365,11 +387,12 @@ const useNewTopicsLoading = () => {
 };
 
 const useNewTopicsErrors = () => {
-  const { errorLoadingSuggestedTopics, errorConfirmingTopics } = useNewTopicsStore();
+  const { errorLoadingSuggestedTopics, errorConfirmingTopics } =
+    useNewTopicsStore();
   return {
     loadingError: errorLoadingSuggestedTopics,
     confirmingError: errorConfirmingTopics,
-    hasError: !!(errorLoadingSuggestedTopics || errorConfirmingTopics)
+    hasError: !!(errorLoadingSuggestedTopics || errorConfirmingTopics),
   };
 };
 
@@ -379,6 +402,7 @@ const useSelectedTopicsCount = () => {
 };
 
 const useCanConfirmTopics = () => {
-  const { selectedNewTopicsForConfirmation, isConfirmingTopics } = useNewTopicsStore();
+  const { selectedNewTopicsForConfirmation, isConfirmingTopics } =
+    useNewTopicsStore();
   return selectedNewTopicsForConfirmation.length > 0 && !isConfirmingTopics;
 };

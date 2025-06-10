@@ -5,6 +5,7 @@
 ## Trace ID: quiz-1749578003103-f7e96
 
 ## Alt Konular (8 adet):
+
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
@@ -33,12 +34,13 @@
 ## Zorluk: mixed
 
 ## Tam Prompt:
+
 ```
 // ====================================================
 // ============ TEST SORULARI OLUŞTURMA PROMPT ============
 // ====================================================
 
-**📋 TEMEL GÖREV:** 
+**📋 TEMEL GÖREV:**
 Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeriğini derinlemesine analiz ederek, kaliteli ve içerik-odaklı test soruları oluşturacaksın.
 
 // ----------------------------------------------------
@@ -67,7 +69,7 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 3. Mikroservisler Ve Bulut Bilişim
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
-- **Eğitim İçeriği:** 
+- **Eğitim İçeriği:**
 
 
 BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
@@ -257,58 +259,60 @@ https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
 
 **📄 JSON FORMATI:**
 ```
+
 {
-  "questions": [
-    {
-      "id": "q1",
-      "questionText": "Soru metni?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
-      "correctAnswer": "Seçenek B",
-      "explanation": "Doğru cevabın açıklaması",
-      "subTopicName": "Nesne Yönelimli Programlama",
-      "normalizedSubTopicName": "nesne_yonelimli_programlama",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q2",
-      "questionText": "İkinci soru metni?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
-      "correctAnswer": "Seçenek A",
-      "explanation": "Doğru cevabın açıklaması",
-      "subTopicName": "Nesne Yönelimli Programlama",
-      "normalizedSubTopicName": "nesne_yonelimli_programlama",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "Üçüncü soru metni?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "applying",
-      "options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
-      "correctAnswer": "Seçenek C",
-      "explanation": "Doğru cevabın açıklaması",
-      "subTopicName": "Nesne Yönelimli Programlama",
-      "normalizedSubTopicName": "nesne_yonelimli_programlama",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q4",
-      "questionText": "Başka bir alt konudan soru?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "analyzing",
-      "options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
-      "correctAnswer": "Seçenek D",
-      "explanation": "Doğru cevabın açıklaması",
-      "subTopicName": "Algoritma Analizi",
-      "normalizedSubTopicName": "algoritma_analizi",
-      "difficulty": "hard"
-    }
-  ]
+"questions": [
+{
+"id": "q1",
+"questionText": "Soru metni?",
+"questionType": "multiple_choice",
+"cognitiveDomain": "remembering",
+"options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
+"correctAnswer": "Seçenek B",
+"explanation": "Doğru cevabın açıklaması",
+"subTopicName": "Nesne Yönelimli Programlama",
+"normalizedSubTopicName": "nesne_yonelimli_programlama",
+"difficulty": "medium"
+},
+{
+"id": "q2",
+"questionText": "İkinci soru metni?",
+"questionType": "multiple_choice",
+"cognitiveDomain": "understanding",
+"options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
+"correctAnswer": "Seçenek A",
+"explanation": "Doğru cevabın açıklaması",
+"subTopicName": "Nesne Yönelimli Programlama",
+"normalizedSubTopicName": "nesne_yonelimli_programlama",
+"difficulty": "easy"
+},
+{
+"id": "q3",
+"questionText": "Üçüncü soru metni?",
+"questionType": "multiple_choice",
+"cognitiveDomain": "applying",
+"options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
+"correctAnswer": "Seçenek C",
+"explanation": "Doğru cevabın açıklaması",
+"subTopicName": "Nesne Yönelimli Programlama",
+"normalizedSubTopicName": "nesne_yonelimli_programlama",
+"difficulty": "medium"
+},
+{
+"id": "q4",
+"questionText": "Başka bir alt konudan soru?",
+"questionType": "multiple_choice",
+"cognitiveDomain": "analyzing",
+"options": ["Seçenek A", "Seçenek B", "Seçenek C", "Seçenek D"],
+"correctAnswer": "Seçenek D",
+"explanation": "Doğru cevabın açıklaması",
+"subTopicName": "Algoritma Analizi",
+"normalizedSubTopicName": "algoritma_analizi",
+"difficulty": "hard"
 }
+]
+}
+
 ```
 
 // ----------------------------------------------------
@@ -343,8 +347,6 @@ https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
 // ====================================================
 ```
 
-
-
 ## İşlenen Sorular Analizi:
 
 - Toplam Soru Sayısı: 10
@@ -356,36 +358,39 @@ https://www.redhat.com/en/topics/cloud-native-apps/what-is-containerization
   - Taşınabilirlik Ve Uyumluluk: 2 soru
   - Hız Ve Verimlilik: 2 soru
 
-
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
 #### Konteynerizasyonun Tanımı Ve İ Şlevi:
+
 - Soru: Konteynerizasyonun temel amacı nedir?
 - Seçenekler: Uygulamaları sanal makinelerde çalıştırmak | Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak | İşletim sistemini güncellemek | Donanım kaynaklarını yönetmek
 - Doğru Cevap: Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak
 - Zorluk: easy
 
 #### Uygulama Ve Bağımlılık Paketleme:
+
 - Soru: Konteynerleştirme sürecinde uygulama ve bağımlılık paketleme ne anlama gelir?
 - Seçenekler: Uygulamanın sadece kaynak kodunun paketlenmesi | Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi | Uygulamanın sadece işletim sistemi ile paketlenmesi | Uygulamanın sadece kullanıcı arayüzünün paketlenmesi
 - Doğru Cevap: Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi
 - Zorluk: easy
 
 #### İ Zole Ortamda Çalıştırma:
+
 - Soru: Konteynerlerin izole ortamda çalıştırılması ne gibi avantajlar sağlar?
 - Seçenekler: Diğer uygulamalarla kaynak paylaşımını kolaylaştırır | Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır | İşletim sistemi güncellemelerini hızlandırır | Donanım maliyetlerini artırır
 - Doğru Cevap: Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır
 - Zorluk: medium
 
 #### Taşınabilirlik Ve Uyumluluk:
+
 - Soru: Konteynerlerin taşınabilirliği ve uyumluluğu ne anlama gelir?
 - Seçenekler: Sadece aynı işletim sisteminde çalışabilme | Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme | Sadece bulut ortamında çalışabilme | Sadece geliştirme ortamında çalışabilme
 - Doğru Cevap: Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme
 - Zorluk: easy
 
 #### Hız Ve Verimlilik:
+
 - Soru: Konteynerlerin hız ve verimlilik avantajları nelerdir?
 - Seçenekler: Sanal makinelere göre daha yavaş başlatılmaları ve daha fazla kaynak tüketmeleri | Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri | Sadece belirli donanımlarda verimli çalışabilmeleri | Geliştirme süreçlerini yavaşlatmaları
 - Doğru Cevap: Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri
 - Zorluk: easy
-
