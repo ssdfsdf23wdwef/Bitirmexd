@@ -1,14 +1,7 @@
 import { Request } from 'express';
 import { DecodedIdToken } from 'firebase-admin/auth';
-import { LoggerService } from '../services/logger.service';
 
-const logger = LoggerService.getInstance();
-logger.debug(
-  'RequestWithUser interface yükleniyor',
-  'interfaces.request-with-user',
-  __filename,
-  6,
-);
+
 
 /**
  * Kullanıcı bilgilerini içeren temel arayüz

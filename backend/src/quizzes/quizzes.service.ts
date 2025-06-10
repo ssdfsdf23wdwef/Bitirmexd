@@ -14,36 +14,23 @@ import { LearningTargetsService } from '../learning-targets/learning-targets.ser
 import { QuizAnalysisService } from './quiz-analysis.service';
 import { GenerateQuizDto, TopicDto } from './dto/generate-quiz.dto';
 import { SubmitQuizDto } from './dto/submit-quiz.dto';
-import { LearningTargetStatus } from '../learning-targets/interfaces/learning-target.interface';
-import { Quiz, AnalysisResult } from '../common/interfaces';
+import { 
+  LearningTargetStatus,
+  Quiz, 
+  AnalysisResult,
+  QuizQuestion,
+  CreateQuizParams,
+  SubtopicUpdate
+} from '../common/types/unified.types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { LoggerService, LogLevel } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
-import { QuizQuestion } from '../ai/interfaces';
 import { DocumentsService } from '../documents/documents.service';
 import { CoursesService } from '../courses/courses.service';
 import { NormalizationService } from '../shared/normalization/normalization.service';
 import * as fs from 'fs';
 import * as path from 'path';
-
-interface CreateQuizParams {
-  userId: string;
-  quizType: 'quick' | 'personalized';
-  personalizedQuizType?: string; // Yeni konular odaklı, zayıf konular odaklı gibi
-  courseId?: string;
-  sourceDocument?: {
-    documentId: string;
-    text: string;
-  };
-  subTopics: any[];
-  preferences: {
-    questionCount: number;
-    difficulty: string;
-    timeLimit?: number | null;
-    prioritizeWeakAndMediumTopics?: boolean;
-  };
-}
 
 @Injectable()
 export class QuizzesService {

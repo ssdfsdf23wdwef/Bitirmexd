@@ -333,11 +333,6 @@ export class CoursesController {
     try {
       return this.coursesService.remove(id, req.user.uid);
     } catch (error) {
-      this.logger.logError(error, 'CoursesController.remove', {
-        userId: req.user.uid,
-        courseId: id,
-        additionalInfo: 'Ders silinirken hata oluştu',
-      });
       throw error;
     }
   }

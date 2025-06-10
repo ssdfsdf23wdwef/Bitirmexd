@@ -26,10 +26,13 @@ import {
 } from '@nestjs/swagger';
 import { QuizzesService } from './quizzes.service';
 import { FirebaseGuard } from '../auth/firebase/firebase.guard';
-import { Quiz, QuizSummary } from '../common/types/quiz.type';
+import { 
+  Quiz, 
+  QuizSummary, 
+  FailedQuestion, 
+  RequestWithUser 
+} from '../common/types/unified.types';
 import { SubmitQuizDto } from './dto/submit-quiz.dto';
-import { FailedQuestion } from '../common/types/question.type';
-import { RequestWithUser } from '../common/types/request.type';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';

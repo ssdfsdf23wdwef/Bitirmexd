@@ -13,93 +13,28 @@ import {
 } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
 import { CreateCourseDto, UpdateCourseDto } from './dto';
-import { Course } from '../common/types/course.type';
-import { LearningTarget } from '../common/types/learning-target.type';
-import { Document } from '../common/types/document.type';
-import { Quiz } from '../common/types/quiz.type';
+import { 
+  Course,
+  LearningTarget,
+  Document,
+  Quiz,
+  DashboardQuiz,
+  LearningTargetAnalysis,
+  StatusDistribution,
+  TargetProgress,
+  DashboardData,
+  RelatedItemsCount
+} from '../common/types/unified.types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { cascadeDelete } from '../common/utils/firestore.utils';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 
-// Course ve LearningTarget tipleri artık types klasöründen import ediliyor
-
 // CourseWithRelations tipi
 type CourseWithRelations = Course & {
   learningTargets: LearningTarget[];
 };
-
-// Belge tipi artık types klasöründen import ediliyor
-
-// Panel sınav tipi
-interface DashboardQuiz {
-  id: string;
-  date: Date;
-  score: number;
-  quizType: string | null;
-}
-
-// Öğrenme hedefi analizi tipi
-interface LearningTargetAnalysis {
-  id: string;
-  subTopicName: string;
-  status: string;
-  failCount: number;
-  mediumCount: number;
-  successCount: number;
-  lastAttempt: Date | null;
-  lastAttemptScorePercent: number | null;
-  firstEncountered: Date;
-}
-
-// Durum dağılımı tipi
-interface StatusDistribution {
-  pending: number;
-  failed: number;
-  medium: number;
-  mastered: number;
-  total: number;
-}
-
-// Hedef ilerleme tipi
-interface TargetProgress {
-  targetId: string;
-  subTopicName: string;
-  currentStatus: string;
-  progressData: Array<{
-    date: Date;
-    score: number;
-    status: string;
-  }>;
-}
-
-// Panel veri tipi
-interface DashboardData {
-  courseId: string;
-  overallProgress: StatusDistribution;
-  recentQuizzes: Array<{
-    id: string;
-    timestamp: string;
-    score: number;
-    totalQuestions: number;
-  }>;
-  progressByTopic: Array<{
-    subTopic: string;
-    status: string;
-    scorePercent: number;
-  }>;
-}
-
-// İlişkili öğe sayıları tipi
-interface RelatedItemsCount {
-  courseId: string;
-  learningTargets: number;
-  quizzes: number;
-  failedQuestions: number;
-  documents: number;
-  total: number;
-}
 
 @Injectable()
 export class CoursesService {
@@ -111,11 +46,7 @@ export class CoursesService {
     this.flowTracker = FlowTrackerService.getInstance();
   }
 
-  /**
-   * Tüm kursları getirir
-   * @param userId Kullanıcı ID'si
-   * @returns Kullanıcıya ait kursların listesi
-   */
+
   @LogMethod({ trackParams: true })
   async findAll(userId: string): Promise<Course[]> {
     try {
@@ -706,7 +637,7 @@ export class CoursesService {
 
       // 3. Alt konu bazlı ilerleme durumunu hesapla
       const progressByTopic = learningTargets.map((target) => ({
-        subTopic: target.topicName, // Using topicName instead of subTopicName
+        subTopic: target.subTopicName, // Using subTopicName from unified types
         status: target.status,
         scorePercent: (target as any).lastAttemptScorePercent || 0, // Using type assertion for optional property
       }));

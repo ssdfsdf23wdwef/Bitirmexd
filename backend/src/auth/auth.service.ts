@@ -10,7 +10,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { UserRefreshToken } from '../common/types/user-refresh-token.type';
+import { UserRefreshToken } from '../common/types/unified.types';
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 import * as admin from 'firebase-admin';
