@@ -1038,34 +1038,38 @@ export default function ExamCreationWizard({
   // Adım 3 (ya da son adım): Tercihler
   const renderPreferencesStep = () => {
     return (
-      <div className="flex flex-col space-y-8">
-        <div className="flex flex-col space-y-4">
-          <h2 className="text-xl font-bold">Sınav Tercihleri</h2>
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <h2 className={`text-xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+            Sınav Tercihleri
+          </h2>
           
           {/* Seçilen konu ve dosya bilgileri */}
-          <div className={`${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} p-4 rounded-md border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'}`}>
-            <h3 className="font-semibold mb-2">Sınav İçeriği</h3>
+          <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+            <h3 className={`font-medium mb-3 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+              Sınav İçeriği
+            </h3>
             
-            <div className="flex flex-wrap gap-2 mb-2">
-              <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Belge:</span>
-                <span className="text-gray-600 dark:text-gray-300">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="font-medium text-gray-500 dark:text-gray-400">Belge:</span>
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {selectedFile ? selectedFile.name : (documentTextContent ? 'Metin içeriği' : 'Belge yok')}
-                </span>
+                </p>
               </div>
               
-              <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Seçili Konu Sayısı:</span>
-                <span className="text-gray-600 dark:text-gray-300">
+              <div>
+                <span className="font-medium text-gray-500 dark:text-gray-400">Seçili Konular:</span>
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {selectedTopicsList.length} konu
-                </span>
+                </p>
               </div>
               
-              <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Belge Metni:</span>
-                <span className={`${documentTextContent ? (isDarkMode ? 'text-green-400' : 'text-green-600') : (isDarkMode ? 'text-red-400' : 'text-red-600')}`}>
-                  {documentTextContent ? `Yüklendi (${documentTextContent.length} karakter)` : 'Yüklenmedi'}
-                </span>
+              <div>
+                <span className="font-medium text-gray-500 dark:text-gray-400">Durum:</span>
+                <p className={`${documentTextContent ? (isDarkMode ? 'text-green-400' : 'text-green-600') : (isDarkMode ? 'text-red-400' : 'text-red-600')}`}>
+                  {documentTextContent ? `Hazır (${documentTextContent.length} karakter)` : 'Yüklenmedi'}
+                </p>
               </div>
             </div>
             
@@ -1120,54 +1124,53 @@ export default function ExamCreationWizard({
             )}
           </div>
 
-          {/* Soru sayısı seçimi ve diğer tercihler - Modern glass styling */}
-          <div className="space-y-8 mt-4">
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 dark:from-blue-300 dark:to-indigo-400">
-                Sınav Parametreleri
-              </h3>
-              <div className="h-0.5 w-24 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4 opacity-80"></div>
-            </div>
+          {/* Sınav Parametreleri */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+              Sınav Parametreleri
+            </h3>
             
-            <div className={`backdrop-blur-sm ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/90 border-gray-100'} border rounded-xl p-6 shadow-sm`}>
+            <div className={`p-6 rounded-lg border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
               <div className="space-y-6">
-                <div className="mb-4">
-              <label
-                htmlFor="questionCount"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-              >
-                Soru Sayısı
-              </label>
-              <div className="flex items-center">
-                <input
-                  type="range"
-                  id="questionCount"
-                  min="5"
-                  max={quizType === "quick" ? 20 : 30}
-                  step="1"
-                  value={preferences.questionCount}
-                  onChange={(e) =>
-                    handlePreferenceChange(
-                      "questionCount",
-                      parseInt(e.target.value),
-                    )
-                  }
-                  className={`w-full h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-lg appearance-none cursor-pointer ${isDarkMode ? 'accent-blue-400' : 'accent-blue-600'}`}
-                />
-                <span className={`w-12 text-center text-sm font-medium ${isDarkMode ? 'text-gray-200 bg-gray-800' : 'text-gray-800 bg-gray-100'} ml-4 px-2 py-0.5 rounded`}>
-                  {preferences.questionCount}
-                </span>
-              </div>
-              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
-                {quizType === "quick" ? "5-20 arası." : "5-30 arası."} Daha
-                fazla soru, daha detaylı analiz sağlar.
-              </p>
-            </div>
+                {/* Soru Sayısı */}
+                <div>
+                  <label
+                    htmlFor="questionCount"
+                    className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                  >
+                    Soru Sayısı
+                  </label>
+                  <div className="flex items-center">
+                    <input
+                      type="range"
+                      id="questionCount"
+                      min="5"
+                      max={quizType === "quick" ? 20 : 30}
+                      step="1"
+                      value={preferences.questionCount}
+                      onChange={(e) =>
+                        handlePreferenceChange(
+                          "questionCount",
+                          parseInt(e.target.value),
+                        )
+                      }
+                      className={`w-full h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-lg appearance-none cursor-pointer ${isDarkMode ? 'accent-blue-400' : 'accent-blue-600'}`}
+                    />
+                    <span className={`w-12 text-center text-sm font-medium ${isDarkMode ? 'text-gray-200 bg-gray-700' : 'text-gray-800 bg-gray-100'} ml-4 px-2 py-0.5 rounded`}>
+                      {preferences.questionCount}
+                    </span>
+                  </div>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
+                    {quizType === "quick" ? "5-20 arası." : "5-30 arası."} Daha
+                    fazla soru, daha detaylı analiz sağlar.
+                  </p>
+                </div>
 
-                <div className="mb-6">
+                {/* Zorluk Seviyesi */}
+                <div>
                   <label
                     htmlFor="difficulty"
-                    className={`block text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r ${isDarkMode ? 'from-blue-300 to-indigo-300' : 'from-blue-700 to-indigo-700'} mb-2`}
+                    className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
                   >
                     Zorluk Seviyesi
                   </label>
@@ -1184,38 +1187,34 @@ export default function ExamCreationWizard({
                           | "mixed",
                       )
                     }
-                    className={`w-full px-3 py-2.5 border ${isDarkMode ? 'border-gray-700/30 bg-gray-800/40 text-gray-200' : 'border-gray-200/80 bg-white/70 text-gray-800'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400/60 text-sm backdrop-blur-sm shadow-sm`}
+                    className={`w-full px-3 py-2.5 border ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-300 bg-white text-gray-900'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm`}
                   >
                     <option value="easy">Kolay</option>
                     <option value="medium">Orta</option>
                     <option value="hard">Zor</option>
                     <option value="mixed">Karışık (Önerilen)</option>
                   </select>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 italic">
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
                     Sınavdaki soruların zorluk seviyesini belirler.
-              </p>
-            </div>
+                  </p>
+                </div>
 
-                <div className="mb-2">
-                  <label className={`block text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r ${isDarkMode ? 'from-blue-300 to-indigo-300' : 'from-blue-700 to-indigo-700'} mb-2`}>
+                {/* Zaman Sınırı */}
+                <div>
+                  <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Zaman Sınırı
                   </label>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
-                      <div className="relative">
-                        <input
-                          type="checkbox"
-                          id="useTimeLimit"
-                          checked={useTimeLimit}
-                          onChange={(e) =>
-                            handleUseTimeLimitChange(e.target.checked)
-                          }
-                          className={`h-4 w-4 ${isDarkMode ? 'text-blue-400 border-gray-600' : 'text-blue-600 border-gray-300'} rounded focus:ring-blue-500 focus:ring-offset-1 relative z-10`}
-                        />
-                        {useTimeLimit && (
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded animate-pulse"></div>
-                        )}
-                      </div>
+                      <input
+                        type="checkbox"
+                        id="useTimeLimit"
+                        checked={useTimeLimit}
+                        onChange={(e) =>
+                          handleUseTimeLimitChange(e.target.checked)
+                        }
+                        className={`h-4 w-4 ${isDarkMode ? 'text-blue-400 border-gray-600' : 'text-blue-600 border-gray-300'} rounded focus:ring-blue-500`}
+                      />
                       <label
                         htmlFor="useTimeLimit"
                         className={`ml-2 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium`}
@@ -1224,34 +1223,26 @@ export default function ExamCreationWizard({
                       </label>
                     </div>
                     {useTimeLimit && (
-                      <motion.div
-                        initial={{ opacity: 0, width: 0 }}
-                        animate={{ opacity: 1, width: "auto" }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="flex items-center overflow-hidden"
-                      >
-                        <div className="relative">
-                          <input
-                            type="number"
-                            id="timeLimitInput"
-                            min="1"
-                            max="180"
-                            value={preferences.timeLimit || ""}
-                            onChange={(e) =>
-                              handleTimeLimitInputChange(e.target.value)
-                            }
-                            className={`w-20 px-3 py-1.5 border ${isDarkMode ? 'border-gray-700/30 bg-gray-800/40 text-gray-200' : 'border-gray-200/80 bg-white/70 text-gray-800'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400/60 text-sm backdrop-blur-sm shadow-sm`}
-                            placeholder="örn: 30"
-                          />
-                          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/5 to-indigo-500/5 pointer-events-none"></div>
-                        </div>
+                      <div className="flex items-center">
+                        <input
+                          type="number"
+                          id="timeLimitInput"
+                          min="1"
+                          max="180"
+                          value={preferences.timeLimit || ""}
+                          onChange={(e) =>
+                            handleTimeLimitInputChange(e.target.value)
+                          }
+                          className={`w-20 px-3 py-1.5 border ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-300 bg-white text-gray-900'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm`}
+                          placeholder="örn: 30"
+                        />
                         <span className={`ml-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} font-medium`}>
                           dakika
                         </span>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 italic">
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
                     Sınav için bir süre belirleyebilirsiniz.
                   </p>
                 </div>
@@ -1260,6 +1251,8 @@ export default function ExamCreationWizard({
           </div>
         </div>
       </div>
+          
+
    
  
     );
@@ -1318,22 +1311,17 @@ export default function ExamCreationWizard({
                   </p>
                 )}
                 
-                {/* Konu tespiti yüklenme durumu - modern glass effect */}
+                {/* Konu tespiti yüklenme durumu */}
                 {topicDetectionStatus === "loading" && (
-                  <div className={`mt-6 p-5 backdrop-blur-sm ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/80 border-gray-100'} border rounded-xl shadow-sm relative overflow-hidden`}>
-                    {/* Animated gradient background */}
-                    <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-blue-900/20 to-indigo-900/20' : 'from-blue-50 to-indigo-50'} -z-10 animate-pulse`}></div>
-                    
-                    <div className="flex items-center justify-center">
-                      <div className={`flex items-center justify-center h-8 w-8 rounded-full ${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'} mr-3`}>
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 dark:border-blue-400 border-b-transparent"></div>
-                      </div>
-                      <p className={`${isDarkMode ? 'text-blue-300' : 'text-blue-700'} text-sm font-medium`}>
+                  <div className={`mt-6 p-4 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'} border rounded-lg`}>
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-b-transparent mr-3"></div>
+                      <p className={`${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-sm font-medium`}>
                         Belge içeriği analiz ediliyor ve konular tespit ediliyor...
                       </p>
                     </div>
-                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-3 text-center`}>
-                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir. Lütfen bekleyin.
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
+                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
                     </p>
                   </div>
                 )}
@@ -1349,16 +1337,17 @@ export default function ExamCreationWizard({
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} mb-4`}>
+                  2. Konu Seçimi
+                </h3>
+                
                 {quizType === "personalized" && (
                   <>
                     <div className="mb-6">
-                      <h3 className="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 dark:from-blue-300 dark:to-indigo-400">
-                        2. Sınav Odağı ve Konu Seçimi
-                      </h3>
-                      <div className="h-0.5 w-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4 opacity-80"></div>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Sınav için kullanılacak konuları seçin.
+                      </p>
                     </div>
-                    
-                 
                   </>
                 )}
 
@@ -1412,48 +1401,42 @@ export default function ExamCreationWizard({
             )}
           </AnimatePresence>
 
-          {/* Navigation Buttons with modern styling */}
+          {/* Navigation Buttons */}
           <div className="flex justify-between mt-6">
-            {/* Back button with subtle glass effect */}
+            {/* Back button */}
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
-              className={`px-5 py-2.5 rounded-xl flex items-center text-sm font-medium transition-all duration-300 backdrop-blur-sm relative ${currentStep === 1
-                ? `${isDarkMode ? 'text-gray-600' : 'text-gray-400'} cursor-not-allowed opacity-50`
-                : `${isDarkMode ? 'text-gray-300 bg-gray-800/30 hover:text-blue-400 hover:bg-gray-800/50' : 'text-gray-700 bg-white/50 hover:text-blue-600 hover:bg-white/80'} shadow-sm hover:shadow`}`}
+              className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-colors ${currentStep === 1
+                ? `${isDarkMode ? 'text-gray-600' : 'text-gray-400'} cursor-not-allowed`
+                : `${isDarkMode ? 'text-gray-300 bg-gray-800 hover:bg-gray-700' : 'text-gray-700 bg-gray-100 hover:bg-gray-200'}`}`}
             >
-              <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${isDarkMode ? 'from-gray-800 to-gray-900' : 'from-gray-100 to-gray-50'} opacity-0 ${currentStep !== 1 ? "group-hover:opacity-10" : ""} -z-10`}></div>
               <FiArrowLeft className="mr-2" size={16} /> Geri
             </button>
 
-            {/* Next/Submit button with gradient */}
+            {/* Next/Submit button */}
             <button
               onClick={nextStep}
-              className={`px-6 py-2.5 text-white font-medium rounded-xl text-sm flex items-center transition-all duration-300 shadow-sm hover:shadow relative overflow-hidden ${(currentStep === 1 && uploadStatus !== "success") || topicDetectionStatus === "loading" || quizCreationLoading
-                ? "opacity-70 cursor-not-allowed bg-indigo-500"
-                : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700"}`}
+              className={`px-6 py-2 text-white font-medium rounded-lg text-sm flex items-center transition-colors ${(currentStep === 1 && uploadStatus !== "success") || topicDetectionStatus === "loading" || quizCreationLoading
+                ? "opacity-70 cursor-not-allowed bg-blue-400"
+                : "bg-blue-600 hover:bg-blue-700"}`}
               disabled={
                 (currentStep === 1 && uploadStatus !== "success") || // İlk adımda yükleme bitmeden ilerlemeyi engelle
                 topicDetectionStatus === "loading" || // Konu tespiti devam ederken ilerlemeyi engelle
                 quizCreationLoading // Sınav oluşturma devam ederken butonu devre dışı bırak
               }
             >
-              {/* Subtle animated glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-              
-              <span className="relative z-10 flex items-center">
-                {currentStep === totalSteps 
-                  ? quizCreationLoading 
-                    ? "Sınav Oluşturuluyor..."
-                    : "Sınavı Oluştur" 
-                  : "Devam Et"
-                }{" "}
-                {topicDetectionStatus === "loading" || quizCreationLoading ? (
-                  <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
-                ) : (
-                  <FiArrowRight className="ml-2" size={16} />
-                )}
-              </span>
+              {currentStep === totalSteps 
+                ? quizCreationLoading 
+                  ? "Sınav Oluşturuluyor..."
+                  : "Sınavı Oluştur" 
+                : "Devam Et"
+              }{" "}
+              {topicDetectionStatus === "loading" || quizCreationLoading ? (
+                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
+              ) : (
+                <FiArrowRight className="ml-2" size={16} />
+              )}
             </button>
           </div>
         </ExamCreationProgress>

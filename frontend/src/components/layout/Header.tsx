@@ -161,62 +161,24 @@ const HeaderComponent: React.FC<HeaderProps> = () => {
                           </p>
                         )}
                       </div>
-                      <nav className="py-2">
+                      <nav className="py-1">
                         <Link href="/profile" prefetch={true}>
-                          <motion.div 
-                            whileHover={{ x: 4 }}
-                            className={`flex items-center px-4 py-3 text-sm cursor-pointer transition-all duration-200 hover:backdrop-blur-sm ${
-                              isDarkMode 
-                                ? 'text-slate-200 hover:bg-slate-700/40 hover:text-white' 
-                                : 'text-gray-700 hover:bg-gray-100/60 hover:text-gray-900'
-                            }`}
-                          >
-                            <div className={`p-1.5 rounded-lg mr-3 ${
-                              isDarkMode ? 'bg-blue-500/20' : 'bg-blue-100/80'
-                            }`}>
-                              <FiUser className={`text-sm ${
-                                isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                              }`} />
-                            </div>
+                          <div className="flex items-center px-4 py-2.5 text-sm text-primary hover:bg-interactive-hover cursor-pointer transition-colors">
+                            <FiUser className="mr-3 text-secondary" />
                             Profil
-                          </motion.div>
-                        </Link>
-                        <Link href="/settings" prefetch={true}>
-                          <motion.div 
-                            whileHover={{ x: 4 }}
-                            className={`flex items-center px-4 py-3 text-sm cursor-pointer transition-all duration-200 hover:backdrop-blur-sm ${
-                              isDarkMode 
-                                ? 'text-slate-200 hover:bg-slate-700/40 hover:text-white' 
-                                : 'text-gray-700 hover:bg-gray-100/60 hover:text-gray-900'
-                            }`}
-                          >
-                            <div className={`p-1.5 rounded-lg mr-3 ${
-                              isDarkMode ? 'bg-purple-500/20' : 'bg-purple-100/80'
-                            }`}>
-                              <FiSettings className={`text-sm ${
-                                isDarkMode ? 'text-purple-400' : 'text-purple-600'
-                              }`} />
-                            </div>
-                            Ayarlar
-                          </motion.div>
-                        </Link>
-                        <div className={`my-2 border-t ${
-                          isDarkMode ? 'border-slate-700/30' : 'border-gray-200/30'
-                        }`} />
-                        <motion.button 
-                          onClick={handleLogout}
-                          whileHover={{ x: 4 }}
-                          className={`w-full flex items-center px-4 py-3 text-sm cursor-pointer transition-all duration-200 hover:backdrop-blur-sm ${
-                            isDarkMode 
-                              ? 'text-red-400 hover:bg-red-500/20 hover:text-red-300' 
-                              : 'text-red-600 hover:bg-red-50/80 hover:text-red-700'
-                          }`}
-                        >
-                          <div className={`p-1.5 rounded-lg mr-3 ${
-                            isDarkMode ? 'bg-red-500/20' : 'bg-red-100/80'
-                          }`}>
-                            <FiLogOut className="text-sm" />
                           </div>
+                        </Link>
+                        <Link href="/theme-settings" prefetch={true}>
+                          <div className="flex items-center px-4 py-2.5 text-sm text-primary hover:bg-interactive-hover cursor-pointer transition-colors">
+                            <FiSettings className="mr-3 text-secondary" />
+                            Tema Ayarları
+                          </div>
+                        </Link>
+                        <button 
+                          onClick={handleLogout}
+                          className="w-full flex items-center px-4 py-2.5 text-sm text-primary hover:bg-interactive-hover cursor-pointer transition-colors"
+                        >
+                          <FiLogOut className="mr-3 text-state-error" />
                           Çıkış Yap
                         </button>
                       </nav>

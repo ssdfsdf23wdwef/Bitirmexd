@@ -78,7 +78,7 @@ export default function ExamCreationWizard({
   const router = useRouter();
   
   // Authentication state
-  const { user, token, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);
@@ -1807,13 +1807,13 @@ export default function ExamCreationWizard({
   // Adım 3 (ya da son adım): Tercihler
   const renderPreferencesStep = () => {
     return (
-      <div className="flex flex-col space-y-8">
+      <div className="flex flex-col space-y-6">
         <div className="flex flex-col space-y-4">
-          <h2 className="text-xl font-bold">Sınav Tercihleri</h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Sınav Tercihleri</h2>
           
           {/* Seçilen konu ve dosya bilgileri */}
-          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md">
-            <h3 className="font-semibold mb-2">Sınav İçeriği</h3>
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">Sınav İçeriği</h3>
             
             <div className="flex flex-wrap gap-2 mb-2">
               <div className="flex items-center text-sm">
@@ -1840,7 +1840,7 @@ export default function ExamCreationWizard({
             
             {/* Belge metni durumu bildirimi */}
             {!documentTextContent && uploadedDocumentId && (
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-3 rounded mt-2 text-sm">
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-3 rounded-lg mt-3 text-sm">
                 <p className="text-yellow-800 dark:text-yellow-200 font-medium">Belge metni henüz yüklenmedi!</p>
                 <p className="text-yellow-700 dark:text-yellow-300 mt-1">
                   Sınav oluşturmak için belge metni gereklidir. Lütfen şunları deneyin:
@@ -1872,7 +1872,7 @@ export default function ExamCreationWizard({
                         toast.error("Belge metni yüklenirken hata oluştu!");
                       }
                     }}
-                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center space-x-1"
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg flex items-center space-x-1 transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -1885,7 +1885,7 @@ export default function ExamCreationWizard({
             
             {/* Hata mesajı */}
             {errorMessage && (
-              <div className="bg-red-50 text-red-700 p-2 rounded mt-2 text-sm">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 p-3 rounded-lg mt-3 text-sm">
                 {errorMessage}
               </div>
             )}
@@ -1914,9 +1914,9 @@ export default function ExamCreationWizard({
                       parseInt(e.target.value),
                     )
                   }
-                  className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-500"
+                  className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-500"
                 />
-                <span className="w-12 text-center text-sm font-medium text-gray-700 dark:text-gray-300 ml-4 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
+                <span className="w-12 text-center text-sm font-medium text-gray-700 dark:text-gray-300 ml-4 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg">
                   {preferences.questionCount}
                 </span>
               </div>
@@ -1946,7 +1946,7 @@ export default function ExamCreationWizard({
                       | "mixed",
                   )
                 }
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               >
                 <option value="easy">Kolay</option>
                 <option value="medium">Orta</option>
@@ -1971,7 +1971,7 @@ export default function ExamCreationWizard({
                     onChange={(e) =>
                       handleUseTimeLimitChange(e.target.checked)
                     }
-                    className="h-4 w-4 text-indigo-600 rounded border-gray-300 dark:border-gray-600 focus:ring-indigo-500"
+                    className="h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-600 focus:ring-blue-500"
                   />
                   <label
                     htmlFor="useTimeLimit"
@@ -1996,7 +1996,7 @@ export default function ExamCreationWizard({
                       onChange={(e) =>
                         handleTimeLimitInputChange(e.target.value)
                       }
-                      className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm"
+                      className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
                       placeholder="örn: 30"
                     />
                     <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
@@ -2058,7 +2058,7 @@ export default function ExamCreationWizard({
                       <select
                         value={selectedCourseId}
                         onChange={handleCourseChange}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">Ders seçin</option>
                         {courses.map((course) => (
@@ -2070,7 +2070,7 @@ export default function ExamCreationWizard({
                       
                       <button 
                         type="button"
-                        className="w-full py-2 px-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full py-2 px-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onClick={() => setShowNewCourseForm(true)}
                       >
                         <span className="flex items-center justify-center">
@@ -2105,14 +2105,14 @@ export default function ExamCreationWizard({
                       <input 
                         type="text" 
                         placeholder="Ders adı girin" 
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={newCourseName}
                         onChange={(e) => setNewCourseName(e.target.value)}
                         autoFocus
                       />
                       <button
                         type="button"
-                        className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={handleCreateCourse}
                         disabled={!newCourseName.trim() || creatingCourse}
                       >
@@ -2151,11 +2151,11 @@ export default function ExamCreationWizard({
               <div className="grid grid-cols-1 gap-4 mb-6">
                 {/* Zayif Konular */}
                 <div 
-                  className={`p-4 border rounded-lg cursor-pointer transition-all ${personalizedQuizType === "weakTopicFocused" ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700"}`}
+                  className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "weakTopicFocused" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("weakTopicFocused")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${personalizedQuizType === "weakTopicFocused" ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-300" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "weakTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
                       <FiTarget className="w-5 h-5" />
                     </div>
                     <div>
@@ -2168,11 +2168,11 @@ export default function ExamCreationWizard({
             
                 {/* Yeni Konular */}
                 <div 
-                  className={`p-4 border rounded-lg cursor-pointer transition-all ${personalizedQuizType === "newTopicFocused" ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700"}`}
+                  className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "newTopicFocused" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("newTopicFocused")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${personalizedQuizType === "newTopicFocused" ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-300" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "newTopicFocused" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
                       <FiZap className="w-5 h-5" />
                     </div>
                     <div>
@@ -2184,11 +2184,11 @@ export default function ExamCreationWizard({
 
                 {/* Kapsamlı */}
                 <div 
-                  className={`p-4 border rounded-lg cursor-pointer transition-all ${personalizedQuizType === "comprehensive" ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700"}`}
+                  className={`p-4 border rounded-lg cursor-pointer transition-colors ${personalizedQuizType === "comprehensive" ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"}`}
                   onClick={() => setPersonalizedQuizType("comprehensive")}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${personalizedQuizType === "comprehensive" ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-300" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${personalizedQuizType === "comprehensive" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"}`}>
                       <FiTarget className="w-5 h-5" />
                     </div>
                     <div>
@@ -2233,7 +2233,7 @@ export default function ExamCreationWizard({
               
               {/* Konu tespiti yüklenme durumu */}
               {topicDetectionStatus === "loading" && (
-                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-md">
+                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg">
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
                     <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
@@ -2272,19 +2272,16 @@ export default function ExamCreationWizard({
                     <div className="grid grid-cols-1 gap-3">
                       {/* Zayıf/Orta Odaklı Sınav */}
                       <div
-                        className={`
-                          flex items-center border rounded-lg p-4 cursor-pointer transition-all duration-200 ease-in-out
-                          ${
+                        className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
                             personalizedQuizType === "weakTopicFocused"
-                              ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700 ring-1 ring-indigo-500/50 shadow-sm"
+                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
                               : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }
-                        `}
+                          }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("weakTopicFocused")
                         }
                       >
-                        <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-red-600 dark:text-red-400">
+                        <div className="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-red-600 dark:text-red-400">
                           <FiZap />
                         </div>
                         <div>
@@ -2299,19 +2296,16 @@ export default function ExamCreationWizard({
 
                       {/* Öğrenme Hedefi Odaklı Sınav */}
                       <div
-                        className={`
-                          flex items-center border rounded-lg p-4 cursor-pointer transition-all duration-200 ease-in-out
-                          ${
+                        className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
                             personalizedQuizType === "learningObjectiveFocused"
-                              ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700 ring-1 ring-indigo-500/50 shadow-sm"
+                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
                               : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }
-                        `}
+                          }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("learningObjectiveFocused")
                         }
                       >
-                        <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-green-600 dark:text-green-400">
+                        <div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-green-600 dark:text-green-400">
                           <FiTarget />
                         </div>
                         <div>
@@ -2326,19 +2320,16 @@ export default function ExamCreationWizard({
 
                       {/* Yeni Konu Odaklı Sınav */}
                       <div
-                        className={`
-                          flex items-center border rounded-lg p-4 cursor-pointer transition-all duration-200 ease-in-out
-                          ${
+                        className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
                             personalizedQuizType === "newTopicFocused"
-                              ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700 ring-1 ring-indigo-500/50 shadow-sm"
+                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
                               : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }
-                        `}
+                          }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("newTopicFocused")
                         }
                       >
-                        <div className="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-yellow-600 dark:text-yellow-400">
+                        <div className="w-8 h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-yellow-600 dark:text-yellow-400">
                           <FiZap />
                         </div>
                         <div>
@@ -2353,19 +2344,16 @@ export default function ExamCreationWizard({
 
                       {/* Kapsamlı Sınav */}
                       <div
-                        className={`
-                          flex items-center border rounded-lg p-4 cursor-pointer transition-all duration-200 ease-in-out
-                          ${
+                        className={`flex items-center border rounded-lg p-4 cursor-pointer transition-colors ${
                             personalizedQuizType === "comprehensive"
-                              ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700 ring-1 ring-indigo-500/50 shadow-sm"
+                              ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700"
                               : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
-                          }
-                        `}
+                          }`}
                         onClick={() =>
                           handlePersonalizedQuizTypeSelect("comprehensive")
                         }
                       >
-                        <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-blue-600 dark:text-blue-400">
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3 flex-shrink-0 text-blue-600 dark:text-blue-400">
                           <FiAward />
                         </div>
                         <div>
@@ -2387,7 +2375,7 @@ export default function ExamCreationWizard({
              
 
                 {personalizedQuizType === "weakTopicFocused" ? (
-                  <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-md text-yellow-800 dark:text-yellow-200">
+                  <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg text-yellow-800 dark:text-yellow-200">
                     <p className="text-sm font-medium">Bilgi:</p>
                     <p className="text-sm">
                       Zayıf/Orta Odaklı Sınav seçildiğinde, durumu
@@ -2520,7 +2508,7 @@ export default function ExamCreationWizard({
           <button
             onClick={prevStep}
             disabled={currentStep === 1}
-            className={`px-4 py-2 rounded-md flex items-center text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+            className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
               currentStep === 1
                 ? "text-gray-400 dark:text-gray-600"
                 : "text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
@@ -2531,7 +2519,7 @@ export default function ExamCreationWizard({
 
           <button
             onClick={nextStep}
-            className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md text-sm flex items-center transition-colors shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm flex items-center transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={
               // Adım 1: Kişiselleştirilmiş sınav için ders seçilmemişse butonu devre dışı bırak
               (currentStep === 1 && quizType === "personalized" && !selectedCourseId) ||

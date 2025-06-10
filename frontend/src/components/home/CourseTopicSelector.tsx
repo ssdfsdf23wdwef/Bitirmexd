@@ -39,16 +39,40 @@ const CourseTopicSelector: React.FC<CourseTopicSelectorProps> = ({
   const { isDarkMode } = useTheme();
   
   return (
-  <div className={`mb-8 rounded-2xl p-6 relative overflow-hidden backdrop-blur-lg border ${isDarkMode ? 'bg-gray-900/70 border-gray-700/40 shadow-2xl shadow-gray-950/30' : 'bg-white/80 border-gray-200/50 shadow-2xl shadow-gray-300/40'}`}>
-    {/* Decorative gradient accent */}
-    <div className={`absolute left-0 top-0 w-full h-1.5 bg-gradient-to-r ${isDarkMode ? 'from-blue-600 via-indigo-600 to-purple-600' : 'from-blue-500 via-indigo-500 to-purple-500'} opacity-90`}></div>
+  <div className={`mb-8 rounded-3xl p-8 relative overflow-hidden backdrop-blur-xl border transition-all duration-500 ${isDarkMode ? 'bg-gradient-to-br from-slate-800/80 via-slate-700/70 to-slate-800/80 border-slate-600/30 shadow-2xl shadow-slate-950/40' : 'bg-gradient-to-br from-white/90 via-blue-50/80 to-white/90 border-gray-200/40 shadow-2xl shadow-gray-900/10'}`}>
+    {/* Enhanced Decorative gradient accent with animation */}
+    <motion.div 
+      className={`absolute left-0 top-0 w-full h-2 bg-gradient-to-r ${isDarkMode ? 'from-blue-500 via-indigo-500 to-purple-500' : 'from-blue-400 via-indigo-400 to-purple-400'} opacity-90`}
+      animate={{
+        background: [
+          'linear-gradient(90deg, rgb(59,130,246) 0%, rgb(99,102,241) 50%, rgb(168,85,247) 100%)',
+          'linear-gradient(90deg, rgb(168,85,247) 0%, rgb(59,130,246) 50%, rgb(99,102,241) 100%)',
+          'linear-gradient(90deg, rgb(99,102,241) 0%, rgb(168,85,247) 50%, rgb(59,130,246) 100%)',
+          'linear-gradient(90deg, rgb(59,130,246) 0%, rgb(99,102,241) 50%, rgb(168,85,247) 100%)'
+        ]
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+    />
     
-    <h3 className={`text-xl font-semibold mb-5 flex items-center ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
-      <span className={`w-9 h-9 rounded-xl flex items-center justify-center mr-3 shadow-md ${isDarkMode ? 'bg-gradient-to-br from-blue-700/50 to-indigo-700/60' : 'bg-gradient-to-br from-blue-100 to-indigo-100'}`}>
-        <FiTarget className="text-blue-600 dark:text-blue-400" />
+    {/* Background glow effect */}
+    <div className={`absolute inset-0 opacity-30 ${isDarkMode ? 'bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-indigo-500/10' : 'bg-gradient-to-br from-blue-300/10 via-purple-300/5 to-indigo-300/10'}`} />
+    
+    <motion.h3 
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`text-2xl font-bold mb-6 flex items-center relative z-10 ${isDarkMode ? 'text-slate-100' : 'text-gray-800'}`}
+    >
+      <motion.span 
+        className={`w-12 h-12 rounded-2xl flex items-center justify-center mr-4 shadow-lg backdrop-blur-sm ${isDarkMode ? 'bg-gradient-to-br from-blue-600/60 to-indigo-600/70 border border-blue-500/30' : 'bg-gradient-to-br from-blue-100/90 to-indigo-100/90 border border-blue-200/50'}`}
+        whileHover={{ scale: 1.05, rotate: 5 }}
+        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      >
+        <FiTarget className={`${isDarkMode ? 'text-blue-300' : 'text-blue-600'} text-xl`} />
+      </motion.span>
+      <span className={`bg-gradient-to-r ${isDarkMode ? 'from-blue-300 to-indigo-300' : 'from-blue-600 to-indigo-600'} bg-clip-text text-transparent`}>
+        İçerik Seçimi
       </span>
-      İçerik Seçimi
-    </h3>
+    </motion.h3>
     
     <div className="mb-6">
       <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
