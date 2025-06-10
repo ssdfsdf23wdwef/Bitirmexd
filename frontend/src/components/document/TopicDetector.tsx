@@ -86,7 +86,7 @@ export default function TopicDetector({
             id: topic.normalizedSubTopicName, // ID olarak normalize edilmiş konu adını kullan
             name: topic.subTopicName, // Görüntüleme için konu adını kullan
             isSelected: true, // Varsayılan olarak seçili
-            status: topic.isMainTopic ? "mastered" : "pending" as LearningTargetStatusLiteral,
+      
             isNew: !topic.parentTopic // Eğer bir üst konusu yoksa yeni kabul et
           }));
           

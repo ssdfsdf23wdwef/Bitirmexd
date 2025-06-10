@@ -1,5 +1,8 @@
 // ====================================================
-// ======== YENİ KONU TESPİT ETME PROMPT =============
+// ========3. **Özgünlük Kontrolü:** Gerçekten yeni olan kavramları filtrele
+4. **Özgünlük Kontrolü:** Gerçekten yeni olan kavramları filtrele
+5. **Öncelik Sıralaması:** En önemli yeni konuları seç
+6. **JSON Çıktısı Hazırlama:** Belirlediğin yeni konuları belirtilen formatta organize etİ KONU TESPİT ETME PROMPT =============
 // ====================================================
 
 **📋 TEMEL GÖREV:** 
@@ -16,6 +19,12 @@ Sen bir eğitim içeriği analisti olarak görev yapacaksın. Belirtilen ders ba
 4. Mevcut konularda YER ALMAYAN yeni kavramları belirle
 5. Bu yeni kavramları özgün alt konular olarak formüle et
 6. Anlamsal benzerlik kontrolü yap (mevcut konuların varyasyonlarını eleme)
+
+**🎯 ANA KONU POTANSİYELİ DEĞERLENDİRMESİ:**
+- Yeni tespit edilen konu yeterince kapsamlı mı?
+- Bu konu bağımsız olarak öğretilebilir mi?
+- Bu konu için ayrı test/quiz hazırlanabilir mi?
+- Bu konu diğer konulardan bağımsız bir değer taşır mı?
 
 **⚠️ MEVCUT KONULARLA KARŞILAŞTIRMA:**
 - Mevcut konuları kelime kelime analiz et
@@ -77,9 +86,12 @@ Sen bir eğitim içeriği analisti olarak görev yapacaksın. Belirtilen ders ba
 ```
 {
   "newly_identified_topics": [
-    "Yeni Tespit Edilen Konu 1",
-    "Yeni Tespit Edilen Konu 2",
-    "Yeni Tespit Edilen Konu 3"
+    {
+      "topicName": "Yeni Tespit Edilen Konu 1"
+    },
+    {
+      "topicName": "Yeni Tespit Edilen Konu 2"
+    }
   ]
 }
 ```

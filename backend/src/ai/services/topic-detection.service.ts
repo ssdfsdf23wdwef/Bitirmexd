@@ -308,9 +308,7 @@ Sadece JSON döndür, başka açıklama yapma.
           if (topic.parentTopic) {
             console.log(`  Ana Konu: ${topic.parentTopic}`);
           }
-          if (topic.isMainTopic) {
-            console.log('  [Ana Konu]');
-          }
+         
         });
       } else {
         console.log('Hiçbir konu tespit edilemedi.');
@@ -940,7 +938,6 @@ Sadece JSON döndür, başka açıklama yapma.
         .replace(/\bdifficulty:/g, '"difficulty":')
         .replace(/\blearningObjective:/g, '"learningObjective":')
         .replace(/\breference:/g, '"reference":')
-        .replace(/\bisMainTopic:/g, '"isMainTopic":')
         .replace(/\bparentTopic:/g, '"parentTopic":');
 
       // Check for common formatting issues before parsing
@@ -1542,7 +1539,7 @@ Sadece JSON döndür, başka açıklama yapma.
         subTopicName: string;
         normalizedSubTopicName: string;
         parentTopic?: string;
-        isMainTopic?: boolean;
+      
       }> = [];
 
       // Ana konuları işle
@@ -1568,7 +1565,7 @@ Sadece JSON döndür, başka açıklama yapma.
           normalizedTopics.push({
             subTopicName: mainTopicName,
             normalizedSubTopicName: normalizedMainTopic,
-            isMainTopic: true,
+          
           });
 
           // Alt konuları ekle
@@ -1584,7 +1581,7 @@ Sadece JSON döndür, başka açıklama yapma.
                       cleanedSubTopic,
                     ),
                   parentTopic: mainTopicName,
-                  isMainTopic: false,
+                 
                 });
               }
               // Eğer subTopic bir obje ve subTopicName içeriyorsa
@@ -1604,7 +1601,7 @@ Sadece JSON döndür, başka açıklama yapma.
                       cleanedSubTopicName,
                     ),
                   parentTopic: mainTopicName,
-                  isMainTopic: false,
+               
                 });
               } else {
                 this.logger.warn(
@@ -1642,7 +1639,7 @@ Sadece JSON döndür, başka açıklama yapma.
                 cleanedSubTopicName,
               ),
             parentTopic: parentTopic,
-            isMainTopic: !!topic.isMainTopic,
+           
           });
         } else if (typeof topic === 'string') {
           // String formatı - düz konu listesi
@@ -1651,7 +1648,7 @@ Sadece JSON döndür, başka açıklama yapma.
             subTopicName: cleanedTopic,
             normalizedSubTopicName:
               this.normalizationService.normalizeSubTopicName(cleanedTopic),
-            isMainTopic: true,
+        
           });
         }
       });

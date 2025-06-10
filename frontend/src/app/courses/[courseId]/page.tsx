@@ -16,124 +16,78 @@ interface CourseDetailPageProps {
   params: Promise<{ courseId: string }>;
 }
 
-// Main topic classification function (Enhanced for hierarchical structure)
+// Main topic classification function - simplified structure
 const classifyMainTopic = (description: string): string => {
   const text = description.toLowerCase();
   
   // Programming concepts
   if (text.includes('variable') || text.includes('değişken') || text.includes('veri tip')) {
-    return 'Temel Programlama Kavramları';
+    return 'Temel Programlama';
   }
   if (text.includes('function') || text.includes('fonksiyon') || text.includes('metod')) {
-    return 'Fonksiyonlar ve Metotlar';
+    return 'Fonksiyonlar';
   }
-  if (text.includes('array') || text.includes('dizi') || text.includes('list') || text.includes('koleksiyon')) {
+  if (text.includes('array') || text.includes('dizi') || text.includes('list')) {
     return 'Veri Yapıları';
   }
-  if (text.includes('loop') || text.includes('döngü') || text.includes('iterasyon') || text.includes('for') || text.includes('while')) {
-    return 'Döngüler ve Kontrol Yapıları';
+  if (text.includes('loop') || text.includes('döngü') || text.includes('for') || text.includes('while')) {
+    return 'Döngüler';
   }
   if (text.includes('class') || text.includes('sınıf') || text.includes('object') || text.includes('nesne')) {
     return 'Nesne Yönelimli Programlama';
   }
-  if (text.includes('algorithm') || text.includes('algoritma') || text.includes('sort') || text.includes('sıralama')) {
+  if (text.includes('algorithm') || text.includes('algoritma')) {
     return 'Algoritmalar';
   }
-  if (text.includes('database') || text.includes('veritabanı') || text.includes('sql') || text.includes('crud')) {
-    return 'Veritabanı İşlemleri';
+  if (text.includes('database') || text.includes('veritabanı') || text.includes('sql')) {
+    return 'Veritabanı';
   }
-  if (text.includes('web') || text.includes('http') || text.includes('api') || text.includes('rest')) {
+  if (text.includes('web') || text.includes('http') || text.includes('api')) {
     return 'Web Geliştirme';
-  }
-  if (text.includes('framework') || text.includes('library') || text.includes('kütüphane') || text.includes('react') || text.includes('angular')) {
-    return 'Framework ve Kütüphaneler';
-  }
-  if (text.includes('test') || text.includes('debug') || text.includes('hata') || text.includes('exception')) {
-    return 'Test ve Hata Ayıklama';
   }
   
   // Math concepts
-  if (text.includes('integral') || text.includes('türev') || text.includes('limit') || text.includes('calculus')) {
-    return 'Matematik - Analiz';
+  if (text.includes('integral') || text.includes('türev') || text.includes('limit')) {
+    return 'Matematik Analiz';
   }
-  if (text.includes('linear') || text.includes('doğrusal') || text.includes('matrix') || text.includes('matris')) {
+  if (text.includes('linear') || text.includes('doğrusal') || text.includes('matrix')) {
     return 'Lineer Cebir';
   }
-  if (text.includes('probability') || text.includes('olasılık') || text.includes('statistics') || text.includes('istatistik')) {
-    return 'Olasılık ve İstatistik';
+  if (text.includes('probability') || text.includes('olasılık') || text.includes('statistics')) {
+    return 'İstatistik';
   }
-  if (text.includes('geometry') || text.includes('geometri') || text.includes('trigonometry') || text.includes('trigonometri')) {
-    return 'Geometri ve Trigonometri';
+  if (text.includes('geometry') || text.includes('geometri')) {
+    return 'Geometri';
   }
   
   // Physics concepts
   if (text.includes('force') || text.includes('kuvvet') || text.includes('motion') || text.includes('hareket')) {
     return 'Mekanik';
   }
-  if (text.includes('electric') || text.includes('elektrik') || text.includes('magnetic') || text.includes('manyetik')) {
-    return 'Elektromanyetizma';
+  if (text.includes('electric') || text.includes('elektrik')) {
+    return 'Elektrik';
   }
-  if (text.includes('wave') || text.includes('dalga') || text.includes('sound') || text.includes('ses')) {
-    return 'Dalgalar ve Ses';
-  }
-  if (text.includes('quantum') || text.includes('kuantum') || text.includes('atom') || text.includes('nuclear')) {
-    return 'Modern Fizik';
+  if (text.includes('wave') || text.includes('dalga')) {
+    return 'Dalgalar';
   }
   
   // Chemistry concepts
-  if (text.includes('element') || text.includes('element') || text.includes('periodic') || text.includes('periyodik')) {
-    return 'Kimyasal Elementler';
+  if (text.includes('element') || text.includes('atom')) {
+    return 'Kimya Temelleri';
   }
-  if (text.includes('reaction') || text.includes('reaksiyon') || text.includes('chemical') || text.includes('kimyasal')) {
+  if (text.includes('reaction') || text.includes('reaksiyon')) {
     return 'Kimyasal Reaksiyonlar';
-  }
-  if (text.includes('organic') || text.includes('organik') || text.includes('carbon') || text.includes('karbon')) {
-    return 'Organik Kimya';
   }
   
   // Biology concepts
-  if (text.includes('cell') || text.includes('hücre') || text.includes('dna') || text.includes('gene')) {
+  if (text.includes('cell') || text.includes('hücre')) {
     return 'Hücre Biyolojisi';
   }
-  if (text.includes('evolution') || text.includes('evrim') || text.includes('species') || text.includes('tür')) {
-    return 'Evrim ve Genetik';
-  }
-  if (text.includes('ecosystem') || text.includes('ekosistem') || text.includes('environment') || text.includes('çevre')) {
-    return 'Ekoloji';
-  }
-  
-  // Default topics
-  if (text.includes('theory') || text.includes('teori') || text.includes('concept') || text.includes('kavram')) {
-    return 'Teorik Kavramlar';
-  }
-  if (text.includes('practice') || text.includes('uygulama') || text.includes('example') || text.includes('örnek')) {
-    return 'Uygulamalı Örnekler';
+  if (text.includes('evolution') || text.includes('evrim')) {
+    return 'Evrim';
   }
   
   return 'Genel Konular';
-};
-
-// Function to convert subtopic to main topic (new hierarchical feature)
-const convertToMainTopic = async (targetId: string, userId: string) => {
-  try {
-    // API call to convert subtopic to main topic
-    // This would update the isMainTopic field and create necessary hierarchical relationships
-    console.log('Converting subtopic to main topic:', targetId);
-    // Implementation would go here
-  } catch (error) {
-    console.error('Error converting to main topic:', error);
-  }
-};
-
-// Function to add subtopic under a main topic
-const addSubTopicToMainTopic = async (parentId: string, subTopicName: string, userId: string) => {
-  try {
-    // API call to create a new subtopic under a main topic
-    console.log('Adding subtopic to main topic:', { parentId, subTopicName });
-    // Implementation would go here
-  } catch (error) {
-    console.error('Error adding subtopic:', error);
-  }
 };
 
 interface GroupedTargets {

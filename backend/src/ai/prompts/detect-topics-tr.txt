@@ -52,6 +52,12 @@ Sen bir eğitim içeriği analisti olarak görev yapacaksın. Verilen bir eğiti
 4. AYIRT EDİCİLİK: Diğer seçilen konulardan anlamsal olarak farklı olmalı
 5. DENGELİ DETAY: Çok fazla alt konu listeleme, temel kavramsal kırılımlara odaklan (2-5 adet)
 
+**🎯 ANA KONU BELİRLEME KRİTERLERİ:**
+- Ana konu metindeki temel kavramsal alanları temsil etmeli
+- Her ana konu altında 2-3 alt konu bulunmalı
+- Alt konular, ana konunun farklı yönlerini veya bileşenlerini kapsamalı
+- Alt konular birbirleriyle ilişkili ancak ayrı değerlendirilebilir olmalı
+
 // ----------------------------------------------------
 // -------------- ADIM ADIM SÜREÇ --------------------
 // ----------------------------------------------------

@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-10T06:48:47.351Z
+## Tarih: 2025-06-10T16:15:56.606Z
 
-## Trace ID: quiz-1749538127317-drhzx
+## Trace ID: quiz-1749572156296-q2i9v
 
-## Alt Konular (7 adet):
+## Alt Konular (9 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hipervizör Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Yüklenmesi** (2 soru)
-3. **Libvirtd Servisinin Yapılandırılması** (2 soru)
-4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Sanal Makine Durumlarını Listeleme** (2 soru)
+1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
+2. **Dosya İçeriğini Görüntüleme Cat Less** (2 soru)
+3. **Basit Metin Düzenleme Nano** (2 soru)
+4. **Gelişmiş Metin Düzenleme Vi Vim** (2 soru)
+5. **Çalışan Süreçleri Görüntüleme Ps** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,8 +22,10 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sanal Makineyi Başlatma Durdurma Yeniden Başlatma
-2. Sanal Makineyi Silme
+1. Disk Alanı Kullanımını Görüntüleme Df Du
+2. Bellek Kullanımını Görüntüleme Free
+3. Sistem Çalışma Süresini Gösterme Uptime
+4. Kernel Mesajlarını Görüntüleme Dmesg
 
 ```
 
@@ -49,11 +51,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hipervizör Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Yüklenmesi** (2 soru)
-3. **Libvirtd Servisinin Yapılandırılması** (2 soru)
-4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Sanal Makine Durumlarını Listeleme** (2 soru)
+1. **Dosya Görüntüleme Ve Düzenleme** (2 soru)
+2. **Dosya İçeriğini Görüntüleme Cat Less** (2 soru)
+3. **Basit Metin Düzenleme Nano** (2 soru)
+4. **Gelişmiş Metin Düzenleme Vi Vim** (2 soru)
+5. **Çalışan Süreçleri Görüntüleme Ps** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -61,8 +63,10 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sanal Makineyi Başlatma Durdurma Yeniden Başlatma
-2. Sanal Makineyi Silme
+1. Disk Alanı Kullanımını Görüntüleme Df Du
+2. Bellek Kullanımını Görüntüleme Free
+3. Sistem Çalışma Süresini Gösterme Uptime
+4. Kernel Mesajlarını Görüntüleme Dmesg
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -75,96 +79,89 @@ bilal@atauni.edu.tr
 
 
 
-5.Hafta
+2.Hafta
 
 
-KVM (Tip-1 Hypervisor Kurulumu)
+Temel Linux Komutları-2
 
-Aşağıdaki adresten ubuntu imajını indirilir
-https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
-İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
+Amaç: Öğrencilerin KVM, Docker, Podman ve Kubernetes kurmak ve kullanmak için ihtiyaç
+duyacakları temel işlemleri Linux komut satırında gerçekleştirebilmelerini sağlamak.
 
-İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
-için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
-scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
+2. Dosya Görüntüleme ve Düzenleme
+Dosyaların içeriklerini görüntülemek veya düzenlemek için kullanılan komutlar.
+●
+cat
+: Dosya içeriğini birleştirir ve görüntüler.
+○ Örnek:
+cat file1.txt
+(file1.txt'nin içeriğini görüntüler)
+○
+cat file1.txt file2.txt > file3.txt
 
-Kvm kurulumu
-sudo apt update
-sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
-sudo systemctl enable --now libvirtd
-sudo systemctl start libvirtd
-sudo systemctl status libvirtd
-sudo usermod -aG kvm $USER
-sudo usermod -aG libvirt $USER
-
-Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
-sudo nano /etc/libvirt/qemu.conf
-Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
-Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
-Dosya ctrl+x ile kayıt edilerek çıkılır
-
-Komut satırında aşağıdaki komut verilir
-sudo systemctl restart libvirtd.service
-
-
-
-
-
-
-
-
-VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
-
-sudo virt-install --name=testVM \
---os-variant=ubuntu22.04 \
---vcpu=2 \
---ram=4096 \
---disk path=/var/lib/libvirt/images/testVM.img,size=30 \
---graphics spice \
---cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
---network bridge:virbr0
-
-
-Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
-kısmıdır.
-
-
-
-
-
-
+●
+less
+: Geriye doğru gezinme ile dosya içeriğini etkileşimli olarak görüntüler
+○ Örnek:
+less file1.txt
+(file1.txt dosyasını ileri ve geri gezinme ile görüntüler)
+●
+nano
+: Basit bir text editörü
+○ Örnek:
+nano file1.txt
+(file1.txt dosyasını editler)
+●
+vi
+/
+vim
+: Gelişmiş text editörü
+○ Örnek:
+vi file1.txt
+(file1.txt dosyasını editler)
+●
+head
+: Bir dosyanın ilk kısmını çıktı olarak alır.
+○ Örnek:
+head file1.txt
+(file1.txt dosyasının ilk 10 satırını gösterir)
+●
+tail
+: Bir dosyanın son kısmını çıktı olarak alır.
+○ Örnek:
+tail file1.txt
+(file1.txt dosyasının son 10 satırını gösterir)
+●
+grep
+: Dosyalar içinde arama yapar
+○ Örnek:
+grep "test" file1.txt
 
 
 
-Sanal Makinelerin Yönetilmesi
-- Kurulu olan sanal makineleri ve durumlarını listeleyin
 
-virsh list --all
-- Çalışır durumda (running) olan sanal makineyi görüntüleyin
 
-virt-viewer testVM
-- Tüm sanal makineleri grafik arayüzden yönetin.
-virt-manager
 
-- Shut-down durumundaki bir sanal makineyi başlatma
-virsh start testVM
-- Bir sanal makineyi restart yapma
-virsh reboot testVM
 
-- Bir sanal makineyi kapatma
-virsh shutdown testVM
 
-- Bir sanal makineyi pause yapma
-virsh suspend testVM
-
-- Bir sanal makineyi unpause yapma
-virsh resume testVM
-
-- Bir sanal makineyi silme
-Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
-edilmelidir sonrada undefine yapılmalıdır.
-virsh destroy testVM
-virsh undefine testVM
+3. Sistem Bilgisi ve İzleme
+Sistem durumunu ve gerçek zamanlı izlemeyi sağlayan komutlar.
+● ps: Çalışan işlemler hakkında bilgi verir.
+○ Örnek: ps aux (tüm çalışan prosesleri gösterir)
+● df: Disk alanı kullanımını görüntüler
+○ Örnek: df -h (disk alanı bilgilerini insan tarafından okunabilir bir biçimde
+gösterir)
+● du: Dosya alanı kullanımını gösterir
+○ Örnek: du -sh * (geçerli dizindeki her dosyanın/klasörün boyutunu
+gösterir)
+● free: Bellek kullanımını gösterir
+○ Örnek: free -h (bellek kullanımını insan tarafından okunabilir bir
+biçimde gösterir)
+● uptime: Sistem çalışma süresini ve yük ortalamasını gösterir
+○ Örnek: uptime
+● dmesg: Kernel mesajlarını gösterir
+○ Örnek: dmesg | grep error (sistem mesajlarında "error" arar)
+● vmstat: Sanal bellek istatistiklerini gösterir
+○ Örnek: vmstat (sistem performansını ve bellek kullanımını gösterir)
 
 
 
@@ -342,42 +339,42 @@ virsh undefine testVM
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Kvm Hipervizör Kurulumu: 2 soru
-  - Gerekli Paketlerin Yüklenmesi: 2 soru
-  - Libvirtd Servisinin Yapılandırılması: 2 soru
-  - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
-  - Sanal Makine Durumlarını Listeleme: 2 soru
+  - Dosya Görüntüleme Ve Düzenleme: 2 soru
+  - Dosya İçeriğini Görüntüleme Cat Less: 2 soru
+  - Basit Metin Düzenleme Nano: 2 soru
+  - Gelişmiş Metin Düzenleme Vi Vim: 2 soru
+  - Çalışan Süreçleri Görüntüleme Ps: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Kvm Hipervizör Kurulumu:
-- Soru: KVM hipervizör kurulumu için gerekli paketlerden biri aşağıdakilerden hangisidir?
-- Seçenekler: qemu-kvm | docker | virtualbox | vmware
-- Doğru Cevap: qemu-kvm
+#### Dosya Görüntüleme Ve Düzenleme:
+- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini birleştirip başka bir dosyaya yönlendirmek için kullanılır?
+- Seçenekler: less | cat | nano | vi
+- Doğru Cevap: cat
+- Zorluk: medium
+
+#### Dosya İçeriğini Görüntüleme Cat Less:
+- Soru: Aşağıdaki komutlardan hangisi bir dosyanın içeriğini görüntülemek için kullanılır, ancak `less` komutundan farklı olarak etkileşimli gezinme özelliği sunmaz?
+- Seçenekler: nano | vi | cat | grep
+- Doğru Cevap: cat
+- Zorluk: medium
+
+#### Basit Metin Düzenleme Nano:
+- Soru: Hangi komut, Linux sistemlerde basit metin düzenleme işlemleri için kullanılır?
+- Seçenekler: vi | grep | nano | cat
+- Doğru Cevap: nano
 - Zorluk: easy
 
-#### Gerekli Paketlerin Yüklenmesi:
-- Soru: KVM kurulumunda gerekli paketleri yüklemek için kullanılan komut aşağıdakilerden hangisidir?
-- Seçenekler: sudo apt install kvm | sudo apt install -y qemu-kvm virt-manager | sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils | sudo install kvm
-- Doğru Cevap: sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+#### Gelişmiş Metin Düzenleme Vi Vim:
+- Soru: Aşağıdakilerden hangisi Linux sistemlerde gelişmiş bir metin düzenleme aracıdır?
+- Seçenekler: nano | cat | vi/vim | head
+- Doğru Cevap: vi/vim
 - Zorluk: easy
 
-#### Libvirtd Servisinin Yapılandırılması:
-- Soru: libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?
-- Seçenekler: sudo systemctl start libvirtd | sudo systemctl enable libvirtd | sudo systemctl enable --now libvirtd | sudo systemctl restart libvirtd
-- Doğru Cevap: sudo systemctl enable --now libvirtd
-- Zorluk: easy
-
-#### Virt İnstallıkomutu İle Vm Oluşturma:
-- Soru: Virt-install komutunda, sanal makine diskinin yolunu ve boyutunu belirtmek için hangi parametre kullanılır?
-- Seçenekler: --name | --vcpu | --disk | --ram
-- Doğru Cevap: --disk
-- Zorluk: easy
-
-#### Sanal Makine Durumlarını Listeleme:
-- Soru: Çalışan tüm sanal makineleri listelemek için kullanılan komut aşağıdakilerden hangisidir?
-- Seçenekler: virsh list | virsh list --all | virt-manager | virsh status
-- Doğru Cevap: virsh list --all
+#### Çalışan Süreçleri Görüntüleme Ps:
+- Soru: Linux'ta çalışan süreçler hakkında bilgi almak için hangi komut kullanılır?
+- Seçenekler: df | du | ps | free
+- Doğru Cevap: ps
 - Zorluk: easy
 

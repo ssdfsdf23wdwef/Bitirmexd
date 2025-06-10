@@ -22,7 +22,6 @@ export interface DetectedSubTopic {
   name?: string;
   status?: LearningTargetStatusLiteral;
   isNew?: boolean;
-  isMainTopic?: boolean;     // Ana konu mu alt konu mu
   parentTopic?: string;      // Ana konunun adı (eğer bir alt konu ise)
 }
 
