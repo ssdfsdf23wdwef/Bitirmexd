@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { FiFileText, FiUpload, FiList, FiArrowLeft, FiBookOpen, FiTrendingUp, FiCheckCircle, FiAlertCircle, FiClock, FiTarget, FiActivity } from "react-icons/fi";
+import { FiFileText, FiUpload, FiList, FiArrowLeft, FiBookOpen, FiTrendingUp, FiCheckCircle, FiAlertCircle, FiClock, FiTarget, FiActivity, FiSearch, FiFilter, FiChevronDown, FiChevronUp, FiChevronRight, FiFolder, FiFolderOpen } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import courseService from "@/services/course.service";
 import learningTargetService from "@/services/learningTarget.service";
 import type { Course } from "@/types/course.type";
@@ -12,15 +12,150 @@ import { LearningTarget } from "@/types/learningTarget.type";
 import Spinner from "@/components/ui/Spinner";
 import { useTheme } from "@/context/ThemeProvider";
 
-interface CourseDetailProps {
+interface CourseDetailPageProps {
   params: Promise<{ courseId: string }>;
+}
+
+// Main topic classification function (Enhanced for hierarchical structure)
+const classifyMainTopic = (description: string): string => {
+  const text = description.toLowerCase();
+  
+  // Programming concepts
+  if (text.includes('variable') || text.includes('değişken') || text.includes('veri tip')) {
+    return 'Temel Programlama Kavramları';
+  }
+  if (text.includes('function') || text.includes('fonksiyon') || text.includes('metod')) {
+    return 'Fonksiyonlar ve Metotlar';
+  }
+  if (text.includes('array') || text.includes('dizi') || text.includes('list') || text.includes('koleksiyon')) {
+    return 'Veri Yapıları';
+  }
+  if (text.includes('loop') || text.includes('döngü') || text.includes('iterasyon') || text.includes('for') || text.includes('while')) {
+    return 'Döngüler ve Kontrol Yapıları';
+  }
+  if (text.includes('class') || text.includes('sınıf') || text.includes('object') || text.includes('nesne')) {
+    return 'Nesne Yönelimli Programlama';
+  }
+  if (text.includes('algorithm') || text.includes('algoritma') || text.includes('sort') || text.includes('sıralama')) {
+    return 'Algoritmalar';
+  }
+  if (text.includes('database') || text.includes('veritabanı') || text.includes('sql') || text.includes('crud')) {
+    return 'Veritabanı İşlemleri';
+  }
+  if (text.includes('web') || text.includes('http') || text.includes('api') || text.includes('rest')) {
+    return 'Web Geliştirme';
+  }
+  if (text.includes('framework') || text.includes('library') || text.includes('kütüphane') || text.includes('react') || text.includes('angular')) {
+    return 'Framework ve Kütüphaneler';
+  }
+  if (text.includes('test') || text.includes('debug') || text.includes('hata') || text.includes('exception')) {
+    return 'Test ve Hata Ayıklama';
+  }
+  
+  // Math concepts
+  if (text.includes('integral') || text.includes('türev') || text.includes('limit') || text.includes('calculus')) {
+    return 'Matematik - Analiz';
+  }
+  if (text.includes('linear') || text.includes('doğrusal') || text.includes('matrix') || text.includes('matris')) {
+    return 'Lineer Cebir';
+  }
+  if (text.includes('probability') || text.includes('olasılık') || text.includes('statistics') || text.includes('istatistik')) {
+    return 'Olasılık ve İstatistik';
+  }
+  if (text.includes('geometry') || text.includes('geometri') || text.includes('trigonometry') || text.includes('trigonometri')) {
+    return 'Geometri ve Trigonometri';
+  }
+  
+  // Physics concepts
+  if (text.includes('force') || text.includes('kuvvet') || text.includes('motion') || text.includes('hareket')) {
+    return 'Mekanik';
+  }
+  if (text.includes('electric') || text.includes('elektrik') || text.includes('magnetic') || text.includes('manyetik')) {
+    return 'Elektromanyetizma';
+  }
+  if (text.includes('wave') || text.includes('dalga') || text.includes('sound') || text.includes('ses')) {
+    return 'Dalgalar ve Ses';
+  }
+  if (text.includes('quantum') || text.includes('kuantum') || text.includes('atom') || text.includes('nuclear')) {
+    return 'Modern Fizik';
+  }
+  
+  // Chemistry concepts
+  if (text.includes('element') || text.includes('element') || text.includes('periodic') || text.includes('periyodik')) {
+    return 'Kimyasal Elementler';
+  }
+  if (text.includes('reaction') || text.includes('reaksiyon') || text.includes('chemical') || text.includes('kimyasal')) {
+    return 'Kimyasal Reaksiyonlar';
+  }
+  if (text.includes('organic') || text.includes('organik') || text.includes('carbon') || text.includes('karbon')) {
+    return 'Organik Kimya';
+  }
+  
+  // Biology concepts
+  if (text.includes('cell') || text.includes('hücre') || text.includes('dna') || text.includes('gene')) {
+    return 'Hücre Biyolojisi';
+  }
+  if (text.includes('evolution') || text.includes('evrim') || text.includes('species') || text.includes('tür')) {
+    return 'Evrim ve Genetik';
+  }
+  if (text.includes('ecosystem') || text.includes('ekosistem') || text.includes('environment') || text.includes('çevre')) {
+    return 'Ekoloji';
+  }
+  
+  // Default topics
+  if (text.includes('theory') || text.includes('teori') || text.includes('concept') || text.includes('kavram')) {
+    return 'Teorik Kavramlar';
+  }
+  if (text.includes('practice') || text.includes('uygulama') || text.includes('example') || text.includes('örnek')) {
+    return 'Uygulamalı Örnekler';
+  }
+  
+  return 'Genel Konular';
+};
+
+// Function to convert subtopic to main topic (new hierarchical feature)
+const convertToMainTopic = async (targetId: string, userId: string) => {
+  try {
+    // API call to convert subtopic to main topic
+    // This would update the isMainTopic field and create necessary hierarchical relationships
+    console.log('Converting subtopic to main topic:', targetId);
+    // Implementation would go here
+  } catch (error) {
+    console.error('Error converting to main topic:', error);
+  }
+};
+
+// Function to add subtopic under a main topic
+const addSubTopicToMainTopic = async (parentId: string, subTopicName: string, userId: string) => {
+  try {
+    // API call to create a new subtopic under a main topic
+    console.log('Adding subtopic to main topic:', { parentId, subTopicName });
+    // Implementation would go here
+  } catch (error) {
+    console.error('Error adding subtopic:', error);
+  }
+};
+
+interface GroupedTargets {
+  [key: string]: LearningTarget[];
+}
+
+interface TopicGroup {
+  name: string;
+  targets: LearningTarget[];
+  expanded: boolean;
 }
 
 export default function CourseDetailPage({
   params,
-}: CourseDetailProps) {
+}: CourseDetailPageProps) {
   const { courseId } = React.use(params);
   const { isDarkMode } = useTheme();
+  
+  // State for filtering and grouping
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState<string>("all");
+  const [expandedGroups, setExpandedGroups] = React.useState<Set<string>>(new Set());
   // Kurs bilgilerini çek
   const {
     data: course,
@@ -45,6 +180,57 @@ export default function CourseDetailPage({
 
   const isLoading = courseLoading || relatedLoading;
   const error = courseError || relatedError;
+
+  // Group learning targets by main topic using the enhanced classification
+  const groupedTargets = React.useMemo(() => {
+    if (!learningTargets) return {};
+    
+    return learningTargets.reduce((groups, target) => {
+      const mainTopic = classifyMainTopic(target.subTopicName);
+      if (!groups[mainTopic]) {
+        groups[mainTopic] = [];
+      }
+      groups[mainTopic].push(target);
+      return groups;
+    }, {} as Record<string, LearningTarget[]>);
+  }, [learningTargets]);
+
+  // Filter targets based on search and status
+  const filteredGroupedTargets = React.useMemo(() => {
+    const filtered: Record<string, LearningTarget[]> = {};
+    
+    Object.entries(groupedTargets).forEach(([mainTopic, targets]) => {
+      const filteredTargets = targets.filter(target => {
+        const matchesSearch = target.subTopicName.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesStatus = statusFilter === "all" || target.status === statusFilter;
+        return matchesSearch && matchesStatus;
+      });
+      
+      if (filteredTargets.length > 0) {
+        filtered[mainTopic] = filteredTargets;
+      }
+    });
+    
+    return filtered;
+  }, [groupedTargets, searchTerm, statusFilter]);
+
+  // Toggle group expansion
+  const toggleGroup = (groupName: string) => {
+    const newExpanded = new Set(expandedGroups);
+    if (newExpanded.has(groupName)) {
+      newExpanded.delete(groupName);
+    } else {
+      newExpanded.add(groupName);
+    }
+    setExpandedGroups(newExpanded);
+  };
+
+  // Initialize all groups as expanded on first load
+  React.useEffect(() => {
+    if (Object.keys(filteredGroupedTargets).length > 0 && expandedGroups.size === 0) {
+      setExpandedGroups(new Set(Object.keys(filteredGroupedTargets)));
+    }
+  }, [filteredGroupedTargets]);
 
   // Durum sayılarını hesapla
   const statusCounts = (learningTargets || []).reduce(
@@ -290,13 +476,49 @@ export default function CourseDetailPage({
           <div className={`absolute inset-0 bg-gradient-to-br ${isDarkMode ? 'from-blue-900/5 to-transparent' : 'from-blue-50/30 to-transparent'} transition-colors duration-300`}></div>
           
           <div className="relative z-10">
-            <div className="flex items-center mb-6">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-blue-600/20 border-blue-500/30' : 'bg-blue-100 border-blue-200'} border mr-4 transition-colors duration-300`}>
-                <FiActivity className={`text-lg ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} transition-colors duration-300`} />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
+              <div className="flex items-center mb-4 sm:mb-0">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-blue-600/20 border-blue-500/30' : 'bg-blue-100 border-blue-200'} border mr-4 transition-colors duration-300`}>
+                  <FiActivity className={`text-lg ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} transition-colors duration-300`} />
+                </div>
+                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'} transition-colors duration-300`}>
+                  Alt Konular
+                </h2>
               </div>
-              <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'} transition-colors duration-300`}>
-                Alt Konular
-              </h2>
+
+              {/* Filter Controls */}
+              {learningTargets && learningTargets.length > 0 && (
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  {/* Search Input */}
+                  <div className="relative">
+                    <FiSearch className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-blue-400/70' : 'text-blue-500/70'} transition-colors duration-300`} />
+                    <input
+                      type="text"
+                      placeholder="Konu ara..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className={`pl-10 pr-4 py-2.5 rounded-xl border ${isDarkMode ? 'bg-gray-700/50 border-gray-600/50 text-gray-200 placeholder-gray-400 focus:border-blue-500' : 'bg-white/80 border-gray-300/60 text-gray-700 placeholder-gray-400 focus:border-blue-500'} focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 w-full sm:w-48`}
+                    />
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="relative">
+                    <FiFilter className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-blue-400/70' : 'text-blue-500/70'} transition-colors duration-300`} />
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                      className={`pl-10 pr-8 py-2.5 rounded-xl border ${isDarkMode ? 'bg-gray-700/50 border-gray-600/50 text-gray-200 focus:border-blue-500' : 'bg-white/80 border-gray-300/60 text-gray-700 focus:border-blue-500'} focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 cursor-pointer appearance-none w-full sm:w-40`}
+                    >
+                      <option value="all">Tüm Durumlar</option>
+                      <option value="mastered">Başarılı</option>
+                      <option value="medium">Orta Seviye</option>
+                      <option value="failed">Başarısız</option>
+                      <option value="pending">Beklemede</option>
+                    </select>
+                    <FiChevronDown className={`absolute right-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} pointer-events-none transition-colors duration-300`} />
+                  </div>
+                </div>
+              )}
             </div>
 
             {learningTargets.length === 0 ? (
@@ -316,60 +538,140 @@ export default function CourseDetailPage({
                   İçerik Yükle
                 </Link>
               </div>
+            ) : Object.keys(filteredGroupedTargets).length === 0 ? (
+              <div className="text-center py-12">
+                <FiSearch className={`text-6xl ${isDarkMode ? 'text-gray-600' : 'text-gray-400'} mb-4 mx-auto transition-colors duration-300`} />
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2 transition-colors duration-300`}>
+                  Arama Sonucu Bulunamadı
+                </h3>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>
+                  Filtrelere uygun konu bulunamadı. Arama terimini değiştirmeyi deneyin.
+                </p>
+              </div>
             ) : (
-              <div className="overflow-hidden rounded-xl border border-gray-200/50 dark:border-gray-700/50">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50/80'} transition-colors duration-300`}>
-                      <tr>
-                        <th className={`px-6 py-4 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
-                          Konu Adı
-                        </th>
-                        <th className={`px-6 py-4 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
-                          Durum
-                        </th>
-                        <th className={`px-6 py-4 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
-                          Son Puan
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200/50 dark:divide-gray-700/50">
-                      {learningTargets.map((target: LearningTarget, index: number) => (
-                        <motion.tr
-                          key={target.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
-                          className={`${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-white/80 hover:bg-gray-50/80'} transition-all duration-300 group`}
-                        >
-                          <td className={`px-6 py-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} font-medium transition-colors duration-300`}>
-                            {target.subTopicName}
-                          </td>
-                          <td className="px-6 py-4">
-                            <span
-                              className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300
-                              ${target.status === "pending" ? `${isDarkMode ? 'bg-gray-700/80 text-gray-300 border border-gray-600/50' : 'bg-gray-100 text-gray-700 border border-gray-200'}` : ""}
-                              ${target.status === "failed" ? `${isDarkMode ? 'bg-red-900/50 text-red-300 border border-red-700/50' : 'bg-red-100 text-red-700 border border-red-200'}` : ""}
-                              ${target.status === "medium" ? `${isDarkMode ? 'bg-yellow-900/50 text-yellow-300 border border-yellow-700/50' : 'bg-yellow-100 text-yellow-700 border border-yellow-200'}` : ""}
-                              ${target.status === "mastered" ? `${isDarkMode ? 'bg-green-900/50 text-green-300 border border-green-700/50' : 'bg-green-100 text-green-700 border border-green-200'}` : ""}
-                            `}
-                            >
-                              {target.status === "pending" && "Beklemede"}
-                              {target.status === "failed" && "Başarısız"}
-                              {target.status === "medium" && "Orta"}
-                              {target.status === "mastered" && "Başarılı"}
+              <div className="space-y-6">
+                {Object.entries(filteredGroupedTargets).map(([mainTopic, targets], groupIndex) => (
+                  <motion.div
+                    key={mainTopic}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: groupIndex * 0.1 }}
+                    className={`${isDarkMode ? 'bg-gray-700/30 border-gray-600/50' : 'bg-gray-50/80 border-gray-200/60'} rounded-xl border transition-all duration-300`}
+                  >
+                    {/* Group Header */}
+                    <button
+                      onClick={() => toggleGroup(mainTopic)}
+                      className={`w-full flex items-center justify-between p-4 ${isDarkMode ? 'hover:bg-gray-700/50' : 'hover:bg-gray-100/80'} rounded-xl transition-all duration-300 group`}
+                    >
+                      <div className="flex items-center">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDarkMode ? 'bg-blue-600/20 border-blue-500/30' : 'bg-blue-100 border-blue-200'} border mr-3 transition-colors duration-300`}>
+                          <FiList className={`text-sm ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} transition-colors duration-300`} />
+                        </div>
+                        <div className="text-left">
+                          <h3 className={`font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} transition-colors duration-300`}>
+                            {mainTopic}
+                          </h3>
+                          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>
+                            {targets.length} {targets.length === 1 ? 'konu' : 'konu'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        {/* Status summary for this group */}
+                        <div className="flex items-center space-x-2 mr-4">
+                          {targets.filter(t => t.status === 'mastered').length > 0 && (
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${isDarkMode ? 'bg-green-900/50 text-green-300' : 'bg-green-100 text-green-700'} transition-colors duration-300`}>
+                              {targets.filter(t => t.status === 'mastered').length}
                             </span>
-                          </td>
-                          <td className={`px-6 py-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} font-medium transition-colors duration-300`}>
-                            {target.lastAttemptScorePercent !== null
-                              ? `%${target.lastAttemptScorePercent}`
-                              : "-"}
-                          </td>
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                          )}
+                          {targets.filter(t => t.status === 'medium').length > 0 && (
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${isDarkMode ? 'bg-yellow-900/50 text-yellow-300' : 'bg-yellow-100 text-yellow-700'} transition-colors duration-300`}>
+                              {targets.filter(t => t.status === 'medium').length}
+                            </span>
+                          )}
+                          {targets.filter(t => t.status === 'failed').length > 0 && (
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${isDarkMode ? 'bg-red-900/50 text-red-300' : 'bg-red-100 text-red-700'} transition-colors duration-300`}>
+                              {targets.filter(t => t.status === 'failed').length}
+                            </span>
+                          )}
+                        </div>
+                        {expandedGroups.has(mainTopic) ? (
+                          <FiChevronDown className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} group-hover:text-blue-500 transition-all duration-300`} />
+                        ) : (
+                          <FiChevronRight className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} group-hover:text-blue-500 transition-all duration-300`} />
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Group Content */}
+                    {expandedGroups.has(mainTopic) && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 pb-4">
+                          <div className="overflow-hidden rounded-lg border border-gray-200/50 dark:border-gray-600/50">
+                            <div className="overflow-x-auto">
+                              <table className="w-full">
+                                <thead className={`${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-50/80'} transition-colors duration-300`}>
+                                  <tr>
+                                    <th className={`px-4 py-3 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
+                                      Alt Konu
+                                    </th>
+                                    <th className={`px-4 py-3 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
+                                      Durum
+                                    </th>
+                                    <th className={`px-4 py-3 text-left text-xs font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} uppercase tracking-wider transition-colors duration-300`}>
+                                      Son Puan
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200/50 dark:divide-gray-600/50">
+                                  {targets.map((target: LearningTarget, index: number) => (
+                                    <motion.tr
+                                      key={target.id}
+                                      initial={{ opacity: 0, x: -20 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                                      className={`${isDarkMode ? 'bg-gray-800/30 hover:bg-gray-700/50' : 'bg-white/60 hover:bg-gray-50/80'} transition-all duration-300 group`}
+                                    >
+                                      <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} font-medium transition-colors duration-300`}>
+                                        {target.subTopicName}
+                                      </td>
+                                      <td className="px-4 py-3">
+                                        <span
+                                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300
+                                          ${target.status === "pending" ? `${isDarkMode ? 'bg-gray-700/80 text-gray-300 border border-gray-600/50' : 'bg-gray-100 text-gray-700 border border-gray-200'}` : ""}
+                                          ${target.status === "failed" ? `${isDarkMode ? 'bg-red-900/50 text-red-300 border border-red-700/50' : 'bg-red-100 text-red-700 border border-red-200'}` : ""}
+                                          ${target.status === "medium" ? `${isDarkMode ? 'bg-yellow-900/50 text-yellow-300 border border-yellow-700/50' : 'bg-yellow-100 text-yellow-700 border border-yellow-200'}` : ""}
+                                          ${target.status === "mastered" ? `${isDarkMode ? 'bg-green-900/50 text-green-300 border border-green-700/50' : 'bg-green-100 text-green-700 border border-green-200'}` : ""}
+                                        `}
+                                        >
+                                          {target.status === "pending" && "Beklemede"}
+                                          {target.status === "failed" && "Başarısız"}
+                                          {target.status === "medium" && "Orta"}
+                                          {target.status === "mastered" && "Başarılı"}
+                                        </span>
+                                      </td>
+                                      <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} font-medium transition-colors duration-300`}>
+                                        {target.lastAttemptScorePercent !== null
+                                          ? `%${target.lastAttemptScorePercent}`
+                                          : "-"}
+                                      </td>
+                                    </motion.tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                ))}
               </div>
             )}
           </div>
