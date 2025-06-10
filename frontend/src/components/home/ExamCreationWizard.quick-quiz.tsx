@@ -249,6 +249,9 @@ export default function ExamCreationWizard({
     setDocumentTextContent("");
     // Document ID'yi sıfırla
     setUploadedDocumentId("");
+    // Konu tespit durumunu sıfırla
+    setTopicDetectionStatus("idle");
+    // NOT: Adım değişmiyor! Sadece dosya yüklendi, henüz işlenmedi.
   };
 
   // Dosya yükleme hatası
@@ -435,11 +438,12 @@ export default function ExamCreationWizard({
         return;
       }
 
-      // Konu tespiti durumunu yükleniyor olarak ayarla
+      // Adımı 2'ye çık ve konu tespiti durumunu yükleniyor olarak ayarla
+      setCurrentStep(2);
       setTopicDetectionStatus("loading");
 
       // Konu tespiti fonksiyonunu çağır
-      detectTopicsFromUploadedFile(selectedFile)
+      detectTopicsFromUploadedFile(selectedFile);
       return;
     }
 
@@ -796,10 +800,8 @@ export default function ExamCreationWizard({
               subTopicIds: allTopicIds 
             }));
             
-            // Adım 2'ye geçiş ve başarı durumunu en son güncelleyelim
-            // Bu sayede useEffect'teki kontroller çalışmadan önce diğer state'ler güncellenmiş olur
-            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti başarılı, adım 2'ye geçiliyor.`);
-            setCurrentStep(2);
+            // Adım değişikliği yapma! Zaten adım 2'deyiz.
+            // setCurrentStep(2); - Kaldırıldı
             setTopicDetectionStatus("success");
             console.log(`[ECW detectTopicsFromUploadedFile] Tüm konular (${allTopicIds.length}) otomatik seçildi.`);
           } else { 
@@ -834,7 +836,8 @@ export default function ExamCreationWizard({
             };
             setSelectedTopics([subTopicItem]);
             
-              setCurrentStep(2);
+              // Adım değişikliği yapma! Zaten adım 2'deyiz.
+              // setCurrentStep(2); - Kaldırıldı
           }
         } catch (error: unknown) {
           console.error(`[ECW detectTopicsFromUploadedFile] ❌ Genel hata:`, error);
@@ -855,7 +858,8 @@ export default function ExamCreationWizard({
             const defaultTopics = generateDefaultTopicsFromFileName(file.name);
             setDetectedTopics(defaultTopics);
             setTopicDetectionStatus("success");
-            setCurrentStep(2);
+            // Adım değişikliği yapma! Zaten adım 2'deyiz.
+            // setCurrentStep(2); - Kaldırıldı
           }
         }
       } else {
@@ -1301,6 +1305,15 @@ export default function ExamCreationWizard({
                   maxSize={40} // MB cinsinden
                   allowedFileTypes={[".pdf", ".docx", ".doc", ".txt"]}
                   className="mb-4"
+                  showContinueButton={true}
+                  onContinue={() => {
+                    // "Devam Et" butonuna tıklandığında konu tespitini başlat
+                    if (selectedFile && uploadStatus === "success") {
+                      setCurrentStep(2);
+                      setTopicDetectionStatus("loading");
+                      detectTopicsFromUploadedFile(selectedFile);
+                    }
+                  }}
                 />
                 <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-2`}>
                   Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
@@ -1309,21 +1322,6 @@ export default function ExamCreationWizard({
                   <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                     <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
                   </p>
-                )}
-                
-                {/* Konu tespiti yüklenme durumu */}
-                {topicDetectionStatus === "loading" && (
-                  <div className={`mt-6 p-4 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'} border rounded-lg`}>
-                    <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-b-transparent mr-3"></div>
-                      <p className={`${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-sm font-medium`}>
-                        Belge içeriği analiz ediliyor ve konular tespit ediliyor...
-                      </p>
-                    </div>
-                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
-                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
-                    </p>
-                  </div>
                 )}
               </motion.div>
             )}
@@ -1340,6 +1338,21 @@ export default function ExamCreationWizard({
                 <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} mb-4`}>
                   2. Konu Seçimi
                 </h3>
+                
+                {/* Konu tespiti yüklenme durumu */}
+                {topicDetectionStatus === "loading" && (
+                  <div className={`mb-6 p-4 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'} border rounded-lg`}>
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-b-transparent mr-3"></div>
+                      <p className={`${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-sm font-medium`}>
+                        Belge içeriği analiz ediliyor ve konular tespit ediliyor...
+                      </p>
+                    </div>
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
+                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
+                    </p>
+                  </div>
+                )}
                 
                 {quizType === "personalized" && (
                   <>
@@ -1414,30 +1427,31 @@ export default function ExamCreationWizard({
               <FiArrowLeft className="mr-2" size={16} /> Geri
             </button>
 
-            {/* Next/Submit button */}
-            <button
-              onClick={nextStep}
-              className={`px-6 py-2 text-white font-medium rounded-lg text-sm flex items-center transition-colors ${(currentStep === 1 && uploadStatus !== "success") || topicDetectionStatus === "loading" || quizCreationLoading
-                ? "opacity-70 cursor-not-allowed bg-blue-400"
-                : "bg-blue-600 hover:bg-blue-700"}`}
-              disabled={
-                (currentStep === 1 && uploadStatus !== "success") || // İlk adımda yükleme bitmeden ilerlemeyi engelle
-                topicDetectionStatus === "loading" || // Konu tespiti devam ederken ilerlemeyi engelle
-                quizCreationLoading // Sınav oluşturma devam ederken butonu devre dışı bırak
-              }
-            >
-              {currentStep === totalSteps 
-                ? quizCreationLoading 
-                  ? "Sınav Oluşturuluyor..."
-                  : "Sınavı Oluştur" 
-                : "Devam Et"
-              }{" "}
-              {topicDetectionStatus === "loading" || quizCreationLoading ? (
-                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
-              ) : (
-                <FiArrowRight className="ml-2" size={16} />
-              )}
-            </button>
+            {/* Next/Submit button - Sadece 1. adım dışında göster */}
+            {currentStep !== 1 && (
+              <button
+                onClick={nextStep}
+                className={`px-6 py-2 text-white font-medium rounded-lg text-sm flex items-center transition-colors ${topicDetectionStatus === "loading" || quizCreationLoading
+                  ? "opacity-70 cursor-not-allowed bg-blue-400"
+                  : "bg-blue-600 hover:bg-blue-700"}`}
+                disabled={
+                  topicDetectionStatus === "loading" || // Konu tespiti devam ederken ilerlemeyi engelle
+                  quizCreationLoading // Sınav oluşturma devam ederken butonu devre dışı bırak
+                }
+              >
+                {currentStep === totalSteps 
+                  ? quizCreationLoading 
+                    ? "Sınav Oluşturuluyor..."
+                    : "Sınavı Oluştur" 
+                  : "Devam Et"
+                }{" "}
+                {topicDetectionStatus === "loading" || quizCreationLoading ? (
+                  <div className="ml-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
+                ) : (
+                  <FiArrowRight className="ml-2" size={16} />
+                )}
+              </button>
+            )}
           </div>
         </ExamCreationProgress>
       </div>

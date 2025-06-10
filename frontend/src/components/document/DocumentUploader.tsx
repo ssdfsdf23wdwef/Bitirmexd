@@ -13,6 +13,12 @@ interface DocumentUploaderProps {
   className?: string;
 
   allowedFileTypes?: string[];
+  
+  // Yeni prop: Dosya yüklendikten sonra devam butonu gösterilsin mi?
+  showContinueButton?: boolean;
+  
+  // Yeni prop: Devam butonuna tıklandığında çağrılacak fonksiyon
+  onContinue?: () => void;
 }
 
 const DEFAULT_ALLOWED_TYPES = [".pdf", ".docx", ".doc", ".txt"];
@@ -23,6 +29,8 @@ export default function DocumentUploader({
   maxSize = 10,
   className = "",
   allowedFileTypes = DEFAULT_ALLOWED_TYPES,
+  showContinueButton = false,
+  onContinue,
 }: DocumentUploaderProps) {
   // ----- State Definitions -----
   const [isDragging, setIsDragging] = useState(false);
@@ -274,16 +282,29 @@ export default function DocumentUploader({
               <FiFile className="flex-shrink-0 mr-1.5 text-green-500 dark:text-green-400" />
               <span className="truncate">{selectedFile?.name}</span>
             </div>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                resetUpload();
-              }}
-              className="px-3.5 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-            >
-              Farklı Belge Yükle
-            </button>
+            {showContinueButton && onContinue ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onContinue();
+                }}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+              >
+                Devam Et
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  resetUpload();
+                }}
+                className="px-3.5 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+              >
+                Farklı Belge Yükle
+              </button>
+            )}
           </div>
         );
       case "error":

@@ -182,6 +182,7 @@ const ExamCreationProgress: React.FC<ExamCreationProgressProps> = ({
               {currentStep === 1 && quizType === "quick" && "Sınav oluşturmak için bir dosya yükleyin."}
               {currentStep === 1 && quizType === "personalized" && "Sınav oluşturmak için bir ders seçin."}
               {currentStep === 2 && quizType === "personalized" && "Oluşturmak istediğiniz sınav türünü seçin."}
+              {currentStep === 2 && quizType === "quick" && "Sınavda yer alacak alt konuları seçin."}
               {currentStep === (quizType === "personalized" ? 3 : 1) && "Konuları tespit etmek için bir dosya yükleyin."}
               {currentStep === (quizType === "personalized" ? 4 : 2) && "Sınavda yer alacak alt konuları seçin."}
               {currentStep === (quizType === "personalized" ? 5 : 3) && "Sınav tercihlerinizi belirleyin."}
