@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-09T20:10:38.189Z
+## Tarih: 2025-06-10T02:00:09.991Z
 
-## Trace ID: quiz-1749499838157-gpfd5
+## Trace ID: quiz-1749520809687-a3sjp
 
-## Alt Konular (8 adet):
+## Alt Konular (6 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kimyasal Maddelerde Sağlık Ve Güvenlik** (2 soru)
-2. **İ Şveren Yükümlülükleri** (2 soru)
-3. **Risk Değerlendirilmesi** (2 soru)
-4. **Akut Ve Kronik Sağlık Riskleri** (2 soru)
-5. **Tehlikeli Kimyasal Maddeler** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirt Servisinin Yapılandırılması** (2 soru)
+4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
+5. **Virsh Komutları İle Vm Yönetimi** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,9 +22,7 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Gbfnin Önemi
-2. Depolama Ve Etiketleme
-3. Mak Değeri Tanımı
+1. Sanal Makineyi Silme
 
 ```
 
@@ -50,11 +48,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kimyasal Maddelerde Sağlık Ve Güvenlik** (2 soru)
-2. **İ Şveren Yükümlülükleri** (2 soru)
-3. **Risk Değerlendirilmesi** (2 soru)
-4. **Akut Ve Kronik Sağlık Riskleri** (2 soru)
-5. **Tehlikeli Kimyasal Maddeler** (2 soru)
+1. **Kvm Hypervisor Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Kurulumu** (2 soru)
+3. **Libvirt Servisinin Yapılandırılması** (2 soru)
+4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
+5. **Virsh Komutları İle Vm Yönetimi** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -62,64 +60,49 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Gbfnin Önemi
-2. Depolama Ve Etiketleme
-3. Mak Değeri Tanımı
+1. Sanal Makineyi Silme
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
 
 
-
-ÜNİTE
-4
-
-İÇİNDEKİLER
-•Kimyasal Maddelerle
-Çalışmalarda Sağlık ve Güvenlik
-Önlemleri
-•İşverenin Yükümlülüğü
-•Kimyasalların Özellikleri
-(Kimyasal Tehlikeler)
-•Malzeme Güvenlik Bilgi Formu
-•Kimyasal Atıkların Depolanması
-ve Etiketlenmesi
-HEDEFLER
-•Bu üniteyi çalıştıktan sonra;
-•İş yerindeki sağlığı ve güvenliği
-olumsuz etkileyen kimyasal risk
-etmenlerine karşı alınması gereken
-iş sağlığı ve güvenliği tedbirlerinin
-öğrenilmesi sağlanabilecek,
-•Standartlarda müsade edilen
-değerler tanımlanabilecek,
-•Kimyasal risk etmenlerinin
-kontrolü ve iş verenin bu konudaki
-görevlerini belirleyebilecek,
-•İş yerlerinde çalışanların sağlığını
-olumsuz etkileyen kimyasal
-etmenler tanımlanabilecek,
-•Kimyasal atıkların depolanması ve
-etiketlenmesini anlayabileceksiniz.
-
-
-Dr. Öğr. Üyesi
-Fatma BAYRAKÇEKEN
-NİŞANCI
-
-
-İŞ SAĞLIĞI VE GÜVENLİĞİ
+BİLGİSAYAR MÜHENDİSLİĞİ LABORATUVARI
+BAHAR DÖNEMİ 2025
+Öğretim Üyesi: Dr. Bilal USANMAZ
+bilal@atauni.edu.tr
 
 
 
-© Bu ünitenin tüm yayın hakları Atatürk Üniversitesi Açıköğretim Fakültesi’ne aittir. Yazılı izin alınmadan
-ünitenin tümünün veya bir kısmının elektronik, mekanik ya da fotokopi yoluyla basımı, yayımı, çoğaltımı ve
-dağıtımı yapılamaz.
-KİMYASAL RİSK ETMENLERİ
+5.Hafta
 
-Kimyasal Risk Etmenleri
 
-Atatürk Üniversitesi Açıköğretim Fakültesi 2
+KVM (Tip-1 Hypervisor Kurulumu)
+
+Aşağıdaki adresten ubuntu imajını indirilir
+https://ubuntu.com/download/desktop/thank-you?version=22.04.1&architecture=amd64
+İndirilen imajın ismi : ubuntu-22.04.1-desktop-amd64.iso
+
+İmaj indirme süresini kısaltıp daha önce indirilmiş bir bilgisayardan kendi bilgisayarınıza almak
+için aşağıdaki komutu XX ile gösterilen yerleri doğru doldurarak çalıştırınız.
+scp hp00@10.4.15.209:/home/hp00/Downloads/ubuntu-22.04.1-desktop-amd64.iso /home/hpXX/Downloads
+
+Kvm kurulumu
+sudo apt update
+sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+sudo systemctl enable --now libvirtd
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
+
+Aşağıdaki dosyada gerekli değişiklikler yapılır (gerekliyse)
+sudo nano /etc/libvirt/qemu.conf
+Dosya içerisinde ctrl+w kombinasyonu ile #user aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya içerisinde ctrl+w kombinasyonu ile #group aratılır, bulunan satırdaki # işareti kaldırılır
+Dosya ctrl+x ile kayıt edilerek çıkılır
+
+Komut satırında aşağıdaki komut verilir
+sudo systemctl restart libvirtd.service
 
 
 
@@ -128,84 +111,61 @@ Atatürk Üniversitesi Açıköğretim Fakültesi 2
 
 
 
+VM kurulumu (aşağıdakiler bir sh dosya içine de yazılabilir, komut satırına da yazılabilir)
+
+sudo virt-install --name=testVM \
+--os-variant=ubuntu22.04 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/var/lib/libvirt/images/testVM.img,size=30 \
+--graphics spice \
+--cdrom=/home/hpXX/Downloads/ubuntu-22.04.1-desktop-amd64.iso \
+--network bridge:virbr0
 
 
-Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik
-Önlemleri
-Çeşitli Kimyasal Maddelerin Çalışma Ortamında Bulunması
-İş Veren Yükümlülüğü
-Risk Değerlendirilmesi
-Genel Önlemler
-Özel Koruyucu ve Önleyici Önlemler
-Kaza ve Acil Durumlar
-İşçilerin Eğitimi ve Bilgilendirilmesi
-Kimyasal Özellikleri/Kimyasal Tehlikeleri
-Akut Sağlık Riski Diğer Fiziksel Risk
-Kronik Sağlık Riski Tehlikeli Kimyasallar
-Ekotoksit Risk Gaz ve Dumaların Akut,Kronik Etkileri
-Sağlık Kontrolleri
-Malzeme Güvenlik Bilgi Formu
-Çalışanların Patlayıcı Ortamların Tehlikelerinden Korunması
-Kimyasal Atıkların Depolanması, Etiketlenmesi ve İmha
-Edilmesi
-
-Kimyasal Risk Etmenleri
-
-Atatürk Üniversitesi Açıköğretim Fakültesi 3
-GİRİŞ
-Geçmişten günümüze kadar yapılan araştırmaların çoğu, iş hastalığı ile
-çalışma ortamı arasında önemsenmeyecek bir etkileşimin olduğunu
-göstermektedir [1]. Günlük hayatımızda ve çalışma ortamında kimyasal
-maddelerle iç içe yaşanmaktadır ve bu kimyasal maddelerin bir kısmı canlılar için
-çok gerekli iken bazıları da canlı yaşamı için son derece tehlikeli olabilmektedir.
-Kimyasal tehlikeler, çalışanlara yönelik en önemli tehlike gruplarından
-olduğundan, çalışanların eğitimi ve sağlık kontrolü, ‘Kanserojen veya Mutajen
-Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ Yönetmeliği’nin iş güvenliği
-uzmanına ve iş yeri hekimine verdiği görevler arasındadır.
-Çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi,
-sanayi türüne, kişinin zararlı maddelere maruziyet sınırı, bulunduğu ortama göre
-değişim göstermektedir. Ayrıca çalışanların tehlikeli kimyasal maddeler ile yüz
-yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal
-maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere
-maruz kalındığına bağlıdır. Dünyada bilinen 5 ile 7 milyon farklı türde kimyasal
-bulunmaktadır. Bu kimyasal maddelerin 5000-7000 arasındakilerinin zararlı
-etkileri olup bunların da içinden 3000 kadarının kanserojen özellik taşıdığı
-bilinmektedir. Bunları üreten ve bunlarla çalışmak durumunda olan çalışanlar, iş
-sağlığı açısından tehlikelere en fazla maruz kalan gruptur. Tarım, tekstil, metal
-endüstrisi, kimyasal üretimi, temizlik işleri, kozmetik endüstrisi, kimyasal
-maddelerin depolanma ve taşınması işleri bu gruba girmektedir.
-İş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenleri arasında
-tozlar (organik ve inorganik tozlar), gaz, buhar ve dumanlar, pestisitler,
-kanserojen, mutajen ve oksit parlayıcı, patlayıcı, tehlikeli ve zararlı maddeler,
-solventler, asit ve bazlar, metaller ve tuzlar sayılabilir.
-Ülkemizde tehlikeli kimyasal maddelerin üretilmesi, kullanımı, depolanması,
-nakliyesi konularında değişik yasal düzenlemeler yapılmıştır. Bu yasal
-düzenlemelerden yeni adıyla Aile, Çalışma ve Sosyal Hizmetler Bakanlığı tarafından
-2013 tarihinde yayınlanan ‘Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik
-Önlemleri’ adlı yönetmenliğin amacı, iş yerinde mevcut olan, kullanılan kimyasal
-maddelerde oluşabilecek risklerden çalışanların sağlığının korunması ve güvenlik
-çalışma şartlarının belirlenmesidir. Bu yönetmelik kapsamına, kimyasal maddelerin
-bulunduğu, kullanıldığı veya işlem gördüğü tüm iş yerleri, radyoaktif maddelerle
-çalışmalar, zararlı kimyasal maddelerin iş yeri dışına taşınması girmektedir [2].
-Mevzuatlar bazı kimyasal maddelerin kullanımına sınır getirirken bazılarının
-üretimi ve kullanımını yasaklanmıştır.
+Yeni kurulan sanal makinenin konumu yukarıdaki şekilde yeşil renk ile gösterilen “Guest Kernel”
+kısmıdır.
 
 
 
 
-Kimyasal tehlikeler,
-günümüzde işçilerin
-sağlığı için en ciddi
-risktir.
 
-Kimyasal Risk Etmenleri
 
-Atatürk Üniversitesi Açıköğretim Fakültesi 4
-KİMYASAL MADDELERLE ÇALIŞMALARDA SAĞLIK VE
-GÜVENLİK ÖNLEMLERİ
-2013 tarihinde yayınlanan ‘Kanserojen veya Mutajen Maddelerle Çalışmalarda
-Sağlık ve Güvenlik Önlemleri’ yönetmeliğinde, iş yerinde bulunan kanserojen ve
-mutajen maddeler ile ilgili hükümleri uygulanır ...(Kısaltıldı)
+
+
+
+Sanal Makinelerin Yönetilmesi
+- Kurulu olan sanal makineleri ve durumlarını listeleyin
+
+virsh list --all
+- Çalışır durumda (running) olan sanal makineyi görüntüleyin
+
+virt-viewer testVM
+- Tüm sanal makineleri grafik arayüzden yönetin.
+virt-manager
+
+- Shut-down durumundaki bir sanal makineyi başlatma
+virsh start testVM
+- Bir sanal makineyi restart yapma
+virsh reboot testVM
+
+- Bir sanal makineyi kapatma
+virsh shutdown testVM
+
+- Bir sanal makineyi pause yapma
+virsh suspend testVM
+
+- Bir sanal makineyi unpause yapma
+virsh resume testVM
+
+- Bir sanal makineyi silme
+Bir sanal makineyi silmek için iki işlem yapılmalıdır. Önce sanal makine destroy
+edilmelidir sonrada undefine yapılmalıdır.
+virsh destroy testVM
+virsh undefine testVM
+
+
+
 - **İstenen Toplam Soru Sayısı:** 10 soru
 - **Zorluk Seviyesi:** mixed
 
@@ -380,42 +340,42 @@ mutajen maddeler ile ilgili hükümleri uygulanır ...(Kısaltıldı)
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Kimyasal Maddelerde Sağlık Ve Güvenlik: 2 soru
-  - İ Şveren Yükümlülükleri: 2 soru
-  - Risk Değerlendirilmesi: 2 soru
-  - Akut Ve Kronik Sağlık Riskleri: 2 soru
-  - Tehlikeli Kimyasal Maddeler: 2 soru
+  - Kvm Hypervisor Kurulumu: 2 soru
+  - Gerekli Paketlerin Kurulumu: 2 soru
+  - Libvirt Servisinin Yapılandırılması: 2 soru
+  - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
+  - Virsh Komutları İle Vm Yönetimi: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Kimyasal Maddelerde Sağlık Ve Güvenlik:
-- Soru: Aşağıdakilerden hangisi 'Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri' yönetmeliğinin amaçlarından biridir?
-- Seçenekler: Çalışanların ücretlerinin artırılması | İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması | İş yerindeki makinelerin modernizasyonu | Çalışanların izin günlerinin düzenlenmesi
-- Doğru Cevap: İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması
-- Zorluk: easy
-
-#### İ Şveren Yükümlülükleri:
-- Soru: 2013 tarihinde yayınlanan hangi yönetmelik, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümleri içerir?
-- Seçenekler: Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği | İş Ekipmanlarının Kullanımında Sağlık ve Güvenlik Şartları Yönetmeliği | Elle Taşıma İşleri Yönetmeliği | Gürültü Yönetmeliği
-- Doğru Cevap: Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği
-- Zorluk: easy
-
-#### Risk Değerlendirilmesi:
-- Soru: Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi öncelikle nelere bağlıdır?
-- Seçenekler: İş yerinin büyüklüğüne ve konumuna | Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine | Çalışanların kişisel tercihlerine ve alışkanlıklarına | Devletin ekonomik politikalarına
-- Doğru Cevap: Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine
+#### Kvm Hypervisor Kurulumu:
+- Soru: KVM hypervisor kurulumu için gerekli olan paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?
+- Seçenekler: qemu-kvm | virt-manager | libvirt-daemon-system | virtinst
+- Doğru Cevap: virt-manager
 - Zorluk: medium
 
-#### Akut Ve Kronik Sağlık Riskleri:
-- Soru: Aşağıdakilerden hangisi akut sağlık riskine örnek olarak verilebilir?
-- Seçenekler: Uzun süreli maruz kalma sonucu ortaya çıkan kronik bronşit | Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme | Yıllar sonra ortaya çıkan kanser | Tekrarlayan hareketler sonucu oluşan kas-iskelet sistemi rahatsızlıkları
-- Doğru Cevap: Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme
+#### Gerekli Paketlerin Kurulumu:
+- Soru: KVM kurulumu için gerekli paketlerin kurulumunda kullanılan 'apt' komutu hangi amaçla kullanılır?
+- Seçenekler: Sistemdeki mevcut paketleri güncellemek | Yeni paketleri kurmak, güncellemek veya kaldırmak | Sistemdeki servisleri başlatmak veya durdurmak | Kullanıcı izinlerini düzenlemek
+- Doğru Cevap: Yeni paketleri kurmak, güncellemek veya kaldırmak
 - Zorluk: medium
 
-#### Tehlikeli Kimyasal Maddeler:
-- Soru: Aşağıdakilerden hangisi tehlikeli kimyasal maddelere örnek olarak verilemez?
-- Seçenekler: Asitler | Bazlar | Solventler | Vitaminler
-- Doğru Cevap: Vitaminler
+#### Libvirt Servisinin Yapılandırılması:
+- Soru: /etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin etkili olabilmesi için hangi komutun çalıştırılması gereklidir?
+- Seçenekler: sudo apt update | sudo reboot | sudo systemctl restart libvirtd.service | sudo virt-manager
+- Doğru Cevap: sudo systemctl restart libvirtd.service
+- Zorluk: medium
+
+#### Virt İnstallıkomutu İle Vm Oluşturma:
+- Soru: Virt-install komutunda kullanılan '--cdrom' parametresi neyi ifade eder?
+- Seçenekler: Sanal makineye ayrılacak RAM miktarını | Sanal makine için kullanılacak disk imajının yolunu | Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu | Sanal makineye atanacak işlemci sayısını
+- Doğru Cevap: Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu
+- Zorluk: easy
+
+#### Virsh Komutları İle Vm Yönetimi:
+- Soru: Virsh komut satırı aracında, çalışır durumdaki sanal makineleri listelemek için hangi komut kullanılır?
+- Seçenekler: virsh list | virsh start | virsh shutdown | virsh reboot
+- Doğru Cevap: virsh list
 - Zorluk: easy
 

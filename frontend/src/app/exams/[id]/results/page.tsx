@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { BarChart3, CheckCircle, XCircle, ListChecks, HelpCircle, ArrowLeft, Trophy, Target, TrendingUp } from 'lucide-react';
+import { BarChart3, CheckCircle, XCircle, ListChecks, HelpCircle, ArrowLeft, Trophy, Target, TrendingUp, Home, FileText } from 'lucide-react';
 import { useTheme } from '@/context/ThemeProvider';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 // Projenizdeki Question ve Quiz tiplerine benzer basit tipler
 interface Question {
@@ -297,26 +298,118 @@ export default function ExamResultsPage() {
 
   if (dataError) {
     return (
-      <div className={`flex flex-col justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-        <p className={`text-xl text-red-500 dark:text-red-400 px-4 text-center`}>{dataError}</p>
-        {/* İsteğe bağlı: Geri dön veya sınav listesine git butonu eklenebilir */}
-        {/* Örnek: <Link href="/exams"><a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Sınav Listesine Dön</a></Link> */}
+      <div className={`min-h-screen flex flex-col justify-center items-center p-4 transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+      }`}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`max-w-md mx-auto text-center p-8 rounded-2xl shadow-2xl backdrop-blur-sm border ${
+            isDarkMode 
+              ? 'bg-slate-800/90 border-slate-700/50' 
+              : 'bg-white/90 border-gray-200/50'
+          }`}
+        >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+            <XCircle className="w-8 h-8 text-red-500 dark:text-red-400" />
+          </div>
+          <h2 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+            Sonuçlar Yüklenemedi
+          </h2>
+          <p className={`text-red-500 dark:text-red-400 mb-6`}>{dataError}</p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/exams" 
+              className={`flex-1 px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 ${
+                isDarkMode 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+              }`}
+            >
+              <Home className="w-4 h-4 inline mr-2" />
+              Sınavlar
+            </Link>
+            <button
+              onClick={() => window.location.reload()}
+              className={`flex-1 px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 border ${
+                isDarkMode 
+                  ? 'border-slate-600 hover:bg-slate-700 text-gray-300' 
+                  : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+              }`}
+            >
+              Yeniden Dene
+            </button>
+          </div>
+        </motion.div>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className={`flex justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-        <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Sonuçlar yükleniyor...</p>
+      <div className={`min-h-screen flex justify-center items-center transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+      }`}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className={`inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full ${
+            isDarkMode ? 'bg-slate-800' : 'bg-white'
+          } shadow-lg`}>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className={`w-8 h-8 border-2 border-transparent rounded-full ${
+                isDarkMode 
+                  ? 'border-t-blue-400 border-r-purple-400' 
+                  : 'border-t-blue-500 border-r-purple-500'
+              }`}
+            />
+          </div>
+          <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            Sonuçlar yükleniyor...
+          </p>
+        </motion.div>
       </div>
     );
   }
 
   if (!quizResult) {
     return (
-      <div className={`flex justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-        <p className="text-xl text-red-500 dark:text-red-400">Sınav sonuçları bulunamadı.</p>
+      <div className={`min-h-screen flex justify-center items-center transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+      }`}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`text-center p-8 rounded-2xl shadow-2xl backdrop-blur-sm border ${
+            isDarkMode 
+              ? 'bg-slate-800/90 border-slate-700/50' 
+              : 'bg-white/90 border-gray-200/50'
+          }`}
+        >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+            <FileText className="w-8 h-8 text-red-500 dark:text-red-400" />
+          </div>
+          <p className="text-xl text-red-500 dark:text-red-400 mb-4">Sınav sonuçları bulunamadı.</p>
+          <Link href="/exams" 
+            className={`inline-flex items-center px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 ${
+              isDarkMode 
+                ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                : 'bg-blue-500 hover:bg-blue-600 text-white'
+            }`}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Sınavlara Dön
+          </Link>
+        </motion.div>
       </div>
     );
   }
@@ -334,63 +427,161 @@ export default function ExamResultsPage() {
   };
 
   return (
-    <div className={`min-h-screen p-4 sm:p-6 md:p-8 transition-all duration-300 ${
+    <div className={`min-h-screen p-4 sm:p-6 transition-all duration-300 ${
       isDarkMode 
         ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-200' 
         : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800'
     }`}>
-      <div className={`max-w-4xl mx-auto shadow-2xl rounded-2xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-sm border ${
-        isDarkMode 
-          ? 'bg-slate-800/90 border-slate-700/50' 
-          : 'bg-white/90 border-gray-200/50'
-      }`}>
-        <header className="mb-10 relative">
-          <div className="text-center">
-            <h1 className={`text-4xl font-extrabold mb-2 bg-gradient-to-r ${
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-6xl mx-auto"
+      >
+        {/* Header with Navigation */}
+        <div className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <Link 
+              href="/exams" 
+              className={`inline-flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 group ${
+                isDarkMode 
+                  ? 'bg-slate-800/80 hover:bg-slate-700/80 text-gray-300 border border-slate-700/50' 
+                  : 'bg-white/80 hover:bg-gray-50/80 text-gray-700 border border-gray-200/50'
+              } backdrop-blur-sm shadow-lg`}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              Sınavlara Dön
+            </Link>
+          </div>
+        </div>
+
+        {/* Main Content Container */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className={`shadow-2xl rounded-2xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-sm border ${
+            isDarkMode 
+              ? 'bg-slate-800/90 border-slate-700/50' 
+              : 'bg-white/90 border-gray-200/50'
+          }`}
+        >
+          {/* Title Section */}
+          <motion.header 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-8 text-center"
+          >
+            <div className="flex items-center justify-center mb-4">
+              <div className={`p-3 rounded-full ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
+                  : 'bg-gradient-to-r from-blue-500 to-purple-500'
+              } shadow-lg`}>
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+            </div>
+            <h1 className={`text-3xl sm:text-4xl font-extrabold mb-2 bg-gradient-to-r ${
               isDarkMode 
                 ? 'from-blue-400 to-purple-400' 
                 : 'from-blue-600 to-purple-600'
-            } bg-clip-text text-transparent`}>{quizResult.quizTitle}</h1>
+            } bg-clip-text text-transparent`}>
+              {quizResult.quizTitle}
+            </h1>
             <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Sınav performansınızın detaylı analizi.
+              Sınav performansınızın detaylı analizi
             </p>
-          </div>
-        </header>
+          </motion.header>
 
-        {/* 1. Sınavın Genel Sonuçları */}
-        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${
-          isDarkMode 
-            ? 'bg-slate-700/80 border-slate-600/50' 
-            : 'bg-blue-50/80 border-blue-200/50'
-        }`}>
-          <h2 className={`text-2xl font-semibold mb-5 flex items-center ${
-            isDarkMode ? 'text-blue-300' : 'text-blue-700'
-          }`}>
-            <BarChart3 className="mr-3 h-7 w-7" /> Genel Başarı
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
-            <div className={`p-5 rounded-lg shadow-md transition-all duration-300 backdrop-blur-sm border ${
+          {/* Overall Performance Section */}
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className={`mb-8 p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${
               isDarkMode 
-                ? 'bg-slate-800/80 border-slate-700/50' 
-                : 'bg-white/80 border-gray-200/50'
+                ? 'bg-slate-700/80 border-slate-600/50' 
+                : 'bg-blue-50/80 border-blue-200/50'
+            }`}
+          >
+            <h2 className={`text-2xl font-semibold mb-6 flex items-center ${
+              isDarkMode ? 'text-blue-300' : 'text-blue-700'
             }`}>
-              <p className={`text-5xl font-bold ${getScoreColor(calculatedOverallScore)}`}>
-                {calculatedOverallScore.toFixed(1)}%
-              </p>
-              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Genel Puan</p>
+              <BarChart3 className="mr-3 h-7 w-7" /> 
+              Genel Başarı
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className={`p-6 rounded-xl shadow-md transition-all duration-300 backdrop-blur-sm border text-center ${
+                  isDarkMode 
+                    ? 'bg-slate-800/80 border-slate-700/50' 
+                    : 'bg-white/80 border-gray-200/50'
+                }`}
+              >
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                  calculatedOverallScore >= 70 
+                    ? 'bg-green-100 dark:bg-green-900/20' 
+                    : calculatedOverallScore >= 40 
+                    ? 'bg-yellow-100 dark:bg-yellow-900/20' 
+                    : 'bg-red-100 dark:bg-red-900/20'
+                }`}>
+                  <Target className={`w-8 h-8 ${getScoreColor(calculatedOverallScore)}`} />
+                </div>
+                <p className={`text-4xl font-bold mb-2 ${getScoreColor(calculatedOverallScore)}`}>
+                  {calculatedOverallScore.toFixed(1)}%
+                </p>
+                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Genel Başarı Oranı
+                </p>
+              </motion.div>
+
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className={`p-6 rounded-xl shadow-md transition-all duration-300 backdrop-blur-sm border text-center ${
+                  isDarkMode 
+                    ? 'bg-slate-800/80 border-slate-700/50' 
+                    : 'bg-white/80 border-gray-200/50'
+                }`}
+              >
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                  isDarkMode ? 'bg-blue-900/20' : 'bg-blue-100'
+                }`}>
+                  <CheckCircle className={`w-8 h-8 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+                </div>
+                <p className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                  {(quizResult.questions?.filter(q => q.isCorrect).length ?? 0)}
+                  <span className="text-2xl text-gray-400 mx-1">/</span>
+                  {(quizResult.questions?.length ?? 0)}
+                </p>
+                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Doğru Cevap Sayısı
+                </p>
+              </motion.div>
+
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className={`p-6 rounded-xl shadow-md transition-all duration-300 backdrop-blur-sm border text-center ${
+                  isDarkMode 
+                    ? 'bg-slate-800/80 border-slate-700/50' 
+                    : 'bg-white/80 border-gray-200/50'
+                }`}
+              >
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                  isDarkMode ? 'bg-purple-900/20' : 'bg-purple-100'
+                }`}>
+                  <TrendingUp className={`w-8 h-8 ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`} />
+                </div>
+                <p className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                  {calculatedSubTopicStats.length}
+                </p>
+                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Değerlendirilen Konu
+                </p>
+              </motion.div>
             </div>
-            <div className={`p-5 rounded-lg shadow-md transition-all duration-300 backdrop-blur-sm border ${
-              isDarkMode 
-                ? 'bg-slate-800/80 border-slate-700/50' 
-                : 'bg-white/80 border-gray-200/50'
-            }`}>
-              <p className={`text-5xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                {(quizResult.questions?.filter(q => q.isCorrect).length ?? 0)} <span className="text-3xl">/</span> {(quizResult.questions?.length ?? 0)}
-              </p>
-              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Doğru / Toplam Soru</p>
-            </div>
-          </div>
-        </section>
+          </motion.section>
 
         {/* 2. Alt Konular Bazında İstatistikler */}
         <section className={`mb-10 p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${

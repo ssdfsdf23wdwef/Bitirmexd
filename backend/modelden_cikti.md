@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-09T20:10:53.581Z
-Trace ID: quiz-1749499838157-gpfd5
-Yanıt Uzunluğu: 9292 karakter
+Tarih: 2025-06-10T02:00:25.113Z
+Trace ID: quiz-1749520809687-a3sjp
+Yanıt Uzunluğu: 8755 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,167 +11,172 @@ Yanıt Uzunluğu: 9292 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "Aşağıdakilerden hangisi 'Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri' yönetmeliğinin amaçlarından biridir?",
+      "questionText": "KVM hypervisor kurulumu için gerekli olan paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Çalışanların ücretlerinin artırılması",
-        "İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması",
-        "İş yerindeki makinelerin modernizasyonu",
-        "Çalışanların izin günlerinin düzenlenmesi"
+        "qemu-kvm",
+        "virt-manager",
+        "libvirt-daemon-system",
+        "virtinst"
       ],
-      "correctAnswer": "İş yerinde kimyasal maddelerden kaynaklanabilecek risklerden çalışanların sağlığının korunması",
-      "explanation": "2013 tarihinde yayınlanan ‘Kimyasal Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ adlı yönetmenliğin amacı, iş yerinde mevcut olan, kullanılan kimyasal maddelerde oluşabilecek risklerden çalışanların sağlığının korunması ve güvenlik çalışma şartlarının belirlenmesidir.",
-      "subTopicName": "Kimyasal Maddelerde Sağlık Ve Güvenlik",
-      "normalizedSubTopicName": "kimyasal_maddelerde_sağlık_ve_güvenlik",
-      "difficulty": "easy"
+      "correctAnswer": "virt-manager",
+      "explanation": "virt-manager paketi, KVM üzerinde sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlayan araçtır. Diğer seçenekler ise KVM'nin temel bileşenleri, servisleri ve sanal makine oluşturma araçlarıdır. Bkz: Kvm kurulumu",
+      "subTopicName": "Kvm Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "difficulty": "medium"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi iş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenlerinden biri değildir?",
+      "questionText": "Aşağıdakilerden hangisi KVM kurulumu sırasında libvirtd servisinin başlatılması ve otomatik olarak başlaması için kullanılan komutlardan biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
-      "options": ["Tozlar", "Gazlar", "Buharlar", "Radyo dalgaları"],
-      "correctAnswer": "Radyo dalgaları",
-      "explanation": "İş yerinde sağlığı olumsuz etkileyebilecek kimyasal risk etmenleri arasında tozlar (organik ve inorganik tozlar), gaz, buhar ve dumanlar, pestisitler, kanserojen, mutajen ve oksit parlayıcı, patlayıcı, tehlikeli ve zararlı maddeler, solventler, asit ve bazlar, metaller ve tuzlar sayılabilir.",
-      "subTopicName": "Kimyasal Maddelerde Sağlık Ve Güvenlik",
-      "normalizedSubTopicName": "kimyasal_maddelerde_sağlık_ve_güvenlik",
+      "options": [
+        "sudo apt install libvirtd",
+        "sudo systemctl start libvirtd",
+        "sudo systemctl enable --now libvirtd",
+        "sudo usermod -aG libvirt $USER"
+      ],
+      "correctAnswer": "sudo systemctl enable --now libvirtd",
+      "explanation": "sudo systemctl enable --now libvirtd komutu, libvirtd servisinin hem başlatılmasını hem de sistem açılışında otomatik olarak başlamasını sağlar. Bkz: Kvm kurulumu",
+      "subTopicName": "Kvm Hypervisor Kurulumu",
+      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
       "difficulty": "easy"
     },
     {
       "id": "q3",
-      "questionText": "2013 tarihinde yayınlanan hangi yönetmelik, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümleri içerir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği",
-        "İş Ekipmanlarının Kullanımında Sağlık ve Güvenlik Şartları Yönetmeliği",
-        "Elle Taşıma İşleri Yönetmeliği",
-        "Gürültü Yönetmeliği"
-      ],
-      "correctAnswer": "Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri Yönetmeliği",
-      "explanation": "2013 tarihinde yayınlanan ‘Kanserojen veya Mutajen Maddelerle Çalışmalarda Sağlık ve Güvenlik Önlemleri’ yönetmeliğinde, iş yerinde bulunan kanserojen ve mutajen maddeler ile ilgili hükümler uygulanır.",
-      "subTopicName": "İ Şveren Yükümlülükleri",
-      "normalizedSubTopicName": "i_veren_yukumlulukleri",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q4",
-      "questionText": "İşverenlerin yükümlülükleri kapsamında, çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi neye göre değişiklik gösterir?",
+      "questionText": "KVM kurulumu için gerekli paketlerin kurulumunda kullanılan 'apt' komutu hangi amaçla kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Çalışanların yaşına",
-        "Sanayi türüne, kişinin zararlı maddelere maruziyet sınırına ve bulunduğu ortama",
-        "Çalışanların eğitim seviyesine",
-        "Çalışanların medeni durumuna"
+        "Sistemdeki mevcut paketleri güncellemek",
+        "Yeni paketleri kurmak, güncellemek veya kaldırmak",
+        "Sistemdeki servisleri başlatmak veya durdurmak",
+        "Kullanıcı izinlerini düzenlemek"
       ],
-      "correctAnswer": "Sanayi türüne, kişinin zararlı maddelere maruziyet sınırına ve bulunduğu ortama",
-      "explanation": "Çalışanların tehlikeli kimyasallara maruz kalabileceği tehlikelerin seviyesi, sanayi türüne, kişinin zararlı maddelere maruziyet sınırı, bulunduğu ortama göre değişim göstermektedir.",
-      "subTopicName": "İ Şveren Yükümlülükleri",
-      "normalizedSubTopicName": "i_veren_yukumlulukleri",
+      "correctAnswer": "Yeni paketleri kurmak, güncellemek veya kaldırmak",
+      "explanation": "apt komutu, Debian tabanlı sistemlerde (Ubuntu gibi) paket yönetimini sağlamak için kullanılır. Bu komut ile yeni paketler kurulabilir, mevcut paketler güncellenebilir veya sistemden kaldırılabilir. Bkz: Kvm kurulumu",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
       "difficulty": "medium"
     },
     {
-      "id": "q5",
-      "questionText": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi öncelikle nelere bağlıdır?",
+      "id": "q4",
+      "questionText": "KVM kurulumu için gerekli paketlerin kurulumunda aşağıdaki komutlardan hangisi KVM ve ilgili araçları kurmak için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "İş yerinin büyüklüğüne ve konumuna",
-        "Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine",
-        "Çalışanların kişisel tercihlerine ve alışkanlıklarına",
-        "Devletin ekonomik politikalarına"
+        "sudo apt update",
+        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+        "sudo systemctl enable --now libvirtd",
+        "sudo usermod -aG kvm $USER"
       ],
-      "correctAnswer": "Kimyasal maddenin özelliklerine ve etkilerine, maruziyet türü, şiddeti ve süresine",
-      "explanation": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere maruz kalındığına bağlıdır.",
-      "subTopicName": "Risk Değerlendirilmesi",
-      "normalizedSubTopicName": "risk_degerlendirilmesi",
+      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+      "explanation": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils komutu, KVM hypervisor'ı ve sanal makine yönetimi için gerekli olan tüm paketleri kurar. Bkz: Kvm kurulumu",
+      "subTopicName": "Gerekli Paketlerin Kurulumu",
+      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q5",
+      "questionText": "/etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin etkili olabilmesi için hangi komutun çalıştırılması gereklidir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "sudo apt update",
+        "sudo reboot",
+        "sudo systemctl restart libvirtd.service",
+        "sudo virt-manager"
+      ],
+      "correctAnswer": "sudo systemctl restart libvirtd.service",
+      "explanation": "/etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin uygulanabilmesi için libvirtd servisinin yeniden başlatılması gerekmektedir. Bu işlem 'sudo systemctl restart libvirtd.service' komutu ile yapılır. Bkz: Kvm kurulumu",
+      "subTopicName": "Libvirt Servisinin Yapılandırılması",
+      "normalizedSubTopicName": "libvirt_servisinin_yapilandirilmasi",
       "difficulty": "medium"
     },
     {
       "id": "q6",
-      "questionText": "Risk değerlendirmesi sürecinde, çalışanların sağlığını ve güvenliğini etkileyebilecek tehlikelerin belirlenmesinde aşağıdakilerden hangisi dikkate alınmaz?",
+      "questionText": "libvirt yapılandırma dosyasında (qemu.conf) hangi satırların düzenlenmesi, kullanıcı ve grup ayarlarının yapılandırılması için gereklidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Kimyasal maddelerin özellikleri",
-        "Maruziyetin türü, şiddeti ve süresi",
-        "Çalışanların hobileri",
-        "Çalışma ortamının koşulları"
+        "#user ve #group",
+        "#listen_tls ve #listen_tcp",
+        "#dynamic_ownership ve #remember_owner",
+        "#log_level ve #log_outputs"
       ],
-      "correctAnswer": "Çalışanların hobileri",
-      "explanation": "Çalışanların tehlikeli kimyasal maddeler ile yüz yüze oldukları tehlikelerin derecesi, (maruziyet türü, şiddeti ve süresi) kimyasal maddenin özelliklerine ve etkilerine, ne kadar süre ile bu kimyasal maddelere maruz kalındığına bağlıdır. Bu değerlendirmede çalışanların hobileri dikkate alınmaz.",
-      "subTopicName": "Risk Değerlendirilmesi",
-      "normalizedSubTopicName": "risk_degerlendirilmesi",
+      "correctAnswer": "#user ve #group",
+      "explanation": "/etc/libvirt/qemu.conf dosyasında '#user' ve '#group' satırlarının başındaki '#' işaretini kaldırarak ilgili kullanıcı ve grup ayarları yapılandırılır. Bu, sanal makinelerin doğru izinlerle çalışmasını sağlar. Bkz: Kvm kurulumu",
+      "subTopicName": "Libvirt Servisinin Yapılandırılması",
+      "normalizedSubTopicName": "libvirt_servisinin_yapilandirilmasi",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Aşağıdakilerden hangisi akut sağlık riskine örnek olarak verilebilir?",
+      "questionText": "Virt-install komutunda kullanılan '--cdrom' parametresi neyi ifade eder?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Uzun süreli maruz kalma sonucu ortaya çıkan kronik bronşit",
-        "Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme",
-        "Yıllar sonra ortaya çıkan kanser",
-        "Tekrarlayan hareketler sonucu oluşan kas-iskelet sistemi rahatsızlıkları"
+        "Sanal makineye ayrılacak RAM miktarını",
+        "Sanal makine için kullanılacak disk imajının yolunu",
+        "Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu",
+        "Sanal makineye atanacak işlemci sayısını"
       ],
-      "correctAnswer": "Ani ve kısa süreli maruz kalma sonucu oluşan zehirlenme",
-      "explanation": "Akut sağlık riskleri, ani ve kısa süreli maruz kalma sonucu ortaya çıkan sağlık sorunlarını ifade eder. Zehirlenme, bu tür bir riske örnektir.",
-      "subTopicName": "Akut Ve Kronik Sağlık Riskleri",
-      "normalizedSubTopicName": "akut_ve_kronik_saglik_riskleri",
-      "difficulty": "medium"
+      "correctAnswer": "Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu",
+      "explanation": "'--cdrom' parametresi, sanal makine kurulumu sırasında kullanılacak olan işletim sistemi ISO dosyasının yolunu belirtir. Bu, sanal makinenin kurulum kaynağını tanımlar. Bkz: VM kurulumu",
+      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
+      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
+      "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Kronik sağlık riskleri hangi tür maruziyet sonucu ortaya çıkar?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Kısa süreli ve yoğun maruziyet",
-        "Uzun süreli ve tekrarlayan maruziyet",
-        "Sadece tek bir defalık maruziyet",
-        "Maruziyetin olmadığı durumlar"
-      ],
-      "correctAnswer": "Uzun süreli ve tekrarlayan maruziyet",
-      "explanation": "Kronik sağlık riskleri, genellikle uzun süreli ve tekrarlayan maruziyetler sonucu ortaya çıkar. Örneğin, yıllar süren kimyasal madde maruziyeti sonucu gelişen bir hastalık kronik bir risktir.",
-      "subTopicName": "Akut Ve Kronik Sağlık Riskleri",
-      "normalizedSubTopicName": "akut_ve_kronik_saglik_riskleri",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q9",
-      "questionText": "Aşağıdakilerden hangisi tehlikeli kimyasal maddelere örnek olarak verilemez?",
+      "questionText": "Aşağıdaki virt-install komut parametrelerinden hangisi, oluşturulacak sanal makinenin disk boyutunu belirtir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "Asitler",
-        "Bazlar",
-        "Solventler",
-        "Vitaminler"
+        "--name",
+        "--ram",
+        "--disk",
+        "--vcpu"
       ],
-      "correctAnswer": "Vitaminler",
-      "explanation": "Asitler, bazlar ve solventler tehlikeli kimyasal maddeler sınıfına girerken, vitaminler genellikle bu sınıfa dahil edilmez.",
-      "subTopicName": "Tehlikeli Kimyasal Maddeler",
-      "normalizedSubTopicName": "tehlikeli_kimyasal_maddeler",
+      "correctAnswer": "--disk",
+      "explanation": "--disk parametresi, sanal makineye ayrılacak disk alanı ile ilgili ayarları içerir. Bu parametre ile diskin yolu ve boyutu belirlenebilir. Bkz: VM kurulumu",
+      "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
+      "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q9",
+      "questionText": "Virsh komut satırı aracında, çalışır durumdaki sanal makineleri listelemek için hangi komut kullanılır?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "virsh list",
+        "virsh start",
+        "virsh shutdown",
+        "virsh reboot"
+      ],
+      "correctAnswer": "virsh list",
+      "explanation": "virsh list komutu, sadece çalışır durumda olan sanal makineleri listeler. virsh list --all komutu ise tüm sanal makineleri (çalışan ve kapalı olanlar dahil) listeler. Bkz: Sanal Makinelerin Yönetilmesi",
+      "subTopicName": "Virsh Komutları İle Vm Yönetimi",
+      "normalizedSubTopicName": "virsh_komutlari_ile_vm_yonetimi",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Tehlikeli kimyasal maddelerle çalışırken alınması gereken önlemlerden biri aşağıdakilerden hangisi değildir?",
+      "questionText": "Bir sanal makineyi kapatmak için kullanılan 'virsh shutdown VM_ADI' komutu, sanal makineyi hangi duruma getirir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Uygun kişisel koruyucu ekipman kullanımı",
-        "Yeterli havalandırma sağlanması",
-        "Kimyasal maddelerin rastgele karıştırılması",
-        "Güvenlik bilgi formlarının (GBF) okunması"
+        "Askıda (Suspended)",
+        "Çalışır (Running)",
+        "Kapalı (Shut-down)",
+        "Yeniden Başlatılıyor (Rebooting)"
       ],
-      "correctAnswer": "Kimyasal maddelerin rastgele karıştırılması",
-      "explanation": "Tehlikeli kimyasal maddelerle çalışırken, maddelerin rastgele karıştırılması tehlikeli reaksiyonlara neden olabileceği için kesinlikle kaçınılması gereken bir durumdur.",
-      "subTopicName": "Tehlikeli Kimyasal Maddeler",
-      "normalizedSubTopicName": "tehlikeli_kimyasal_maddeler",
+      "correctAnswer": "Kapalı (Shut-down)",
+      "explanation": "virsh shutdown komutu, belirtilen sanal makineyi güvenli bir şekilde kapatır ve 'Shut-down' durumuna getirir. Bu, sanal makinenin işletim sistemi içinden kapatılması gibidir. Bkz: Sanal Makinelerin Yönetilmesi",
+      "subTopicName": "Virsh Komutları İle Vm Yönetimi",
+      "normalizedSubTopicName": "virsh_komutlari_ile_vm_yonetimi",
       "difficulty": "medium"
     }
   ]

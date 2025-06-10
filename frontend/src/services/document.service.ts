@@ -82,7 +82,7 @@ class DocumentService {
       this.logger.info(
         `Belge konuları tespit edildi: ${documentId}`,
         'DocumentService.detectTopics',
-        __filename,
+        'DocumentService',
         undefined,
         { documentId, topicCount: response.topics.length, duration }
       );
@@ -91,7 +91,7 @@ class DocumentService {
       return response.topics;
     } catch (error) {
       this.flowTracker.markEnd(`detectTopics_${documentId}`, mapToTrackerCategory(FlowCategory.API), 'DocumentService');
-      this.logger.error('Error detecting topics', 'DocumentService.detectTopics', __filename, undefined, { documentId, error });
+      this.logger.error('Error detecting topics', 'DocumentService.detectTopics', 'DocumentService', undefined, { documentId, error });
       flow.end(`Error: ${(error as Error).message}`);
       throw error;
     }
@@ -115,7 +115,7 @@ class DocumentService {
       flow.end("Successfully fetched documents");
       return documents;
     } catch (error) {
-      this.logger.error('Error fetching documents', 'DocumentService.getDocuments', __filename, undefined, { courseId, error });
+      this.logger.error('Error fetching documents', 'DocumentService.getDocuments', 'DocumentService', undefined, { courseId, error });
       flow.end(`Error: ${(error as Error).message}`);
       throw error;
     }
@@ -135,7 +135,7 @@ class DocumentService {
       flow.end("Successfully fetched document by ID");
       return document;
     } catch (error) {
-      this.logger.error('Error fetching document by ID', 'DocumentService.getDocumentById', __filename, undefined, { id, error });
+      this.logger.error('Error fetching document by ID', 'DocumentService.getDocumentById', 'DocumentService', undefined, { id, error });
       flow.end(`Error: ${(error as Error).message}`);
       throw error;
     }
@@ -158,7 +158,7 @@ class DocumentService {
       this.logger.debug(
         `Belge metni getirildi: ${id}`,
         'DocumentService.getDocumentText',
-        __filename,
+        'DocumentService',
         undefined,
         { id, textLength, duration }
       );
@@ -166,7 +166,7 @@ class DocumentService {
       return documentText;
     } catch (error) {
       this.flowTracker.markEnd(`getDocumentText_${id}`, mapToTrackerCategory(FlowCategory.API), 'DocumentService');
-      this.logger.error('Error fetching document text', 'DocumentService.getDocumentText', __filename, undefined, { id, error });
+      this.logger.error('Error fetching document text', 'DocumentService.getDocumentText', 'DocumentService', undefined, { id, error });
       flow.end(`Error: ${(error as Error).message}`);
       throw error;
     }
@@ -200,7 +200,7 @@ class DocumentService {
         this.logger.warn(
           'Belge yükleme isteği boyut sınırını aştı',
           'DocumentService.uploadDocument',
-          __filename,
+          'DocumentService',
           156,
           {
             fileName: file.name,
@@ -226,7 +226,7 @@ class DocumentService {
         this.logger.warn(
           'Belge yükleme isteği geçersiz dosya formatı içeriyor',
           'DocumentService.uploadDocument',
-          __filename,
+          'DocumentService',
           179,
           {
             fileName: file.name,
@@ -277,7 +277,7 @@ class DocumentService {
       this.logger.debug(
         'Belge yükleme isteği gönderiliyor',
         'DocumentService.uploadDocument',
-        __filename,
+        'DocumentService',
         221,
         { fileName: file.name, courseId }
       );
@@ -293,7 +293,7 @@ class DocumentService {
       this.logger.info(
         `Belge başarıyla yüklendi: ${file.name}`,
         'DocumentService.uploadDocument',
-        __filename,
+        'DocumentService',
         undefined,
         { fileName: file.name, courseId, duration }
       );
@@ -302,7 +302,7 @@ class DocumentService {
       return response.data;
     } catch (error) {
       this.flowTracker.markEnd('uploadDocument', mapToTrackerCategory(FlowCategory.API), 'DocumentService');
-      this.logger.error('Error uploading document', 'DocumentService.uploadDocument', __filename, undefined, { fileName: file.name, error });
+      this.logger.error('Error uploading document', 'DocumentService.uploadDocument', 'DocumentService', undefined, { fileName: file.name, error });
       flow.end(`Error: ${(error as Error).message}`);
       throw error;
     }
@@ -327,7 +327,7 @@ class DocumentService {
       this.logger.info(
         `Belge silindi: ${id}`,
         'DocumentService.deleteDocument',
-        __filename,
+        'DocumentService',
         276,
         { id, duration }
       );
@@ -339,7 +339,7 @@ class DocumentService {
       this.logger.error(
         `Belge silinirken hata oluştu: ${id}`,
         'DocumentService.deleteDocument',
-        __filename,
+        'DocumentService',
         287,
         { id, error }
       );
@@ -386,7 +386,7 @@ class DocumentService {
       this.logger.error(
         'Belge yükleme ve konu tespiti hatası',
         'DocumentService.uploadAndDetectTopics',
-        __filename,
+        'DocumentService',
         undefined,
         { fileName: file.name, error }
       );
@@ -422,7 +422,7 @@ class DocumentService {
       this.logger.error(
         'Belgeden sınav oluşturma hatası',
         'DocumentService.createQuizFromDocument',
-        __filename,
+        'DocumentService',
         undefined,
         { documentId, options, error }
       );
