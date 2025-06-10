@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeProvider";
 import { FaGoogle } from "react-icons/fa";
+import { FiEye, FiEyeOff, FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 import { ErrorService } from "@/services/error.service";
 import { FirebaseError } from "firebase/app";
 import axios from "axios";
@@ -13,6 +16,7 @@ import { toast } from "react-hot-toast";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginOptions, setShowLoginOptions] = useState(false);
@@ -20,6 +24,7 @@ const LoginPage = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isDarkMode } = useTheme();
   const forceLogin = searchParams.get("forceLogin") === "true";
   const returnUrl = searchParams.get("returnUrl") || "/";
   const errorType = searchParams.get("error");
@@ -264,42 +269,156 @@ const LoginPage = () => {
   // Kullanıcı zaten giriş yapmışsa ve seçenekler gösteriliyorsa
   if (showLoginOptions) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
-        <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <div className="w-full max-w-sm mx-auto lg:w-96">
-            <div className="text-center">
-              <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-                Hoş Geldiniz
-              </h2>
-              <p className="mt-2 text-sm text-gray-600">
-                {user?.email} olarak giriş yaptınız
-              </p>
+      <div className={`min-h-screen flex transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' 
+          : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+      }`}>
+        {/* Background Pattern */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+            isDarkMode ? 'bg-blue-500' : 'bg-blue-300'
+          }`}></div>
+          <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+            isDarkMode ? 'bg-purple-500' : 'bg-purple-300'
+          }`}></div>
+        </div>
 
-              <div className="mt-8">
+        <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-md mx-auto"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className={`p-8 rounded-2xl shadow-2xl backdrop-blur-xl border transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-slate-800/60 border-slate-700/50' 
+                  : 'bg-white/80 border-gray-200/50'
+              }`}
+            >
+              <div className="text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className={`w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center ${
+                    isDarkMode 
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600'
+                  }`}
+                >
+                  <FiArrowRight className="w-8 h-8 text-white" />
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className={`text-3xl font-bold mb-2 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}
+                >
+                  Hoş Geldiniz
+                </motion.h2>
+                
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className={`text-sm mb-8 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}
+                >
+                  <span className="font-medium">{user?.email}</span> olarak giriş yaptınız
+                </motion.p>
+
                 <div className="space-y-4">
-                  <button
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleContinueWithCurrentAccount}
-                    className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className={`w-full px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl group relative overflow-hidden ${
+                      isDarkMode
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
+                        : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white'
+                    }`}
                   >
-                    Bu hesapla devam et
-                  </button>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Bu hesapla devam et
+                      <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                  </motion.button>
 
-                  <button
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleUseAnotherAccount}
                     disabled={isLoading}
-                    className="flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className={`w-full px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg border ${
+                      isDarkMode
+                        ? 'bg-slate-700/60 hover:bg-slate-600/60 text-white border-slate-600/50'
+                        : 'bg-white/80 hover:bg-white/95 text-gray-700 border-gray-200/50'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    {isLoading
-                      ? "İşlem yapılıyor..."
-                      : "Başka hesapla giriş yap"}
-                  </button>
+                    {isLoading ? "İşlem yapılıyor..." : "Başka hesapla giriş yap"}
+                  </motion.button>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-        <div className="relative flex-1 hidden w-0 lg:block">
-          <div className="absolute inset-0 object-cover w-full h-full bg-gradient-to-r from-blue-100 to-blue-300" />
+
+        {/* Enhanced Right Side */}
+        <div className="relative flex-1 hidden lg:block">
+          <div className={`absolute inset-0 transition-all duration-500 ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800' 
+              : 'bg-gradient-to-br from-blue-100 via-purple-100 to-blue-200'
+          }`}>
+            {/* Floating Elements */}
+            <motion.div
+              animate={{ 
+                x: [0, 30, 0], 
+                y: [0, -30, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className={`absolute top-1/4 right-1/4 w-32 h-32 rounded-full blur-2xl ${
+                isDarkMode ? 'bg-blue-500/20' : 'bg-blue-400/30'
+              }`}
+            />
+            <motion.div
+              animate={{ 
+                x: [0, -20, 0], 
+                y: [0, 20, 0],
+                scale: [1, 0.9, 1]
+              }}
+              transition={{ 
+                duration: 10, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className={`absolute bottom-1/4 left-1/4 w-24 h-24 rounded-full blur-xl ${
+                isDarkMode ? 'bg-purple-500/20' : 'bg-purple-400/30'
+              }`}
+            />
+          </div>
         </div>
       </div>
     );
@@ -307,144 +426,379 @@ const LoginPage = () => {
 
   // Normal login formu
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-        <div className="w-full max-w-sm mx-auto lg:w-96">
-          <div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-              Hesabınıza giriş yapın
+    <div className={`min-h-screen flex transition-all duration-300 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' 
+        : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+    }`}>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+          isDarkMode ? 'bg-blue-500' : 'bg-blue-300'
+        }`}></div>
+        <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl transition-all duration-500 ${
+          isDarkMode ? 'bg-purple-500' : 'bg-purple-300'
+        }`}></div>
+      </div>
+
+      <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md mx-auto"
+        >
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center mb-8"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                  : 'bg-gradient-to-r from-blue-600 to-purple-600'
+              }`}
+            >
+              <FiLock className="w-8 h-8 text-white" />
+            </motion.div>
+
+            <h2 className={`text-3xl font-bold mb-2 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
+              Hesabınıza Giriş Yapın
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Veya{" "}
               <Link
                 href="/auth/register"
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className={`font-medium transition-colors duration-200 ${
+                  isDarkMode 
+                    ? 'text-blue-400 hover:text-blue-300' 
+                    : 'text-blue-600 hover:text-blue-500'
+                }`}
               >
                 yeni bir hesap oluşturun
               </Link>
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mt-8">
+          {/* Main Form Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className={`p-8 rounded-2xl shadow-2xl backdrop-blur-xl border transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-slate-800/60 border-slate-700/50' 
+                : 'bg-white/80 border-gray-200/50'
+            }`}
+          >
+            {/* Error Message */}
             {error && (
-              <div className="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-md">
-                {error}
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`p-4 mb-6 rounded-xl border ${
+                  isDarkMode 
+                    ? 'bg-red-500/10 border-red-500/30 text-red-300' 
+                    : 'bg-red-50 border-red-200 text-red-700'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                  <p className="text-sm font-medium">{error}</p>
+                </div>
+              </motion.div>
             )}
 
-            <div className="mt-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    E-posta adresi
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Şifre
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="block ml-2 text-sm text-gray-900"
-                    >
-                      Beni hatırla
-                    </label>
-                  </div>
-
-                  <div className="text-sm">
-                    <Link
-                      href="/auth/forgot-password"
-                      className="font-medium text-blue-600 hover:text-blue-500"
-                    >
-                      Şifrenizi mi unuttunuz?
-                    </Link>
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-                  >
-                    {isLoading ? "Giriş yapılıyor..." : "Giriş yap"}
-                  </button>
-                </div>
-              </form>
-
-              <div className="mt-6">
+            {/* Login Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Email Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <label
+                  htmlFor="email"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}
+                >
+                  E-posta adresi
+                </label>
                 <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300" />
+                  <div className={`absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    <FiMail className="w-5 h-5" />
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 text-gray-500 bg-gray-50">
-                      Veya şununla devam edin
-                    </span>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={`block w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                      isDarkMode
+                        ? 'bg-slate-700/60 border-slate-600/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500/20'
+                        : 'bg-white/80 border-gray-200 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500/20'
+                    } backdrop-blur-sm`}
+                    placeholder="E-posta adresinizi girin"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Password Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <label
+                  htmlFor="password"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}
+                >
+                  Şifre
+                </label>
+                <div className="relative">
+                  <div className={`absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    <FiLock className="w-5 h-5" />
                   </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={`block w-full pl-10 pr-12 py-3 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                      isDarkMode
+                        ? 'bg-slate-700/60 border-slate-600/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500/20'
+                        : 'bg-white/80 border-gray-200 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500/20'
+                    } backdrop-blur-sm`}
+                    placeholder="Şifrenizi girin"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className={`absolute inset-y-0 right-0 pr-3 flex items-center ${
+                      isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
+                    } transition-colors duration-200`}
+                  >
+                    {showPassword ? (
+                      <FiEyeOff className="w-5 h-5" />
+                    ) : (
+                      <FiEye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Remember Me & Forgot Password */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex items-center justify-between"
+              >
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className={`w-4 h-4 rounded border transition-colors duration-200 ${
+                      isDarkMode
+                        ? 'text-blue-500 bg-slate-700 border-slate-600 focus:ring-blue-500/20'
+                        : 'text-blue-600 bg-white border-gray-300 focus:ring-blue-500/20'
+                    }`}
+                  />
+                  <label
+                    htmlFor="remember-me"
+                    className={`ml-2 text-sm ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}
+                  >
+                    Beni hatırla
+                  </label>
                 </div>
 
-                <div className="mt-6">
-                  <button
-                    onClick={handleGoogleLogin}
-                    disabled={isLoading}
-                    className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-                  >
-                    <FaGoogle className="w-5 h-5 mr-2 text-red-600" />
-                    Google ile giriş yap
-                  </button>
+                <Link
+                  href="/auth/forgot-password"
+                  className={`text-sm font-medium transition-colors duration-200 ${
+                    isDarkMode 
+                      ? 'text-blue-400 hover:text-blue-300' 
+                      : 'text-blue-600 hover:text-blue-500'
+                  }`}
+                >
+                  Şifrenizi mi unuttunuz?
+                </Link>
+              </motion.div>
+
+              {/* Submit Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <motion.button
+                  type="submit"
+                  disabled={isLoading}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl group relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isDarkMode
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
+                      : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white'
+                  }`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {isLoading ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                        />
+                        Giriş yapılıyor...
+                      </>
+                    ) : (
+                      <>
+                        Giriş yap
+                        <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      </>
+                    )}
+                  </span>
+                </motion.button>
+              </motion.div>
+            </form>
+
+            {/* Divider */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="mt-8"
+            >
+              <div className="relative">
+                <div className={`absolute inset-0 flex items-center ${
+                  isDarkMode ? 'text-slate-600' : 'text-gray-300'
+                }`}>
+                  <div className="w-full border-t"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className={`px-4 ${
+                    isDarkMode 
+                      ? 'bg-slate-800 text-gray-400' 
+                      : 'bg-white text-gray-500'
+                  }`}>
+                    Veya şununla devam edin
+                  </span>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+
+            {/* Google Login Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="mt-6"
+            >
+              <motion.button
+                onClick={handleGoogleLogin}
+                disabled={isLoading}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg border disabled:opacity-50 disabled:cursor-not-allowed ${
+                  isDarkMode
+                    ? 'bg-slate-700/60 hover:bg-slate-600/60 text-white border-slate-600/50'
+                    : 'bg-white/80 hover:bg-white/95 text-gray-700 border-gray-200/50'
+                }`}
+              >
+                <FaGoogle className="w-5 h-5 text-red-500" />
+                Google ile giriş yap
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Enhanced Right Side */}
+      <div className="relative flex-1 hidden lg:block">
+        <div className={`absolute inset-0 transition-all duration-500 ${
+          isDarkMode 
+            ? 'bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800' 
+            : 'bg-gradient-to-br from-blue-100 via-purple-100 to-blue-200'
+        }`}>
+          {/* Enhanced Floating Elements */}
+          <motion.div
+            animate={{ 
+              x: [0, 30, 0], 
+              y: [0, -30, 0],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ 
+              duration: 8, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className={`absolute top-1/4 right-1/4 w-32 h-32 rounded-full blur-2xl ${
+              isDarkMode ? 'bg-blue-500/20' : 'bg-blue-400/30'
+            }`}
+          />
+          <motion.div
+            animate={{ 
+              x: [0, -20, 0], 
+              y: [0, 20, 0],
+              scale: [1, 0.9, 1]
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className={`absolute bottom-1/4 left-1/4 w-24 h-24 rounded-full blur-xl ${
+              isDarkMode ? 'bg-purple-500/20' : 'bg-purple-400/30'
+            }`}
+          />
+          <motion.div
+            animate={{ 
+              x: [0, 15, 0], 
+              y: [0, -15, 0],
+              rotate: [0, 180, 360]
+            }}
+            transition={{ 
+              duration: 12, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full blur-lg ${
+              isDarkMode ? 'bg-cyan-500/20' : 'bg-cyan-400/30'
+            }`}
+          />
         </div>
       </div>
-      <div className="relative flex-1 hidden w-0 lg:block">
-        <div className="absolute inset-0 object-cover w-full h-full bg-gradient-to-r from-blue-100 to-blue-300" />
-      </div>
-    </div>
-  );
-};
+       </div>
+    );
+  };
+
 
 export default LoginPage;

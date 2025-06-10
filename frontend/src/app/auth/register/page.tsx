@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiMail, FiLock, FiEye, FiEyeOff, FiUser } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff, FiUser, FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/auth/useAuth";
+import { useTheme } from "@/context/ThemeProvider";
 
 export default function RegisterPage() {
+  const { register } = useAuth();
+  const { isDarkMode } = useTheme();
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,7 +25,6 @@ export default function RegisterPage() {
   const [backendStatus, setBackendStatus] = useState<
     "checking" | "ok" | "error"
   >("checking");
-  const { register } = useAuth();
 
   // Component mount olduğunda backend kontrolü yap
   useEffect(() => {
@@ -209,64 +212,208 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
-      <div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center ${
+      isDarkMode
+        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
+        : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
+    }`}>
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className={`absolute top-10 left-10 w-32 h-32 rounded-full ${
+            isDarkMode
+              ? 'bg-gradient-to-r from-blue-600/20 to-indigo-600/20'
+              : 'bg-gradient-to-r from-blue-200/40 to-indigo-200/40'
+          } blur-xl`}
+        />
+        <motion.div
+          animate={{
+            x: [0, -80, 0],
+            y: [0, 100, 0],
+            rotate: [0, -180, -360],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className={`absolute bottom-10 right-10 w-40 h-40 rounded-full ${
+            isDarkMode
+              ? 'bg-gradient-to-r from-purple-600/20 to-pink-600/20'
+              : 'bg-gradient-to-r from-purple-200/40 to-pink-200/40'
+          } blur-xl`}
+        />
+        <motion.div
+          animate={{
+            x: [0, 60, 0],
+            y: [0, -80, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className={`absolute top-1/2 left-1/4 w-24 h-24 rounded-full ${
+            isDarkMode
+              ? 'bg-gradient-to-r from-green-600/20 to-teal-600/20'
+              : 'bg-gradient-to-r from-green-200/40 to-teal-200/40'
+          } blur-lg`}
+        />
+      </div>
+
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className={`relative z-10 max-w-md w-full mx-auto p-8 ${
+          isDarkMode
+            ? 'bg-slate-800/90 border border-slate-700/50'
+            : 'bg-white/90 border border-white/20'
+        } rounded-2xl shadow-2xl backdrop-blur-xl`}
+      >
+        {/* Header */}
         <div className="text-center mb-8">
           <motion.h1
-            className="text-3xl font-bold text-indigo-600 mb-2"
+            className={`text-4xl font-bold mb-2 bg-gradient-to-r ${
+              isDarkMode
+                ? 'from-blue-400 to-indigo-400'
+                : 'from-blue-600 to-indigo-600'
+            } bg-clip-text text-transparent`}
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             quiz
           </motion.h1>
-          <p className="text-gray-600">Akıllı Öğrenme Platformu</p>
+          <p className={`${isDarkMode ? 'text-slate-300' : 'text-gray-600'}`}>
+            Akıllı Öğrenme Platformu
+          </p>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Kayıt Ol</h2>
+        <h2 className={`text-2xl font-semibold mb-6 ${
+          isDarkMode ? 'text-slate-100' : 'text-gray-800'
+        }`}>
+          Hesap Oluştur
+        </h2>
 
-        <div className="mb-6">
+        {/* Progress Indicator */}
+        <div className="mb-8">
           <div className="flex items-center">
             <div className="flex-1">
               <div
-                className={`w-full h-2 ${step >= 1 ? "bg-indigo-600" : "bg-gray-200"} rounded-l-full`}
-              ></div>
+                className={`w-full h-2 ${
+                  step >= 1
+                    ? isDarkMode
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-500"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-600"
+                    : isDarkMode
+                    ? "bg-slate-700"
+                    : "bg-gray-200"
+                } rounded-l-full transition-all duration-300`}
+              />
             </div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${step >= 1 ? "bg-indigo-600 text-white" : "bg-gray-200 text-gray-700"}`}
+            <motion.div
+              animate={{ scale: step >= 1 ? 1.1 : 1 }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                step >= 1
+                  ? isDarkMode
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25"
+                  : isDarkMode
+                  ? "bg-slate-700 text-slate-400"
+                  : "bg-gray-200 text-gray-700"
+              } transition-all duration-300`}
             >
               1
-            </div>
+            </motion.div>
             <div className="flex-1">
               <div
-                className={`w-full h-2 ${step >= 2 ? "bg-indigo-600" : "bg-gray-200"}`}
-              ></div>
+                className={`w-full h-2 ${
+                  step >= 2
+                    ? isDarkMode
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-500"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-600"
+                    : isDarkMode
+                    ? "bg-slate-700"
+                    : "bg-gray-200"
+                } transition-all duration-300`}
+              />
             </div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${step >= 2 ? "bg-indigo-600 text-white" : "bg-gray-200 text-gray-700"}`}
+            <motion.div
+              animate={{ scale: step >= 2 ? 1.1 : 1 }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                step >= 2
+                  ? isDarkMode
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25"
+                  : isDarkMode
+                  ? "bg-slate-700 text-slate-400"
+                  : "bg-gray-200 text-gray-700"
+              } transition-all duration-300`}
             >
               2
-            </div>
+            </motion.div>
             <div className="flex-1">
               <div
-                className={`w-full h-2 ${step >= 3 ? "bg-indigo-600" : "bg-gray-200"} rounded-r-full`}
-              ></div>
+                className={`w-full h-2 ${
+                  step >= 3
+                    ? isDarkMode
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-500"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-600"
+                    : isDarkMode
+                    ? "bg-slate-700"
+                    : "bg-gray-200"
+                } rounded-r-full transition-all duration-300`}
+              />
             </div>
           </div>
-          <div className="flex justify-between mt-2 text-xs text-gray-500">
-            <span>Kişisel Bilgiler</span>
-            <span>Hesap Bilgileri</span>
+          <div className="flex justify-between mt-3 text-xs">
+            <span className={`${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>
+              Kişisel Bilgiler
+            </span>
+            <span className={`${isDarkMode ? 'text-slate-400' : 'text-gray-500'}`}>
+              Hesap Bilgileri
+            </span>
           </div>
         </div>
 
+        {/* Error Messages */}
         {error && (
-          <div className="bg-red-50 text-red-700 p-3 rounded-md mb-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`${
+              isDarkMode
+                ? 'bg-red-900/20 border border-red-700/30 text-red-300'
+                : 'bg-red-50 border border-red-200 text-red-700'
+            } p-4 rounded-lg mb-4 backdrop-blur-sm`}
+          >
             {error}
-          </div>
+          </motion.div>
         )}
 
         {backendStatus === "error" && (
-          <div className="bg-orange-50 border-l-4 border-orange-500 text-orange-700 p-3 rounded-md mb-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`${
+              isDarkMode
+                ? 'bg-orange-900/20 border-l-4 border-orange-500 text-orange-300'
+                : 'bg-orange-50 border-l-4 border-orange-500 text-orange-700'
+            } p-4 rounded-lg mb-4 backdrop-blur-sm`}
+          >
             <div className="flex items-center">
               <svg
                 className="h-5 w-5 mr-2"
@@ -285,7 +432,7 @@ export default function RegisterPage() {
               Backend sunucusuna bağlanılamıyor. Lütfen sunucunun çalıştığından
               emin olun. Kayıt işlemi şu anda çalışmayabilir.
             </p>
-          </div>
+          </motion.div>
         )}
 
         <form
@@ -304,23 +451,30 @@ export default function RegisterPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3 }}
+              className="space-y-6"
             >
-              <div className="mb-4">
+              <div>
                 <label
-                  className="block text-gray-700 text-sm font-medium mb-2"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                  }`}
                   htmlFor="firstName"
                 >
                   Adınız
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiUser className="text-gray-400" />
+                    <FiUser className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
                   </div>
                   <input
                     id="firstName"
                     name="firstName"
                     type="text"
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
+                      isDarkMode
+                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                    }`}
                     placeholder="Adınız"
                     value={formData.firstName}
                     onChange={handleChange}
@@ -329,22 +483,28 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div>
                 <label
-                  className="block text-gray-700 text-sm font-medium mb-2"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                  }`}
                   htmlFor="lastName"
                 >
                   Soyadınız
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiUser className="text-gray-400" />
+                    <FiUser className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
                   </div>
                   <input
                     id="lastName"
                     name="lastName"
                     type="text"
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
+                      isDarkMode
+                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                    }`}
                     placeholder="Soyadınız"
                     value={formData.lastName}
                     onChange={handleChange}
@@ -353,13 +513,20 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={nextStep}
-                className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                  isDarkMode
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25'
+                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25'
+                }`}
               >
                 İlerle
-              </button>
+                <FiArrowRight className="text-lg" />
+              </motion.button>
             </motion.div>
           )}
 
@@ -369,23 +536,30 @@ export default function RegisterPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
+              className="space-y-6"
             >
-              <div className="mb-4">
+              <div>
                 <label
-                  className="block text-gray-700 text-sm font-medium mb-2"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                  }`}
                   htmlFor="email"
                 >
                   E-posta Adresi
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiMail className="text-gray-400" />
+                    <FiMail className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
                   </div>
                   <input
                     id="email"
                     name="email"
                     type="email"
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
+                      isDarkMode
+                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                    }`}
                     placeholder="ornek@email.com"
                     value={formData.email}
                     onChange={handleChange}
@@ -394,22 +568,28 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div>
                 <label
-                  className="block text-gray-700 text-sm font-medium mb-2"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                  }`}
                   htmlFor="password"
                 >
                   Şifre
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiLock className="text-gray-400" />
+                    <FiLock className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
                   </div>
                   <input
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
+                      isDarkMode
+                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                    }`}
                     placeholder="Şifreniz (en az 6 karakter)"
                     value={formData.password}
                     onChange={handleChange}
@@ -422,30 +602,36 @@ export default function RegisterPage() {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <FiEyeOff className="text-gray-400" />
+                      <FiEyeOff className={`${isDarkMode ? 'text-slate-400 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600'} transition-colors`} />
                     ) : (
-                      <FiEye className="text-gray-400" />
+                      <FiEye className={`${isDarkMode ? 'text-slate-400 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600'} transition-colors`} />
                     )}
                   </button>
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div>
                 <label
-                  className="block text-gray-700 text-sm font-medium mb-2"
+                  className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-slate-200' : 'text-gray-700'
+                  }`}
                   htmlFor="confirmPassword"
                 >
                   Şifre Tekrar
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiLock className="text-gray-400" />
+                    <FiLock className={`${isDarkMode ? 'text-slate-400' : 'text-gray-400'}`} />
                   </div>
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showPassword ? "text" : "password"}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
+                      isDarkMode
+                        ? 'bg-slate-700/50 border-slate-600 text-slate-100 placeholder-slate-400 focus:ring-blue-500/30 focus:border-blue-500'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500/30 focus:border-blue-500'
+                    }`}
                     placeholder="Şifrenizi tekrar girin"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -455,37 +641,67 @@ export default function RegisterPage() {
               </div>
 
               <div className="flex space-x-4">
-                <button
+                <motion.button
                   type="button"
                   onClick={prevStep}
-                  className="flex-1 py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
+                    isDarkMode
+                      ? 'bg-slate-700 text-slate-200 hover:bg-slate-600 border border-slate-600'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-300'
+                  }`}
                 >
                   Geri
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                  className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25'
+                      : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-600/25'
+                  } disabled:opacity-70 disabled:cursor-not-allowed`}
                 >
-                  {isLoading ? "Kaydediliyor..." : "Kayıt Ol"}
-                </button>
+                  {isLoading ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                      />
+                      Kaydediliyor...
+                    </>
+                  ) : (
+                    <>
+                      Kayıt Ol
+                      <FiArrowRight className="text-lg" />
+                    </>
+                  )}
+                </motion.button>
               </div>
             </motion.div>
           )}
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="mt-8 text-center">
+          <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-600'}`}>
             Zaten bir hesabınız var mı?{" "}
             <Link
               href="/auth/login"
-              className="text-indigo-600 hover:text-indigo-500 font-medium"
+              className={`font-medium transition-colors ${
+                isDarkMode
+                  ? 'text-blue-400 hover:text-blue-300'
+                  : 'text-blue-600 hover:text-blue-500'
+              }`}
             >
               Giriş Yap
             </Link>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

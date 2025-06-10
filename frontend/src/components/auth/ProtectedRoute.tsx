@@ -4,8 +4,10 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useAuthUser, useAuthIsAuthenticated, useAuthIsLoading } from "@/store/auth.store";
+import { useTheme } from "@/context/ThemeProvider";
 import { getLogger, getFlowTracker, trackFlow } from "@/lib/logger.utils";
 import { FlowCategory } from "@/constants/logging.constants";
+import { motion } from "framer-motion";
 
 // Logger ve flowTracker nesnelerini elde et
 const logger = getLogger();
@@ -31,6 +33,7 @@ export default function ProtectedRoute({
   const router = useRouter();
   const pathname = usePathname();
   const { checkSession } = useAuth();
+  const { isDarkMode } = useTheme();
   
   // Zustand selektörleri
   const user = useAuthUser();
@@ -204,15 +207,72 @@ export default function ProtectedRoute({
     redirectUrl, 
     requiredRoles
   ]);
-
   // Doğrulama durumunda yükleme ekranını göster
   if (isVerifying || isLoading) {
     // Özel yükleme bileşeni veya varsayılan
     return (
       <>
         {loadingComponent || (
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <div className={`flex items-center justify-center min-h-screen ${
+            isDarkMode
+              ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
+              : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
+          }`}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="text-center"
+            >
+              {/* Loading Spinner */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className={`w-16 h-16 mx-auto mb-4 border-4 rounded-full ${
+                  isDarkMode
+                    ? 'border-slate-700 border-t-blue-500'
+                    : 'border-gray-200 border-t-blue-600'
+                }`}
+              />
+              
+              {/* Loading Text */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className={`text-lg font-medium ${
+                  isDarkMode ? 'text-slate-300' : 'text-gray-600'
+                }`}
+              >
+                Yetkilendiriliyor...
+              </motion.p>
+              
+              {/* Animated dots */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex justify-center gap-1 mt-2"
+              >
+                {[0, 1, 2].map((index) => (
+                  <motion.div
+                    key={index}
+                    animate={{
+                      y: [0, -8, 0],
+                      opacity: [0.4, 1, 0.4],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: index * 0.2,
+                    }}
+                    className={`w-2 h-2 rounded-full ${
+                      isDarkMode ? 'bg-blue-500' : 'bg-blue-600'
+                    }`}
+                  />
+                ))}
+              </motion.div>
+            </motion.div>
           </div>
         )}
       </>
