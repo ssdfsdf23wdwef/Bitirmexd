@@ -1,0 +1,171 @@
+/* Performance optimizations for ULTRA FAST navigation */
+
+/* CRITICAL: Hardware acceleration for all elements */
+* {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
+}
+
+/* ULTRA FAST transitions for critical navigation elements */
+.fast-transition {
+  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.instant-transition {
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Lightning fast hover states */
+.fast-hover {
+  transition: transform 0.06s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.06s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.06s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity, background-color;
+}
+
+.fast-hover:hover {
+  transform: translateY(-1px);
+}
+
+/* INSTANT link and button interactions */
+.fast-interactive {
+  transition: all 0.05s ease-out;
+  will-change: transform, opacity;
+}
+
+.fast-interactive:active {
+  transform: scale(0.98);
+  transition: all 0.03s ease-in;
+}
+
+/* ULTRA FAST page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.08s ease-out, transform 0.08s ease-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.05s ease-in, transform 0.05s ease-in;
+}
+
+/* INSTANT sidebar transitions */
+.sidebar-transition {
+  transition: width 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: width;
+}
+
+/* Optimize scrolling */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Fast transitions */
+.fast-transition {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+/* Optimize hover states */
+.hover-optimize {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.hover-optimize:hover {
+  transform: translateZ(0) scale(1.02);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Loading states optimization */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Critical path fonts loading */
+.font-loading {
+  font-display: swap;
+}
+
+/* Optimize images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fast layout shifts prevention */
+.layout-stable {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+/* Navigation performance */
+.nav-link {
+  will-change: background-color, color;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Sidebar optimization */
+.sidebar-optimized {
+  contain: layout style paint;
+  will-change: width;
+}
+
+/* Button optimizations */
+.btn-optimized {
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-optimized:hover {
+  transform: translateZ(0) translateY(-1px);
+}
+
+/* Card hover optimizations */
+.card-hover {
+  will-change: transform, box-shadow;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateZ(0) translateY(-2px);
+}

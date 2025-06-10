@@ -4,11 +4,15 @@ import { ReactNode, memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import UserControls from "./UserControls";
 import { usePathname } from "next/navigation";
+import PrefetchLinks, { CRITICAL_ROUTES, SECONDARY_ROUTES } from "@/components/optimization/PrefetchLinks";
 
 
 const LoadingPlaceholder = () => (
   <div className="animate-pulse h-full">
-    <div className="h-full w-64 bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60 border-r border-gray-200 dark:border-gray-800 rounded-r-md"></div> 
+    <div 
+      className="h-full w-64 bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60 border-r border-gray-200 dark:border-gray-800 rounded-r-md"
+      style={{ transform: 'translateZ(0)' }}
+    ></div> 
   </div>
 );
 
@@ -35,6 +39,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
+  // Optimize mounting with immediate state update
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -52,9 +57,26 @@ function MainLayoutBase({ children }: MainLayoutProps) {
     }
   }, [isHomePage]);
 
+  // Early return with loading state - no spinner to improve perceived performance
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-primary text-primary flex">
+        <div className="w-64 bg-elevated border-r border-primary"></div>
+        <div className="flex-1">
+          <div className="h-14 bg-elevated border-b border-primary"></div>
+          <main className="p-6">{children}</main>
+        </div>
+      </div>
+    );
+  }
+
   const layoutStructure = (
    
       <div className="min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
+        {/* Aggressive prefetching for instant navigation */}
+        <PrefetchLinks links={CRITICAL_ROUTES} />
+        <PrefetchLinks links={SECONDARY_ROUTES} />
+        
         <div className="flex w-full relative">
           {isMounted && (
             <div 

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   FiHome,
@@ -19,6 +18,7 @@ import {
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeProvider";
+import FastLink from "@/components/ui/FastLink";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -96,11 +96,14 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
     <motion.div 
       initial={false}
       animate={{ width: isCollapsed ? "68px" : "240px" }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`fixed top-0 left-0 h-full z-30 border-r ${isDarkMode ? 'border-gray-800/30' : 'border-gray-200/70'} ${isDarkMode ? 'bg-gray-900/90' : 'bg-white/80'} shadow-lg backdrop-blur-md transition-all duration-200 flex flex-col`}
+      transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] }}
+      className={`fixed top-0 left-0 h-full z-30 border-r ${isDarkMode ? 'border-gray-800/30' : 'border-gray-200/70'} ${isDarkMode ? 'bg-gray-900/90' : 'bg-white/80'} shadow-lg backdrop-blur-md transition-all duration-75 flex flex-col`}
       style={{ 
         WebkitOverflowScrolling: 'touch',
         scrollbarWidth: 'thin',
+        transform: 'translateZ(0)', // Hardware acceleration
+        backfaceVisibility: 'hidden',
+        willChange: 'width', // Optimize for width changes
         scrollbarColor: isDarkMode ? 'rgba(75, 85, 99, 0.3) transparent' : 'rgba(203, 213, 225, 0.3) transparent'
       }}
     >
@@ -156,11 +159,12 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
               {/* Main menu items with glass styling and gradients */}
               <nav className="py-3 px-3 space-y-1">
                 {menuItems.map((item) => (
-                  <Link
+                  <FastLink
                     key={item.href}
                     href={item.href}
-                    onClick={(e) => e.stopPropagation()}
-                    className={`group flex items-center py-2.5 px-4 rounded-xl transition-all duration-300 relative ${isCollapsed ? "justify-center" : ""}`}
+                    prefetch={true}
+                    scroll={false}
+                    className={`group flex items-center py-2.5 px-4 rounded-xl fast-interactive hw-accelerated relative ${isCollapsed ? "justify-center" : ""}`}
                     title={isCollapsed ? item.label : undefined}
                   >
                     {/* Active/Inactive state styling with gradients and glass effect */}
@@ -208,7 +212,7 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
                         className="absolute right-1.5 bottom-1.5 w-1.5 h-1.5 rounded-full bg-white opacity-80"
                       />
                     )}
-                  </Link>
+                  </FastLink>
                 ))}
               </nav>
             </div>
@@ -216,9 +220,10 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
             {/* Settings button with modern styling */}
               <div className={`border-t ${isDarkMode ? 'border-gray-800/30 bg-gradient-to-b from-gray-800/80 to-gray-900/95' : 'border-gray-200/50 bg-gradient-to-b from-gray-50/80 to-white/95'} backdrop-blur-sm`}>
                 <div className="py-3 px-3">
-                  <Link
+                  <FastLink
                     href="/settings"
-                    onClick={(e) => e.stopPropagation()}
+                    prefetch={true}
+                    scroll={false}
                     className={`group flex items-center py-2.5 px-4 rounded-xl transition-all duration-300 relative ${isCollapsed ? "justify-center" : ""}`}
                     title={isCollapsed ? "Ayarlar" : undefined}
                   >
@@ -264,7 +269,7 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
                         className="absolute right-1.5 bottom-1.5 w-1.5 h-1.5 rounded-full bg-white opacity-80"
                       />
                     )}
-                  </Link>
+                  </FastLink>
                 </div>
               </div>
           </>

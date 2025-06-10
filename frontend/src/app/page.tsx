@@ -17,7 +17,9 @@ import Spinner from "@/components/ui/Spinner";
 import { useAuth } from "@/context/AuthContext";
 import QuickQuizWizard from "@/components/home/ExamCreationWizard.quick-quiz";
 import PersonalizedQuizWizard from "@/components/home/ExamCreationWizard.personalized-quiz";
+import { usePagePerformance } from "@/hooks/usePagePerformance";
 
+// ULTRA FAST gradient animations - reduced complexity
 const gradientVariants = {
   hidden: {
     backgroundPosition: "0% 50%",
@@ -27,7 +29,7 @@ const gradientVariants = {
     transition: {
       repeat: Infinity,
       repeatType: "mirror" as const,
-      duration: 20,
+      duration: 15, // Reduced from 20 for faster animation
       ease: "easeInOut",
     },
   },
@@ -67,6 +69,9 @@ export default function Home() {
   const { isAuthenticated, isInitializing: isAuthInitializing } = useAuth();
   const [showExamCreationWizard, setShowExamCreationWizard] = useState(false);
   const [currentQuizType, setCurrentQuizType] = useState<'quick' | 'personalized'>('quick');
+
+  // Performance izleme
+  usePagePerformance('home');
 
   // Handle URL parameters on initial load
   useEffect(() => {
