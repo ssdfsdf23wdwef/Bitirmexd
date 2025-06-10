@@ -342,7 +342,7 @@ export default function DocumentFlow({
         return (
           <div className="p-6 flex flex-col items-center">
             <div className="mb-8 text-center">
-              <FiCpu className="text-4xl text-indigo-500 dark:text-indigo-400 mx-auto mb-4" />
+              <FiCpu className="text-4xl text-blue-500 dark:text-blue-400 mx-auto mb-4" />
               <h3 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-2">
                 Belgeniz İşleniyor
               </h3>
@@ -352,12 +352,17 @@ export default function DocumentFlow({
             </div>
             
             <div className="w-full max-w-md mb-4">
-              <Progress
-                value={processPercentage}
-                color="primary"
-                showValueLabel={true}
-                className="w-full"
-              />
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${processPercentage}%` }}
+                ></div>
+              </div>
+              <div className="mt-2 text-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {processPercentage}%
+                </span>
+              </div>
             </div>
 
             {uploadedDocument && (
@@ -411,7 +416,16 @@ export default function DocumentFlow({
               <h4 className="text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Seçilen Konular ({selectedTopics.length})
               </h4>
-                            <div className="flex flex-wrap gap-2 mb-4">                {selectedTopics.map((topic, index) => (                  <Chip key={`selected-topic-${topic.id || topic.normalizedSubTopicName}-${index}`} color="primary" variant="flat">                    {topic.subTopicName || topic.name}                  </Chip>                ))}              </div>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                {selectedTopics.map((topic, index) => (
+                  <span
+                    key={`selected-topic-${topic.id || topic.normalizedSubTopicName}-${index}`}
+                    className="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+                  >
+                    {topic.subTopicName || topic.name}
+                  </span>
+                ))}
+              </div>
             </div>
             
             <div className="mb-6">
@@ -439,25 +453,39 @@ export default function DocumentFlow({
                 Zorluk
               </h4>
               <div className="flex flex-wrap gap-2">
-                                {["easy", "medium", "hard", "mixed"].map((level, index) => (                  <Button                    key={`difficulty-level-${level}-${index}`}                    color={difficulty === level ? "primary" : "default"}                    variant={difficulty === level ? "solid" : "bordered"}                    onClick={() => setDifficulty(level)}                    className="capitalize"                  >                    {level === "easy" && "Kolay"}                    {level === "medium" && "Orta"}                    {level === "hard" && "Zor"}                    {level === "mixed" && "Karışık"}                  </Button>                ))}
+                {["easy", "medium", "hard", "mixed"].map((level, index) => (
+                  <button
+                    key={`difficulty-level-${level}-${index}`}
+                    onClick={() => setDifficulty(level)}
+                    className={`px-4 py-2 rounded-lg border font-medium text-sm transition-colors ${
+                      difficulty === level
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                    }`}
+                  >
+                    {level === "easy" && "Kolay"}
+                    {level === "medium" && "Orta"}
+                    {level === "hard" && "Zor"}
+                    {level === "mixed" && "Karışık"}
+                  </button>
+                ))}
               </div>
             </div>
             
             <div className="flex justify-between mt-8">
-              <Button
-                color="default"
-                variant="bordered"
+              <button
                 onClick={() => setCurrentStep(DocumentFlowStep.TOPIC_SELECTION)}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 Geri
-              </Button>
-              <Button
-                color="primary"
+              </button>
+              <button
                 onClick={handleCreateQuiz}
-                endContent={<FiArrowRight />}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
               >
                 Sınavı Oluştur
-              </Button>
+                <FiArrowRight />
+              </button>
             </div>
           </div>
         );
@@ -466,7 +494,7 @@ export default function DocumentFlow({
         return (
           <div className="p-6 flex flex-col items-center">
             <div className="mb-8 text-center">
-              <FiEdit className="text-4xl text-indigo-500 dark:text-indigo-400 mx-auto mb-4" />
+              <FiEdit className="text-4xl text-blue-500 dark:text-blue-400 mx-auto mb-4" />
               <h3 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-2">
                 Sınav Oluşturuluyor
               </h3>
@@ -475,7 +503,7 @@ export default function DocumentFlow({
               </p>
             </div>
             
-            <div className="w-12 h-12 border-4 border-indigo-100 dark:border-indigo-900/30 border-t-indigo-500 rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-blue-200 dark:border-blue-800 border-t-blue-500 rounded-full animate-spin"></div>
             
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-500 dark:text-gray-500">
@@ -520,21 +548,19 @@ export default function DocumentFlow({
             </div>
             
             <div className="flex gap-4">
-              <Button
-                color="primary"
-                className="min-w-32"
+              <button
                 onClick={handleViewQuiz}
                 disabled={!createdQuiz?.id}
+                className="min-w-32 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
               >
                 Sınava Git
-              </Button>
-              <Button
-                color="default"
-                variant="bordered"
+              </button>
+              <button
                 onClick={handleReset}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 Başa Dön
-              </Button>
+              </button>
             </div>
           </div>
         );
@@ -581,7 +607,7 @@ export default function DocumentFlow({
                 <div
                   className={`rounded-full w-2 h-2 ${
                     index + 1 <= getStepProgress()
-                      ? "bg-indigo-600 dark:bg-indigo-500"
+                      ? "bg-blue-600 dark:bg-blue-500"
                       : "bg-gray-300 dark:bg-gray-700"
                   }`}
                 ></div>
@@ -589,7 +615,7 @@ export default function DocumentFlow({
                   <div
                     className={`w-6 h-0.5 ${
                       index + 1 < getStepProgress()
-                        ? "bg-indigo-600 dark:bg-indigo-500"
+                        ? "bg-blue-600 dark:bg-blue-500"
                         : "bg-gray-300 dark:bg-gray-700"
                     }`}
                   ></div>
@@ -601,15 +627,9 @@ export default function DocumentFlow({
       </CardHeader>
       
       <CardBody className="p-0">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-        >
+        <div>
           {renderStepContent()}
-        </motion.div>
+        </div>
       </CardBody>
     </Card>
   );

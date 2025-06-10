@@ -35,6 +35,7 @@ import { LearningTarget } from "@/types/learningTarget.type";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ApiError } from "@/services/error.service"; 
 import { Quiz } from "@/types";
+import { useTheme } from "@/context/ThemeProvider";
 
 interface ExamCreationWizardProps {
   quizType: "quick" | "personalized"; // Dışarıdan gelen sınav türü
@@ -79,7 +80,7 @@ export default function ExamCreationWizard({
   
   // Authentication state
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-
+const { isDarkMode } = useTheme();
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);
   // Kişiselleştirilmiş sınav için 5 adım, hızlı sınav için 3 adım
@@ -976,17 +977,7 @@ export default function ExamCreationWizard({
           
           console.log(`[ECW detectTopicsFromUploadedFile] 🔍 ${quizType === "personalized" ? "Yetkilendirilmiş" : "Anonim"} konu tespiti isteği gönderiliyor...`);
           
-          // Debug authentication state before API call
-          if (quizType === "personalized") {
-            console.log(`[ECW detectTopicsFromUploadedFile] 🔐 Auth Debug:`, {
-              isAuthenticated,
-              hasUser: !!user,
-              userEmail: user?.email,
-              hasToken: !!token,
-              tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
-            });
-          }
-          
+        
           // Enhanced API call with better error handling
           let response: any;
           try {
@@ -2240,9 +2231,9 @@ export default function ExamCreationWizard({
                       Belge içeriği analiz ediliyor ve konular tespit ediliyor...
                     </p>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-                    Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir. Lütfen bekleyin.
-                  </p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
+                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
+                    </p>
                 </div>
               )}
             </motion.div>

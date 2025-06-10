@@ -258,12 +258,7 @@ export default function TopicDetector({
   if (error) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <motion.div
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-        >
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 flex items-center">
               <FiAlertCircle className="text-red-500 mr-2" />
@@ -302,13 +297,13 @@ export default function TopicDetector({
 
           <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
             <button
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               onClick={onCancel}
             >
               İptal
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -317,12 +312,7 @@ export default function TopicDetector({
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <motion.div
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-        >
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
               Konular Tespit Ediliyor
@@ -330,10 +320,7 @@ export default function TopicDetector({
           </div>
 
           <div className="p-6 flex flex-col items-center justify-center py-10">
-            <div className="relative w-20 h-20 mb-4">
-              <div className="absolute top-0 left-0 w-full h-full border-4 border-indigo-200 dark:border-indigo-900/30 rounded-full"></div>
-              <div className="absolute top-0 left-0 w-full h-full border-4 border-indigo-600 dark:border-indigo-500 rounded-full animate-spin border-t-transparent"></div>
-            </div>
+            <div className="w-12 h-12 mb-4 border-4 border-blue-200 dark:border-blue-800 border-t-blue-500 rounded-full animate-spin"></div>
             <p className="text-gray-600 dark:text-gray-300 mb-2">
               Yapay zeka belgenizdeki konuları tespit ediyor...
             </p>
@@ -343,7 +330,7 @@ export default function TopicDetector({
               </p>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -351,12 +338,7 @@ export default function TopicDetector({
   // Normal durum - konu seçim ekranı
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <motion.div
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-      >
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
             Konu Seçimi
@@ -391,7 +373,7 @@ export default function TopicDetector({
 
             <div className="flex space-x-3">
               <button
-                className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                 onClick={() => toggleAll(true)}
               >
                 Tümünü Seç
@@ -420,18 +402,15 @@ export default function TopicDetector({
             ) : (
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {topics.map((topic) => (
-                  <motion.li
+                  <li
                     key={topic.id}
                     className="py-3 flex items-center"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
                   >
                     <div className="mr-4">
                       <label className="inline-flex items-center">
                         <input
                           type="checkbox"
-                          className="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-indigo-600"
+                          className="form-checkbox h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-blue-600"
                           checked={topic.isSelected}
                           onChange={() => toggleTopic(topic.id)}
                         />
@@ -446,18 +425,18 @@ export default function TopicDetector({
 
                     <div className="ml-4 flex items-center space-x-2">
                       {topic.isNew ? (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
                           Yeni
                         </span>
                       ) : (
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(topic.status)}`}
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium ${getStatusClass(topic.status)}`}
                         >
                           {topic.status || "Yeni"}
                         </span>
                       )}
                     </div>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             )}
@@ -466,16 +445,16 @@ export default function TopicDetector({
 
         <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-between">
           <button
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             onClick={onCancel}
           >
             İptal
           </button>
 
           <button
-            className={`px-4 py-2 rounded-md text-white flex items-center ${
+            className={`px-4 py-2 rounded-lg text-white flex items-center ${
               topics.some((t) => t.isSelected)
-                ? "bg-indigo-600 hover:bg-indigo-700"
+                ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
             onClick={handleConfirm}
@@ -484,7 +463,7 @@ export default function TopicDetector({
             Devam Et <FiChevronRight className="ml-2" />
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

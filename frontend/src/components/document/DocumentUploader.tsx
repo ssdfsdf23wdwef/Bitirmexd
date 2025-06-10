@@ -218,26 +218,22 @@ export default function DocumentUploader({
 
   // ----- Dynamic Styling -----
   const getBorderColor = () => {
-    if (isDragging) return "border-indigo-500/70 dark:border-indigo-400/70";
-    if (uploadStatus === "error") return "border-red-500/70 dark:border-red-400/70";
-    if (uploadStatus === "success") return "border-green-500/70 dark:border-green-400/70";
-    return "border-gray-300/50 hover:border-indigo-400/70 dark:border-gray-600/50 dark:hover:border-indigo-400/70";
+    if (isDragging) return "border-blue-500 dark:border-blue-400";
+    if (uploadStatus === "error") return "border-red-500 dark:border-red-400";
+    if (uploadStatus === "success") return "border-green-500 dark:border-green-400";
+    return "border-gray-300 hover:border-blue-400 dark:border-gray-600 dark:hover:border-blue-400";
   };
 
   const getBackgroundColor = () => {
-    if (isDragging) return "bg-gradient-to-br from-indigo-50/90 via-indigo-100/80 to-indigo-50/90 dark:from-indigo-900/30 dark:via-indigo-800/20 dark:to-indigo-900/10";
-    if (uploadStatus === "error") return "bg-gradient-to-br from-red-50/90 via-red-100/80 to-red-50/90 dark:from-red-900/30 dark:via-red-800/20 dark:to-red-900/10";
-    if (uploadStatus === "success") return "bg-gradient-to-br from-green-50/90 via-green-100/80 to-green-50/90 dark:from-green-900/30 dark:via-green-800/20 dark:to-green-900/10";
-    return "bg-gradient-to-br from-white/95 via-gray-50/90 to-white/95 dark:from-gray-800/50 dark:via-gray-900/40 dark:to-gray-800/30"; // Default background
-  };
-  
-  const getGlassEffect = () => {
-    return "backdrop-filter backdrop-blur-lg bg-opacity-80 dark:bg-opacity-60 shadow-sm dark:shadow-gray-900/30";
+    if (isDragging) return "bg-blue-50 dark:bg-blue-900/20";
+    if (uploadStatus === "error") return "bg-red-50 dark:bg-red-900/20";
+    if (uploadStatus === "success") return "bg-green-50 dark:bg-green-900/20";
+    return "bg-white dark:bg-gray-800";
   };
   
   const getHoverEffect = () => {
     if (uploadStatus === "idle" || uploadStatus === "validating") {
-      return "hover:shadow-md hover:shadow-indigo-200/30 dark:hover:shadow-indigo-900/20 transition-shadow duration-300";
+      return "hover:shadow-md transition-shadow duration-200";
     }
     return "";
   };
@@ -262,111 +258,63 @@ export default function DocumentUploader({
       case "success":
         return (
           <div className="flex flex-col items-center text-center">
-            <motion.div 
-              className="mb-3 w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/20 flex items-center justify-center shadow-sm"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            >
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 400 }}
-              >
-                <FiCheck
-                  className="text-2xl text-green-600 dark:text-green-400"
-                  aria-hidden="true"
-                />
-              </motion.div>
-            </motion.div>
-            <motion.p
+            <div className="mb-3 w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
+              <FiCheck
+                className="text-2xl text-green-600 dark:text-green-400"
+                aria-hidden="true"
+              />
+            </div>
+            <p
               className="text-gray-800 dark:text-gray-200 font-medium mb-1 text-base"
               aria-live="polite"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
             >
               Belge Başarıyla Yüklendi
-            </motion.p>
-            <motion.div 
-              className="flex items-center mb-3 text-sm text-gray-600 dark:text-gray-300 px-3 py-1.5 bg-white/50 dark:bg-gray-700/50 rounded-full backdrop-blur-sm max-w-[90%] shadow-sm"
-              initial={{ opacity: 0, x: -5 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.25 }}
-            >
+            </p>
+            <div className="flex items-center mb-3 text-sm text-gray-600 dark:text-gray-300 px-3 py-1.5 bg-white dark:bg-gray-700 rounded-lg max-w-[90%] shadow-sm border border-gray-200 dark:border-gray-600">
               <FiFile className="flex-shrink-0 mr-1.5 text-green-500 dark:text-green-400" />
               <span className="truncate">{selectedFile?.name}</span>
-            </motion.div>
-            <motion.button
+            </div>
+            <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 resetUpload();
               }}
-              className="px-3.5 py-1.5 bg-gradient-to-b from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 border border-gray-300/60 dark:border-gray-600/60 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-1"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-              whileTap={{ scale: 0.97 }}
+              className="px-3.5 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Farklı Belge Yükle
-            </motion.button>
+            </button>
           </div>
         );
       case "error":
         return (
           <div className="flex flex-col items-center text-center">
-            <motion.div 
-              className="mb-3 w-12 h-12 rounded-full bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/20 flex items-center justify-center shadow-sm"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            >
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 400 }}
-              >
-                <FiAlertCircle
-                  className="text-2xl text-red-600 dark:text-red-400"
-                  aria-hidden="true"
-                />
-              </motion.div>
-            </motion.div>
-            <motion.p
+            <div className="mb-3 w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+              <FiAlertCircle
+                className="text-2xl text-red-600 dark:text-red-400"
+                aria-hidden="true"
+              />
+            </div>
+            <p
               className="text-red-700 dark:text-red-300 font-medium mb-1 text-base"
               aria-live="assertive"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
             >
               Yükleme Hatası
-            </motion.p>
+            </p>
             {/* Display error message */}
-            <motion.p 
-              className="text-red-600 dark:text-red-400 mb-3 max-w-[90%] text-xs px-3 py-1.5 bg-red-50/80 dark:bg-red-900/20 rounded-lg backdrop-blur-sm shadow-sm"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.25 }}
-            >
+            <p className="text-red-600 dark:text-red-400 mb-3 max-w-[90%] text-xs px-3 py-1.5 bg-red-50 dark:bg-red-900/20 rounded-lg shadow-sm border border-red-200 dark:border-red-800">
               {errorMessage}
-            </motion.p>
-            <motion.button
+            </p>
+            <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 resetUpload();
               }}
-              className="px-3.5 py-1.5 bg-gradient-to-b from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 border border-gray-300/60 dark:border-gray-600/60 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-1"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-              whileTap={{ scale: 0.97 }}
+              className="px-3.5 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Tekrar Dene
-            </motion.button>
+            </button>
           </div>
         );
       case "validating":
@@ -374,59 +322,30 @@ export default function DocumentUploader({
         // Combine validating and uploading visually, as validation is usually quick
         return (
           <div className="flex flex-col items-center text-center">
-            {/* Improved Spinner */}
-            <motion.div 
-              className="w-12 h-12 mb-3 rounded-full bg-indigo-50/50 dark:bg-indigo-900/20 flex items-center justify-center shadow-inner"
-              animate={{ 
-                boxShadow: [
-                  "inset 0 2px 4px rgba(0,0,0,0.1)",
-                  "inset 0 3px 6px rgba(0,0,0,0.15)",
-                  "inset 0 2px 4px rgba(0,0,0,0.1)"
-                ]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 2,
-                ease: "easeInOut" 
-              }}
-            >
-              <div className="w-8 h-8 border-3 border-indigo-100 dark:border-indigo-800/50 border-t-indigo-500 dark:border-t-indigo-400 rounded-full animate-spin"></div>
-            </motion.div>
-            <motion.p
+            {/* Simplified Spinner */}
+            <div className="w-12 h-12 mb-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shadow-sm">
+              <div className="w-8 h-8 border-2 border-blue-200 dark:border-blue-800 border-t-blue-500 dark:border-t-blue-400 rounded-full animate-spin"></div>
+            </div>
+            <p
               className="text-gray-800 dark:text-gray-200 font-medium mb-1 text-base"
               aria-live="polite"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
             >
               {uploadStatus === "validating"
                 ? "Doğrulanıyor..."
                 : `Yükleniyor... ${uploadProgress}%`}
-            </motion.p>
-            <motion.div 
-              className="flex items-center mb-3 text-sm text-gray-600 dark:text-gray-300 px-3 py-1.5 bg-white/50 dark:bg-gray-700/50 rounded-full backdrop-blur-sm max-w-[90%] shadow-sm"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <FiFile className="flex-shrink-0 mr-1.5 text-indigo-500 dark:text-indigo-400" />
+            </p>
+            <div className="flex items-center mb-3 text-sm text-gray-600 dark:text-gray-300 px-3 py-1.5 bg-white dark:bg-gray-700 rounded-lg max-w-[90%] shadow-sm border border-gray-200 dark:border-gray-600">
+              <FiFile className="flex-shrink-0 mr-1.5 text-blue-500 dark:text-blue-400" />
               <span className="truncate">{selectedFile?.name}</span>
-            </motion.div>
+            </div>
             {uploadStatus === "uploading" &&
               !isDevelopment && ( // Show progress bar only during actual upload
-                <motion.div 
-                  className="w-[90%] bg-gray-200/70 dark:bg-gray-700/70 rounded-full h-1.5 mt-1 overflow-hidden shadow-inner"
-                  initial={{ opacity: 0, scaleX: 0.95 }}
-                  animate={{ opacity: 1, scaleX: 1 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
-                >
-                  <motion.div
-                    className="bg-gradient-to-r from-indigo-500 to-indigo-600 dark:from-indigo-500 dark:to-indigo-400 h-1.5 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${uploadProgress}%` }}
-                    transition={{ duration: 0.5, ease: "easeOut" }} // Smoother transition
+                <div className="w-[90%] bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1 overflow-hidden shadow-inner">
+                  <div
+                    className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
                   />
-                </motion.div>
+                </div>
               )}
           </div>
         );
@@ -434,53 +353,26 @@ export default function DocumentUploader({
       default:
         return (
           <div className="flex flex-col items-center text-center">
-            <motion.div 
-              className="mb-3 w-12 h-12 rounded-full bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/10 flex items-center justify-center shadow-sm"
-              whileHover={{ y: -2, boxShadow: "0 4px 8px rgba(79, 70, 229, 0.15)" }}
-              animate={{ 
-                y: [0, -3, 0],
-                transition: { 
-                  repeat: Infinity, 
-                  repeatType: "reverse", 
-                  duration: 2.5,
-                  ease: "easeInOut" 
-                }
-              }}
-            >
+            <div className="mb-3 w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shadow-sm">
               <FiUpload
-                className="text-2xl text-indigo-600 dark:text-indigo-400"
+                className="text-2xl text-blue-600 dark:text-blue-400"
                 aria-hidden="true"
               />
-            </motion.div>
-            <motion.p 
-              className="text-base font-medium text-gray-800 dark:text-gray-200 mb-1"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
+            </div>
+            <p className="text-base font-medium text-gray-800 dark:text-gray-200 mb-1">
               Belge Yükleyin
-            </motion.p>
-            <motion.p 
-              className="text-gray-600 dark:text-gray-400 mb-2 text-xs"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
+            </p>
+            <p className="text-gray-600 dark:text-gray-400 mb-2 text-xs">
               Dosyayı buraya sürükleyin veya tıklayın
-            </motion.p>
-            <motion.div 
-              className="inline-flex items-center px-2.5 py-1 bg-indigo-50/70 dark:bg-indigo-900/20 rounded-full text-xs text-indigo-700 dark:text-indigo-300 backdrop-blur-sm shadow-sm"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 500, damping: 25 }}
-            >
+            </p>
+            <div className="inline-flex items-center px-2.5 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs text-blue-700 dark:text-blue-300 shadow-sm border border-blue-200 dark:border-blue-800">
               <span>
                 {allowedFileTypes
                   .map((ext) => ext.substring(1).toUpperCase())
                   .join(", ")}{" "}
                 (Maks. {maxSize}MB)
               </span>
-            </motion.div>
+            </div>
           </div>
         );
     }
@@ -488,8 +380,8 @@ export default function DocumentUploader({
 
   return (
     <div className={`relative ${className}`}>
-      <motion.div
-        className={`border border-dashed rounded-2xl p-4 sm:p-5 text-center transition-all duration-300 ease-in-out relative overflow-hidden ${getBorderColor()} ${getBackgroundColor()} ${getGlassEffect()} ${getHoverEffect()} ${getCursorStyle()}`}
+      <div
+        className={`border border-dashed rounded-xl p-4 sm:p-5 text-center transition-all duration-200 ease-in-out relative overflow-hidden ${getBorderColor()} ${getBackgroundColor()} ${getHoverEffect()} ${getCursorStyle()}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -504,30 +396,6 @@ export default function DocumentUploader({
             ? `Dosya yüklemek için tıklayın veya sürükleyin. İzin verilen türler: ${allowedFileTypes.join(", ")}, Maksimum boyut: ${maxSize}MB`
             : "Dosya yükleme alanı"
         }
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ 
-          opacity: 1, 
-          y: 0,
-          transition: { duration: 0.3, ease: "easeOut" }
-        }}
-        whileHover={{
-          scale:
-            uploadStatus === "idle" || uploadStatus === "validating"
-              ? 1.01
-              : 1.0,
-          boxShadow: uploadStatus === "idle" || uploadStatus === "validating" 
-              ? "0 8px 20px rgba(79, 70, 229, 0.15)" 
-              : "none",
-          borderColor: uploadStatus === "idle" ? "rgba(99, 102, 241, 0.5)" : undefined,
-          transition: { duration: 0.2 }
-        }} // Hover effect only when interactive
-        whileTap={{
-          scale:
-            uploadStatus === "idle" || uploadStatus === "validating"
-              ? 0.985
-              : 1.0,
-          transition: { duration: 0.1 }
-        }} // Tap effect only when interactive
       >
         <input
           type="file"
@@ -537,50 +405,11 @@ export default function DocumentUploader({
           accept={allowedFileTypes.join(",")}
           aria-hidden="true" 
         />
-
-        {/* Add subtle background patterns/elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-10 dark:opacity-5 pointer-events-none">
-          <motion.div 
-            className="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-indigo-200 dark:bg-indigo-700 blur-xl"
-            animate={{ 
-              scale: [1, 1.05, 1],
-              opacity: [0.1, 0.15, 0.1]
-            }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 3,
-              ease: "easeInOut" 
-            }}
-          ></motion.div>
-          <motion.div 
-            className="absolute -left-4 -bottom-4 w-20 h-20 rounded-full bg-indigo-300 dark:bg-indigo-600 blur-xl"
-            animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.1, 0.2, 0.1]
-            }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 4,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          ></motion.div>
-        </div>
         
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={uploadStatus} // Key change triggers animation
-            initial={{ opacity: 0, y: 10, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.97 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} // Custom cubic bezier for smooth feel
-            className="flex flex-col items-center justify-center min-h-[110px] z-10 relative" // More compact height
-          >
-            {renderContent()}
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-
+        <div className="flex flex-col items-center justify-center min-h-[110px] relative">
+          {renderContent()}
+        </div>
+      </div>
     </div>
   );
 }

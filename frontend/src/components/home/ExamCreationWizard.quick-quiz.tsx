@@ -60,7 +60,6 @@ interface TopicsResponseData {
   topics?: TopicResponse[];
   message?: string;
 }
-
 export default function ExamCreationWizard({
   quizType, // Dışarıdan gelen sınav türü
   initialDocumentId,
@@ -68,6 +67,7 @@ export default function ExamCreationWizard({
   onComplete,
 }: ExamCreationWizardProps) {
   const router = useRouter();
+
 
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);
