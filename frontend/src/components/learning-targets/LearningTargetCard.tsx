@@ -311,7 +311,7 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = memo(
           <DialogTitle>Öğrenme Hedefini Sil</DialogTitle>
           <DialogContent>
             <Typography variant="body1">
-              "{target.topicName}" öğrenme hedefini silmek istediğinizden emin
+              &quot;{target.topicName}&quot; öğrenme hedefini silmek istediğinizden emin
               misiniz?
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
@@ -333,5 +333,7 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = memo(
     );
   },
 );
+
+LearningTargetCard.displayName = 'LearningTargetCard';
 
 export default LearningTargetCard;

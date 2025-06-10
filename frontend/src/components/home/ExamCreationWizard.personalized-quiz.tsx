@@ -77,6 +77,8 @@ export default function ExamCreationWizard({
   onComplete,
 }: ExamCreationWizardProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Authentication state
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -960,8 +962,6 @@ export default function ExamCreationWizard({
   // Bir önceki adıma dön
   const prevStep = () => {
     console.log(`⏪ GERİ: Adım ${currentStep}'den bir öncekine dönülüyor...`);
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     if (currentStep > 1) {
       let prevStep = currentStep - 1;

@@ -480,8 +480,8 @@ export default function TopicSelectionScreen({
               <p
                 className={`text-sm ${isDarkMode ? "text-slate-400" : "text-gray-600"}`}
               >
-                Kişiselleştirilmiş sınav yerine "Hızlı Sınav" seçeneğini veya
-                mevcut konularınız varsa "Zayıf Konular" odaklı modu
+                Kişiselleştirilmiş sınav yerine &quot;Hızlı Sınav&quot; seçeneğini veya
+                mevcut konularınız varsa &quot;Zayıf Konular&quot; odaklı modu
                 deneyebilirsiniz.
               </p>
             </div>

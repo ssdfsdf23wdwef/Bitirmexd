@@ -20,7 +20,6 @@ import {
   FiChevronUp,
   FiChevronRight,
   FiFolder,
-  FiFolderOpen,
 } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";

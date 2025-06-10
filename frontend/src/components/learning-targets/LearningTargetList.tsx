@@ -74,7 +74,7 @@ const LearningTargetList: React.FC<LearningTargetListProps> = ({
           Henüz öğrenme hedefi bulunmuyor.
         </Typography>
         <Typography variant="body2" color="textSecondary" mt={1}>
-          Yeni bir öğrenme hedefi eklemek için "Yeni Hedef Ekle" butonuna
+          Yeni bir öğrenme hedefi eklemek için &quot;Yeni Hedef Ekle&quot; butonuna
           tıklayın.
         </Typography>
       </Box>

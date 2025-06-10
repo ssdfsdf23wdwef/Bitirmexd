@@ -27,25 +27,6 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
       [],
     );
 
-    if (!analysisResult) {
-      return (
-        <div className="p-4 bg-secondary rounded-lg border border-primary">
-          <p className="text-tertiary text-center">
-            Bu sınav için analiz sonucu bulunmamaktadır.
-          </p>
-        </div>
-      );
-    }
-
-    const {
-      overallScore,
-      topicPerformance,
-      performanceByDifficulty,
-      weakTopics,
-      strongTopics,
-      recommendedFocus,
-    } = analysisResult;
-
     // Zorluk seviyesi çevirisi - Memoized
     const difficultyTranslation = useMemo(
       () => ({
@@ -64,6 +45,25 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
           : "Bu kişiselleştirilmiş sınav sonucu öğrenme hedeflerinizi günceller.",
       [quizType],
     );
+
+    if (!analysisResult) {
+      return (
+        <div className="p-4 bg-secondary rounded-lg border border-primary">
+          <p className="text-tertiary text-center">
+            Bu sınav için analiz sonucu bulunmamaktadır.
+          </p>
+        </div>
+      );
+    }
+
+    const {
+      overallScore,
+      topicPerformance,
+      performanceByDifficulty,
+      weakTopics,
+      strongTopics,
+      recommendedFocus,
+    } = analysisResult;
 
     return (
       <div className="space-y-6">

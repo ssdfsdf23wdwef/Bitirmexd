@@ -28,11 +28,9 @@ import quizService from "@/services/quiz.service";
 import { ErrorService } from "@/services/error.service";
 import { Tooltip, Button } from "@nextui-org/react"; // Added Button
 import learningTargetService from "@/services/learningTarget.service";
-import { useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
+import { useQueryClient } from "@tanstack/react-query";
 import { useLearningTargetsStore } from "@/store/useLearningTargetsStore";
-// import { useQuizStore } from "@/store/useQuizStore"; // Removed: not needed since answers are in local state
 
-// Sonuçları localStorage'a kaydetmek için fonksiyon
 const storeQuizResultsInStorage = (quizId: string, resultsToStore: Quiz) => {
   if (typeof window !== "undefined") {
     // Quiz arayüzüne uymayan alanları çıkararak sadece Quiz tipinde olanları sakla
@@ -1886,12 +1884,13 @@ export default function ExamPage() {
                         <span
                           className={`font-normal ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
                         >
-                          {typeof question.correctAnswer === "object" &&
+                          {
+                          typeof question.correctAnswer === "object" &&
                           question.correctAnswer !== null &&
                           "text" in question.correctAnswer
                             ? question.correctAnswer.text
                             : question.correctAnswer}
-                        </span>
+                        </span>                      
                       </p>
                     </div>
                   )}
