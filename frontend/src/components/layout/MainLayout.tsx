@@ -1,3 +1,5 @@
+// frontend/src/components/layout/MainLayout.tsx
+
 "use client";
 
 import { ReactNode, memo, useEffect, useState } from "react";
@@ -6,19 +8,18 @@ import UserControls from "./UserControls";
 import { usePathname } from "next/navigation";
 import PrefetchLinks, { CRITICAL_ROUTES, SECONDARY_ROUTES } from "@/components/optimization/PrefetchLinks";
 
-
 const LoadingPlaceholder = () => (
   <div className="animate-pulse h-full">
-    <div 
+    <div
       className="h-full w-64 bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60 border-r border-gray-200 dark:border-gray-800 rounded-r-md"
       style={{ transform: 'translateZ(0)' }}
-    ></div> 
+    ></div>
   </div>
 );
 
 const Sidebar = dynamic<SidebarProps>(
   () => import("@/components/layout/Sidebar"),
-  { 
+  {
     loading: () => <LoadingPlaceholder />,
     ssr: false
   }
@@ -71,15 +72,15 @@ function MainLayoutBase({ children }: MainLayoutProps) {
   }
 
   const layoutStructure = (
-   
+
       <div className="layout-container min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
         {/* Aggressive prefetching for instant navigation */}
         <PrefetchLinks links={CRITICAL_ROUTES} />
         <PrefetchLinks links={SECONDARY_ROUTES} />
-        
+
         <div className="flex w-full relative">
           {isMounted && (
-            <div 
+            <div
               className={`sidebar-fixed ${
                 isSidebarCollapsed ? 'w-16' : 'w-64'
               }`}
@@ -88,22 +89,19 @@ function MainLayoutBase({ children }: MainLayoutProps) {
                 top: 0,
                 left: 0,
                 height: '100vh',
-                height: '100dvh', // Modern browsers için
                 zIndex: 999,
-                // Browser optimization'ına karşı güçlü önlemler
-                contain: 'strict',
-                isolation: 'isolate',
                 willChange: 'width'
+                // isolation: 'isolate', KALDIRILDI - Containing block oluşturuyordu
               }}
             >
               <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
-              
+
               {/* Toggle Sidebar Button - Positioned in top-right of sidebar */}
-  
+
             </div>
           )}
 
-          <main 
+          <main
             className={`main-content flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
             style={{
               paddingLeft: isMounted ? (isSidebarCollapsed ? '84px' : '296px') : '16px',
@@ -113,10 +111,8 @@ function MainLayoutBase({ children }: MainLayoutProps) {
               minHeight: '100vh',
               // Scroll container olarak işlev görmesi için
               overflowY: 'auto',
-              overflowX: 'hidden',
-              // Sidebar'dan tamamen izole etmek için
-              contain: 'layout style',
-              isolation: 'isolate'
+              overflowX: 'hidden'
+              // isolation: 'isolate' KALDIRILDI - Sidebar positioning'i bozuyordu
             }}
           >
 
@@ -133,7 +129,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
           </main>
         </div>
       </div>
-    
+
   );
 
   return layoutStructure;

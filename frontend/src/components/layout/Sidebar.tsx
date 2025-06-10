@@ -103,19 +103,10 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
           : 'border-gray-200/80 bg-gradient-to-b from-white/95 via-gray-50/95 to-white/95 shadow-2xl shadow-gray-900/10'
       }`}
       style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        height: '100dvh',
-        zIndex: 999,
-        transform: 'translateZ(0)', // Hardware acceleration
+        // Hardware acceleration sadece performans için - containing block oluşturmayacak şekilde
+        transform: 'translateZ(0)', 
         backfaceVisibility: 'hidden',
-        willChange: 'width', // Optimize for width changes
-        // Kesin scroll izolasyonu için
-        contain: 'strict',
-        isolation: 'isolate',
-        // Browser'ın kendi optimization'larını devre dışı bırak
+        willChange: 'width',
         overscrollBehavior: 'none'
       }}
     >
@@ -230,7 +221,7 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
                       href={item.href}
                       prefetch={true}
                       scroll={false}
-                      className={`group flex items-center py-3 px-4 rounded-2xl fast-interactive hw-accelerated relative transition-all duration-300 ${isCollapsed ? "justify-center" : ""}`}
+                      className={`group flex items-center py-3 px-4 rounded-2xl hw-accelerated relative transition-all duration-300 ${isCollapsed ? "justify-center" : ""}`}
                       title={isCollapsed ? item.label : undefined}
                     >
                       {/* Enhanced Background with multiple layers */}

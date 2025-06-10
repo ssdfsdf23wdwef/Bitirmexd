@@ -1,11 +1,16 @@
 /* Performance optimizations for ULTRA FAST navigation */
 
-/* CRITICAL: Hardware acceleration for all elements */
-* {
+/* CRITICAL: Hardware acceleration for interactive elements only */
+.hw-accelerated {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
+}
+
+/* Safe transform for non-fixed elements */
+.safe-transform {
   transform: translateZ(0);
 }
 
