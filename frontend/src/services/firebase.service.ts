@@ -29,13 +29,7 @@ import {
   IdTokenResult,
   AuthError
 } from "firebase/auth";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-  StorageError
-} from "firebase/storage";
+
 import { db, auth, storage } from "../app/firebase/config";
 
 
@@ -399,93 +393,5 @@ export const firestoreService = {
   },
 };
 
-// Storage servisi
-const storageService = {
-  // Dosya yükleme
-  uploadFile: async (
-    storagePath: string,
-    file: File,
-    progressCallback?: (progress: number) => void,
-  ): Promise<string> => {
-    
-    try {
-    
-      
-      const storageRef = ref(storage, storagePath);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            if (progressCallback) {
-              progressCallback(progress);
-            }
-            
-          
-          },
-          (error) => {
-            const storageError = error as StorageError;
-           
-            reject(error);
-          },
-          async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            
-           
-            
-            resolve(downloadURL);
-          }
-        );
-      });
-    } catch (error: unknown) {
-      // Hata durumu
-      const storageError = error as StorageError;
-     
-      throw storageError;
-    }
-  },
-
-  // Dosya silme
-  deleteFile: async (path: string): Promise<void> => {
-    
-    try {
- 
-      
-      const storageRef = ref(storage, path);
-      await deleteObject(storageRef);
-      
-      // Başarılı sonuç
-     
-    } catch (error: unknown) {
-      // Hata durumu
-      const storageError = error as StorageError;
-     
-      throw storageError;
-    }
-  },
-
-  // Download URL'i al
-  getFileUrl: async (path: string): Promise<string> => {
-    
-    try {
-     
-      
-      const storageRef = ref(storage, path);
-      const url = await getDownloadURL(storageRef);
-      
-      // Başarılı sonuç
-  
-      
-      return url;
-    } catch (error: unknown) {
-      // Hata durumu
-      const storageError = error as StorageError;
-  
-      throw storageError;
-    }
-  },
-};
 
 // eslint-disable-next-line import/no-anonymous-default-export

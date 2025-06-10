@@ -6,13 +6,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "knip": "knip",
-    "depcheck": "depcheck",
-    "bundle-analyzer": "npx @next/bundle-analyzer",
-    "performance:test": "npm run build && npm run start & sleep 5 && npx lighthouse http://localhost:3000 --output=json --output-path=./performance-report.json"
+    "depcheck": "depcheck"
   },
   "knip": {
     "entry": [

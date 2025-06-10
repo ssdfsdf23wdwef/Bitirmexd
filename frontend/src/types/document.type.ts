@@ -60,10 +60,3 @@ interface DocumentUploadResponse {
   extractedText: string;
 }
 
-/**
- * Belge silme cevabı
- */
-export interface DocumentDeleteResponse {
-  id: string;
-  success: boolean;
-}

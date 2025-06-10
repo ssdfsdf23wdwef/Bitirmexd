@@ -91,10 +91,6 @@ export default function DocumentFlow({
       
       const result = await documentService.uploadAndDetectTopics(file, courseId);
       
-      const endTime = performance.now();
-      const duration = endTime - startTime;
-      
-    
       
       setUploadedDocument(result.document);
       

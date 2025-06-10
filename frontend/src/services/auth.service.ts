@@ -15,8 +15,6 @@ import { setAuthCookie, removeAuthCookie } from "@/lib/utils";
 import { User } from "@/types";
 import { adaptUserFromBackend, adaptUserToBackend } from "@/lib/adapters";
 import axios, { AxiosError } from "axios";
-import { getLogger, getFlowTracker, trackFlow, mapToTrackerCategory } from "../lib/logger.utils";
-import { FlowCategory } from "@/constants/logging.constants";
 
 // Hata yanıtı için arayüz
 interface ApiErrorResponse {
@@ -36,12 +34,7 @@ interface GoogleAuthResponse extends AuthResponse {
   isNewUser: boolean;
 }
 
-// Oturum durumu tipi
-interface AuthState {
-  isAuthenticated: boolean;
-  user: User | null;
-  isLoading: boolean;
-}
+
 
 /**
  * Kimlik doğrulama hizmet sınıfı
@@ -59,20 +52,7 @@ class AuthService {
     userData?: { firstName?: string; lastName?: string }
   ): Promise<AuthResponse> {
     try {
-      trackFlow(
-        'ID Token ile giriş başlatıldı',
-        'AuthService.loginWithIdToken',
-        FlowCategory.Auth
-      );
-      
-      this.logger.debug(
-        'ID Token ile backend login isteği gönderiliyor',
-        'AuthService.loginWithIdToken',
-        'auth.service.ts',
-        141
-      );
-      
-      // İstek verisini hazırla
+
       const requestData: Record<string, unknown> = { idToken };
       
       // Kullanıcı verileri varsa ekle
@@ -82,82 +62,30 @@ class AuthService {
       
       const response = await apiService.post<AuthResponse>("/auth/login-via-idtoken", requestData);
 
-      this.logger.info(
-        'ID Token ile login başarılı',
-        'AuthService.loginWithIdToken',
-        'auth.service.ts',
-        149,
-        { userId: response.user.id }
-      );
-
       // User tipini dönüştür
       return {
         ...response,
         user: adaptUserFromBackend(response.user),
       };
     } catch (error: unknown) {
-      this.logger.error(
-        'ID Token ile giriş hatası',
-        'AuthService.loginWithIdToken',
-        'auth.service.ts',
-        166,
-        { error: this.formatFirebaseError(error) }
-      );
-      
+
       throw error;
     }
   }
 
-  private readonly logger = getLogger();
-  private readonly flowTracker = getFlowTracker();
   
-  constructor() {
-    this.logger.info(
-      'AuthService başlatıldı',
-      'AuthService.constructor',
-      'auth.service.ts',
-      14
-    );
-  }
 
-  /**
-   * E-posta ve şifre ile kayıt
-   * @param email Kullanıcı e-postası
-   * @param password Kullanıcı şifresi
-   * @param userData Kullanıcı bilgileri (ilk adı ve soyadı)
-   * @returns Kayıt yanıtı
-   */
+
   async register(
     email: string,
     password: string,
     userData: { firstName?: string; lastName?: string },
   ): Promise<AuthResponse> {
     try {
-      // Şifre kontrolü
-      this.logger.info(
-        'Kullanıcı kaydı başlatılıyor',
-        'AuthService.register',
-        'auth.service.ts',
-        50,
-        { email }
-      );
-      
-      trackFlow(
-        'Kullanıcı kaydı başlatıldı',
-        'AuthService.register',
-        FlowCategory.Auth,
-        { email }
-      );
 
       if (!password || password.trim() === "") {
         const error = new Error("auth/missing-password");
-        this.logger.error(
-          'Şifre eksik',
-          'AuthService.register',
-          'auth.service.ts',
-          64,
-          { error }
-        );
+     
         throw error;
       }
 
@@ -171,162 +99,55 @@ class AuthService {
       // ID token al
       const idToken = await userCredential.user.getIdToken();
 
-      // Bunun yerine loginWithIdToken çağır, bu metod backend'de kullanıcıyı oluşturacak/güncelleyecektir.
-      // userData'nın (firstName, lastName) nasıl işleneceği ayrıca değerlendirilmeli.
-      // Belki loginWithIdToken backend'de bu bilgileri Firebase'den alır veya ayrı bir updateProfile gerekir.
       const loginResponse = await this.loginWithIdToken(idToken, userData);
 
-      // Eğer Firebase'de displayName güncellenmemişse ve userData varsa güncelleyelim.
-      // Bu, Firebase Console'da kullanıcının adının görünmesine yardımcı olabilir.
       if (userData.firstName && userCredential.user.displayName !== `${userData.firstName} ${userData.lastName || ''}`.trim()) {
         try {
           await firebaseUpdateProfile(userCredential.user, {
             displayName: `${userData.firstName} ${userData.lastName || ''}`.trim(),
           });
-          this.logger.info(
-            'Firebase kullanıcı profili (displayName) güncellendi.',
-            'AuthService.register',
-            'auth.service.ts',
-            100 // Satır numarasını kontrol edin
-          );
+
         } catch (profileError) {
-          this.logger.warn(
-            'Firebase kullanıcı profili (displayName) güncellenemedi.',
-            'AuthService.register',
-            'auth.service.ts',
-            106, // Satır numarasını kontrol edin
-            { error: this.formatFirebaseError(profileError) }
-          );
+          
         }
       }
 
-      // Token artık backend tarafından HttpOnly cookie olarak yönetiliyor
-      // localStorage kullanımını kaldırıyoruz
-      
-      // User tipini dönüştür
-      // return {
-      //   ...response,
-      //   user: adaptUserFromBackend(response.user),
-      // };
       return loginResponse; // loginWithIdToken yanıtını döndür
 
     } catch (error: unknown) {
-      this.logger.error(
-        'Kayıt hatası',
-        'AuthService.register',
-        'auth.service.ts',
-        92,
-        { error: this.formatFirebaseError(error) }
-      );
       throw error;
     }
   }
 
-  /**
-   * E-posta ve şifre ile giriş
-   * @param email Kullanıcı e-postası
-   * @param password Kullanıcı şifresi
-   * @returns Giriş yanıtı
-   */
+
   async login(email: string, password: string): Promise<AuthResponse> {
     try {
-      trackFlow(
-        'Kullanıcı girişi başlatıldı',
-        'AuthService.login',
-        FlowCategory.Auth,
-        { email }
-      );
-      
-      this.logger.info(
-        `Kullanıcı girişi deneniyor: ${email}`,
-        'AuthService.login',
-        'auth.service.ts',
-        116
-      );
-      
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      
-     
-      
-      // ID token al
-      const idToken = await result.user.getIdToken();
-      this.logger.debug(
-        'Firebase ID token alındı',
-        'AuthService.login',
-        'auth.service.ts',
-        135
-      );
 
-      // Backend'e giriş için API çağrısı yap
-      this.logger.debug(
-        'Backend login isteği gönderiliyor',
-        'AuthService.login',
-        'auth.service.ts',
-        141
-      );
+
+      const result = await signInWithEmailAndPassword(auth, email, password);
+
+      const idToken = await result.user.getIdToken();
+
+
       
       const response = await apiService.post<AuthResponse>("/auth/login-via-idtoken", {
         idToken,
       });
 
-      this.logger.info(
-        'Backend login başarılı',
-        'AuthService.login',
-        'auth.service.ts',
-        149,
-        { userId: response.user.id }
-      );
 
-      // Token artık backend tarafından HttpOnly cookie olarak yönetiliyor
-      // localStorage kullanımını kaldırıyoruz
-
-      // User tipini dönüştür
       return {
         ...response,
         user: adaptUserFromBackend(response.user),
       };
     } catch (error: unknown) {
-      this.logger.error(
-        'Giriş hatası',
-        'AuthService.login',
-        'auth.service.ts',
-        166,
-        { error: this.formatFirebaseError(error) }
-      );
-      
-      // Hata tipini kontrol et ve daha detaylı logla
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        this.logger.error(
-          'API Hatası',
-          'AuthService.login',
-          'auth.service.ts',
-          176,
-          { 
-            code: axiosError.code, 
-            response: axiosError.response?.data,
-            url: axiosError.config?.url, 
-            method: axiosError.config?.method 
-          }
-        );
-      }
-      
+
       throw error;
     }
   }
 
-  /**
-   * Google ile giriş
-   * @param idToken Firebase'den alınan ID token
-   * @returns Giriş yanıtı
-   */
   async loginWithGoogle(idToken?: string): Promise<GoogleAuthResponse> {
     try {
-      trackFlow(
-        'Google ile giriş başlatıldı',
-        'AuthService.loginWithGoogle',
-        FlowCategory.Auth
-      );
+    
       
       // idToken parametresi verilmediyse, Google popup ile giriş yap
       if (!idToken) {
@@ -340,51 +161,21 @@ class AuthService {
         idToken,
       });
       
-      this.logger.info(
-        'Google ile giriş başarılı',
-        'AuthService.loginWithGoogle',
-        'auth.service.ts',
-        228,
-        { userId: response.user.id, isNewUser: response.isNewUser }
-      );
-      
-      // User tipini dönüştür
-      return {
+     
+            return {
         ...response,
         user: adaptUserFromBackend(response.user),
       };
     } catch (error: unknown) {
-      this.logger.error(
-        'Google ile giriş hatası',
-        'AuthService.loginWithGoogle',
-        'auth.service.ts',
-        242,
-        { error: this.formatFirebaseError(error) }
-      );
+
       throw error;
     }
   }
 
-  /**
-   * Çıkış yap
-   * @returns Çıkış işlemi başarılı olup olmadığı
-   */
+
   async signOut(): Promise<void> {
     try {
-      trackFlow(
-        'Kullanıcı çıkışı başlatıldı',
-        'AuthService.signOut',
-        FlowCategory.Auth
-      );
-      
-      this.logger.info(
-        'Kullanıcı çıkışı yapılıyor',
-        'AuthService.signOut',
-        'auth.service.ts',
-        246
-      );
-      
-      // Backend'e çıkış isteği yaparak cookie'yi temizle
+     
       await apiService.post('/auth/logout', {});
       
       // Ardından Firebase'den çıkış yap
@@ -393,7 +184,7 @@ class AuthService {
       // localStorage'dan token'ları ve Zustand state'ini temizle
       if (typeof window !== 'undefined') {
         localStorage.removeItem("auth_token");
-        localStorage.removeItem("auth-storage"); // Zustand persist anahtarını temizle
+        localStorage.removeItem("auth-storage");
         removeAuthCookie(); // Varsa diğer cookie temizleme yardımcı fonksiyonu
       }
       
@@ -401,71 +192,25 @@ class AuthService {
       
       return;
     } catch (error) {
-      this.logger.error(
-        'Çıkış hatası',
-        'AuthService.signOut',
-        'auth.service.ts',
-        274,
-        { error: this.formatFirebaseError(error) }
-      );
       throw error;
     }
   }
 
-  /**
-   * Kullanıcı profili getir
-   * @returns Kullanıcı profil bilgileri
-   */
+ 
   async getProfile(): Promise<User> {
-    try {
-      trackFlow(
-        'Kullanıcı profili getiriliyor',
-        'AuthService.getProfile',
-        FlowCategory.Auth
-      );
-      
-      this.logger.debug(
-        'Kullanıcı profili isteniyor',
-        'AuthService.getProfile',
-        'auth.service.ts',
-        286
-      );
-      
+    try {  
       let retryCount = 0;
       const MAX_RETRY = 3;
       
       const attemptProfileFetch = async (): Promise<User> => {
         try {
-          this.logger.debug(
-            `Profil bilgisi isteniyor (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
-            'AuthService.getProfile.attemptProfileFetch',
-            'auth.service.ts',
-            297
-          );
-          
-          // API'den profil bilgisini al
+
           const backendUser = await apiService.get<User>("/users/profile");
-          
-          this.logger.debug(
-            'Kullanıcı profili başarıyla alındı',
-            'AuthService.getProfile',
-            'auth.service.ts',
-            297
-          );
           
           return adaptUserFromBackend(backendUser);
         } catch (error) {
-          // API hatası yakalandı, tekrar deneme stratejisi
-          // Axios hatası mı kontrol et
           if (axios.isAxiosError(error)) {
             if (error.message === 'Network Error') {
-              this.logger.warn(
-                `Ağ hatası - Backend bağlantısı kurulamadı (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
-                'AuthService.getProfile',
-                'auth.service.ts',
-                308
-              );
-              
               // Bağlantı hatası durumunda biraz bekleyip tekrar dene
               if (retryCount < MAX_RETRY) {
                 retryCount++;
@@ -474,14 +219,7 @@ class AuthService {
               }
             }
             
-            if (error.response?.status === 401 && retryCount < MAX_RETRY) {
-              this.logger.warn(
-                `401 Unauthorized hatası, token yenileme deneniyor (Deneme: ${retryCount + 1}/${MAX_RETRY})`,
-                'AuthService.getProfile',
-                'auth.service.ts',
-                307
-              );
-              
+            if (error.response?.status === 401 && retryCount < MAX_RETRY) {       
               retryCount++;
               
               // Firebase token'ı yenile
@@ -496,34 +234,17 @@ class AuthService {
                 
                 // Backend'e token'ı tekrar gönder
                 await apiService.post<AuthResponse>("/auth/login-via-idtoken", { idToken });
-                
-                // Token yenileme sonrası profil bilgisini tekrar dene
-                this.logger.debug(
-                  `Token yenilendi, profil bilgisi tekrar isteniyor (${retryCount}/${MAX_RETRY})`,
-                  'AuthService.getProfile',
-                  'auth.service.ts',
-                  325
-                );
-                
-                // Kısa bir bekleme ekleyerek sunucunun yeni token'ı işlemesine zaman tanı
                 await new Promise(resolve => setTimeout(resolve, 500));
                 
                 // Profil bilgisini tekrar iste
                 return attemptProfileFetch();
               } catch (tokenError) {
-                this.logger.error(
-                  'Token yenileme sırasında hata oluştu',
-                  'AuthService.getProfile',
-                  'auth.service.ts',
-                  335,
-                  { error: tokenError }
-                );
                 throw tokenError;
               }
             }
           }
           
-          // Diğer hatalar veya maksimum deneme sayısına ulaşıldıysa hatayı fırlat
+
           throw error;
         }
       };
@@ -531,55 +252,18 @@ class AuthService {
       // İlk denemeyi başlat
       return await attemptProfileFetch();
     } catch (error: unknown) {
-      this.logger.error(
-        'Profil getirme hatası',
-        'AuthService.getProfile',
-        'auth.service.ts',
-        343,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
-      
-      trackFlow(
-        'Profil getirme hatası',
-        'AuthService.getProfile',
-        FlowCategory.Error,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
-      
+  
       throw error;
     }
   }
 
-  /**
-   * Kullanıcı profilini güncelle
-   * @param profileData Güncellenecek profil verileri
-   * @returns Güncellenmiş kullanıcı profili
-   */
+
   async updateProfile(profileData: Partial<User>): Promise<User> {
     try {
-      trackFlow(
-        'Profil güncelleme işlemi başlatıldı',
-        'AuthService.updateProfile',
-        FlowCategory.User
-      );
-      
-      this.logger.debug(
-        'Profil güncelleme başlatılıyor',
-        'AuthService.updateProfile',
-        'auth.service.ts',
-        540,
-        { updateData: JSON.stringify(profileData) }
-      );
-      
+
       // Firebase kullanıcısını al
       const currentUser = auth.currentUser;
       if (!currentUser) {
-        this.logger.error(
-          'Kullanıcı oturumu bulunamadı',
-          'AuthService.updateProfile',
-          'auth.service.ts',
-          550
-        );
         throw new Error("Kullanıcı oturumu bulunamadı");
       }
 
@@ -591,80 +275,35 @@ class AuthService {
         ]
           .filter(Boolean)
           .join(" ");
-
-        this.logger.debug(
-          'Firebase displayName güncelleniyor',
-          'AuthService.updateProfile',
-          'auth.service.ts',
-          564,
-          { displayName }
-        );
         
         try {
           await firebaseUpdateProfile(currentUser, {
             displayName: displayName || null,
           });
-          
-          this.logger.debug(
-            'Firebase displayName güncellendi',
-            'AuthService.updateProfile',
-            'auth.service.ts',
-            574
-          );
+
         } catch (firebaseError) {
-          this.logger.warn(
-            'Firebase displayName güncellenemedi',
-            'AuthService.updateProfile',
-            'auth.service.ts',
-            580,
-            { error: firebaseError }
-          );
           // Firebase güncellemesi başarısız olsa bile devam et
         }
       }
 
       if (profileData.profileImageUrl) {
-        this.logger.debug(
-          'Firebase photoURL güncelleniyor',
-          'AuthService.updateProfile',
-          'auth.service.ts',
-          591,
-          { photoURL: profileData.profileImageUrl }
-        );
+
         
         try {
           await firebaseUpdateProfile(currentUser, {
             photoURL: profileData.profileImageUrl,
           });
           
-          this.logger.debug(
-            'Firebase photoURL güncellendi',
-            'AuthService.updateProfile',
-            'auth.service.ts',
-            601
-          );
         } catch (firebaseError) {
-          this.logger.warn(
-            'Firebase photoURL güncellenemedi',
-            'AuthService.updateProfile',
-            'auth.service.ts',
-            607,
-            { error: firebaseError }
-          );
-          // Firebase güncellemesi başarısız olsa bile devam et
+    { error: firebaseError }
+         
         }
       }
 
       // Backend'e uygun formata dönüştür
       const backendProfileData = adaptUserToBackend(profileData);
       
-      this.logger.debug(
-        'Backend profil güncelleme isteği gönderiliyor',
-        'AuthService.updateProfile',
-        'auth.service.ts',
-        618,
-        { backendData: JSON.stringify(backendProfileData) }
-      );
+  
 
       // Backend'e profil güncellemesi için API çağrısı yap
       try {
@@ -672,87 +311,26 @@ class AuthService {
           "/users/profile",
           backendProfileData,
         );
-        
-        this.logger.info(
-          'Profil başarıyla güncellendi',
-          'AuthService.updateProfile',
-          'auth.service.ts',
-          629,
-          { userId: updatedBackendUser.id }
-        );
-        
-        trackFlow(
-          'Profil güncelleme başarılı',
-          'AuthService.updateProfile',
-          FlowCategory.User
-        );
-
-        // Frontend tipine dönüştür
+     
         return adaptUserFromBackend(updatedBackendUser);
       } catch (apiError) {
-        this.logger.error(
-          'Backend profil güncelleme hatası',
-          'AuthService.updateProfile',
-          'auth.service.ts',
-          644,
-          { 
-            error: apiError instanceof Error ? apiError.message : 'Bilinmeyen hata',
-            requestData: backendProfileData,
-            isAxiosError: axios.isAxiosError(apiError)
-          }
-        );
+
         
         // Daha detaylı axios hatası yakalama
         if (axios.isAxiosError(apiError)) {
           const axiosError = apiError as AxiosError;
-          this.logger.error(
-            'Axios hatası detayları',
-            'AuthService.updateProfile',
-            'auth.service.ts', 
-            656,
-            {
-              status: axiosError.response?.status,
-              statusText: axiosError.response?.statusText,
-              data: axiosError.response?.data,
-              url: axiosError.config?.url,
-              method: axiosError.config?.method
-            }
-          );
-          
-          trackFlow(
-            `Profil güncelleme hatası: HTTP ${axiosError.response?.status || 'Unknown'}`,
-            'AuthService.updateProfile',
-            FlowCategory.Error
-          );
+
         }
         
         throw apiError;
       }
     } catch (error: unknown) {
-      this.logger.error(
-        'Profil güncelleme hatası',
-        'AuthService.updateProfile',
-        'auth.service.ts',
-        677,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
-      
-      trackFlow(
-        'Profil güncelleme hatası',
-        'AuthService.updateProfile',
-        FlowCategory.Error,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
-      
+    
       throw error;
     }
   }
 
-  /**
-   * Firebase oturum durumu değişikliklerini dinle
-   * @param callback Oturum durumu değiştiğinde çağrılacak fonksiyon
-   * @returns Dinlemeyi durduracak fonksiyon
-   */
+ 
   onAuthStateChange(callback: (user: FirebaseUser | null) => void) {
     console.log("🎧 [AuthService] onAuthStateChange başlatılıyor");
     
@@ -767,9 +345,7 @@ class AuthService {
       if (isLoginOrInitialState) {
         try {
           console.log("🔑 [AuthService] Token isteniyor");
-          
-          // Firebase kullanıcısına yapılan değişikliklerin işlenmesi için kısa bir bekleme
-          // Bu özellikle yeni kayıt olan kullanıcılar için önemli
+
           if (retryCount === 0 && !previousAuthState) {
             console.log("⏱️ [AuthService] Yeni kullanıcı kaydı için 1 saniye bekleniyor");
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -787,7 +363,6 @@ class AuthService {
               { idToken },
             );
 
-            console.log("✅ [AuthService] Backend oturum yenilemesi başarılı");
             retryCount = 0; // Başarılı istek sonrası sayacı sıfırla
 
             // Token'ı localStorage'a kaydet
@@ -807,7 +382,6 @@ class AuthService {
                 console.log("⚠️ [AuthService] Backend bağlantı hatası nedeniyle işleme devam ediliyor");
                 // Bağlantı hatası durumunda devam et, oturumu koru
               } 
-              // 401 Unauthorized hatası - yeni kayıt olan kullanıcılar için yeniden deneme
               else if (axiosError.response?.status === 401 && retryCount < MAX_RETRY) {
                 retryCount++;
                 console.log(`⚠️ [AuthService] 401 hatası alındı, yeniden deneme (${retryCount}/${MAX_RETRY})`);
@@ -824,9 +398,7 @@ class AuthService {
                     "/auth/login-via-idtoken",
                     { idToken: refreshedToken },
                   );
-                  
-                  console.log("✅ [AuthService] Yeniden deneme başarılı");
-                  
+                          
                   // Token'ı localStorage'a kaydet
                   if (retryResponse.token) {
                     localStorage.setItem("auth_token", retryResponse.token);
@@ -846,16 +418,12 @@ class AuthService {
               throw error;
             }
           }
-        } catch (error) {
-          console.error("❌ [AuthService] onAuthStateChange işlemi sırasında kritik hata:", error);
-          
-          // Kullanıcı oturumu kapalı, token'ları temizle
+        } catch (error) {          
           localStorage.removeItem("auth_token");
           removeAuthCookie();
         }
       } else {
         // Kullanıcı oturumu zaten kapalı ise sessizce işle
-        // Sadece gerçekten bir oturum kapatma varsa (daha önce kullanıcı varken şimdi yoksa) logla
         if (previousAuthState !== null && previousAuthState !== firebaseUser) {
           console.log("🔓 Firebase Auth: Kullanıcı oturumu kapatıldı");
           localStorage.removeItem("auth_token");
@@ -882,18 +450,12 @@ class AuthService {
     });
   }
 
-  /**
-   * Şu anki kullanıcıyı al
-   * @returns Firebase kullanıcı nesnesi veya null
-   */
+ 
   getCurrentUser() {
     return auth.currentUser;
   }
 
-  /**
-   * Şu anki kullanıcının token'ini al
-   * @returns JWT token veya null
-   */
+
   async getCurrentToken(): Promise<string | null> {
     const user = auth.currentUser;
     if (!user) return null;
@@ -906,35 +468,17 @@ class AuthService {
     }
   }
 
-  /**
-   * Mevcut authentication token'ını al
-   * Önce localStorage'dan kontrol eder, bulamazsa Firebase'den yeni token alır
-   * @returns JWT token veya null
-   */
   async getAuthToken(): Promise<string | null> {
     try {
       // Önce localStorage'dan token'ı kontrol et
       const storedToken = localStorage.getItem("auth_token");
       
-      if (storedToken) {
-        this.logger.debug(
-          'Token localStorage\'dan alındı',
-          'AuthService.getAuthToken',
-          'auth.service.ts',
-          0
-        );
+      if (storedToken) {         
         return storedToken;
       }
-
       // localStorage'da token yoksa Firebase'den al
       const firebaseUser = auth.currentUser;
       if (!firebaseUser) {
-        this.logger.debug(
-          'Firebase kullanıcısı bulunamadı',
-          'AuthService.getAuthToken',
-          'auth.service.ts',
-          0
-        );
         return null;
       }
 
@@ -943,36 +487,17 @@ class AuthService {
       
       if (token) {
         // Token'ı localStorage'a kaydet
-        localStorage.setItem("auth_token", token);
-        
-        this.logger.debug(
-          'Token Firebase\'den alındı ve localStorage\'a kaydedildi',
-          'AuthService.getAuthToken',
-          'auth.service.ts',
-          0
-        );
-        
+        localStorage.setItem("auth_token", token);      
         return token;
       }
 
       return null;
     } catch (error) {
-      this.logger.error(
-        'Token alma hatası',
-        'AuthService.getAuthToken',
-        'auth.service.ts',
-        0,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
       return null;
     }
   }
 
-  /**
-   * Hata mesajlarını formatlar - Firebase ve diğer hatalar için tutarlı bir format sağlar
-   * @param error Hata nesnesi
-   * @returns Formatlanmış hata mesajı
-   */
+
   formatAuthError(error: unknown): string {
     if (error instanceof FirebaseError) {
       return this.formatFirebaseError(error).message;
@@ -1073,30 +598,11 @@ class AuthService {
     }
   }
 
-  /**
-   * Access token'ı yenile
-   * Backend'in /auth/refresh-token endpoint'ini çağırarak HttpOnly cookie içindeki
-   * refresh token ile yeni bir access token alır.
-   * 
-   * @returns {Promise<{token: string}>} Başarılı olursa yeni access token
-   * @throws {Error} Token yenilenemezse hata fırlatır
-   */
   async refreshToken(): Promise<{token: string}> {
     try {
-      // Backend'in refresh token endpoint'ine, HTTP-only cookie içindeki refresh token'ı kullanarak istek at
-      // withCredentials: true sayesinde browser otomatik olarak cookie'yi gönderir
-      this.logger.info(
-        'Token yenileme işlemi başlatılıyor',
-        'AuthService.refreshToken',
-        'auth.service.ts',
-        725
-      );
+ 
       
-      trackFlow(
-        'Token yenileme işlemi başlatıldı',
-        'AuthService.refreshToken',
-        FlowCategory.Auth
-      );
+  
       
       // Timeout'u artırarak bağlantı sorunlarına karşı biraz daha tolerans göster
       const response = await apiService.post<{success: boolean, token: string, expiresIn?: number}>(
@@ -1110,18 +616,9 @@ class AuthService {
       
       // Yeni token'ı döndür
       if (response && response.token) {
-        this.logger.info(
-          'Token başarıyla yenilendi',
-          'AuthService.refreshToken',
-          'auth.service.ts',
-          748
-        );
         
-        trackFlow(
-          'Token yenileme başarılı',
-          'AuthService.refreshToken',
-          FlowCategory.Auth
-        );
+        
+
         
         // Yeni token'ı localStorage ve cookie'ye kaydet
         localStorage.setItem("auth_token", response.token);
@@ -1129,48 +626,18 @@ class AuthService {
         
         return { token: response.token };
       } else {
-        this.logger.error(
-          'Refresh token yanıtında token bulunamadı',
-          'AuthService.refreshToken',
-          'auth.service.ts',
-          764,
-          { response }
-        );
-        
-        trackFlow(
-          'Token yenileme yanıtında token bulunamadı',
-          'AuthService.refreshToken',
-          FlowCategory.Error
-        );
+       
         
         throw new Error("Refresh token yanıtında token bulunamadı");
       }
     } catch (error) {
-      this.logger.error(
-        'Token yenileme hatası',
-        'AuthService.refreshToken',
-        'auth.service.ts',
-        779,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
-      
-      trackFlow(
-        'Token yenileme hatası',
-        'AuthService.refreshToken',
-        FlowCategory.Error,
-        { error: error instanceof Error ? error.message : 'Bilinmeyen hata' }
-      );
+     
       
       // Eğer Firebase kullanıcısı varsa, yeni bir token almayı deneyelim
       try {
         const currentUser = auth.currentUser;
         if (currentUser) {
-          this.logger.info(
-            'Firebase kullanıcısı mevcut, otomatik token yenileme deneniyor',
-            'AuthService.refreshToken',
-            'auth.service.ts',
-            800
-          );
+          
           
           // Firebase'den yeni token al
           const idToken = await currentUser.getIdToken(true);
@@ -1179,24 +646,13 @@ class AuthService {
           const idTokenResponse = await this.loginWithIdToken(idToken);
           
           if (idTokenResponse && idTokenResponse.token) {
-            this.logger.info(
-              'Firebase token ile yenileme başarılı',
-              'AuthService.refreshToken',
-              'auth.service.ts',
-              811
-            );
+           
             
             return { token: idTokenResponse.token };
           }
         }
       } catch (firebaseError) {
-        this.logger.error(
-          'Firebase token ile yenileme hatası',
-          'AuthService.refreshToken',
-          'auth.service.ts',
-          821,
-          { error: firebaseError }
-        );
+       
       }
       
       // Tüm token'ları temizle
@@ -1207,13 +663,7 @@ class AuthService {
       try {
         await firebaseSignOut(auth);
       } catch (signOutError) {
-        this.logger.warn(
-          'Token yenileme sonrası Firebase çıkış hatası',
-          'AuthService.refreshToken',
-          'auth.service.ts',
-          799,
-          { error: signOutError }
-        );
+        
       }
       
       throw error;
@@ -1221,7 +671,6 @@ class AuthService {
   }
 }
 
-// Singleton instance oluştur ve export et
 const authService = new AuthService();
 export default authService;
 ;
