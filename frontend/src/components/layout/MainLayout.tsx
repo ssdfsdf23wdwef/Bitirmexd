@@ -72,7 +72,7 @@ function MainLayoutBase({ children }: MainLayoutProps) {
 
   const layoutStructure = (
    
-      <div className="min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
+      <div className="layout-container min-h-screen bg-primary text-primary transition-all duration-300 ease-in-out">
         {/* Aggressive prefetching for instant navigation */}
         <PrefetchLinks links={CRITICAL_ROUTES} />
         <PrefetchLinks links={SECONDARY_ROUTES} />
@@ -80,9 +80,21 @@ function MainLayoutBase({ children }: MainLayoutProps) {
         <div className="flex w-full relative">
           {isMounted && (
             <div 
-              className={`fixed top-0 left-0 h-full z-docked transition-all duration-300 ease-in-out ${
+              className={`sidebar-fixed ${
                 isSidebarCollapsed ? 'w-16' : 'w-64'
               }`}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                height: '100vh',
+                height: '100dvh', // Modern browsers için
+                zIndex: 999,
+                // Browser optimization'ına karşı güçlü önlemler
+                contain: 'strict',
+                isolation: 'isolate',
+                willChange: 'width'
+              }}
             >
               <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
               
@@ -92,12 +104,19 @@ function MainLayoutBase({ children }: MainLayoutProps) {
           )}
 
           <main 
-            className={`flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
+            className={`main-content flex-1 w-full min-h-screen transition-all duration-300 ease-in-out`}
             style={{
-              marginLeft: isMounted ? (isSidebarCollapsed ? '68px' : '280px') : '0px',
-              paddingLeft: '1rem',
+              paddingLeft: isMounted ? (isSidebarCollapsed ? '84px' : '296px') : '16px',
               paddingRight: '1rem',
               position: 'relative',
+              width: '100%',
+              minHeight: '100vh',
+              // Scroll container olarak işlev görmesi için
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              // Sidebar'dan tamamen izole etmek için
+              contain: 'layout style',
+              isolation: 'isolate'
             }}
           >
 

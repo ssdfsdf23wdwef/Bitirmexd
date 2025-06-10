@@ -97,15 +97,26 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }: SidebarProps)
       initial={false}
       animate={{ width: isCollapsed ? "68px" : "280px" }}
       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-      className={`fixed top-0 left-0 h-screen z-30 border-r backdrop-blur-xl transition-all duration-200 flex flex-col overflow-hidden ${
+      className={`sidebar-fixed border-r backdrop-blur-xl flex flex-col overflow-hidden ${
         isDarkMode 
           ? 'border-slate-700/50 bg-gradient-to-b from-slate-900/95 via-slate-800/95 to-slate-900/95 shadow-2xl shadow-slate-900/20' 
           : 'border-gray-200/80 bg-gradient-to-b from-white/95 via-gray-50/95 to-white/95 shadow-2xl shadow-gray-900/10'
       }`}
       style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        height: '100vh',
+        height: '100dvh',
+        zIndex: 999,
         transform: 'translateZ(0)', // Hardware acceleration
         backfaceVisibility: 'hidden',
         willChange: 'width', // Optimize for width changes
+        // Kesin scroll izolasyonu için
+        contain: 'strict',
+        isolation: 'isolate',
+        // Browser'ın kendi optimization'larını devre dışı bırak
+        overscrollBehavior: 'none'
       }}
     >
       {/* Enhanced Modern Toggle Button with glassmorphism */}

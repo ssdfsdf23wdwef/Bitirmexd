@@ -58,9 +58,7 @@ export class GeminiProviderService implements AIProvider {
   ): Promise<AIResponse> {
     try {
       const startTime = Date.now();
-      const traceId =
-        options?.metadata?.traceId ||
-        `gemini-${startTime}-${Math.random().toString(36).substring(2, 7)}`;
+      
 
       // Özel ayarlar varsa onları kullan, yoksa modeldeki ayarları kullan
       const requestParams = options || {};

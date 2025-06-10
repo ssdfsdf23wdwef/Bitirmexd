@@ -181,6 +181,11 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Body scroll davranışı */
+body {
+  overflow-x: hidden;
+}
+
 /* Kenarlıklar için gelişmiş stiller */
 .border {
   border-color: var(--border);
@@ -224,6 +229,20 @@ body {
     display: block !important;
     visibility: visible !important;
   }
+}
+
+/* Sidebar sabit konumlandırma garantisi */
+.sidebar-fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  z-index: 30 !important;
+  will-change: width;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Özel scroll bar stilleri */
@@ -520,4 +539,75 @@ body {
 .focus-modern-dark:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* Kritik: Root container scroll davranışını kontrol et */
+html {
+  overflow-x: hidden;
+  height: 100%;
+  /* Sidebar için güçlü containing block garantisi */
+  transform: translateZ(0);
+  contain: layout style;
+}
+
+body {
+  overflow-x: hidden;
+  height: 100%;
+  position: relative;
+  /* Browser'ın scroll optimization'ını devre dışı bırak */
+  overscroll-behavior: none;
+  /* Touch scroll'da momentum'u kontrol et */
+  -webkit-overflow-scrolling: touch;
+  /* Critical: Browser'ın kendi layout optimization'larını devre dışı bırak */
+  contain: layout style;
+}
+
+/* Sidebar - Tüm scroll container'larından tamamen bağımsız */
+.sidebar-fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important; /* Modern viewport için */
+  z-index: 999 !important; /* Daha yüksek z-index */
+  will-change: width;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Root'a kesin bağlılık için */
+  contain: strict;
+  isolation: isolate;
+  /* Browser'ın kendi scroll behavior'ını override et */
+  overscroll-behavior: none;
+  /* Hardware acceleration guarantee */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+}
+
+/* Ana içerik - Sidebar'dan tamamen bağımsız */
+main {
+  position: relative;
+  overflow-x: hidden;
+  /* Ana scroll container */
+  overflow-y: auto;
+  height: auto;
+  min-height: 100vh;
+}
+
+/* Layout container - Stable reference point */
+.layout-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  /* Scroll container olmaması için */
+  overflow: visible;
+}
+
+/* Main content - İçerik scroll'u */
+.main-content {
+  position: relative;
+  z-index: 1;
+  /* Scroll isolation */
+  contain: layout style;
 }
