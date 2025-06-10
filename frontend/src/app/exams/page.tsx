@@ -37,7 +37,6 @@ const QUIZ_TYPE_INFO = {
 // Yardımcı fonksiyonlar
 // quiz.timestamp'in 'any' olabileceğini varsayarak daha genel bir tip kullanalım.
 const formatDate = (dateValue: any): string => {
-  console.log('Original dateValue:', dateValue); // Hata ayıklama için log
   if (dateValue === null || typeof dateValue === 'undefined') {
     return "Tarih Yok (null/undefined)";
   }
@@ -92,8 +91,7 @@ const formatDate = (dateValue: any): string => {
     return "Geçersiz Tarih Değeri (NaN)";
   }
 
-  // All checks passed, format the date
-  console.log('Processing potentialDate:', potentialDate, 'typeof getTime:', typeof potentialDate?.getTime); // Hata ayıklama için log
+
   try {
     return potentialDate.toLocaleDateString("tr-TR", {
       day: "2-digit",

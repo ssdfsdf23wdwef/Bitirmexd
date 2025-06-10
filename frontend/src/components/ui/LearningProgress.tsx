@@ -1,5 +1,6 @@
 import React from "react";
 import { FiTarget, FiCheckCircle, FiTrendingUp } from "react-icons/fi";
+import { useTheme } from "@/context/ThemeProvider";
 import type { WeakTopic } from "@/types/learningTarget.type";
 
 interface LearningProgressProps {
@@ -11,6 +12,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
   weakTopics,
   strongTopics,
 }) => {
+  const { isDarkMode } = useTheme();
   // Toplam başarı oranı hesaplama
   const calculateMasteryPercentage = (): number => {
     if (!weakTopics || !strongTopics) return 0;
@@ -52,16 +54,20 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
 
     return (
       <div
-        className={`p-4 border rounded-lg shadow-sm ${
+        className={`p-4 border rounded-lg shadow-sm transition-colors duration-200 ${
           status === "mastered"
-            ? "border-state-success-border bg-state-success-bg"
-            : "border-state-warning-border bg-state-warning-bg"
+            ? isDarkMode 
+              ? "border-green-600 bg-green-900/20" 
+              : "border-green-200 bg-green-50"
+            : isDarkMode 
+              ? "border-yellow-600 bg-yellow-900/20" 
+              : "border-yellow-200 bg-yellow-50"
         }`}
       >
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="font-medium">{topic}</h3>
-            <p className="text-sm text-secondary mt-1">
+            <h3 className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{topic}</h3>
+            <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               {status === "mastered"
                 ? "Uzmanlaşıldı"
                 : `Gelişim aşamasında (${successRate}%)`}
@@ -69,32 +75,32 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
           </div>
           <div>
             {status === "mastered" ? (
-              <FiCheckCircle className="text-state-success text-xl" />
+              <FiCheckCircle className={`text-xl ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
             ) : (
-              <FiTarget className="text-state-warning text-xl" />
+              <FiTarget className={`text-xl ${isDarkMode ? 'text-yellow-400' : 'text-yellow-600'}`} />
             )}
           </div>
         </div>
 
         {data && (
           <div className="mt-3">
-            <div className="flex justify-between text-xs text-secondary mb-1">
+            <div className={`flex justify-between text-xs mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <span>İlerleme</span>
               <span>{successRate}%</span>
             </div>
-            <div className="w-full bg-secondary/30 rounded-full h-2">
+            <div className={`w-full rounded-full h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
               <div
                 className={`h-2 rounded-full ${
                   successRate >= 80
-                    ? "bg-state-success"
+                    ? isDarkMode ? "bg-green-400" : "bg-green-500"
                     : successRate >= 60
-                      ? "bg-state-warning"
-                      : "bg-state-error"
+                      ? isDarkMode ? "bg-yellow-400" : "bg-yellow-500"
+                      : isDarkMode ? "bg-red-400" : "bg-red-500"
                 }`}
                 style={{ width: `${successRate}%` }}
               ></div>
             </div>
-            <div className="flex justify-between mt-2 text-xs text-secondary">
+            <div className={`flex justify-between mt-2 text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <span>Başarılı: {data.successCount || 0}</span>
               <span>Başarısız: {data.failCount}</span>
             </div>
@@ -105,10 +111,10 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6 transition-colors duration-300 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Genel İlerleme */}
-      <div className="bg-elevated rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold mb-4 flex items-center text-primary">
+      <div className={`rounded-lg shadow p-6 transition-colors duration-200 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+        <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           <FiTrendingUp className="mr-2" /> Genel İlerleme
         </h2>
 
@@ -120,7 +126,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
                 fill="none"
-                stroke="rgb(var(--color-border-primary))"
+                stroke={isDarkMode ? "#374151" : "#e5e7eb"}
                 strokeWidth="3"
                 strokeDasharray="100, 100"
               />
@@ -131,10 +137,10 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
                 fill="none"
                 stroke={
                   masteryPercentage >= 80
-                    ? "rgb(var(--color-state-success))"
+                    ? isDarkMode ? "#10b981" : "#059669"
                     : masteryPercentage >= 60
-                      ? "rgb(var(--color-state-warning))"
-                      : "rgb(var(--color-state-error))"
+                      ? isDarkMode ? "#f59e0b" : "#d97706"
+                      : isDarkMode ? "#ef4444" : "#dc2626"
                 }
                 strokeWidth="3"
                 strokeDasharray={`${masteryPercentage}, 100`}
@@ -144,8 +150,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
                 y="20.5"
                 textAnchor="middle"
                 fontSize="8"
-                fill="currentColor"
-                className="text-primary"
+                fill={isDarkMode ? "#ffffff" : "#111827"}
                 fontWeight="bold"
               >
                 %{masteryPercentage}
@@ -153,7 +158,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
             </svg>
           </div>
 
-          <p className="text-center text-gray-600">
+          <p className={`text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Toplam {Object.keys(weakTopics).length + strongTopics.length}{" "}
             konudan{" "}
             {strongTopics.length +
@@ -165,12 +170,16 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-6">
-          <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+          <div className={`p-3 rounded-lg border transition-colors duration-200 ${
+            isDarkMode 
+              ? 'bg-green-900/20 border-green-600' 
+              : 'bg-green-50 border-green-200'
+          }`}>
             <div className="flex items-center">
-              <FiCheckCircle className="text-green-500 mr-2" />
-              <span className="font-medium">Uzmanlaşılan Konular</span>
+              <FiCheckCircle className={`mr-2 ${isDarkMode ? 'text-green-400' : 'text-green-500'}`} />
+              <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Uzmanlaşılan Konular</span>
             </div>
-            <p className="text-2xl font-bold mt-2">
+            <p className={`text-2xl font-bold mt-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               {strongTopics.length +
                 Object.values(weakTopics).filter(
                   (topic) => topic.status === "mastered",
@@ -178,12 +187,16 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
             </p>
           </div>
 
-          <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
+          <div className={`p-3 rounded-lg border transition-colors duration-200 ${
+            isDarkMode 
+              ? 'bg-yellow-900/20 border-yellow-600' 
+              : 'bg-amber-50 border-amber-200'
+          }`}>
             <div className="flex items-center">
-              <FiTarget className="text-amber-500 mr-2" />
-              <span className="font-medium">Gelişim Aşamasında</span>
+              <FiTarget className={`mr-2 ${isDarkMode ? 'text-yellow-400' : 'text-amber-500'}`} />
+              <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Gelişim Aşamasında</span>
             </div>
-            <p className="text-2xl font-bold mt-2">
+            <p className={`text-2xl font-bold mt-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               {
                 Object.values(weakTopics).filter(
                   (topic) => topic.status === "active",
@@ -196,8 +209,8 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
 
       {/* Uzmanlaşılan Konular */}
       {strongTopics.length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 flex items-center text-green-600">
+        <div className={`rounded-lg shadow p-6 transition-colors duration-200 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+          <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-green-400' : 'text-green-600'}`}>
             <FiCheckCircle className="mr-2" /> Uzmanlaşılan Konular
           </h2>
 
@@ -224,8 +237,8 @@ const LearningProgress: React.FC<LearningProgressProps> = ({
       {/* Gelişim Aşamasındaki Konular */}
       {Object.values(weakTopics).filter((topic) => topic.status === "active")
         .length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 flex items-center text-amber-600">
+        <div className={`rounded-lg shadow p-6 transition-colors duration-200 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+          <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-yellow-400' : 'text-amber-600'}`}>
             <FiTarget className="mr-2" /> Gelişim Aşamasındaki Konular
           </h2>
 

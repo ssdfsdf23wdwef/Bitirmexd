@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiFilter, FiRefreshCw } from "react-icons/fi";
 import LearningProgress from "@/components/ui/LearningProgress";
-import { ThemeProvider } from "../../context/ThemeProvider";
+import { ThemeProvider, useTheme } from "../../context/ThemeProvider";
 import courseService from "../../services/course.service";
 import { useLearningTargets } from "../../hooks/useLearningTargetQuery";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../../store/auth.store";
 
-export default function LearningGoalsPage() {
+// Ana component içeriği
+function LearningGoalsPageContent() {
   const { user } = useAuthStore();
+  const { isDarkMode } = useTheme();
   const router = useRouter();
   const [selectedCourseId, setSelectedCourseId] = useState<string | "all">(
     "all",
@@ -86,54 +88,71 @@ export default function LearningGoalsPage() {
   // Kullanıcı giriş yapmamışsa yükleniyor göster
   if (!user) {
     return (
-      <ThemeProvider>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-        </div>
-      </ThemeProvider>
+      <div className={`flex items-center justify-center h-64 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+        <div className={`animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 ${isDarkMode ? 'border-blue-400' : 'border-indigo-500'}`}></div>
+      </div>
     );
   }
 
   return (
-    <ThemeProvider>
-      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">
-          Öğrenme Hedefleri
-        </h1>
-        <div className="flex items-center space-x-2">
-          <div className="relative">
-            <select
-              className="pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
-              value={selectedCourseId}
-              onChange={(e) => setSelectedCourseId(e.target.value)}
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+          <h1 className={`text-2xl font-bold mb-4 md:mb-0 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+            Öğrenme Hedefleri
+          </h1>
+          <div className="flex items-center space-x-2">
+            <div className="relative">
+              <select
+                className={`pl-3 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-colors duration-200 ${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-600 text-white hover:bg-gray-700' 
+                    : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
+                }`}
+                value={selectedCourseId}
+                onChange={(e) => setSelectedCourseId(e.target.value)}
+              >
+                <option value="all">Tüm Dersler</option>
+                {courses.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    {course.name || course.title}
+                  </option>
+                ))}
+              </select>
+              <FiFilter className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`} />
+            </div>
+            <button
+              className={`flex items-center px-3 py-2 border rounded-md transition-colors duration-200 ${
+                isDarkMode 
+                  ? 'bg-gray-800 border-gray-600 text-white hover:bg-gray-700' 
+                  : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
+              }`}
+              onClick={() => {
+                refetchCourses();
+                refetchTargets();
+              }}
             >
-              <option value="all">Tüm Dersler</option>
-              {courses.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.name || course.title}
-                </option>
-              ))}
-            </select>
-            <FiFilter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FiRefreshCw className="mr-1" /> Yenile
+            </button>
           </div>
-          <button
-            className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-            onClick={() => {
-              refetchCourses();
-              refetchTargets();
-            }}
-          >
-            <FiRefreshCw className="mr-1" /> Yenile
-          </button>
         </div>
+        {loading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className={`animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 ${isDarkMode ? 'border-blue-400' : 'border-indigo-500'}`}></div>
+          </div>
+        ) : (
+          <LearningProgress weakTopics={weakTopics} strongTopics={strongTopics} />
+        )}
       </div>
-      {loading ? (
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-        </div>
-      ) : (
-        <LearningProgress weakTopics={weakTopics} strongTopics={strongTopics} />
-      )}
+    </div>
+  );
+}
+
+// Ana export component - ThemeProvider ile sarmalı
+export default function LearningGoalsPage() {
+  return (
+    <ThemeProvider>
+      <LearningGoalsPageContent />
     </ThemeProvider>
   );
 }
