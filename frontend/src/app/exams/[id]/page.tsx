@@ -1195,7 +1195,7 @@ export default function ExamPage() {
               <span className={`${optionsEqual(userAnswers[processedQuestion.id], option) 
                 ? (isDarkMode ? 'text-blue-300 font-medium' : 'text-blue-700 font-medium') 
                 : (isDarkMode ? 'text-gray-300' : 'text-gray-700')}`}>
-                {typeof option === 'object' && option !== null && 'text' in option ? option.text : option}
+                {typeof option === 'object' && option !== null && 'text' in option ? option.text : String(option)}
               </span>
             </div>
           ))}
