@@ -24,33 +24,33 @@ const LearningStatusBadge: FC<LearningStatusBadgeProps> = ({
   const { isDarkMode } = useTheme();
   const config = getStatusStyle(status);
 
-  // Tema uyumlu renkler
+  // Geliştirilmiş tema uyumlu renkler
   const getThemeColors = (status: LearningTargetStatus) => {
     switch (status) {
       case "mastered":
         return isDarkMode 
-          ? "bg-green-900/20 text-green-400 border-green-600"
-          : "bg-green-100 text-green-800 border-green-200";
+          ? "bg-gradient-to-r from-emerald-900/40 to-emerald-800/40 text-emerald-200 border-emerald-400/50 shadow-emerald-500/30"
+          : "bg-gradient-to-r from-green-50 to-green-100 text-green-700 border-green-300 shadow-green-200/50";
       case "medium":
         return isDarkMode 
-          ? "bg-yellow-900/20 text-yellow-400 border-yellow-600"
-          : "bg-yellow-100 text-yellow-800 border-yellow-200";
+          ? "bg-gradient-to-r from-amber-900/40 to-amber-800/40 text-amber-200 border-amber-400/50 shadow-amber-500/30"
+          : "bg-gradient-to-r from-yellow-50 to-yellow-100 text-yellow-700 border-yellow-300 shadow-yellow-200/50";
       case "failed":
         return isDarkMode 
-          ? "bg-red-900/20 text-red-400 border-red-600"
-          : "bg-red-100 text-red-800 border-red-200";
+          ? "bg-gradient-to-r from-red-900/40 to-red-800/40 text-red-200 border-red-400/50 shadow-red-500/30"
+          : "bg-gradient-to-r from-red-50 to-red-100 text-red-700 border-red-300 shadow-red-200/50";
       case "pending":
       default:
         return isDarkMode 
-          ? "bg-gray-700 text-gray-300 border-gray-600"
-          : "bg-gray-100 text-gray-800 border-gray-200";
+          ? "bg-gradient-to-r from-slate-800/60 to-slate-700/60 text-slate-200 border-slate-500/50 shadow-slate-500/30"
+          : "bg-gradient-to-r from-gray-50 to-gray-100 text-gray-600 border-gray-300 shadow-gray-200/50";
     }
   };
 
   const sizeClasses = {
-    sm: "text-xs px-2 py-0.5",
-    md: "text-sm px-2.5 py-0.5",
-    lg: "text-base px-3 py-1",
+    sm: "text-xs px-3 py-1",
+    md: "text-sm px-4 py-1.5",
+    lg: "text-base px-5 py-2",
   };
 
   // Icon boyutunu belirle
@@ -69,17 +69,17 @@ const LearningStatusBadge: FC<LearningStatusBadgeProps> = ({
 
   return (
     <motion.span
-      className={`inline-flex items-center rounded-full border ${getThemeColors(status)} ${sizeClasses[size]} font-medium transition-colors duration-200`}
+      className={`inline-flex items-center rounded-xl border backdrop-blur-sm shadow-lg ${getThemeColors(status)} ${sizeClasses[size]} font-semibold transition-all duration-300 hover:shadow-xl hover:scale-105`}
       initial={animate ? "initial" : undefined}
       animate={animate ? "animate" : undefined}
       variants={animate ? variants : undefined}
     >
       {showIcon && (
-        <span className="mr-1">
-          <span className={iconSize}>{config.icon}</span>
+        <span className={`mr-2 flex items-center justify-center`}>
+          <span className={`${iconSize} flex items-center justify-center`}>{config.icon}</span>
         </span>
       )}
-      {showLabel && config.label}
+      {showLabel && <span className="font-medium">{config.label}</span>}
     </motion.span>
   );
 };

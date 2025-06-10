@@ -1428,8 +1428,12 @@ export default function ExamPage() {
     if (loading) {
       return (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg text-secondary">Sınav yükleniyor...</p>
+          <div className={`w-16 h-16 border-4 border-t-transparent rounded-full animate-spin ${
+            isDarkMode ? 'border-blue-400' : 'border-blue-600'
+          }`}></div>
+          <p className={`mt-4 text-lg font-medium ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>Sınav yükleniyor...</p>
         </div>
       );
     }
@@ -1463,9 +1467,15 @@ export default function ExamPage() {
         {/* Progress and question stats */}
         <div className="relative mb-8">
           {/* Progress bar */}
-          <div className="h-2 w-full bg-secondary bg-opacity-20 rounded-full mb-6 overflow-hidden">
+          <div className={`h-3 w-full rounded-full mb-6 overflow-hidden ${
+            isDarkMode ? 'bg-slate-700/50' : 'bg-gray-200/80'
+          }`}>
             <div
-              className="h-full bg-brand-primary transition-all duration-300"
+              className={`h-full transition-all duration-500 ease-out ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                  : 'bg-gradient-to-r from-blue-600 to-purple-600'
+              }`}
               style={{
                 width: `${Object.keys(userAnswers).length / quiz.questions.length * 100}%`,
               }}
@@ -1474,10 +1484,13 @@ export default function ExamPage() {
           
           <div className="flex justify-between items-center mb-6">
             <div className="text-sm">
-              <span className="font-medium text-brand-primary">{Object.keys(userAnswers).length}</span>
-              <span className="text-tertiary"> / {quiz.questions.length} cevaplandı</span>
+              <span className={`font-medium ${
+                isDarkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}>{Object.keys(userAnswers).length}</span>
+              <span className={`${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}> / {quiz.questions.length} cevaplandı</span>
             </div>
-         
           </div>
         </div>
 
@@ -1494,14 +1507,20 @@ export default function ExamPage() {
 
         {/* New "Sınavı Bitir" button as per Prompt 3 */}
         <div className="flex justify-center">
-          <Button 
-            onClick={handleFinishExam} 
-            disabled={isLoadingFinishExam}
-            color="primary"
-            className="mt-4 mb-8" // Adjusted margin
-          >
-            Sınavı Bitir
-          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button 
+              onClick={handleFinishExam} 
+              disabled={isLoadingFinishExam}
+              size="lg"
+              className={`px-8 py-3 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400'
+                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
+              }`}
+            >
+              {isLoadingFinishExam ? 'Bitiriliyor...' : 'Sınavı Bitir'}
+            </Button>
+          </motion.div>
         </div>
       </div>
     );

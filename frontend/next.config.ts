@@ -15,14 +15,17 @@ const nextConfig: NextConfig = {
   
   // Experimental optimizations for fastest builds
   experimental: {
+    // Enable faster compilation
+    turbo: {
+      memoryLimit: 4096, // 4GB memory limit
+    },
     // Optimize CSS
     optimizeCss: true,
+    // Faster builds
+    serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
     // Reduce bundle size
     optimizePackageImports: ['react-icons', '@nextui-org/react', 'framer-motion'],
   },
-  
-  // External packages that should be bundled on the server
-  serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
   
   // Build optimizations  
   modularizeImports: {

@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { BarChart3, CheckCircle, XCircle, ListChecks, HelpCircle, Moon, Sun } from 'lucide-react';
-import { useTheme } from '@/context/ThemeProvider'; // Tema sağlayıcısını import et
+import { useParams, useRouter } from 'next/navigation';
+import { BarChart3, CheckCircle, XCircle, ListChecks, HelpCircle, ArrowLeft, Trophy, Target, TrendingUp } from 'lucide-react';
+import { useTheme } from '@/context/ThemeProvider';
+import { motion } from 'framer-motion';
 
 // Projenizdeki Question ve Quiz tiplerine benzer basit tipler
 interface Question {
@@ -64,6 +65,7 @@ export default function ExamResultsPage() {
     return String(val).trim().toLocaleLowerCase('tr');
   }
   const params = useParams();
+  const router = useRouter();
   const { theme, setTheme, isDarkMode } = useTheme();
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   // ... diğer state ve ref'ler
@@ -332,33 +334,56 @@ export default function ExamResultsPage() {
   };
 
   return (
-    <div className={`min-h-screen p-4 sm:p-6 md:p-8 transition-colors duration-300 ${isDarkMode ? 'bg-slate-900 text-gray-200' : 'bg-gradient-to-br from-slate-50 to-sky-100 text-gray-800'}`}>
-      <div className={`max-w-4xl mx-auto ${isDarkMode ? 'bg-slate-800' : 'bg-white'} shadow-2xl rounded-xl p-6 sm:p-8 transition-colors duration-300`}>
+    <div className={`min-h-screen p-4 sm:p-6 md:p-8 transition-all duration-300 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-200' 
+        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800'
+    }`}>
+      <div className={`max-w-4xl mx-auto shadow-2xl rounded-2xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-sm border ${
+        isDarkMode 
+          ? 'bg-slate-800/90 border-slate-700/50' 
+          : 'bg-white/90 border-gray-200/50'
+      }`}>
         <header className="mb-10 relative">
           <div className="text-center">
-            <h1 className={`text-4xl font-extrabold mb-2 ${isDarkMode ? 'text-sky-400' : 'text-sky-600'}`}>{quizResult.quizTitle}</h1>
-            <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Sınav performansınızın detaylı analizi.</p>
+            <h1 className={`text-4xl font-extrabold mb-2 bg-gradient-to-r ${
+              isDarkMode 
+                ? 'from-blue-400 to-purple-400' 
+                : 'from-blue-600 to-purple-600'
+            } bg-clip-text text-transparent`}>{quizResult.quizTitle}</h1>
+            <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Sınav performansınızın detaylı analizi.
+            </p>
           </div>
-          <button 
-            onClick={toggleTheme}
-            className={`absolute top-0 right-0 p-2 rounded-full transition-colors duration-300 ${isDarkMode ? 'bg-slate-700 hover:bg-slate-600 text-yellow-400' : 'bg-sky-100 hover:bg-sky-200 text-sky-600'}`}
-            aria-label="Toggle theme"
-          >
-            {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-          </button>
         </header>
 
         {/* 1. Sınavın Genel Sonuçları */}
-        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-sky-50'}`}>
-          <h2 className={`text-2xl font-semibold mb-5 flex items-center ${isDarkMode ? 'text-sky-300' : 'text-sky-700'}`}>
+        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${
+          isDarkMode 
+            ? 'bg-slate-700/80 border-slate-600/50' 
+            : 'bg-blue-50/80 border-blue-200/50'
+        }`}>
+          <h2 className={`text-2xl font-semibold mb-5 flex items-center ${
+            isDarkMode ? 'text-blue-300' : 'text-blue-700'
+          }`}>
             <BarChart3 className="mr-3 h-7 w-7" /> Genel Başarı
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
-            <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
-              <p className={`text-5xl font-bold ${getScoreColor(calculatedOverallScore)}`}>{calculatedOverallScore.toFixed(1)}%</p>
+            <div className={`p-5 rounded-lg shadow-md transition-all duration-300 backdrop-blur-sm border ${
+              isDarkMode 
+                ? 'bg-slate-800/80 border-slate-700/50' 
+                : 'bg-white/80 border-gray-200/50'
+            }`}>
+              <p className={`text-5xl font-bold ${getScoreColor(calculatedOverallScore)}`}>
+                {calculatedOverallScore.toFixed(1)}%
+              </p>
               <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Genel Puan</p>
             </div>
-            <div className={`p-5 rounded-lg shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+            <div className={`p-5 rounded-lg shadow-md transition-all duration-300 backdrop-blur-sm border ${
+              isDarkMode 
+                ? 'bg-slate-800/80 border-slate-700/50' 
+                : 'bg-white/80 border-gray-200/50'
+            }`}>
               <p className={`text-5xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
                 {(quizResult.questions?.filter(q => q.isCorrect).length ?? 0)} <span className="text-3xl">/</span> {(quizResult.questions?.length ?? 0)}
               </p>
@@ -368,49 +393,79 @@ export default function ExamResultsPage() {
         </section>
 
         {/* 2. Alt Konular Bazında İstatistikler */}
-        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-indigo-50'}`}>
-          <h2 className={`text-lg font-semibold mb-4 flex items-center ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>
+        <section className={`mb-10 p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${
+          isDarkMode 
+            ? 'bg-slate-700/80 border-slate-600/50' 
+            : 'bg-indigo-50/80 border-indigo-200/50'
+        }`}>
+          <h2 className={`text-lg font-semibold mb-4 flex items-center ${
+            isDarkMode ? 'text-indigo-300' : 'text-indigo-700'
+          }`}>
             <ListChecks className="mr-2 h-5 w-5" /> Alt Konu Başarıları
           </h2>
           {(calculatedSubTopicStats.length > 0) ? (
             <ul className="space-y-2">
               {calculatedSubTopicStats.map((stat: {subTopic: string; score: number; totalQuestions: number; correctQuestions: number}, index: number) => (
-                <li key={index} className={`p-2.5 rounded-md shadow-sm hover:shadow-md transition-all duration-300 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+                <li key={index} className={`p-2.5 rounded-md shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? 'bg-slate-800/80 border-slate-700/50' 
+                    : 'bg-white/80 border-gray-200/50'
+                }`}>
                   <div className="flex justify-between items-center mb-1.5">
-                    <h3 className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-600'}`}>{stat.subTopic}</h3>
+                    <h3 className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-600'}`}>
+                      {stat.subTopic}
+                    </h3>
                     <span className={`text-base font-bold ${getScoreColor(stat.score)}`}>
                       {stat.score.toFixed(1)}%
                     </span>
                   </div>
-                  <div className={`w-full rounded-full h-2 mb-1 transition-colors duration-300 ${isDarkMode ? 'bg-slate-600' : 'bg-gray-200'}`}>
+                  <div className={`w-full rounded-full h-2 mb-1 transition-all duration-300 ${
+                    isDarkMode ? 'bg-slate-600' : 'bg-gray-200'
+                  }`}>
                     <div
                       className={`h-2 rounded-full transition-all duration-500 ease-out ${getProgressBarBgColor(stat.score)}`}
                       style={{ width: `${stat.score}%` }}
                     ></div>
                   </div>
-                  <p className={`text-xs text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>
+                  <p className={`text-xs text-right ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                     {stat.correctQuestions} / {stat.totalQuestions} doğru
                   </p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-300'} italic`}>Alt konu istatistiği bulunmamaktadır.</p>
+            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} italic`}>
+              Alt konu istatistiği bulunmamaktadır.
+            </p>
           )}
         </section>
 
         {/* 3. Her Soru Sonucu */}
-        <section className={`p-6 rounded-xl shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-slate-700' : 'bg-teal-50'}`}>
-          <h2 className={`text-2xl font-semibold mb-6 flex items-center ${isDarkMode ? 'text-teal-300' : 'text-teal-700'}`}>
+        <section className={`p-6 rounded-xl shadow-lg transition-all duration-300 backdrop-blur-sm border ${
+          isDarkMode 
+            ? 'bg-slate-700/80 border-slate-600/50' 
+            : 'bg-teal-50/80 border-teal-200/50'
+        }`}>
+          <h2 className={`text-2xl font-semibold mb-6 flex items-center ${
+            isDarkMode ? 'text-teal-300' : 'text-teal-700'
+          }`}>
             <HelpCircle className="mr-3 h-7 w-7" /> Soru Detayları
           </h2>
           <ul className="space-y-6">
             {quizResult.questions.map((q, index) => (
               <li key={q.id} 
-                  className={`p-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 ${isDarkMode ? 'bg-slate-800' : 'bg-white'} ${q.isCorrect ? (isDarkMode ? 'border-green-500' : 'border-green-600') : (isDarkMode ? 'border-red-500' : 'border-red-600')}`}
+                  className={`p-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 backdrop-blur-sm border ${
+                    isDarkMode 
+                      ? 'bg-slate-800/80 border-slate-700/50' 
+                      : 'bg-white/80 border-gray-200/50'
+                  } ${q.isCorrect 
+                    ? (isDarkMode ? 'border-l-green-500' : 'border-l-green-600') 
+                    : (isDarkMode ? 'border-l-red-500' : 'border-l-red-600')}`}
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className={`text-lg font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Soru {index + 1}: {q.questionText}</h3>
+                  <h3 className={`text-lg font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                    Soru {index + 1}: {q.questionText}
+                  </h3>
                   {q.isCorrect ? (
                     <CheckCircle className={`h-8 w-8 flex-shrink-0 ml-4 ${isDarkMode ? 'text-green-400' : 'text-green-500'}`} />
                   ) : (

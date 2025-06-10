@@ -14,25 +14,26 @@ import {
   FiDownload,
   FiEye,
 } from "react-icons/fi";
+import { useTheme } from "@/context/ThemeProvider";
 import { useQuizzes } from "@/hooks/api/useQuizzes";
 import type { Quiz } from "../../types/quiz.type";
 import { Spinner } from "@nextui-org/react";
 
-// Sınav türü için güzel etiketler
-const QUIZ_TYPE_INFO = {
+// Sınav türü için tema uyumlu etiketler
+const getQuizTypeInfo = (isDarkMode: boolean) => ({
   quick: {
     label: "Hızlı Sınav",
-    bgColor: "bg-blue-50 dark:bg-blue-900/30",
-    textColor: "text-blue-700 dark:text-blue-400",
-    borderColor: "border-blue-200 dark:border-blue-800",
+    bgColor: isDarkMode ? "bg-blue-500/20" : "bg-blue-50",
+    textColor: isDarkMode ? "text-blue-300" : "text-blue-700",
+    borderColor: isDarkMode ? "border-blue-400/30" : "border-blue-200",
   },
   personalized: {
     label: "Kişiselleştirilmiş Sınav",
-    bgColor: "bg-purple-50 dark:bg-purple-900/30",
-    textColor: "text-purple-700 dark:text-purple-400",
-    borderColor: "border-purple-200 dark:border-purple-800",
+    bgColor: isDarkMode ? "bg-purple-500/20" : "bg-purple-50",
+    textColor: isDarkMode ? "text-purple-300" : "text-purple-700",
+    borderColor: isDarkMode ? "border-purple-400/30" : "border-purple-200",
   },
-};
+});
 
 // Yardımcı fonksiyonlar
 // quiz.timestamp'in 'any' olabileceğini varsayarak daha genel bir tip kullanalım.
@@ -105,77 +106,103 @@ const formatDate = (dateValue: any): string => {
 };
 
 // Sınav başlığı üretici yardımcı fonksiyon
-function getQuizTitle(quiz: Quiz) {
+function getQuizTitle(quiz: Quiz, isDarkMode: boolean) {
+  const typeInfo = getQuizTypeInfo(isDarkMode);
   return quiz.sourceDocument?.fileName ||
-    `${QUIZ_TYPE_INFO[quiz.quizType]?.label || "Sınav"} - ${formatDate(quiz.timestamp)}`;
+    `${typeInfo[quiz.quizType]?.label || "Sınav"} - ${formatDate(quiz.timestamp)}`;
 }
 
 // Sınav kartı bileşeni
-const ExamItem = ({ quiz, index }: { quiz: Quiz; index: number }) => {
+const ExamItem = ({ quiz, index, isDarkMode }: { quiz: Quiz; index: number; isDarkMode: boolean }) => {
   const quizType =
     quiz.quizType === "quick" || quiz.quizType === "personalized"
       ? quiz.quizType
       : "quick";
-  const typeInfo = QUIZ_TYPE_INFO[quizType];
+  const typeInfo = getQuizTypeInfo(isDarkMode)[quizType];
   // Başlık: sourceDocument varsa dosya adı, yoksa quizType ve tarih
-  const title = getQuizTitle(quiz);
+  const title = getQuizTitle(quiz, isDarkMode);
   // Soru sayısı: totalQuestions
   const questionsCount = quiz.totalQuestions;
   // Oluşturulma tarihi: timestamp
   const createdAt = quiz.timestamp;
   // Süre: elapsedTime (varsa), yoksa "-"
   const duration = quiz.elapsedTime ? Math.round(quiz.elapsedTime / 60) : "-";
+  
   return (
     <motion.tr
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="group transition-colors hover:bg-interactive-hover"
+      whileHover={{ 
+        scale: 1.02, 
+        transition: { duration: 0.2 } 
+      }}
+      className={`group transition-all duration-300 ${
+        isDarkMode 
+          ? 'hover:bg-slate-700/40 border-b border-slate-700/50' 
+          : 'hover:bg-gray-50/70 border-b border-gray-200/50'
+      }`}
     >
-      <td className="px-4 py-4 whitespace-nowrap">
+      <td className="px-4 py-3 whitespace-nowrap">
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-lg bg-brand-primary bg-opacity-10 flex items-center justify-center text-brand-primary mr-3">
-            <FiFileText className="w-5 h-5" />
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center mr-3 transition-all duration-300 ${
+            isDarkMode 
+              ? 'bg-blue-500/20 text-blue-400 group-hover:bg-blue-500/30' 
+              : 'bg-blue-100 text-blue-600 group-hover:bg-blue-200'
+          }`}>
+            <FiFileText className="w-4 h-4" />
           </div>
           <div>
-            <div className="text-sm font-medium text-primary">
+            <div className={`text-sm font-semibold truncate max-w-xs ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
               {title}
             </div>
-            <div className="text-sm text-tertiary">
+            <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               {questionsCount} Soru
             </div>
           </div>
         </div>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap">
+      <td className="px-4 py-3 whitespace-nowrap">
         <span
-          className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border ${typeInfo.bgColor} ${typeInfo.textColor} ${typeInfo.borderColor}`}
+          className={`inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium border transition-all duration-300 hover:scale-105 ${typeInfo.bgColor} ${typeInfo.textColor} ${typeInfo.borderColor}`}
         >
           {typeInfo.label}
         </span>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+      <td className="px-4 py-3 whitespace-nowrap">
         <div className="flex items-center">
-          <FiCalendar className="w-4 h-4 mr-1.5 text-tertiary" />
-          {formatDate(createdAt)}
+          <FiCalendar className={`w-3 h-3 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+          <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            {formatDate(createdAt)}
+          </span>
         </div>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+      <td className="px-4 py-3 whitespace-nowrap">
         <div className="flex items-center">
-          <FiClock className="w-4 h-4 mr-1.5 text-tertiary" />
-          {duration} dk
+          <FiClock className={`w-3 h-3 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+          <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            {duration} dk
+          </span>
         </div>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-right">
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-end space-x-2">
+      <td className="px-4 py-3 whitespace-nowrap text-right">
+        <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-end space-x-2">
           <Link
             href={`/exams/${quiz.id}/results`}
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full text-brand-primary bg-brand-primary bg-opacity-10 hover:bg-opacity-20 transition-colors"
+            className={`inline-flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:scale-110 ${
+              isDarkMode 
+                ? 'text-blue-400 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30' 
+                : 'text-blue-600 bg-blue-100 hover:bg-blue-200 border border-blue-200'
+            }`}
           >
-            <FiEye className="w-4 h-4" />
+            <FiEye className="w-3 h-3" />
           </Link>
-          <button className="inline-flex items-center justify-center w-8 h-8 rounded-full text-tertiary bg-secondary hover:bg-interactive-hover transition-colors">
-            <FiDownload className="w-4 h-4" />
+          <button className={`inline-flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:scale-110 ${
+            isDarkMode 
+              ? 'text-gray-400 bg-slate-700/60 hover:bg-slate-600/80 border border-slate-600/50' 
+              : 'text-gray-600 bg-gray-100 hover:bg-gray-200 border border-gray-200'
+          }`}>
+            <FiDownload className="w-3 h-3" />
           </button>
         </div>
       </td>
@@ -185,6 +212,7 @@ const ExamItem = ({ quiz, index }: { quiz: Quiz; index: number }) => {
 
 export default function ExamsPage() {
   const router = useRouter();
+  const { isDarkMode } = useTheme();
   const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -203,7 +231,7 @@ export default function ExamsPage() {
     // Arama filtresi
     if (searchTerm) {
       result = result.filter((quiz: Quiz) =>
-        getQuizTitle(quiz).toLowerCase().includes(searchTerm.toLowerCase()),
+        getQuizTitle(quiz, isDarkMode).toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -221,32 +249,73 @@ export default function ExamsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
-        <Spinner label="Sınavlar yükleniyor..." color="primary" />
+      <div className={`min-h-screen flex items-center justify-center p-6 transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+      }`}>
+        <div className="text-center">
+          <Spinner 
+            size="lg" 
+            color={isDarkMode ? "secondary" : "primary"} 
+            classNames={{
+              circle1: isDarkMode ? "border-blue-400" : "border-blue-600",
+              circle2: isDarkMode ? "border-purple-400" : "border-purple-600",
+            }}
+          />
+          <p className={`mt-4 text-lg font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            Sınavlar yükleniyor...
+          </p>
+        </div>
       </div>
     );
   }
 
   if (isError || !quizzes) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
-        <div className="text-state-error font-semibold text-lg">
-          {error instanceof Error
-            ? error.message
-            : "Sınavlar yüklenirken bir hata oluştu."}
+      <div className={`min-h-screen flex items-center justify-center p-6 transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+      }`}>
+        <div className={`p-8 rounded-2xl border backdrop-blur-sm text-center max-w-md ${
+          isDarkMode 
+            ? 'bg-red-500/10 border-red-400/30 text-red-300' 
+            : 'bg-red-50 border-red-200 text-red-700'
+        }`}>
+          <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+            isDarkMode ? 'bg-red-500/20' : 'bg-red-100'
+          }`}>
+            <FiFileText className="w-8 h-8" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">Sınavlar Yüklenemedi</h3>
+          <p className={`text-sm ${isDarkMode ? 'text-red-200' : 'text-red-600'}`}>
+            {error instanceof Error
+              ? error.message
+              : "Sınavlar yüklenirken bir hata oluştu."}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-primary p-8">
-      <div className="container mx-auto">
-        <div className="mb-8">
+    <div className={`min-h-screen p-6 transition-all duration-300 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
+        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+    }`}>
+      <div className="container mx-auto max-w-7xl h-full">
+        {/* Header */}
+        <div className="mb-6">
           <motion.h1
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-accent mb-2"
+            className={`text-4xl font-bold mb-2 bg-gradient-to-r ${
+              isDarkMode 
+                ? 'from-blue-400 to-purple-400' 
+                : 'from-blue-600 to-purple-600'
+            } bg-clip-text text-transparent`}
           >
             Sınavlarım
           </motion.h1>
@@ -254,10 +323,12 @@ export default function ExamsPage() {
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-secondary"
+            className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
             Geçmiş sınavlarınızı görüntüleyin ve yeni sınavlar oluşturun.
           </motion.p>
+        </div>
+       
         </div>
 
         {/* Filtreler ve arama */}
@@ -272,16 +343,26 @@ export default function ExamsPage() {
               <input
                 type="text"
                 placeholder="Sınav ara..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-primary bg-elevated text-primary focus:outline-none focus:ring-2 focus:border-focus transition-all duration-300"
+                className={`w-full pl-12 pr-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 ${
+                  isDarkMode
+                    ? 'bg-slate-800/80 border-slate-700/50 text-gray-100 placeholder-gray-400 focus:border-blue-400/50 focus:ring-blue-400/20'
+                    : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500 focus:border-blue-500/50 focus:ring-blue-500/20'
+                } backdrop-blur-sm`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-tertiary" />
+              <FiSearch className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`} />
             </div>
 
             <div className="relative">
               <select
-                className="appearance-none pl-10 pr-10 py-2.5 rounded-xl border border-primary bg-elevated text-primary focus:outline-none focus:ring-2 focus:border-focus transition-all duration-300"
+                className={`appearance-none pl-12 pr-12 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 ${
+                  isDarkMode
+                    ? 'bg-slate-800/80 border-slate-700/50 text-gray-100 focus:border-blue-400/50 focus:ring-blue-400/20'
+                    : 'bg-white border-gray-200 text-gray-900 focus:border-blue-500/50 focus:ring-blue-500/20'
+                } backdrop-blur-sm`}
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
               >
@@ -289,10 +370,12 @@ export default function ExamsPage() {
                 <option value="quick">Hızlı Sınav</option>
                 <option value="personalized">Kişiselleştirilmiş Sınav</option>
               </select>
-              <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-tertiary" />
-              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+              <FiFilter className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`} />
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-tertiary"
+                  className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -306,65 +389,194 @@ export default function ExamsPage() {
             </div>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleCreateNewExam}
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent text-inverse font-medium hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-xl"
+            className={`inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl ${
+              isDarkMode
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400'
+                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
+            }`}
           >
-            <FiPlus className="mr-2" />
+            <FiPlus className="mr-2 w-5 h-5" />
             Yeni Sınav
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Sonuçları göster: Yükleniyor, hata veya veri tablosu */}
         {filteredQuizzes.length > 0 ? (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-elevated shadow-md rounded-xl overflow-hidden"
+            className={`rounded-2xl shadow-xl backdrop-blur-sm border ${
+              isDarkMode 
+                ? 'bg-slate-800/80 border-slate-700/50' 
+                : 'bg-white/80 border-gray-200/50'
+            }`}
           >
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-secondary">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-                    >
-                      Sınav
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-                    >
-                      Tür
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-                    >
-                      Tarih
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-                    >
-                      Süre
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-                    >
-                      İşlemler
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-elevated divide-y border-primary">
-                  {filteredQuizzes.map((quiz, idx) => (
-                    <ExamItem key={quiz.id} quiz={quiz} index={idx} />
-                  ))}
-                </tbody>
-              </table>
+            {/* Desktop tablo görünümü */}
+            <div className="hidden lg:block">
+              <div className={`overflow-y-auto max-h-[calc(100vh-200px)] ${
+                isDarkMode ? 'scrollbar-dark' : 'scrollbar-light'
+              }`}
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: isDarkMode ? '#475569 #1e293b' : '#cbd5e1 #f1f5f9'
+                }}
+              >
+                <table className="w-full">
+                  <thead className={`sticky top-0 z-10 ${
+                    isDarkMode ? 'bg-slate-900/90 backdrop-blur-sm' : 'bg-gray-50/90 backdrop-blur-sm'
+                  }`}>
+                    <tr>
+                      <th
+                        scope="col"
+                        className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}
+                      >
+                        Sınav
+                      </th>
+                      <th
+                        scope="col"
+                        className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}
+                      >
+                        Tür
+                      </th>
+                      <th
+                        scope="col"
+                        className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}
+                      >
+                        Tarih
+                      </th>
+                      <th
+                        scope="col"
+                        className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}
+                      >
+                        Süre
+                      </th>
+                      <th
+                        scope="col"
+                        className={`px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}
+                      >
+                        İşlemler
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className={`divide-y ${
+                    isDarkMode ? 'divide-slate-700/50' : 'divide-gray-200/50'
+                  }`}>
+                    {filteredQuizzes.map((quiz, idx) => (
+                      <ExamItem key={quiz.id} quiz={quiz} index={idx} isDarkMode={isDarkMode} />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobil kart görünümü */}
+            <div className={`lg:hidden max-h-[calc(100vh-200px)] overflow-y-auto p-3 space-y-3 ${
+              isDarkMode ? 'scrollbar-dark' : 'scrollbar-light'
+            }`}
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: isDarkMode ? '#475569 #1e293b' : '#cbd5e1 #f1f5f9'
+              }}
+            >
+              {filteredQuizzes.map((quiz, idx) => {
+                const quizType = quiz.quizType === "quick" || quiz.quizType === "personalized" ? quiz.quizType : "quick";
+                const typeInfo = getQuizTypeInfo(isDarkMode)[quizType];
+                const title = getQuizTitle(quiz, isDarkMode);
+                const questionsCount = quiz.totalQuestions;
+                const createdAt = quiz.timestamp;
+                const duration = quiz.elapsedTime ? Math.round(quiz.elapsedTime / 60) : "-";
+
+                return (
+                  <motion.div
+                    key={quiz.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    className={`p-3 rounded-xl border transition-all duration-300 hover:scale-105 ${
+                      isDarkMode 
+                        ? 'bg-slate-700/40 border-slate-600/50 hover:bg-slate-700/60' 
+                        : 'bg-white/70 border-gray-200/50 hover:bg-white/90'
+                    } backdrop-blur-sm`}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-start space-x-2">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                          isDarkMode 
+                            ? 'bg-blue-500/20 text-blue-400' 
+                            : 'bg-blue-100 text-blue-600'
+                        }`}>
+                          <FiFileText className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className={`text-sm font-semibold truncate ${
+                            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                          }`}>
+                            {title}
+                          </h3>
+                          <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {questionsCount} Soru
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium border ${typeInfo.bgColor} ${typeInfo.textColor} ${typeInfo.borderColor}`}
+                      >
+                        {typeInfo.label}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between text-xs space-x-4 mb-2">
+                      <div className="flex items-center">
+                        <FiCalendar className={`w-3 h-3 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
+                          {formatDate(createdAt)}
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <FiClock className={`w-3 h-3 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
+                          {duration} dk
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end space-x-2">
+                      <Link
+                        href={`/exams/${quiz.id}/results`}
+                        className={`inline-flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:scale-110 ${
+                          isDarkMode 
+                            ? 'text-blue-400 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30' 
+                            : 'text-blue-600 bg-blue-100 hover:bg-blue-200 border border-blue-200'
+                        }`}
+                      >
+                        <FiEye className="w-3 h-3" />
+                      </Link>
+                      <button className={`inline-flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:scale-110 ${
+                        isDarkMode
+                          ? 'text-gray-400 bg-slate-700/60 hover:bg-slate-600/80 border border-slate-600/50' 
+                          : 'text-gray-600 bg-gray-100 hover:bg-gray-200 border border-gray-200'
+                      }`}>
+                        <FiDownload className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         ) : (
@@ -375,29 +587,51 @@ export default function ExamsPage() {
             className="mt-20 flex flex-col items-center justify-center text-center"
           >
             <div className="w-32 h-32 relative mb-8">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary to-brand-accent opacity-10 rounded-3xl rotate-6"></div>
-              <div className="absolute inset-0 bg-elevated rounded-3xl flex items-center justify-center border border-primary">
-                <FiFileText className="text-6xl text-transparent bg-clip-text bg-gradient-to-br from-brand-primary to-brand-accent" />
+              <div className={`absolute inset-0 opacity-20 rounded-3xl rotate-6 ${
+                isDarkMode 
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-500' 
+                  : 'bg-gradient-to-br from-blue-600 to-purple-600'
+              }`}></div>
+              <div className={`absolute inset-0 rounded-3xl flex items-center justify-center border backdrop-blur-sm ${
+                isDarkMode 
+                  ? 'bg-slate-800/80 border-slate-700/50' 
+                  : 'bg-white/80 border-gray-200/50'
+              }`}>
+                <FiFileText className={`text-6xl bg-gradient-to-br ${
+                  isDarkMode 
+                    ? 'from-blue-400 to-purple-400' 
+                    : 'from-blue-600 to-purple-600'
+                } bg-clip-text text-transparent`} />
               </div>
             </div>
-            <h3 className="text-2xl font-bold text-primary mb-2">
+            <h3 className={`text-2xl font-bold mb-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
               Henüz hiç sınav bulunamadı
             </h3>
-            <p className="text-tertiary mb-8 max-w-md">
+            <p className={`mb-8 max-w-md ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               {searchTerm || selectedType !== "all"
                 ? "Filtrelerinize uygun sınav bulunamadı. Lütfen arama kriterlerinizi değiştirin."
                 : "Kişiselleştirilmiş sınavlar oluşturmak için yeni sınav ekleyin."}
             </p>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleCreateNewExam}
-              className="inline-flex items-center px-6 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent text-inverse text-lg font-medium hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className={`inline-flex items-center px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400'
+                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
+              }`}
             >
-              <FiPlus className="mr-2" />
+              <FiPlus className="mr-2 w-5 h-5" />
               İlk Sınavı Oluştur
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </div>
-    </div>
+    
   );
 }
