@@ -23,7 +23,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto, RefreshTokenDto, GoogleLoginDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Public } from '../common/decorators/decorators/public.decorator';
-import { RequestWithUser } from '../common/types/unified.types';
+import { RequestWithUser } from '../common/types';
 import {
   ApiTags,
   ApiOperation,

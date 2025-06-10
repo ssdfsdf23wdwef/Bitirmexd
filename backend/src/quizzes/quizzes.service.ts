@@ -21,7 +21,7 @@ import {
   QuizQuestion,
   CreateQuizParams,
   SubtopicUpdate
-} from '../common/types/unified.types';
+} from '../common/types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { LoggerService, LogLevel } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
@@ -44,13 +44,13 @@ export class QuizzesService {
   constructor(
     private readonly firebaseService: FirebaseService,
     private readonly aiService: AiService,
-    private readonly logger: LoggerService,
     private readonly learningTargetsService: LearningTargetsService,
     private readonly quizAnalysisService: QuizAnalysisService,
     private readonly documentsService: DocumentsService,
     private readonly coursesService: CoursesService,
     private readonly normalizationService: NormalizationService,
   ) {
+    this.logger = LoggerService.getInstance();
     this.flowTracker = FlowTrackerService.getInstance();
     this.logger.debug(
       'QuizzesService başlatıldı',

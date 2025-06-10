@@ -10,7 +10,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { UserRefreshToken } from '../common/types/unified.types';
+import { UserRefreshToken } from '../common/types';
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 import * as admin from 'firebase-admin';
@@ -635,13 +635,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Orijinal (hashlenmemiş) refresh token'ı doğrular, ilgili kullanıcıyı ve token ID'sini döndürür.
-   * Veritabanındaki *tüm* tokenları taramak yerine, potansiyel eşleşmeleri bulmak için daha verimli bir yol izler.
-   * Not: Bu yöntem hala tüm tokenları getirebilir, daha büyük sistemlerde tokenları hash'lerine göre indekslemek daha iyi olabilir.
-   * @param token Doğrulanacak orijinal refresh token (hashlenMEmiş)
-   * @returns { user: Kullanıcı nesnesi, storedTokenId: Veritabanındaki token ID'si } veya hata
-   */
+  
   private async validateAndGetUserByRefreshToken(
     token: string,
   ): Promise<{ user: any; storedTokenId: string } | null> {

@@ -394,7 +394,18 @@ export class LoggerService {
       log += `\nStack Trace:\n${stack}`;
     }
     if (additionalInfo && Object.keys(additionalInfo).length > 0) {
-      log += `\nEk Bilgi: ${JSON.stringify(additionalInfo)}`;
+      try {
+        // Güvenli JSON serialization
+        const safeInfo = JSON.stringify(additionalInfo, (key, value) => {
+          if (value && typeof value === 'object' && (value.socket || value.req || value.headers)) {
+            return '[HTTP Object]';
+          }
+          return value;
+        });
+        log += `\nEk Bilgi: ${safeInfo}`;
+      } catch (error) {
+        log += `\nEk Bilgi: [Serialization Error]`;
+      }
     }
     log += `\n------------------------------------------------------------\n`;
     return log;

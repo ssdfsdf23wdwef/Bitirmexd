@@ -8,17 +8,11 @@ import { LoggerService } from '../../common/services/logger.service';
  */
 @Injectable()
 export class PromptManagerService implements OnModuleInit {
-  private readonly logger: LoggerService;
   private promptCache: Map<string, string> = new Map();
   private readonly PROMPT_DIR = path.join(__dirname, '..', 'prompts');
 
-  constructor() {
-    this.logger = LoggerService.getInstance();
-  }
 
-  /**
-   * Servis başlangıcında çalışır
-   */
+
   async onModuleInit() {
     // Başlangıçta sık kullanılan promptları önbelleğe yükle
     await this.loadPrompt('generate-quiz-tr.txt');
@@ -48,35 +42,19 @@ export class PromptManagerService implements OnModuleInit {
 
       // Önbelleğe al
       this.promptCache.set(promptFileName, content);
-      this.logger.info(
-        `Prompt dosyası başarıyla yüklendi: ${promptFileName}`,
-        'PromptManagerService.loadPrompt',
-      );
+     
 
       return content;
     } catch (error) {
-      this.logger.error(
-        `Prompt dosyası yüklenemedi: ${promptFileName} - ${error.message}`,
-        'PromptManagerService.loadPrompt',
-        undefined,
-        error,
-      );
+      
       return '';
     }
   }
 
-  /**
-   * Prompt içeriğindeki değişkenleri değiştirir
-   * @param template Prompt şablonu
-   * @param variables Değişken değerleri
-   * @returns Derlenmiş prompt
-   */
+
   compilePrompt(template: string, variables: Record<string, string>): string {
     if (!template) {
-      this.logger.warn(
-        'Boş şablon ile compilePrompt çağrıldı',
-        'PromptManagerService.compilePrompt',
-      );
+    
       return '';
     }
 
@@ -198,12 +176,6 @@ export class PromptManagerService implements OnModuleInit {
       );
     });
 
-    if (remainingVariables && remainingVariables.length > 0) {
-      this.logger.warn(
-        `Prompt şablonunda doldurulmamış değişkenler var: ${remainingVariables.join(', ')}`,
-        'PromptManagerService.compilePrompt',
-      );
-    }
 
     return compiledPrompt;
   }
@@ -212,10 +184,7 @@ export class PromptManagerService implements OnModuleInit {
    * Fallback quiz prompt içeriğini döndürür
    */
   getFallbackQuizPrompt(): string {
-    this.logger.warn(
-      "Fallback quiz prompt kullanılıyor. Lütfen 'generate-quiz-tr.txt' dosyasının varlığını kontrol edin.",
-      'PromptManagerService.getFallbackQuizPrompt',
-    );
+  
 
     return JSON.stringify({
       questions: [

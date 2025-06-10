@@ -12,4 +12,4 @@ export type {
   CreateLearningTargetDto,
   UpdateLearningTargetDto,
   LearningTargetStatusUpdate
-} from '../../common/types/unified.types';
+} from '../../common/types';

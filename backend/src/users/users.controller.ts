@@ -25,7 +25,7 @@ import {
   ThemeType,
   Course,
   User
-} from '../common/types/unified.types';
+} from '../common/types';
 import { FirebaseGuard } from '../auth/firebase/firebase.guard';
 import { FirebaseService } from '../firebase/firebase.service';
 import * as admin from 'firebase-admin';

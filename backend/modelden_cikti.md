@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-10T17:07:23.879Z
-Trace ID: quiz-1749575229751-4yuo2
-Yanıt Uzunluğu: 7846 karakter
+Tarih: 2025-06-10T17:53:40.827Z
+Trace ID: quiz-1749578003103-f7e96
+Yanıt Uzunluğu: 9844 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,172 +11,172 @@ Yanıt Uzunluğu: 7846 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "KVM (Kernel-based Virtual Machine) hangi tip hypervisor'dır?",
+      "questionText": "Konteynerizasyonun temel amacı nedir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Tip-1 Hypervisor",
-        "Tip-2 Hypervisor",
-        "Mikro Hypervisor",
-        "Hibrit Hypervisor"
+        "Uygulamaları sanal makinelerde çalıştırmak",
+        "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+        "İşletim sistemini güncellemek",
+        "Donanım kaynaklarını yönetmek"
       ],
-      "correctAnswer": "Tip-1 Hypervisor",
-      "explanation": "Metinde KVM'nin Tip-1 Hypervisor olduğu belirtilmiştir. Tip-1 hypervisor'lar doğrudan donanım üzerinde çalışır.",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "correctAnswer": "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
+      "explanation": "Konteynerizasyon, bir uygulamanın kodunu, çalışması için gereken tüm bağımlılıklarla birlikte paketleyerek farklı altyapılarda tutarlı bir şekilde çalışmasını sağlamayı amaçlar. Diğer seçenekler konteynerizasyonun temel amacı değildir.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_i_şlevi",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi KVM kurulumu için gerekli paketlerden biri değildir?",
+      "questionText": "Aşağıdakilerden hangisi konteynerleştirmenin temel özelliklerinden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "qemu-kvm",
-        "virt-manager",
-        "libvirt-daemon-system",
-        "docker"
+        "Uygulamaların tüm bileşenlerinin tek bir imajda toplanması",
+        "Aynı işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabilmesi",
+        "Farklı işletim sistemleri arasında uyumsuzluk yaratması",
+        "İşletim sistemi düzeyinde sanallaştırma sağlaması"
       ],
-      "correctAnswer": "docker",
-      "explanation": "Metinde KVM kurulumu için gerekli paketler arasında qemu-kvm, virt-manager ve libvirt-daemon-system bulunmaktadır. Docker, container teknolojisi ile ilgilidir ve KVM kurulumu için gerekli değildir.",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "correctAnswer": "Farklı işletim sistemleri arasında uyumsuzluk yaratması",
+      "explanation": "Konteynerleştirme, uygulamaların farklı işletim sistemlerinde uyumlu bir şekilde çalışmasını sağlar, uyumsuzluk yaratmaz. Diğer seçenekler konteynerleştirmenin temel özelliklerindendir.",
+      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
+      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_i_şlevi",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "KVM kurulumu için gerekli paketleri kurmak için kullanılan komut aşağıdakilerden hangisidir?",
+      "questionText": "Konteynerleştirme sürecinde uygulama ve bağımlılık paketleme ne anlama gelir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "sudo apt install kvm",
-        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-        "sudo yum install kvm",
-        "sudo pacman -S kvm"
+        "Uygulamanın sadece kaynak kodunun paketlenmesi",
+        "Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi",
+        "Uygulamanın sadece işletim sistemi ile paketlenmesi",
+        "Uygulamanın sadece kullanıcı arayüzünün paketlenmesi"
       ],
-      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-      "explanation": "Metinde belirtilen KVM kurulumu için gerekli paketlerin tamamını kurmak için kullanılan komut 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' şeklindedir.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "correctAnswer": "Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi",
+      "explanation": "Uygulama ve bağımlılık paketleme, bir uygulamanın çalışması için ihtiyaç duyduğu her şeyin (kütüphaneler, framework'ler vb.) uygulama ile birlikte bir konteyner içinde toplanması anlamına gelir. Bu, uygulamanın farklı ortamlarda tutarlı bir şekilde çalışmasını sağlar.",
+      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
+      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "KVM kurulumu sonrasında libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?",
+      "questionText": "Konteyner imajı oluşturulurken hangi bileşenler bir araya getirilir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "sudo systemctl start libvirtd",
-        "sudo systemctl enable libvirtd",
-        "sudo systemctl enable --now libvirtd",
-        "sudo libvirtd start"
+        "Sadece uygulama kodları",
+        "Sadece işletim sistemi",
+        "Uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı",
+        "Sadece donanım sürücüleri"
       ],
-      "correctAnswer": "sudo systemctl enable --now libvirtd",
-      "explanation": "Metinde libvirtd servisinin hem başlatılması hem de otomatik olarak başlamasının sağlanması için 'sudo systemctl enable --now libvirtd' komutunun kullanılması gerektiği belirtilmiştir.",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
+      "correctAnswer": "Uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı",
+      "explanation": "Konteyner imajı, uygulamanın çalışması için gerekli olan her şeyi içerir: uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı. Bu sayede konteyner, farklı ortamlarda tutarlı bir şekilde çalışabilir.",
+      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
+      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "/etc/libvirt/qemu.conf dosyasında hangi satırların başındaki '#' işaretinin kaldırılması gerekmektedir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "user ve group",
-        "pid_file ve log_file",
-        "dynamic_ownership ve security_driver",
-        "spice_tls ve spice_password"
-      ],
-      "correctAnswer": "user ve group",
-      "explanation": "/etc/libvirt/qemu.conf dosyasında 'user' ve 'group' satırlarının başındaki '#' işaretinin kaldırılması gerektiği metinde belirtilmiştir.",
-      "subTopicName": "Libvirt Yapılandırması",
-      "normalizedSubTopicName": "libvirt_yapilandirmasi",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q6",
-      "questionText": "Libvirt servisindeki değişikliklerin etkinleşmesi için hangi komut kullanılır?",
+      "questionText": "Konteynerlerin izole ortamda çalıştırılması ne gibi avantajlar sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "sudo systemctl start libvirtd.service",
-        "sudo systemctl stop libvirtd.service",
-        "sudo systemctl restart libvirtd.service",
-        "sudo systemctl reload libvirtd.service"
+        "Diğer uygulamalarla kaynak paylaşımını kolaylaştırır",
+        "Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır",
+        "İşletim sistemi güncellemelerini hızlandırır",
+        "Donanım maliyetlerini artırır"
       ],
-      "correctAnswer": "sudo systemctl restart libvirtd.service",
-      "explanation": "Yapılandırma dosyasındaki değişikliklerin etkinleşmesi için libvirt servisinin yeniden başlatılması gerekmektedir. Bunun için 'sudo systemctl restart libvirtd.service' komutu kullanılır.",
-      "subTopicName": "Libvirt Yapılandırması",
-      "normalizedSubTopicName": "libvirt_yapilandirmasi",
+      "correctAnswer": "Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır",
+      "explanation": "İzole ortamda çalıştırma, konteynerlerin birbirlerinden bağımsız çalışmasını sağlar. Bu, bir konteynerdeki bir sorunun diğer konteynerleri etkilemesini önler ve genel sistem güvenliğini artırır.",
+      "subTopicName": "İ Zole Ortamda Çalıştırma",
+      "normalizedSubTopicName": "i_zole_ortamda_çalıştırma",
       "difficulty": "medium"
     },
     {
-      "id": "q7",
-      "questionText": "Aşağıdaki virt-install komut parametrelerinden hangisi sanal makineye ayrılacak RAM miktarını belirtir?",
+      "id": "q6",
+      "questionText": "Konteynerlerin izole edilmiş kullanıcı alanında çalıştırılması hangi tür sanallaştırma yöntemidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "--vcpu",
-        "--ram",
-        "--disk",
-        "--name"
+        "Donanım düzeyinde sanallaştırma",
+        "İşletim sistemi düzeyinde sanallaştırma",
+        "Uygulama düzeyinde sanallaştırma",
+        "Ağ düzeyinde sanallaştırma"
       ],
-      "correctAnswer": "--ram",
-      "explanation": "virt-install komutunda '--ram' parametresi sanal makineye ayrılacak RAM miktarını megabayt cinsinden belirtir.",
-      "subTopicName": "Virt İnstallıkomutu Kullanımı",
-      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
+      "correctAnswer": "İşletim sistemi düzeyinde sanallaştırma",
+      "explanation": "Konteynerler, işletim sistemi düzeyinde sanallaştırma kullanarak izole edilmiş kullanıcı alanlarında çalışır. Bu, her konteynerin kendi kaynaklarına sahip olmasını ve diğer konteynerlerden etkilenmemesini sağlar.",
+      "subTopicName": "İ Zole Ortamda Çalıştırma",
+      "normalizedSubTopicName": "i_zole_ortamda_çalıştırma",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q7",
+      "questionText": "Konteynerlerin taşınabilirliği ve uyumluluğu ne anlama gelir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "Sadece aynı işletim sisteminde çalışabilme",
+        "Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme",
+        "Sadece bulut ortamında çalışabilme",
+        "Sadece geliştirme ortamında çalışabilme"
+      ],
+      "correctAnswer": "Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme",
+      "explanation": "Konteynerlerin taşınabilirliği ve uyumluluğu, bir konteynerin farklı işletim sistemleri (Linux, Windows, macOS) ve altyapılar (bulut, şirket içi) arasında kolayca taşınabilmesi ve çalışabilmesi anlamına gelir. Bu, geliştirme, test ve dağıtım süreçlerini büyük ölçüde kolaylaştırır.",
+      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
+      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "virt-install komutunda '--os-variant' parametresi neyi ifade eder?",
+      "questionText": "Konteynerlerin hangi özelliği, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda kolayca dağıtmalarını ve çalıştırmalarını sağlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makinenin adını",
-        "Sanal makineye kurulacak işletim sistemi ailesini",
-        "Sanal makineye ayrılacak disk boyutunu",
-        "Sanal makinenin kullanacağı ağ köprüsünü"
+        "Yüksek maliyetli olması",
+        "İşletim sistemine bağımlı olması",
+        "Taşınabilir olması",
+        "Karmaşık bir yapıya sahip olması"
       ],
-      "correctAnswer": "Sanal makineye kurulacak işletim sistemi ailesini",
-      "explanation": "'--os-variant' parametresi, kurulacak işletim sisteminin türünü ve versiyonunu belirtir. Bu, KVM'nin performansı optimize etmesine yardımcı olur.",
-      "subTopicName": "Virt İnstallıkomutu Kullanımı",
-      "normalizedSubTopicName": "virt_installikomutu_kullanimi",
+      "correctAnswer": "Taşınabilir olması",
+      "explanation": "Konteynerlerin taşınabilir olması, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda kolayca dağıtmalarını ve çalıştırmalarını sağlayan temel bir özelliktir. İşletim sisteminden bağımsız olarak çalışabilmeleri sayesinde, uygulamalar farklı altyapılarda sorunsuz bir şekilde çalışabilir.",
+      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
+      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Çalışır durumdaki sanal makineyi görüntülemek için kullanılan komut aşağıdakilerden hangisidir?",
+      "questionText": "Konteynerlerin hız ve verimlilik avantajları nelerdir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "virsh list",
-        "virt-viewer",
-        "virt-manager",
-        "virsh start"
+        "Sanal makinelere göre daha yavaş başlatılmaları ve daha fazla kaynak tüketmeleri",
+        "Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri",
+        "Sadece belirli donanımlarda verimli çalışabilmeleri",
+        "Geliştirme süreçlerini yavaşlatmaları"
       ],
-      "correctAnswer": "virt-viewer",
-      "explanation": "Metinde belirtildiği gibi, çalışır durumdaki bir sanal makineyi görüntülemek için 'virt-viewer sanal_makine_adı' komutu kullanılır.",
-      "subTopicName": "Virsh Komutları İle Yönetim",
-      "normalizedSubTopicName": "virsh_komutlari_ile_yonetim",
+      "correctAnswer": "Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri",
+      "explanation": "Konteynerler, sanal makinelere göre daha hızlı başlatılır ve daha az kaynak tüketir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve dağıtılmasına yardımcı olur. Ayrıca, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına gelir.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Bir sanal makineyi silmek için hangi iki 'virsh' komutu sırasıyla kullanılmalıdır?",
+      "questionText": "Konteynerler, işletim sistemi kaynaklarını sanal makinelere (VM'ler) göre nasıl kullanır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "virsh shutdown ve virsh undefine",
-        "virsh destroy ve virsh undefine",
-        "virsh suspend ve virsh undefine",
-        "virsh reboot ve virsh undefine"
+        "Daha az verimli bir şekilde",
+        "Aynı verimlilikte",
+        "Daha verimli bir şekilde",
+        "Hiç kullanmazlar"
       ],
-      "correctAnswer": "virsh destroy ve virsh undefine",
-      "explanation": "Bir sanal makineyi silmek için önce 'virsh destroy sanal_makine_adı' komutu ile makine kapatılmalı, ardından 'virsh undefine sanal_makine_adı' komutu ile sanal makine tanımı silinmelidir.",
-      "subTopicName": "Virsh Komutları İle Yönetim",
-      "normalizedSubTopicName": "virsh_komutlari_ile_yonetim",
+      "correctAnswer": "Daha verimli bir şekilde",
+      "explanation": "Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde kullanır. Bu sayede, aynı donanım üzerinde daha fazla konteyner çalıştırılabilir, bu da maliyet tasarrufu ve daha iyi kaynak kullanımı sağlar.",
+      "subTopicName": "Hız Ve Verimlilik",
+      "normalizedSubTopicName": "hız_ve_verimlilik",
       "difficulty": "medium"
     }
   ]

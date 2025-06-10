@@ -31,7 +31,7 @@ import {
   QuizSummary, 
   FailedQuestion, 
   RequestWithUser 
-} from '../common/types/unified.types';
+} from '../common/types';
 import { SubmitQuizDto } from './dto/submit-quiz.dto';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';

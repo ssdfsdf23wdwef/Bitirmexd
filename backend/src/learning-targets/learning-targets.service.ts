@@ -15,8 +15,8 @@ import { CreateLearningTargetDto } from './dto/create-learning-target.dto';
 import {
   LearningTargetWithQuizzes,
   LearningTarget,
+  LearningTargetSource,
 } from '../common/interfaces';
-import { LearningTargetSource } from '../common/types/learning-target.type';
 import { DetectNewTopicsDto } from './dto/detect-new-topics.dto';
 import { ConfirmNewTopicsDto } from './dto/confirm-new-topics.dto';
 import { v4 as uuidv4 } from 'uuid';

@@ -45,8 +45,8 @@ import { FirebaseGuard } from '../auth/firebase/firebase.guard';
 import {
   LearningTargetWithQuizzes,
   LearningTarget,
+  RequestWithUser,
 } from '../common/interfaces';
-import { RequestWithUser } from '../common/types';
 import { LoggerService } from '../common/services/logger.service';
 import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';

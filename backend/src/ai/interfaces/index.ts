@@ -14,7 +14,7 @@ export type {
   QuizGenerationOptions,
   QuizMetadata,
   ErrorWithMetadata
-} from '../../common/types/unified.types';
+} from '../../common/types';
 
 // Log kaydı
 try {

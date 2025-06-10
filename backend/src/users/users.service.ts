@@ -8,7 +8,7 @@ import {
   UpdateUserDto, 
   User, 
   ThemeType 
-} from '../common/types/unified.types';
+} from '../common/types';
 import * as admin from 'firebase-admin';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { LoggerService } from '../common/services/logger.service';

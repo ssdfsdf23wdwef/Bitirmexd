@@ -24,7 +24,7 @@ import {
   TargetProgress,
   DashboardData,
   RelatedItemsCount
-} from '../common/types/unified.types';
+} from '../common/types';
 import { FIRESTORE_COLLECTIONS } from '../common/constants';
 import { cascadeDelete } from '../common/utils/firestore.utils';
 import { LoggerService } from '../common/services/logger.service';

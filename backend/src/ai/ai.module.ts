@@ -35,12 +35,5 @@ export class AiModule implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.logger.info(
-      'AI modülü başlatıldı',
-      'AiModule.onModuleInit',
-      __filename,
-      20,
-    );
-    this.flowTracker.trackStep('AI modülü başlatıldı', 'AiModule');
-  }
+      }
 }
