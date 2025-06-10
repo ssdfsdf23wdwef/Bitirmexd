@@ -2,13 +2,15 @@
 
 import { useAuthStore } from "@/store/auth.store";
 import { useAuth as useAuthHook } from "@/hooks/auth/useAuth";
+import { useTheme } from "@/context/ThemeProvider";
 import { useState, useRef, useEffect } from "react";
-import { FiUser, FiLogOut } from "react-icons/fi";
+import { FiUser, FiLogOut, FiSun, FiMoon } from "react-icons/fi";
 import { Button } from "@nextui-org/react";
 
 export default function UserControls() {
   const { user, isAuthenticated } = useAuthStore();
   const { logout } = useAuthHook();
+  const { isDarkMode, toggleTheme } = useTheme();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -73,35 +75,82 @@ export default function UserControls() {
 
           {isDropdownOpen && (
             <div 
-              className="absolute right-0 mt-2 w-64 rounded-xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 shadow-2xl z-50 overflow-hidden transform transition-all duration-200 origin-top-right"
+              className={`absolute right-0 mt-2 w-64 rounded-xl backdrop-blur-md border shadow-2xl z-50 overflow-hidden transform transition-all duration-200 origin-top-right ${
+                isDarkMode 
+                  ? 'bg-gray-800/95 border-gray-700/50' 
+                  : 'bg-white/95 border-gray-200/50'
+              }`}
               style={{
                 backdropFilter: 'blur(12px)',
                 WebkitBackdropFilter: 'blur(12px)'
               }}
             >
-              <div className="px-4 py-3 bg-gradient-to-r from-blue-500/10 to-transparent border-b border-gray-100/30 dark:border-gray-700/30">
-                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
+              <div className={`px-4 py-3 bg-gradient-to-r from-blue-500/10 to-transparent border-b transition-colors duration-300 ${
+                isDarkMode ? 'border-gray-700/50' : 'border-gray-100/50'
+              }`}>
+                <p className={`text-sm font-semibold truncate transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}>
                   {displayName}
                 </p>
                 {user?.email && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  <p className={`text-xs truncate transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
                     {user.email}
                   </p>
                 )}
               </div>
               <nav className="py-1">
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'text-gray-200 hover:bg-gray-700/50' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {isDarkMode ? (
+                    <FiSun className={`mr-3 transition-colors duration-300 ${
+                      isDarkMode ? 'text-yellow-400' : 'text-yellow-500'
+                    }`} />
+                  ) : (
+                    <FiMoon className={`mr-3 transition-colors duration-300 ${
+                      isDarkMode ? 'text-blue-400' : 'text-blue-500'
+                    }`} />
+                  )}
+                  {isDarkMode ? 'Açık Tema' : 'Koyu Tema'}
+                </button>
+                <div className={`border-t mx-4 transition-colors duration-300 ${
+                  isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
+                }`}></div>
                 <a
                   href="/profile"
-                  className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
+                  className={`flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'text-gray-200 hover:bg-gray-700/50' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
-                  <FiUser className="mr-3 text-blue-500" />
+                  <FiUser className={`mr-3 transition-colors duration-300 ${
+                    isDarkMode ? 'text-blue-400' : 'text-blue-500'
+                  }`} />
                   Profil
                 </a>
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer transition-colors"
+                  className={`w-full flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'text-red-400 hover:bg-red-900/20' 
+                      : 'text-red-600 hover:bg-red-50'
+                  }`}
                 >
-                  <FiLogOut className="mr-3" />
+                  <FiLogOut className={`mr-3 transition-colors duration-300 ${
+                    isDarkMode ? 'text-red-400' : 'text-red-600'
+                  }`} />
                   Çıkış Yap
                 </button>
               </nav>

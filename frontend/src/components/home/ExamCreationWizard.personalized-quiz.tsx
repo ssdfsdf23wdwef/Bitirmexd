@@ -2000,7 +2000,7 @@ const { isDarkMode } = useTheme();
                   </motion.div>
                 )}
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                 Sınav için bir süre belirleyebilirsiniz.
               </p>
             </div>
@@ -2044,7 +2044,7 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               className="w-full"
             >
-              <h3 className={`text-lg font-semibold mb-4 transition-all duration-300 ${isDarkMode ? 'text-gray-100 drop-shadow-md' : 'text-gray-800'}`}>
+              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                 1. Ders Seçimi veya Oluşturma
               </h3>
               
@@ -2210,7 +2210,7 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                 1. Belge Yükleme
               </h3>
 
@@ -2234,11 +2234,11 @@ const { isDarkMode } = useTheme();
                   }
                 }}
               />
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+              <p className={`text-xs mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                 Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
               </p>
               {quizType === "personalized" && (
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className={`text-xs transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
                   {personalizedQuizType === "weakTopicFocused" ? " Zayıf/Orta Odaklı sınav türü için belge yüklemeniz gerekmez." : ""}
                 </p>
@@ -2257,13 +2257,13 @@ const { isDarkMode } = useTheme();
             >
               {
                 <>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                  <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                     2. Sınav Odağı ve Konu Seçimi
                   </h3>
                   
                   {/* Kişiselleştirilmiş Sınav Alt Türleri */}
                   <div className="mt-2 mb-6">
-                    <h4 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-4">
+                    <h4 className={`text-md font-medium mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                       Sınav Odağı Seçin:
                     </h4>
 
