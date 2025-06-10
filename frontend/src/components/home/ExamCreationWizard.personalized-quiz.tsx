@@ -1800,30 +1800,33 @@ const { isDarkMode } = useTheme();
     return (
       <div className="flex flex-col space-y-6">
         <div className="flex flex-col space-y-4">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Sınav Tercihleri</h2>
+          <h2 className={`text-xl font-semibold transition-colors duration-300 ${isDarkMode ? 'text-gray-100 drop-shadow-lg' : 'text-gray-800'}`}>Sınav Tercihleri</h2>
           
           {/* Seçilen konu ve dosya bilgileri */}
-          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">Sınav İçeriği</h3>
+          <div className={`p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-gray-800/90 border-gray-700/70 shadow-xl shadow-gray-900/50' : 'bg-gray-50/90 border-gray-200/70 shadow-lg shadow-gray-300/20'}`}>
+            <h3 className={`font-medium mb-3 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Sınav İçeriği</h3>
             
             <div className="flex flex-wrap gap-2 mb-2">
               <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Belge:</span>
-                <span className="text-gray-600 dark:text-gray-300">
+                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Belge:</span>
+                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {selectedFile ? selectedFile.name : (documentTextContent ? 'Metin içeriği' : 'Belge yok')}
                 </span>
               </div>
               
               <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Seçili Konu Sayısı:</span>
-                <span className="text-gray-600 dark:text-gray-300">
+                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Seçili Konu Sayısı:</span>
+                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {selectedTopicsList.length} konu
                 </span>
               </div>
               
               <div className="flex items-center text-sm">
-                <span className="font-medium mr-1">Belge Metni:</span>
-                <span className={`${documentTextContent ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                <span className={`font-medium mr-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Belge Metni:</span>
+                <span className={`transition-colors duration-300 ${documentTextContent 
+                  ? (isDarkMode ? 'text-green-400 font-medium' : 'text-green-600 font-medium') 
+                  : (isDarkMode ? 'text-red-400 font-medium' : 'text-red-600 font-medium')
+                }`}>
                   {documentTextContent ? `Yüklendi (${documentTextContent.length} karakter)` : 'Yüklenmedi'}
                 </span>
               </div>
@@ -1831,12 +1834,12 @@ const { isDarkMode } = useTheme();
             
             {/* Belge metni durumu bildirimi */}
             {!documentTextContent && uploadedDocumentId && (
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-3 rounded-lg mt-3 text-sm">
-                <p className="text-yellow-800 dark:text-yellow-200 font-medium">Belge metni henüz yüklenmedi!</p>
-                <p className="text-yellow-700 dark:text-yellow-300 mt-1">
+              <div className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? 'bg-yellow-900/30 border border-yellow-700/50' : 'bg-yellow-50 border border-yellow-200'}`}>
+                <p className={`font-medium transition-colors duration-300 ${isDarkMode ? 'text-yellow-200' : 'text-yellow-800'}`}>Belge metni henüz yüklenmedi!</p>
+                <p className={`mt-1 transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>
                   Sınav oluşturmak için belge metni gereklidir. Lütfen şunları deneyin:
                 </p>
-                <ul className="list-disc pl-5 mt-1 text-yellow-700 dark:text-yellow-300">
+                <ul className={`list-disc pl-5 mt-1 transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>
                   <li>Sayfayı yenileyip tekrar deneyin</li>
                   <li>Belgeyi tekrar yükleyin</li>
                   <li>Daha küçük boyutlu bir belge kullanın</li>
@@ -1863,7 +1866,7 @@ const { isDarkMode } = useTheme();
                         toast.error("Belge metni yüklenirken hata oluştu!");
                       }
                     }}
-                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg flex items-center space-x-1 transition-colors"
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-xs font-medium rounded-lg flex items-center space-x-1 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -1876,8 +1879,8 @@ const { isDarkMode } = useTheme();
             
             {/* Hata mesajı */}
             {errorMessage && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 p-3 rounded-lg mt-3 text-sm">
-                {errorMessage}
+              <div className={`p-3 rounded-lg mt-3 text-sm transition-all duration-300 ${isDarkMode ? 'bg-red-900/30 border border-red-700/50 text-red-300' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+                <span className={`transition-colors duration-300 ${isDarkMode ? 'text-red-200' : 'text-red-700'}`}>{errorMessage}</span>
               </div>
             )}
           </div>
@@ -1887,7 +1890,7 @@ const { isDarkMode } = useTheme();
             <div>
               <label
                 htmlFor="questionCount"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Soru Sayısı
               </label>
@@ -1905,22 +1908,23 @@ const { isDarkMode } = useTheme();
                       parseInt(e.target.value),
                     )
                   }
-                  className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-500"
+                  className={`w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer transition-colors duration-200 ${isDarkMode ? 'accent-blue-400 hover:bg-gray-600' : 'accent-blue-600 hover:bg-gray-300'}`}
                 />
-                <span className="w-12 text-center text-sm font-medium text-gray-700 dark:text-gray-300 ml-4 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg">
+                <span className={`w-12 text-center text-sm font-medium ml-4 px-2 py-1 rounded-lg border transition-all duration-200 ${isDarkMode ? 'text-gray-200 bg-gray-700 border-gray-600 shadow-lg' : 'text-gray-700 bg-gray-100 border-gray-200 shadow-md'}`}>
                   {preferences.questionCount}
                 </span>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {quizType === "quick" ? "5-20 arası." : "5-30 arası."} Daha
-                fazla soru, daha detaylı analiz sağlar.
+              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {quizType === "quick" ? "5-20 arası." : "5-30 arası."}
+                </span> Daha fazla soru, daha detaylı analiz sağlar.
               </p>
             </div>
 
             <div>
               <label
                 htmlFor="difficulty"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Zorluk Seviyesi
               </label>
@@ -1937,20 +1941,20 @@ const { isDarkMode } = useTheme();
                       | "mixed",
                   )
                 }
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                className={`w-full px-3 py-2 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-100 hover:bg-gray-600' : 'border-gray-300 bg-white text-gray-900 hover:bg-gray-50'}`}
               >
-                <option value="easy">Kolay</option>
-                <option value="medium">Orta</option>
-                <option value="hard">Zor</option>
-                <option value="mixed">Karışık (Önerilen)</option>
+                <option value="easy" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Kolay</option>
+                <option value="medium" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Orta</option>
+                <option value="hard" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Zor</option>
+                <option value="mixed" className={isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'}>Karışık (Önerilen)</option>
               </select>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                Sınavdaki soruların zorluk seviyesini belirler.
+              <p className={`text-xs mt-1 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Sınavdaki soruların zorluk seviyesini belirler.</span>
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                 Zaman Sınırı
               </label>
               <div className="flex items-center space-x-4">
@@ -1962,11 +1966,11 @@ const { isDarkMode } = useTheme();
                     onChange={(e) =>
                       handleUseTimeLimitChange(e.target.checked)
                     }
-                    className="h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-600 focus:ring-blue-500"
+                    className={`h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-600 focus:ring-blue-500 transition-colors duration-200 ${isDarkMode ? 'bg-gray-700 checked:bg-blue-600' : 'bg-white checked:bg-blue-600'}`}
                   />
                   <label
                     htmlFor="useTimeLimit"
-                    className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                    className={`ml-2 text-sm transition-colors duration-300 cursor-pointer ${isDarkMode ? 'text-gray-200 hover:text-gray-100' : 'text-gray-700 hover:text-gray-600'}`}
                   >
                     Zaman sınırı uygula
                   </label>
@@ -1987,10 +1991,10 @@ const { isDarkMode } = useTheme();
                       onChange={(e) =>
                         handleTimeLimitInputChange(e.target.value)
                       }
-                      className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                      className={`w-20 px-2 py-1 border rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-500 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'}`}
                       placeholder="örn: 30"
                     />
-                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className={`ml-2 text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                       dakika
                     </span>
                   </motion.div>
@@ -2018,7 +2022,12 @@ const { isDarkMode } = useTheme();
 
   // Render
   return (
-    <div className="w-full h-full bg-background">
+    <div className={`w-full h-full transition-all duration-500 ease-in-out ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`} style={{
+      backgroundImage: isDarkMode 
+        ? 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)' 
+        : 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)',
+      backgroundSize: '20px 20px'
+    }}>
       <ExamCreationProgress 
         currentStep={currentStep} 
         totalSteps={totalSteps} 
@@ -2035,14 +2044,14 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               className="w-full"
             >
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              <h3 className={`text-lg font-semibold mb-4 transition-all duration-300 ${isDarkMode ? 'text-gray-100 drop-shadow-md' : 'text-gray-800'}`}>
                 1. Ders Seçimi veya Oluşturma
               </h3>
               
               <div className="mb-6">
                 {!showNewCourseForm ? (
                   <>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                       Çalışmak istediğiniz dersi seçin
                     </label>
                     <div className="flex flex-col space-y-4">
@@ -2064,7 +2073,7 @@ const { isDarkMode } = useTheme();
                         className="w-full py-2 px-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onClick={() => setShowNewCourseForm(true)}
                       >
-                        <span className="flex items-center justify-center">
+                        <span className={`flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                           </svg>
@@ -2076,7 +2085,7 @@ const { isDarkMode } = useTheme();
                 ) : (
                   <div className="p-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className="text-md font-medium text-gray-700 dark:text-gray-300">
+                      <h4 className={`text-md font-medium transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                         Yeni Ders Oluştur
                       </h4>
                       <button 
@@ -2103,7 +2112,7 @@ const { isDarkMode } = useTheme();
                       />
                       <button
                         type="button"
-                        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={handleCreateCourse}
                         disabled={!newCourseName.trim() || creatingCourse}
                       >
@@ -2113,10 +2122,10 @@ const { isDarkMode } = useTheme();
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Oluşturuluyor...
+                            <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>Oluşturuluyor...</span>
                           </div>
                         ) : (
-                          "Ders Oluştur"
+                          <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>Ders Oluştur</span>
                         )}
                       </button>
                     </div>
@@ -2135,7 +2144,7 @@ const { isDarkMode } = useTheme();
               exit={{ opacity: 0, x: 20 }}
               className="w-full"
             >
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                 2. Kişiselleştirilmiş Sınav Türü Seçimi
               </h3>
               
@@ -2150,8 +2159,8 @@ const { isDarkMode } = useTheme();
                       <FiTarget className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Zayıf Konular</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Geçmiş performansınıza göre zayıf olduğunuz konulardan soru oluştur</p>
+                      <h4 className={`font-medium transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Zayıf Konular</h4>
+                      <p className={`text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Geçmiş performansınıza göre zayıf olduğunuz konulardan soru oluştur</p>
                     </div>
                   </div>
                 </div>
@@ -2274,10 +2283,10 @@ const { isDarkMode } = useTheme();
                           <FiZap />
                         </div>
                         <div>
-                          <h5 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                             Zayıf/Orta Odaklı
                           </h5>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             Yapay zeka, geçmiş performansınıza göre zayıf olduğunuz konulara odaklanır. (Belge gerekmez)
                           </p>
                         </div>
@@ -2298,10 +2307,10 @@ const { isDarkMode } = useTheme();
                           <FiTarget />
                         </div>
                         <div>
-                                                   <h5 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+                                                   <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                             Öğrenme Hedefi Odaklı
                           </h5>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             Belirlediğiniz öğrenme hedeflerine ulaşma durumunuzu yapay zeka yardımıyla ölçer. (Belge gerekir)
                           </p>
                         </div>
@@ -2322,10 +2331,10 @@ const { isDarkMode } = useTheme();
                           <FiZap />
                         </div>
                         <div>
-                          <h5 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                             Yeni Konu Odaklı
                           </h5>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             Yüklenen belgeden yapay zeka ile tespit edilen yeni konuları test eder. (Belge gerekir)
                           </p>
                         </div>
@@ -2346,10 +2355,10 @@ const { isDarkMode } = useTheme();
                           <FiAward />
                         </div>
                         <div>
-                          <h5 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+                          <h5 className={`font-medium text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                             Kapsamlı
                           </h5>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                          <p className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             Yapay zeka, yeni içerik ile mevcut öğrenme hedeflerinizi birleştiren karma bir sınav oluşturur. (Belge gerekir)
                           </p>
                         </div>
@@ -2364,9 +2373,9 @@ const { isDarkMode } = useTheme();
              
 
                 {personalizedQuizType === "weakTopicFocused" ? (
-                  <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg text-yellow-800 dark:text-yellow-200">
-                    <p className="text-sm font-medium">Bilgi:</p>
-                    <p className="text-sm">
+                  <div className={`mb-4 p-4 border rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-yellow-900/20 border-yellow-700/50 text-yellow-200' : 'bg-yellow-50 border-yellow-200 text-yellow-800'}`}>
+                    <p className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-800'}`}>Bilgi:</p>
+                    <p className={`text-sm transition-colors duration-300 ${isDarkMode ? 'text-yellow-200' : 'text-yellow-700'}`}>
                       Zayıf/Orta Odaklı Sınav seçildiğinde, durumu
                       &lsquo;başarısız&apos; veya &#39;orta&#39; olan mevcut
                       öğrenme hedefleriniz otomatik olarak kullanılır. Bu
@@ -2410,7 +2419,7 @@ const { isDarkMode } = useTheme();
                 {/* Ders ve Alt Konu Seçici - Kişiselleştirilmiş sınav için gerekli */}
                 {personalizedQuizType !== "weakTopicFocused" && (
                   <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <h4 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <h4 className={`text-md font-medium mb-3 transition-colors duration-300 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                       Ders ve Alt Konu Seçimi
                     </h4>
                     <CourseTopicSelector
@@ -2442,26 +2451,26 @@ const { isDarkMode } = useTheme();
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="w-full"
             >
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              <h3 className={`text-lg font-semibold mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                 4. Alt Konu Seçimi
               </h3>
 
               <div className="mb-6">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className={`text-sm mb-4 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   Sınavınızın içereceği alt konuları seçin. Seçilen konulara göre size özel sorular oluşturulacaktır.
                 </p>
 
                 {/* Konu tespiti yüklenme durumu */}
                 {topicDetectionStatus === "loading" && (
-                  <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <div className={`mb-6 p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-blue-900/20 border-blue-700/50' : 'bg-blue-50 border-blue-200'}`}>
                     <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
-                      <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                      <div className={`animate-spin rounded-full h-5 w-5 border-b-2 mr-3 ${isDarkMode ? 'border-blue-400' : 'border-blue-500'}`}></div>
+                      <p className={`text-sm font-medium transition-colors duration-300 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
                         Belge içeriği analiz ediliyor ve konular tespit ediliyor...
                       </p>
                     </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
+                    <p className={`text-xs mt-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.</span>
                     </p>
                   </div>
                 )}
@@ -2512,20 +2521,25 @@ const { isDarkMode } = useTheme();
           <button
             onClick={prevStep}
             disabled={currentStep === 1}
-            className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+            className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
               currentStep === 1
-                ? "text-gray-400 dark:text-gray-600"
-                : "text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                ? `text-gray-400 dark:text-gray-600 ${isDarkMode ? 'hover:bg-gray-800/50' : 'hover:bg-gray-50'}`
+                : `text-gray-700 dark:text-gray-300 ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600 shadow-lg hover:shadow-xl' : 'bg-gray-100 hover:bg-gray-200 shadow-md hover:shadow-lg'} transform hover:scale-105`
             }`}
           >
-            <FiArrowLeft className="mr-1.5" size={16} /> Geri
+            <FiArrowLeft className="mr-1.5" size={16} /> 
+            <span className={`transition-colors duration-300 ${currentStep === 1 ? (isDarkMode ? 'text-gray-500' : 'text-gray-400') : (isDarkMode ? 'text-gray-200' : 'text-gray-700')}`}>Geri</span>
           </button>
 
           {/* Hide Next button for step 3 in personalized quiz (document upload) since DocumentUploader has Continue button */}
           {!((currentStep === 3 && quizType === "personalized") || (currentStep === 1 && quizType === "quick")) && (
             <button
               onClick={nextStep}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm flex items-center transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className={`px-6 py-2 text-white font-medium rounded-lg text-sm flex items-center transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transform hover:scale-105 ${
+                isDarkMode 
+                  ? 'bg-blue-700 hover:bg-blue-600 shadow-lg hover:shadow-xl shadow-blue-900/50' 
+                  : 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg shadow-blue-500/25'
+              }`}
               disabled={
                 // Adım 1: Kişiselleştirilmiş sınav için ders seçilmemişse butonu devre dışı bırak
                 (currentStep === 1 && quizType === "personalized" && !selectedCourseId) ||
@@ -2536,14 +2550,16 @@ const { isDarkMode } = useTheme();
                 quizCreationLoading 
               }
             >
-              {currentStep === totalSteps 
-                ? quizCreationLoading 
-                  ? "Sınav Oluşturuluyor..."
-                  : "Sınavı Oluştur" 
-                : "Devam Et"
-              }{" "}
+              <span className={`transition-colors duration-300 ${isDarkMode ? 'text-gray-100' : 'text-white'}`}>
+                {currentStep === totalSteps 
+                  ? quizCreationLoading 
+                    ? "Sınav Oluşturuluyor..."
+                    : "Sınavı Oluştur" 
+                  : "Devam Et"
+                }
+              </span>{" "}
               {topicDetectionStatus === "loading" || quizCreationLoading ? (
-                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <div className={`ml-2 animate-spin rounded-full h-4 w-4 border-b-2 ${isDarkMode ? 'border-gray-300' : 'border-white'}`}></div>
               ) : (
               <FiArrowRight className="ml-1.5" size={16} />
               )}

@@ -18,7 +18,6 @@ const ExamCreationProgress: React.FC<ExamCreationProgressProps> = ({
   onStepClick,
   children
 }) => {
-  const actualTotalSteps = quizType === "personalized" ? 5 : 3;
   
   const stepTitles = {
     personalized: [
