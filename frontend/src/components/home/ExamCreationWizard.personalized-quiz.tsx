@@ -393,15 +393,12 @@ const { isDarkMode } = useTheme();
     setDocumentTextContent("");
     // Document ID'yi sıfırla
     setUploadedDocumentId("");
+    // Konu tespit durumunu sıfırla
+    setTopicDetectionStatus("idle");
     console.log(`📂 Dosya yükleme başarılı: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
     
-    // Kişiselleştirilmiş sınav için, dosya yüklendikten sonra hemen konuları tespit et
-    if (quizType === "personalized") {
-      console.log(`🔎 Kişiselleştirilmiş sınav için konu tespiti başlatılıyor...`);
-      setTopicDetectionStatus("loading");
-      // Konu tespiti için dosyayı gönder
-      detectTopicsFromUploadedFile(file);
-    }
+    // NOT: Kişiselleştirilmiş sınav için dosya yüklendikten hemen sonra konu tespiti yapmıyoruz
+    // "Devam Et" butonuna tıklandığında yapacağız
   };
 
   // Dosya yükleme hatası
@@ -717,6 +714,23 @@ const { isDarkMode } = useTheme();
     if (currentStep === 3 && quizType === "personalized" && (!selectedFile || uploadStatus !== "success")) {
       console.error(`❌ HATA: Dosya yükleme başarısız. Durum: ${uploadStatus}`);
       ErrorService.showToast("Lütfen geçerli bir dosya yükleyin.", "error");
+      return;
+    }
+
+    // Adım 3'ten 4'e geçerken konu tespitini başlat (kişiselleştirilmiş sınav için)
+    if (currentStep === 3 && quizType === "personalized" && selectedFile && uploadStatus === "success" && topicDetectionStatus !== "loading") {
+      // Zayıf/Orta odaklı sınav türü için konu tespiti atla
+      if (personalizedQuizType === "weakTopicFocused") {
+        console.log(`🔄 Zayıf/Orta odaklı sınav türü için konu tespiti atlanıyor, doğrudan adım 5'e geçiliyor`);
+        setCurrentStep(5);
+        return;
+      }
+
+      // Konu tespiti başlat
+      console.log(`🔎 Adım 3'ten 4'e geçerken konu tespiti başlatılıyor...`);
+      setCurrentStep(4);
+      setTopicDetectionStatus("loading");
+      detectTopicsFromUploadedFile(selectedFile);
       return;
     }
 
@@ -1148,8 +1162,7 @@ const { isDarkMode } = useTheme();
             
             setDetectedTopics(selectedTopics);
             setTopicDetectionStatus("success");
-            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti başarılı, adım 2'ye geçiliyor.`);
-            setCurrentStep(2); 
+            console.log(`[ECW detectTopicsFromUploadedFile] ✅ Konu tespiti başarılı.`);
             ErrorService.showToast(`${processedTopics.length} konu tespit edildi.`, "success");
 
             // Hızlı sınav yaklaşımı: Tüm konuları otomatik olarak seç
@@ -1171,18 +1184,6 @@ const { isDarkMode } = useTheme();
               subTopicIds: limitedTopicIds 
             }));
             console.log(`[ECW detectTopicsFromUploadedFile] Tüm konular (${limitedTopicIds.length}) otomatik seçildi.`);
-            
-            // Kişiselleştirilmiş sınav için adım 4'e (alt konu seçimi) geç
-            if (quizType === "personalized") {
-              console.log(`[ECW detectTopicsFromUploadedFile] ✅ Kişiselleştirilmiş sınav için adım 4'e (alt konu seçimi) geçiliyor.`);
-              setCurrentStep(4);
-              // Başarı mesajı göster
-              ErrorService.showToast(`${processedTopics.length} alt konu tespit edildi. Şimdi istediğiniz alt konuları seçebilirsiniz.`, "success");
-            } else {
-              // Hızlı sınav için adım 2'ye geç
-              setCurrentStep(2);
-              ErrorService.showToast(`${processedTopics.length} konu tespit edildi.`, "success");
-            }
           } else { 
             console.warn(`[ECW detectTopicsFromUploadedFile] ⚠️ UYARI: Tespit edilen konu yok!`);
             ErrorService.showToast("Belgede konu tespit edilemedi. Varsayılan konular kullanılacak.", "info");
@@ -1223,8 +1224,7 @@ const { isDarkMode } = useTheme();
               subTopicIds: [defaultTopicId]
             }));
             
-            console.log('[ECW detectTopicsFromUploadedFile] ℹ️ Varsayılan konu oluşturuldu, adım 2\'ye geçiliyor.');
-              setCurrentStep(2);
+            console.log('[ECW detectTopicsFromUploadedFile] ℹ️ Varsayılan konu oluşturuldu.');
             console.log(`[ECW detectTopicsFromUploadedFile] Varsayılan konu ID: ${defaultTopicId}, isim: ${defaultTopicName}`);
           }
         } catch (error: unknown) {
@@ -2211,6 +2211,19 @@ const { isDarkMode } = useTheme();
                 maxSize={40} // MB cinsinden
                 allowedFileTypes={[".pdf", ".docx", ".doc", ".txt"]}
                 className="mb-4"
+                showContinueButton={uploadStatus === "success"}
+                onContinue={() => {
+                  // Konu tespitini başlat ve bir sonraki adıma geç
+                  if (selectedFile && uploadStatus === "success") {
+                    setTopicDetectionStatus("loading");
+                    detectTopicsFromUploadedFile(selectedFile);
+                    if (quizType === "personalized") {
+                      setCurrentStep(4);
+                    } else {
+                      setCurrentStep(2);
+                    }
+                  }
+                }}
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
                 Desteklenen formatlar: PDF, DOCX, DOC, TXT (Maks 40MB). Yapay zeka bu belgeleri analiz ederek sizin için en uygun soruları oluşturacaktır.
@@ -2220,21 +2233,6 @@ const { isDarkMode } = useTheme();
                   <b>Not:</b> Kişiselleştirilmiş sınav türü için farklı odak seçenekleri bir sonraki adımda sunulacaktır.
                   {personalizedQuizType === "weakTopicFocused" ? " Zayıf/Orta Odaklı sınav türü için belge yüklemeniz gerekmez." : ""}
                 </p>
-              )}
-              
-              {/* Konu tespiti yüklenme durumu */}
-              {topicDetectionStatus === "loading" && (
-                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
-                    <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
-                      Belge içeriği analiz ediliyor ve konular tespit ediliyor...
-                    </p>
-                  </div>
-                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
-                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
-                    </p>
-                </div>
               )}
             </motion.div>
           )}
@@ -2453,6 +2451,21 @@ const { isDarkMode } = useTheme();
                   Sınavınızın içereceği alt konuları seçin. Seçilen konulara göre size özel sorular oluşturulacaktır.
                 </p>
 
+                {/* Konu tespiti yüklenme durumu */}
+                {topicDetectionStatus === "loading" && (
+                  <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg">
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
+                      <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                        Belge içeriği analiz ediliyor ve konular tespit ediliyor...
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                      Bu işlem belge boyutuna bağlı olarak 10-30 saniye sürebilir.
+                    </p>
+                  </div>
+                )}
+
                 {/* Topic Selection Screen Component */}
                 <TopicSelectionScreen
                   detectedTopics={detectedTopics}
@@ -2508,33 +2521,34 @@ const { isDarkMode } = useTheme();
             <FiArrowLeft className="mr-1.5" size={16} /> Geri
           </button>
 
-          <button
-            onClick={nextStep}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm flex items-center transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-            disabled={
-              // Adım 1: Kişiselleştirilmiş sınav için ders seçilmemişse butonu devre dışı bırak
-              (currentStep === 1 && quizType === "personalized" && !selectedCourseId) ||
-              // Adım 3: Dosya yükleme adımında yükleme bitmemişse butonu devre dışı bırak
-              (((currentStep === 3 && quizType === "personalized") || (currentStep === 1 && quizType === "quick")) && uploadStatus !== "success") ||
-              // Adım 4: Konu seçimi adımında konu seçilmemişse ileri butonu devre dışı bırak
-              (((currentStep === 4 && quizType === "personalized") || (currentStep === 2 && quizType === "quick")) && selectedTopics.length === 0) ||
-              // İşlemler devam ederken butonu devre dışı bırak
-              topicDetectionStatus === "loading" || 
-              quizCreationLoading 
-            }
-          >
-            {currentStep === totalSteps 
-              ? quizCreationLoading 
-                ? "Sınav Oluşturuluyor..."
-                : "Sınavı Oluştur" 
-              : "Devam Et"
-            }{" "}
-            {topicDetectionStatus === "loading" || quizCreationLoading ? (
-              <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-            ) : (
-            <FiArrowRight className="ml-1.5" size={16} />
-            )}
-          </button>
+          {/* Hide Next button for step 3 in personalized quiz (document upload) since DocumentUploader has Continue button */}
+          {!((currentStep === 3 && quizType === "personalized") || (currentStep === 1 && quizType === "quick")) && (
+            <button
+              onClick={nextStep}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm flex items-center transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              disabled={
+                // Adım 1: Kişiselleştirilmiş sınav için ders seçilmemişse butonu devre dışı bırak
+                (currentStep === 1 && quizType === "personalized" && !selectedCourseId) ||
+                // Adım 4: Konu seçimi adımında konu seçilmemişse ileri butonu devre dışı bırak
+                (((currentStep === 4 && quizType === "personalized") || (currentStep === 2 && quizType === "quick")) && selectedTopics.length === 0) ||
+                // İşlemler devam ederken butonu devre dışı bırak
+                topicDetectionStatus === "loading" || 
+                quizCreationLoading 
+              }
+            >
+              {currentStep === totalSteps 
+                ? quizCreationLoading 
+                  ? "Sınav Oluşturuluyor..."
+                  : "Sınavı Oluştur" 
+                : "Devam Et"
+              }{" "}
+              {topicDetectionStatus === "loading" || quizCreationLoading ? (
+                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              ) : (
+              <FiArrowRight className="ml-1.5" size={16} />
+              )}
+            </button>
+          )}
         </div>
       </ExamCreationProgress>
     </div>

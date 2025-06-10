@@ -66,7 +66,7 @@ export interface QuizPreferences {
   timeLimit?: number;
   topicIds?: string[];
   subTopicIds?: string[];
-  personalizedQuizType?: 'weakTopicFocused' | 'newTopicFocused' | 'comprehensive';
+  personalizedQuizType?: 'weakTopicFocused' | 'learningObjectiveFocused' | 'newTopicFocused' | 'comprehensive';
 }
 
 // Option türü - string veya {id,text} formatında olabilir

@@ -1,20 +1,20 @@
 # Sınav Oluşturma Promptu
 
-## Tarih: 2025-06-10T02:00:09.991Z
+## Tarih: 2025-06-10T06:48:47.351Z
 
-## Trace ID: quiz-1749520809687-a3sjp
+## Trace ID: quiz-1749538127317-drhzx
 
-## Alt Konular (6 adet):
+## Alt Konular (7 adet):
 ```
 ## AKTİF KONULAR (SORU ÜRETİLECEK)
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hypervisor Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Kurulumu** (2 soru)
-3. **Libvirt Servisinin Yapılandırılması** (2 soru)
+1. **Kvm Hipervizör Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Yüklenmesi** (2 soru)
+3. **Libvirtd Servisinin Yapılandırılması** (2 soru)
 4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Virsh Komutları İle Vm Yönetimi** (2 soru)
+5. **Sanal Makine Durumlarını Listeleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -22,7 +22,8 @@
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sanal Makineyi Silme
+1. Sanal Makineyi Başlatma Durdurma Yeniden Başlatma
+2. Sanal Makineyi Silme
 
 ```
 
@@ -48,11 +49,11 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki alt konular için belirtilen sayıda soru üretilecektir:**
 
-1. **Kvm Hypervisor Kurulumu** (2 soru)
-2. **Gerekli Paketlerin Kurulumu** (2 soru)
-3. **Libvirt Servisinin Yapılandırılması** (2 soru)
+1. **Kvm Hipervizör Kurulumu** (2 soru)
+2. **Gerekli Paketlerin Yüklenmesi** (2 soru)
+3. **Libvirtd Servisinin Yapılandırılması** (2 soru)
 4. **Virt İnstallıkomutu İle Vm Oluşturma** (2 soru)
-5. **Virsh Komutları İle Vm Yönetimi** (2 soru)
+5. **Sanal Makine Durumlarını Listeleme** (2 soru)
 
 **Toplam Aktif: 5 alt konu, 10 soru**
 
@@ -60,7 +61,8 @@ Sen bir eğitim içeriği ve test geliştirme uzmanısın. Verilen metin içeri�
 
 **Aşağıdaki konulardan soru üretilmeyecektir:**
 
-1. Sanal Makineyi Silme
+1. Sanal Makineyi Başlatma Durdurma Yeniden Başlatma
+2. Sanal Makineyi Silme
 
   *Lütfen dikkat: Bu bölümde "AKTİF KONULAR (SORU ÜRETİLECEK)" ve "BEKLEYEN KONULAR (SORU ÜRETİLMEYECEK)" olmak üzere iki liste görebilirsin.*
 - **Eğitim İçeriği:** 
@@ -340,42 +342,42 @@ virsh undefine testVM
 - Toplam Soru Sayısı: 10
 - Alt Konu Dağılımı:
 
-  - Kvm Hypervisor Kurulumu: 2 soru
-  - Gerekli Paketlerin Kurulumu: 2 soru
-  - Libvirt Servisinin Yapılandırılması: 2 soru
+  - Kvm Hipervizör Kurulumu: 2 soru
+  - Gerekli Paketlerin Yüklenmesi: 2 soru
+  - Libvirtd Servisinin Yapılandırılması: 2 soru
   - Virt İnstallıkomutu İle Vm Oluşturma: 2 soru
-  - Virsh Komutları İle Vm Yönetimi: 2 soru
+  - Sanal Makine Durumlarını Listeleme: 2 soru
 
 
 ### Soru Örnekleri (Her Alt Konudan 1 Adet):
 
-#### Kvm Hypervisor Kurulumu:
-- Soru: KVM hypervisor kurulumu için gerekli olan paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?
-- Seçenekler: qemu-kvm | virt-manager | libvirt-daemon-system | virtinst
-- Doğru Cevap: virt-manager
-- Zorluk: medium
-
-#### Gerekli Paketlerin Kurulumu:
-- Soru: KVM kurulumu için gerekli paketlerin kurulumunda kullanılan 'apt' komutu hangi amaçla kullanılır?
-- Seçenekler: Sistemdeki mevcut paketleri güncellemek | Yeni paketleri kurmak, güncellemek veya kaldırmak | Sistemdeki servisleri başlatmak veya durdurmak | Kullanıcı izinlerini düzenlemek
-- Doğru Cevap: Yeni paketleri kurmak, güncellemek veya kaldırmak
-- Zorluk: medium
-
-#### Libvirt Servisinin Yapılandırılması:
-- Soru: /etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin etkili olabilmesi için hangi komutun çalıştırılması gereklidir?
-- Seçenekler: sudo apt update | sudo reboot | sudo systemctl restart libvirtd.service | sudo virt-manager
-- Doğru Cevap: sudo systemctl restart libvirtd.service
-- Zorluk: medium
-
-#### Virt İnstallıkomutu İle Vm Oluşturma:
-- Soru: Virt-install komutunda kullanılan '--cdrom' parametresi neyi ifade eder?
-- Seçenekler: Sanal makineye ayrılacak RAM miktarını | Sanal makine için kullanılacak disk imajının yolunu | Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu | Sanal makineye atanacak işlemci sayısını
-- Doğru Cevap: Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu
+#### Kvm Hipervizör Kurulumu:
+- Soru: KVM hipervizör kurulumu için gerekli paketlerden biri aşağıdakilerden hangisidir?
+- Seçenekler: qemu-kvm | docker | virtualbox | vmware
+- Doğru Cevap: qemu-kvm
 - Zorluk: easy
 
-#### Virsh Komutları İle Vm Yönetimi:
-- Soru: Virsh komut satırı aracında, çalışır durumdaki sanal makineleri listelemek için hangi komut kullanılır?
-- Seçenekler: virsh list | virsh start | virsh shutdown | virsh reboot
-- Doğru Cevap: virsh list
+#### Gerekli Paketlerin Yüklenmesi:
+- Soru: KVM kurulumunda gerekli paketleri yüklemek için kullanılan komut aşağıdakilerden hangisidir?
+- Seçenekler: sudo apt install kvm | sudo apt install -y qemu-kvm virt-manager | sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils | sudo install kvm
+- Doğru Cevap: sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+- Zorluk: easy
+
+#### Libvirtd Servisinin Yapılandırılması:
+- Soru: libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?
+- Seçenekler: sudo systemctl start libvirtd | sudo systemctl enable libvirtd | sudo systemctl enable --now libvirtd | sudo systemctl restart libvirtd
+- Doğru Cevap: sudo systemctl enable --now libvirtd
+- Zorluk: easy
+
+#### Virt İnstallıkomutu İle Vm Oluşturma:
+- Soru: Virt-install komutunda, sanal makine diskinin yolunu ve boyutunu belirtmek için hangi parametre kullanılır?
+- Seçenekler: --name | --vcpu | --disk | --ram
+- Doğru Cevap: --disk
+- Zorluk: easy
+
+#### Sanal Makine Durumlarını Listeleme:
+- Soru: Çalışan tüm sanal makineleri listelemek için kullanılan komut aşağıdakilerden hangisidir?
+- Seçenekler: virsh list | virsh list --all | virt-manager | virsh status
+- Doğru Cevap: virsh list --all
 - Zorluk: easy
 

@@ -1,8 +1,8 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-10T02:00:25.113Z
-Trace ID: quiz-1749520809687-a3sjp
-Yanıt Uzunluğu: 8755 karakter
+Tarih: 2025-06-10T06:49:01.753Z
+Trace ID: quiz-1749538127317-drhzx
+Yanıt Uzunluğu: 8446 karakter
 
 ## Ham Çıktı:
 ```json
@@ -11,173 +11,173 @@ Yanıt Uzunluğu: 8755 karakter
   "questions": [
     {
       "id": "q1",
-      "questionText": "KVM hypervisor kurulumu için gerekli olan paketlerden hangisi, sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlar?",
+      "questionText": "KVM hipervizör kurulumu için gerekli paketlerden biri aşağıdakilerden hangisidir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "qemu-kvm",
+        "docker",
+        "virtualbox",
+        "vmware"
+      ],
+      "correctAnswer": "qemu-kvm",
+      "explanation": "KVM (Kernel-based Virtual Machine) kurulumu için qemu-kvm paketi gereklidir. Diğer seçenekler farklı sanallaştırma çözümlerine aittir. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Kvm Hipervizör Kurulumu",
+      "normalizedSubTopicName": "kvm_hipervizor_kurulumu",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q2",
+      "questionText": "Aşağıdakilerden hangisi KVM kurulumu için gerekli olan komutlardan biri değildir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "understanding",
+      "options": [
+        "sudo apt update",
+        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+        "sudo systemctl enable --now libvirtd",
+        "sudo docker run hello-world"
+      ],
+      "correctAnswer": "sudo docker run hello-world",
+      "explanation": "KVM kurulumu için 'sudo apt update', 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' ve 'sudo systemctl enable --now libvirtd' komutları kullanılır. 'sudo docker run hello-world' komutu Docker ile ilgili bir komuttur. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Kvm Hipervizör Kurulumu",
+      "normalizedSubTopicName": "kvm_hipervizor_kurulumu",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q3",
+      "questionText": "KVM kurulumunda gerekli paketleri yüklemek için kullanılan komut aşağıdakilerden hangisidir?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "sudo apt install kvm",
+        "sudo apt install -y qemu-kvm virt-manager",
+        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+        "sudo install kvm"
+      ],
+      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
+      "explanation": "KVM kurulumunda gerekli tüm paketleri yüklemek için kullanılan doğru komut 'sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils' şeklindedir. Bu komut, KVM için gerekli olan qemu-kvm, virt-manager ve diğer bağımlılıkları yükler. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Gerekli Paketlerin Yüklenmesi",
+      "normalizedSubTopicName": "gerekli_paketlerin_yuklenmesi",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q4",
+      "questionText": "Aşağıdakilerden hangisi KVM için gerekli paketlerden biri değildir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
         "qemu-kvm",
         "virt-manager",
         "libvirt-daemon-system",
-        "virtinst"
+        "docker"
       ],
-      "correctAnswer": "virt-manager",
-      "explanation": "virt-manager paketi, KVM üzerinde sanal makinelerin grafik arayüz üzerinden yönetilmesini sağlayan araçtır. Diğer seçenekler ise KVM'nin temel bileşenleri, servisleri ve sanal makine oluşturma araçlarıdır. Bkz: Kvm kurulumu",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
+      "correctAnswer": "docker",
+      "explanation": "'qemu-kvm', 'virt-manager' ve 'libvirt-daemon-system' KVM için gerekli paketlerdir. 'docker' ise konteyner sanallaştırma için kullanılan bir araçtır ve KVM ile doğrudan ilişkili değildir. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Gerekli Paketlerin Yüklenmesi",
+      "normalizedSubTopicName": "gerekli_paketlerin_yuklenmesi",
       "difficulty": "medium"
-    },
-    {
-      "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi KVM kurulumu sırasında libvirtd servisinin başlatılması ve otomatik olarak başlaması için kullanılan komutlardan biridir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "sudo apt install libvirtd",
-        "sudo systemctl start libvirtd",
-        "sudo systemctl enable --now libvirtd",
-        "sudo usermod -aG libvirt $USER"
-      ],
-      "correctAnswer": "sudo systemctl enable --now libvirtd",
-      "explanation": "sudo systemctl enable --now libvirtd komutu, libvirtd servisinin hem başlatılmasını hem de sistem açılışında otomatik olarak başlamasını sağlar. Bkz: Kvm kurulumu",
-      "subTopicName": "Kvm Hypervisor Kurulumu",
-      "normalizedSubTopicName": "kvm_hypervisor_kurulumu",
-      "difficulty": "easy"
-    },
-    {
-      "id": "q3",
-      "questionText": "KVM kurulumu için gerekli paketlerin kurulumunda kullanılan 'apt' komutu hangi amaçla kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
-      "options": [
-        "Sistemdeki mevcut paketleri güncellemek",
-        "Yeni paketleri kurmak, güncellemek veya kaldırmak",
-        "Sistemdeki servisleri başlatmak veya durdurmak",
-        "Kullanıcı izinlerini düzenlemek"
-      ],
-      "correctAnswer": "Yeni paketleri kurmak, güncellemek veya kaldırmak",
-      "explanation": "apt komutu, Debian tabanlı sistemlerde (Ubuntu gibi) paket yönetimini sağlamak için kullanılır. Bu komut ile yeni paketler kurulabilir, mevcut paketler güncellenebilir veya sistemden kaldırılabilir. Bkz: Kvm kurulumu",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q4",
-      "questionText": "KVM kurulumu için gerekli paketlerin kurulumunda aşağıdaki komutlardan hangisi KVM ve ilgili araçları kurmak için kullanılır?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "sudo apt update",
-        "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-        "sudo systemctl enable --now libvirtd",
-        "sudo usermod -aG kvm $USER"
-      ],
-      "correctAnswer": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils",
-      "explanation": "sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils komutu, KVM hypervisor'ı ve sanal makine yönetimi için gerekli olan tüm paketleri kurar. Bkz: Kvm kurulumu",
-      "subTopicName": "Gerekli Paketlerin Kurulumu",
-      "normalizedSubTopicName": "gerekli_paketlerin_kurulumu",
-      "difficulty": "easy"
     },
     {
       "id": "q5",
-      "questionText": "/etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin etkili olabilmesi için hangi komutun çalıştırılması gereklidir?",
+      "questionText": "libvirtd servisinin otomatik olarak başlamasını sağlamak için hangi komut kullanılır?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
-        "sudo apt update",
-        "sudo reboot",
-        "sudo systemctl restart libvirtd.service",
-        "sudo virt-manager"
+        "sudo systemctl start libvirtd",
+        "sudo systemctl enable libvirtd",
+        "sudo systemctl enable --now libvirtd",
+        "sudo systemctl restart libvirtd"
       ],
-      "correctAnswer": "sudo systemctl restart libvirtd.service",
-      "explanation": "/etc/libvirt/qemu.conf dosyasında yapılan değişikliklerin uygulanabilmesi için libvirtd servisinin yeniden başlatılması gerekmektedir. Bu işlem 'sudo systemctl restart libvirtd.service' komutu ile yapılır. Bkz: Kvm kurulumu",
-      "subTopicName": "Libvirt Servisinin Yapılandırılması",
-      "normalizedSubTopicName": "libvirt_servisinin_yapilandirilmasi",
-      "difficulty": "medium"
+      "correctAnswer": "sudo systemctl enable --now libvirtd",
+      "explanation": "'sudo systemctl enable --now libvirtd' komutu, libvirtd servisinin hem hemen başlamasını sağlar hem de sistem yeniden başlatıldığında otomatik olarak başlamasını ayarlar. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Libvirtd Servisinin Yapılandırılması",
+      "normalizedSubTopicName": "libvirtd_servisinin_yapilandirilmasi",
+      "difficulty": "easy"
     },
     {
       "id": "q6",
-      "questionText": "libvirt yapılandırma dosyasında (qemu.conf) hangi satırların düzenlenmesi, kullanıcı ve grup ayarlarının yapılandırılması için gereklidir?",
+      "questionText": "/etc/libvirt/qemu.conf dosyasında yapılması gereken değişiklikler nelerdir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "#user ve #group",
-        "#listen_tls ve #listen_tcp",
-        "#dynamic_ownership ve #remember_owner",
-        "#log_level ve #log_outputs"
+        "Dosyayı silmek",
+        "#user ve #group satırlarındaki # işaretini kaldırmak",
+        "Dosyaya yeni kullanıcı eklemek",
+        "Dosyayı yeniden adlandırmak"
       ],
-      "correctAnswer": "#user ve #group",
-      "explanation": "/etc/libvirt/qemu.conf dosyasında '#user' ve '#group' satırlarının başındaki '#' işaretini kaldırarak ilgili kullanıcı ve grup ayarları yapılandırılır. Bu, sanal makinelerin doğru izinlerle çalışmasını sağlar. Bkz: Kvm kurulumu",
-      "subTopicName": "Libvirt Servisinin Yapılandırılması",
-      "normalizedSubTopicName": "libvirt_servisinin_yapilandirilmasi",
+      "correctAnswer": "#user ve #group satırlarındaki # işaretini kaldırmak",
+      "explanation": "/etc/libvirt/qemu.conf dosyasında, #user ve #group satırlarındaki # işaretini kaldırmak, kullanıcı ve grup ayarlarının etkinleşmesini sağlar. Bu, sanal makinelerin doğru izinlerle çalışabilmesi için gereklidir. Bkz: 'Kvm kurulumu' bölümü.",
+      "subTopicName": "Libvirtd Servisinin Yapılandırılması",
+      "normalizedSubTopicName": "libvirtd_servisinin_yapilandirilmasi",
       "difficulty": "medium"
     },
     {
       "id": "q7",
-      "questionText": "Virt-install komutunda kullanılan '--cdrom' parametresi neyi ifade eder?",
+      "questionText": "Virt-install komutunda, sanal makine diskinin yolunu ve boyutunu belirtmek için hangi parametre kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Sanal makineye ayrılacak RAM miktarını",
-        "Sanal makine için kullanılacak disk imajının yolunu",
-        "Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu",
-        "Sanal makineye atanacak işlemci sayısını"
+        "--name",
+        "--vcpu",
+        "--disk",
+        "--ram"
       ],
-      "correctAnswer": "Sanal makineye yüklenecek işletim sistemi ISO dosyasının yolunu",
-      "explanation": "'--cdrom' parametresi, sanal makine kurulumu sırasında kullanılacak olan işletim sistemi ISO dosyasının yolunu belirtir. Bu, sanal makinenin kurulum kaynağını tanımlar. Bkz: VM kurulumu",
+      "correctAnswer": "--disk",
+      "explanation": "Virt-install komutunda '--disk' parametresi, sanal makine diskinin yolunu ve boyutunu belirtmek için kullanılır. Örneğin: '--disk path=/var/lib/libvirt/images/testVM.img,size=30'. Bkz: 'VM kurulumu' bölümü.",
       "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
       "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Aşağıdaki virt-install komut parametrelerinden hangisi, oluşturulacak sanal makinenin disk boyutunu belirtir?",
+      "questionText": "Aşağıdaki virt-install komut parametrelerinden hangisi, sanal makineye atanacak RAM miktarını belirtir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "--name",
+        "--vcpu",
         "--ram",
         "--disk",
-        "--vcpu"
+        "--cdrom"
       ],
-      "correctAnswer": "--disk",
-      "explanation": "--disk parametresi, sanal makineye ayrılacak disk alanı ile ilgili ayarları içerir. Bu parametre ile diskin yolu ve boyutu belirlenebilir. Bkz: VM kurulumu",
+      "correctAnswer": "--ram",
+      "explanation": "Virt-install komutunda '--ram' parametresi, sanal makineye atanacak RAM miktarını megabayt cinsinden belirtir. Örneğin: '--ram=4096' 4GB RAM atar. Bkz: 'VM kurulumu' bölümü.",
       "subTopicName": "Virt İnstallıkomutu İle Vm Oluşturma",
       "normalizedSubTopicName": "virt_installikomutu_ile_vm_olusturma",
-      "difficulty": "easy"
+      "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Virsh komut satırı aracında, çalışır durumdaki sanal makineleri listelemek için hangi komut kullanılır?",
+      "questionText": "Çalışan tüm sanal makineleri listelemek için kullanılan komut aşağıdakilerden hangisidir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "remembering",
       "options": [
         "virsh list",
-        "virsh start",
-        "virsh shutdown",
-        "virsh reboot"
+        "virsh list --all",
+        "virt-manager",
+        "virsh status"
       ],
-      "correctAnswer": "virsh list",
-      "explanation": "virsh list komutu, sadece çalışır durumda olan sanal makineleri listeler. virsh list --all komutu ise tüm sanal makineleri (çalışan ve kapalı olanlar dahil) listeler. Bkz: Sanal Makinelerin Yönetilmesi",
-      "subTopicName": "Virsh Komutları İle Vm Yönetimi",
-      "normalizedSubTopicName": "virsh_komutlari_ile_vm_yonetimi",
+      "correctAnswer": "virsh list --all",
+      "explanation": "'virsh list --all' komutu, çalışan ve durdurulmuş tüm sanal makineleri listeler. Sadece 'virsh list' komutu sadece çalışan sanal makineleri listeler. Bkz: 'Sanal Makinelerin Yönetilmesi' bölümü.",
+      "subTopicName": "Sanal Makine Durumlarını Listeleme",
+      "normalizedSubTopicName": "sanal_makine_durumlarini_listeleme",
       "difficulty": "easy"
     },
     {
       "id": "q10",
-      "questionText": "Bir sanal makineyi kapatmak için kullanılan 'virsh shutdown VM_ADI' komutu, sanal makineyi hangi duruma getirir?",
+      "questionText": "Aşağıdaki komutlardan hangisi tüm sanal makineleri grafik arayüzden yönetmek için kullanılır?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Askıda (Suspended)",
-        "Çalışır (Running)",
-        "Kapalı (Shut-down)",
-        "Yeniden Başlatılıyor (Rebooting)"
+        "virsh list --all",
+        "virt-manager",
+        "virsh start testVM",
+        "virsh shutdown testVM"
       ],
-      "correctAnswer": "Kapalı (Shut-down)",
-      "explanation": "virsh shutdown komutu, belirtilen sanal makineyi güvenli bir şekilde kapatır ve 'Shut-down' durumuna getirir. Bu, sanal makinenin işletim sistemi içinden kapatılması gibidir. Bkz: Sanal Makinelerin Yönetilmesi",
-      "subTopicName": "Virsh Komutları İle Vm Yönetimi",
-      "normalizedSubTopicName": "virsh_komutlari_ile_vm_yonetimi",
-      "difficulty": "medium"
+      "correctAnswer": "virt-manager",
+      "explanation": "'virt-manager' komutu, tüm sanal makineleri grafik arayüzden yönetmek için kullanılır. Bu arayüz, sanal makineleri başlatma, durdurma, yeniden başlatma ve diğer yönetim işlemlerini kolaylaştırır. Bkz: 'Sanal Makinelerin Yönetilmesi' bölümü.",
+      "subTopicName": "Sanal Makine Durumlarını Listeleme",
+      "normalizedSubTopicName": "sanal_makine_durumlarini_listeleme",
+      "difficulty": "easy"
     }
   ]
 }
