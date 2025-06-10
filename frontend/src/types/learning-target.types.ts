@@ -20,6 +20,7 @@ export interface LearningTarget {
   userId: string;
   courseId?: string;
   topicName: string;
+  mainTopic?: string; // Ana konu kategorisi
   status: LearningTargetStatus;
   isNewTopic: boolean;
   source: LearningTargetSource;

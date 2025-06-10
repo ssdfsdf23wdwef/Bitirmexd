@@ -33,6 +33,7 @@ interface LearningTarget {
   courseId: string;
   subTopicName: string;
   normalizedSubTopicName: string;
+  mainTopic?: string; // Ana konu kategorisi
   status: LearningTargetStatus;
   failCount: number;
   mediumCount: number;

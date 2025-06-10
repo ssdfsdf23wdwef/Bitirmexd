@@ -28,6 +28,7 @@ import { FlowTrackerService } from '../common/services/flow-tracker.service';
 import { LogMethod } from '../common/decorators';
 import { DocumentsService } from '../documents/documents.service';
 import { CoursesService } from '../courses/courses.service';
+import { TopicClassificationUtil } from '../common/utils/topic-classification.util';
 // Legacy type - will be gradually replaced with the LearningTargetStatus enum
 type LegacyLearningTargetStatus = 'pending' | 'failed' | 'medium' | 'mastered';
 
@@ -1356,11 +1357,15 @@ export class LearningTargetsService {
 
       const now = new Date();
 
+      // Ana konuyu sınıflandır
+      const mainTopic = TopicClassificationUtil.classifyMainTopic(createLearningTargetDto.topicName);
+
       // Create target with required properties, using type assertion to handle model differences
       const newTarget = {
         userId,
         normalizedSubTopicName: normalizedName,
         subTopicName: createLearningTargetDto.topicName, // Using topicName from DTO but mapping to subTopicName for compatibility
+        mainTopic, // Ana konu kategorisi
         status: 'pending' as any, // Type assertion to handle legacy status mapping
         failCount: 0,
         mediumCount: 0,
@@ -1862,6 +1867,9 @@ export class LearningTargetsService {
           topic.normalizedSubTopicName ||
           this.normalizationService.normalizeSubTopicName(topic.subTopicName);
 
+        // Ana konuyu sınıflandır
+        const mainTopic = TopicClassificationUtil.classifyMainTopic(topic.subTopicName);
+
         // Yeni öğrenme hedefi ID'si (Firestore'un benzersiz ID oluşturma metodunu kullanıyoruz)
         const newId = this.firebaseService.generateId();
 
@@ -1877,6 +1885,7 @@ export class LearningTargetsService {
           userId,
           subTopicName: topic.subTopicName,
           normalizedSubTopicName: normalizedName,
+          mainTopic, // Ana konu kategorisi
           status: 'pending', // Öğrenme hedefi durumu: beklemede
           isNew: true, // Yeni oluşturulan hedef olduğu için true
           lastAttemptScorePercent: 0,

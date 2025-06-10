@@ -23,6 +23,7 @@ export interface LearningTarget {
   userId: string;
   courseId?: string; // Opsiyonel, bir derse bağlıysa
   topicName: string;
+  mainTopic?: string; // Ana konu kategorisi (örn: "Temel Programlama", "Matematik Analiz")
   status: LearningTargetStatus;
   isNewTopic: boolean; // Bu hedef bir "yeni konu" ise true
   source: LearningTargetSource; // Hedefin kaynağı
