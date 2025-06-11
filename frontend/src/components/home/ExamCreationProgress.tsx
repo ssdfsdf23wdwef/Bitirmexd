@@ -9,7 +9,7 @@ import {
   FiArrowRight,
 } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeProvider";
-import { motion, AnimatePresence } from "framer-motion";
+// Removed unused imports: motion, AnimatePresence
 
 interface ExamCreationProgressProps {
   currentStep: number;

@@ -85,7 +85,6 @@ const FLOW_TO_FILE_CATEGORY: Record<FlowCategory, LogFileCategory> = {
   [FlowCategory.Custom]: LogFileCategory.GENERAL,
 };
 
-
 /**
  * Context ve flow kategorisine göre hangi dosyaya yazılacağını belirler
  */

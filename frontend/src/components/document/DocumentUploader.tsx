@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
 import { FiUpload, FiCheck, FiAlertCircle, FiFile } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
 import documentService from "@/services/document.service";
 
 interface DocumentUploaderProps {

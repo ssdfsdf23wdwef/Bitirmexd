@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTheme } from "@/context/ThemeProvider";
 import { useRouter, useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -270,7 +270,7 @@ export default function ExamPage() {
     }
 
     loadQuiz();
-  }, [params.id]); // ensureQuestionSubTopics bağımlılıklardan çıkarıldı, çünkü sayfa içinde tanımlı ve değişmiyor.
+  }, [params.id, router]); // ensureQuestionSubTopics bağımlılıklardan çıkarıldı, çünkü sayfa içinde tanımlı ve değişmiyor.
 
   // Learning targets integration - Set temporary targets from quiz questions
   useEffect(() => {
@@ -308,9 +308,7 @@ export default function ExamPage() {
     return () => clearInterval(timer);
   }, [quiz, isCompleted, showResults, remainingTime]);
 
-  // Zamanlayıcı sıfırlandığında submit işlemini gerçekleştir
   useEffect(() => {
-    // Sadece zamanlayıcı tamamlandığında ve isCompleted true olduğunda
     if (remainingTime === 0 && isCompleted && isSubmitting) {
       handleSubmit();
     }
@@ -324,8 +322,68 @@ export default function ExamPage() {
   };
 
   /**
-   * Sorunun alt konu bilgilerini kontrol eder ve eksikse tamamlar
-   * Bu fonksiyon, backend'den gelen eksik verileri tamamlar ve null/undefined durumlarını güvenli şekilde ele alır
+   * Sınav sonuçlarını hesaplar ve localStorage'a kaydeder
+   * handleSubmit fonksiyonundan önce tanımlanması gerekir
+   */
+  const calculateAndStoreResults = useCallback((quiz: Quiz) => {
+    if (!quiz || !quiz.questions) {
+      console.error("calculateAndStoreResults: Quiz veya sorular bulunamadı");
+      return null;
+    }
+
+    let correctCount = 0;
+    const totalQuestions = quiz.questions.length;
+
+    // Her soru için doğru cevapları say
+    quiz.questions.forEach((question) => {
+      const userAnswer = userAnswers[question.id];
+      if (userAnswer === question.correctAnswer) {
+        correctCount++;
+      }
+    });
+
+    const score = Math.round((correctCount / totalQuestions) * 100);
+    const elapsedTime = quiz.preferences?.timeLimit
+      ? quiz.preferences.timeLimit * 60 - (remainingTime || 0)
+      : Math.floor((Date.now() - startTime) / 1000);
+
+    // Quiz sonuç objesi oluştur
+    const quizResult: Quiz = {
+      ...quiz,
+      userAnswers: userAnswers,
+      score: score,
+      correctCount: correctCount,
+      totalQuestions: totalQuestions,
+      elapsedTime: elapsedTime,
+      timestamp: new Date().toISOString(),
+      userId: "current_user", // Gerçek uygulamada auth'dan alınacak
+    };
+
+    // localStorage'a kaydet
+    try {
+      const storageKey = `quizAnalysis_${quiz.id}`;
+      localStorage.setItem(storageKey, JSON.stringify({
+        analysisResult: {
+          score: score,
+          correctCount: correctCount,
+          totalQuestions: totalQuestions,
+          elapsedTime: elapsedTime,
+          timestamp: new Date().toISOString()
+        },
+        userAnswers: userAnswers,
+        quizData: quiz
+      }));
+      
+      console.log(`✅ Quiz sonuçları localStorage'a kaydedildi: ${storageKey}`);
+    } catch (error) {
+      console.error("❌ localStorage'a kaydetme hatası:", error);
+    }
+
+    return quizResult;
+  }, [userAnswers, remainingTime, startTime]);
+
+  /**
+   * Soru alt konu bilgilerini kontrol eder ve eksik alanları tamamlar
    */
   const ensureQuestionSubTopics = (question: Question): Question => {
     if (!question) {
@@ -512,49 +570,10 @@ export default function ExamPage() {
   };
 
   /**
-   * Seçenek karşılaştırmak için yardımcı fonksiyon
-   * String veya { id, text } formatındaki seçeneklerin eşitliğini kontrol eder
-   */
-  const optionsEqual = (option1: any, option2: any): boolean => {
-    if (option1 === option2) return true;
-
-    if (
-      typeof option1 === "object" &&
-      typeof option2 === "object" &&
-      option1 !== null &&
-      option2 !== null &&
-      "id" in option1 &&
-      "id" in option2
-    ) {
-      return option1.id === option2.id;
-    }
-
-    if (
-      typeof option1 === "object" &&
-      option1 !== null &&
-      "text" in option1 &&
-      option2 === option1.text
-    ) {
-      return true;
-    }
-
-    if (
-      typeof option2 === "object" &&
-      option2 !== null &&
-      "text" in option2 &&
-      option1 === option2.text
-    ) {
-      return true;
-    }
-
-    return false;
-  };
-
-  /**
    * Sınav gönderme işlemini gerçekleştirir
    * Veri doğrulama ve hata yakalama mekanizmaları güçlendirilmiştir
    */
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!quiz || isSubmitting) {
       console.warn(
         "[handleSubmit] Quiz veya isSubmitting durumu engeli, işlem iptal ediliyor",
@@ -704,7 +723,7 @@ export default function ExamPage() {
         console.log(`✅ Sınav yanıtları başarıyla gönderildi`);
 
         // Eğer backend bir analiz sonucu döndürdüyse, localStorage'a kaydet
-        if (result && result.analysisResult) {
+        if (result && result.analysis) {
           // Quiz nesnesinin tüm gerekli alanlarını ve tip uyumluluğunu sağlamak için
           // ID'nin kesinlikle string olduğundan emin olalım
           const quizId =
@@ -822,12 +841,9 @@ export default function ExamPage() {
               "Öğrenme Hedefleri",
             );
           }
-          // --- Öğrenme Hedefleri Güncellemesi Sonu ---
-
-          // --- Legacy öğrenme hedefleri güncellemesi (eski kod) ---
           try {
             const performanceBySubTopic =
-              result.analysisResult.performanceBySubTopic;
+              result.analysis?.performanceBySubTopic;
             if (performanceBySubTopic && quiz && quiz.courseId) {
               // Önce o kursa ait öğrenme hedeflerini al
               const learningTargets =
@@ -993,312 +1009,50 @@ export default function ExamPage() {
         "Sınav Hatası",
       );
     }
-  };
+  }, [quiz, isSubmitting, router, userAnswers, startTime, remainingTime, calculateAndStoreResults, ensureQuestionSubTopics, updateTemporaryTargetScores, clearTemporaryTargets]);
 
   /**
-   * Sınav sonuçlarını hesaplar ve localStorage'a kaydeder
-   * Güçlendirilmiş veri doğrulama ve hata yakalama özellikleri ile
+   * Seçenek karşılaştırmak için yardımcı fonksiyon
+   * String veya { id, text } formatındaki seçeneklerin eşitliğini kontrol eder
    */
-  const calculateAndStoreResults = (quizToProcess = quiz): Quiz | null => {
-    // Quiz'in varlığını kontrol et
-    if (!quizToProcess) {
-      console.error("[calculateAndStoreResults] Geçersiz quiz verisi!");
-      return null;
-    }
+  const optionsEqual = (option1: any, option2: any): boolean => {
+    if (option1 === option2) return true;
 
-    // Quiz ID'sinin string olduğundan emin ol (lint hatasını çözmek için)
-    if (!quizToProcess.id) {
-      console.warn(
-        "[calculateAndStoreResults] Quiz ID bulunamadı, geçici ID atanıyor",
-      );
-      quizToProcess.id = `temp_quiz_${Date.now()}`;
-    }
-
-    // Soruları kontrol et
     if (
-      !quizToProcess.questions ||
-      !Array.isArray(quizToProcess.questions) ||
-      quizToProcess.questions.length === 0
+      typeof option1 === "object" &&
+      typeof option2 === "object" &&
+      option1 !== null &&
+      option2 !== null &&
+      "id" in option1 &&
+      "id" in option2
     ) {
-      console.error("[calculateAndStoreResults] Geçersiz soru verisi!");
-      return null;
+      return option1.id === option2.id;
     }
 
-    // Kullanıcı cevaplarını kontrol et
-    if (!userAnswers || typeof userAnswers !== "object") {
-      console.error("[calculateAndStoreResults] Geçersiz kullanıcı cevapları!");
-      return null;
+    if (
+      typeof option1 === "object" &&
+      option1 !== null &&
+      "text" in option1 &&
+      option2 === option1.text
+    ) {
+      return true;
     }
 
-    console.log(
-      `📊 Sonuçlar hesaplanıyor - Quiz ID: ${quizToProcess.id}, Soru Sayısı: ${quizToProcess.questions.length}`,
-    );
-
-    try {
-      // Doğru cevapları say
-      const correctCount = Object.entries(userAnswers).reduce(
-        (count, [questionId, answer]) => {
-          const question = quizToProcess.questions.find(
-            (q) => q.id === questionId,
-          );
-          return question && question.correctAnswer === answer
-            ? count + 1
-            : count;
-        },
-        0,
-      );
-
-      const totalQuestions = quizToProcess.questions.length;
-      const scorePercent =
-        totalQuestions > 0
-          ? Math.round((correctCount / totalQuestions) * 100)
-          : 0;
-
-      // Alt konuları grupla ve performans analiz et
-      const subTopicPerformance: Record<
-        string,
-        { correct: number; total: number; score: number }
-      > = {};
-      const difficultyPerformance: Record<
-        string,
-        { correct: number; total: number; score: number }
-      > = {
-        easy: { correct: 0, total: 0, score: 0 },
-        medium: { correct: 0, total: 0, score: 0 },
-        hard: { correct: 0, total: 0, score: 0 },
-        mixed: { correct: 0, total: 0, score: 0 },
-      };
-
-      // Her soru için performans analizi yap
-      quizToProcess.questions.forEach((q) => {
-        try {
-          // Soruların alt konu bilgilerini kontrol et ve düzelt
-          const subTopic = q.subTopic || "Genel Konu";
-
-          // normalizedSubTopic için string tipini garantile
-          let normalizedSubTopic = "genel-konu";
-          if (
-            typeof q.normalizedSubTopic === "string" &&
-            q.normalizedSubTopic
-          ) {
-            normalizedSubTopic = q.normalizedSubTopic;
-          } else if (typeof subTopic === "string") {
-            try {
-              normalizedSubTopic = subTopic
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, "-")
-                .replace(/[^a-z0-9\-]/g, "");
-            } catch (error) {
-              console.warn(
-                `[calculateAndStoreResults] normalizedSubTopic oluştururken hata:`,
-                error,
-              );
-            }
-          }
-
-          // Eksik alanları tamamla
-          if (!q.subTopic) q.subTopic = subTopic;
-          if (!q.normalizedSubTopic) q.normalizedSubTopic = normalizedSubTopic;
-
-          const difficulty = q.difficulty || "mixed";
-          const isCorrect = userAnswers[q.id] === q.correctAnswer;
-
-          // Alt konu performansı
-          if (!subTopicPerformance[subTopic]) {
-            subTopicPerformance[subTopic] = { correct: 0, total: 0, score: 0 };
-          }
-          subTopicPerformance[subTopic].total++;
-          if (isCorrect) {
-            subTopicPerformance[subTopic].correct++;
-          }
-
-          // Zorluk seviyesi performansı
-          difficultyPerformance[difficulty].total++;
-          if (isCorrect) {
-            difficultyPerformance[difficulty].correct++;
-          }
-        } catch (error) {
-          console.error(
-            `[calculateAndStoreResults] Soru analizi sırasında hata: ${q.id}`,
-            error,
-          );
-        }
-      });
-
-      // Alt konu ve zorluk seviyesi skorlarını hesapla
-      Object.values(subTopicPerformance).forEach((perf) => {
-        perf.score =
-          perf.total > 0 ? Math.round((perf.correct / perf.total) * 100) : 0;
-      });
-      Object.values(difficultyPerformance).forEach((perf) => {
-        perf.score =
-          perf.total > 0 ? Math.round((perf.correct / perf.total) * 100) : 0;
-      });
-
-      // Analiz sonucunu hazırla
-      const performanceBySubTopic: Record<
-        string,
-        {
-          scorePercent: number;
-          status: "mastered" | "medium" | "failed";
-          questionCount: number;
-          correctCount: number;
-        }
-      > = {};
-
-      Object.entries(subTopicPerformance).forEach(([topic, perf]) => {
-        let status: "mastered" | "medium" | "failed" = "failed";
-        if (perf.score >= 75) status = "mastered";
-        else if (perf.score >= 50) status = "medium";
-
-        performanceBySubTopic[topic] = {
-          scorePercent: perf.score,
-          status,
-          questionCount: perf.total,
-          correctCount: perf.correct,
-        };
-      });
-
-      const performanceByDifficulty: Record<
-        string,
-        {
-          count: number;
-          correct: number;
-          score: number;
-        }
-      > = {};
-
-      Object.entries(difficultyPerformance).forEach(([difficulty, perf]) => {
-        if (perf.total > 0) {
-          performanceByDifficulty[difficulty] = {
-            count: perf.total,
-            correct: perf.correct,
-            score: perf.score,
-          };
-        }
-      });
-
-      // Kategorizasyon
-      const performanceCategorization = {
-        mastered: [] as string[],
-        medium: [] as string[],
-        failed: [] as string[],
-      };
-
-      Object.entries(performanceBySubTopic).forEach(([topic, data]) => {
-        if (data.status === "mastered")
-          performanceCategorization.mastered.push(topic);
-        else if (data.status === "medium")
-          performanceCategorization.medium.push(topic);
-        else performanceCategorization.failed.push(topic);
-      });
-      // Sonuçları oluştur - Quiz tipine uygun olarak
-      const quizResult: Quiz = {
-        ...quizToProcess,
-        id: quizToProcess.id, // ID'nin string olduğundan emin oluyoruz
-        userAnswers,
-        correctCount,
-        totalQuestions,
-        score: scorePercent,
-        elapsedTime: quizToProcess.preferences?.timeLimit
-          ? quizToProcess.preferences.timeLimit * 60 - (remainingTime || 0)
-          : 0,
-        timestamp: new Date().toISOString(),
-        preferences: {
-          questionCount: quizToProcess.preferences?.questionCount || 10,
-          difficulty: quizToProcess.preferences?.difficulty || "mixed",
-          timeLimit: quizToProcess.preferences?.timeLimit,
-          prioritizeWeakAndMediumTopics:
-            quizToProcess.preferences?.prioritizeWeakAndMediumTopics,
-        },
-        analysisResult: {
-          overallScore: scorePercent,
-          performanceBySubTopic,
-          performanceCategorization,
-          performanceByDifficulty,
-          recommendations: [],
-        },
-      };
-
-      console.log(
-        `✅ Sınav sonuçları başarıyla hesaplandı. Skor: ${scorePercent}%`,
-      );
-
-      // LocalStorage'a kaydet - eksiksiz veri aktarımı için
-      if (window && window.localStorage) {
-        try {
-          storeQuizResultsInStorage(quizToProcess.id, quizResult);
-          console.log(
-            `💾 Sınav sonuçları localStorage'a kaydedildi. Quiz ID: ${quizToProcess.id}`,
-          );
-        } catch (error) {
-          console.error("❌ LocalStorage'a kayıt sırasında hata:", error);
-
-          // Hata detaylarını göster
-          if (error instanceof Error) {
-            console.error("Hata Detayı:", {
-              message: error.message,
-              stack: error.stack,
-              name: error.name,
-            });
-          }
-        }
-      }
-
-      return quizResult;
-    } catch (error) {
-      console.error(
-        "❌ Sınav sonuçları hesaplanırken beklenmeyen hata:",
-        error,
-      );
-
-      // Hata detaylarını göster
-      if (error instanceof Error) {
-        console.error("Hata Detayı:", {
-          message: error.message,
-          stack: error.stack,
-          name: error.name,
-        });
-      }
-      // En azından temel bilgileri içeren basit bir sonuç oluştur
-      const fallbackQuizResult: Quiz = {
-        ...quizToProcess,
-        id: quizToProcess.id, // ID'nin string olduğundan emin oluyoruz
-        userAnswers: userAnswers || {},
-        correctCount: 0,
-        totalQuestions: quizToProcess.questions.length,
-        score: 0,
-        elapsedTime: 0,
-        timestamp: new Date().toISOString(),
-        preferences: {
-          questionCount: quizToProcess.preferences?.questionCount || 10,
-          difficulty: quizToProcess.preferences?.difficulty || "mixed",
-          timeLimit: quizToProcess.preferences?.timeLimit,
-          prioritizeWeakAndMediumTopics:
-            quizToProcess.preferences?.prioritizeWeakAndMediumTopics,
-        },
-        analysisResult: {
-          overallScore: 0,
-          performanceBySubTopic: {},
-          performanceCategorization: {
-            mastered: [],
-            medium: [],
-            failed: [],
-          },
-          performanceByDifficulty: {
-            easy: { count: 0, correct: 0, score: 0 },
-            medium: { count: 0, correct: 0, score: 0 },
-            hard: { count: 0, correct: 0, score: 0 },
-            mixed: { count: 0, correct: 0, score: 0 },
-          },
-          recommendations: [],
-        },
-      };
-
-      return fallbackQuizResult;
+    if (
+      typeof option2 === "object" &&
+      option2 !== null &&
+      "text" in option2 &&
+      option1 === option2.text
+    ) {
+      return true;
     }
+
+    return false;
   };
+
+
+
+  // calculateAndStoreResults function moved before handleSubmit
 
   const calculateScore = () => {
     if (!quiz) return 0;
@@ -1893,7 +1647,7 @@ export default function ExamPage() {
                           "text" in question.correctAnswer
                             ? question.correctAnswer.text
                             : String(question.correctAnswer)}
-                        </span>                      
+                        </span>
                       </p>
                     </div>
                   )}

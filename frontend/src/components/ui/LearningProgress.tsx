@@ -161,7 +161,7 @@ const LearningProgress: React.FC<LearningProgressProps> = memo(
       },
     );
 
-    TopicCard.displayName = 'TopicCard';
+    TopicCard.displayName = "TopicCard";
 
     // Filtered data - Memoized
     const activeWeakTopics = useMemo(
@@ -503,6 +503,6 @@ const LearningProgress: React.FC<LearningProgressProps> = memo(
   },
 );
 
-LearningProgress.displayName = 'LearningProgress';
+LearningProgress.displayName = "LearningProgress";
 
 export default LearningProgress;

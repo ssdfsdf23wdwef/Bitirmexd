@@ -36,8 +36,8 @@ const getQuizTypeInfo = (isDarkMode: boolean) => ({
 });
 
 // Yardımcı fonksiyonlar
-// quiz.timestamp'in 'any' olabileceğini varsayarak daha genel bir tip kullanalım.
-const formatDate = (dateValue: any): string => {
+// quiz.timestamp'in 'unknown' olabileceğini varsayarak daha genel bir tip kullanalım.
+const formatDate = (dateValue: unknown): string => {
   if (dateValue === null || typeof dateValue === "undefined") {
     return "Tarih Yok (null/undefined)";
   }
@@ -48,11 +48,12 @@ const formatDate = (dateValue: any): string => {
   if (
     typeof dateValue === "object" &&
     dateValue !== null &&
-    typeof dateValue.toDate === "function"
+    "toDate" in dateValue &&
+    typeof (dateValue as any).toDate === "function"
   ) {
     try {
-      potentialDate = dateValue.toDate();
-    } catch (e) {
+      potentialDate = (dateValue as any).toDate();
+    } catch {
       return "Hata: toDate() çağrılamadı";
     }
   }
@@ -88,7 +89,7 @@ const formatDate = (dateValue: any): string => {
   let timeValue;
   try {
     timeValue = potentialDate.getTime();
-  } catch (e) {
+  } catch {
     return "Hata: getTime() çağrılırken hata oluştu";
   }
 
@@ -102,7 +103,7 @@ const formatDate = (dateValue: any): string => {
       month: "2-digit",
       year: "numeric",
     });
-  } catch (e) {
+  } catch {
     // console.error("Error in toLocaleDateString: ", e, potentialDate);
     return "Hata: toLocaleDateString çağrılırken hata oluştu";
   }
@@ -272,7 +273,7 @@ export default function ExamsPage() {
     }
 
     setFilteredQuizzes(result);
-  }, [searchTerm, selectedType, quizzes]);
+  }, [searchTerm, selectedType, quizzes, isDarkMode]);
 
   const handleCreateNewExam = () => {
     router.push("/exams/create");

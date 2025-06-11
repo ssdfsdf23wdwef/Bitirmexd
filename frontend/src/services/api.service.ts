@@ -226,7 +226,7 @@ const waitForAuthReady = async (timeoutMs: number = 5000): Promise<boolean> => {
       return;
     }
 
-    let timeoutId: NodeJS.Timeout;
+    const timeoutId: NodeJS.Timeout | null = null;
     let unsubscribe: (() => void) | null = null;
 
     const cleanup = () => {

@@ -8,13 +8,13 @@ declare module "react-router-dom";
 declare global {
   interface Window {
     gtag?: (
-      command: 'config' | 'event' | 'js' | 'get',
+      command: "config" | "event" | "js" | "get",
       targetId: string | Date,
       config?: {
         page_path?: string;
         previousPath?: string;
         [key: string]: any;
-      }
+      },
     ) => void;
   }
 }

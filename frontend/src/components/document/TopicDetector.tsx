@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
 import { FiInfo, FiAlertCircle, FiChevronRight } from "react-icons/fi";
 import { LearningTargetStatusLiteral, DetectedSubTopic } from "@/types";
 import documentService from "@/services/document.service";

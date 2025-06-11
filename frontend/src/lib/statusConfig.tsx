@@ -4,10 +4,6 @@ import { LearningTargetStatus } from "../types/learningTarget.type";
 import { CheckCircle, Clock, XCircle, AlertCircle } from "lucide-react";
 import { CourseStatus, CourseStatusInfo } from "../types/status.type"; // Güncellendi
 
-
-
-
-
 const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = {
   // StatusInfo -> CourseStatusInfo olarak güncellendi
   pending: {

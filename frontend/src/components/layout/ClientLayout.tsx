@@ -45,7 +45,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         previousPath,
       });
     }
-  }, [pathname]);
+  }, [pathname, logger]);
 
   return (
     <NextUIProvider>

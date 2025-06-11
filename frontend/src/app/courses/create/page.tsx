@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiArrowLeft, FiPlusSquare, FiBookOpen, FiBook } from "react-icons/fi";
+import { FiArrowLeft, FiBookOpen, FiBook } from "react-icons/fi";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import courseService from "@/services/course.service";

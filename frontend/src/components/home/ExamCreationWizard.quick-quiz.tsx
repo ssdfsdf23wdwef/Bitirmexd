@@ -22,7 +22,7 @@ import quizService from "@/services/quiz.service";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Quiz } from "@/types";
-import ErrorService from "@/services/error.service";
+// Removed unused import: ErrorService
 import FullScreenLoader from "@/components/ui/FullScreenLoader";
 
 interface ExamCreationWizardProps {
@@ -115,8 +115,8 @@ export default function ExamCreationWizard({
 
   // Kurslar ve konu/alt konu state'leri
   const [selectedCourseId, setSelectedCourseId] = useState<string>("");
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [courseTopics, setCourseTopics] = useState<DetectedSubTopic[]>([]);
+  const [courses] = useState<Course[]>([]);
+  const [courseTopics] = useState<DetectedSubTopic[]>([]);
   const [topicSubTopics, setTopicSubTopics] = useState<DetectedSubTopic[]>([]);
 
   // Tespit edilen konular

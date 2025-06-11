@@ -5,8 +5,6 @@ import { useAuthStore } from "@/store/auth.store";
 import { checkApiAvailability } from "@/services/api.service";
 import { useAuth as useAuthContext } from "@/context/AuthContext";
 
-
-
 export const useAuth = () => {
   console.log("🔑 [useAuth] useAuth hook çağrıldı");
 
@@ -65,8 +63,6 @@ export const useAuth = () => {
         console.error("❌ [useAuth] Login hatası:", error);
 
         // Firebase hata mesajlarını kullanıcı dostu mesajlara çevir
-        const firebaseError = error as { code?: string; message?: string };
-     
         throw error;
       }
     },

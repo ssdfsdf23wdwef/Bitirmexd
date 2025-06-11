@@ -30,62 +30,63 @@ import { FlowCategory } from "@/constants/logging.constants";
 const getLoggerInstance = () => {
   try {
     return LoggerService.getInstance();
-  } catch (error) {
+  } catch {
     // Fallback to console if logger service is not available
     return null;
   }
 };
 
-const logFirebaseInfo = (
-  message: string,
-  context: string = "FirebaseConfig",
-  metadata?: any,
-) => {
-  const logger = getLoggerInstance();
-  if (logger) {
-    logger.info(message, context, undefined, undefined, metadata);
-  } else {
-    console.log(`[INFO] [${context}] ${message}`, metadata || "");
-  }
-};
+// Commented out unused logging functions to fix ESLint warnings
+// const logFirebaseInfo = (
+//   message: string,
+//   context: string = "FirebaseConfig",
+//   metadata?: any,
+// ) => {
+//   const logger = getLoggerInstance();
+//   if (logger) {
+//     logger.info(message, context, undefined, undefined, metadata);
+//   } else {
+//     console.log(`[INFO] [${context}] ${message}`, metadata || "");
+//   }
+// };
 
-const logFirebaseWarn = (
-  message: string,
-  context: string = "FirebaseConfig",
-  metadata?: any,
-) => {
-  const logger = getLoggerInstance();
-  if (logger) {
-    logger.warn(message, context, undefined, undefined, metadata);
-  } else {
-    console.warn(`[WARN] [${context}] ${message}`, metadata || "");
-  }
-};
+// const logFirebaseWarn = (
+//   message: string,
+//   context: string = "FirebaseConfig",
+//   metadata?: any,
+// ) => {
+//   const logger = getLoggerInstance();
+//   if (logger) {
+//     logger.warn(message, context, undefined, undefined, metadata);
+//   } else {
+//     console.warn(`[WARN] [${context}] ${message}`, metadata || "");
+//   }
+// };
 
-const logFirebaseError = (
-  message: string,
-  context: string = "FirebaseConfig",
-  metadata?: any,
-) => {
-  const logger = getLoggerInstance();
-  if (logger) {
-    logger.error(message, context, undefined, undefined, metadata);
-  } else {
-    console.error(`[ERROR] [${context}] ${message}`, metadata || "");
-  }
-};
+// const logFirebaseError = (
+//   message: string,
+//   context: string = "FirebaseConfig",
+//   metadata?: any,
+// ) => {
+//   const logger = getLoggerInstance();
+//   if (logger) {
+//     logger.error(message, context, undefined, undefined, metadata);
+//   } else {
+//     console.error(`[ERROR] [${context}] ${message}`, metadata || "");
+//   }
+// };
 
-const trackFirebaseFlow = (
-  message: string,
-  context: string = "FirebaseConfig",
-) => {
-  const logger = getLoggerInstance();
-  if (logger) {
-    logger.info(`[FLOW] ${message}`, context);
-  } else {
-    console.log(`[FLOW] [${context}] ${message}`);
-  }
-};
+// const trackFirebaseFlow = (
+//   message: string,
+//   context: string = "FirebaseConfig",
+// ) => {
+//   const logger = getLoggerInstance();
+//   if (logger) {
+//     logger.info(`[FLOW] ${message}`, context);
+//   } else {
+//     console.log(`[FLOW] [${context}] ${message}`);
+//   }
+// };
 
 // Firebase yapılandırma nesnesini çevresel değişkenlerden al
 const firebaseConfig = {

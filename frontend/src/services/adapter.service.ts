@@ -315,8 +315,6 @@ class AdapterService {
       }
     }
 
-    // At this point, finalSubTopic is from apiQuestion.subTopicName, apiQuestion.subTopic, apiQuestion.topic, or still effectively empty.
-    // finalNormalizedSubTopic is from apiQuestion.normalizedSubTopicName or apiQuestion.normalizedSubTopic.
 
     const subTopicIsEmpty = isEffectivelyEmpty(finalSubTopic);
     const normalizedSubTopicIsEmpty = isEffectivelyEmpty(
@@ -679,8 +677,20 @@ class AdapterService {
       questions: quiz.questions.map((q) => ({
         id: q.id,
         questionText: q.questionText,
-        options: q.options,
-        correctAnswer: q.correctAnswer,
+        options: Array.isArray(q.options) 
+          ? q.options.map(option => 
+              typeof option === 'string' 
+                ? option 
+                : option && typeof option === 'object' && 'text' in option 
+                  ? option.text 
+                  : String(option)
+            )
+          : [],
+        correctAnswer: typeof q.correctAnswer === 'string' 
+          ? q.correctAnswer 
+          : q.correctAnswer && typeof q.correctAnswer === 'object' && 'text' in q.correctAnswer 
+            ? q.correctAnswer.text 
+            : String(q.correctAnswer),
         explanation: q.explanation || "",
         subTopic: q.subTopicName || q.subTopic, // Ensure these are populated in the Question object
         normalizedSubTopic: q.normalizedSubTopicName || q.normalizedSubTopic, // Ensure these are populated

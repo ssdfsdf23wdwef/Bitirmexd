@@ -100,8 +100,9 @@ class AuthService {
         userData.firstName &&
         userCredential.user.displayName !==
           `${userData.firstName} ${userData.lastName || ""}`.trim()
-      ) 
-      
+      ) {
+        // Update display name if needed
+      }
 
       return loginResponse; // loginWithIdToken yanıtını döndür
     } catch (error: unknown) {
@@ -270,9 +271,7 @@ class AuthService {
             photoURL: profileData.profileImageUrl,
           });
         } catch (firebaseError) {
-          {
-            error: firebaseError;
-          }
+          console.error("Firebase profile update error:", firebaseError);
         }
       }
 
@@ -551,7 +550,6 @@ class AuthService {
     message: string;
   } {
     // FirebaseError tipini kontrol et
-  
 
     return {
       code: "unknown",
@@ -559,7 +557,6 @@ class AuthService {
     };
   }
 
- 
   async refreshToken(): Promise<{ token: string }> {
     try {
       // Timeout'u artırarak bağlantı sorunlarına karşı biraz daha tolerans göster

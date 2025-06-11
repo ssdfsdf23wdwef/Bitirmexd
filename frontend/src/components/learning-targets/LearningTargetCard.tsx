@@ -311,8 +311,8 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = memo(
           <DialogTitle>Öğrenme Hedefini Sil</DialogTitle>
           <DialogContent>
             <Typography variant="body1">
-              &quot;{target.topicName}&quot; öğrenme hedefini silmek istediğinizden emin
-              misiniz?
+              &quot;{target.topicName}&quot; öğrenme hedefini silmek
+              istediğinizden emin misiniz?
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
               Bu işlem geri alınamaz.
@@ -334,6 +334,6 @@ const LearningTargetCard: React.FC<LearningTargetCardProps> = memo(
   },
 );
 
-LearningTargetCard.displayName = 'LearningTargetCard';
+LearningTargetCard.displayName = "LearningTargetCard";
 
 export default LearningTargetCard;

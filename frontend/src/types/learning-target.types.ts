@@ -30,8 +30,6 @@ export interface LearningTarget {
   updatedAt: Date;
 }
 
-
-
 export interface ProposedTopic {
   tempId: string;
   name: string;

@@ -66,7 +66,7 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
 
     // Transform performanceBySubTopic into the format expected by the UI
     const topicPerformance = performanceBySubTopic;
-    
+
     // Extract strong and weak topics from performanceCategorization
     const strongTopics = performanceCategorization?.mastered || [];
     const weakTopics = performanceCategorization?.failed || [];
@@ -111,7 +111,8 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                       <span
                         className={`text-sm font-semibold ${getScoreColor(data.scorePercent)}`}
                       >
-                        %{data.scorePercent} ({data.correctCount}/{data.questionCount})
+                        %{data.scorePercent} ({data.correctCount}/
+                        {data.questionCount})
                       </span>
                     </div>
                     <div className="w-full bg-tertiary rounded-full h-2">
@@ -144,9 +145,12 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                 <div className="pl-4 border-l-2 border-secondary mt-2">
                   {Object.entries(topicPerformance).map(([topic, data]) => (
                     <p key={topic} className="text-xs">
-                      {topic}: {data.questionCount} soru, %{data.scorePercent} başarı (
-                      {data.questionCount} * {data.scorePercent / 100} ={" "}
-                      {((data.questionCount * data.scorePercent) / 100).toFixed(2)})
+                      {topic}: {data.questionCount} soru, %{data.scorePercent}{" "}
+                      başarı ({data.questionCount} * {data.scorePercent / 100} ={" "}
+                      {((data.questionCount * data.scorePercent) / 100).toFixed(
+                        2,
+                      )}
+                      )
                     </p>
                   ))}
                   <p className="text-xs font-semibold mt-1">
@@ -183,7 +187,9 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                       <div key={difficulty}>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-sm font-medium text-primary">
-                            {difficultyTranslation[difficulty as keyof typeof difficultyTranslation] || difficulty}
+                            {difficultyTranslation[
+                              difficulty as keyof typeof difficultyTranslation
+                            ] || difficulty}
                           </span>
                           <span
                             className={`text-sm font-semibold ${getScoreColor(data.score)}`}

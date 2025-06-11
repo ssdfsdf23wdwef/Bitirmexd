@@ -1,189 +1,185 @@
 # AI Model Yanıtı
 
-Tarih: 2025-06-10T17:53:40.827Z
-Trace ID: quiz-1749578003103-f7e96
-Yanıt Uzunluğu: 9844 karakter
+Tarih: 2025-06-11T09:40:52.338Z
+Trace ID: quiz-1749634837723-9bxd6
+Yanıt Uzunluğu: 8113 karakter
 
 ## Ham Çıktı:
-
-````json
+```json
 ```json
 {
   "questions": [
     {
       "id": "q1",
-      "questionText": "Konteynerizasyonun temel amacı nedir?",
+      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın temel faydalarından biridir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Uygulamaları sanal makinelerde çalıştırmak",
-        "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
-        "İşletim sistemini güncellemek",
-        "Donanım kaynaklarını yönetmek"
+        "Donanım maliyetlerini artırmak",
+        "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
+        "Sadece tek bir işletim sistemini çalıştırmak",
+        "Sanal makineleri ortadan kaldırmak"
       ],
-      "correctAnswer": "Uygulama kodunu, ihtiyaç duyduğu tüm dosya ve kütüphanelerle bir araya getirerek herhangi bir altyapıda çalıştırmak",
-      "explanation": "Konteynerizasyon, bir uygulamanın kodunu, çalışması için gereken tüm bağımlılıklarla birlikte paketleyerek farklı altyapılarda tutarlı bir şekilde çalışmasını sağlamayı amaçlar. Diğer seçenekler konteynerizasyonun temel amacı değildir.",
-      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
-      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_i_şlevi",
+      "correctAnswer": "Gerçek bilgisayar donanımının daha verimli kullanılmasını sağlamak",
+      "explanation": "Sanallaştırma, gerçek bilgisayar donanımının daha verimli kullanılmasını sağlayan bir tekniktir. Bu, donanım kaynaklarının daha iyi kullanılmasını ve maliyetlerin düşürülmesini sağlar. Diğer seçenekler sanallaştırmanın faydaları arasında yer almaz.",
+      "subTopicName": "Sanallaştırma Temelleri",
+      "normalizedSubTopicName": "sanallastirma_temelleri",
       "difficulty": "easy"
     },
     {
       "id": "q2",
-      "questionText": "Aşağıdakilerden hangisi konteynerleştirmenin temel özelliklerinden biri değildir?",
+      "questionText": "Sanallaştırma teknolojisi temel olarak neyi amaçlar?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Uygulamaların tüm bileşenlerinin tek bir imajda toplanması",
-        "Aynı işletim sistemi üzerinde izole edilmiş kullanıcı alanında çalıştırılabilmesi",
-        "Farklı işletim sistemleri arasında uyumsuzluk yaratması",
-        "İşletim sistemi düzeyinde sanallaştırma sağlaması"
+        "Fiziksel sunucuların sayısını azaltmayı",
+        "Tek bir fiziksel sunucuyu birden çok sanal sunucuya bölerek kaynak kullanımını optimize etmeyi",
+        "Sanal makinelerin performansını düşürmeyi",
+        "İşletim sistemlerini uyumsuz hale getirmeyi"
       ],
-      "correctAnswer": "Farklı işletim sistemleri arasında uyumsuzluk yaratması",
-      "explanation": "Konteynerleştirme, uygulamaların farklı işletim sistemlerinde uyumlu bir şekilde çalışmasını sağlar, uyumsuzluk yaratmaz. Diğer seçenekler konteynerleştirmenin temel özelliklerindendir.",
-      "subTopicName": "Konteynerizasyonun Tanımı Ve İ Şlevi",
-      "normalizedSubTopicName": "konteynerizasyonun_tanımı_ve_i_şlevi",
+      "correctAnswer": "Tek bir fiziksel sunucuyu birden çok sanal sunucuya bölerek kaynak kullanımını optimize etmeyi",
+      "explanation": "Sanallaştırma, tek bir fiziksel sunucunun kaynaklarını (işlemci, bellek, depolama vb.) birden çok sanal makine arasında paylaştırarak kaynak kullanımını optimize etmeyi amaçlar. Bu, daha verimli bir altyapı yönetimi sağlar.",
+      "subTopicName": "Sanallaştırma Temelleri",
+      "normalizedSubTopicName": "sanallastirma_temelleri",
       "difficulty": "medium"
     },
     {
       "id": "q3",
-      "questionText": "Konteynerleştirme sürecinde uygulama ve bağımlılık paketleme ne anlama gelir?",
+      "questionText": "Sanallaştırma ne anlama gelir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Uygulamanın sadece kaynak kodunun paketlenmesi",
-        "Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi",
-        "Uygulamanın sadece işletim sistemi ile paketlenmesi",
-        "Uygulamanın sadece kullanıcı arayüzünün paketlenmesi"
+        "Bilgisayar donanımını fiziksel olarak değiştirmek",
+        "Bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak",
+        "Yazılımı donanım olmadan çalıştırmak",
+        "Tek bir işletim sistemi kullanmak"
       ],
-      "correctAnswer": "Uygulamanın çalışması için gerekli olan tüm kütüphanelerin, framework'lerin ve diğer bağımlılıkların uygulama ile birlikte paketlenmesi",
-      "explanation": "Uygulama ve bağımlılık paketleme, bir uygulamanın çalışması için ihtiyaç duyduğu her şeyin (kütüphaneler, framework'ler vb.) uygulama ile birlikte bir konteyner içinde toplanması anlamına gelir. Bu, uygulamanın farklı ortamlarda tutarlı bir şekilde çalışmasını sağlar.",
-      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
-      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
+      "correctAnswer": "Bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak",
+      "explanation": "Sanallaştırma, bilgisayar donanımı üzerinde bir soyutlama katmanı oluşturmak için yazılımı kullanır. Bu, donanımın daha verimli kullanılmasını sağlar.",
+      "subTopicName": "Sanallaştırma Tanımı",
+      "normalizedSubTopicName": "sanallastirma_tanimi",
       "difficulty": "easy"
     },
     {
       "id": "q4",
-      "questionText": "Konteyner imajı oluşturulurken hangi bileşenler bir araya getirilir?",
+      "questionText": "Aşağıdakilerden hangisi sanallaştırmanın temel özelliklerinden biri değildir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
+      "cognitiveDomain": "understanding",
       "options": [
-        "Sadece uygulama kodları",
-        "Sadece işletim sistemi",
-        "Uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı",
-        "Sadece donanım sürücüleri"
+        "Kaynakların dinamik olarak tahsis edilebilmesi",
+        "Donanım bağımlılığının ortadan kalkması",
+        "İşletim sistemleri arasında uyumsuzluk yaratması",
+        "Maliyetlerin düşürülmesi"
       ],
-      "correctAnswer": "Uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı",
-      "explanation": "Konteyner imajı, uygulamanın çalışması için gerekli olan her şeyi içerir: uygulama kodları, kütüphaneler, bağımlılıklar ve çalışma zamanı ortamı. Bu sayede konteyner, farklı ortamlarda tutarlı bir şekilde çalışabilir.",
-      "subTopicName": "Uygulama Ve Bağımlılık Paketleme",
-      "normalizedSubTopicName": "uygulama_ve_bağımlılık_paketleme",
+      "correctAnswer": "İşletim sistemleri arasında uyumsuzluk yaratması",
+      "explanation": "Sanallaştırma, farklı işletim sistemlerinin aynı donanım üzerinde çalışabilmesini sağlayarak uyumsuzluğu ortadan kaldırır, uyumsuzluk yaratmaz. Diğer seçenekler sanallaştırmanın temel özelliklerindendir.",
+      "subTopicName": "Sanallaştırma Tanımı",
+      "normalizedSubTopicName": "sanallastirma_tanimi",
       "difficulty": "medium"
     },
     {
       "id": "q5",
-      "questionText": "Konteynerlerin izole ortamda çalıştırılması ne gibi avantajlar sağlar?",
+      "questionText": "Sanal makine (VM) temel olarak nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Diğer uygulamalarla kaynak paylaşımını kolaylaştırır",
-        "Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır",
-        "İşletim sistemi güncellemelerini hızlandırır",
-        "Donanım maliyetlerini artırır"
+        "Fiziksel bir sunucu",
+        "Tek bir fiziksel sunucu içindeki ayrı bir sanal bilgisayar",
+        "Bir hypervisor türü",
+        "Bir işletim sistemi"
       ],
-      "correctAnswer": "Uygulamaların birbirini etkilemesini engeller ve güvenliği artırır",
-      "explanation": "İzole ortamda çalıştırma, konteynerlerin birbirlerinden bağımsız çalışmasını sağlar. Bu, bir konteynerdeki bir sorunun diğer konteynerleri etkilemesini önler ve genel sistem güvenliğini artırır.",
-      "subTopicName": "İ Zole Ortamda Çalıştırma",
-      "normalizedSubTopicName": "i_zole_ortamda_çalıştırma",
-      "difficulty": "medium"
-    },
-    {
-      "id": "q6",
-      "questionText": "Konteynerlerin izole edilmiş kullanıcı alanında çalıştırılması hangi tür sanallaştırma yöntemidir?",
-      "questionType": "multiple_choice",
-      "cognitiveDomain": "remembering",
-      "options": [
-        "Donanım düzeyinde sanallaştırma",
-        "İşletim sistemi düzeyinde sanallaştırma",
-        "Uygulama düzeyinde sanallaştırma",
-        "Ağ düzeyinde sanallaştırma"
-      ],
-      "correctAnswer": "İşletim sistemi düzeyinde sanallaştırma",
-      "explanation": "Konteynerler, işletim sistemi düzeyinde sanallaştırma kullanarak izole edilmiş kullanıcı alanlarında çalışır. Bu, her konteynerin kendi kaynaklarına sahip olmasını ve diğer konteynerlerden etkilenmemesini sağlar.",
-      "subTopicName": "İ Zole Ortamda Çalıştırma",
-      "normalizedSubTopicName": "i_zole_ortamda_çalıştırma",
+      "correctAnswer": "Tek bir fiziksel sunucu içindeki ayrı bir sanal bilgisayar",
+      "explanation": "Sanal makineler (VM'ler), tek bir fiziksel sunucu içindeki ayrı sanal bilgisayarlar olarak hareket eder. Bu VM'ler, fiziksel sunucunun kaynaklarını paylaşır.",
+      "subTopicName": "Sanal Makine Vm Kavramı",
+      "normalizedSubTopicName": "sanal_makine_vm_kavrami",
       "difficulty": "easy"
     },
     {
+      "id": "q6",
+      "questionText": "Sanal makineler (VM'ler) hangi yazılımı kullanarak fiziksel sunucunun kaynaklarını paylaşır ve tahsis eder?",
+      "questionType": "multiple_choice",
+      "cognitiveDomain": "remembering",
+      "options": [
+        "İşletim sistemi",
+        "Hypervisor",
+        "Donanım sürücüsü",
+        "Uygulama yazılımı"
+      ],
+      "correctAnswer": "Hypervisor",
+      "explanation": "Sanal makineler (VM'ler), fiziksel sunucunun kaynaklarını paylaşmak ve tahsis etmek için hypervisor adı verilen yazılımı kullanır. Hypervisor, kaynakların VM'ler arasında verimli bir şekilde yönetilmesini sağlar.",
+      "subTopicName": "Sanal Makine Vm Kavramı",
+      "normalizedSubTopicName": "sanal_makine_vm_kavrami",
+      "difficulty": "medium"
+    },
+    {
       "id": "q7",
-      "questionText": "Konteynerlerin taşınabilirliği ve uyumluluğu ne anlama gelir?",
+      "questionText": "Hypervisor'ün temel görevi nedir?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sadece aynı işletim sisteminde çalışabilme",
-        "Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme",
-        "Sadece bulut ortamında çalışabilme",
-        "Sadece geliştirme ortamında çalışabilme"
+        "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
+        "Fiziksel donanımı doğrudan yönetmek",
+        "Uygulama yazılımlarını çalıştırmak",
+        "İşletim sistemini güncellemek"
       ],
-      "correctAnswer": "Farklı işletim sistemleri ve altyapılar arasında kolayca taşınabilme ve çalışabilme",
-      "explanation": "Konteynerlerin taşınabilirliği ve uyumluluğu, bir konteynerin farklı işletim sistemleri (Linux, Windows, macOS) ve altyapılar (bulut, şirket içi) arasında kolayca taşınabilmesi ve çalışabilmesi anlamına gelir. Bu, geliştirme, test ve dağıtım süreçlerini büyük ölçüde kolaylaştırır.",
-      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
-      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
+      "correctAnswer": "Sanal makineleri (VM'ler) oluşturmak ve çalıştırmak",
+      "explanation": "Hypervisor, sanal makineleri (VM'ler) oluşturan ve çalıştıran bir yazılımdır. VM'lerin oluşturulmasını ve yönetilmesini sağlar.",
+      "subTopicName": "Hypervisorün Rolü",
+      "normalizedSubTopicName": "hypervisorun_rolu",
       "difficulty": "easy"
     },
     {
       "id": "q8",
-      "questionText": "Konteynerlerin hangi özelliği, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda kolayca dağıtmalarını ve çalıştırmalarını sağlar?",
+      "questionText": "Hypervisor tarafından yönetilen fiziksel donanıma ne ad verilir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Yüksek maliyetli olması",
-        "İşletim sistemine bağımlı olması",
-        "Taşınabilir olması",
-        "Karmaşık bir yapıya sahip olması"
+        "Guest",
+        "Host",
+        "Pool",
+        "Kernel"
       ],
-      "correctAnswer": "Taşınabilir olması",
-      "explanation": "Konteynerlerin taşınabilir olması, geliştiricilerin ve operatörlerin uygulamaları farklı ortamlarda kolayca dağıtmalarını ve çalıştırmalarını sağlayan temel bir özelliktir. İşletim sisteminden bağımsız olarak çalışabilmeleri sayesinde, uygulamalar farklı altyapılarda sorunsuz bir şekilde çalışabilir.",
-      "subTopicName": "Taşınabilirlik Ve Uyumluluk",
-      "normalizedSubTopicName": "taşınabilirlik_ve_uyumluluk",
+      "correctAnswer": "Host",
+      "explanation": "Hypervisor yüklü fiziksel donanıma host adı verilir. Guest ise bunun üzerindeki sanal makinelere verilen isimdir.",
+      "subTopicName": "Hypervisorün Rolü",
+      "normalizedSubTopicName": "hypervisorun_rolu",
       "difficulty": "medium"
     },
     {
       "id": "q9",
-      "questionText": "Konteynerlerin hız ve verimlilik avantajları nelerdir?",
+      "questionText": "Tip-1 hypervisor'ler için aşağıdaki ifadelerden hangisi doğrudur?",
       "questionType": "multiple_choice",
       "cognitiveDomain": "understanding",
       "options": [
-        "Sanal makinelere göre daha yavaş başlatılmaları ve daha fazla kaynak tüketmeleri",
-        "Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri",
-        "Sadece belirli donanımlarda verimli çalışabilmeleri",
-        "Geliştirme süreçlerini yavaşlatmaları"
+        "Geleneksel işletim sistemleri üzerinde çalışır.",
+        "Doğrudan donanım üzerinde çalışır.",
+        "Kişisel bilgisayarlarda daha yaygındır.",
+        "VMware Workstation bir örnektir."
       ],
-      "correctAnswer": "Sanal makinelere göre daha hızlı başlatılmaları ve daha az kaynak tüketmeleri",
-      "explanation": "Konteynerler, sanal makinelere göre daha hızlı başlatılır ve daha az kaynak tüketir. Bu, uygulamaların daha hızlı bir şekilde geliştirilmesine, test edilmesine ve dağıtılmasına yardımcı olur. Ayrıca, daha az sunucu ve altyapı ile daha fazla uygulama çalıştırabileceğiniz anlamına gelir.",
-      "subTopicName": "Hız Ve Verimlilik",
-      "normalizedSubTopicName": "hız_ve_verimlilik",
-      "difficulty": "easy"
+      "correctAnswer": "Doğrudan donanım üzerinde çalışır.",
+      "explanation": "Tip-1 hypervisor'ler (bare metal), doğrudan donanım üzerinde çalışır ve guest işletim sistemlerini yönetir. Bu tür hypervisor'ler daha çok kurumsal veri merkezlerinde kullanılır.",
+      "subTopicName": "Tip 1 Hypervisor Bare Metal",
+      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "difficulty": "medium"
     },
     {
       "id": "q10",
-      "questionText": "Konteynerler, işletim sistemi kaynaklarını sanal makinelere (VM'ler) göre nasıl kullanır?",
+      "questionText": "Aşağıdakilerden hangisi Tip-1 hypervisor örneğidir?",
       "questionType": "multiple_choice",
-      "cognitiveDomain": "understanding",
+      "cognitiveDomain": "remembering",
       "options": [
-        "Daha az verimli bir şekilde",
-        "Aynı verimlilikte",
-        "Daha verimli bir şekilde",
-        "Hiç kullanmazlar"
+        "VMware Workstation",
+        "Oracle VirtualBox",
+        "KVM",
+        "VMware Player"
       ],
-      "correctAnswer": "Daha verimli bir şekilde",
-      "explanation": "Konteynerler, işletim sistemi kaynaklarını VM'lerden daha verimli bir şekilde kullanır. Bu sayede, aynı donanım üzerinde daha fazla konteyner çalıştırılabilir, bu da maliyet tasarrufu ve daha iyi kaynak kullanımı sağlar.",
-      "subTopicName": "Hız Ve Verimlilik",
-      "normalizedSubTopicName": "hız_ve_verimlilik",
-      "difficulty": "medium"
+      "correctAnswer": "KVM",
+      "explanation": "KVM (Kernel-based Virtual Machine), Microsoft Hyper-V ve VMware vSphere Tip-1 hypervisor örnekleridir. VMware Workstation ve Oracle VirtualBox ise Tip-2 hypervisor örnekleridir.",
+      "subTopicName": "Tip 1 Hypervisor Bare Metal",
+      "normalizedSubTopicName": "tip_1_hypervisor_bare_metal",
+      "difficulty": "easy"
     }
   ]
 }
-````
-
 ```
-
 ```

@@ -77,7 +77,7 @@ export default function DocumentFlow({
         );
 
         // Belgeyi yükle ve konuları tespit et
-        const startTime = performance.now();
+        // const startTime = performance.now(); // Unused variable
 
         const result = await documentService.uploadAndDetectTopics(
           file,

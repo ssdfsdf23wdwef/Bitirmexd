@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   CircularProgress,
-  Grid,
   Chip,
   Select,
   MenuItem,
@@ -11,11 +10,9 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useLearningTargetsStore } from "../../store/useLearningTargetsStore";
-import {
-  LearningTarget,
-  LearningTargetStatus,
-} from "../../types/learning-target.types";
+import { LearningTargetStatus } from "../../types/learning-target.types";
 import LearningTargetCard from "./LearningTargetCard";
+// Removed unused import: LearningTarget
 
 interface LearningTargetListProps {
   courseId?: string;
@@ -74,8 +71,8 @@ const LearningTargetList: React.FC<LearningTargetListProps> = ({
           Henüz öğrenme hedefi bulunmuyor.
         </Typography>
         <Typography variant="body2" color="textSecondary" mt={1}>
-          Yeni bir öğrenme hedefi eklemek için &quot;Yeni Hedef Ekle&quot; butonuna
-          tıklayın.
+          Yeni bir öğrenme hedefi eklemek için &quot;Yeni Hedef Ekle&quot;
+          butonuna tıklayın.
         </Typography>
       </Box>
     );
@@ -161,26 +158,30 @@ const LearningTargetList: React.FC<LearningTargetListProps> = ({
                       }
                     />
                   </Box>
-                  <Grid container spacing={2}>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+                    gap: '16px' 
+                  }}>
                     {statusTargets.map((target) => (
-                      <Grid xs={12} sm={6} md={4} key={target.id}>
-                        <LearningTargetCard target={target} />
-                      </Grid>
+                      <LearningTargetCard key={target.id} target={target} />
                     ))}
-                  </Grid>
+                  </div>
                 </Box>
               ),
           )}
         </>
       ) : (
         // Display flat list when filtered
-        <Grid container spacing={2}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+          gap: '16px' 
+        }}>
           {filteredTargets.map((target) => (
-            <Grid item xs={12} sm={6} md={4} key={target.id}>
-              <LearningTargetCard target={target} />
-            </Grid>
+            <LearningTargetCard key={target.id} target={target} />
           ))}
-        </Grid>
+        </div>
       )}
     </Box>
   );

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiBarChart2, FiPieChart, FiArrowLeft } from "react-icons/fi";
-import MainLayout from "@/components/layout/MainLayout";
 import LearningStatusBadge from "@/components/ui/LearningStatusBadge";
 import { Pie, Bar } from "react-chartjs-2";
 import {

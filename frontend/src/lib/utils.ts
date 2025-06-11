@@ -1,8 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-
-
 export const setAuthCookie = (token: string, days: number = 7): void => {
   if (typeof window === "undefined") return; // Server tarafında çalışmayı engelle
 
@@ -66,10 +64,6 @@ export const removeAuthCookie = (): void => {
  * @param minRemainingMinutes En az kaç dakika kalan süre olması gerektiği
  * @returns Token'ın yenilenmesi gerekiyorsa true
  */
-
-
-
-
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

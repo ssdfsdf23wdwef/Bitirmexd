@@ -954,7 +954,7 @@ export class FlowTrackerService {
     }
   }
 
-  private writeQueuedLogsToLocalFile(): void {
+  private async writeQueuedLogsToLocalFile(): Promise<void> {
     if (!this.configWriteToLocalFile || this.apiQueue.length === 0) {
       return;
     }
@@ -963,26 +963,82 @@ export class FlowTrackerService {
       const logsToWrite = [...this.apiQueue];
       this.apiQueue = []; // Kuyruğu temizle
 
-      // Her log adımını localStorage'a kaydet
-      for (const step of logsToWrite) {
-        this.saveToLocalStorage(step);
-      }
+      // Frontend logs API endpoint'ine gönder
+      await this.sendLogsToBackend(logsToWrite);
 
       if (this.logger) {
         this.logger.debug(
-          `FlowTrackerService: ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`,
+          `FlowTrackerService: ${logsToWrite.length} flow log başarıyla dosyaya kaydedildi.`,
           "FlowTrackerService.writeQueuedLogsToLocalFile",
         );
       } else {
         console.debug(
-          `[FlowTrackerService] ${logsToWrite.length} flow log başarıyla localStorage\'a kaydedildi.`,
+          `[FlowTrackerService] ${logsToWrite.length} flow log başarıyla dosyaya kaydedildi.`,
         );
       }
     } catch (error) {
       console.error(
-        "[FlowTrackerService] Flow loglar localStorage'a kaydedilirken hata oluştu:",
+        "[FlowTrackerService] Flow loglar dosyaya kaydedilirken hata oluştu:",
         error,
       );
+    }
+  }
+
+  /**
+   * Logları backend API'sine gönderir (dosyaya yazılması için)
+   */
+  private async sendLogsToBackend(logs: FlowStep[]): Promise<void> {
+    try {
+      // Logları kategorilere göre grupla
+      const categorizedLogs: Record<string, any[]> = {};
+      
+      for (const log of logs) {
+        const category = log.category.toLowerCase();
+        
+        if (!categorizedLogs[category]) {
+          categorizedLogs[category] = [];
+        }
+        
+        // Log formatını API'nin beklediği formata çevir
+        const formattedLog = {
+          level: 'info',
+          message: log.message,
+          context: log.context,
+          timestamp: new Date(log.timestamp).toISOString(),
+          details: log.metadata || {},
+          metadata: {
+            flowCategory: log.category,
+            flowId: log.id,
+            timing: log.timing
+          }
+        };
+        
+        categorizedLogs[category].push(formattedLog);
+      }
+
+      // Backend API'sine gönder
+      const response = await fetch('/api/logs/frontend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ logs: categorizedLogs }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('[FlowTrackerService] Loglar başarıyla dosyaya kaydedildi:', result);
+      
+    } catch (error) {
+      // API hatası durumunda localStorage'a kaydet
+      console.warn('[FlowTrackerService] API hatası, localStorage\'a kaydediliyor:', error);
+      
+      for (const step of logs) {
+        this.saveToLocalStorage(step);
+      }
     }
   }
 }

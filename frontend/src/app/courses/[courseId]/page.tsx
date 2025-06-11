@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   FiFileText,
@@ -17,17 +17,14 @@ import {
   FiSearch,
   FiFilter,
   FiChevronDown,
-  FiChevronUp,
   FiChevronRight,
-  FiFolder,
 } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import courseService from "@/services/course.service";
 import learningTargetService from "@/services/learningTarget.service";
 import type { Course } from "@/types/course.type";
 import { LearningTarget } from "@/types/learningTarget.type";
-import Spinner from "@/components/ui/Spinner";
 import { useTheme } from "@/context/ThemeProvider";
 
 interface CourseDetailPageProps {
@@ -151,15 +148,16 @@ const classifyMainTopic = (description: string): string => {
   return "Genel Konular";
 };
 
-interface GroupedTargets {
-  [key: string]: LearningTarget[];
-}
+// Commented out unused interfaces
+// interface GroupedTargets {
+//   [key: string]: LearningTarget[];
+// }
 
-interface TopicGroup {
-  name: string;
-  targets: LearningTarget[];
-  expanded: boolean;
-}
+// interface TopicGroup {
+//   name: string;
+//   targets: LearningTarget[];
+//   expanded: boolean;
+// }
 
 export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const { courseId } = React.use(params);
@@ -254,7 +252,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
     ) {
       setExpandedGroups(new Set(Object.keys(filteredGroupedTargets)));
     }
-  }, [filteredGroupedTargets]);
+  }, [filteredGroupedTargets, expandedGroups.size]);
 
   // Durum sayılarını hesapla
   const statusCounts = (learningTargets || []).reduce(

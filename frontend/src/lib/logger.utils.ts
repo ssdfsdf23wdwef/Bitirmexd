@@ -41,7 +41,6 @@ export function mapToTrackerCategory(
   }
 }
 
-
 /**
  * Logger servisini kurar
  * @param options Logger servisi opsiyonları
@@ -173,22 +172,30 @@ export function getLogger(): any | null {
       if (typeof window === "undefined") {
         // Server-side: create a mock logger that just console logs
         loggerInstance = {
-         
+          info: (
+            _msg: string,
+            _ctx: string,
+            _file?: string,
+            _line?: string,
+            _meta?: any,
+          ) => {
+            // Silent in SSR to avoid noise
+          },
           warn: (
-            msg: string,
-            ctx: string,
-            file?: string,
-            line?: string,
-            meta?: any,
+            _msg: string,
+            _ctx: string,
+            _file?: string,
+            _line?: string,
+            _meta?: any,
           ) => {
             // Silent in SSR to avoid noise
           },
           error: (
-            msg: string,
-            ctx: string,
-            file?: string,
-            line?: string,
-            meta?: any,
+            _msg: string,
+            _ctx: string,
+            _file?: string,
+            _line?: string,
+            _meta?: any,
           ) => {
             // Silent in SSR to avoid noise
           },

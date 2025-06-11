@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   BarChart3,
   CheckCircle,
@@ -15,7 +15,6 @@ import {
   Home,
   FileText,
   Star,
-  Award,
   BookOpen,
   Brain,
   Clock,
@@ -24,7 +23,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeProvider";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 // Shimmer animation styles
@@ -137,8 +136,7 @@ export default function ExamResultsPage() {
     return String(val).trim().toLocaleLowerCase("tr");
   }
   const params = useParams();
-  const router = useRouter();
-  const { theme, setTheme, isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme();
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   // ... diğer state ve ref'ler
 
@@ -178,39 +176,40 @@ export default function ExamResultsPage() {
   }, [quizResult]);
 
   // Backend'den çekilen veri için loading ve error state
-  const [backendLoading, setBackendLoading] = useState(false);
-  const [backendError, setBackendError] = useState<string | null>(null);
+  // Commented out unused variables
+  // const [backendLoading, setBackendLoading] = useState(false);
+  // const [backendError, setBackendError] = useState<string | null>(null);
 
   // Backend'den sınav sonucu çekme fonksiyonu
-  const fetchBackendExamResult = async (quizId: string) => {
-    setBackendLoading(true);
-    setBackendError(null);
-    try {
-      const backendResult = await fetchExamResultFromBackend(quizId);
-      if (!backendResult) throw new Error("Sonuç bulunamadı");
-      // questions dizisine userAnswer ve isCorrect ekle
-      const processedQuestions = backendResult.questions.map((q: any) => ({
-        ...q,
-        userAnswer: backendResult.userAnswers?.[q.id] ?? null,
-        isCorrect: backendResult.userAnswers?.[q.id] === q.correctAnswer,
-      }));
-      setQuizResult({
-        ...backendResult,
-        questions: processedQuestions,
-      });
-      dataLoadedRef.current = true;
-      setLoading(false);
-    } catch (err: any) {
-      setBackendError(
-        "Sonuçlar backend'den alınamadı: " +
-          (err?.message || "Bilinmeyen hata"),
-      );
-      setLoading(false);
-      dataLoadedRef.current = true;
-    } finally {
-      setBackendLoading(false);
-    }
-  };
+  // const fetchBackendExamResult = async (quizId: string) => {
+  //   setBackendLoading(true);
+  //   setBackendError(null);
+  //   try {
+  //     const backendResult = await fetchExamResultFromBackend(quizId);
+  //     if (!backendResult) throw new Error("Sonuç bulunamadı");
+  //     // questions dizisine userAnswer ve isCorrect ekle
+  //     const processedQuestions = backendResult.questions.map((q: any) => ({
+  //       ...q,
+  //       userAnswer: backendResult.userAnswers?.[q.id] ?? null,
+  //       isCorrect: backendResult.userAnswers?.[q.id] === q.correctAnswer,
+  //     }));
+  //     setQuizResult({
+  //       ...backendResult,
+  //       questions: processedQuestions,
+  //     });
+  //     dataLoadedRef.current = true;
+  //     setLoading(false);
+  //   } catch (err: any) {
+  //     setBackendError(
+  //       "Sonuçlar backend'den alınamadı: " +
+  //         (err?.message || "Bilinmeyen hata"),
+  //     );
+  //     setLoading(false);
+  //     dataLoadedRef.current = true;
+  //   } finally {
+  //     setBackendLoading(false);
+  //   }
+  // };
 
   const [loading, setLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
@@ -513,7 +512,7 @@ export default function ExamResultsPage() {
     return () => {
       isMounted = false;
     };
-  }, [params.id, calculateResults]); // Bağımlılıklar sadeleştirildi
+  }, [params, calculateResults, dataError, loading, quizResult]); // Bağımlılıklar sadeleştirildi
 
   // localStorage'dan veriyi silmek için ayrı bir effect
   useEffect(() => {
@@ -530,9 +529,10 @@ export default function ExamResultsPage() {
     );
   }, [quizResult, params.id]); // Bağımlılıklar sadeleştirildi
 
-  const toggleTheme = () => {
-    setTheme(isDarkMode ? "light" : "dark");
-  };
+  // Removed unused toggleTheme function
+  // const toggleTheme = () => {
+  //   setTheme(isDarkMode ? "light" : "dark");
+  // };
 
   if (dataError) {
     return (

@@ -32,7 +32,6 @@ export interface SubTopicItem {
 
 type Topics = Record<string, MainTopic>;
 
-
 export interface Quiz {
   id: string;
   title: string;
@@ -173,8 +172,6 @@ export interface QuizGenerationOptions {
   };
 }
 
-
-
 /**
  * Quiz gönderim payload'u
  */
@@ -207,6 +204,8 @@ export interface QuizSubmissionResponse {
   correctCount: number;
   totalQuestions: number;
   elapsedTime?: number;
+  quiz?: Quiz; // Backend'den dönen quiz nesnesi
+  analysis?: AnalysisResult; // Backend'den dönen analiz sonucu
 }
 
 /**
@@ -216,16 +215,22 @@ export interface QuizAnalysisResponse {
   quizId: string;
   recommendedTopics: string[];
   overallScore: number;
-  performanceBySubTopic: Record<string, {
-    scorePercent: number;
-    status: "pending" | "failed" | "medium" | "mastered";
-    questionCount: number;
-    correctCount: number;
-  }>;
-  performanceByDifficulty: Record<string, {
-    count: number;
-    correct: number;
-    score: number;
-  }>;
+  performanceBySubTopic: Record<
+    string,
+    {
+      scorePercent: number;
+      status: "pending" | "failed" | "medium" | "mastered";
+      questionCount: number;
+      correctCount: number;
+    }
+  >;
+  performanceByDifficulty: Record<
+    string,
+    {
+      count: number;
+      correct: number;
+      score: number;
+    }
+  >;
   uniqueSubTopics: string[];
 }

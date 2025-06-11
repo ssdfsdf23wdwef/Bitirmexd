@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import apiService from "@/services/api.service";
 import {
   LearningTarget,
@@ -6,6 +6,7 @@ import {
   BatchCreateLearningTargetsRequest,
   LearningTargetStatusLiteral,
 } from "@/types/learningTarget.type";
+// Removed unused imports: useMutation, useQueryClient
 
 // Api endpoint'leri
 const API_ENDPOINTS = {
@@ -97,11 +98,5 @@ export const useLearningTargets = (courseId?: string) => {
     staleTime: 5 * 60 * 1000, // 5 dakika
   });
 };
-
-
-
-
-
-
 
 // eslint-disable-next-line import/no-anonymous-default-export

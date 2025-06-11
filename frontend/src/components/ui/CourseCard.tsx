@@ -56,7 +56,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           : "bg-gradient-to-br from-white via-blue-50/20 to-indigo-50/30 border border-gray-200/60 hover:border-blue-400/70 shadow-md hover:shadow-lg hover:shadow-blue-300/30"
       } backdrop-blur-sm hover:-translate-y-1`}
       variant="default"
-      hover="none"
+      hover={false}
       padding="md"
       onClick={handleDetail}
     >

@@ -70,7 +70,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isAuthenticated, isInitializing: isAuthInitializing } = useAuth();
-  const { isDarkMode, theme } = useTheme();
+  const { isDarkMode } = useTheme();
   const [showExamCreationWizard, setShowExamCreationWizard] = useState(false);
   const [currentQuizType, setCurrentQuizType] = useState<
     "quick" | "personalized"

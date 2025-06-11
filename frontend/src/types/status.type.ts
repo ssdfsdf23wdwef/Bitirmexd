@@ -1,8 +1,6 @@
-
 import React from "react"; // Eklendi
 
 export type CourseStatus = "basarılı" | "orta" | "başarısız" | "beklemede"; // Eklendi
-
 
 // Eklendi
 export interface CourseStatusInfo {
@@ -13,4 +11,3 @@ export interface CourseStatusInfo {
   icon: React.ReactNode;
   description: string;
 }
-

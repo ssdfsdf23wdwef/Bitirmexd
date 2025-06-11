@@ -8,7 +8,6 @@
  */
 type UserRole = "user" | "admin" | "teacher" | "student";
 
-
 export interface User {
   id: string;
   email: string;

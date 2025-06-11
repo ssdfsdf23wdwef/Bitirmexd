@@ -51,7 +51,6 @@ export const borderRadius = {
   full: "9999px", // Fully rounded
 } as const;
 
-
 // Responsive breakpoints optimized for modern devices
 export const breakpoints = {
   xs: "0px", // Mobile first
@@ -196,5 +195,3 @@ export const easing = {
   "ease-smooth": "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
   "ease-snappy": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
 } as const;
-
-

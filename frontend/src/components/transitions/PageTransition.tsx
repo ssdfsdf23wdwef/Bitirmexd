@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ReactNode, useMemo } from "react";
+// Removed unused import: AnimatePresence
 
 interface PageTransitionProps {
   children: ReactNode;

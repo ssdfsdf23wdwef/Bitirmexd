@@ -7,7 +7,6 @@ import { ToastProvider } from "../context/ToastContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
-import dynamic from "next/dynamic";
 import {
   setupLogging,
   setupGlobalErrorHandling,
@@ -16,6 +15,7 @@ import {
 import { FlowCategory } from "@/constants/logging.constants";
 
 // Initialize logging only on client side
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let logger: any = null;
 if (typeof window !== "undefined") {
   const isProd = process.env.NODE_ENV === "production";

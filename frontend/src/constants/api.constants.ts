@@ -1,5 +1,3 @@
-
-
 const API_ENDPOINTS = {
   QUIZZES: "/quizzes",
   FAILED_QUESTIONS: "/failed-questions",

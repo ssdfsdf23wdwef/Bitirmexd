@@ -136,41 +136,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     }
   }, [mounted, defaultTheme]);
 
-  // Determine and apply the current effective theme mode
-  useEffect(() => {
-    if (!mounted) return;
-
-    const updateCurrentMode = () => {
-      let effectiveMode: ThemeMode;
-
-      if (theme.mode === "system") {
-        effectiveMode = getSystemTheme();
-      } else {
-        effectiveMode = theme.mode;
-      }
-
-      setCurrentMode(effectiveMode);
-      setIsDarkMode(effectiveMode === "dark");
-      applyThemeToDOM(effectiveMode);
-    };
-
-    updateCurrentMode();
-
-    // Listen for system theme changes
-    if (theme.mode === "system") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      const handleSystemThemeChange = () => {
-        if (theme.mode === "system") {
-          updateCurrentMode();
-        }
-      };
-
-      mediaQuery.addEventListener("change", handleSystemThemeChange);
-      return () =>
-        mediaQuery.removeEventListener("change", handleSystemThemeChange);
-    }
-  }, [theme.mode, mounted]);
-
   // Apply theme and accessibility preferences to DOM
   const applyThemeToDOM = useCallback(
     (effectiveMode: ThemeMode) => {
@@ -233,14 +198,43 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         console.warn("Failed to save theme preferences:", error);
       }
     },
-    [
-      theme,
-      theme.fontSize,
-      theme.reducedMotion,
-      theme.highContrast,
-      storageKey,
-    ],
+    [theme, storageKey],
   );
+
+  // Determine and apply the current effective theme mode
+  useEffect(() => {
+    if (!mounted) return;
+
+    const updateCurrentMode = () => {
+      let effectiveMode: ThemeMode;
+
+      if (theme.mode === "system") {
+        effectiveMode = getSystemTheme();
+      } else {
+        effectiveMode = theme.mode;
+      }
+
+      setCurrentMode(effectiveMode);
+      setIsDarkMode(effectiveMode === "dark");
+      applyThemeToDOM(effectiveMode);
+    };
+
+    updateCurrentMode();
+
+    // Listen for system theme changes
+    if (theme.mode === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleSystemThemeChange = () => {
+        if (theme.mode === "system") {
+          updateCurrentMode();
+        }
+      };
+
+      mediaQuery.addEventListener("change", handleSystemThemeChange);
+      return () =>
+        mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    }
+  }, [theme.mode, mounted, applyThemeToDOM]);
 
   // Save preferences to localStorage
   const savePreferences = useCallback(

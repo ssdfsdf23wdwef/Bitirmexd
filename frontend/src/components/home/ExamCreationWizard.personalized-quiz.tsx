@@ -28,7 +28,7 @@ import {
 } from "@/types";
 import { toast } from "react-hot-toast";
 import quizService from "@/services/quiz.service";
-import authService from "@/services/auth.service";
+// Removed unused import: authService
 import { useAuth } from "@/hooks/auth/useAuth";
 import { SubTopicItem as SubTopic } from "@/types/quiz.type"; // Updated import
 import { LearningTarget } from "@/types/learningTarget.type";
@@ -81,7 +81,7 @@ export default function ExamCreationWizard({
   const searchParams = useSearchParams();
 
   // Authentication state
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { isLoading: authLoading } = useAuth();
   const { isDarkMode } = useTheme();
   // Adım yönetimi
   const [currentStep, setCurrentStep] = useState(1);

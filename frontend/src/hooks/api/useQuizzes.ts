@@ -136,4 +136,3 @@ function useFailedQuestions(courseId?: string) {
     refetchOnWindowFocus: false,
   });
 }
-

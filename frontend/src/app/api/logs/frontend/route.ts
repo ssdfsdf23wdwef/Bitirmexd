@@ -8,6 +8,19 @@ import {
   FlowCategory,
 } from "@/constants/logging.constants";
 
+// Log entry interface
+interface LogEntry {
+  level?: string;
+  message?: string;
+  context?: string;
+  timestamp?: string;
+  details?: any;
+  metadata?: {
+    flowCategory?: string;
+    [key: string]: any;
+  };
+}
+
 // Log dosyasının yolu
 const LOG_DIR = path.join(process.cwd(), "logs");
 
@@ -33,7 +46,7 @@ export async function POST(req: NextRequest) {
     const logs = Array.isArray(logData) ? logData : [logData];
 
     // Kategorilere göre logları grupla
-    const categorizedLogs: Record<LogFileCategory, any[]> = {
+    const categorizedLogs: Record<LogFileCategory, LogEntry[]> = {
       [LogFileCategory.LEARNING_TARGETS]: [],
       [LogFileCategory.EXAM_CREATION]: [],
       [LogFileCategory.AUTH]: [],
@@ -48,23 +61,26 @@ export async function POST(req: NextRequest) {
         continue;
       }
 
+      // Type assertion for log as LogEntry
+      const logEntry = log as LogEntry;
+
       // Flow kategorisini string'den enum'a dönüştür
       let flowCategory: FlowCategory | undefined;
       if (
-        log.metadata?.flowCategory &&
-        typeof log.metadata.flowCategory === "string"
+        logEntry.metadata?.flowCategory &&
+        typeof logEntry.metadata.flowCategory === "string"
       ) {
-        flowCategory = log.metadata.flowCategory as FlowCategory;
+        flowCategory = logEntry.metadata.flowCategory as FlowCategory;
       }
 
       // Hangi kategoriye ait olduğunu belirle
       const fileCategory = determineLogFileCategory(
-        log.context,
+        logEntry.context,
         flowCategory,
-        log.message,
+        logEntry.message,
       );
 
-      categorizedLogs[fileCategory].push(log);
+      categorizedLogs[fileCategory].push(logEntry);
     }
 
     let totalProcessed = 0;

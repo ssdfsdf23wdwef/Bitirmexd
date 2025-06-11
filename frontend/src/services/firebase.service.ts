@@ -4,7 +4,6 @@ import {
   getDoc,
   getDocs,
   addDoc,
-  updateDoc,
   deleteDoc,
   query,
   where,
@@ -15,22 +14,24 @@ import {
   Query, // Query tipini içe aktarın
   FirestoreError,
 } from "firebase/firestore";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-  sendPasswordResetEmail,
-  User,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  Auth,
-  IdTokenResult,
-  AuthError,
-} from "firebase/auth";
+// Removed unused auth imports
+// import {
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   signOut,
+//   updateProfile,
+//   sendPasswordResetEmail,
+//   User,
+//   onAuthStateChanged,
+//   GoogleAuthProvider,
+//   signInWithPopup,
+//   Auth,
+//   IdTokenResult,
+//   AuthError,
+// } from "firebase/auth";
 
-import { db, auth } from "../app/firebase/config";
+import { db } from "../app/firebase/config";
+// Removed unused auth import
 
 // Firestore koşul tipi
 interface FirestoreCondition {
@@ -38,7 +39,6 @@ interface FirestoreCondition {
   operator: "==" | ">" | "<" | ">=" | "<=";
   value: string | number | boolean | Date | null;
 }
-
 
 // Firestore veri servisi
 export const firestoreService = {
@@ -62,7 +62,6 @@ export const firestoreService = {
       throw fbError;
     }
   },
-
 
   // Belge silme
   deleteDocument: async (

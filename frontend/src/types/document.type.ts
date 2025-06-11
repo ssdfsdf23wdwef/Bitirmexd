@@ -24,7 +24,6 @@ export interface DocumentType
   extractedText?: string;
 }
 
-
 /**
  * Belge yükleme sınırlamaları (Backend ile uyumlu)
  */
@@ -40,4 +39,3 @@ export const DOCUMENT_UPLOAD_CONSTRAINTS = {
   ],
   maxSizeFormatted: "10MB",
 };
-

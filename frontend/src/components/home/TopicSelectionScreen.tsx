@@ -116,10 +116,8 @@ export default function TopicSelectionScreen({
   quizType,
   personalizedQuizType = "comprehensive",
   isLoading = false,
-  error,
   onTopicsSelected,
   onCourseChange,
-  onCancel,
   initialSelectedTopicIds,
   onTopicSelectionChange = () => {},
   onInitialLoad = true,
@@ -480,9 +478,9 @@ export default function TopicSelectionScreen({
               <p
                 className={`text-sm ${isDarkMode ? "text-slate-400" : "text-gray-600"}`}
               >
-                Kişiselleştirilmiş sınav yerine &quot;Hızlı Sınav&quot; seçeneğini veya
-                mevcut konularınız varsa &quot;Zayıf Konular&quot; odaklı modu
-                deneyebilirsiniz.
+                Kişiselleştirilmiş sınav yerine &quot;Hızlı Sınav&quot;
+                seçeneğini veya mevcut konularınız varsa &quot;Zayıf
+                Konular&quot; odaklı modu deneyebilirsiniz.
               </p>
             </div>
           </div>
