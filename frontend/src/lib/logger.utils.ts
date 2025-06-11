@@ -41,16 +41,6 @@ export function mapToTrackerCategory(
   }
 }
 
-/**
- * Dosya adını yoldan çıkarır
- * @param filePath Dosya yolu
- * @returns Dosya adı
- */
-function extractFileName(filePath: string): string {
-  if (!filePath) return "unknown";
-  const parts = filePath.split(/[\/\\]/);
-  return parts[parts.length - 1];
-}
 
 /**
  * Logger servisini kurar
@@ -183,15 +173,7 @@ export function getLogger(): any | null {
       if (typeof window === "undefined") {
         // Server-side: create a mock logger that just console logs
         loggerInstance = {
-          info: (
-            msg: string,
-            ctx: string,
-            file?: string,
-            line?: string,
-            meta?: any,
-          ) => {
-            // Silent in SSR to avoid noise
-          },
+         
           warn: (
             msg: string,
             ctx: string,

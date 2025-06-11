@@ -26,7 +26,7 @@ import {
 } from "@/types/quiz.type";
 import quizService from "@/services/quiz.service";
 import { ErrorService } from "@/services/error.service";
-import { Tooltip, Button } from "@nextui-org/react"; // Added Button
+import { Tooltip, Button } from "@nextui-org/react";
 import learningTargetService from "@/services/learningTarget.service";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLearningTargetsStore } from "@/store/useLearningTargetsStore";
@@ -1869,7 +1869,11 @@ export default function ExamPage() {
                       <span
                         className={`font-normal ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
                       >
-                        {userAnswer || "Boş bırakıldı"}
+                        {typeof userAnswer === "object" &&
+                        userAnswer !== null &&
+                        "text" in userAnswer
+                          ? userAnswer.text
+                          : userAnswer || "Boş bırakıldı"}
                       </span>
                     </p>
                   </div>{" "}
@@ -1884,12 +1888,11 @@ export default function ExamPage() {
                         <span
                           className={`font-normal ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
                         >
-                          {
-                          typeof question.correctAnswer === "object" &&
+                          {typeof question.correctAnswer === "object" &&
                           question.correctAnswer !== null &&
                           "text" in question.correctAnswer
                             ? question.correctAnswer.text
-                            : question.correctAnswer}
+                            : String(question.correctAnswer)}
                         </span>                      
                       </p>
                     </div>

@@ -98,91 +98,10 @@ export const useLearningTargets = (courseId?: string) => {
   });
 };
 
-// Mutation hook'ları
-const useDetectTopics = () => {
-  return useMutation({
-    mutationFn: (request: TopicDetectionRequest) =>
-      learningTargetService.detectTopics(request),
-  });
-};
 
-const useCreateBatchLearningTargets = () => {
-  const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (request: BatchCreateLearningTargetsRequest) =>
-      learningTargetService.createBatchLearningTargets(request),
-    onSuccess: (_data, variables) => {
-      // Cache'i invalidate et
-      queryClient.invalidateQueries({
-        queryKey: ["learningTargets", "course", variables.courseId],
-      });
-    },
-  });
-};
 
-const useUpdateLearningTarget = () => {
-  const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<LearningTarget> }) =>
-      learningTargetService.updateLearningTarget(id, data),
-    onSuccess: (updatedTarget) => {
-      // Güncellenen veriyi cache'te güncelle
-      queryClient.setQueryData(
-        ["learningTargets", (updatedTarget as LearningTarget).id],
-        updatedTarget,
-      );
 
-      // Dersin hedeflerini de invalidate et
-      queryClient.invalidateQueries({
-        queryKey: [
-          "learningTargets",
-          "course",
-          (updatedTarget as LearningTarget).courseId,
-        ],
-      });
-    },
-  });
-};
-
-const useUpdateLearningTargetStatuses = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (
-      targetUpdates: Array<{
-        id: string;
-        status: LearningTargetStatusLiteral;
-        lastAttemptScorePercent: number;
-      }>,
-    ) => learningTargetService.updateStatuses(targetUpdates),
-    onSuccess: () => {
-      // Tüm hedef cache'lerini invalidate et
-      queryClient.invalidateQueries({
-        queryKey: ["learningTargets"],
-      });
-    },
-  });
-};
-
-const useDeleteLearningTarget = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (id: string) => learningTargetService.deleteLearningTarget(id),
-    onSuccess: (_data, id) => {
-      // Cache'den kaldır
-      queryClient.removeQueries({
-        queryKey: ["learningTargets", id],
-      });
-
-      // Tüm hedef listelerini invalidate et
-      queryClient.invalidateQueries({
-        queryKey: ["learningTargets"],
-      });
-    },
-  });
-};
 
 // eslint-disable-next-line import/no-anonymous-default-export

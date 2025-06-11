@@ -32,10 +32,6 @@ export interface SubTopicItem {
 
 type Topics = Record<string, MainTopic>;
 
-interface DocumentTopics {
-  topics: Topics;
-  source: "documentId" | "file" | "text" | "course"; // Added course
-}
 
 export interface Quiz {
   id: string;
@@ -177,15 +173,7 @@ export interface QuizGenerationOptions {
   };
 }
 
-/**
- * Quiz sonuçları
- */
-interface QuizResult {
-  id: string;
-  score: number;
-  correctCount: number;
-  totalQuestions: number;
-}
+
 
 /**
  * Quiz gönderim payload'u
@@ -207,4 +195,37 @@ export interface QuizResponseDto {
   createdAt: string;
   updatedAt: string;
   // Diğer backend yanıt alanları
+}
+
+/**
+ * Quiz submission response interface
+ */
+export interface QuizSubmissionResponse {
+  id: string;
+  score: number;
+  submittedAt: string;
+  correctCount: number;
+  totalQuestions: number;
+  elapsedTime?: number;
+}
+
+/**
+ * Quiz analysis response interface
+ */
+export interface QuizAnalysisResponse {
+  quizId: string;
+  recommendedTopics: string[];
+  overallScore: number;
+  performanceBySubTopic: Record<string, {
+    scorePercent: number;
+    status: "pending" | "failed" | "medium" | "mastered";
+    questionCount: number;
+    correctCount: number;
+  }>;
+  performanceByDifficulty: Record<string, {
+    count: number;
+    correct: number;
+    score: number;
+  }>;
+  uniqueSubTopics: string[];
 }

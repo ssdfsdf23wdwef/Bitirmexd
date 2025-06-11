@@ -80,8 +80,8 @@ export default function DocumentUploader({
 
         setUploadStatus("success");
         if (onFileUpload) {
-          // Dosya URL'sini yanıttan al
-          const fileUrl = response.document.storageUrl || "";
+          // Dosya URL'sini yanıttan al - response direkt DocumentType tipinde
+          const fileUrl = response.storageUrl || "";
           onFileUpload(file, fileUrl);
         }
       } catch (error) {

@@ -85,9 +85,6 @@ const FLOW_TO_FILE_CATEGORY: Record<FlowCategory, LogFileCategory> = {
   [FlowCategory.Custom]: LogFileCategory.GENERAL,
 };
 
-const LOG_LEVEL =
-  process.env.NEXT_PUBLIC_LOG_LEVEL ||
-  (process.env.NODE_ENV === "development" ? "debug" : "info");
 
 /**
  * Context ve flow kategorisine göre hangi dosyaya yazılacağını belirler

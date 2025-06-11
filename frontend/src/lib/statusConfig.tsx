@@ -1,70 +1,13 @@
 import React from "react";
-import {
-  FiCheckCircle,
-  FiAlertCircle,
-  FiClock,
-  FiTarget,
-} from "react-icons/fi";
+
 import { LearningTargetStatus } from "../types/learningTarget.type";
 import { CheckCircle, Clock, XCircle, AlertCircle } from "lucide-react";
 import { CourseStatus, CourseStatusInfo } from "../types/status.type"; // Güncellendi
 
-// Durum bilgileri için sabit tanımlamalar
-const STATUS_INFO: Record<CourseStatus, CourseStatusInfo> = {
-  başarılı: {
-    label: "başarılı",
-    color: "text-state-success",
-    bgColor: "bg-state-success-bg",
-    borderColor: "border-state-success-border",
-    icon: <FiCheckCircle className="text-state-success" />,
-    description: "Hedeflere ulaşıldı",
-  },
-  orta: {
-    label: "orta",
-    color: "text-state-warning",
-    bgColor: "bg-state-warning-bg",
-    borderColor: "border-state-warning-border",
-    icon: <FiClock className="text-state-warning" />,
-    description: "Gelişim devam ediyor",
-  },
-  başarısız: {
-    label: "başarısız",
-    color: "text-state-error",
-    bgColor: "bg-state-error-bg",
-    borderColor: "border-state-error-border",
-    icon: <FiAlertCircle className="text-state-error" />,
-    description: "İyileştirme gerekli",
-  },
-  beklemede: {
-    label: "beklemede",
-    color: "text-state-info",
-    bgColor: "bg-state-info-bg",
-    borderColor: "border-state-info-border",
-    icon: <FiTarget className="text-state-info" />,
-    description: "Henüz başlanmadı",
-  },
-};
 
-// Durum rengine göre ilerleme çubuğu rengi döndürür
-const getStatusProgressColor = (
-  status: CourseStatus,
-): "default" | "success" | "warning" | "danger" => {
-  switch (status) {
-    case "başarılı":
-      return "success";
-    case "orta":
-      return "warning";
-    case "başarısız":
-      return "danger";
-    default:
-      return "default";
-  }
-};
 
-/**
- * Öğrenme Hedefi durumlarına karşılık gelen stil ve görsel bilgileri
- * @see PRD 4.5.2 ve 4.7.1
- */
+
+
 const statusConfig: Record<LearningTargetStatus, CourseStatusInfo> = {
   // StatusInfo -> CourseStatusInfo olarak güncellendi
   pending: {

@@ -96,7 +96,6 @@ const LoggerPanel: React.FC<LoggerPanelProps> = ({
   // Log verilerini yenile
   const refreshData = useCallback(() => {
     setLogEntries(logger.getLogHistory());
-    setFlowSteps(flowTracker.getSteps());
   }, [logger, flowTracker]);
 
   // Component mount olduğunda verileri yükle

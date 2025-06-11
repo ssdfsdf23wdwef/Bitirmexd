@@ -100,14 +100,8 @@ class AuthService {
         userData.firstName &&
         userCredential.user.displayName !==
           `${userData.firstName} ${userData.lastName || ""}`.trim()
-      ) {
-        try {
-          await firebaseUpdateProfile(userCredential.user, {
-            displayName:
-              `${userData.firstName} ${userData.lastName || ""}`.trim(),
-          });
-        } catch (profileError) {}
-      }
+      ) 
+      
 
       return loginResponse; // loginWithIdToken yanıtını döndür
     } catch (error: unknown) {
@@ -557,12 +551,7 @@ class AuthService {
     message: string;
   } {
     // FirebaseError tipini kontrol et
-    if (error instanceof FirebaseError) {
-      return {
-        code: error.code,
-        message: this.getFirebaseErrorMessage(error.code),
-      };
-    }
+  
 
     return {
       code: "unknown",
@@ -570,38 +559,7 @@ class AuthService {
     };
   }
 
-  private getFirebaseErrorMessage(code: string): string {
-    switch (code) {
-      case "auth/invalid-email":
-        return "Geçersiz e-posta formatı. Lütfen geçerli bir e-posta adresi girin.";
-      case "auth/user-disabled":
-        return "Bu kullanıcı hesabı devre dışı bırakılmış. Lütfen destek ekibimizle iletişime geçin.";
-      case "auth/user-not-found":
-        return "Bu e-posta adresine sahip bir kullanıcı bulunamadı. Lütfen kayıt olun.";
-      case "auth/wrong-password":
-        return "Hatalı şifre. Lütfen şifrenizi kontrol edin ve tekrar deneyin.";
-      case "auth/email-already-in-use":
-        return "Bu e-posta adresi zaten kullanımda. Lütfen farklı bir e-posta adresi deneyin.";
-      case "auth/weak-password":
-        return "Güvenli olmayan şifre. Şifreniz en az 6 karakterden oluşmalıdır.";
-      case "auth/operation-not-allowed":
-        return "Bu işlem şu anda devre dışı bırakılmış. Lütfen destek ekibimizle iletişime geçin.";
-      case "auth/too-many-requests":
-        return "Çok fazla başarısız giriş denemesi. Lütfen daha sonra tekrar deneyin veya şifrenizi sıfırlayın.";
-      case "auth/network-request-failed":
-        return "Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.";
-      case "auth/invalid-credential":
-      case "auth/invalid-login-credentials":
-        return "E-posta adresi veya şifre hatalı. Lütfen tekrar deneyin.";
-      case "auth/missing-password":
-        return "Şifre girilmedi. Lütfen şifrenizi girin.";
-      case "auth/popup-closed-by-user":
-        return "Giriş penceresi kullanıcı tarafından kapatıldı. Lütfen tekrar deneyin.";
-      default:
-        return `Bir kimlik doğrulama hatası oluştu: ${code}`;
-    }
-  }
-
+ 
   async refreshToken(): Promise<{ token: string }> {
     try {
       // Timeout'u artırarak bağlantı sorunlarına karşı biraz daha tolerans göster

@@ -58,12 +58,19 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
 
     const {
       overallScore,
-      topicPerformance,
+      performanceBySubTopic,
       performanceByDifficulty,
-      weakTopics,
-      strongTopics,
-      recommendedFocus,
+      performanceCategorization,
+      recommendations,
     } = analysisResult;
+
+    // Transform performanceBySubTopic into the format expected by the UI
+    const topicPerformance = performanceBySubTopic;
+    
+    // Extract strong and weak topics from performanceCategorization
+    const strongTopics = performanceCategorization?.mastered || [];
+    const weakTopics = performanceCategorization?.failed || [];
+    const recommendedFocus = recommendations || [];
 
     return (
       <div className="space-y-6">
@@ -102,22 +109,22 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                         {topic}
                       </span>
                       <span
-                        className={`text-sm font-semibold ${getScoreColor(data.percentage)}`}
+                        className={`text-sm font-semibold ${getScoreColor(data.scorePercent)}`}
                       >
-                        %{data.percentage} ({data.correct}/{data.total})
+                        %{data.scorePercent} ({data.correctCount}/{data.questionCount})
                       </span>
                     </div>
                     <div className="w-full bg-tertiary rounded-full h-2">
                       {" "}
                       <div
                         className={`h-2 rounded-full ${
-                          data.percentage >= 80
+                          data.scorePercent >= 80
                             ? "bg-state-success"
-                            : data.percentage >= 60
+                            : data.scorePercent >= 60
                               ? "bg-state-warning"
                               : "bg-state-error"
                         }`}
-                        style={{ width: `${data.percentage}%` }}
+                        style={{ width: `${data.scorePercent}%` }}
                       ></div>
                     </div>
                   </div>
@@ -137,9 +144,9 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                 <div className="pl-4 border-l-2 border-secondary mt-2">
                   {Object.entries(topicPerformance).map(([topic, data]) => (
                     <p key={topic} className="text-xs">
-                      {topic}: {data.total} soru, %{data.percentage} başarı (
-                      {data.total} * {data.percentage / 100} ={" "}
-                      {((data.total * data.percentage) / 100).toFixed(2)})
+                      {topic}: {data.questionCount} soru, %{data.scorePercent} başarı (
+                      {data.questionCount} * {data.scorePercent / 100} ={" "}
+                      {((data.questionCount * data.scorePercent) / 100).toFixed(2)})
                     </p>
                   ))}
                   <p className="text-xs font-semibold mt-1">
@@ -147,13 +154,13 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
                     {Object.values(topicPerformance)
                       .reduce(
                         (acc, data) =>
-                          acc + (data.total * data.percentage) / 100,
+                          acc + (data.questionCount * data.scorePercent) / 100,
                         0,
                       )
                       .toFixed(2)}{" "}
                     /{" "}
                     {Object.values(topicPerformance).reduce(
-                      (acc, data) => acc + data.total,
+                      (acc, data) => acc + data.questionCount,
                       0,
                     )}
                     )
@@ -172,28 +179,28 @@ const QuizAnalysis: React.FC<QuizAnalysisProps> = memo(
 
                 <div className="space-y-4">
                   {Object.entries(performanceByDifficulty).map(
-                    ([difficulty, percentage]) => (
+                    ([difficulty, data]) => (
                       <div key={difficulty}>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-sm font-medium text-primary">
-                            {difficultyTranslation[difficulty]}
+                            {difficultyTranslation[difficulty as keyof typeof difficultyTranslation] || difficulty}
                           </span>
                           <span
-                            className={`text-sm font-semibold ${getScoreColor(percentage)}`}
+                            className={`text-sm font-semibold ${getScoreColor(data.score)}`}
                           >
-                            %{percentage}
+                            %{data.score}
                           </span>
                         </div>
                         <div className="w-full bg-tertiary rounded-full h-2">
                           <div
                             className={`h-2 rounded-full ${
-                              percentage >= 80
+                              data.score >= 80
                                 ? "bg-state-success"
-                                : percentage >= 60
+                                : data.score >= 60
                                   ? "bg-state-warning"
                                   : "bg-state-error"
                             }`}
-                            style={{ width: `${percentage}%` }}
+                            style={{ width: `${data.score}%` }}
                           ></div>
                         </div>
                       </div>

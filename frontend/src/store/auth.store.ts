@@ -6,8 +6,6 @@ import type { User } from "@/types/user.type";
 import { User as FirebaseUser } from "firebase/auth";
 import { getLogger, getFlowTracker } from "@/lib/logger.utils";
 import { FlowCategory } from "../services/flow-tracker.service";
-import type { LoggerService } from "../services/logger.service";
-import type { FlowTrackerService } from "../services/flow-tracker.service";
 // AuthState tipini dışa aktarıyoruz, böylece diğer dosyalardan kullanılabilir
 export interface AuthState {
   user: User | null;
@@ -25,8 +23,8 @@ export interface AuthState {
 }
 
 // Logger ve flowTracker nesnelerini lazy-load et (SSR safe)
-let logger: LoggerService | null = null;
-let flowTracker: FlowTrackerService | null = null;
+let logger: any = null;
+let flowTracker: any = null;
 
 function getLoggerInstance() {
   if (!logger) {
@@ -204,7 +202,6 @@ export const useAuthStore = create<AuthState>()(
 );
 
 // İsteğe bağlı: Tip güvenli selektörleri koru
-const useAuthLoading = () => useAuthStore((state) => state.isLoading);
 
 // İki ayrı selector kullanarak sonsuz döngü sorununu çözüyoruz
 export const useAuthIsAuthenticated = () =>
@@ -212,4 +209,3 @@ export const useAuthIsAuthenticated = () =>
 export const useAuthIsLoading = () => useAuthStore((state) => state.isLoading);
 
 export const useAuthUser = () => useAuthStore((state) => state.user);
-const useLogoutUserAction = () => useAuthStore((state) => state.logoutUser);

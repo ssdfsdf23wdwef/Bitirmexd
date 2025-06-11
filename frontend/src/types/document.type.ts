@@ -24,13 +24,6 @@ export interface DocumentType
   extractedText?: string;
 }
 
-/**
- * Yeni belge yükleme için gerekli alanlar (Backend'in beklediği formata uygun)
- */
-interface DocumentUploadPayload {
-  file: File;
-  courseId?: string;
-}
 
 /**
  * Belge yükleme sınırlamaları (Backend ile uyumlu)
@@ -48,14 +41,3 @@ export const DOCUMENT_UPLOAD_CONSTRAINTS = {
   maxSizeFormatted: "10MB",
 };
 
-/**
- * Belge ekleme cevabı
- */
-interface DocumentUploadResponse {
-  id: string;
-  fileName: string;
-  fileType: string;
-  fileSize: number;
-  createdAt: string;
-  extractedText: string;
-}

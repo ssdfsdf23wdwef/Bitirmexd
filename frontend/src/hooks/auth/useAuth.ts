@@ -5,39 +5,7 @@ import { useAuthStore } from "@/store/auth.store";
 import { checkApiAvailability } from "@/services/api.service";
 import { useAuth as useAuthContext } from "@/context/AuthContext";
 
-// Firebase hata kodlarını kullanıcı dostu mesajlara çeviren yardımcı fonksiyon
-const getFirebaseErrorMessage = (errorCode: string): string => {
-  switch (errorCode) {
-    case "auth/invalid-credential":
-      return "Geçersiz email veya şifre.";
-    case "auth/user-not-found":
-      return "Bu email adresiyle kayıtlı bir kullanıcı bulunamadı.";
-    case "auth/wrong-password":
-      return "Hatalı şifre girdiniz.";
-    case "auth/too-many-requests":
-      return "Çok fazla başarısız giriş denemesi. Lütfen daha sonra tekrar deneyin.";
-    case "auth/email-already-in-use":
-      return "Bu email adresi zaten kullanılıyor.";
-    case "auth/missing-password":
-      return "Şifre alanı boş bırakılamaz.";
-    case "auth/weak-password":
-      return "Şifre en az 6 karakter uzunluğunda olmalıdır.";
-    case "auth/invalid-email":
-      return "Geçersiz email adresi.";
-    case "auth/network-request-failed":
-      return "Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.";
-    case "auth/requires-recent-login":
-      return "Bu işlem için yakın zamanda giriş yapmanız gerekiyor.";
-    case "auth/popup-closed-by-user":
-      return "Oturum açma penceresi kapatıldı. Lütfen tekrar deneyin.";
-    case "auth/unauthorized-domain":
-      return "Bu domain için oturum açma izni bulunmuyor.";
-    case "auth/operation-not-allowed":
-      return "Bu işlem şu anda izin verilmiyor.";
-    default:
-      return "Bir hata oluştu. Lütfen tekrar deneyin.";
-  }
-};
+
 
 export const useAuth = () => {
   console.log("🔑 [useAuth] useAuth hook çağrıldı");
@@ -98,12 +66,7 @@ export const useAuth = () => {
 
         // Firebase hata mesajlarını kullanıcı dostu mesajlara çevir
         const firebaseError = error as { code?: string; message?: string };
-        const errorMessage = firebaseError.code
-          ? getFirebaseErrorMessage(firebaseError.code)
-          : "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.";
-
-        setAuthError(errorMessage);
-        ErrorService.logError(error, errorMessage);
+     
         throw error;
       }
     },

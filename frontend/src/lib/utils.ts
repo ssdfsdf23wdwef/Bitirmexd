@@ -1,19 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-const formatDate = (dateString: string, locale: string = "tr-TR"): string => {
-  return new Date(dateString).toLocaleDateString(locale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
 
-/**
- * Firebase auth token için cookie ve localStorage ayarlar
- * @param token Firebase ID Token
- * @param days Cookie geçerlilik süresi (gün)
- */
+
 export const setAuthCookie = (token: string, days: number = 7): void => {
   if (typeof window === "undefined") return; // Server tarafında çalışmayı engelle
 
@@ -77,70 +66,11 @@ export const removeAuthCookie = (): void => {
  * @param minRemainingMinutes En az kaç dakika kalan süre olması gerektiği
  * @returns Token'ın yenilenmesi gerekiyorsa true
  */
-const shouldRefreshToken = (minRemainingMinutes: number = 10): boolean => {
-  if (typeof window === "undefined") return false;
 
-  try {
-    const tokenTimestamp = localStorage.getItem("token_timestamp");
-    if (!tokenTimestamp) return true;
 
-    const tokenAge = Date.now() - parseInt(tokenTimestamp);
-    // Firebase tokenları 1 saat (60 dakika) geçerli
-    // Verilen süre kadar önce yenileme yap
-    const expiryBuffer = minRemainingMinutes * 60 * 1000;
-    const refreshThreshold = 60 * 60 * 1000 - expiryBuffer;
 
-    return tokenAge > refreshThreshold;
-  } catch (error) {
-    console.error("🔴 Token yenileme kontrolünde hata:", error);
-    return true; // Hata durumunda token'ı yenile
-  }
-};
 
-const getAverageSuccess = <T extends { lastAttemptScorePercent?: number }>(
-  items: T[],
-): number | null => {
-  const valid = items.filter(
-    (item) => typeof item.lastAttemptScorePercent === "number",
-  );
-  if (valid.length === 0) return null;
-  const avg =
-    valid.reduce((acc, item) => acc + (item.lastAttemptScorePercent || 0), 0) /
-    valid.length;
-  return Math.round(avg);
-};
 
-const truncateText = (text: string, maxLength: number = 100): string => {
-  if (!text || text.length <= maxLength) return text || "";
-  return text.substring(0, maxLength) + "...";
-};
-
-const getDifficultyValue = (level: "kolay" | "orta" | "zor"): number => {
-  switch (level) {
-    case "kolay":
-      return 1;
-    case "orta":
-      return 2;
-    case "zor":
-      return 3;
-    default:
-      return 2;
-  }
-};
-
-const generateUniqueId = (): string => {
-  return (
-    "id-" +
-    Math.random().toString(36).substring(2, 9) +
-    "-" +
-    Date.now().toString(36)
-  );
-};
-
-/**
- * CSS sınıflarını birleştirmek için yardımcı fonksiyon
- * clsx ve tailwind-merge kullanarak sınıfları birleştirir
- */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

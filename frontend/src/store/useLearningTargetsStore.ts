@@ -3,7 +3,6 @@ import {
   LearningTarget,
   LearningTargetStatus,
 } from "../types/learning-target.types";
-import { ProposedTopic } from "@/types/learning-target.types";
 // Temporary learning target type for quiz processing
 interface TemporaryLearningTarget {
   topic: string;

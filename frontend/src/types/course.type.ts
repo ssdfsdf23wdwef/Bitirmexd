@@ -59,17 +59,3 @@ export interface CourseDashboard {
     score: number;
   }>;
 }
-
-/**
- * Derse ilişkin tüm öğeler
- */
-interface CourseRelatedItems {
-  documents: DocumentType[];
-  learningTargets: LearningTarget[];
-  quizzes: Quiz[];
-}
-
-/**
- * Ders durumunu temsil eden tip (PRD'de belirtildiği gibi)
- */
-type CourseProgressStatus = "notStarted" | "inProgress" | "completed";

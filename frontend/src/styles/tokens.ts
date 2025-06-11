@@ -51,22 +51,6 @@ export const borderRadius = {
   full: "9999px", // Fully rounded
 } as const;
 
-// Z-index scale
-const zIndex = {
-  hide: -1,
-  auto: "auto",
-  base: 0,
-  docked: 10,
-  dropdown: 1000,
-  sticky: 1100,
-  banner: 1200,
-  overlay: 1300,
-  modal: 1400,
-  popover: 1500,
-  skipLink: 1600,
-  toast: 1700,
-  tooltip: 1800,
-} as const;
 
 // Responsive breakpoints optimized for modern devices
 export const breakpoints = {
@@ -213,14 +197,4 @@ export const easing = {
   "ease-snappy": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
 } as const;
 
-type Spacing = keyof typeof spacing;
-type BorderRadius = keyof typeof borderRadius;
-type ZIndex = keyof typeof zIndex;
-type Breakpoint = keyof typeof breakpoints;
-type Duration = keyof typeof duration;
-type Easing = keyof typeof easing;
-type ButtonSize = keyof typeof sizes.button;
-type InputSize = keyof typeof sizes.input;
-type AvatarSize = keyof typeof sizes.avatar;
-type IconSize = keyof typeof sizes.icon;
-type ContainerSize = keyof typeof sizes.container;
+

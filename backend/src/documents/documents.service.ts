@@ -49,7 +49,7 @@ export class DocumentsService {
 
       // Çıkarılan metni normalize et
       const normalizedText =
-        this.documentProcessingService.normalizeText(extractedText);
+    extractedText;
 
       this.logger.debug(
         `Metin çıkarma başarılı (${normalizedText.length} karakter)`,

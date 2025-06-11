@@ -163,7 +163,7 @@ const LearningTargetList: React.FC<LearningTargetListProps> = ({
                   </Box>
                   <Grid container spacing={2}>
                     {statusTargets.map((target) => (
-                      <Grid item xs={12} sm={6} md={4} key={target.id}>
+                      <Grid xs={12} sm={6} md={4} key={target.id}>
                         <LearningTargetCard target={target} />
                       </Grid>
                     ))}

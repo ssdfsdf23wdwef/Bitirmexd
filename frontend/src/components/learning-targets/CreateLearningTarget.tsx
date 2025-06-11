@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Alert,
+  SelectChangeEvent,
 } from "@mui/material";
 import { LearningTargetStatus } from "../../types/learning-target.types";
 import { useLearningTargetsStore } from "../../store/useLearningTargetsStore";
@@ -44,7 +45,7 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name, value } = e.target;
     setFormData({
@@ -56,6 +57,15 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
     if (name === "topicName" && errors.topicName) {
       setErrors({ ...errors, topicName: undefined });
     }
+  };
+
+  const handleSelectChange = (
+    event: SelectChangeEvent<LearningTargetStatus>,
+  ) => {
+    setFormData({
+      ...formData,
+      status: event.target.value as LearningTargetStatus,
+    });
   };
 
   const validateForm = (): boolean => {
@@ -144,7 +154,7 @@ const CreateLearningTarget: React.FC<CreateLearningTargetProps> = ({
                 name="status"
                 value={formData.status}
                 label="Durum"
-                onChange={handleChange}
+                onChange={handleSelectChange}
               >
                 <MenuItem value={LearningTargetStatus.NOT_STARTED}>
                   Başlanmadı

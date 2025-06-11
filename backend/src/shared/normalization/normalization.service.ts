@@ -212,57 +212,7 @@ export class NormalizationService {
     };
   }
 
-  /**
-   * Metin içeriğini normalleştirir
-   * @param text Normalleştirilecek metin
-   * @returns Normalleştirilmiş metin
-   */
-  @LogMethod({ trackParams: true, trackResult: true })
-  normalizeText(text: string): string {
-    this.flowTracker.trackStep(
-      'Metin normalleştiriliyor',
-      'NormalizationService',
-    );
-
-    if (!text) {
-      this.logger.warn(
-        'Boş metin normalleştirme isteği',
-        'NormalizationService.normalizeText',
-        __filename,
-        35,
-      );
-      return '';
-    }
-
-    try {
-      // Boşlukları temizle
-      let normalized = text.trim();
-
-      // Ardışık boşlukları tek boşluğa indir
-      normalized = normalized.replace(/\s+/g, ' ');
-
-      // Unicode karakterleri standartlaştır
-      normalized = normalized.normalize('NFC');
-
-      this.logger.debug(
-        'Metin başarıyla normalleştirildi',
-        'NormalizationService.normalizeText',
-        __filename,
-        50,
-        { originalLength: text.length, normalizedLength: normalized.length },
-      );
-
-      return normalized;
-    } catch (error) {
-      this.logger.logError(error, 'NormalizationService.normalizeText', {
-        additionalInfo: 'Metin normalleştirilirken hata oluştu',
-        text,
-      });
-      // Hata durumunda orijinal metni dön
-      return text;
-    }
-  }
-
+  
   /**
    * Kullanıcı girdisi email adresini normalleştirir
    * @param email Normalleştirilecek email adresi

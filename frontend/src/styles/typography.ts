@@ -243,6 +243,3 @@ export const typography = {
     },
   },
 } as const;
-
-type Typography = typeof typography;
-type TextStyle = keyof typeof typography.textStyles;

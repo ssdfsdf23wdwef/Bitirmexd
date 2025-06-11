@@ -14,7 +14,3 @@ export * from "./document.type";
 export * from "./quiz.type";
 // Durum
 export * from "./status.type";
-// Navigasyon
-export * from "./navigation.type";
-// API Yanıt Tipleri
-export * from "./api";

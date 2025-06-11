@@ -891,10 +891,15 @@ class QuizApiService {
         if (statusCode === 400 && backendMessage) {
           apiError = ErrorService.createApiError(
             backendMessage,
-            statusCode,
+            statusCode?.toString(),
             responseData,
           );
         } else {
+          apiError = ErrorService.createApiError(
+            backendMessage || "Sınav oluşturulurken bir hata oluştu.",
+            statusCode?.toString(),
+            responseData,
+          );
         }
         throw apiError;
       } else {

@@ -137,9 +137,3 @@ function useFailedQuestions(courseId?: string) {
   });
 }
 
-const quizApi = {
-  useQuizzes,
-  useQuiz,
-  useQuizAnalysis,
-  useFailedQuestions,
-};
